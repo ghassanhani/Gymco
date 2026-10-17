@@ -3788,6 +3788,1158 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Then: {name}'**
   String thenEx(String name);
+
+  /// No description provided for @progressTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Your <em>progress</em>'**
+  String get progressTitleEm;
+
+  /// No description provided for @addWeighIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a weigh-in'**
+  String get addWeighIn;
+
+  /// No description provided for @weightTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weightTab;
+
+  /// No description provided for @measureTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Measure'**
+  String get measureTab;
+
+  /// No description provided for @strengthTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength'**
+  String get strengthTab;
+
+  /// No description provided for @openCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Open this week\'s check-in'**
+  String get openCheckIn;
+
+  /// No description provided for @weighInToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s weigh-in'**
+  String get weighInToday;
+
+  /// No description provided for @weighInNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Same time, same scale, before breakfast. One weigh-in means little; the trend line is what counts.'**
+  String get weighInNote;
+
+  /// No description provided for @weighInSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-in saved'**
+  String get weighInSaved;
+
+  /// No description provided for @waistToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s waist'**
+  String get waistToday;
+
+  /// No description provided for @waistNote.
+  ///
+  /// In en, this message translates to:
+  /// **'At the navel, relaxed, after breathing out.'**
+  String get waistNote;
+
+  /// No description provided for @measurementSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Measurement saved'**
+  String get measurementSaved;
+
+  /// No description provided for @rateLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get rateLbl;
+
+  /// No description provided for @pctWk.
+  ///
+  /// In en, this message translates to:
+  /// **'{v} %/wk'**
+  String pctWk(String v);
+
+  /// No description provided for @trendNeedsTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Two weigh-ins a few days apart and the trend line starts.'**
+  String get trendNeedsTwo;
+
+  /// No description provided for @sinceStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Since start'**
+  String get sinceStart;
+
+  /// No description provided for @waistLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Waist'**
+  String get waistLbl;
+
+  /// No description provided for @weighInsLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-ins'**
+  String get weighInsLbl;
+
+  /// No description provided for @weeklyHardSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly hard sets'**
+  String get weeklyHardSets;
+
+  /// No description provided for @indirectHalf.
+  ///
+  /// In en, this message translates to:
+  /// **'indirect counted as ½'**
+  String get indirectHalf;
+
+  /// No description provided for @noSetsThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'No sets logged this week yet.'**
+  String get noSetsThisWeek;
+
+  /// No description provided for @allInRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Every muscle you trained most is at 10 sets or more this week.'**
+  String get allInRange;
+
+  /// No description provided for @underTen.
+  ///
+  /// In en, this message translates to:
+  /// **'{group} sits under the 10-set mark. Worth a look once you are out of the deficit — not something to fix by adding volume now.'**
+  String underTen(String group);
+
+  /// No description provided for @waistWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Waist moves slower than the scale but lies less: water and food in the gut barely touch it.'**
+  String get waistWhy;
+
+  /// No description provided for @addMeasurement.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a measurement'**
+  String get addMeasurement;
+
+  /// No description provided for @strengthEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No lifts logged yet. Finish a workout and your estimated 1RMs show up here.'**
+  String get strengthEmpty;
+
+  /// No description provided for @strengthNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated 1RM now, and the change over eight weeks. In a deficit, holding is winning.'**
+  String get strengthNote;
+
+  /// No description provided for @e1rmLine.
+  ///
+  /// In en, this message translates to:
+  /// **'est. 1RM {kg} kg'**
+  String e1rmLine(String kg);
+
+  /// No description provided for @yourWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Your week'**
+  String get yourWeek;
+
+  /// No description provided for @flatWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'A flat stretch'**
+  String get flatWeeks;
+
+  /// No description provided for @checkInSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{range} · week {week}'**
+  String checkInSub(String range, int week);
+
+  /// No description provided for @adjustBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust'**
+  String get adjustBtn;
+
+  /// No description provided for @acceptTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept targets'**
+  String get acceptTargets;
+
+  /// No description provided for @laterBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get laterBtn;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// No description provided for @applyKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply {n} kcal'**
+  String applyKcal(String n);
+
+  /// No description provided for @applyChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyChoice;
+
+  /// No description provided for @startBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the break'**
+  String get startBreak;
+
+  /// No description provided for @targetsUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets updated · {kcal} kcal'**
+  String targetsUpdated(String kcal);
+
+  /// No description provided for @askedNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Noted — asked again next week'**
+  String get askedNextWeek;
+
+  /// No description provided for @needsTwoWeighIns.
+  ///
+  /// In en, this message translates to:
+  /// **'needs weigh-ins a week apart'**
+  String get needsTwoWeighIns;
+
+  /// No description provided for @onPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'on plan'**
+  String get onPlan;
+
+  /// No description provided for @fasterThanPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'faster than the plan'**
+  String get fasterThanPlan;
+
+  /// No description provided for @slowerThanPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'slower than the plan'**
+  String get slowerThanPlan;
+
+  /// No description provided for @rateVsGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate vs goal'**
+  String get rateVsGoal;
+
+  /// No description provided for @daysLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Days logged'**
+  String get daysLogged;
+
+  /// No description provided for @nOfSeven.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} of 7'**
+  String nOfSeven(int n);
+
+  /// No description provided for @allSevenDays.
+  ///
+  /// In en, this message translates to:
+  /// **'every day'**
+  String get allSevenDays;
+
+  /// No description provided for @fullDaysOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'full days only'**
+  String get fullDaysOnly;
+
+  /// No description provided for @measuredExpenditure.
+  ///
+  /// In en, this message translates to:
+  /// **'Measured expenditure'**
+  String get measuredExpenditure;
+
+  /// No description provided for @notMeasuredYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not measured yet'**
+  String get notMeasuredYet;
+
+  /// No description provided for @notEnoughBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{One more fully logged day and Gymco can measure what you actually burn.} other{{n} more fully logged days and Gymco can measure what you actually burn.}} Until then your starting targets stay as they are.'**
+  String notEnoughBody(int n);
+
+  /// No description provided for @expenditureShort.
+  ///
+  /// In en, this message translates to:
+  /// **'From your logs and trend weight you burn about {kcal} kcal a day.'**
+  String expenditureShort(String kcal);
+
+  /// No description provided for @expenditureFell.
+  ///
+  /// In en, this message translates to:
+  /// **'You averaged {intake} kcal and the trend fell {kg} kg. That only balances if you are burning about {kcal}.'**
+  String expenditureFell(String intake, String kg, String kcal);
+
+  /// No description provided for @expenditureRose.
+  ///
+  /// In en, this message translates to:
+  /// **'You averaged {intake} kcal and the trend rose {kg} kg. That only balances if you are burning about {kcal}.'**
+  String expenditureRose(String intake, String kg, String kcal);
+
+  /// No description provided for @nextWeekTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week\'s targets'**
+  String get nextWeekTargets;
+
+  /// No description provided for @noChange.
+  ///
+  /// In en, this message translates to:
+  /// **'no change'**
+  String get noChange;
+
+  /// No description provided for @kcalChange.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} kcal'**
+  String kcalChange(String n);
+
+  /// No description provided for @targetsMoveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein and fat stay put; the change goes to carbs, where it helps your sessions. Weekly moves are capped at 120 kcal so one odd week never swings your diet.'**
+  String get targetsMoveNote;
+
+  /// No description provided for @targetsHoldNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing changes until expenditure is measured. Keep logging full days and weighing in.'**
+  String get targetsHoldNote;
+
+  /// No description provided for @dietMeetsTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Diet meets training'**
+  String get dietMeetsTraining;
+
+  /// No description provided for @strengthHolding.
+  ///
+  /// In en, this message translates to:
+  /// **'Your main lifts are flat or up while you lose weight. Muscle is holding — this deficit is well tolerated. No change needed.'**
+  String get strengthHolding;
+
+  /// No description provided for @strengthSlipping.
+  ///
+  /// In en, this message translates to:
+  /// **'One of your main lifts is down. Watch it next week; if more follow, slow the cut.'**
+  String get strengthSlipping;
+
+  /// No description provided for @fasterThanPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'This is faster than planned'**
+  String get fasterThanPlanned;
+
+  /// No description provided for @perWeekLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'per week'**
+  String get perWeekLbl;
+
+  /// No description provided for @fastBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You asked for {goal}%. At this rate a good part of what you are losing is likely muscle.'**
+  String fastBody(String goal);
+
+  /// No description provided for @intakeLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Intake'**
+  String get intakeLbl;
+
+  /// No description provided for @floorIs.
+  ///
+  /// In en, this message translates to:
+  /// **'floor is {n}'**
+  String floorIs(String n);
+
+  /// No description provided for @measuredShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Burned'**
+  String get measuredShort;
+
+  /// No description provided for @whatToDo.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to do?'**
+  String get whatToDo;
+
+  /// No description provided for @eatMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Eat {n} more a day'**
+  String eatMore(String n);
+
+  /// No description provided for @eatMoreSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Back toward {goal}% a week. Recommended.'**
+  String eatMoreSub(String goal);
+
+  /// No description provided for @twoWeeksMaintenance.
+  ///
+  /// In en, this message translates to:
+  /// **'Two weeks at maintenance'**
+  String get twoWeeksMaintenance;
+
+  /// No description provided for @maintenanceThenResume.
+  ///
+  /// In en, this message translates to:
+  /// **'A break, then resume at the planned rate'**
+  String get maintenanceThenResume;
+
+  /// No description provided for @keepGoingAsIAm.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going as I am'**
+  String get keepGoingAsIAm;
+
+  /// No description provided for @askedAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco will raise this again next week'**
+  String get askedAgain;
+
+  /// No description provided for @floorWarnNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets are never set below {n} kcal. If you want to go under that you can, but you will type the number yourself and read this message first.'**
+  String floorWarnNote(String n);
+
+  /// No description provided for @stallBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks} weeks in, and the trend has barely moved for two. Expenditure drifts down on a long diet — normal, and part of why this has stopped.'**
+  String stallBody(int weeks);
+
+  /// No description provided for @threeOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Three honest options'**
+  String get threeOptions;
+
+  /// No description provided for @maintenanceSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{kcal} kcal, no deficit. Mostly this buys you a rest from dieting.'**
+  String maintenanceSub(String kcal);
+
+  /// No description provided for @checkLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the logging first'**
+  String get checkLogging;
+
+  /// No description provided for @checkLoggingSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekends and snacks are where flat weeks usually start.'**
+  String get checkLoggingSub;
+
+  /// No description provided for @cut150.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut 150 more a day'**
+  String get cut150;
+
+  /// No description provided for @cut150Sub.
+  ///
+  /// In en, this message translates to:
+  /// **'Works, but this far in it is the option that costs the most muscle.'**
+  String get cut150Sub;
+
+  /// No description provided for @dietBreakEvidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco will not promise you a metabolic reset. Diet breaks helped weight loss in some trials and not in others. What they reliably do is make the next weeks survivable.'**
+  String get dietBreakEvidence;
+
+  /// No description provided for @awardsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Awards'**
+  String get awardsTitle;
+
+  /// No description provided for @awardsTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Your <em>awards</em>'**
+  String get awardsTitleEm;
+
+  /// No description provided for @editGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit goal'**
+  String get editGoal;
+
+  /// No description provided for @commitmentDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n}-day commitment'**
+  String commitmentDays(int n);
+
+  /// No description provided for @keptOfGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'{kept} of {goal} days kept'**
+  String keptOfGoal(int kept, int goal);
+
+  /// No description provided for @nextAwardIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Next award: {name} in {n, plural, =1{1 day} other{{n} days}}'**
+  String nextAwardIn(String name, int n);
+
+  /// No description provided for @allStreakAwards.
+  ///
+  /// In en, this message translates to:
+  /// **'Every streak award earned'**
+  String get allStreakAwards;
+
+  /// No description provided for @ofDays.
+  ///
+  /// In en, this message translates to:
+  /// **'/ {n} days'**
+  String ofDays(int n);
+
+  /// No description provided for @legendStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak · {n} to go'**
+  String legendStreak(int n);
+
+  /// No description provided for @legendFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food · {n} of 3 meals'**
+  String legendFood(int n);
+
+  /// No description provided for @legendTrainDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Train · done'**
+  String get legendTrainDone;
+
+  /// No description provided for @legendRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Train · rest day'**
+  String get legendRest;
+
+  /// No description provided for @legendPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Train · {name} planned'**
+  String legendPlanned(String name);
+
+  /// No description provided for @dayKept.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {n} kept. See you tomorrow.'**
+  String dayKept(int n);
+
+  /// No description provided for @logToKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Log {meal} to keep day {n}'**
+  String logToKeep(String meal, int n);
+
+  /// No description provided for @trainToKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish {name} to keep day {n}'**
+  String trainToKeep(String name, int n);
+
+  /// No description provided for @logBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Log'**
+  String get logBtn;
+
+  /// No description provided for @trainBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Train'**
+  String get trainBtn;
+
+  /// No description provided for @goalReached.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} days. Your commitment is done.'**
+  String goalReached(int n);
+
+  /// No description provided for @seeRecap.
+  ///
+  /// In en, this message translates to:
+  /// **'See recap'**
+  String get seeRecap;
+
+  /// No description provided for @thisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get thisWeek;
+
+  /// No description provided for @restDaysCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest days count'**
+  String get restDaysCount;
+
+  /// No description provided for @bestStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Best streak'**
+  String get bestStreak;
+
+  /// No description provided for @nDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day} other{{n} days}}'**
+  String nDays(int n);
+
+  /// No description provided for @freezesLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Freezes'**
+  String get freezesLbl;
+
+  /// No description provided for @freezesOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} of {max}'**
+  String freezesOf(int n, int max);
+
+  /// No description provided for @challengeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done — {n} sessions this month'**
+  String challengeDone(int n);
+
+  /// No description provided for @challengeLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Train {n} times this month · {days, plural, =1{1 day} other{{days} days}} left'**
+  String challengeLeft(int n, int days);
+
+  /// No description provided for @shelfStreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Streaks'**
+  String get shelfStreaks;
+
+  /// No description provided for @shelfFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get shelfFood;
+
+  /// No description provided for @shelfTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get shelfTraining;
+
+  /// No description provided for @gotOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{got} of {n}'**
+  String gotOf(int got, int n);
+
+  /// No description provided for @awardsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'No award here is for eating less or losing weight. Logging and showing up are what count.'**
+  String get awardsNote;
+
+  /// No description provided for @earnedLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned'**
+  String get earnedLbl;
+
+  /// No description provided for @earnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earned {date}'**
+  String earnedOn(String date);
+
+  /// No description provided for @earnedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'earned'**
+  String get earnedLabel;
+
+  /// No description provided for @lockedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'locked'**
+  String get lockedLabel;
+
+  /// No description provided for @restartAfterBreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart after a break'**
+  String get restartAfterBreak;
+
+  /// No description provided for @nToGo.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} to go'**
+  String nToGo(int n);
+
+  /// No description provided for @progressLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get progressLbl;
+
+  /// No description provided for @nextNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Next · {name}'**
+  String nextNamed(String name);
+
+  /// No description provided for @shareAward.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareAward;
+
+  /// No description provided for @shareAwardText.
+  ///
+  /// In en, this message translates to:
+  /// **'I earned \"{name}\" on Gymco.'**
+  String shareAwardText(String name);
+
+  /// No description provided for @backToAwards.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to awards'**
+  String get backToAwards;
+
+  /// No description provided for @mdDays.
+  ///
+  /// In en, this message translates to:
+  /// **'DAYS'**
+  String get mdDays;
+
+  /// No description provided for @mdMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'MEALS'**
+  String get mdMeals;
+
+  /// No description provided for @mdProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'PROTEIN'**
+  String get mdProtein;
+
+  /// No description provided for @mdWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'WORKOUTS'**
+  String get mdWorkouts;
+
+  /// No description provided for @mdBests.
+  ///
+  /// In en, this message translates to:
+  /// **'BESTS'**
+  String get mdBests;
+
+  /// No description provided for @awFirstWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'First week'**
+  String get awFirstWeek;
+
+  /// No description provided for @awFirstWeekD.
+  ///
+  /// In en, this message translates to:
+  /// **'Seven days in a row with every meal logged and every planned workout or rest day kept.'**
+  String get awFirstWeekD;
+
+  /// No description provided for @awTwoWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'Two weeks'**
+  String get awTwoWeeks;
+
+  /// No description provided for @awTwoWeeksD.
+  ///
+  /// In en, this message translates to:
+  /// **'Fourteen kept days in a row. The first week is novelty; the second one is choice.'**
+  String get awTwoWeeksD;
+
+  /// No description provided for @awOneMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'One month strong'**
+  String get awOneMonth;
+
+  /// No description provided for @awOneMonthD.
+  ///
+  /// In en, this message translates to:
+  /// **'Thirty days in a row with every meal logged and every planned workout or rest day kept.'**
+  String get awOneMonthD;
+
+  /// No description provided for @awHabit.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit formed'**
+  String get awHabit;
+
+  /// No description provided for @awHabitD.
+  ///
+  /// In en, this message translates to:
+  /// **'Sixty-six days, the average it takes a new behaviour to run on its own.'**
+  String get awHabitD;
+
+  /// No description provided for @awFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full commitment'**
+  String get awFull;
+
+  /// No description provided for @awFullD.
+  ///
+  /// In en, this message translates to:
+  /// **'Ninety days kept. Three months of showing up, rest days included.'**
+  String get awFullD;
+
+  /// No description provided for @awComeback.
+  ///
+  /// In en, this message translates to:
+  /// **'Comeback'**
+  String get awComeback;
+
+  /// No description provided for @awComebackD.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a new run after a streak ends. Coming back is the part that counts.'**
+  String get awComebackD;
+
+  /// No description provided for @awFirstFullDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First full day'**
+  String get awFirstFullDay;
+
+  /// No description provided for @awFirstFullDayD.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast, lunch and dinner logged in one day.'**
+  String get awFirstFullDayD;
+
+  /// No description provided for @awHundredMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'100 meals logged'**
+  String get awHundredMeals;
+
+  /// No description provided for @awHundredMealsD.
+  ///
+  /// In en, this message translates to:
+  /// **'One hundred meals logged. Rough estimates count — what matters is that the day is written down.'**
+  String get awHundredMealsD;
+
+  /// No description provided for @awProteinWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein week'**
+  String get awProteinWeek;
+
+  /// No description provided for @awProteinWeekD.
+  ///
+  /// In en, this message translates to:
+  /// **'Your protein target hit on seven days in one week. It is the one number that protects muscle in a cut.'**
+  String get awProteinWeekD;
+
+  /// No description provided for @awFirstWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'First workout'**
+  String get awFirstWorkout;
+
+  /// No description provided for @awFirstWorkoutD.
+  ///
+  /// In en, this message translates to:
+  /// **'Your first logged session in Gymco.'**
+  String get awFirstWorkoutD;
+
+  /// No description provided for @awTwentyFive.
+  ///
+  /// In en, this message translates to:
+  /// **'25 workouts'**
+  String get awTwentyFive;
+
+  /// No description provided for @awTwentyFiveD.
+  ///
+  /// In en, this message translates to:
+  /// **'Twenty-five sessions logged, set by set.'**
+  String get awTwentyFiveD;
+
+  /// No description provided for @awTenBests.
+  ///
+  /// In en, this message translates to:
+  /// **'10 personal bests'**
+  String get awTenBests;
+
+  /// No description provided for @awTenBestsD.
+  ///
+  /// In en, this message translates to:
+  /// **'Ten new best sets. Strength holding in a deficit is the sign the cut is going well.'**
+  String get awTenBestsD;
+
+  /// No description provided for @awMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{month} challenge'**
+  String awMonth(String month);
+
+  /// No description provided for @awMonthD.
+  ///
+  /// In en, this message translates to:
+  /// **'Train {n} times this month.'**
+  String awMonthD(int n);
+
+  /// No description provided for @yourCommitment.
+  ///
+  /// In en, this message translates to:
+  /// **'Your commitment'**
+  String get yourCommitment;
+
+  /// No description provided for @howLong.
+  ///
+  /// In en, this message translates to:
+  /// **'How long are you in for?'**
+  String get howLong;
+
+  /// No description provided for @howLongSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a run of days. Every day you keep fills the outer ring.'**
+  String get howLongSub;
+
+  /// No description provided for @daysWord.
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get daysWord;
+
+  /// No description provided for @goal21.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get goal21;
+
+  /// No description provided for @goal30.
+  ///
+  /// In en, this message translates to:
+  /// **'One month'**
+  String get goal30;
+
+  /// No description provided for @goal66.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it a habit'**
+  String get goal66;
+
+  /// No description provided for @goal90.
+  ///
+  /// In en, this message translates to:
+  /// **'Full commitment'**
+  String get goal90;
+
+  /// No description provided for @customLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get customLbl;
+
+  /// No description provided for @customRange.
+  ///
+  /// In en, this message translates to:
+  /// **'7 – 365 days'**
+  String get customRange;
+
+  /// No description provided for @useThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this'**
+  String get useThis;
+
+  /// No description provided for @dayCountsWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'A day counts when'**
+  String get dayCountsWhen;
+
+  /// No description provided for @ruleMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals are logged'**
+  String get ruleMeals;
+
+  /// No description provided for @ruleMealsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging counts, not eating less'**
+  String get ruleMealsSub;
+
+  /// No description provided for @ruleTrain.
+  ///
+  /// In en, this message translates to:
+  /// **'You train or rest as planned'**
+  String get ruleTrain;
+
+  /// No description provided for @ruleTrainSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest days on your plan keep the streak'**
+  String get ruleTrainSub;
+
+  /// No description provided for @freezeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn a streak freeze every {n} days you keep. Hold up to {max} for sick days and travel.'**
+  String freezeNote(int n, int max);
+
+  /// No description provided for @alreadyPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Already past {n} days — pick longer'**
+  String alreadyPast(int n);
+
+  /// No description provided for @keepMyDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep my {n} days'**
+  String keepMyDays(int n);
+
+  /// No description provided for @commitTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Commit to {n} days'**
+  String commitTo(int n);
+
+  /// No description provided for @carryOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {n} kept days carry over · finishes {date}'**
+  String carryOver(int n, String date);
+
+  /// No description provided for @startsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts today · finishes {date}'**
+  String startsToday(String date);
+
+  /// No description provided for @goalDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} days. Done.'**
+  String goalDoneTitle(int n);
+
+  /// No description provided for @goalDoneSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to} · {n, plural, =0{no freezes used} =1{1 freeze used} other{{n} freezes used}}'**
+  String goalDoneSub(String from, String to, int n);
+
+  /// No description provided for @workoutsLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get workoutsLbl;
+
+  /// No description provided for @restDaysKept.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest days kept'**
+  String get restDaysKept;
+
+  /// No description provided for @mealsLoggedLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals logged'**
+  String get mealsLoggedLbl;
+
+  /// No description provided for @personalBests.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal bests'**
+  String get personalBests;
+
+  /// No description provided for @goalDoneNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing up, rest days included. This is what a habit looks like.'**
+  String get goalDoneNote;
+
+  /// No description provided for @shareMyDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Share my {n} days'**
+  String shareMyDays(int n);
+
+  /// No description provided for @shareGoalText.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} days kept on Gymco — every meal logged, every workout and rest day done.'**
+  String shareGoalText(int n);
+
+  /// No description provided for @setNextCommitment.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your next commitment'**
+  String get setNextCommitment;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

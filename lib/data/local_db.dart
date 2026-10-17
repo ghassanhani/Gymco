@@ -15,7 +15,8 @@ class LocalDb {
   final Database _db;
 
   /// 1: diet. 2: training. 3: weekdays, folders, RIR. 4: favourites, saved meals.
-  static const _version = 4;
+  /// 5: body measurements.
+  static const _version = 5;
 
   static Future<void> _createTraining(DatabaseExecutor db) async {
     await db.execute('''
@@ -57,6 +58,9 @@ class LocalDb {
         food_id TEXT NOT NULL, grams REAL NOT NULL)''');
   }
 
+  static Future<void> _addMeasurements(DatabaseExecutor db) => db.execute('''
+    CREATE TABLE measurements(day TEXT NOT NULL, kind TEXT NOT NULL, value REAL NOT NULL, PRIMARY KEY(day, kind))''');
+
   /// [singleInstance] false gives every open its own database (tests).
   static Future<LocalDb> open({DatabaseFactory? factory, String? path, bool singleInstance = true}) async {
     final f = factory ?? databaseFactory;
@@ -71,6 +75,7 @@ class LocalDb {
           if (from < 2) await _createTraining(db);
           if (from < 3) await _addPlanColumns(db);
           if (from < 4) await _addSavedMeals(db);
+          if (from < 5) await _addMeasurements(db);
         },
         onCreate: (db, _) async {
           await db.execute('''
@@ -91,6 +96,7 @@ class LocalDb {
           await _createTraining(db);
           await _addPlanColumns(db);
           await _addSavedMeals(db);
+          await _addMeasurements(db);
           final batch = db.batch();
           for (final f in seedFoods) {
             batch.insert('foods', f.toRow());
@@ -115,6 +121,7 @@ class LocalDb {
     'workout_sets',
     'saved_meals',
     'saved_meal_items',
+    'measurements',
   ];
 
   Future<({int entries, int sets, int weighIns})> counts() async {
@@ -251,6 +258,25 @@ class LocalDb {
   }
 
   /// Days in [from, to] that have anything logged, as yyyy-MM-dd.
+  /// Per day between [from] and [to]: kcal, protein, and which meals have food.
+  Future<Map<String, ({double kcal, double protein, Set<Meal> meals})>> dayTotals(String from, String to) async {
+    final rows = await _db.rawQuery(
+      'SELECT day, meal, SUM(kcal) AS k, SUM(protein) AS p FROM log_entries WHERE day BETWEEN ? AND ? GROUP BY day, meal',
+      [from, to],
+    );
+    final out = <String, ({double kcal, double protein, Set<Meal> meals})>{};
+    for (final r in rows) {
+      final day = r['day']! as String;
+      final prev = out[day] ?? (kcal: 0.0, protein: 0.0, meals: <Meal>{});
+      out[day] = (
+        kcal: prev.kcal + (r['k']! as num).toDouble(),
+        protein: prev.protein + (r['p']! as num).toDouble(),
+        meals: {...prev.meals, Meal.values.byName(r['meal']! as String)},
+      );
+    }
+    return out;
+  }
+
   Future<Set<String>> loggedDays(String from, String to) async {
     final rows = await _db.rawQuery('SELECT DISTINCT day FROM log_entries WHERE day BETWEEN ? AND ?', [from, to]);
     return {for (final r in rows) r['day']! as String};
@@ -338,6 +364,79 @@ class LocalDb {
     final rows = await _db.query('weigh_ins', orderBy: 'day');
     return [for (final r in rows) (r['day']! as String, (r['kg']! as num).toDouble())];
   }
+
+  Future<void> deleteWeight(String day) => _db.delete('weigh_ins', where: 'day = ?', whereArgs: [day]);
+
+  // ---- awards ----
+
+  /// Workouts in total, the first one, and how many since [monthStart].
+  Future<({int total, DateTime? first, int sinceMonth})> workoutCounts(DateTime monthStart) async {
+    final r = (await _db.rawQuery(
+      'SELECT COUNT(*) AS n, MIN(started_at) AS first, SUM(started_at >= ?) AS month FROM workouts',
+      [monthStart.millisecondsSinceEpoch],
+    )).first;
+    final first = r['first'] as int?;
+    return (
+      total: r['n']! as int,
+      first: first == null ? null : DateTime.fromMillisecondsSinceEpoch(first),
+      sinceMonth: (r['month'] as int?) ?? 0,
+    );
+  }
+
+  /// Workouts where a lift's best estimated 1RM beat every earlier one.
+  Future<int> prCount() async {
+    final rows = await _db.rawQuery('''
+      SELECT s.workout_id, s.exercise_id, s.weight, s.reps, s.type FROM workout_sets s
+      JOIN workouts w ON w.id = s.workout_id ORDER BY w.started_at, s.workout_id''');
+    final best = <String, double>{};
+    final inWorkout = <String, double>{};
+    var n = 0;
+    int? current;
+    void close() {
+      for (final e in inWorkout.entries) {
+        final prev = best[e.key];
+        if (prev != null && e.value > prev + 0.01) n++;
+        if (prev == null || e.value > prev) best[e.key] = e.value;
+      }
+      inWorkout.clear();
+    }
+
+    for (final r in rows) {
+      final w = r['workout_id']! as int;
+      if (w != current) {
+        close();
+        current = w;
+      }
+      if (r['type'] == 'warmup') continue;
+      final rm = estimatedOneRepMax((r['weight']! as num).toDouble(), r['reps']! as int);
+      if (rm == null) continue;
+      final id = r['exercise_id']! as String;
+      if (rm > (inWorkout[id] ?? 0)) inWorkout[id] = rm;
+    }
+    close();
+    return n;
+  }
+
+  /// Meals logged (each meal of each day once).
+  Future<int> mealsLogged() async =>
+      Sqflite.firstIntValue(await _db.rawQuery('SELECT COUNT(*) FROM (SELECT DISTINCT day, meal FROM log_entries)')) ??
+      0;
+
+  // ---- measurements ----
+
+  Future<void> setMeasurement(String day, String kind, double value) => _db.insert('measurements', {
+    'day': day,
+    'kind': kind,
+    'value': value,
+  }, conflictAlgorithm: ConflictAlgorithm.replace);
+
+  Future<List<(String, double)>> measurements(String kind) async {
+    final rows = await _db.query('measurements', where: 'kind = ?', whereArgs: [kind], orderBy: 'day');
+    return [for (final r in rows) (r['day']! as String, (r['value']! as num).toDouble())];
+  }
+
+  Future<void> deleteMeasurement(String day, String kind) =>
+      _db.delete('measurements', where: 'day = ? AND kind = ?', whereArgs: [day, kind]);
 
   // ---- routines ----
 

@@ -28,26 +28,3 @@ class AppShell extends StatelessWidget {
     );
   }
 }
-
-/// Honest stand-in for tabs that are designed but not built yet.
-class NextBuildScreen extends StatelessWidget {
-  const NextBuildScreen({super.key, required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    return VScreen(
-      child: Column(
-        children: [
-          VAppBar(title: title),
-          Expanded(
-            child: Pad(
-              children: [VCard(child: Muted(l.nextBuild, color: Volt.t2))],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

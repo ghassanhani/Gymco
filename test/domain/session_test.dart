@@ -92,7 +92,12 @@ void main() {
         SessionExercise(
           exerciseId: 'bench',
           name: 'Bench',
-          sets: [SessionSet(), SessionSet(), SessionSet(type: SetType.warmup), SessionSet(weightKg: 90)],
+          sets: [
+            SessionSet(),
+            SessionSet(),
+            SessionSet(type: SetType.warmup),
+            SessionSet(weightKg: 90),
+          ],
         ),
       ],
     ).editSet(0, 0, weightKg: 100, reps: 5);
@@ -119,12 +124,8 @@ void main() {
   });
 
   test('a superset rests only after its second half', () {
-    SessionExercise ex(String id) => SessionExercise(
-      exerciseId: id,
-      name: id,
-      restSeconds: 120,
-      sets: const [SessionSet(weightKg: 20, reps: 10)],
-    );
+    SessionExercise ex(String id) =>
+        SessionExercise(exerciseId: id, name: id, restSeconds: 120, sets: const [SessionSet(weightKg: 20, reps: 10)]);
     var s = WorkoutSession.start(name: 'x', now: t0, exercises: [ex('a'), ex('b')]).link(0, true);
     s = s.toggleDone(0, 0, t0);
     expect(s.restLeft(t0), isNull);

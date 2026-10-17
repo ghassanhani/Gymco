@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../domain/workout.dart';
 import '../../l10n/app_localizations.dart';
@@ -133,6 +133,7 @@ class ExerciseScreen extends ConsumerWidget {
                         ),
                         if (recent.length >= 2)
                           Row(
+                            textDirection: TextDirection.ltr,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               for (var m = 5; m >= 0; m -= 2)

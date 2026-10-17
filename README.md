@@ -6,6 +6,14 @@ Diet and training for lifters. Flutter, one codebase for iOS and Android, in Eng
 
 Every screen is drawn from the Volt prototype's own component kit (`lib/ui/kit`): its icons, cards, chips, sheets, keypad, week strip and tab bar, with the same sizes, radii and colours.
 
+### Phase 3: progress
+
+- **Weight**: weigh-ins on a keypad, a smoothed trend line with the next four weeks projected, the weekly rate, change since start, weigh-in count.
+- **Measure and strength**: waist log; each main lift's estimated 1RM and its change over eight weeks.
+- **Weekly sets**: hard sets per muscle this week, secondary muscles counted as half, against the 10–20 band.
+- **Weekly check-in**: expenditure measured from intake and trend weight (after 14 fully logged days), next week's target moved at most 120 kcal (carbs take the change), and its own screens for losing too fast and for a genuine stall, with honest options.
+- **Streaks and awards**: a day counts when breakfast, lunch and dinner are logged and you train or rest as planned. Freezes, a commitment you choose (21 to 365 days), and medals for streaks, food and training. None is for eating less or losing weight.
+
 ### Design pass
 
 - **Train is a day**: the week strip walks the plan, which slides when a session is missed (the block keeps its order, not its dates). Today's session shows its exercises with a start button on each, so one exercise can be done on its own. Rest days, closed days and days ahead each say what they are.
@@ -31,14 +39,14 @@ Every screen is drawn from the Volt prototype's own component kit (`lib/ui/kit`)
 - **Me**: language (phone, English, العربية, Español), no-numbers mode (leaving it needs a confirmation), cheat-meal allowance, redo targets.
 - **Rules engine** (`lib/domain`, fully tested): adaptive expenditure over a 14–28 day window that drops incomplete and free-cheat days, ±120 kcal check-in cap, trend weight, stall detection, streaks with freezes (1 per 7 kept days, max 3) and a repair window, banked cheat meals (protein untouched, 1,700 floor, steep above 300/day), set types and volume.
 
-Progress is designed and comes next; its tab says so. Exercise names are English only for now; Arabic and Spanish names come with a translation pass.
+Exercise names are English only for now; Arabic and Spanish names come with a translation pass.
 
 ## Run it
 
 ```sh
 flutter pub get
 flutter run          # on a connected phone or simulator
-flutter test         # 77 tests
+flutter test         # 90 tests
 ```
 
 An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone with USB debugging.
@@ -47,7 +55,7 @@ An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone 
 
 1. ~~Core diet~~
 2. ~~Training~~ (deload weeks still to come)
-3. **Progress**: weigh-ins and trend chart, weekly check-in using the adaptive engine, streak and awards screens, cheat-meal planning screens
+3. ~~Progress~~ (progress photos and cheat-meal planning screens still to come)
 4. **AI logging** (Write, Voice, Photo, Eating out) on Claude Haiku via a Supabase Edge Function, with simple rules first and a daily cap
 5. **Accounts and sync** (Supabase free tier), reminders, Apple Health / Health Connect, progress photos, large text
 

@@ -1649,5 +1649,602 @@
         "type": "String"
       }
     }
-  }
+  },
+  "progressTitleEm": "Your <em>progress</em>",
+  "addWeighIn": "Add a weigh-in",
+  "weightTab": "Weight",
+  "measureTab": "Measure",
+  "strengthTab": "Strength",
+  "openCheckIn": "Open this week's check-in",
+  "weighInToday": "Today's weigh-in",
+  "weighInNote": "Same time, same scale, before breakfast. One weigh-in means little; the trend line is what counts.",
+  "weighInSaved": "Weigh-in saved",
+  "waistToday": "Today's waist",
+  "waistNote": "At the navel, relaxed, after breathing out.",
+  "measurementSaved": "Measurement saved",
+  "rateLbl": "Rate",
+  "pctWk": "{v} %/wk",
+  "@pctWk": {
+    "placeholders": {
+      "v": {
+        "type": "String"
+      }
+    }
+  },
+  "trendNeedsTwo": "Two weigh-ins a few days apart and the trend line starts.",
+  "sinceStart": "Since start",
+  "waistLbl": "Waist",
+  "weighInsLbl": "Weigh-ins",
+  "weeklyHardSets": "Weekly hard sets",
+  "indirectHalf": "indirect counted as ½",
+  "noSetsThisWeek": "No sets logged this week yet.",
+  "allInRange": "Every muscle you trained most is at 10 sets or more this week.",
+  "underTen": "{group} sits under the 10-set mark. Worth a look once you are out of the deficit — not something to fix by adding volume now.",
+  "@underTen": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "waistWhy": "Waist moves slower than the scale but lies less: water and food in the gut barely touch it.",
+  "addMeasurement": "Add a measurement",
+  "strengthEmpty": "No lifts logged yet. Finish a workout and your estimated 1RMs show up here.",
+  "strengthNote": "Estimated 1RM now, and the change over eight weeks. In a deficit, holding is winning.",
+  "e1rmLine": "est. 1RM {kg} kg",
+  "@e1rmLine": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "yourWeek": "Your week",
+  "flatWeeks": "A flat stretch",
+  "checkInSub": "{range} · week {week}",
+  "@checkInSub": {
+    "placeholders": {
+      "range": {
+        "type": "String"
+      },
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "adjustBtn": "Adjust",
+  "acceptTargets": "Accept targets",
+  "laterBtn": "Later",
+  "notNow": "Not now",
+  "applyKcal": "Apply {n} kcal",
+  "@applyKcal": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "applyChoice": "Apply",
+  "startBreak": "Start the break",
+  "targetsUpdated": "Targets updated · {kcal} kcal",
+  "@targetsUpdated": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "askedNextWeek": "Noted — asked again next week",
+  "needsTwoWeighIns": "needs weigh-ins a week apart",
+  "onPlan": "on plan",
+  "fasterThanPlan": "faster than the plan",
+  "slowerThanPlan": "slower than the plan",
+  "rateVsGoal": "Rate vs goal",
+  "daysLogged": "Days logged",
+  "nOfSeven": "{n} of 7",
+  "@nOfSeven": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "allSevenDays": "every day",
+  "fullDaysOnly": "full days only",
+  "measuredExpenditure": "Measured expenditure",
+  "notMeasuredYet": "Not measured yet",
+  "notEnoughBody": "{n, plural, =1{One more fully logged day and Gymco can measure what you actually burn.} other{{n} more fully logged days and Gymco can measure what you actually burn.}} Until then your starting targets stay as they are.",
+  "@notEnoughBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "expenditureShort": "From your logs and trend weight you burn about {kcal} kcal a day.",
+  "@expenditureShort": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "expenditureFell": "You averaged {intake} kcal and the trend fell {kg} kg. That only balances if you are burning about {kcal}.",
+  "@expenditureFell": {
+    "placeholders": {
+      "intake": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "expenditureRose": "You averaged {intake} kcal and the trend rose {kg} kg. That only balances if you are burning about {kcal}.",
+  "@expenditureRose": {
+    "placeholders": {
+      "intake": {
+        "type": "String"
+      },
+      "kg": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nextWeekTargets": "Next week's targets",
+  "noChange": "no change",
+  "kcalChange": "{n} kcal",
+  "@kcalChange": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "targetsMoveNote": "Protein and fat stay put; the change goes to carbs, where it helps your sessions. Weekly moves are capped at 120 kcal so one odd week never swings your diet.",
+  "targetsHoldNote": "Nothing changes until expenditure is measured. Keep logging full days and weighing in.",
+  "dietMeetsTraining": "Diet meets training",
+  "strengthHolding": "Your main lifts are flat or up while you lose weight. Muscle is holding — this deficit is well tolerated. No change needed.",
+  "strengthSlipping": "One of your main lifts is down. Watch it next week; if more follow, slow the cut.",
+  "fasterThanPlanned": "This is faster than planned",
+  "perWeekLbl": "per week",
+  "fastBody": "You asked for {goal}%. At this rate a good part of what you are losing is likely muscle.",
+  "@fastBody": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "intakeLbl": "Intake",
+  "floorIs": "floor is {n}",
+  "@floorIs": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "measuredShort": "Burned",
+  "whatToDo": "What would you like to do?",
+  "eatMore": "Eat {n} more a day",
+  "@eatMore": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "eatMoreSub": "Back toward {goal}% a week. Recommended.",
+  "@eatMoreSub": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      }
+    }
+  },
+  "twoWeeksMaintenance": "Two weeks at maintenance",
+  "maintenanceThenResume": "A break, then resume at the planned rate",
+  "keepGoingAsIAm": "Keep going as I am",
+  "askedAgain": "Gymco will raise this again next week",
+  "floorWarnNote": "Targets are never set below {n} kcal. If you want to go under that you can, but you will type the number yourself and read this message first.",
+  "@floorWarnNote": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "stallBody": "{weeks} weeks in, and the trend has barely moved for two. Expenditure drifts down on a long diet — normal, and part of why this has stopped.",
+  "@stallBody": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "threeOptions": "Three honest options",
+  "maintenanceSub": "{kcal} kcal, no deficit. Mostly this buys you a rest from dieting.",
+  "@maintenanceSub": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "checkLogging": "Check the logging first",
+  "checkLoggingSub": "Weekends and snacks are where flat weeks usually start.",
+  "cut150": "Cut 150 more a day",
+  "cut150Sub": "Works, but this far in it is the option that costs the most muscle.",
+  "dietBreakEvidence": "Gymco will not promise you a metabolic reset. Diet breaks helped weight loss in some trials and not in others. What they reliably do is make the next weeks survivable.",
+  "awardsTitle": "Awards",
+  "awardsTitleEm": "Your <em>awards</em>",
+  "editGoal": "Edit goal",
+  "commitmentDays": "{n}-day commitment",
+  "@commitmentDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "keptOfGoal": "{kept} of {goal} days kept",
+  "@keptOfGoal": {
+    "placeholders": {
+      "kept": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "nextAwardIn": "Next award: {name} in {n, plural, =1{1 day} other{{n} days}}",
+  "@nextAwardIn": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "allStreakAwards": "Every streak award earned",
+  "ofDays": "/ {n} days",
+  "@ofDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "legendStreak": "Streak · {n} to go",
+  "@legendStreak": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "legendFood": "Food · {n} of 3 meals",
+  "@legendFood": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "legendTrainDone": "Train · done",
+  "legendRest": "Train · rest day",
+  "legendPlanned": "Train · {name} planned",
+  "@legendPlanned": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dayKept": "Day {n} kept. See you tomorrow.",
+  "@dayKept": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "logToKeep": "Log {meal} to keep day {n}",
+  "@logToKeep": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "trainToKeep": "Finish {name} to keep day {n}",
+  "@trainToKeep": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "logBtn": "Log",
+  "trainBtn": "Train",
+  "goalReached": "{n} days. Your commitment is done.",
+  "@goalReached": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "seeRecap": "See recap",
+  "thisWeek": "This week",
+  "restDaysCount": "Rest days count",
+  "bestStreak": "Best streak",
+  "nDays": "{n, plural, =1{1 day} other{{n} days}}",
+  "@nDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "freezesLbl": "Freezes",
+  "freezesOf": "{n} of {max}",
+  "@freezesOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeDone": "Done — {n} sessions this month",
+  "@challengeDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "challengeLeft": "Train {n} times this month · {days, plural, =1{1 day} other{{days} days}} left",
+  "@challengeLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "shelfStreaks": "Streaks",
+  "shelfFood": "Food",
+  "shelfTraining": "Training",
+  "gotOf": "{got} of {n}",
+  "@gotOf": {
+    "placeholders": {
+      "got": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "awardsNote": "No award here is for eating less or losing weight. Logging and showing up are what count.",
+  "earnedLbl": "Earned",
+  "earnedOn": "Earned {date}",
+  "@earnedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "earnedLabel": "earned",
+  "lockedLabel": "locked",
+  "restartAfterBreak": "Restart after a break",
+  "nToGo": "{n} to go",
+  "@nToGo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "progressLbl": "Progress",
+  "nextNamed": "Next · {name}",
+  "@nextNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "shareAward": "Share",
+  "shareAwardText": "I earned \"{name}\" on Gymco.",
+  "@shareAwardText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backToAwards": "Back to awards",
+  "mdDays": "DAYS",
+  "mdMeals": "MEALS",
+  "mdProtein": "PROTEIN",
+  "mdWorkouts": "WORKOUTS",
+  "mdBests": "BESTS",
+  "awFirstWeek": "First week",
+  "awFirstWeekD": "Seven days in a row with every meal logged and every planned workout or rest day kept.",
+  "awTwoWeeks": "Two weeks",
+  "awTwoWeeksD": "Fourteen kept days in a row. The first week is novelty; the second one is choice.",
+  "awOneMonth": "One month strong",
+  "awOneMonthD": "Thirty days in a row with every meal logged and every planned workout or rest day kept.",
+  "awHabit": "Habit formed",
+  "awHabitD": "Sixty-six days, the average it takes a new behaviour to run on its own.",
+  "awFull": "Full commitment",
+  "awFullD": "Ninety days kept. Three months of showing up, rest days included.",
+  "awComeback": "Comeback",
+  "awComebackD": "Start a new run after a streak ends. Coming back is the part that counts.",
+  "awFirstFullDay": "First full day",
+  "awFirstFullDayD": "Breakfast, lunch and dinner logged in one day.",
+  "awHundredMeals": "100 meals logged",
+  "awHundredMealsD": "One hundred meals logged. Rough estimates count — what matters is that the day is written down.",
+  "awProteinWeek": "Protein week",
+  "awProteinWeekD": "Your protein target hit on seven days in one week. It is the one number that protects muscle in a cut.",
+  "awFirstWorkout": "First workout",
+  "awFirstWorkoutD": "Your first logged session in Gymco.",
+  "awTwentyFive": "25 workouts",
+  "awTwentyFiveD": "Twenty-five sessions logged, set by set.",
+  "awTenBests": "10 personal bests",
+  "awTenBestsD": "Ten new best sets. Strength holding in a deficit is the sign the cut is going well.",
+  "awMonth": "{month} challenge",
+  "@awMonth": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "awMonthD": "Train {n} times this month.",
+  "@awMonthD": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "yourCommitment": "Your commitment",
+  "howLong": "How long are you in for?",
+  "howLongSub": "Pick a run of days. Every day you keep fills the outer ring.",
+  "daysWord": "days",
+  "goal21": "Get started",
+  "goal30": "One month",
+  "goal66": "Make it a habit",
+  "goal90": "Full commitment",
+  "customLbl": "Custom",
+  "customRange": "7 – 365 days",
+  "useThis": "Use this",
+  "dayCountsWhen": "A day counts when",
+  "ruleMeals": "Meals are logged",
+  "ruleMealsSub": "Logging counts, not eating less",
+  "ruleTrain": "You train or rest as planned",
+  "ruleTrainSub": "Rest days on your plan keep the streak",
+  "freezeNote": "Earn a streak freeze every {n} days you keep. Hold up to {max} for sick days and travel.",
+  "@freezeNote": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "alreadyPast": "Already past {n} days — pick longer",
+  "@alreadyPast": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "keepMyDays": "Keep my {n} days",
+  "@keepMyDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "commitTo": "Commit to {n} days",
+  "@commitTo": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "carryOver": "Your {n} kept days carry over · finishes {date}",
+  "@carryOver": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "startsToday": "Starts today · finishes {date}",
+  "@startsToday": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalDoneTitle": "{n} days. Done.",
+  "@goalDoneTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "goalDoneSub": "{from} – {to} · {n, plural, =0{no freezes used} =1{1 freeze used} other{{n} freezes used}}",
+  "@goalDoneSub": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutsLbl": "Workouts",
+  "restDaysKept": "Rest days kept",
+  "mealsLoggedLbl": "Meals logged",
+  "personalBests": "Personal bests",
+  "goalDoneNote": "Showing up, rest days included. This is what a habit looks like.",
+  "shareMyDays": "Share my {n} days",
+  "@shareMyDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "shareGoalText": "{n} days kept on Gymco — every meal logged, every workout and rest day done.",
+  "@shareGoalText": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "setNextCommitment": "Set your next commitment"
 }

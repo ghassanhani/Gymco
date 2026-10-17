@@ -1068,7 +1068,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get trendNeedsDays => 'الاتجاه يحتاج نحو سبعة أيام';
 
   @override
-  String get trendWeight => 'اتجاه الوزن';
+  String get trendWeight => 'وزن الاتجاه';
 
   @override
   String get unitsLanguage => 'الوحدات واللغة';
@@ -2218,4 +2218,685 @@ class AppLocalizationsAr extends AppLocalizations {
   String thenEx(String name) {
     return 'بعدها: $name';
   }
+
+  @override
+  String get progressTitleEm => '<em>تقدّمك</em>';
+
+  @override
+  String get addWeighIn => 'أضف وزنًا';
+
+  @override
+  String get weightTab => 'الوزن';
+
+  @override
+  String get measureTab => 'القياسات';
+
+  @override
+  String get strengthTab => 'القوة';
+
+  @override
+  String get openCheckIn => 'افتح مراجعة هذا الأسبوع';
+
+  @override
+  String get weighInToday => 'وزن اليوم';
+
+  @override
+  String get weighInNote => 'الوقت نفسه والميزان نفسه قبل الفطور. وزن واحد لا يعني الكثير؛ خط الاتجاه هو المهم.';
+
+  @override
+  String get weighInSaved => 'حُفظ الوزن';
+
+  @override
+  String get waistToday => 'محيط الخصر اليوم';
+
+  @override
+  String get waistNote => 'عند السرّة، مسترخيًا، بعد الزفير.';
+
+  @override
+  String get measurementSaved => 'حُفظ القياس';
+
+  @override
+  String get rateLbl => 'المعدل';
+
+  @override
+  String pctWk(String v) {
+    return '$v %/أسبوع';
+  }
+
+  @override
+  String get trendNeedsTwo => 'وزنان بينهما أيام قليلة ويبدأ خط الاتجاه.';
+
+  @override
+  String get sinceStart => 'منذ البداية';
+
+  @override
+  String get waistLbl => 'الخصر';
+
+  @override
+  String get weighInsLbl => 'الأوزان';
+
+  @override
+  String get weeklyHardSets => 'المجموعات الفعّالة أسبوعيًا';
+
+  @override
+  String get indirectHalf => 'غير المباشرة تُحسب ½';
+
+  @override
+  String get noSetsThisWeek => 'لا مجموعات مسجّلة هذا الأسبوع بعد.';
+
+  @override
+  String get allInRange => 'كل عضلة تدرّبت عليها أكثر بلغت 10 مجموعات أو أكثر هذا الأسبوع.';
+
+  @override
+  String underTen(String group) {
+    return '$group دون حد العشر مجموعات. يستحق النظر بعد انتهاء العجز — لا يُصلح بزيادة الحجم الآن.';
+  }
+
+  @override
+  String get waistWhy => 'الخصر يتحرك أبطأ من الميزان لكنه أصدق: الماء والطعام لا يكادان يؤثران فيه.';
+
+  @override
+  String get addMeasurement => 'أضف قياسًا';
+
+  @override
+  String get strengthEmpty => 'لا تمارين مسجّلة بعد. أنهِ تمرينًا وستظهر هنا تقديرات أقصى تكرار.';
+
+  @override
+  String get strengthNote => 'أقصى تكرار تقديري الآن والتغيّر خلال ثمانية أسابيع. في العجز، الثبات انتصار.';
+
+  @override
+  String e1rmLine(String kg) {
+    return 'أقصى تكرار تقديري $kg كغ';
+  }
+
+  @override
+  String get yourWeek => 'أسبوعك';
+
+  @override
+  String get flatWeeks => 'فترة ثابتة';
+
+  @override
+  String checkInSub(String range, int week) {
+    return '$range · الأسبوع $week';
+  }
+
+  @override
+  String get adjustBtn => 'عدّل';
+
+  @override
+  String get acceptTargets => 'اقبل الأهداف';
+
+  @override
+  String get laterBtn => 'لاحقًا';
+
+  @override
+  String get notNow => 'ليس الآن';
+
+  @override
+  String applyKcal(String n) {
+    return 'طبّق $n سعرة';
+  }
+
+  @override
+  String get applyChoice => 'طبّق';
+
+  @override
+  String get startBreak => 'ابدأ الاستراحة';
+
+  @override
+  String targetsUpdated(String kcal) {
+    return 'حُدّثت الأهداف · $kcal سعرة';
+  }
+
+  @override
+  String get askedNextWeek => 'تم — سنسأل مجددًا الأسبوع القادم';
+
+  @override
+  String get needsTwoWeighIns => 'يحتاج أوزانًا بينها أسبوع';
+
+  @override
+  String get onPlan => 'حسب الخطة';
+
+  @override
+  String get fasterThanPlan => 'أسرع من الخطة';
+
+  @override
+  String get slowerThanPlan => 'أبطأ من الخطة';
+
+  @override
+  String get rateVsGoal => 'المعدل مقابل الهدف';
+
+  @override
+  String get daysLogged => 'الأيام المسجّلة';
+
+  @override
+  String nOfSeven(int n) {
+    return '$n من 7';
+  }
+
+  @override
+  String get allSevenDays => 'كل يوم';
+
+  @override
+  String get fullDaysOnly => 'الأيام الكاملة فقط';
+
+  @override
+  String get measuredExpenditure => 'الإنفاق المقيس';
+
+  @override
+  String get notMeasuredYet => 'لم يُقَس بعد';
+
+  @override
+  String notEnoughBody(int n) {
+    return '$n أيام مسجّلة كاملة أخرى ويقيس جيمكو ما تحرقه فعلًا. حتى ذلك الحين تبقى أهدافك كما هي.';
+  }
+
+  @override
+  String expenditureShort(String kcal) {
+    return 'من سجلاتك ووزن الاتجاه تحرق نحو $kcal سعرة يوميًا.';
+  }
+
+  @override
+  String expenditureFell(String intake, String kg, String kcal) {
+    return 'كان متوسطك $intake سعرة وانخفض الاتجاه $kg كغ. لا يستقيم ذلك إلا إن كنت تحرق نحو $kcal.';
+  }
+
+  @override
+  String expenditureRose(String intake, String kg, String kcal) {
+    return 'كان متوسطك $intake سعرة وارتفع الاتجاه $kg كغ. لا يستقيم ذلك إلا إن كنت تحرق نحو $kcal.';
+  }
+
+  @override
+  String get nextWeekTargets => 'أهداف الأسبوع القادم';
+
+  @override
+  String get noChange => 'بلا تغيير';
+
+  @override
+  String kcalChange(String n) {
+    return '$n سعرة';
+  }
+
+  @override
+  String get targetsMoveNote =>
+      'البروتين والدهون ثابتان؛ والتغيير يذهب للكربوهيدرات حيث يفيد تمارينك. التغيير الأسبوعي محدود بـ120 سعرة حتى لا يقلب أسبوع غريب نظامك.';
+
+  @override
+  String get targetsHoldNote => 'لا شيء يتغيّر حتى يُقاس الإنفاق. واصل تسجيل أيام كاملة ووزن نفسك.';
+
+  @override
+  String get dietMeetsTraining => 'النظام الغذائي والتمرين';
+
+  @override
+  String get strengthHolding =>
+      'تمارينك الأساسية ثابتة أو في ارتفاع وأنت تخسر الوزن. العضل صامد — هذا العجز محتمل جيدًا. لا حاجة لتغيير.';
+
+  @override
+  String get strengthSlipping => 'أحد تمارينك الأساسية انخفض. راقبه الأسبوع القادم؛ وإن تبعه غيره فأبطئ التنشيف.';
+
+  @override
+  String get fasterThanPlanned => 'هذا أسرع من المخطط';
+
+  @override
+  String get perWeekLbl => 'في الأسبوع';
+
+  @override
+  String fastBody(String goal) {
+    return 'طلبت $goal%. بهذا المعدل جزء كبير مما تخسره عضل على الأرجح.';
+  }
+
+  @override
+  String get intakeLbl => 'المدخول';
+
+  @override
+  String floorIs(String n) {
+    return 'الحد الأدنى $n';
+  }
+
+  @override
+  String get measuredShort => 'المحروق';
+
+  @override
+  String get whatToDo => 'ماذا تريد أن تفعل؟';
+
+  @override
+  String eatMore(String n) {
+    return 'كُل $n سعرة إضافية يوميًا';
+  }
+
+  @override
+  String eatMoreSub(String goal) {
+    return 'عودة نحو $goal% أسبوعيًا. مُوصى به.';
+  }
+
+  @override
+  String get twoWeeksMaintenance => 'أسبوعان على الثبات';
+
+  @override
+  String get maintenanceThenResume => 'استراحة ثم العودة للمعدل المخطط';
+
+  @override
+  String get keepGoingAsIAm => 'أكمل كما أنا';
+
+  @override
+  String get askedAgain => 'سيطرح جيمكو هذا مجددًا الأسبوع القادم';
+
+  @override
+  String floorWarnNote(String n) {
+    return 'لا تُضبط الأهداف أبدًا تحت $n سعرة. يمكنك النزول إن أردت، لكنك ستكتب الرقم بنفسك بعد قراءة هذه الرسالة.';
+  }
+
+  @override
+  String stallBody(int weeks) {
+    return 'بعد $weeks أسابيع، بالكاد تحرّك الاتجاه منذ أسبوعين. الإنفاق ينخفض في الحمية الطويلة — أمر طبيعي وجزء من سبب التوقف.';
+  }
+
+  @override
+  String get threeOptions => 'ثلاثة خيارات صادقة';
+
+  @override
+  String maintenanceSub(String kcal) {
+    return '$kcal سعرة بلا عجز. في الغالب يمنحك هذا استراحة من الحمية.';
+  }
+
+  @override
+  String get checkLogging => 'راجع التسجيل أولًا';
+
+  @override
+  String get checkLoggingSub => 'العطلات والوجبات الخفيفة هي غالبًا بداية الأسابيع الثابتة.';
+
+  @override
+  String get cut150 => 'اقطع 150 سعرة إضافية يوميًا';
+
+  @override
+  String get cut150Sub => 'ينجح، لكنه بعد هذه المدة الخيار الأكثر كلفة للعضل.';
+
+  @override
+  String get dietBreakEvidence =>
+      'لن يعدك جيمكو بإعادة ضبط الأيض. استراحات الحمية ساعدت في بعض التجارب ولم تساعد في غيرها. ما تفعله بثبات هو جعل الأسابيع التالية محتملة.';
+
+  @override
+  String get awardsTitle => 'الجوائز';
+
+  @override
+  String get awardsTitleEm => '<em>جوائزك</em>';
+
+  @override
+  String get editGoal => 'عدّل الهدف';
+
+  @override
+  String commitmentDays(int n) {
+    return 'التزام $n يومًا';
+  }
+
+  @override
+  String keptOfGoal(int kept, int goal) {
+    return '$kept من $goal يومًا محفوظًا';
+  }
+
+  @override
+  String nextAwardIn(String name, int n) {
+    return 'الجائزة التالية: $name خلال $n يوم';
+  }
+
+  @override
+  String get allStreakAwards => 'نلت كل جوائز السلسلة';
+
+  @override
+  String ofDays(int n) {
+    return '/ $n يومًا';
+  }
+
+  @override
+  String legendStreak(int n) {
+    return 'السلسلة · متبقٍ $n';
+  }
+
+  @override
+  String legendFood(int n) {
+    return 'الطعام · $n من 3 وجبات';
+  }
+
+  @override
+  String get legendTrainDone => 'التمرين · تم';
+
+  @override
+  String get legendRest => 'التمرين · يوم راحة';
+
+  @override
+  String legendPlanned(String name) {
+    return 'التمرين · $name مخطط';
+  }
+
+  @override
+  String dayKept(int n) {
+    return 'اليوم $n محفوظ. نراك غدًا.';
+  }
+
+  @override
+  String logToKeep(String meal, int n) {
+    return 'سجّل $meal لتحفظ اليوم $n';
+  }
+
+  @override
+  String trainToKeep(String name, int n) {
+    return 'أنهِ $name لتحفظ اليوم $n';
+  }
+
+  @override
+  String get logBtn => 'سجّل';
+
+  @override
+  String get trainBtn => 'تمرّن';
+
+  @override
+  String goalReached(int n) {
+    return '$n يومًا. أتممت التزامك.';
+  }
+
+  @override
+  String get seeRecap => 'اعرض الملخص';
+
+  @override
+  String get thisWeek => 'هذا الأسبوع';
+
+  @override
+  String get restDaysCount => 'أيام الراحة تُحسب';
+
+  @override
+  String get bestStreak => 'أفضل سلسلة';
+
+  @override
+  String nDays(int n) {
+    return '$n يوم';
+  }
+
+  @override
+  String get freezesLbl => 'التجميد';
+
+  @override
+  String freezesOf(int n, int max) {
+    return '$n من $max';
+  }
+
+  @override
+  String challengeDone(int n) {
+    return 'تم — $n حصة هذا الشهر';
+  }
+
+  @override
+  String challengeLeft(int n, int days) {
+    return 'تمرّن $n مرة هذا الشهر · متبقٍ $days يوم';
+  }
+
+  @override
+  String get shelfStreaks => 'السلاسل';
+
+  @override
+  String get shelfFood => 'الطعام';
+
+  @override
+  String get shelfTraining => 'التمرين';
+
+  @override
+  String gotOf(int got, int n) {
+    return '$got من $n';
+  }
+
+  @override
+  String get awardsNote => 'لا جائزة هنا لأكل أقل أو خسارة وزن. التسجيل والحضور هما ما يُحسب.';
+
+  @override
+  String get earnedLbl => 'مُنحت';
+
+  @override
+  String earnedOn(String date) {
+    return 'مُنحت $date';
+  }
+
+  @override
+  String get earnedLabel => 'مُنحت';
+
+  @override
+  String get lockedLabel => 'مقفلة';
+
+  @override
+  String get restartAfterBreak => 'ابدأ من جديد بعد انقطاع';
+
+  @override
+  String nToGo(int n) {
+    return 'متبقٍ $n';
+  }
+
+  @override
+  String get progressLbl => 'التقدّم';
+
+  @override
+  String nextNamed(String name) {
+    return 'التالية · $name';
+  }
+
+  @override
+  String get shareAward => 'مشاركة';
+
+  @override
+  String shareAwardText(String name) {
+    return 'نلت «$name» على جيمكو.';
+  }
+
+  @override
+  String get backToAwards => 'العودة إلى الجوائز';
+
+  @override
+  String get mdDays => 'يوم';
+
+  @override
+  String get mdMeals => 'وجبة';
+
+  @override
+  String get mdProtein => 'بروتين';
+
+  @override
+  String get mdWorkouts => 'تمرين';
+
+  @override
+  String get mdBests => 'أرقام';
+
+  @override
+  String get awFirstWeek => 'الأسبوع الأول';
+
+  @override
+  String get awFirstWeekD => 'سبعة أيام متتالية بكل وجبة مسجّلة وكل تمرين أو يوم راحة مخطط محفوظ.';
+
+  @override
+  String get awTwoWeeks => 'أسبوعان';
+
+  @override
+  String get awTwoWeeksD => 'أربعة عشر يومًا محفوظًا متتاليًا. الأسبوع الأول حماس، والثاني اختيار.';
+
+  @override
+  String get awOneMonth => 'شهر من القوة';
+
+  @override
+  String get awOneMonthD => 'ثلاثون يومًا متتاليًا بكل وجبة مسجّلة وكل تمرين أو يوم راحة مخطط محفوظ.';
+
+  @override
+  String get awHabit => 'عادة راسخة';
+
+  @override
+  String get awHabitD => 'ستة وستون يومًا، متوسط ما يحتاجه سلوك جديد ليصبح تلقائيًا.';
+
+  @override
+  String get awFull => 'التزام كامل';
+
+  @override
+  String get awFullD => 'تسعون يومًا محفوظًا. ثلاثة أشهر من الحضور، بما فيها أيام الراحة.';
+
+  @override
+  String get awComeback => 'العودة';
+
+  @override
+  String get awComebackD => 'ابدأ سلسلة جديدة بعد انتهاء أخرى. العودة هي ما يُحسب.';
+
+  @override
+  String get awFirstFullDay => 'أول يوم كامل';
+
+  @override
+  String get awFirstFullDayD => 'فطور وغداء وعشاء مسجّلة في يوم واحد.';
+
+  @override
+  String get awHundredMeals => '100 وجبة مسجّلة';
+
+  @override
+  String get awHundredMealsD => 'مئة وجبة مسجّلة. التقديرات التقريبية تُحسب — المهم أن يُكتب اليوم.';
+
+  @override
+  String get awProteinWeek => 'أسبوع البروتين';
+
+  @override
+  String get awProteinWeekD => 'بلغت هدف البروتين سبعة أيام في أسبوع واحد. إنه الرقم الذي يحمي العضل أثناء التنشيف.';
+
+  @override
+  String get awFirstWorkout => 'أول تمرين';
+
+  @override
+  String get awFirstWorkoutD => 'أول حصة مسجّلة لك في جيمكو.';
+
+  @override
+  String get awTwentyFive => '25 تمرينًا';
+
+  @override
+  String get awTwentyFiveD => 'خمس وعشرون حصة مسجّلة مجموعة بمجموعة.';
+
+  @override
+  String get awTenBests => '10 أرقام قياسية';
+
+  @override
+  String get awTenBestsD => 'عشر مجموعات قياسية جديدة. ثبات القوة في العجز علامة على أن التنشيف يسير جيدًا.';
+
+  @override
+  String awMonth(String month) {
+    return 'تحدّي $month';
+  }
+
+  @override
+  String awMonthD(int n) {
+    return 'تمرّن $n مرة هذا الشهر.';
+  }
+
+  @override
+  String get yourCommitment => 'التزامك';
+
+  @override
+  String get howLong => 'إلى متى أنت ملتزم؟';
+
+  @override
+  String get howLongSub => 'اختر عددًا من الأيام. كل يوم تحفظه يملأ الحلقة الخارجية.';
+
+  @override
+  String get daysWord => 'يومًا';
+
+  @override
+  String get goal21 => 'ابدأ';
+
+  @override
+  String get goal30 => 'شهر واحد';
+
+  @override
+  String get goal66 => 'اجعلها عادة';
+
+  @override
+  String get goal90 => 'التزام كامل';
+
+  @override
+  String get customLbl => 'مخصّص';
+
+  @override
+  String get customRange => '7 – 365 يومًا';
+
+  @override
+  String get useThis => 'استخدم هذا';
+
+  @override
+  String get dayCountsWhen => 'يُحسب اليوم عندما';
+
+  @override
+  String get ruleMeals => 'تُسجَّل الوجبات';
+
+  @override
+  String get ruleMealsSub => 'التسجيل هو ما يُحسب، لا الأكل الأقل';
+
+  @override
+  String get ruleTrain => 'تتمرّن أو ترتاح حسب الخطة';
+
+  @override
+  String get ruleTrainSub => 'أيام الراحة في خطتك تحفظ السلسلة';
+
+  @override
+  String freezeNote(int n, int max) {
+    return 'احصل على تجميد كل $n أيام تحفظها. احتفظ بحتى $max للمرض والسفر.';
+  }
+
+  @override
+  String alreadyPast(int n) {
+    return 'تجاوزت $n يومًا — اختر أطول';
+  }
+
+  @override
+  String keepMyDays(int n) {
+    return 'أبقِ أيامي الـ$n';
+  }
+
+  @override
+  String commitTo(int n) {
+    return 'التزم بـ$n يومًا';
+  }
+
+  @override
+  String carryOver(int n, String date) {
+    return 'أيامك المحفوظة الـ$n تُحتسب · ينتهي $date';
+  }
+
+  @override
+  String startsToday(String date) {
+    return 'يبدأ اليوم · ينتهي $date';
+  }
+
+  @override
+  String goalDoneTitle(int n) {
+    return '$n يومًا. تم.';
+  }
+
+  @override
+  String goalDoneSub(String from, String to, int n) {
+    return '$from – $to · $n تجميد مستخدم';
+  }
+
+  @override
+  String get workoutsLbl => 'التمارين';
+
+  @override
+  String get restDaysKept => 'أيام الراحة المحفوظة';
+
+  @override
+  String get mealsLoggedLbl => 'الوجبات المسجّلة';
+
+  @override
+  String get personalBests => 'الأرقام القياسية';
+
+  @override
+  String get goalDoneNote => 'الحضور، بما فيه أيام الراحة. هكذا تبدو العادة.';
+
+  @override
+  String shareMyDays(int n) {
+    return 'شارك أيامي الـ$n';
+  }
+
+  @override
+  String shareGoalText(int n) {
+    return '$n يومًا محفوظًا على جيمكو — كل وجبة مسجّلة وكل تمرين ويوم راحة منجز.';
+  }
+
+  @override
+  String get setNextCommitment => 'حدّد التزامك التالي';
 }

@@ -193,6 +193,19 @@ class Profile {
   final Macros targets;
   final DateTime startedOn;
 
+  Profile withTargets(double kcal, Macros m) => Profile(
+    goal: goal,
+    sex: sex,
+    ageYears: ageYears,
+    heightCm: heightCm,
+    weightKg: weightKg,
+    activity: activity,
+    ratePctPerWeek: ratePctPerWeek,
+    targetKcal: kcal,
+    targets: m,
+    startedOn: startedOn,
+  );
+
   Map<String, Object?> toJson() => {
     'goal': goal.name,
     'sex': sex.name,

@@ -14,6 +14,9 @@ import 'ui/food/serving_screen.dart';
 import 'ui/me/data_screen.dart';
 import 'ui/me/me_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
+import 'ui/progress/awards_screen.dart';
+import 'ui/progress/checkin_screen.dart';
+import 'ui/progress/progress_screen.dart';
 import 'ui/shell.dart';
 import 'ui/today/today_screen.dart';
 import 'data/training.dart';
@@ -90,6 +93,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, s) => BarcodeMissScreen(code: s.pathParameters['code']!),
       ),
       GoRoute(path: '/language', builder: (_, _) => const LanguageScreen()),
+      GoRoute(path: '/checkin', builder: (_, _) => const CheckInScreen()),
+      GoRoute(path: '/goal', builder: (_, _) => const GoalSetScreen()),
+      GoRoute(path: '/goal/done', builder: (_, _) => const GoalDoneScreen()),
       GoRoute(path: '/data', builder: (_, _) => const DataScreen()),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),
@@ -125,7 +131,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/progress',
-                builder: (ctx, _) => NextBuildScreen(title: AppLocalizations.of(ctx).progressTitle),
+                builder: (_, _) => const ProgressScreen(),
+                routes: [
+                  GoRoute(path: 'awards', builder: (_, _) => const AwardsScreen()),
+                  GoRoute(
+                    path: 'award/:id',
+                    builder: (_, s) => AwardDetailScreen(id: s.pathParameters['id']!),
+                  ),
+                ],
               ),
             ],
           ),

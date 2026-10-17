@@ -2196,4 +2196,705 @@ class AppLocalizationsEn extends AppLocalizations {
   String thenEx(String name) {
     return 'Then: $name';
   }
+
+  @override
+  String get progressTitleEm => 'Your <em>progress</em>';
+
+  @override
+  String get addWeighIn => 'Add a weigh-in';
+
+  @override
+  String get weightTab => 'Weight';
+
+  @override
+  String get measureTab => 'Measure';
+
+  @override
+  String get strengthTab => 'Strength';
+
+  @override
+  String get openCheckIn => 'Open this week\'s check-in';
+
+  @override
+  String get weighInToday => 'Today\'s weigh-in';
+
+  @override
+  String get weighInNote =>
+      'Same time, same scale, before breakfast. One weigh-in means little; the trend line is what counts.';
+
+  @override
+  String get weighInSaved => 'Weigh-in saved';
+
+  @override
+  String get waistToday => 'Today\'s waist';
+
+  @override
+  String get waistNote => 'At the navel, relaxed, after breathing out.';
+
+  @override
+  String get measurementSaved => 'Measurement saved';
+
+  @override
+  String get rateLbl => 'Rate';
+
+  @override
+  String pctWk(String v) {
+    return '$v %/wk';
+  }
+
+  @override
+  String get trendNeedsTwo => 'Two weigh-ins a few days apart and the trend line starts.';
+
+  @override
+  String get sinceStart => 'Since start';
+
+  @override
+  String get waistLbl => 'Waist';
+
+  @override
+  String get weighInsLbl => 'Weigh-ins';
+
+  @override
+  String get weeklyHardSets => 'Weekly hard sets';
+
+  @override
+  String get indirectHalf => 'indirect counted as ½';
+
+  @override
+  String get noSetsThisWeek => 'No sets logged this week yet.';
+
+  @override
+  String get allInRange => 'Every muscle you trained most is at 10 sets or more this week.';
+
+  @override
+  String underTen(String group) {
+    return '$group sits under the 10-set mark. Worth a look once you are out of the deficit — not something to fix by adding volume now.';
+  }
+
+  @override
+  String get waistWhy => 'Waist moves slower than the scale but lies less: water and food in the gut barely touch it.';
+
+  @override
+  String get addMeasurement => 'Add a measurement';
+
+  @override
+  String get strengthEmpty => 'No lifts logged yet. Finish a workout and your estimated 1RMs show up here.';
+
+  @override
+  String get strengthNote => 'Estimated 1RM now, and the change over eight weeks. In a deficit, holding is winning.';
+
+  @override
+  String e1rmLine(String kg) {
+    return 'est. 1RM $kg kg';
+  }
+
+  @override
+  String get yourWeek => 'Your week';
+
+  @override
+  String get flatWeeks => 'A flat stretch';
+
+  @override
+  String checkInSub(String range, int week) {
+    return '$range · week $week';
+  }
+
+  @override
+  String get adjustBtn => 'Adjust';
+
+  @override
+  String get acceptTargets => 'Accept targets';
+
+  @override
+  String get laterBtn => 'Later';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String applyKcal(String n) {
+    return 'Apply $n kcal';
+  }
+
+  @override
+  String get applyChoice => 'Apply';
+
+  @override
+  String get startBreak => 'Start the break';
+
+  @override
+  String targetsUpdated(String kcal) {
+    return 'Targets updated · $kcal kcal';
+  }
+
+  @override
+  String get askedNextWeek => 'Noted — asked again next week';
+
+  @override
+  String get needsTwoWeighIns => 'needs weigh-ins a week apart';
+
+  @override
+  String get onPlan => 'on plan';
+
+  @override
+  String get fasterThanPlan => 'faster than the plan';
+
+  @override
+  String get slowerThanPlan => 'slower than the plan';
+
+  @override
+  String get rateVsGoal => 'Rate vs goal';
+
+  @override
+  String get daysLogged => 'Days logged';
+
+  @override
+  String nOfSeven(int n) {
+    return '$n of 7';
+  }
+
+  @override
+  String get allSevenDays => 'every day';
+
+  @override
+  String get fullDaysOnly => 'full days only';
+
+  @override
+  String get measuredExpenditure => 'Measured expenditure';
+
+  @override
+  String get notMeasuredYet => 'Not measured yet';
+
+  @override
+  String notEnoughBody(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n more fully logged days and Gymco can measure what you actually burn.',
+      one: 'One more fully logged day and Gymco can measure what you actually burn.',
+    );
+    return '$_temp0 Until then your starting targets stay as they are.';
+  }
+
+  @override
+  String expenditureShort(String kcal) {
+    return 'From your logs and trend weight you burn about $kcal kcal a day.';
+  }
+
+  @override
+  String expenditureFell(String intake, String kg, String kcal) {
+    return 'You averaged $intake kcal and the trend fell $kg kg. That only balances if you are burning about $kcal.';
+  }
+
+  @override
+  String expenditureRose(String intake, String kg, String kcal) {
+    return 'You averaged $intake kcal and the trend rose $kg kg. That only balances if you are burning about $kcal.';
+  }
+
+  @override
+  String get nextWeekTargets => 'Next week\'s targets';
+
+  @override
+  String get noChange => 'no change';
+
+  @override
+  String kcalChange(String n) {
+    return '$n kcal';
+  }
+
+  @override
+  String get targetsMoveNote =>
+      'Protein and fat stay put; the change goes to carbs, where it helps your sessions. Weekly moves are capped at 120 kcal so one odd week never swings your diet.';
+
+  @override
+  String get targetsHoldNote =>
+      'Nothing changes until expenditure is measured. Keep logging full days and weighing in.';
+
+  @override
+  String get dietMeetsTraining => 'Diet meets training';
+
+  @override
+  String get strengthHolding =>
+      'Your main lifts are flat or up while you lose weight. Muscle is holding — this deficit is well tolerated. No change needed.';
+
+  @override
+  String get strengthSlipping => 'One of your main lifts is down. Watch it next week; if more follow, slow the cut.';
+
+  @override
+  String get fasterThanPlanned => 'This is faster than planned';
+
+  @override
+  String get perWeekLbl => 'per week';
+
+  @override
+  String fastBody(String goal) {
+    return 'You asked for $goal%. At this rate a good part of what you are losing is likely muscle.';
+  }
+
+  @override
+  String get intakeLbl => 'Intake';
+
+  @override
+  String floorIs(String n) {
+    return 'floor is $n';
+  }
+
+  @override
+  String get measuredShort => 'Burned';
+
+  @override
+  String get whatToDo => 'What would you like to do?';
+
+  @override
+  String eatMore(String n) {
+    return 'Eat $n more a day';
+  }
+
+  @override
+  String eatMoreSub(String goal) {
+    return 'Back toward $goal% a week. Recommended.';
+  }
+
+  @override
+  String get twoWeeksMaintenance => 'Two weeks at maintenance';
+
+  @override
+  String get maintenanceThenResume => 'A break, then resume at the planned rate';
+
+  @override
+  String get keepGoingAsIAm => 'Keep going as I am';
+
+  @override
+  String get askedAgain => 'Gymco will raise this again next week';
+
+  @override
+  String floorWarnNote(String n) {
+    return 'Targets are never set below $n kcal. If you want to go under that you can, but you will type the number yourself and read this message first.';
+  }
+
+  @override
+  String stallBody(int weeks) {
+    return '$weeks weeks in, and the trend has barely moved for two. Expenditure drifts down on a long diet — normal, and part of why this has stopped.';
+  }
+
+  @override
+  String get threeOptions => 'Three honest options';
+
+  @override
+  String maintenanceSub(String kcal) {
+    return '$kcal kcal, no deficit. Mostly this buys you a rest from dieting.';
+  }
+
+  @override
+  String get checkLogging => 'Check the logging first';
+
+  @override
+  String get checkLoggingSub => 'Weekends and snacks are where flat weeks usually start.';
+
+  @override
+  String get cut150 => 'Cut 150 more a day';
+
+  @override
+  String get cut150Sub => 'Works, but this far in it is the option that costs the most muscle.';
+
+  @override
+  String get dietBreakEvidence =>
+      'Gymco will not promise you a metabolic reset. Diet breaks helped weight loss in some trials and not in others. What they reliably do is make the next weeks survivable.';
+
+  @override
+  String get awardsTitle => 'Awards';
+
+  @override
+  String get awardsTitleEm => 'Your <em>awards</em>';
+
+  @override
+  String get editGoal => 'Edit goal';
+
+  @override
+  String commitmentDays(int n) {
+    return '$n-day commitment';
+  }
+
+  @override
+  String keptOfGoal(int kept, int goal) {
+    return '$kept of $goal days kept';
+  }
+
+  @override
+  String nextAwardIn(String name, int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '1 day');
+    return 'Next award: $name in $_temp0';
+  }
+
+  @override
+  String get allStreakAwards => 'Every streak award earned';
+
+  @override
+  String ofDays(int n) {
+    return '/ $n days';
+  }
+
+  @override
+  String legendStreak(int n) {
+    return 'Streak · $n to go';
+  }
+
+  @override
+  String legendFood(int n) {
+    return 'Food · $n of 3 meals';
+  }
+
+  @override
+  String get legendTrainDone => 'Train · done';
+
+  @override
+  String get legendRest => 'Train · rest day';
+
+  @override
+  String legendPlanned(String name) {
+    return 'Train · $name planned';
+  }
+
+  @override
+  String dayKept(int n) {
+    return 'Day $n kept. See you tomorrow.';
+  }
+
+  @override
+  String logToKeep(String meal, int n) {
+    return 'Log $meal to keep day $n';
+  }
+
+  @override
+  String trainToKeep(String name, int n) {
+    return 'Finish $name to keep day $n';
+  }
+
+  @override
+  String get logBtn => 'Log';
+
+  @override
+  String get trainBtn => 'Train';
+
+  @override
+  String goalReached(int n) {
+    return '$n days. Your commitment is done.';
+  }
+
+  @override
+  String get seeRecap => 'See recap';
+
+  @override
+  String get thisWeek => 'This week';
+
+  @override
+  String get restDaysCount => 'Rest days count';
+
+  @override
+  String get bestStreak => 'Best streak';
+
+  @override
+  String nDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days', one: '1 day');
+    return '$_temp0';
+  }
+
+  @override
+  String get freezesLbl => 'Freezes';
+
+  @override
+  String freezesOf(int n, int max) {
+    return '$n of $max';
+  }
+
+  @override
+  String challengeDone(int n) {
+    return 'Done — $n sessions this month';
+  }
+
+  @override
+  String challengeLeft(int n, int days) {
+    String _temp0 = intl.Intl.pluralLogic(days, locale: localeName, other: '$days days', one: '1 day');
+    return 'Train $n times this month · $_temp0 left';
+  }
+
+  @override
+  String get shelfStreaks => 'Streaks';
+
+  @override
+  String get shelfFood => 'Food';
+
+  @override
+  String get shelfTraining => 'Training';
+
+  @override
+  String gotOf(int got, int n) {
+    return '$got of $n';
+  }
+
+  @override
+  String get awardsNote => 'No award here is for eating less or losing weight. Logging and showing up are what count.';
+
+  @override
+  String get earnedLbl => 'Earned';
+
+  @override
+  String earnedOn(String date) {
+    return 'Earned $date';
+  }
+
+  @override
+  String get earnedLabel => 'earned';
+
+  @override
+  String get lockedLabel => 'locked';
+
+  @override
+  String get restartAfterBreak => 'Restart after a break';
+
+  @override
+  String nToGo(int n) {
+    return '$n to go';
+  }
+
+  @override
+  String get progressLbl => 'Progress';
+
+  @override
+  String nextNamed(String name) {
+    return 'Next · $name';
+  }
+
+  @override
+  String get shareAward => 'Share';
+
+  @override
+  String shareAwardText(String name) {
+    return 'I earned \"$name\" on Gymco.';
+  }
+
+  @override
+  String get backToAwards => 'Back to awards';
+
+  @override
+  String get mdDays => 'DAYS';
+
+  @override
+  String get mdMeals => 'MEALS';
+
+  @override
+  String get mdProtein => 'PROTEIN';
+
+  @override
+  String get mdWorkouts => 'WORKOUTS';
+
+  @override
+  String get mdBests => 'BESTS';
+
+  @override
+  String get awFirstWeek => 'First week';
+
+  @override
+  String get awFirstWeekD => 'Seven days in a row with every meal logged and every planned workout or rest day kept.';
+
+  @override
+  String get awTwoWeeks => 'Two weeks';
+
+  @override
+  String get awTwoWeeksD => 'Fourteen kept days in a row. The first week is novelty; the second one is choice.';
+
+  @override
+  String get awOneMonth => 'One month strong';
+
+  @override
+  String get awOneMonthD => 'Thirty days in a row with every meal logged and every planned workout or rest day kept.';
+
+  @override
+  String get awHabit => 'Habit formed';
+
+  @override
+  String get awHabitD => 'Sixty-six days, the average it takes a new behaviour to run on its own.';
+
+  @override
+  String get awFull => 'Full commitment';
+
+  @override
+  String get awFullD => 'Ninety days kept. Three months of showing up, rest days included.';
+
+  @override
+  String get awComeback => 'Comeback';
+
+  @override
+  String get awComebackD => 'Start a new run after a streak ends. Coming back is the part that counts.';
+
+  @override
+  String get awFirstFullDay => 'First full day';
+
+  @override
+  String get awFirstFullDayD => 'Breakfast, lunch and dinner logged in one day.';
+
+  @override
+  String get awHundredMeals => '100 meals logged';
+
+  @override
+  String get awHundredMealsD =>
+      'One hundred meals logged. Rough estimates count — what matters is that the day is written down.';
+
+  @override
+  String get awProteinWeek => 'Protein week';
+
+  @override
+  String get awProteinWeekD =>
+      'Your protein target hit on seven days in one week. It is the one number that protects muscle in a cut.';
+
+  @override
+  String get awFirstWorkout => 'First workout';
+
+  @override
+  String get awFirstWorkoutD => 'Your first logged session in Gymco.';
+
+  @override
+  String get awTwentyFive => '25 workouts';
+
+  @override
+  String get awTwentyFiveD => 'Twenty-five sessions logged, set by set.';
+
+  @override
+  String get awTenBests => '10 personal bests';
+
+  @override
+  String get awTenBestsD => 'Ten new best sets. Strength holding in a deficit is the sign the cut is going well.';
+
+  @override
+  String awMonth(String month) {
+    return '$month challenge';
+  }
+
+  @override
+  String awMonthD(int n) {
+    return 'Train $n times this month.';
+  }
+
+  @override
+  String get yourCommitment => 'Your commitment';
+
+  @override
+  String get howLong => 'How long are you in for?';
+
+  @override
+  String get howLongSub => 'Pick a run of days. Every day you keep fills the outer ring.';
+
+  @override
+  String get daysWord => 'days';
+
+  @override
+  String get goal21 => 'Get started';
+
+  @override
+  String get goal30 => 'One month';
+
+  @override
+  String get goal66 => 'Make it a habit';
+
+  @override
+  String get goal90 => 'Full commitment';
+
+  @override
+  String get customLbl => 'Custom';
+
+  @override
+  String get customRange => '7 – 365 days';
+
+  @override
+  String get useThis => 'Use this';
+
+  @override
+  String get dayCountsWhen => 'A day counts when';
+
+  @override
+  String get ruleMeals => 'Meals are logged';
+
+  @override
+  String get ruleMealsSub => 'Logging counts, not eating less';
+
+  @override
+  String get ruleTrain => 'You train or rest as planned';
+
+  @override
+  String get ruleTrainSub => 'Rest days on your plan keep the streak';
+
+  @override
+  String freezeNote(int n, int max) {
+    return 'Earn a streak freeze every $n days you keep. Hold up to $max for sick days and travel.';
+  }
+
+  @override
+  String alreadyPast(int n) {
+    return 'Already past $n days — pick longer';
+  }
+
+  @override
+  String keepMyDays(int n) {
+    return 'Keep my $n days';
+  }
+
+  @override
+  String commitTo(int n) {
+    return 'Commit to $n days';
+  }
+
+  @override
+  String carryOver(int n, String date) {
+    return 'Your $n kept days carry over · finishes $date';
+  }
+
+  @override
+  String startsToday(String date) {
+    return 'Starts today · finishes $date';
+  }
+
+  @override
+  String goalDoneTitle(int n) {
+    return '$n days. Done.';
+  }
+
+  @override
+  String goalDoneSub(String from, String to, int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n freezes used',
+      one: '1 freeze used',
+      zero: 'no freezes used',
+    );
+    return '$from – $to · $_temp0';
+  }
+
+  @override
+  String get workoutsLbl => 'Workouts';
+
+  @override
+  String get restDaysKept => 'Rest days kept';
+
+  @override
+  String get mealsLoggedLbl => 'Meals logged';
+
+  @override
+  String get personalBests => 'Personal bests';
+
+  @override
+  String get goalDoneNote => 'Showing up, rest days included. This is what a habit looks like.';
+
+  @override
+  String shareMyDays(int n) {
+    return 'Share my $n days';
+  }
+
+  @override
+  String shareGoalText(int n) {
+    return '$n days kept on Gymco — every meal logged, every workout and rest day done.';
+  }
+
+  @override
+  String get setNextCommitment => 'Set your next commitment';
 }
