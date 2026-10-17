@@ -3782,6 +3782,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Already in this workout'**
   String get alreadyIn;
+
+  /// No description provided for @thenEx.
+  ///
+  /// In en, this message translates to:
+  /// **'Then: {name}'**
+  String thenEx(String name);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

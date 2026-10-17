@@ -2189,4 +2189,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get alreadyIn => 'Ya está en este entreno';
+
+  @override
+  String thenEx(String name) {
+    return 'Luego: $name';
+  }
 }

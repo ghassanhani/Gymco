@@ -44,11 +44,11 @@ String muscleName(AppLocalizations l, String m) => switch (m) {
   _ => m,
 };
 
-/// 1:07:05 or 47:12.
+/// 1:07:05, 47:12 or 0:06, as the prototype writes a clock.
 String fmtClock(Duration d) {
   final h = d.inHours, m = d.inMinutes % 60, s = d.inSeconds % 60;
   String two(int v) => v.toString().padLeft(2, '0');
-  return h > 0 ? '$h:${two(m)}:${two(s)}' : '${two(m)}:${two(s)}';
+  return h > 0 ? '$h:${two(m)}:${two(s)}' : '$m:${two(s)}';
 }
 
 /// Weights drop a trailing .0: 100, 102.5.

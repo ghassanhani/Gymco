@@ -614,5 +614,6 @@
   "searchLibrary": "Buscar en la biblioteca de ejercicios",
   "noExerciseMatch": "Nada coincide. Prueba una palabra más corta u otro músculo.",
   "inLbl": "dentro",
-  "alreadyIn": "Ya está en este entreno"
+  "alreadyIn": "Ya está en este entreno",
+  "thenEx": "Luego: {name}"
 }

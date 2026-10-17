@@ -65,8 +65,58 @@ abstract final class Volt {
   static ThemeData theme(Locale locale) {
     // Urbanist has no Arabic glyphs; Arabic falls back to IBM Plex Sans Arabic.
     final family = locale.languageCode == 'ar' ? 'IBMPlexSansArabic' : 'Urbanist';
-    final base = ThemeData(brightness: Brightness.dark).textTheme
-        .apply(fontFamily: family, fontFamilyFallback: const ['IBMPlexSansArabic', 'Urbanist']);
+    // Material's type scale has its own letter spacing and line heights; the
+    // prototype has no letter spacing and one line height, so only size,
+    // weight and colour are kept from it.
+    TextStyle? flat(TextStyle? s) => s == null
+        ? null
+        : TextStyle(
+            fontSize: s.fontSize,
+            fontWeight: s.fontWeight,
+            color: s.color,
+            textBaseline: s.textBaseline,
+            letterSpacing: 0,
+            // The prototype's device frame: line-height 1.45 for everything.
+            height: 1.45,
+          );
+    // MaterialApp merges this geometry back under the text theme, so it is
+    // flattened too, for every script.
+    final g = Typography.englishLike2021;
+    final geometry = TextTheme(
+      displayLarge: flat(g.displayLarge),
+      displayMedium: flat(g.displayMedium),
+      displaySmall: flat(g.displaySmall),
+      headlineLarge: flat(g.headlineLarge),
+      headlineMedium: flat(g.headlineMedium),
+      headlineSmall: flat(g.headlineSmall),
+      titleLarge: flat(g.titleLarge),
+      titleMedium: flat(g.titleMedium),
+      titleSmall: flat(g.titleSmall),
+      bodyLarge: flat(g.bodyLarge),
+      bodyMedium: flat(g.bodyMedium),
+      bodySmall: flat(g.bodySmall),
+      labelLarge: flat(g.labelLarge),
+      labelMedium: flat(g.labelMedium),
+      labelSmall: flat(g.labelSmall),
+    );
+    final m = ThemeData(brightness: Brightness.dark).textTheme;
+    final base = TextTheme(
+      displayLarge: flat(m.displayLarge),
+      displayMedium: flat(m.displayMedium),
+      displaySmall: flat(m.displaySmall),
+      headlineLarge: flat(m.headlineLarge),
+      headlineMedium: flat(m.headlineMedium),
+      headlineSmall: flat(m.headlineSmall),
+      titleLarge: flat(m.titleLarge),
+      titleMedium: flat(m.titleMedium),
+      titleSmall: flat(m.titleSmall),
+      bodyLarge: flat(m.bodyLarge),
+      bodyMedium: flat(m.bodyMedium),
+      bodySmall: flat(m.bodySmall),
+      labelLarge: flat(m.labelLarge),
+      labelMedium: flat(m.labelMedium),
+      labelSmall: flat(m.labelSmall),
+    ).apply(fontFamily: family, fontFamilyFallback: const ['IBMPlexSansArabic', 'Urbanist']);
     final text = base
         .apply(bodyColor: t1, displayColor: t1)
         .copyWith(
@@ -90,6 +140,7 @@ abstract final class Volt {
 
     return ThemeData(
       useMaterial3: true,
+      typography: Typography.material2021(englishLike: geometry, dense: geometry, tall: geometry),
       fontFamily: family,
       fontFamilyFallback: const ['IBMPlexSansArabic', 'Urbanist'],
       brightness: Brightness.dark,

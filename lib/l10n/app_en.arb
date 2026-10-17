@@ -1641,5 +1641,13 @@
   "searchLibrary": "Search the exercise library",
   "noExerciseMatch": "Nothing matches. Try a shorter word, or another muscle.",
   "inLbl": "in",
-  "alreadyIn": "Already in this workout"
+  "alreadyIn": "Already in this workout",
+  "thenEx": "Then: {name}",
+  "@thenEx": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -2213,4 +2213,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get alreadyIn => 'موجود في هذا التمرين';
+
+  @override
+  String thenEx(String name) {
+    return 'بعدها: $name';
+  }
 }

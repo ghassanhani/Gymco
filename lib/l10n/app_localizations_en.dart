@@ -2191,4 +2191,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alreadyIn => 'Already in this workout';
+
+  @override
+  String thenEx(String name) {
+    return 'Then: $name';
+  }
 }

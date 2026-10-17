@@ -252,7 +252,9 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
     final n = s.nextSet;
     if (n == null) return l.lastSetDone;
     final e = s.exercises[n.$1];
-    return l.nextSetOf(lib?[e.exerciseId]?.shortName ?? e.name, n.$2 + 1);
+    final name = lib?[e.exerciseId]?.shortName ?? e.name;
+    // A fresh exercise is announced by name; within one, by set.
+    return e.sets.any((x) => x.done) ? l.nextSetOf(name, n.$2 + 1) : l.thenEx(name);
   }
 }
 
@@ -418,7 +420,11 @@ class _ExerciseCard extends ConsumerWidget {
                   VIcon('clock', size: 16, color: e.restSeconds == 0 ? Volt.t4 : Volt.brandInk),
                   const SizedBox(width: 8),
                   Expanded(
-                    child: Text(l.restTimer, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                    child: Text(
+                      l.restTimer,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 13, color: Volt.t2),
+                    ),
                   ),
                   Text(
                     e.restSeconds == 0 ? l.offLbl : fmtRest(e.restSeconds),
@@ -611,6 +617,11 @@ class _SetRow extends ConsumerWidget {
                   color: set.done ? Volt.brand : Volt.card2,
                   shape: BoxShape.circle,
                   border: Border.all(color: set.done ? Volt.brand : Volt.line2),
+                  boxShadow: set.done
+                      ? const [
+                          BoxShadow(color: Color(0xB3C6F432), blurRadius: 14, offset: Offset(0, 6), spreadRadius: -6),
+                        ]
+                      : null,
                 ),
                 child: Center(child: VIcon('check', size: 15, color: set.done ? Volt.ink : Volt.t1)),
               ),
@@ -853,10 +864,11 @@ class _Dashes extends CustomPainter {
       ..addRRect(RRect.fromRectAndRadius((Offset.zero & size).deflate(0.5), const Radius.circular(12)));
     final p = Paint()
       ..color = Volt.line2
-      ..style = PaintingStyle.stroke;
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
     for (final m in path.computeMetrics()) {
-      for (var d = 0.0; d < m.length; d += 6) {
-        canvas.drawPath(m.extractPath(d, d + 3), p);
+      for (var d = 0.0; d < m.length; d += 7) {
+        canvas.drawPath(m.extractPath(d, d + 4), p);
       }
     }
   }
@@ -918,37 +930,48 @@ class _RestBar extends StatelessWidget {
                           label,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 12, color: Volt.t3),
+                          style: const TextStyle(fontSize: 13, color: Color(0xA8FFFFFF)),
                         ),
                       ],
                     ),
                   ),
-                  VBtn(
-                    label: l.minus15,
-                    kind: BtnKind.ghost,
-                    small: true,
-                    minHeight: 34,
-                    fontSize: 13,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    onTap: onMinus,
-                  ),
+                  _BarBtn(label: l.minus15, onTap: onMinus),
                   const SizedBox(width: 8),
-                  VBtn(
-                    label: l.skip,
-                    kind: BtnKind.ghost,
-                    small: true,
-                    minHeight: 34,
-                    fontSize: 13,
-                    padding: const EdgeInsets.symmetric(horizontal: 13),
-                    onTap: onSkip,
-                  ),
+                  _BarBtn(label: l.skip, onTap: onSkip),
                 ],
               ),
-              VBar(fraction: total == 0 ? 0 : left / total, color: Volt.brand),
+              VBar(fraction: total == 0 ? 0 : left / total, color: Volt.brand, track: const Color(0x2EFFFFFF)),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+/// The rest bar's small outlined buttons.
+class _BarBtn extends StatelessWidget {
+  const _BarBtn({required this.label, required this.onTap});
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Pressable(
+    onTap: onTap,
+    label: label,
+    child: Container(
+      height: 34,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: const Color(0x1FFFFFFF),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: const Color(0x42FFFFFF)),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white),
+      ),
+    ),
+  );
 }
