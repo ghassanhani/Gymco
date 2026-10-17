@@ -443,7 +443,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String nameTaken(String name) {
-    return 'لديك برنامج باسم «$name» بالفعل.';
+    return 'لديك برنامج باسم $name بالفعل. اختر اسمًا آخر أو عدّل ذلك البرنامج.';
   }
 
   @override
@@ -453,7 +453,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deleteRoutineTitle => 'حذف هذا البرنامج؟';
 
   @override
-  String get deleteRoutineBody => 'التمارين التي أنجزتها تبقى في سجلك.';
+  String get deleteRoutineBody => 'يُحذف البرنامج. كل تمرين سجّلته منه يبقى في سجلك بمجموعاته وأرقامه القياسية.';
 
   @override
   String get edit => 'تعديل';
@@ -574,7 +574,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get keepGoing => 'تابع التمرين';
 
   @override
-  String get durationLbl => 'الوقت';
+  String get durationLbl => 'المدة';
 
   @override
   String get volumeLbl => 'الحجم';
@@ -607,28 +607,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get stWarmup => 'إحماء';
 
   @override
-  String get stWarmupSub => 'تهيئة للرفعة. لا تُحتسب في المجموعات الأسبوعية.';
+  String get stWarmupSub => 'لا تُحسب ضمن المجموعات الأسبوعية';
 
   @override
-  String get stNormal => 'مجموعة عمل';
+  String get stNormal => 'عادية';
 
   @override
-  String get stNormalSub => 'تُحتسب مجموعة واحدة.';
+  String get stNormalSub => 'مجموعة عمل فعّالة';
 
   @override
   String get stFailure => 'حتى الفشل';
 
   @override
-  String get stFailureSub => 'تُحتسب مجموعة واحدة.';
+  String get stFailureSub => 'حتى الفشل التقني';
 
   @override
   String get stDrop => 'مجموعة تنازلية';
 
   @override
-  String get stDropSub => 'تُحتسب نصف مجموعة.';
+  String get stDropSub => 'تُحسب نصف مجموعة';
 
   @override
-  String get removeSet => 'احذف المجموعة';
+  String get removeSet => 'أزل هذه المجموعة';
 
   @override
   String get removeExercise => 'احذف التمرين';
@@ -1498,4 +1498,719 @@ class AppLocalizationsAr extends AppLocalizations {
   String lessOf(String what) {
     return 'قلّل $what';
   }
+
+  @override
+  String get trainTitleEm => 'تمرّن <em>بقوة</em>';
+
+  @override
+  String trainSub(int days, int week) {
+    return '$days أيام في الأسبوع · الأسبوع $week';
+  }
+
+  @override
+  String get noWeeklyPlan => 'لا خطة أسبوعية بعد';
+
+  @override
+  String dayAhead(String date) {
+    return '$date · قادم';
+  }
+
+  @override
+  String dayClosed(String date) {
+    return '$date · مُغلق';
+  }
+
+  @override
+  String get todayLbl => 'اليوم';
+
+  @override
+  String plannedOn(String day) {
+    return 'مُخطط · $day';
+  }
+
+  @override
+  String movedHere(String day) {
+    return 'نُقل إلى هنا · كان $day';
+  }
+
+  @override
+  String loggedOfPlanned(int done, int total, int sets) {
+    return 'سُجّل $done من $total · $sets مجموعة مخططة';
+  }
+
+  @override
+  String setsAbout(int sets, int min) {
+    return '$sets مجموعة · نحو $min دقيقة';
+  }
+
+  @override
+  String get startEarly => 'ابدأ مبكرًا';
+
+  @override
+  String get startAll => 'ابدأ الكل';
+
+  @override
+  String get startEarlyNote => 'البدء مبكرًا يقدّم بقية الأسبوع معه — الخطة تحفظ ترتيبها لا تواريخها.';
+
+  @override
+  String get lastTimeRan => 'آخر مرة نفّذتها';
+
+  @override
+  String get somethingElse => 'شيء آخر بدلًا منه';
+
+  @override
+  String restMissed(String name) {
+    return 'كان $name مستحقًا ولم يُسجَّل شيء. انتقل إلى يوم تمرينك التالي — الأسبوع ينزلق والترتيب يبقى.';
+  }
+
+  @override
+  String restAhead(String day) {
+    return 'لا شيء مجدول. $day من أيام الراحة هذا الأسبوع.';
+  }
+
+  @override
+  String get restPast => 'لم يُسجَّل شيء ولم يكن شيء مستحقًا. في التعافي تتحول الحصة الماضية إلى التالية.';
+
+  @override
+  String get nextSession => 'الحصة التالية';
+
+  @override
+  String get sessionAfter => 'الحصة بعدها';
+
+  @override
+  String get logAnyway => 'سجّل شيئًا على أي حال';
+
+  @override
+  String get allRoutines => 'كل البرامج';
+
+  @override
+  String allRoutinesSub(int n) {
+    return '$n برامج · مكتبة تمارينك';
+  }
+
+  @override
+  String weeklySetsOf(String group) {
+    return 'المجموعات الأسبوعية · $group';
+  }
+
+  @override
+  String hardSetsN(int n) {
+    return '$n مجموعة فعّالة';
+  }
+
+  @override
+  String get zoneIn => 'في النطاق المنتج';
+
+  @override
+  String get zoneUnder => 'دون النطاق المنتج';
+
+  @override
+  String get zoneOver => 'فوق النطاق المنتج';
+
+  @override
+  String get gBack => 'الظهر';
+
+  @override
+  String get gLegs => 'الأرجل';
+
+  @override
+  String get gCore => 'الجذع';
+
+  @override
+  String get closedLbl => 'مُغلق';
+
+  @override
+  String get hardSetsLbl => 'مجموعات فعّالة';
+
+  @override
+  String get bestSetEach => 'أفضل مجموعة لكل تمرين';
+
+  @override
+  String runAgain(String name) {
+    return 'نفّذ $name مجددًا';
+  }
+
+  @override
+  String get trainEmptyBody => 'لا شيء هنا بعد. ابدأ بقالب مجرّب، أو ابنِ تمامًا ما تفعله الآن.';
+
+  @override
+  String get startEmptyWorkout => 'ابدأ تمرينًا فارغًا';
+
+  @override
+  String get startEmptySub => 'أضف التمارين أثناءه — ويصبح برنامجًا بعدها';
+
+  @override
+  String get buildOwn => 'ابنِ برنامجي بنفسي';
+
+  @override
+  String get buildOwnSub => 'برامج بلا حدود، مجانًا';
+
+  @override
+  String get orTemplate => 'أو ابدأ من قالب';
+
+  @override
+  String get tplUL => 'علوي / سفلي، 4 أيام';
+
+  @override
+  String get tplULSub => '12–18 مجموعة لكل عضلة أسبوعيًا · متوسط';
+
+  @override
+  String get tplPPL => 'دفع / سحب / أرجل، 6 أيام';
+
+  @override
+  String get tplPPLSub => 'تكرار عالٍ · متقدم';
+
+  @override
+  String get tplFB => 'الجسم كاملًا، 3 أيام';
+
+  @override
+  String get tplFBSub => 'الخيار الأفضل أثناء التنشيف · أي مستوى';
+
+  @override
+  String templateAdded(String name) {
+    return 'أُضيف $name إلى خطتك الأسبوعية';
+  }
+
+  @override
+  String get tplUpperA => 'علوي أ';
+
+  @override
+  String get tplUpperB => 'علوي ب';
+
+  @override
+  String get tplLowerA => 'سفلي أ';
+
+  @override
+  String get tplLowerB => 'سفلي ب';
+
+  @override
+  String get tplPushA => 'دفع أ';
+
+  @override
+  String get tplPushB => 'دفع ب';
+
+  @override
+  String get tplPullA => 'سحب أ';
+
+  @override
+  String get tplPullB => 'سحب ب';
+
+  @override
+  String get tplLegsA => 'أرجل أ';
+
+  @override
+  String get tplLegsB => 'أرجل ب';
+
+  @override
+  String get tplFullA => 'جسم كامل أ';
+
+  @override
+  String get tplFullB => 'جسم كامل ب';
+
+  @override
+  String get tplFullC => 'جسم كامل ج';
+
+  @override
+  String inProgressName(String name) {
+    return '$name قيد التنفيذ';
+  }
+
+  @override
+  String resumeSub(String time, int done, int total) {
+    return '$time · $done من $total مجموعة';
+  }
+
+  @override
+  String get discardShort => 'تجاهل';
+
+  @override
+  String get workoutDiscarded => 'تم تجاهل التمرين — لم يُحفظ شيء';
+
+  @override
+  String routinesSubLib(int n) {
+    return '$n برامج · واحد لكل يوم، أو أي يوم';
+  }
+
+  @override
+  String get newShort => 'جديد';
+
+  @override
+  String get folderPlan => 'الخطة الأسبوعية';
+
+  @override
+  String get folderMine => 'برامجي';
+
+  @override
+  String get anyDay => 'أي يوم';
+
+  @override
+  String everyDay(String day) {
+    return 'كل $day';
+  }
+
+  @override
+  String routineCardSub(String when, int sets) {
+    return '$when · $sets مجموعة';
+  }
+
+  @override
+  String get addToFolder => 'أضف برنامجًا إلى هذا المجلد';
+
+  @override
+  String get myExercises => 'تماريني';
+
+  @override
+  String myExercisesSub(int n) {
+    return '$n في المكتبة · مجانًا دائمًا';
+  }
+
+  @override
+  String get exploreRoutines => 'استكشف البرامج';
+
+  @override
+  String get exploreSub => 'قوالب حجم مجموعاتها ضمن النطاق المدعوم بالأدلة';
+
+  @override
+  String optionsFor(String name) {
+    return 'خيارات $name';
+  }
+
+  @override
+  String get startRoutineFull => 'ابدأ البرنامج';
+
+  @override
+  String get editRoutineSub => 'التمارين وعدد المجموعات ونطاق التكرارات';
+
+  @override
+  String get duplicate => 'نسخ';
+
+  @override
+  String get duplicateSub => 'نسخة تغيّرها دون المساس بهذا';
+
+  @override
+  String get deleteRoutineSub => 'سجلك يبقى';
+
+  @override
+  String copyName(String name) {
+    return 'نسخة $name';
+  }
+
+  @override
+  String duplicated(String name) {
+    return 'نُسخ باسم $name';
+  }
+
+  @override
+  String deleteNamed(String name) {
+    return 'حذف $name؟';
+  }
+
+  @override
+  String get keepIt => 'أبقِه';
+
+  @override
+  String get neverRun => 'لم يُنفَّذ بعد';
+
+  @override
+  String doneOn(String date) {
+    return 'نُفّذ $date';
+  }
+
+  @override
+  String get estDuration => 'المدة التقديرية';
+
+  @override
+  String get exercisesLbl => 'التمارين';
+
+  @override
+  String itemLine(int sets, String reps, int rir, String rest) {
+    return '$sets مجموعات · $reps تكرار @ RIR $rir · راحة $rest';
+  }
+
+  @override
+  String get weekEffect => 'ما يفعله هذا بأسبوعك';
+
+  @override
+  String get weekIfSave => 'المجموعات الأسبوعية إن حفظته';
+
+  @override
+  String setsWkState(String state) {
+    return 'مجموعة/أسبوع · $state';
+  }
+
+  @override
+  String get inRange => 'ضمن النطاق';
+
+  @override
+  String get belowRange => 'دون النطاق';
+
+  @override
+  String get aboveRange => 'فوق النطاق';
+
+  @override
+  String get volumeNote =>
+      'محسوبًا فوق ما يفعله بقية أسبوعك. عشر إلى عشرين مجموعة فعّالة لكل عضلة أسبوعيًا هو ما تدعمه الأدلة بقوة — تحته تترك نموًا، وفوقه تشتري تعبًا غالبًا.';
+
+  @override
+  String exLineLabel(String name, int sets, String reps) {
+    return '$name، $sets مجموعات من $reps';
+  }
+
+  @override
+  String get loggedLbl => 'سُجّل';
+
+  @override
+  String startOnItsOwn(String name) {
+    return 'ابدأ $name وحده';
+  }
+
+  @override
+  String builderSub(int n, int sets, int min) {
+    return '$n تمارين · $sets مجموعة · نحو $min دقيقة';
+  }
+
+  @override
+  String get nothingYet => 'لا شيء فيه بعد';
+
+  @override
+  String get nameLbl => 'الاسم';
+
+  @override
+  String get namePlaceholder => 'دفع أ، أرجل ثقيلة، الثلاثاء…';
+
+  @override
+  String get folderLbl => 'المجلد';
+
+  @override
+  String get dayLbl => 'اليوم';
+
+  @override
+  String dayTakenBy(String day, String name) {
+    return '$day، يشغله $name';
+  }
+
+  @override
+  String dayTaken(String name, String day) {
+    return '$name مخصص ليوم $day. الحفظ ينقله إلى «أي يوم».';
+  }
+
+  @override
+  String get anyDayNote => 'نفّذه متى شئت — يبقى خارج الدورة الأسبوعية.';
+
+  @override
+  String get dayNote => 'إن فاتك ينتقل إلى يوم تمرينك التالي، محافظًا على ترتيب الخطة.';
+
+  @override
+  String get builderEmpty => 'لا تمارين بعد. أضف الأول وسيُظهر جيمكو أثره على مجموعاتك الأسبوعية أولًا بأول.';
+
+  @override
+  String repsChip(String reps) {
+    return '$reps تكرار';
+  }
+
+  @override
+  String restChip(String t) {
+    return 'راحة $t';
+  }
+
+  @override
+  String get oneSetFewer => 'مجموعة أقل';
+
+  @override
+  String get oneSetMore => 'مجموعة أكثر';
+
+  @override
+  String get moveUp => 'انقل لأعلى';
+
+  @override
+  String get moveDown => 'انقل لأسفل';
+
+  @override
+  String get repRangeLbl => 'نطاق التكرارات';
+
+  @override
+  String repRangeTitle(String name) {
+    return 'نطاق التكرارات · $name';
+  }
+
+  @override
+  String get repRangeNote =>
+      'أي عدد من خمسة إلى ثلاثين تكرارًا يبني العضل إن اقتربت المجموعة من الفشل. النطاقات الأثقل تكلّف راحة ومفاصل أكثر، والأخف تكلّف انزعاجًا أكثر.';
+
+  @override
+  String restBetween(String name) {
+    return 'الراحة بين المجموعات · $name';
+  }
+
+  @override
+  String restBetweenSub(String t) {
+    return '$t بين المجموعات';
+  }
+
+  @override
+  String get restBetweenNote => 'هذا ما سيقترحه المؤقت أثناء التمرين. يمكنك تغييره مجموعة بمجموعة هناك.';
+
+  @override
+  String get removeFromRoutine => 'أزل من البرنامج';
+
+  @override
+  String get hintName => 'سمّه لتحفظه';
+
+  @override
+  String get hintTaken => 'هذا الاسم مستخدم';
+
+  @override
+  String get hintExercise => 'أضف تمرينًا واحدًا على الأقل';
+
+  @override
+  String get saveRoutine => 'احفظ البرنامج';
+
+  @override
+  String routineSaved(String name) {
+    return 'حُفظ $name';
+  }
+
+  @override
+  String get leaveTitle => 'المغادرة دون حفظ؟';
+
+  @override
+  String leaveEditing(String name) {
+    return 'ستُلغى تغييراتك على $name.';
+  }
+
+  @override
+  String get leaveNew => 'لم يُحفظ هذا البرنامج بعد.';
+
+  @override
+  String get keepEditing => 'تابع التعديل';
+
+  @override
+  String get minimise => 'صغّر التمرين';
+
+  @override
+  String get restTimer => 'مؤقت الراحة';
+
+  @override
+  String get offLbl => 'متوقف';
+
+  @override
+  String get notePlaceholder => 'أضف ملاحظة — تلميح، ضبط الجهاز، كيف شعرت';
+
+  @override
+  String get setH => '#';
+
+  @override
+  String get rirLbl => 'RIR';
+
+  @override
+  String completeSet(String n) {
+    return 'أكمل المجموعة $n';
+  }
+
+  @override
+  String setTypeLabel(String type) {
+    return 'نوع المجموعة: $type';
+  }
+
+  @override
+  String get supersetBadge => 'سوبر سِت · بلا راحة بينهما';
+
+  @override
+  String get unlink => 'افصل';
+
+  @override
+  String get supersetNote => 'لا يبدأ المؤقت إلا بعد إنهاء الزوج. كلاهما يُحسب مجموعة كاملة لعضلاته.';
+
+  @override
+  String get emptyWorkoutBody => 'تمرين فارغ. الساعة تعمل بالفعل — أضف التمرين الأول متى كنت جاهزًا.';
+
+  @override
+  String restAfterEachTitle(String name) {
+    return 'الراحة بعد كل مجموعة · $name';
+  }
+
+  @override
+  String get restNote =>
+      'ثلاث دقائق أو أكثر للتمارين المركبة الثقيلة — الراحة الأقصر تكلّفك تكرارات، والتكرارات هي المحفّز.';
+
+  @override
+  String restAfterEach(String t) {
+    return '$t بعد كل مجموعة';
+  }
+
+  @override
+  String get restOffFor => 'متوقف لهذا التمرين';
+
+  @override
+  String get supersetNext => 'سوبر سِت مع التمرين التالي';
+
+  @override
+  String get supersetNextSub => 'بلا راحة بينهما';
+
+  @override
+  String get seeHistory => 'اعرض السجل وأقصى تكرار';
+
+  @override
+  String get removeFromWorkout => 'أزل من هذا التمرين';
+
+  @override
+  String removedFromWorkout(String name) {
+    return 'أُزيل $name من هذا التمرين';
+  }
+
+  @override
+  String get nothingAfter => 'لا شيء بعده لإقرانه به';
+
+  @override
+  String get supersetted => 'تم الإقران — المؤقت ينتظر الاثنين';
+
+  @override
+  String exAdded(String name) {
+    return 'أُضيف $name';
+  }
+
+  @override
+  String get resting => 'راحة';
+
+  @override
+  String restingFor(String t) {
+    return 'راحة، متبقٍ $t';
+  }
+
+  @override
+  String nextSetOf(String name, int n) {
+    return 'التالي: $name، المجموعة $n';
+  }
+
+  @override
+  String get lastSetDone => 'آخر مجموعة انتهت';
+
+  @override
+  String get minus15 => '−15ث';
+
+  @override
+  String get setRemoved => 'أُزيلت المجموعة';
+
+  @override
+  String get rirTitle => 'التكرارات المتبقية';
+
+  @override
+  String get rirNote => 'كم تكرارًا إضافيًا كنت تستطيع بأداء سليم.';
+
+  @override
+  String editSetTitle(String n, String name) {
+    return 'المجموعة $n · $name';
+  }
+
+  @override
+  String lastTimeSet(String set) {
+    return 'آخر مرة: $set';
+  }
+
+  @override
+  String get nothingTicked => 'لم تُعلَّم أي مجموعة، فلم يُحفظ شيء';
+
+  @override
+  String setsUnticked(int n) {
+    return '$n مجموعة بقيت دون علامة — ليست في السجل';
+  }
+
+  @override
+  String doneTitle(String name) {
+    return '$name — انتهى';
+  }
+
+  @override
+  String get volumeExplain =>
+      'الحجم هو كل مجموعة عمل مكتملة مضروبة. الإحماء في السجل لكنه ليس في هذا الرقم، ولا في عدّ مجموعاتك الأسبوعية.';
+
+  @override
+  String get prLbl => 'رقم قياسي';
+
+  @override
+  String insightIn(String group, String sets) {
+    return '$group عند $sets هذا الأسبوع — ضمن نطاق 10–20 الأقوى دليلًا. لا شيء يتغيّر.';
+  }
+
+  @override
+  String insightUnder(String group, String sets) {
+    return '$group عند $sets هذا الأسبوع — دون نطاق 10–20. حصة أو اثنتان تضعه فيه.';
+  }
+
+  @override
+  String insightOver(String group, String sets) {
+    return '$group عند $sets هذا الأسبوع — فوق 20. بعدها غالبًا تعب فقط.';
+  }
+
+  @override
+  String get saveAsRoutine => 'احفظه كبرنامج';
+
+  @override
+  String get share => 'مشاركة';
+
+  @override
+  String shareText(String name, String time, String volume, String sets) {
+    return '$name · $time · $volume · $sets مجموعة فعّالة';
+  }
+
+  @override
+  String soloLogged(String name) {
+    return 'سُجّل $name — بقية اليوم ما زالت هناك';
+  }
+
+  @override
+  String get est1rm => 'أقصى تكرار تقديري';
+
+  @override
+  String trendKg(String delta, int w) {
+    return '$delta كغ / $w أسابيع';
+  }
+
+  @override
+  String get months6 => '6 أشهر';
+
+  @override
+  String get chartNeedsTwo => 'تمرينان بهذا التمرين ويبدأ خط الاتجاه.';
+
+  @override
+  String get best5 => 'أفضل 5 تكرارات';
+
+  @override
+  String get best8 => 'أفضل 8 تكرارات';
+
+  @override
+  String get setsWk => 'مجموعة / أسبوع';
+
+  @override
+  String get exClimbing => 'هذا التمرين ما زال يرتفع. أيًّا كان ما تفعله بالعجز فهو محتمل — لا سبب للإبطاء بعد.';
+
+  @override
+  String get exFlat => 'ثابت. في العجز، الثبات انتصار.';
+
+  @override
+  String get exDropping => 'أقل مما كان قبل ثمانية أسابيع. راجع النوم وحجم العجز قبل لوم البرنامج.';
+
+  @override
+  String get exNoHistory => 'لا سجل بعد. سجّله مرة ويبدأ اتجاه أقصى تكرار هنا.';
+
+  @override
+  String get historyLbl => 'السجل';
+
+  @override
+  String get back => 'رجوع';
+
+  @override
+  String get addAnExercise => 'أضف تمرينًا';
+
+  @override
+  String get searchLibrary => 'ابحث في مكتبة التمارين';
+
+  @override
+  String get noExerciseMatch => 'لا نتائج. جرّب كلمة أقصر أو عضلة أخرى.';
+
+  @override
+  String get inLbl => 'مُضاف';
+
+  @override
+  String get alreadyIn => 'موجود في هذا التمرين';
 }

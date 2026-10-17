@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/templates.dart';
 import '../data/training.dart';
 import '../domain/schedule.dart';
 import '../domain/session.dart';
@@ -52,9 +53,68 @@ class RoutineActions {
     await ref.read(dbProvider).deleteRoutine(id);
     ref.invalidate(routinesProvider);
   }
+
+  /// A name no routine has yet: [base], then "base 2", "base 3"…
+  Future<String> freeName(String base) async {
+    final taken = {for (final r in await ref.read(routinesProvider.future)) r.name.toLowerCase()};
+    if (!taken.contains(base.toLowerCase())) return base;
+    for (var n = 2; ; n++) {
+      final c = '$base $n';
+      if (!taken.contains(c.toLowerCase())) return c;
+    }
+  }
+
+  /// A copy off the weekly rotation, so it never moves the original.
+  Future<String> duplicate(Routine r, String copyName) async {
+    final name = await freeName(copyName);
+    await save(r.copyWith(id: () => null, name: name, weekday: () => null, folder: RoutineFolder.mine));
+    return name;
+  }
+
+  /// Add a starter block to the weekly plan. [name] gives each role its
+  /// name in the user's language.
+  Future<void> applyTemplate(TemplateKind k, String Function(String role) name) async {
+    for (final t in templateRoutines(k)) {
+      await save(
+        Routine(
+          id: null,
+          name: await freeName(name(t.role)),
+          items: t.items,
+          weekday: t.weekday,
+          folder: RoutineFolder.plan,
+        ),
+      );
+    }
+  }
 }
 
 final routineActionsProvider = Provider<RoutineActions>(RoutineActions.new);
+
+/// When each routine was last run, by routine id.
+final lastRunProvider = Provider<Map<int, DateTime>>((ref) {
+  final out = <int, DateTime>{};
+  for (final w in ref.watch(recentWorkoutsProvider).value ?? const <WorkoutRecord>[]) {
+    final id = w.routineId;
+    if (id != null && (out[id] == null || w.startedAt.isAfter(out[id]!))) out[id] = w.startedAt;
+  }
+  return out;
+});
+
+/// Exercises with a set logged today, so a routine run one exercise at a
+/// time shows which are done.
+final loggedTodayProvider = FutureProvider<Set<String>>((ref) async {
+  ref.watch(recentWorkoutsProvider);
+  final t = ref.watch(clockProvider)();
+  final sets = await ref.watch(dbProvider).setsSince(DateTime(t.year, t.month, t.day));
+  return {for (final s in sets) s.exerciseId};
+});
+
+/// Hard sets logged per exercise since Monday.
+final setsThisWeekProvider = FutureProvider<List<LoggedExerciseSet>>((ref) async {
+  ref.watch(recentWorkoutsProvider);
+  final t = ref.watch(clockProvider)();
+  return ref.watch(dbProvider).setsSince(DateTime(t.year, t.month, t.day - (t.weekday - 1)));
+});
 
 /// The result of finishing: what was saved and which lifts set a new best.
 class FinishedWorkout {
@@ -103,12 +163,11 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
           repLow: item.repLow,
           repHigh: item.repHigh,
           restSeconds: item.restSeconds,
+          rir: item.rir,
+          previous: prev,
           sets: [
             for (var i = 0; i < item.sets; i++)
-              SessionSet(
-                weightKg: i < prev.length ? prev[i].weightKg : (prev.isEmpty ? null : prev.last.weightKg),
-                reps: i < prev.length ? prev[i].reps : null,
-              ),
+              SessionSet(weightKg: i < prev.length ? prev[i].weightKg : (prev.isEmpty ? null : prev.last.weightKg)),
           ],
         ),
       );
@@ -116,18 +175,37 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
     _set(WorkoutSession.start(name: r.name, now: _now, routineId: r.id, exercises: exercises));
   }
 
+  /// One exercise of a routine, on its own. Same screen, same logging; the
+  /// day shows it done and keeps the rest of the routine there.
+  Future<void> startOne(Routine r, int index, ExerciseLibrary lib) async {
+    await startRoutine(
+      Routine(id: null, name: lib[r.items[index].exerciseId]?.shortName ?? r.name, items: [r.items[index]]),
+      lib,
+    );
+  }
+
   void update(WorkoutSession Function(WorkoutSession s, DateTime now) f) {
     final s = state;
     if (s != null) _set(f(s, _now));
   }
 
-  void addExercises(Iterable<Exercise> list) => update((s, _) {
-    var next = s;
+  Future<void> addExercises(Iterable<Exercise> list) async {
+    final db = ref.read(dbProvider);
+    final adds = <SessionExercise>[];
     for (final e in list) {
-      next = next.addExercise(SessionExercise(exerciseId: e.id, name: e.name, sets: const [SessionSet()]));
+      final prev = await db.lastSetsFor(e.id);
+      final kg = prev.isEmpty ? null : prev.first.weightKg;
+      adds.add(
+        SessionExercise(
+          exerciseId: e.id,
+          name: e.name,
+          previous: prev,
+          sets: [for (var i = 0; i < 3; i++) SessionSet(weightKg: i < prev.length ? prev[i].weightKg : kg)],
+        ),
+      );
     }
-    return next;
-  });
+    update((s, _) => adds.fold(s, (n, e) => n.addExercise(e)));
+  }
 
   void discard() => _set(null);
 
@@ -148,3 +226,13 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
 }
 
 final activeWorkoutProvider = NotifierProvider<ActiveWorkoutNotifier, WorkoutSession?>(ActiveWorkoutNotifier.new);
+
+final setsOfWorkoutProvider = FutureProvider.family<List<LoggedExerciseSet>, int>(
+  (ref, id) => ref.watch(dbProvider).setsOf(id),
+);
+
+/// One exercise's history, newest workout first.
+final exerciseHistoryProvider = FutureProvider.family<List<(DateTime, List<LoggedExerciseSet>)>, String>((ref, id) {
+  ref.watch(recentWorkoutsProvider);
+  return ref.watch(dbProvider).historyOf(id);
+});

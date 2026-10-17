@@ -16,8 +16,14 @@ import 'ui/me/me_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/shell.dart';
 import 'ui/today/today_screen.dart';
+import 'data/training.dart';
+import 'state/training_providers.dart';
+import 'ui/train/builder_screen.dart';
 import 'ui/train/exercise_picker_screen.dart';
-import 'ui/train/routine_editor_screen.dart';
+import 'ui/train/exercise_screen.dart';
+import 'ui/train/library_screen.dart';
+import 'ui/train/routine_screen.dart';
+import 'ui/train/summary_screen.dart';
 import 'ui/train/train_screen.dart';
 import 'ui/train/workout_screen.dart';
 
@@ -39,13 +45,30 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/scan', builder: (_, _) => const ScanScreen()),
       GoRoute(path: '/workout', builder: (_, _) => const WorkoutScreen()),
       GoRoute(path: '/exercises/pick', builder: (_, _) => const ExercisePickerScreen()),
+      GoRoute(path: '/exercises/browse', builder: (_, _) => const ExercisePickerScreen(browse: true)),
       GoRoute(
         path: '/exercise/:id',
-        builder: (_, s) => ExerciseDetailScreen(exerciseId: s.pathParameters['id']!),
+        builder: (_, s) => ExerciseScreen(exerciseId: s.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/summary',
+        redirect: (_, s) => s.extra is FinishedWorkout ? null : '/train',
+        builder: (_, s) => SummaryScreen(done: s.extra! as FinishedWorkout),
+      ),
+      GoRoute(
+        path: '/routine/new',
+        builder: (_, s) => BuilderScreen(
+          folder: s.uri.queryParameters['folder'] == 'mine' ? RoutineFolder.mine : RoutineFolder.plan,
+          seed: s.extra is Routine ? s.extra! as Routine : null,
+        ),
+      ),
+      GoRoute(
+        path: '/routine/:id/view',
+        builder: (_, s) => RoutineScreen(routineId: int.parse(s.pathParameters['id']!)),
       ),
       GoRoute(
         path: '/routine/:id',
-        builder: (_, s) => RoutineEditorScreen(routineId: int.tryParse(s.pathParameters['id']!)),
+        builder: (_, s) => BuilderScreen(routineId: int.tryParse(s.pathParameters['id']!)),
       ),
       GoRoute(
         path: '/add/:meal',
@@ -90,7 +113,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
           StatefulShellBranch(
-            routes: [GoRoute(path: '/train', builder: (_, _) => const TrainScreen())],
+            routes: [
+              GoRoute(
+                path: '/train',
+                builder: (_, _) => const TrainScreen(),
+                routes: [GoRoute(path: 'routines', builder: (_, _) => const LibraryScreen())],
+              ),
+            ],
           ),
           StatefulShellBranch(
             routes: [

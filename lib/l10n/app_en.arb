@@ -207,10 +207,10 @@
   "routineName": "Routine name",
   "addExercise": "Add exercise",
   "save": "Save",
-  "nameTaken": "You already have a routine called “{name}”.",
+  "nameTaken": "You already have a routine called {name}. Pick another name or edit that one.",
   "deleteRoutine": "Delete routine",
   "deleteRoutineTitle": "Delete this routine?",
-  "deleteRoutineBody": "Workouts you've already done stay in your history.",
+  "deleteRoutineBody": "The routine goes. Every workout you already logged from it stays in your history, with its sets and PRs.",
   "edit": "Edit",
   "setsLabel": "Sets",
   "repsLabel": "Reps",
@@ -245,7 +245,7 @@
   "unfinishedBody": "Only ticked sets are saved.",
   "finishAnyway": "Finish",
   "keepGoing": "Keep going",
-  "durationLbl": "Time",
+  "durationLbl": "Duration",
   "volumeLbl": "Volume",
   "setsDoneLbl": "Sets",
   "addSet": "Add set",
@@ -256,14 +256,14 @@
   "skip": "Skip",
   "setTypeTitle": "Set type",
   "stWarmup": "Warm-up",
-  "stWarmupSub": "Primes the lift. Not counted toward weekly sets.",
-  "stNormal": "Working set",
-  "stNormalSub": "Counts as one hard set.",
-  "stFailure": "To failure",
-  "stFailureSub": "Counts as one hard set.",
+  "stWarmupSub": "Does not count toward weekly sets",
+  "stNormal": "Normal",
+  "stNormalSub": "A hard working set",
+  "stFailure": "Failure",
+  "stFailureSub": "Taken to technical failure",
   "stDrop": "Drop set",
-  "stDropSub": "Counts as half a set.",
-  "removeSet": "Remove set",
+  "stDropSub": "Counts as half a set",
+  "removeSet": "Remove this set",
   "removeExercise": "Remove exercise",
   "summaryTitle": "Workout done",
   "newBest": "New best: {exercise}",
@@ -968,5 +968,678 @@
         "type": "String"
       }
     }
-  }
+  },
+  "trainTitleEm": "Train <em>hard</em>",
+  "trainSub": "{days} days a week · week {week}",
+  "@trainSub": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "noWeeklyPlan": "No weekly plan yet",
+  "dayAhead": "{date} · ahead",
+  "@dayAhead": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "dayClosed": "{date} · closed",
+  "@dayClosed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "todayLbl": "Today",
+  "plannedOn": "Planned · {day}",
+  "@plannedOn": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "movedHere": "Moved here · was {day}",
+  "@movedHere": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "loggedOfPlanned": "{done} of {total} logged · {sets} sets planned",
+  "@loggedOfPlanned": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
+  "setsAbout": "{sets} sets · about {min} min",
+  "@setsAbout": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "startEarly": "Start early",
+  "startAll": "Start all",
+  "startEarlyNote": "Starting it early moves the rest of the week up with it — the block keeps its order, not its dates.",
+  "lastTimeRan": "Last time you ran it",
+  "somethingElse": "Something else instead",
+  "restMissed": "{name} was due and nothing was logged. It moved to the next day you train — the week slides, the order holds.",
+  "@restMissed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restAhead": "Nothing scheduled. {day} is one of the days off this week.",
+  "@restAhead": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "restPast": "Nothing was logged, and nothing was due. Recovery is where the last session turns into the next one.",
+  "nextSession": "Next session",
+  "sessionAfter": "The session after",
+  "logAnyway": "Log something anyway",
+  "allRoutines": "All routines",
+  "allRoutinesSub": "{n, plural, =1{1 routine} other{{n} routines}} · your exercise library",
+  "@allRoutinesSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "weeklySetsOf": "Weekly sets · {group}",
+  "@weeklySetsOf": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "hardSetsN": "{n, plural, =1{1 hard set} other{{n} hard sets}}",
+  "@hardSetsN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "zoneIn": "in the productive zone",
+  "zoneUnder": "below the productive zone",
+  "zoneOver": "above the productive zone",
+  "gBack": "Back",
+  "gLegs": "Legs",
+  "gCore": "Core",
+  "closedLbl": "Closed",
+  "hardSetsLbl": "Hard sets",
+  "bestSetEach": "Best set of each exercise",
+  "runAgain": "Run {name} again",
+  "@runAgain": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "trainEmptyBody": "Nothing here yet. Start from a proven template, or build exactly what you already do.",
+  "startEmptyWorkout": "Start an empty workout",
+  "startEmptySub": "Add exercises as you go — it becomes a routine after",
+  "buildOwn": "Build my own routine",
+  "buildOwnSub": "Unlimited routines, free",
+  "orTemplate": "Or start from a template",
+  "tplUL": "Upper / Lower, 4 days",
+  "tplULSub": "12–18 sets per muscle a week · intermediate",
+  "tplPPL": "Push / Pull / Legs, 6 days",
+  "tplPPLSub": "High frequency · advanced",
+  "tplFB": "Full body, 3 days",
+  "tplFBSub": "The one to pick while cutting · any level",
+  "templateAdded": "{name} added to your weekly plan",
+  "@templateAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tplUpperA": "Upper A",
+  "tplUpperB": "Upper B",
+  "tplLowerA": "Lower A",
+  "tplLowerB": "Lower B",
+  "tplPushA": "Push A",
+  "tplPushB": "Push B",
+  "tplPullA": "Pull A",
+  "tplPullB": "Pull B",
+  "tplLegsA": "Legs A",
+  "tplLegsB": "Legs B",
+  "tplFullA": "Full body A",
+  "tplFullB": "Full body B",
+  "tplFullC": "Full body C",
+  "inProgressName": "{name} in progress",
+  "@inProgressName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "resumeSub": "{time} · {done} of {total} sets",
+  "@resumeSub": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "discardShort": "Discard",
+  "workoutDiscarded": "Workout discarded — nothing was saved",
+  "routinesSubLib": "{n, plural, =1{1 routine} other{{n} routines}} · one per day, or any day",
+  "@routinesSubLib": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "newShort": "New",
+  "folderPlan": "Weekly plan",
+  "folderMine": "My routines",
+  "anyDay": "Any day",
+  "everyDay": "Every {day}",
+  "@everyDay": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "routineCardSub": "{when} · {sets} sets",
+  "@routineCardSub": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
+  "addToFolder": "Add a routine to this folder",
+  "myExercises": "My exercises",
+  "myExercisesSub": "{n} in the library · always free",
+  "@myExercisesSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "exploreRoutines": "Explore routines",
+  "exploreSub": "Templates with the set volume already inside the evidence range",
+  "optionsFor": "Options for {name}",
+  "@optionsFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "startRoutineFull": "Start routine",
+  "editRoutineSub": "Exercises, set counts, rep ranges",
+  "duplicate": "Duplicate",
+  "duplicateSub": "A copy you can change without touching this one",
+  "deleteRoutineSub": "Your logged history stays",
+  "copyName": "{name} copy",
+  "@copyName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "duplicated": "Copied as {name}",
+  "@duplicated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteNamed": "Delete {name}?",
+  "@deleteNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "keepIt": "Keep it",
+  "neverRun": "never run",
+  "doneOn": "done {date}",
+  "@doneOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "estDuration": "Est duration",
+  "exercisesLbl": "Exercises",
+  "itemLine": "{sets} sets · {reps} reps @ RIR {rir} · rest {rest}",
+  "@itemLine": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "reps": {
+        "type": "String"
+      },
+      "rir": {
+        "type": "int"
+      },
+      "rest": {
+        "type": "String"
+      }
+    }
+  },
+  "weekEffect": "What this does to your week",
+  "weekIfSave": "Weekly sets if you save this",
+  "setsWkState": "sets/wk · {state}",
+  "@setsWkState": {
+    "placeholders": {
+      "state": {
+        "type": "String"
+      }
+    }
+  },
+  "inRange": "in range",
+  "belowRange": "below range",
+  "aboveRange": "above range",
+  "volumeNote": "Counting this routine on top of what the rest of your week already does. Ten to twenty hard sets a muscle a week is where the evidence is strongest — under it you are leaving growth on the table, over it you are mostly buying fatigue.",
+  "exLineLabel": "{name}, {sets} sets of {reps}",
+  "@exLineLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "sets": {
+        "type": "int"
+      },
+      "reps": {
+        "type": "String"
+      }
+    }
+  },
+  "loggedLbl": "Logged",
+  "startOnItsOwn": "Start {name} on its own",
+  "@startOnItsOwn": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "builderSub": "{n} exercises · {sets} sets · about {min} min",
+  "@builderSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      },
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "nothingYet": "Nothing in it yet",
+  "nameLbl": "Name",
+  "namePlaceholder": "Push A, Legs heavy, Tuesday…",
+  "folderLbl": "Folder",
+  "dayLbl": "Day",
+  "dayTakenBy": "{day}, taken by {name}",
+  "@dayTakenBy": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dayTaken": "{name} is already on {day}. Saving this moves that one to Any day.",
+  "@dayTaken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "anyDayNote": "Run it whenever — it stays out of the weekly rotation.",
+  "dayNote": "Miss it and it moves to your next training day, keeping the block in order.",
+  "builderEmpty": "No exercises yet. Add the first one and Gymco will show what it does to your weekly set count as you go.",
+  "repsChip": "{reps} reps",
+  "@repsChip": {
+    "placeholders": {
+      "reps": {
+        "type": "String"
+      }
+    }
+  },
+  "restChip": "rest {t}",
+  "@restChip": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "oneSetFewer": "One set fewer",
+  "oneSetMore": "One set more",
+  "moveUp": "Move up",
+  "moveDown": "Move down",
+  "repRangeLbl": "Rep range",
+  "repRangeTitle": "Rep range · {name}",
+  "@repRangeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "repRangeNote": "Anything from five to thirty reps builds muscle if the set is taken close to failure. Heavier ranges cost more rest and more joints; lighter ones cost more discomfort.",
+  "restBetween": "Rest between sets · {name}",
+  "@restBetween": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restBetweenSub": "{t} between sets",
+  "@restBetweenSub": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "restBetweenNote": "This is what the timer will suggest during the workout. You can still change it set by set once you are in there.",
+  "removeFromRoutine": "Remove from routine",
+  "hintName": "Give it a name to save",
+  "hintTaken": "That name is taken",
+  "hintExercise": "Add at least one exercise",
+  "saveRoutine": "Save routine",
+  "routineSaved": "{name} saved",
+  "@routineSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveTitle": "Leave without saving?",
+  "leaveEditing": "Your changes to {name} will be dropped.",
+  "@leaveEditing": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leaveNew": "This routine has not been saved yet.",
+  "keepEditing": "Keep editing",
+  "minimise": "Minimise workout",
+  "restTimer": "Rest timer",
+  "offLbl": "Off",
+  "notePlaceholder": "Add a note — cue, machine setting, how it felt",
+  "setH": "Set",
+  "rirLbl": "RIR",
+  "completeSet": "Complete set {n}",
+  "@completeSet": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "setTypeLabel": "Set type: {type}",
+  "@setTypeLabel": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "supersetBadge": "Superset · no rest between",
+  "unlink": "Unlink",
+  "supersetNote": "The timer only starts once the pair is done. Both count as full sets for their own muscles.",
+  "emptyWorkoutBody": "Empty workout. The clock is already running — add the first exercise whenever you are ready.",
+  "restAfterEachTitle": "Rest after each set · {name}",
+  "@restAfterEachTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "restNote": "Three minutes or more for heavy compounds — shorter rest costs you reps, and reps are the stimulus.",
+  "restAfterEach": "{t} after each set",
+  "@restAfterEach": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "restOffFor": "Off for this exercise",
+  "supersetNext": "Superset with the next exercise",
+  "supersetNextSub": "No rest between the two",
+  "seeHistory": "See history and 1RM",
+  "removeFromWorkout": "Remove from this workout",
+  "removedFromWorkout": "{name} removed from this workout",
+  "@removedFromWorkout": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "nothingAfter": "Nothing after this one to pair with",
+  "supersetted": "Supersetted — the timer waits for both",
+  "exAdded": "{name} added",
+  "@exAdded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "resting": "Resting",
+  "restingFor": "Resting, {t} left",
+  "@restingFor": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "nextSetOf": "Next: {name}, set {n}",
+  "@nextSetOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "lastSetDone": "Last set done",
+  "minus15": "−15s",
+  "setRemoved": "Set removed",
+  "rirTitle": "Reps in reserve",
+  "rirNote": "How many more you could have done with good form.",
+  "editSetTitle": "Set {n} · {name}",
+  "@editSetTitle": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "lastTimeSet": "Last time: {set}",
+  "@lastTimeSet": {
+    "placeholders": {
+      "set": {
+        "type": "String"
+      }
+    }
+  },
+  "nothingTicked": "Nothing was ticked, so nothing was saved",
+  "setsUnticked": "{n, plural, =1{1 set was left unticked — it is not in the log} other{{n} sets were left unticked — they are not in the log}}",
+  "@setsUnticked": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "doneTitle": "{name} — done",
+  "@doneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "volumeExplain": "Volume is every completed working set multiplied out. Warm-ups are in the log but not in this number, and not in your weekly set count either.",
+  "prLbl": "PR",
+  "insightIn": "{group} is at {sets} this week — inside the 10–20 range where the evidence is strongest. Nothing to change.",
+  "@insightIn": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "sets": {
+        "type": "String"
+      }
+    }
+  },
+  "insightUnder": "{group} is at {sets} this week — under the 10–20 range. Another session or two would put it there.",
+  "@insightUnder": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "sets": {
+        "type": "String"
+      }
+    }
+  },
+  "insightOver": "{group} is at {sets} this week — above 20. Past that point it is mostly fatigue.",
+  "@insightOver": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      },
+      "sets": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAsRoutine": "Save as routine",
+  "share": "Share",
+  "shareText": "{name} · {time} · {volume} · {sets} hard sets",
+  "@shareText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      },
+      "volume": {
+        "type": "String"
+      },
+      "sets": {
+        "type": "String"
+      }
+    }
+  },
+  "soloLogged": "{name} logged — the rest of the day is still there",
+  "@soloLogged": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "est1rm": "Estimated 1RM",
+  "trendKg": "{delta} kg / {w} wk",
+  "@trendKg": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      },
+      "w": {
+        "type": "int"
+      }
+    }
+  },
+  "months6": "6 months",
+  "chartNeedsTwo": "Two workouts with this lift and the trend line starts.",
+  "best5": "Best 5 reps",
+  "best8": "Best 8 reps",
+  "setsWk": "Sets / wk",
+  "exClimbing": "This lift is still climbing. Whatever you are doing with the deficit, it is tolerable — no reason to slow down yet.",
+  "exFlat": "Holding steady. In a deficit, holding is winning.",
+  "exDropping": "Down from where it was eight weeks ago. Check sleep and the size of the deficit before blaming the program.",
+  "exNoHistory": "No history yet. Log it once and its 1RM trend starts here.",
+  "historyLbl": "History",
+  "back": "Back",
+  "addAnExercise": "Add an exercise",
+  "searchLibrary": "Search the exercise library",
+  "noExerciseMatch": "Nothing matches. Try a shorter word, or another muscle.",
+  "inLbl": "in",
+  "alreadyIn": "Already in this workout"
 }

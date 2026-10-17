@@ -54,6 +54,8 @@ class SessionExercise {
     this.restSeconds = defaultRestSeconds,
     this.rir,
     this.note = '',
+    this.previous = const [],
+    this.linkNext = false,
   });
 
   final String exerciseId;
@@ -71,7 +73,15 @@ class SessionExercise {
   /// A cue, a machine setting, how it felt.
   final String note;
 
-  SessionExercise copyWith({List<SessionSet>? sets, int? restSeconds, String? note}) => SessionExercise(
+  /// What was done last time, set by set, for the Previous column.
+  final List<SessionSet> previous;
+
+  /// Supersetted with the exercise after it: no rest between the two.
+  final bool linkNext;
+
+  SessionSet? previousOf(int i) => i < previous.length ? previous[i] : null;
+
+  SessionExercise copyWith({List<SessionSet>? sets, int? restSeconds, String? note, bool? linkNext}) => SessionExercise(
     exerciseId: exerciseId,
     name: name,
     sets: sets ?? this.sets,
@@ -80,6 +90,8 @@ class SessionExercise {
     restSeconds: restSeconds ?? this.restSeconds,
     rir: rir,
     note: note ?? this.note,
+    previous: previous,
+    linkNext: linkNext ?? this.linkNext,
   );
 
   SessionExercise withSets(List<SessionSet> s) => copyWith(sets: s);
@@ -92,6 +104,8 @@ class SessionExercise {
     'rest': restSeconds,
     'rir': rir,
     'note': note,
+    'link': linkNext,
+    'prev': [for (final s in previous) s.toJson()],
     's': [for (final s in sets) s.toJson()],
   };
 
@@ -103,6 +117,10 @@ class SessionExercise {
     restSeconds: j['rest']! as int,
     rir: j['rir'] as int?,
     note: (j['note'] as String?) ?? '',
+    linkNext: (j['link'] as bool?) ?? false,
+    previous: [
+      for (final s in (j['prev'] as List?) ?? const []) SessionSet.fromJson((s as Map).cast<String, Object?>()),
+    ],
     sets: [for (final s in j['s']! as List) SessionSet.fromJson((s as Map).cast<String, Object?>())],
   );
 }
@@ -156,7 +174,12 @@ class WorkoutSession {
 
   WorkoutSession addExercise(SessionExercise e) => _with(exercises: [...exercises, e]);
 
-  WorkoutSession removeExercise(int ex) => _with(exercises: [...exercises]..removeAt(ex));
+  WorkoutSession removeExercise(int ex) {
+    final list = [...exercises]..removeAt(ex);
+    // A pair loses its link when either half goes.
+    if (ex > 0 && list[ex - 1].linkNext) list[ex - 1] = list[ex - 1].copyWith(linkNext: false);
+    return _with(exercises: list);
+  }
 
   /// A new set copies the last one's numbers, so the common case is one tick.
   WorkoutSession addSet(int ex) => _editSets(ex, (s) {
@@ -174,13 +197,23 @@ class WorkoutSession {
 
   WorkoutSession updateSet(int ex, int i, SessionSet Function(SessionSet) f) => _editSets(ex, (s) => s..[i] = f(s[i]));
 
-  /// Ticking a complete set starts its exercise's rest timer; unticking stops it.
+  /// Ticking a set starts its exercise's rest timer; unticking stops it.
+  /// A set with a weight but no reps yet takes last time's reps, or the
+  /// bottom of the plan's range, so the common case is one tap.
   WorkoutSession toggleDone(int ex, int i, DateTime now) {
-    final s = exercises[ex].sets[i];
+    final e = exercises[ex];
+    var s = e.sets[i];
+    if (!s.done && !s.complete && s.weightKg != null) {
+      final reps = e.previousOf(i)?.reps ?? e.repLow;
+      if (reps != null && reps > 0) s = s.copyWith(reps: () => reps, rir: () => s.rir ?? e.rir);
+    }
     if (!s.done && !s.complete) return this;
-    final next = updateSet(ex, i, (x) => x.copyWith(done: !x.done));
-    if (s.done) return next._with(restStartedAt: () => null, restSeconds: () => null);
-    final planned = exercises[ex].restSeconds;
+    final ticked = s;
+    final next = updateSet(ex, i, (_) => ticked.copyWith(done: !ticked.done));
+    if (ticked.done) return next._with(restStartedAt: () => null, restSeconds: () => null);
+    // The first of a superset rests only once its partner is done.
+    final owner = e.linkNext ? null : (ex > 0 && exercises[ex - 1].linkNext ? exercises[ex - 1] : e);
+    final planned = owner == null ? 0 : (e.restSeconds == 0 ? owner.restSeconds : e.restSeconds);
     if (planned == 0) return next._with(restStartedAt: () => null, restSeconds: () => null);
     final rest = s.type == SetType.warmup ? 45 : planned;
     return next._with(restStartedAt: () => now, restSeconds: () => rest);
@@ -189,6 +222,28 @@ class WorkoutSession {
   WorkoutSession setRest(int ex, int seconds) {
     final list = [...exercises];
     list[ex] = list[ex].copyWith(restSeconds: seconds);
+    return _with(exercises: list);
+  }
+
+  /// Set a set's numbers. A weight also fills the empty sets after it, so
+  /// straight sets are typed once.
+  WorkoutSession editSet(int ex, int i, {double? weightKg, int? reps}) => _editSets(ex, (s) {
+    s[i] = s[i].copyWith(weightKg: () => weightKg, reps: () => reps);
+    if (weightKg != null) {
+      for (var j = i + 1; j < s.length; j++) {
+        if (s[j].weightKg == null && !s[j].done && s[j].type != SetType.warmup) {
+          s[j] = s[j].copyWith(weightKg: () => weightKg);
+        }
+      }
+    }
+    return s;
+  });
+
+  /// Pair [ex] with the exercise after it.
+  WorkoutSession link(int ex, bool on) {
+    if (ex >= exercises.length - 1 && on) return this;
+    final list = [...exercises];
+    list[ex] = list[ex].copyWith(linkNext: on);
     return _with(exercises: list);
   }
 

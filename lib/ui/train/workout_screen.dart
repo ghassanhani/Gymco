@@ -13,8 +13,13 @@ import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
-import '../common/widgets.dart';
+import '../kit/kit.dart';
+import 'train_kit.dart';
 
+const workoutRests = [0, 60, 90, 120, 150, 180, 240, 300];
+
+/// The live session. Everything is drawn from the session's own
+/// timestamps; a once-a-second tick only asks for a repaint.
 class WorkoutScreen extends ConsumerStatefulWidget {
   const WorkoutScreen({super.key});
 
@@ -29,8 +34,6 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
   @override
   void initState() {
     super.initState();
-    // The clock and the rest timer are drawn from the session's timestamps;
-    // this only asks for a repaint once a second.
     _tick = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) setState(() {});
     });
@@ -46,297 +49,421 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
 
   Future<void> _addExercises() async {
     final picked = await context.push<List<Exercise>>('/exercises/pick');
-    if (picked != null) _n.addExercises(picked);
-  }
-
-  Future<bool> _confirm(String title, String body, String yes, String no) async {
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: Volt.card,
-        title: Text(title),
-        content: Text(body),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(no)),
-          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(yes)),
-        ],
-      ),
-    );
-    return ok ?? false;
+    if (picked != null && picked.isNotEmpty) {
+      await _n.addExercises(picked);
+      if (mounted) showVToast(context, AppLocalizations.of(context).exAdded(picked.first.shortName));
+    }
   }
 
   Future<void> _finish(WorkoutSession s) async {
     final l = AppLocalizations.of(context);
-    if (s.hasUnfinishedSets && !s.isEmpty) {
-      if (!await _confirm(l.unfinishedTitle, l.unfinishedBody, l.finishAnyway, l.keepGoing)) return;
-    }
+    final unticked = s.setsPlanned - s.setsDone;
     final done = await _n.finish();
     if (!mounted || done == null) return;
-    if (!done.session.isEmpty) await _summary(done);
-    if (mounted) context.pop();
-  }
-
-  Future<void> _discard() async {
-    final l = AppLocalizations.of(context);
-    if (await _confirm(l.discardTitle, l.discardBody, l.discard, l.keepGoing)) {
-      _n.discard();
-      if (mounted) context.pop();
+    if (done.session.isEmpty) {
+      showVToast(context, l.nothingTicked, info: true);
+      return context.pop();
     }
+    context.pushReplacement('/summary', extra: done);
+    if (unticked > 0) showVToast(context, l.setsUnticked(unticked), info: true);
   }
 
-  Future<void> _summary(FinishedWorkout f) {
+  void _discard() {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    final names = {for (final e in f.session.exercises) e.exerciseId: e.name};
-    // Everything the sheet shows is worked out here: the workout screen
-    // closes while the sheet animates away, so the sheet must not reach back.
-    final time = fmtClock(f.endedAt.difference(f.session.startedAt));
-    final volume = '${fmtInt(context, f.session.volume)} ${l.kgLbl}';
-    final bests = [
-      for (final b in f.bests.entries) (l.newBest(names[b.key] ?? b.key), l.estOneRm(fmtDec(context, b.value))),
-    ];
-    return showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      builder: (ctx) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AccentTitle(template: '{accent}', accent: l.summaryTitle, size: 26),
-              const SizedBox(height: 16),
-              _Stats(time: time, volume: volume, sets: '${f.session.setsDone}'),
-              for (final (title, sub) in bests) ...[
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    const Icon(Icons.emoji_events_outlined, color: Volt.brand),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(title, style: t.titleMedium),
-                          Text(sub, style: t.bodySmall),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: GlowButton(label: l.doneBtn, onPressed: () => Navigator.pop(ctx)),
-              ),
-            ],
-          ),
+    showVSheet<void>(
+      context,
+      title: l.discardTitle,
+      body: (ctx) => [
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.discardBody)),
+        SRow(label: l.keepGoing, onTap: () => Navigator.pop(ctx)),
+        SRow(
+          label: l.discard,
+          tint: Volt.brandInk,
+          onTap: () {
+            Navigator.pop(ctx);
+            _n.discard();
+            showVToast(context, l.workoutDiscarded, info: true);
+            context.pop();
+          },
         ),
-      ),
+      ],
+    );
+  }
+
+  void restSheet(int ex) {
+    final l = AppLocalizations.of(context);
+    final s = ref.read(activeWorkoutProvider);
+    if (s == null || ex >= s.exercises.length) return;
+    final e = s.exercises[ex];
+    final name = ref.read(exerciseLibraryProvider).value?[e.exerciseId]?.shortName ?? e.name;
+    showVSheet<void>(
+      context,
+      title: l.restAfterEachTitle(name),
+      body: (ctx) => [
+        RGrid(
+          children: [
+            for (final r in workoutRests)
+              RChip(
+                label: r == 0 ? l.offLbl : fmtRest(r),
+                on: e.restSeconds == r,
+                onTap: () {
+                  Navigator.pop(ctx);
+                  _n.update((x, _) => x.setRest(ex, r));
+                },
+              ),
+          ],
+        ),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.restNote)),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
     final s = ref.watch(activeWorkoutProvider);
     final now = ref.watch(clockProvider)();
-
-    if (s == null) {
-      return const Scaffold(body: SizedBox.shrink());
-    }
+    if (s == null) return const Scaffold(body: VScreen(child: SizedBox.shrink()));
 
     final restLeft = s.restLeft(now);
     if (_restWasRunning && restLeft == null) HapticFeedback.heavyImpact();
     _restWasRunning = restLeft != null;
+    final clock = fmtClock(s.elapsed(now));
+
+    final cards = <Widget>[];
+    for (var i = 0; i < s.exercises.length; i++) {
+      final e = s.exercises[i];
+      final pairStart = e.linkNext && (i == 0 || !s.exercises[i - 1].linkNext);
+      if (pairStart && i + 1 < s.exercises.length) {
+        // A superset: this one and every linked one after it, in a violet group.
+        final group = <int>[i];
+        var j = i;
+        while (j + 1 < s.exercises.length && s.exercises[j].linkNext) {
+          group.add(++j);
+        }
+        cards.add(_Superset(indices: group, onUnlink: () => _n.update((x, _) => x.link(i, false)), host: this));
+        i = j;
+      } else {
+        cards.add(_ExerciseCard(index: i, host: this));
+      }
+    }
 
     return Scaffold(
-      body: VoltBackground(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 8, 12, 0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                      onPressed: () => context.pop(),
-                      icon: const Icon(Icons.keyboard_arrow_down_rounded, size: 28),
-                    ),
-                    Expanded(
-                      child: Text(s.name, style: t.titleLarge, maxLines: 1, overflow: TextOverflow.ellipsis),
-                    ),
-                    PopupMenuButton<String>(
-                      icon: const Icon(Icons.more_vert_rounded),
-                      color: Volt.card2,
-                      onSelected: (_) => _discard(),
-                      itemBuilder: (_) => [PopupMenuItem(value: 'discard', child: Text(l.discard))],
-                    ),
-                    GlowButton(label: l.finish, onPressed: () => _finish(s)),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                child: _Stats(
-                  time: fmtClock(s.elapsed(now)),
-                  volume: '${fmtInt(context, s.volume)} ${l.kgLbl}',
-                  sets: '${s.setsDone} / ${s.setsPlanned}',
-                ),
-              ),
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 140),
-                  children: [
-                    if (s.exercises.isEmpty) VoltCard(child: Text(l.startWorkoutHint, style: t.bodyMedium)),
-                    for (var ex = 0; ex < s.exercises.length; ex++) ...[
-                      _ExerciseCard(index: ex, exercise: s.exercises[ex]),
-                      const SizedBox(height: 12),
-                    ],
-                    GhostButton(label: l.addExercise, icon: Icons.add_rounded, onPressed: _addExercises),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: restLeft == null
-          ? null
-          : _RestBar(
+      body: VScreen(
+        overlays: [
+          if (restLeft != null)
+            _RestBar(
               left: restLeft,
               total: s.restSeconds ?? restLeft,
+              label: _nextLabel(l, s),
               onMinus: () => _n.update((x, _) => x.adjustRest(-15)),
-              onPlus: () => _n.update((x, _) => x.adjustRest(15)),
               onSkip: () => _n.update((x, _) => x.skipRest()),
             ),
-    );
-  }
-}
-
-class _Stats extends StatelessWidget {
-  const _Stats({required this.time, required this.volume, required this.sets});
-  final String time;
-  final String volume;
-  final String sets;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    Widget stat(String label, String value) => Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(Volt.rRow)),
+        ],
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: t.bodySmall),
-            Text(value, style: t.titleMedium, maxLines: 1),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 22, 16, 10),
+              child: Row(
+                children: [
+                  IconBtn('down', small: true, iconSize: 18, label: l.minimise, onTap: () => context.pop()),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: GapCol(
+                      gap: 1,
+                      children: [
+                        Text(
+                          s.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                        ),
+                        Text(clock, style: numStyle(12.5, color: Volt.brandInk)),
+                      ],
+                    ),
+                  ),
+                  IconBtn('clock', small: true, iconSize: 18, label: l.restTimer, onTap: () => restSheet(0)),
+                  const SizedBox(width: 10),
+                  VBtn(
+                    label: l.finish,
+                    small: true,
+                    minHeight: 40,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    onTap: () => _finish(s),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: Row(
+                children: [
+                  for (final (k, v) in [
+                    (l.durationLbl, clock),
+                    (l.volumeLbl, '${fmtInt(context, s.volume)} ${l.kgLbl}'),
+                    (l.setsDoneLbl, '${s.setsDone} / ${s.setsPlanned}'),
+                  ])
+                    Expanded(
+                      child: GapCol(
+                        gap: 2,
+                        children: [
+                          Eyebrow(k),
+                          Text(v, textDirection: TextDirection.ltr, style: numStyle(16)),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Pad(
+                top: 12,
+                bottom: restLeft != null ? 130 : 40,
+                children: [
+                  if (s.exercises.isEmpty) DumbbellEmpty(text: l.emptyWorkoutBody),
+                  ...cards,
+                  VBtn(
+                    label: l.addExercise,
+                    kind: BtnKind.ghost,
+                    icon: 'plus',
+                    expand: true,
+                    color: Volt.brandInk,
+                    onTap: _addExercises,
+                  ),
+                  VBtn(
+                    label: l.discard,
+                    kind: BtnKind.ghost,
+                    small: true,
+                    expand: true,
+                    color: Volt.brandInk,
+                    onTap: _discard,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
-    return Row(
-      children: [
-        stat(l.durationLbl, time),
-        const SizedBox(width: 8),
-        stat(l.volumeLbl, volume),
-        const SizedBox(width: 8),
-        stat(l.setsDoneLbl, sets),
-      ],
+  }
+
+  String _nextLabel(AppLocalizations l, WorkoutSession s) {
+    final lib = ref.read(exerciseLibraryProvider).value;
+    final n = s.nextSet;
+    if (n == null) return l.lastSetDone;
+    final e = s.exercises[n.$1];
+    return l.nextSetOf(lib?[e.exerciseId]?.shortName ?? e.name, n.$2 + 1);
+  }
+}
+
+/// Several exercises run back to back with no rest between.
+class _Superset extends StatelessWidget {
+  const _Superset({required this.indices, required this.onUnlink, required this.host});
+  final List<int> indices;
+  final VoidCallback onUnlink;
+  final _WorkoutScreenState host;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      decoration: BoxDecoration(
+        color: Color.alphaBlend(Volt.violet.withValues(alpha: 0.08), Volt.bg),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Volt.line2, width: 1.5),
+      ),
+      child: GapCol(
+        gap: 8,
+        cross: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6, 2, 6, 0),
+            child: Row(
+              children: [
+                Container(
+                  width: 22,
+                  height: 22,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(color: Volt.violet, borderRadius: BorderRadius.circular(12)),
+                  child: const Text(
+                    'A',
+                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.white),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(child: Eyebrow(l.supersetBadge, color: Volt.violet)),
+                VChip(label: l.unlink, height: 26, onTap: onUnlink),
+              ],
+            ),
+          ),
+          for (final i in indices) _ExerciseCard(index: i, host: host),
+          Padding(padding: const EdgeInsets.fromLTRB(10, 0, 10, 2), child: Muted(l.supersetNote)),
+        ],
+      ),
     );
   }
 }
 
 class _ExerciseCard extends ConsumerWidget {
-  const _ExerciseCard({required this.index, required this.exercise});
+  const _ExerciseCard({required this.index, required this.host});
   final int index;
-  final SessionExercise exercise;
+  final _WorkoutScreenState host;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
+    final s = ref.watch(activeWorkoutProvider)!;
+    final e = s.exercises[index];
+    final ex = ref.watch(exerciseLibraryProvider).value?[e.exerciseId];
     final n = ref.read(activeWorkoutProvider.notifier);
-    final prev = ref.watch(lastSetsProvider(exercise.exerciseId)).value ?? const <SessionSet>[];
+    final name = ex?.name ?? e.name;
+    var counted = 0;
 
-    var working = 0;
-    return VoltCard(
-      padding: const EdgeInsets.fromLTRB(14, 8, 8, 12),
-      child: Column(
+    void options() => showVSheet<void>(
+      context,
+      title: name,
+      body: (ctx) => [
+        SRow(
+          label: l.restTimer,
+          sub: e.restSeconds == 0 ? l.restOffFor : l.restAfterEach(fmtRest(e.restSeconds)),
+          onTap: () {
+            Navigator.pop(ctx);
+            host.restSheet(index);
+          },
+        ),
+        if (!e.linkNext)
+          SRow(
+            label: l.supersetNext,
+            sub: l.supersetNextSub,
+            onTap: () {
+              Navigator.pop(ctx);
+              if (index >= s.exercises.length - 1) {
+                showVToast(context, l.nothingAfter, info: true);
+              } else {
+                n.update((x, _) => x.link(index, true));
+                showVToast(context, l.supersetted);
+              }
+            },
+          ),
+        SRow(
+          label: l.seeHistory,
+          onTap: () {
+            Navigator.pop(ctx);
+            context.push('/exercise/${Uri.encodeComponent(e.exerciseId)}');
+          },
+        ),
+        SRow(
+          label: l.removeFromWorkout,
+          tint: Volt.brandInk,
+          onTap: () {
+            Navigator.pop(ctx);
+            n.update((x, _) => x.removeExercise(index));
+            showVToast(context, l.removedFromWorkout(ex?.shortName ?? e.name));
+          },
+        ),
+      ],
+    );
+
+    return VCard(
+      padding: const EdgeInsets.fromLTRB(8, 12, 8, 10),
+      child: GapCol(
+        gap: 8,
+        cross: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () => context.push('/exercise/${Uri.encodeComponent(exercise.exerciseId)}'),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(exercise.name, style: t.titleMedium?.copyWith(color: Volt.brandInk)),
-                        if (exercise.repLow != null)
-                          Text(
-                            '${l.repRange(exercise.repLow!, exercise.repHigh!)} · ${l.restSeconds(exercise.restSeconds)}',
-                            style: t.bodySmall,
-                          ),
-                      ],
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ExAv(ex?.badge ?? '··'),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: GapCol(
+                    gap: 2,
+                    children: [
+                      Pressable(
+                        onTap: () => context.push('/exercise/${Uri.encodeComponent(e.exerciseId)}'),
+                        scale: 0.99,
+                        label: name,
+                        child: Text(
+                          name,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.brandInk),
+                        ),
+                      ),
+                      if (ex != null) Muted(muscleLine(l, ex)),
+                    ],
                   ),
                 ),
-              ),
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.more_horiz_rounded, color: Volt.t3),
-                color: Volt.card2,
-                onSelected: (_) => n.update((s, _) => s.removeExercise(index)),
-                itemBuilder: (_) => [PopupMenuItem(value: 'remove', child: Text(l.removeExercise))],
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Row(
-              children: [
-                const SizedBox(width: 40),
-                Expanded(flex: 3, child: Text(l.previous, style: t.bodySmall)),
-                Expanded(
-                  flex: 2,
-                  child: Text(l.kgLbl, style: t.bodySmall, textAlign: TextAlign.center),
+                IconBtn(
+                  'more',
+                  label: l.optionsFor(name),
+                  size: 32,
+                  iconSize: 18,
+                  background: Colors.transparent,
+                  color: Volt.t3,
+                  onTap: options,
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Text(l.repsLbl, style: t.bodySmall, textAlign: TextAlign.center),
-                ),
-                const SizedBox(width: 52),
               ],
             ),
           ),
-          for (var i = 0; i < exercise.sets.length; i++)
-            _SetRow(
-              key: ValueKey('${exercise.exerciseId}-$index-$i'),
-              exIndex: index,
-              setIndex: i,
-              set: exercise.sets[i],
-              label: switch (exercise.sets[i].type) {
-                SetType.warmup => 'W',
-                SetType.failure => 'F',
-                SetType.drop => 'D',
-                SetType.normal => '${++working}',
-              },
-              previous: i < prev.length ? prev[i] : null,
+          _Note(index: index, initial: e.note),
+          Pressable(
+            onTap: () => host.restSheet(index),
+            scale: 0.99,
+            label: l.restTimer,
+            child: _DashedBox(
+              child: Row(
+                children: [
+                  VIcon('clock', size: 16, color: e.restSeconds == 0 ? Volt.t4 : Volt.brandInk),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(l.restTimer, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                  ),
+                  Text(
+                    e.restSeconds == 0 ? l.offLbl : fmtRest(e.restSeconds),
+                    style: numStyle(13, color: e.restSeconds == 0 ? Volt.t4 : Volt.t1),
+                  ),
+                  const SizedBox(width: 6),
+                  const VIcon('fwd', size: 15, color: Volt.t2),
+                ],
+              ),
             ),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: TextButton.icon(
-              onPressed: () => n.update((s, _) => s.addSet(index)),
-              icon: const Icon(Icons.add_rounded, size: 18),
-              label: Text(l.addSet),
+          ),
+          _SetGrid(
+            padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+            cells: [
+              Eyebrow(l.setH),
+              Eyebrow(l.previous),
+              Center(child: Eyebrow(l.kgLbl)),
+              Center(child: Eyebrow(l.repsLabel)),
+              Center(child: Eyebrow(l.rirLbl)),
+              const SizedBox.shrink(),
+            ],
+          ),
+          for (final (i, set) in e.sets.indexed)
+            () {
+              if (set.type == SetType.normal || set.type == SetType.failure) counted++;
+              return _SetRow(index: index, setIndex: i, number: counted, exercise: e, set: set);
+            }(),
+          Pressable(
+            onTap: () => n.update((x, _) => x.addSet(index)),
+            label: l.addSet,
+            child: Container(
+              height: 40,
+              margin: const EdgeInsets.fromLTRB(6, 2, 6, 0),
+              decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(999)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const VIcon('plus', size: 16, color: Volt.t2),
+                  const SizedBox(width: 6),
+                  Text(
+                    l.addSet,
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t2),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -345,270 +472,481 @@ class _ExerciseCard extends ConsumerWidget {
   }
 }
 
-class _SetRow extends ConsumerStatefulWidget {
-  const _SetRow({
-    super.key,
-    required this.exIndex,
-    required this.setIndex,
-    required this.set,
-    required this.label,
-    this.previous,
-  });
-  final int exIndex;
-  final int setIndex;
-  final SessionSet set;
-  final String label;
-  final SessionSet? previous;
+/// `.setrow`: 28 / 80 / 1fr / 1fr / 38 / 36, gap 6.
+class _SetGrid extends StatelessWidget {
+  const _SetGrid({required this.cells, this.padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 6)});
+  final List<Widget> cells;
+  final EdgeInsetsGeometry padding;
 
   @override
-  ConsumerState<_SetRow> createState() => _SetRowState();
+  Widget build(BuildContext context) => Padding(
+    padding: padding,
+    child: Row(
+      children: [
+        SizedBox(width: 28, child: cells[0]),
+        const SizedBox(width: 6),
+        SizedBox(width: 80, child: cells[1]),
+        const SizedBox(width: 6),
+        Expanded(child: cells[2]),
+        const SizedBox(width: 6),
+        Expanded(child: cells[3]),
+        const SizedBox(width: 6),
+        SizedBox(width: 38, child: cells[4]),
+        const SizedBox(width: 6),
+        SizedBox(width: 36, child: cells[5]),
+      ],
+    ),
+  );
 }
 
-class _SetRowState extends ConsumerState<_SetRow> {
-  late final _kg = TextEditingController(text: _kgText(widget.set.weightKg));
-  late final _reps = TextEditingController(text: widget.set.reps?.toString() ?? '');
-  final _kgFocus = FocusNode();
-  final _repsFocus = FocusNode();
-
-  static String _kgText(double? v) => v == null ? '' : (v == v.roundToDouble() ? v.round().toString() : v.toString());
-
-  @override
-  void didUpdateWidget(_SetRow old) {
-    super.didUpdateWidget(old);
-    // Keep the boxes in step when the model changes from elsewhere (a new set
-    // copied from the last, a removed row) without fighting the user's typing.
-    if (!_kgFocus.hasFocus && _kgText(widget.set.weightKg) != _kg.text) _kg.text = _kgText(widget.set.weightKg);
-    final r = widget.set.reps?.toString() ?? '';
-    if (!_repsFocus.hasFocus && r != _reps.text) _reps.text = r;
-  }
+class _SetRow extends ConsumerWidget {
+  const _SetRow({
+    required this.index,
+    required this.setIndex,
+    required this.number,
+    required this.exercise,
+    required this.set,
+  });
+  final int index;
+  final int setIndex;
+  final int number;
+  final SessionExercise exercise;
+  final SessionSet set;
 
   @override
-  void dispose() {
-    _kg.dispose();
-    _reps.dispose();
-    _kgFocus.dispose();
-    _repsFocus.dispose();
-    super.dispose();
-  }
-
-  ActiveWorkoutNotifier get _n => ref.read(activeWorkoutProvider.notifier);
-
-  void _edit(SessionSet Function(SessionSet) f) => _n.update((s, _) => s.updateSet(widget.exIndex, widget.setIndex, f));
-
-  Future<void> _pickType() async {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    final picked = await showModalBottomSheet<Object>(
-      context: context,
-      useRootNavigator: true,
-      builder: (ctx) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(l.setTypeTitle, style: t.titleLarge),
-              ),
-              const SizedBox(height: 8),
-              for (final (type, title, sub) in [
-                (SetType.warmup, l.stWarmup, l.stWarmupSub),
-                (SetType.normal, l.stNormal, l.stNormalSub),
-                (SetType.failure, l.stFailure, l.stFailureSub),
-                (SetType.drop, l.stDrop, l.stDropSub),
-              ])
-                ListTile(
-                  selected: widget.set.type == type,
-                  selectedColor: Volt.brand,
-                  title: Text(title),
-                  subtitle: Text(sub, style: t.bodySmall),
-                  onTap: () => Navigator.pop(ctx, type),
-                ),
-              ListTile(
-                leading: const Icon(Icons.delete_outline_rounded),
-                title: Text(l.removeSet),
-                onTap: () => Navigator.pop(ctx, 'remove'),
-              ),
-            ],
-          ),
+    final n = ref.read(activeWorkoutProvider.notifier);
+    final type = set.type;
+    final label = switch (type) {
+      SetType.warmup => 'W',
+      SetType.drop => 'D',
+      SetType.failure => 'F',
+      SetType.normal => '$number',
+    };
+    final typeColor = switch (type) {
+      SetType.warmup => Volt.warn,
+      SetType.failure => Volt.brandInk,
+      SetType.drop => Volt.violet,
+      SetType.normal => Volt.t2,
+    };
+    final prev = exercise.previousOf(setIndex);
+    final prevText = prev == null || prev.weightKg == null || prev.reps == null
+        ? '—'
+        : ltr('${fmtKg(context, prev.weightKg!)} × ${prev.reps}${prev.rir == null ? '' : ' @${prev.rir}'}');
+    final (bg, border) = set.done
+        ? (Volt.brandWash, null)
+        : (type == SetType.warmup ? (Volt.card2, null) : (Volt.bg, Border.all(color: Volt.line2, width: 1.5)));
+
+    Widget num(String text, bool dim, VoidCallback onTap, String semantic) => Pressable(
+      onTap: onTap,
+      scale: 0.96,
+      label: semantic,
+      child: SizedBox(
+        height: 36,
+        child: Center(
+          child: Text(text, style: numStyle(15, color: dim ? Volt.t4 : Volt.t1)),
         ),
       ),
     );
-    if (picked is SetType) _edit((s) => s.copyWith(type: picked));
-    if (picked == 'remove') _n.update((s, _) => s.removeSet(widget.exIndex, widget.setIndex));
+
+    void edit() => editSet(context, ref, index, setIndex, number: label);
+
+    return Container(
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14), border: border),
+      child: _SetGrid(
+        cells: [
+          Pressable(
+            onTap: () => _typeSheet(context, ref),
+            label: l.setTypeLabel(_typeName(l, type)),
+            child: SizedBox(
+              height: 26,
+              child: Center(
+                child: Text(
+                  label,
+                  style: numStyle(12, weight: FontWeight.w700, color: typeColor),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            prevText,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: numStyle(11.5, weight: FontWeight.w400, color: Volt.t4),
+          ),
+          num(
+            set.weightKg == null ? '—' : fmtKg(context, set.weightKg!),
+            !set.done || set.weightKg == null,
+            edit,
+            l.kgLbl,
+          ),
+          num(set.reps == null ? '—' : '${set.reps}', set.reps == null, edit, l.repsLabel),
+          Pressable(
+            onTap: () => _rirSheet(context, ref),
+            label: l.rirLbl,
+            child: SizedBox(
+              height: 36,
+              child: Center(
+                child: Text(
+                  set.rir == null ? '—' : '${set.rir}',
+                  style: numStyle(13, weight: FontWeight.w400, color: Volt.t2),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: Pressable(
+              onTap: () {
+                if (!set.done && set.weightKg == null) return edit();
+                HapticFeedback.lightImpact();
+                n.update((x, now) => x.toggleDone(index, setIndex, now));
+              },
+              label: l.completeSet(label),
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  color: set.done ? Volt.brand : Volt.card2,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: set.done ? Volt.brand : Volt.line2),
+                ),
+                child: Center(child: VIcon('check', size: 15, color: set.done ? Volt.ink : Volt.t1)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _typeSheet(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final n = ref.read(activeWorkoutProvider.notifier);
+    showVSheet<void>(
+      context,
+      title: l.setTypeTitle,
+      body: (ctx) => [
+        for (final (t, k, color, name, sub) in [
+          (SetType.warmup, 'W', Volt.warn, l.stWarmup, l.stWarmupSub),
+          (SetType.normal, 'N', Volt.t1, l.stNormal, l.stNormalSub),
+          (SetType.failure, 'F', Volt.brandInk, l.stFailure, l.stFailureSub),
+          (SetType.drop, 'D', Volt.violet, l.stDrop, l.stDropSub),
+        ])
+          SRow(
+            label: name,
+            sub: sub,
+            on: set.type == t,
+            lead: SizedBox(
+              width: 26,
+              child: Center(
+                child: Text(
+                  k,
+                  style: numStyle(12, weight: FontWeight.w700, color: color),
+                ),
+              ),
+            ),
+            trail: set.type == t ? const VIcon('check', size: 18, color: Volt.brandInk) : null,
+            onTap: () {
+              Navigator.pop(ctx);
+              n.update((x, _) => x.updateSet(index, setIndex, (s) => s.copyWith(type: t)));
+            },
+          ),
+        SRow(
+          label: l.removeSet,
+          tint: Volt.brandInk,
+          onTap: () {
+            Navigator.pop(ctx);
+            n.update((x, _) => x.removeSet(index, setIndex));
+            showVToast(context, l.setRemoved);
+          },
+        ),
+      ],
+    );
+  }
+
+  void _rirSheet(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final n = ref.read(activeWorkoutProvider.notifier);
+    showVSheet<void>(
+      context,
+      title: l.rirTitle,
+      body: (ctx) => [
+        RGrid(
+          columns: 4,
+          children: [
+            for (final v in [null, 0, 1, 2, 3, 4, 5])
+              RChip(
+                label: v == null ? '—' : '$v',
+                on: set.rir == v,
+                onTap: () {
+                  Navigator.pop(ctx);
+                  n.update((x, _) => x.updateSet(index, setIndex, (s) => s.copyWith(rir: () => v)));
+                },
+              ),
+          ],
+        ),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.rirNote)),
+      ],
+    );
+  }
+}
+
+String _typeName(AppLocalizations l, SetType t) => switch (t) {
+  SetType.warmup => l.stWarmup,
+  SetType.normal => l.stNormal,
+  SetType.failure => l.stFailure,
+  SetType.drop => l.stDrop,
+};
+
+/// Weight and reps on the number pad. Saving a set that was not ticked
+/// leaves it unticked; the tick stays the user's.
+Future<void> editSet(BuildContext context, WidgetRef ref, int ex, int i, {required String number}) {
+  final l = AppLocalizations.of(context);
+  final s = ref.read(activeWorkoutProvider)!;
+  final e = s.exercises[ex];
+  final set = e.sets[i];
+  final prev = e.previousOf(i);
+  final lib = ref.read(exerciseLibraryProvider).value;
+  final decimal = fmtDec(context, 1.5).contains(',') ? ',' : '.';
+  String show(double v) => fmtKg(context, v).replaceAll(RegExp('[^0-9,.]'), '');
+  var kg = set.weightKg == null ? (prev?.weightKg == null ? '' : show(prev!.weightKg!)) : show(set.weightKg!);
+  var reps = set.reps == null ? (prev?.reps?.toString() ?? e.repLow?.toString() ?? '') : '${set.reps}';
+  var field = 0;
+  return showVSheet<void>(
+    context,
+    title: l.editSetTitle(number, lib?[e.exerciseId]?.shortName ?? e.name),
+    body: (ctx) => [
+      StatefulBuilder(
+        builder: (ctx, setState) {
+          void key(String k) => setState(() {
+            var v = field == 0 ? kg : reps;
+            if (k == 'del') {
+              v = v.isEmpty ? v : v.substring(0, v.length - 1);
+            } else if (k == decimal) {
+              if (field == 0 && !v.contains(decimal)) v = v.isEmpty ? '0$decimal' : '$v$decimal';
+            } else if (v.length < 6) {
+              v = v == '0' ? k : v + k;
+            }
+            field == 0 ? kg = v : reps = v;
+          });
+          Widget box(int f, String label, String value) => Expanded(
+            child: Pressable(
+              onTap: () => setState(() => field = f),
+              label: label,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 150),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Volt.card,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: field == f ? Volt.brand : Volt.line, width: field == f ? 1.5 : 1),
+                ),
+                child: GapCol(
+                  gap: 2,
+                  children: [
+                    Eyebrow(label, color: field == f ? Volt.brandInk : Volt.t3),
+                    Text(value.isEmpty ? '—' : value, style: numStyle(30, height: 1.1)),
+                  ],
+                ),
+              ),
+            ),
+          );
+          return GapCol(
+            gap: 12,
+            cross: CrossAxisAlignment.stretch,
+            children: [
+              Row(children: [box(0, l.kgLbl, kg), const SizedBox(width: 10), box(1, l.repsLabel, reps)]),
+              if (prev != null && prev.weightKg != null && prev.reps != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Muted(l.lastTimeSet(ltr('${fmtKg(context, prev.weightKg!)} × ${prev.reps}'))),
+                ),
+              Keypad(onKey: key, decimal: decimal, deleteLabel: l.deleteDigit),
+              VBtn(
+                label: l.doneBtn,
+                expand: true,
+                onTap: () {
+                  final w = double.tryParse(kg.replaceAll(',', '.'));
+                  final r = int.tryParse(reps);
+                  ref
+                      .read(activeWorkoutProvider.notifier)
+                      .update((x, _) => x.editSet(ex, i, weightKg: w, reps: r == 0 ? null : r));
+                  Navigator.pop(ctx);
+                },
+              ),
+            ],
+          );
+        },
+      ),
+    ],
+  );
+}
+
+class _Note extends ConsumerStatefulWidget {
+  const _Note({required this.index, required this.initial});
+  final int index;
+  final String initial;
+
+  @override
+  ConsumerState<_Note> createState() => _NoteState();
+}
+
+class _NoteState extends ConsumerState<_Note> {
+  late final _c = TextEditingController(text: widget.initial);
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    final s = widget.set;
-    final p = widget.previous;
-    final done = s.done;
-
-    InputDecoration box() => InputDecoration(
-      isDense: true,
-      contentPadding: const EdgeInsets.symmetric(vertical: 10),
-      fillColor: done ? Volt.brandWash : Volt.card2,
-    );
-
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 3),
-      decoration: BoxDecoration(
-        color: done ? Volt.brandWash.withValues(alpha: 0.5) : null,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 40,
-            height: 44,
-            child: TextButton(
-              onPressed: _pickType,
-              style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(40, 44)),
-              child: Text(
-                widget.label,
-                style: t.titleMedium?.copyWith(
-                  color: s.type == SetType.normal ? Volt.t1 : (s.type == SetType.warmup ? Volt.warn : Volt.orange),
-                ),
-              ),
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: TextField(
+        controller: _c,
+        style: const TextStyle(fontSize: 13, color: Volt.t1),
+        onChanged: (v) => ref.read(activeWorkoutProvider.notifier).update((x, _) => x.setNote(widget.index, v)),
+        decoration: InputDecoration(
+          isDense: true,
+          hintText: l.notePlaceholder,
+          hintStyle: const TextStyle(fontSize: 13, color: Volt.t4),
+          filled: true,
+          fillColor: Volt.card2,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Colors.transparent),
           ),
-          Expanded(
-            flex: 3,
-            child: Text(p == null ? '—' : '${fmtKg(context, p.weightKg ?? 0)} × ${p.reps}', style: t.bodySmall),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: Volt.line2),
           ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: TextField(
-                controller: _kg,
-                focusNode: _kgFocus,
-                textAlign: TextAlign.center,
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))],
-                decoration: box().copyWith(hintText: p?.weightKg == null ? null : _kgText(p!.weightKg)),
-                style: t.titleMedium,
-                onChanged: (v) => _edit((x) => x.copyWith(weightKg: () => double.tryParse(v.replaceAll(',', '.')))),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: TextField(
-                controller: _reps,
-                focusNode: _repsFocus,
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: box().copyWith(hintText: p?.reps?.toString()),
-                style: t.titleMedium,
-                onChanged: (v) => _edit((x) => x.copyWith(reps: () => int.tryParse(v))),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 52,
-            child: IconButton(
-              tooltip: l.tickSetHint,
-              onPressed: s.complete || done
-                  ? () {
-                      HapticFeedback.selectionClick();
-                      FocusScope.of(context).unfocus();
-                      _n.update((x, now) => x.toggleDone(widget.exIndex, widget.setIndex, now));
-                    }
-                  : null,
-              icon: Icon(
-                done ? Icons.check_circle_rounded : Icons.check_circle_outline_rounded,
-                color: done ? Volt.brand : (s.complete ? Volt.t2 : Volt.t4),
-                size: 28,
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 }
 
+class _DashedBox extends StatelessWidget {
+  const _DashedBox({required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 6),
+    child: CustomPaint(
+      painter: _Dashes(),
+      child: Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), child: child),
+    ),
+  );
+}
+
+class _Dashes extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final path = Path()
+      ..addRRect(RRect.fromRectAndRadius((Offset.zero & size).deflate(0.5), const Radius.circular(12)));
+    final p = Paint()
+      ..color = Volt.line2
+      ..style = PaintingStyle.stroke;
+    for (final m in path.computeMetrics()) {
+      for (var d = 0.0; d < m.length; d += 6) {
+        canvas.drawPath(m.extractPath(d, d + 3), p);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_Dashes old) => false;
+}
+
+/// The rest timer only takes up room while it runs.
 class _RestBar extends StatelessWidget {
   const _RestBar({
     required this.left,
     required this.total,
+    required this.label,
     required this.onMinus,
-    required this.onPlus,
     required this.onSkip,
   });
   final int left;
   final int total;
+  final String label;
   final VoidCallback onMinus;
-  final VoidCallback onPlus;
   final VoidCallback onSkip;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    return SafeArea(
-      minimum: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(18, 12, 8, 12),
-        decoration: BoxDecoration(
-          color: Volt.card2,
-          borderRadius: BorderRadius.circular(Volt.rCard),
-          border: Border.all(color: Volt.brandEdge),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Text(l.restRunning, style: t.bodySmall),
-                      const SizedBox(width: 10),
-                      Flexible(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Text(
-                            fmtClock(Duration(seconds: left)),
-                            style: t.headlineMedium?.copyWith(fontSize: 26, color: Volt.brand),
-                          ),
+    return PositionedDirectional(
+      start: 14,
+      end: 14,
+      bottom: 14 + MediaQuery.paddingOf(context).bottom,
+      child: Semantics(
+        liveRegion: true,
+        label: l.restingFor(fmtRest(left)),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: Volt.card,
+            borderRadius: BorderRadius.circular(17),
+            border: Border.all(color: Volt.brand.withValues(alpha: 0.22)),
+            boxShadow: const [
+              BoxShadow(color: Color(0xCC000000), blurRadius: 36, offset: Offset(0, 18), spreadRadius: -14),
+              BoxShadow(color: Color(0x14C6F432), spreadRadius: 1),
+            ],
+          ),
+          child: GapCol(
+            gap: 10,
+            cross: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Text(fmtRest(left), style: numStyle(26)),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: GapCol(
+                      gap: 1,
+                      children: [
+                        Eyebrow(l.resting, color: Volt.brand),
+                        Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 12, color: Volt.t3),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                for (final (label, tap) in [('−15', onMinus), ('+15', onPlus), (l.skip, onSkip)])
-                  TextButton(
-                    onPressed: tap,
-                    style: TextButton.styleFrom(
-                      minimumSize: const Size(44, 44),
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      ],
                     ),
-                    // A minus sign must not flip to the end in right-to-left text.
-                    child: Text(label, textDirection: TextDirection.ltr),
                   ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(999),
-              child: LinearProgressIndicator(
-                value: total == 0 ? 0 : left / total,
-                minHeight: 5,
-                color: Volt.brand,
-                backgroundColor: Volt.card,
+                  VBtn(
+                    label: l.minus15,
+                    kind: BtnKind.ghost,
+                    small: true,
+                    minHeight: 34,
+                    fontSize: 13,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    onTap: onMinus,
+                  ),
+                  const SizedBox(width: 8),
+                  VBtn(
+                    label: l.skip,
+                    kind: BtnKind.ghost,
+                    small: true,
+                    minHeight: 34,
+                    fontSize: 13,
+                    padding: const EdgeInsets.symmetric(horizontal: 13),
+                    onTap: onSkip,
+                  ),
+                ],
               ),
-            ),
-          ],
+              VBar(fraction: total == 0 ? 0 : left / total, color: Volt.brand),
+            ],
+          ),
         ),
       ),
     );

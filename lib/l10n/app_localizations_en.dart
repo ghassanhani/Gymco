@@ -416,7 +416,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String nameTaken(String name) {
-    return 'You already have a routine called “$name”.';
+    return 'You already have a routine called $name. Pick another name or edit that one.';
   }
 
   @override
@@ -426,7 +426,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteRoutineTitle => 'Delete this routine?';
 
   @override
-  String get deleteRoutineBody => 'Workouts you\'ve already done stay in your history.';
+  String get deleteRoutineBody =>
+      'The routine goes. Every workout you already logged from it stays in your history, with its sets and PRs.';
 
   @override
   String get edit => 'Edit';
@@ -543,7 +544,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get keepGoing => 'Keep going';
 
   @override
-  String get durationLbl => 'Time';
+  String get durationLbl => 'Duration';
 
   @override
   String get volumeLbl => 'Volume';
@@ -576,28 +577,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stWarmup => 'Warm-up';
 
   @override
-  String get stWarmupSub => 'Primes the lift. Not counted toward weekly sets.';
+  String get stWarmupSub => 'Does not count toward weekly sets';
 
   @override
-  String get stNormal => 'Working set';
+  String get stNormal => 'Normal';
 
   @override
-  String get stNormalSub => 'Counts as one hard set.';
+  String get stNormalSub => 'A hard working set';
 
   @override
-  String get stFailure => 'To failure';
+  String get stFailure => 'Failure';
 
   @override
-  String get stFailureSub => 'Counts as one hard set.';
+  String get stFailureSub => 'Taken to technical failure';
 
   @override
   String get stDrop => 'Drop set';
 
   @override
-  String get stDropSub => 'Counts as half a set.';
+  String get stDropSub => 'Counts as half a set';
 
   @override
-  String get removeSet => 'Remove set';
+  String get removeSet => 'Remove this set';
 
   @override
   String get removeExercise => 'Remove exercise';
@@ -1458,4 +1459,736 @@ class AppLocalizationsEn extends AppLocalizations {
   String lessOf(String what) {
     return 'Less $what';
   }
+
+  @override
+  String get trainTitleEm => 'Train <em>hard</em>';
+
+  @override
+  String trainSub(int days, int week) {
+    return '$days days a week · week $week';
+  }
+
+  @override
+  String get noWeeklyPlan => 'No weekly plan yet';
+
+  @override
+  String dayAhead(String date) {
+    return '$date · ahead';
+  }
+
+  @override
+  String dayClosed(String date) {
+    return '$date · closed';
+  }
+
+  @override
+  String get todayLbl => 'Today';
+
+  @override
+  String plannedOn(String day) {
+    return 'Planned · $day';
+  }
+
+  @override
+  String movedHere(String day) {
+    return 'Moved here · was $day';
+  }
+
+  @override
+  String loggedOfPlanned(int done, int total, int sets) {
+    return '$done of $total logged · $sets sets planned';
+  }
+
+  @override
+  String setsAbout(int sets, int min) {
+    return '$sets sets · about $min min';
+  }
+
+  @override
+  String get startEarly => 'Start early';
+
+  @override
+  String get startAll => 'Start all';
+
+  @override
+  String get startEarlyNote =>
+      'Starting it early moves the rest of the week up with it — the block keeps its order, not its dates.';
+
+  @override
+  String get lastTimeRan => 'Last time you ran it';
+
+  @override
+  String get somethingElse => 'Something else instead';
+
+  @override
+  String restMissed(String name) {
+    return '$name was due and nothing was logged. It moved to the next day you train — the week slides, the order holds.';
+  }
+
+  @override
+  String restAhead(String day) {
+    return 'Nothing scheduled. $day is one of the days off this week.';
+  }
+
+  @override
+  String get restPast =>
+      'Nothing was logged, and nothing was due. Recovery is where the last session turns into the next one.';
+
+  @override
+  String get nextSession => 'Next session';
+
+  @override
+  String get sessionAfter => 'The session after';
+
+  @override
+  String get logAnyway => 'Log something anyway';
+
+  @override
+  String get allRoutines => 'All routines';
+
+  @override
+  String allRoutinesSub(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n routines', one: '1 routine');
+    return '$_temp0 · your exercise library';
+  }
+
+  @override
+  String weeklySetsOf(String group) {
+    return 'Weekly sets · $group';
+  }
+
+  @override
+  String hardSetsN(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n hard sets', one: '1 hard set');
+    return '$_temp0';
+  }
+
+  @override
+  String get zoneIn => 'in the productive zone';
+
+  @override
+  String get zoneUnder => 'below the productive zone';
+
+  @override
+  String get zoneOver => 'above the productive zone';
+
+  @override
+  String get gBack => 'Back';
+
+  @override
+  String get gLegs => 'Legs';
+
+  @override
+  String get gCore => 'Core';
+
+  @override
+  String get closedLbl => 'Closed';
+
+  @override
+  String get hardSetsLbl => 'Hard sets';
+
+  @override
+  String get bestSetEach => 'Best set of each exercise';
+
+  @override
+  String runAgain(String name) {
+    return 'Run $name again';
+  }
+
+  @override
+  String get trainEmptyBody => 'Nothing here yet. Start from a proven template, or build exactly what you already do.';
+
+  @override
+  String get startEmptyWorkout => 'Start an empty workout';
+
+  @override
+  String get startEmptySub => 'Add exercises as you go — it becomes a routine after';
+
+  @override
+  String get buildOwn => 'Build my own routine';
+
+  @override
+  String get buildOwnSub => 'Unlimited routines, free';
+
+  @override
+  String get orTemplate => 'Or start from a template';
+
+  @override
+  String get tplUL => 'Upper / Lower, 4 days';
+
+  @override
+  String get tplULSub => '12–18 sets per muscle a week · intermediate';
+
+  @override
+  String get tplPPL => 'Push / Pull / Legs, 6 days';
+
+  @override
+  String get tplPPLSub => 'High frequency · advanced';
+
+  @override
+  String get tplFB => 'Full body, 3 days';
+
+  @override
+  String get tplFBSub => 'The one to pick while cutting · any level';
+
+  @override
+  String templateAdded(String name) {
+    return '$name added to your weekly plan';
+  }
+
+  @override
+  String get tplUpperA => 'Upper A';
+
+  @override
+  String get tplUpperB => 'Upper B';
+
+  @override
+  String get tplLowerA => 'Lower A';
+
+  @override
+  String get tplLowerB => 'Lower B';
+
+  @override
+  String get tplPushA => 'Push A';
+
+  @override
+  String get tplPushB => 'Push B';
+
+  @override
+  String get tplPullA => 'Pull A';
+
+  @override
+  String get tplPullB => 'Pull B';
+
+  @override
+  String get tplLegsA => 'Legs A';
+
+  @override
+  String get tplLegsB => 'Legs B';
+
+  @override
+  String get tplFullA => 'Full body A';
+
+  @override
+  String get tplFullB => 'Full body B';
+
+  @override
+  String get tplFullC => 'Full body C';
+
+  @override
+  String inProgressName(String name) {
+    return '$name in progress';
+  }
+
+  @override
+  String resumeSub(String time, int done, int total) {
+    return '$time · $done of $total sets';
+  }
+
+  @override
+  String get discardShort => 'Discard';
+
+  @override
+  String get workoutDiscarded => 'Workout discarded — nothing was saved';
+
+  @override
+  String routinesSubLib(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n routines', one: '1 routine');
+    return '$_temp0 · one per day, or any day';
+  }
+
+  @override
+  String get newShort => 'New';
+
+  @override
+  String get folderPlan => 'Weekly plan';
+
+  @override
+  String get folderMine => 'My routines';
+
+  @override
+  String get anyDay => 'Any day';
+
+  @override
+  String everyDay(String day) {
+    return 'Every $day';
+  }
+
+  @override
+  String routineCardSub(String when, int sets) {
+    return '$when · $sets sets';
+  }
+
+  @override
+  String get addToFolder => 'Add a routine to this folder';
+
+  @override
+  String get myExercises => 'My exercises';
+
+  @override
+  String myExercisesSub(int n) {
+    return '$n in the library · always free';
+  }
+
+  @override
+  String get exploreRoutines => 'Explore routines';
+
+  @override
+  String get exploreSub => 'Templates with the set volume already inside the evidence range';
+
+  @override
+  String optionsFor(String name) {
+    return 'Options for $name';
+  }
+
+  @override
+  String get startRoutineFull => 'Start routine';
+
+  @override
+  String get editRoutineSub => 'Exercises, set counts, rep ranges';
+
+  @override
+  String get duplicate => 'Duplicate';
+
+  @override
+  String get duplicateSub => 'A copy you can change without touching this one';
+
+  @override
+  String get deleteRoutineSub => 'Your logged history stays';
+
+  @override
+  String copyName(String name) {
+    return '$name copy';
+  }
+
+  @override
+  String duplicated(String name) {
+    return 'Copied as $name';
+  }
+
+  @override
+  String deleteNamed(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
+  String get keepIt => 'Keep it';
+
+  @override
+  String get neverRun => 'never run';
+
+  @override
+  String doneOn(String date) {
+    return 'done $date';
+  }
+
+  @override
+  String get estDuration => 'Est duration';
+
+  @override
+  String get exercisesLbl => 'Exercises';
+
+  @override
+  String itemLine(int sets, String reps, int rir, String rest) {
+    return '$sets sets · $reps reps @ RIR $rir · rest $rest';
+  }
+
+  @override
+  String get weekEffect => 'What this does to your week';
+
+  @override
+  String get weekIfSave => 'Weekly sets if you save this';
+
+  @override
+  String setsWkState(String state) {
+    return 'sets/wk · $state';
+  }
+
+  @override
+  String get inRange => 'in range';
+
+  @override
+  String get belowRange => 'below range';
+
+  @override
+  String get aboveRange => 'above range';
+
+  @override
+  String get volumeNote =>
+      'Counting this routine on top of what the rest of your week already does. Ten to twenty hard sets a muscle a week is where the evidence is strongest — under it you are leaving growth on the table, over it you are mostly buying fatigue.';
+
+  @override
+  String exLineLabel(String name, int sets, String reps) {
+    return '$name, $sets sets of $reps';
+  }
+
+  @override
+  String get loggedLbl => 'Logged';
+
+  @override
+  String startOnItsOwn(String name) {
+    return 'Start $name on its own';
+  }
+
+  @override
+  String builderSub(int n, int sets, int min) {
+    return '$n exercises · $sets sets · about $min min';
+  }
+
+  @override
+  String get nothingYet => 'Nothing in it yet';
+
+  @override
+  String get nameLbl => 'Name';
+
+  @override
+  String get namePlaceholder => 'Push A, Legs heavy, Tuesday…';
+
+  @override
+  String get folderLbl => 'Folder';
+
+  @override
+  String get dayLbl => 'Day';
+
+  @override
+  String dayTakenBy(String day, String name) {
+    return '$day, taken by $name';
+  }
+
+  @override
+  String dayTaken(String name, String day) {
+    return '$name is already on $day. Saving this moves that one to Any day.';
+  }
+
+  @override
+  String get anyDayNote => 'Run it whenever — it stays out of the weekly rotation.';
+
+  @override
+  String get dayNote => 'Miss it and it moves to your next training day, keeping the block in order.';
+
+  @override
+  String get builderEmpty =>
+      'No exercises yet. Add the first one and Gymco will show what it does to your weekly set count as you go.';
+
+  @override
+  String repsChip(String reps) {
+    return '$reps reps';
+  }
+
+  @override
+  String restChip(String t) {
+    return 'rest $t';
+  }
+
+  @override
+  String get oneSetFewer => 'One set fewer';
+
+  @override
+  String get oneSetMore => 'One set more';
+
+  @override
+  String get moveUp => 'Move up';
+
+  @override
+  String get moveDown => 'Move down';
+
+  @override
+  String get repRangeLbl => 'Rep range';
+
+  @override
+  String repRangeTitle(String name) {
+    return 'Rep range · $name';
+  }
+
+  @override
+  String get repRangeNote =>
+      'Anything from five to thirty reps builds muscle if the set is taken close to failure. Heavier ranges cost more rest and more joints; lighter ones cost more discomfort.';
+
+  @override
+  String restBetween(String name) {
+    return 'Rest between sets · $name';
+  }
+
+  @override
+  String restBetweenSub(String t) {
+    return '$t between sets';
+  }
+
+  @override
+  String get restBetweenNote =>
+      'This is what the timer will suggest during the workout. You can still change it set by set once you are in there.';
+
+  @override
+  String get removeFromRoutine => 'Remove from routine';
+
+  @override
+  String get hintName => 'Give it a name to save';
+
+  @override
+  String get hintTaken => 'That name is taken';
+
+  @override
+  String get hintExercise => 'Add at least one exercise';
+
+  @override
+  String get saveRoutine => 'Save routine';
+
+  @override
+  String routineSaved(String name) {
+    return '$name saved';
+  }
+
+  @override
+  String get leaveTitle => 'Leave without saving?';
+
+  @override
+  String leaveEditing(String name) {
+    return 'Your changes to $name will be dropped.';
+  }
+
+  @override
+  String get leaveNew => 'This routine has not been saved yet.';
+
+  @override
+  String get keepEditing => 'Keep editing';
+
+  @override
+  String get minimise => 'Minimise workout';
+
+  @override
+  String get restTimer => 'Rest timer';
+
+  @override
+  String get offLbl => 'Off';
+
+  @override
+  String get notePlaceholder => 'Add a note — cue, machine setting, how it felt';
+
+  @override
+  String get setH => 'Set';
+
+  @override
+  String get rirLbl => 'RIR';
+
+  @override
+  String completeSet(String n) {
+    return 'Complete set $n';
+  }
+
+  @override
+  String setTypeLabel(String type) {
+    return 'Set type: $type';
+  }
+
+  @override
+  String get supersetBadge => 'Superset · no rest between';
+
+  @override
+  String get unlink => 'Unlink';
+
+  @override
+  String get supersetNote =>
+      'The timer only starts once the pair is done. Both count as full sets for their own muscles.';
+
+  @override
+  String get emptyWorkoutBody =>
+      'Empty workout. The clock is already running — add the first exercise whenever you are ready.';
+
+  @override
+  String restAfterEachTitle(String name) {
+    return 'Rest after each set · $name';
+  }
+
+  @override
+  String get restNote =>
+      'Three minutes or more for heavy compounds — shorter rest costs you reps, and reps are the stimulus.';
+
+  @override
+  String restAfterEach(String t) {
+    return '$t after each set';
+  }
+
+  @override
+  String get restOffFor => 'Off for this exercise';
+
+  @override
+  String get supersetNext => 'Superset with the next exercise';
+
+  @override
+  String get supersetNextSub => 'No rest between the two';
+
+  @override
+  String get seeHistory => 'See history and 1RM';
+
+  @override
+  String get removeFromWorkout => 'Remove from this workout';
+
+  @override
+  String removedFromWorkout(String name) {
+    return '$name removed from this workout';
+  }
+
+  @override
+  String get nothingAfter => 'Nothing after this one to pair with';
+
+  @override
+  String get supersetted => 'Supersetted — the timer waits for both';
+
+  @override
+  String exAdded(String name) {
+    return '$name added';
+  }
+
+  @override
+  String get resting => 'Resting';
+
+  @override
+  String restingFor(String t) {
+    return 'Resting, $t left';
+  }
+
+  @override
+  String nextSetOf(String name, int n) {
+    return 'Next: $name, set $n';
+  }
+
+  @override
+  String get lastSetDone => 'Last set done';
+
+  @override
+  String get minus15 => '−15s';
+
+  @override
+  String get setRemoved => 'Set removed';
+
+  @override
+  String get rirTitle => 'Reps in reserve';
+
+  @override
+  String get rirNote => 'How many more you could have done with good form.';
+
+  @override
+  String editSetTitle(String n, String name) {
+    return 'Set $n · $name';
+  }
+
+  @override
+  String lastTimeSet(String set) {
+    return 'Last time: $set';
+  }
+
+  @override
+  String get nothingTicked => 'Nothing was ticked, so nothing was saved';
+
+  @override
+  String setsUnticked(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n sets were left unticked — they are not in the log',
+      one: '1 set was left unticked — it is not in the log',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String doneTitle(String name) {
+    return '$name — done';
+  }
+
+  @override
+  String get volumeExplain =>
+      'Volume is every completed working set multiplied out. Warm-ups are in the log but not in this number, and not in your weekly set count either.';
+
+  @override
+  String get prLbl => 'PR';
+
+  @override
+  String insightIn(String group, String sets) {
+    return '$group is at $sets this week — inside the 10–20 range where the evidence is strongest. Nothing to change.';
+  }
+
+  @override
+  String insightUnder(String group, String sets) {
+    return '$group is at $sets this week — under the 10–20 range. Another session or two would put it there.';
+  }
+
+  @override
+  String insightOver(String group, String sets) {
+    return '$group is at $sets this week — above 20. Past that point it is mostly fatigue.';
+  }
+
+  @override
+  String get saveAsRoutine => 'Save as routine';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String shareText(String name, String time, String volume, String sets) {
+    return '$name · $time · $volume · $sets hard sets';
+  }
+
+  @override
+  String soloLogged(String name) {
+    return '$name logged — the rest of the day is still there';
+  }
+
+  @override
+  String get est1rm => 'Estimated 1RM';
+
+  @override
+  String trendKg(String delta, int w) {
+    return '$delta kg / $w wk';
+  }
+
+  @override
+  String get months6 => '6 months';
+
+  @override
+  String get chartNeedsTwo => 'Two workouts with this lift and the trend line starts.';
+
+  @override
+  String get best5 => 'Best 5 reps';
+
+  @override
+  String get best8 => 'Best 8 reps';
+
+  @override
+  String get setsWk => 'Sets / wk';
+
+  @override
+  String get exClimbing =>
+      'This lift is still climbing. Whatever you are doing with the deficit, it is tolerable — no reason to slow down yet.';
+
+  @override
+  String get exFlat => 'Holding steady. In a deficit, holding is winning.';
+
+  @override
+  String get exDropping =>
+      'Down from where it was eight weeks ago. Check sleep and the size of the deficit before blaming the program.';
+
+  @override
+  String get exNoHistory => 'No history yet. Log it once and its 1RM trend starts here.';
+
+  @override
+  String get historyLbl => 'History';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get addAnExercise => 'Add an exercise';
+
+  @override
+  String get searchLibrary => 'Search the exercise library';
+
+  @override
+  String get noExerciseMatch => 'Nothing matches. Try a shorter word, or another muscle.';
+
+  @override
+  String get inLbl => 'in';
+
+  @override
+  String get alreadyIn => 'Already in this workout';
 }

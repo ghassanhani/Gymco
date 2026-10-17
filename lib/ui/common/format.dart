@@ -53,3 +53,6 @@ String fmtClock(Duration d) {
 
 /// Weights drop a trailing .0: 100, 102.5.
 String fmtKg(BuildContext context, double kg) => kg == kg.roundToDouble() ? fmtInt(context, kg) : fmtDec(context, kg);
+
+/// Keeps a number range like 5–8 in reading order inside right-to-left text.
+String ltr(String s) => '\u2066$s\u2069';

@@ -816,7 +816,7 @@ abstract class AppLocalizations {
   /// No description provided for @nameTaken.
   ///
   /// In en, this message translates to:
-  /// **'You already have a routine called “{name}”.'**
+  /// **'You already have a routine called {name}. Pick another name or edit that one.'**
   String nameTaken(String name);
 
   /// No description provided for @deleteRoutine.
@@ -834,7 +834,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteRoutineBody.
   ///
   /// In en, this message translates to:
-  /// **'Workouts you\'ve already done stay in your history.'**
+  /// **'The routine goes. Every workout you already logged from it stays in your history, with its sets and PRs.'**
   String get deleteRoutineBody;
 
   /// No description provided for @edit.
@@ -1044,7 +1044,7 @@ abstract class AppLocalizations {
   /// No description provided for @durationLbl.
   ///
   /// In en, this message translates to:
-  /// **'Time'**
+  /// **'Duration'**
   String get durationLbl;
 
   /// No description provided for @volumeLbl.
@@ -1110,31 +1110,31 @@ abstract class AppLocalizations {
   /// No description provided for @stWarmupSub.
   ///
   /// In en, this message translates to:
-  /// **'Primes the lift. Not counted toward weekly sets.'**
+  /// **'Does not count toward weekly sets'**
   String get stWarmupSub;
 
   /// No description provided for @stNormal.
   ///
   /// In en, this message translates to:
-  /// **'Working set'**
+  /// **'Normal'**
   String get stNormal;
 
   /// No description provided for @stNormalSub.
   ///
   /// In en, this message translates to:
-  /// **'Counts as one hard set.'**
+  /// **'A hard working set'**
   String get stNormalSub;
 
   /// No description provided for @stFailure.
   ///
   /// In en, this message translates to:
-  /// **'To failure'**
+  /// **'Failure'**
   String get stFailure;
 
   /// No description provided for @stFailureSub.
   ///
   /// In en, this message translates to:
-  /// **'Counts as one hard set.'**
+  /// **'Taken to technical failure'**
   String get stFailureSub;
 
   /// No description provided for @stDrop.
@@ -1146,13 +1146,13 @@ abstract class AppLocalizations {
   /// No description provided for @stDropSub.
   ///
   /// In en, this message translates to:
-  /// **'Counts as half a set.'**
+  /// **'Counts as half a set'**
   String get stDropSub;
 
   /// No description provided for @removeSet.
   ///
   /// In en, this message translates to:
-  /// **'Remove set'**
+  /// **'Remove this set'**
   String get removeSet;
 
   /// No description provided for @removeExercise.
@@ -2588,6 +2588,1200 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Less {what}'**
   String lessOf(String what);
+
+  /// No description provided for @trainTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Train <em>hard</em>'**
+  String get trainTitleEm;
+
+  /// No description provided for @trainSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days a week · week {week}'**
+  String trainSub(int days, int week);
+
+  /// No description provided for @noWeeklyPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'No weekly plan yet'**
+  String get noWeeklyPlan;
+
+  /// No description provided for @dayAhead.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · ahead'**
+  String dayAhead(String date);
+
+  /// No description provided for @dayClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · closed'**
+  String dayClosed(String date);
+
+  /// No description provided for @todayLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayLbl;
+
+  /// No description provided for @plannedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned · {day}'**
+  String plannedOn(String day);
+
+  /// No description provided for @movedHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved here · was {day}'**
+  String movedHere(String day);
+
+  /// No description provided for @loggedOfPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} logged · {sets} sets planned'**
+  String loggedOfPlanned(int done, int total, int sets);
+
+  /// No description provided for @setsAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} sets · about {min} min'**
+  String setsAbout(int sets, int min);
+
+  /// No description provided for @startEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Start early'**
+  String get startEarly;
+
+  /// No description provided for @startAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Start all'**
+  String get startAll;
+
+  /// No description provided for @startEarlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting it early moves the rest of the week up with it — the block keeps its order, not its dates.'**
+  String get startEarlyNote;
+
+  /// No description provided for @lastTimeRan.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time you ran it'**
+  String get lastTimeRan;
+
+  /// No description provided for @somethingElse.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else instead'**
+  String get somethingElse;
+
+  /// No description provided for @restMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was due and nothing was logged. It moved to the next day you train — the week slides, the order holds.'**
+  String restMissed(String name);
+
+  /// No description provided for @restAhead.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled. {day} is one of the days off this week.'**
+  String restAhead(String day);
+
+  /// No description provided for @restPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was logged, and nothing was due. Recovery is where the last session turns into the next one.'**
+  String get restPast;
+
+  /// No description provided for @nextSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Next session'**
+  String get nextSession;
+
+  /// No description provided for @sessionAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'The session after'**
+  String get sessionAfter;
+
+  /// No description provided for @logAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Log something anyway'**
+  String get logAnyway;
+
+  /// No description provided for @allRoutines.
+  ///
+  /// In en, this message translates to:
+  /// **'All routines'**
+  String get allRoutines;
+
+  /// No description provided for @allRoutinesSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 routine} other{{n} routines}} · your exercise library'**
+  String allRoutinesSub(int n);
+
+  /// No description provided for @weeklySetsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly sets · {group}'**
+  String weeklySetsOf(String group);
+
+  /// No description provided for @hardSetsN.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 hard set} other{{n} hard sets}}'**
+  String hardSetsN(int n);
+
+  /// No description provided for @zoneIn.
+  ///
+  /// In en, this message translates to:
+  /// **'in the productive zone'**
+  String get zoneIn;
+
+  /// No description provided for @zoneUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'below the productive zone'**
+  String get zoneUnder;
+
+  /// No description provided for @zoneOver.
+  ///
+  /// In en, this message translates to:
+  /// **'above the productive zone'**
+  String get zoneOver;
+
+  /// No description provided for @gBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get gBack;
+
+  /// No description provided for @gLegs.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs'**
+  String get gLegs;
+
+  /// No description provided for @gCore.
+  ///
+  /// In en, this message translates to:
+  /// **'Core'**
+  String get gCore;
+
+  /// No description provided for @closedLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get closedLbl;
+
+  /// No description provided for @hardSetsLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Hard sets'**
+  String get hardSetsLbl;
+
+  /// No description provided for @bestSetEach.
+  ///
+  /// In en, this message translates to:
+  /// **'Best set of each exercise'**
+  String get bestSetEach;
+
+  /// No description provided for @runAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Run {name} again'**
+  String runAgain(String name);
+
+  /// No description provided for @trainEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet. Start from a proven template, or build exactly what you already do.'**
+  String get trainEmptyBody;
+
+  /// No description provided for @startEmptyWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start an empty workout'**
+  String get startEmptyWorkout;
+
+  /// No description provided for @startEmptySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Add exercises as you go — it becomes a routine after'**
+  String get startEmptySub;
+
+  /// No description provided for @buildOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Build my own routine'**
+  String get buildOwn;
+
+  /// No description provided for @buildOwnSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited routines, free'**
+  String get buildOwnSub;
+
+  /// No description provided for @orTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Or start from a template'**
+  String get orTemplate;
+
+  /// No description provided for @tplUL.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper / Lower, 4 days'**
+  String get tplUL;
+
+  /// No description provided for @tplULSub.
+  ///
+  /// In en, this message translates to:
+  /// **'12–18 sets per muscle a week · intermediate'**
+  String get tplULSub;
+
+  /// No description provided for @tplPPL.
+  ///
+  /// In en, this message translates to:
+  /// **'Push / Pull / Legs, 6 days'**
+  String get tplPPL;
+
+  /// No description provided for @tplPPLSub.
+  ///
+  /// In en, this message translates to:
+  /// **'High frequency · advanced'**
+  String get tplPPLSub;
+
+  /// No description provided for @tplFB.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body, 3 days'**
+  String get tplFB;
+
+  /// No description provided for @tplFBSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The one to pick while cutting · any level'**
+  String get tplFBSub;
+
+  /// No description provided for @templateAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} added to your weekly plan'**
+  String templateAdded(String name);
+
+  /// No description provided for @tplUpperA.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper A'**
+  String get tplUpperA;
+
+  /// No description provided for @tplUpperB.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper B'**
+  String get tplUpperB;
+
+  /// No description provided for @tplLowerA.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower A'**
+  String get tplLowerA;
+
+  /// No description provided for @tplLowerB.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower B'**
+  String get tplLowerB;
+
+  /// No description provided for @tplPushA.
+  ///
+  /// In en, this message translates to:
+  /// **'Push A'**
+  String get tplPushA;
+
+  /// No description provided for @tplPushB.
+  ///
+  /// In en, this message translates to:
+  /// **'Push B'**
+  String get tplPushB;
+
+  /// No description provided for @tplPullA.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull A'**
+  String get tplPullA;
+
+  /// No description provided for @tplPullB.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull B'**
+  String get tplPullB;
+
+  /// No description provided for @tplLegsA.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs A'**
+  String get tplLegsA;
+
+  /// No description provided for @tplLegsB.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs B'**
+  String get tplLegsB;
+
+  /// No description provided for @tplFullA.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body A'**
+  String get tplFullA;
+
+  /// No description provided for @tplFullB.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body B'**
+  String get tplFullB;
+
+  /// No description provided for @tplFullC.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body C'**
+  String get tplFullC;
+
+  /// No description provided for @inProgressName.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} in progress'**
+  String inProgressName(String name);
+
+  /// No description provided for @resumeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} · {done} of {total} sets'**
+  String resumeSub(String time, int done, int total);
+
+  /// No description provided for @discardShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get discardShort;
+
+  /// No description provided for @workoutDiscarded.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout discarded — nothing was saved'**
+  String get workoutDiscarded;
+
+  /// No description provided for @routinesSubLib.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 routine} other{{n} routines}} · one per day, or any day'**
+  String routinesSubLib(int n);
+
+  /// No description provided for @newShort.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get newShort;
+
+  /// No description provided for @folderPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly plan'**
+  String get folderPlan;
+
+  /// No description provided for @folderMine.
+  ///
+  /// In en, this message translates to:
+  /// **'My routines'**
+  String get folderMine;
+
+  /// No description provided for @anyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Any day'**
+  String get anyDay;
+
+  /// No description provided for @everyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every {day}'**
+  String everyDay(String day);
+
+  /// No description provided for @routineCardSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{when} · {sets} sets'**
+  String routineCardSub(String when, int sets);
+
+  /// No description provided for @addToFolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a routine to this folder'**
+  String get addToFolder;
+
+  /// No description provided for @myExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'My exercises'**
+  String get myExercises;
+
+  /// No description provided for @myExercisesSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} in the library · always free'**
+  String myExercisesSub(int n);
+
+  /// No description provided for @exploreRoutines.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore routines'**
+  String get exploreRoutines;
+
+  /// No description provided for @exploreSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Templates with the set volume already inside the evidence range'**
+  String get exploreSub;
+
+  /// No description provided for @optionsFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Options for {name}'**
+  String optionsFor(String name);
+
+  /// No description provided for @startRoutineFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Start routine'**
+  String get startRoutineFull;
+
+  /// No description provided for @editRoutineSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises, set counts, rep ranges'**
+  String get editRoutineSub;
+
+  /// No description provided for @duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicate;
+
+  /// No description provided for @duplicateSub.
+  ///
+  /// In en, this message translates to:
+  /// **'A copy you can change without touching this one'**
+  String get duplicateSub;
+
+  /// No description provided for @deleteRoutineSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Your logged history stays'**
+  String get deleteRoutineSub;
+
+  /// No description provided for @copyName.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} copy'**
+  String copyName(String name);
+
+  /// No description provided for @duplicated.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied as {name}'**
+  String duplicated(String name);
+
+  /// No description provided for @deleteNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String deleteNamed(String name);
+
+  /// No description provided for @keepIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it'**
+  String get keepIt;
+
+  /// No description provided for @neverRun.
+  ///
+  /// In en, this message translates to:
+  /// **'never run'**
+  String get neverRun;
+
+  /// No description provided for @doneOn.
+  ///
+  /// In en, this message translates to:
+  /// **'done {date}'**
+  String doneOn(String date);
+
+  /// No description provided for @estDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Est duration'**
+  String get estDuration;
+
+  /// No description provided for @exercisesLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises'**
+  String get exercisesLbl;
+
+  /// No description provided for @itemLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} sets · {reps} reps @ RIR {rir} · rest {rest}'**
+  String itemLine(int sets, String reps, int rir, String rest);
+
+  /// No description provided for @weekEffect.
+  ///
+  /// In en, this message translates to:
+  /// **'What this does to your week'**
+  String get weekEffect;
+
+  /// No description provided for @weekIfSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly sets if you save this'**
+  String get weekIfSave;
+
+  /// No description provided for @setsWkState.
+  ///
+  /// In en, this message translates to:
+  /// **'sets/wk · {state}'**
+  String setsWkState(String state);
+
+  /// No description provided for @inRange.
+  ///
+  /// In en, this message translates to:
+  /// **'in range'**
+  String get inRange;
+
+  /// No description provided for @belowRange.
+  ///
+  /// In en, this message translates to:
+  /// **'below range'**
+  String get belowRange;
+
+  /// No description provided for @aboveRange.
+  ///
+  /// In en, this message translates to:
+  /// **'above range'**
+  String get aboveRange;
+
+  /// No description provided for @volumeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Counting this routine on top of what the rest of your week already does. Ten to twenty hard sets a muscle a week is where the evidence is strongest — under it you are leaving growth on the table, over it you are mostly buying fatigue.'**
+  String get volumeNote;
+
+  /// No description provided for @exLineLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}, {sets} sets of {reps}'**
+  String exLineLabel(String name, int sets, String reps);
+
+  /// No description provided for @loggedLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged'**
+  String get loggedLbl;
+
+  /// No description provided for @startOnItsOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Start {name} on its own'**
+  String startOnItsOwn(String name);
+
+  /// No description provided for @builderSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} exercises · {sets} sets · about {min} min'**
+  String builderSub(int n, int sets, int min);
+
+  /// No description provided for @nothingYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in it yet'**
+  String get nothingYet;
+
+  /// No description provided for @nameLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameLbl;
+
+  /// No description provided for @namePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Push A, Legs heavy, Tuesday…'**
+  String get namePlaceholder;
+
+  /// No description provided for @folderLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder'**
+  String get folderLbl;
+
+  /// No description provided for @dayLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get dayLbl;
+
+  /// No description provided for @dayTakenBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}, taken by {name}'**
+  String dayTakenBy(String day, String name);
+
+  /// No description provided for @dayTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is already on {day}. Saving this moves that one to Any day.'**
+  String dayTaken(String name, String day);
+
+  /// No description provided for @anyDayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Run it whenever — it stays out of the weekly rotation.'**
+  String get anyDayNote;
+
+  /// No description provided for @dayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Miss it and it moves to your next training day, keeping the block in order.'**
+  String get dayNote;
+
+  /// No description provided for @builderEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercises yet. Add the first one and Gymco will show what it does to your weekly set count as you go.'**
+  String get builderEmpty;
+
+  /// No description provided for @repsChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{reps} reps'**
+  String repsChip(String reps);
+
+  /// No description provided for @restChip.
+  ///
+  /// In en, this message translates to:
+  /// **'rest {t}'**
+  String restChip(String t);
+
+  /// No description provided for @oneSetFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'One set fewer'**
+  String get oneSetFewer;
+
+  /// No description provided for @oneSetMore.
+  ///
+  /// In en, this message translates to:
+  /// **'One set more'**
+  String get oneSetMore;
+
+  /// No description provided for @moveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get moveUp;
+
+  /// No description provided for @moveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get moveDown;
+
+  /// No description provided for @repRangeLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Rep range'**
+  String get repRangeLbl;
+
+  /// No description provided for @repRangeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rep range · {name}'**
+  String repRangeTitle(String name);
+
+  /// No description provided for @repRangeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything from five to thirty reps builds muscle if the set is taken close to failure. Heavier ranges cost more rest and more joints; lighter ones cost more discomfort.'**
+  String get repRangeNote;
+
+  /// No description provided for @restBetween.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest between sets · {name}'**
+  String restBetween(String name);
+
+  /// No description provided for @restBetweenSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{t} between sets'**
+  String restBetweenSub(String t);
+
+  /// No description provided for @restBetweenNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This is what the timer will suggest during the workout. You can still change it set by set once you are in there.'**
+  String get restBetweenNote;
+
+  /// No description provided for @removeFromRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from routine'**
+  String get removeFromRoutine;
+
+  /// No description provided for @hintName.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it a name to save'**
+  String get hintName;
+
+  /// No description provided for @hintTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'That name is taken'**
+  String get hintTaken;
+
+  /// No description provided for @hintExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one exercise'**
+  String get hintExercise;
+
+  /// No description provided for @saveRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Save routine'**
+  String get saveRoutine;
+
+  /// No description provided for @routineSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} saved'**
+  String routineSaved(String name);
+
+  /// No description provided for @leaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave without saving?'**
+  String get leaveTitle;
+
+  /// No description provided for @leaveEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Your changes to {name} will be dropped.'**
+  String leaveEditing(String name);
+
+  /// No description provided for @leaveNew.
+  ///
+  /// In en, this message translates to:
+  /// **'This routine has not been saved yet.'**
+  String get leaveNew;
+
+  /// No description provided for @keepEditing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get keepEditing;
+
+  /// No description provided for @minimise.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimise workout'**
+  String get minimise;
+
+  /// No description provided for @restTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest timer'**
+  String get restTimer;
+
+  /// No description provided for @offLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get offLbl;
+
+  /// No description provided for @notePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a note — cue, machine setting, how it felt'**
+  String get notePlaceholder;
+
+  /// No description provided for @setH.
+  ///
+  /// In en, this message translates to:
+  /// **'Set'**
+  String get setH;
+
+  /// No description provided for @rirLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'RIR'**
+  String get rirLbl;
+
+  /// No description provided for @completeSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete set {n}'**
+  String completeSet(String n);
+
+  /// No description provided for @setTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Set type: {type}'**
+  String setTypeLabel(String type);
+
+  /// No description provided for @supersetBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Superset · no rest between'**
+  String get supersetBadge;
+
+  /// No description provided for @unlink.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink'**
+  String get unlink;
+
+  /// No description provided for @supersetNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The timer only starts once the pair is done. Both count as full sets for their own muscles.'**
+  String get supersetNote;
+
+  /// No description provided for @emptyWorkoutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty workout. The clock is already running — add the first exercise whenever you are ready.'**
+  String get emptyWorkoutBody;
+
+  /// No description provided for @restAfterEachTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest after each set · {name}'**
+  String restAfterEachTitle(String name);
+
+  /// No description provided for @restNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Three minutes or more for heavy compounds — shorter rest costs you reps, and reps are the stimulus.'**
+  String get restNote;
+
+  /// No description provided for @restAfterEach.
+  ///
+  /// In en, this message translates to:
+  /// **'{t} after each set'**
+  String restAfterEach(String t);
+
+  /// No description provided for @restOffFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Off for this exercise'**
+  String get restOffFor;
+
+  /// No description provided for @supersetNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Superset with the next exercise'**
+  String get supersetNext;
+
+  /// No description provided for @supersetNextSub.
+  ///
+  /// In en, this message translates to:
+  /// **'No rest between the two'**
+  String get supersetNextSub;
+
+  /// No description provided for @seeHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'See history and 1RM'**
+  String get seeHistory;
+
+  /// No description provided for @removeFromWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from this workout'**
+  String get removeFromWorkout;
+
+  /// No description provided for @removedFromWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} removed from this workout'**
+  String removedFromWorkout(String name);
+
+  /// No description provided for @nothingAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing after this one to pair with'**
+  String get nothingAfter;
+
+  /// No description provided for @supersetted.
+  ///
+  /// In en, this message translates to:
+  /// **'Supersetted — the timer waits for both'**
+  String get supersetted;
+
+  /// No description provided for @exAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} added'**
+  String exAdded(String name);
+
+  /// No description provided for @resting.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting'**
+  String get resting;
+
+  /// No description provided for @restingFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting, {t} left'**
+  String restingFor(String t);
+
+  /// No description provided for @nextSetOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {name}, set {n}'**
+  String nextSetOf(String name, int n);
+
+  /// No description provided for @lastSetDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Last set done'**
+  String get lastSetDone;
+
+  /// No description provided for @minus15.
+  ///
+  /// In en, this message translates to:
+  /// **'−15s'**
+  String get minus15;
+
+  /// No description provided for @setRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Set removed'**
+  String get setRemoved;
+
+  /// No description provided for @rirTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps in reserve'**
+  String get rirTitle;
+
+  /// No description provided for @rirNote.
+  ///
+  /// In en, this message translates to:
+  /// **'How many more you could have done with good form.'**
+  String get rirNote;
+
+  /// No description provided for @editSetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set {n} · {name}'**
+  String editSetTitle(String n, String name);
+
+  /// No description provided for @lastTimeSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time: {set}'**
+  String lastTimeSet(String set);
+
+  /// No description provided for @nothingTicked.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was ticked, so nothing was saved'**
+  String get nothingTicked;
+
+  /// No description provided for @setsUnticked.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 set was left unticked — it is not in the log} other{{n} sets were left unticked — they are not in the log}}'**
+  String setsUnticked(int n);
+
+  /// No description provided for @doneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} — done'**
+  String doneTitle(String name);
+
+  /// No description provided for @volumeExplain.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume is every completed working set multiplied out. Warm-ups are in the log but not in this number, and not in your weekly set count either.'**
+  String get volumeExplain;
+
+  /// No description provided for @prLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'PR'**
+  String get prLbl;
+
+  /// No description provided for @insightIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{group} is at {sets} this week — inside the 10–20 range where the evidence is strongest. Nothing to change.'**
+  String insightIn(String group, String sets);
+
+  /// No description provided for @insightUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'{group} is at {sets} this week — under the 10–20 range. Another session or two would put it there.'**
+  String insightUnder(String group, String sets);
+
+  /// No description provided for @insightOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{group} is at {sets} this week — above 20. Past that point it is mostly fatigue.'**
+  String insightOver(String group, String sets);
+
+  /// No description provided for @saveAsRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as routine'**
+  String get saveAsRoutine;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @shareText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {time} · {volume} · {sets} hard sets'**
+  String shareText(String name, String time, String volume, String sets);
+
+  /// No description provided for @soloLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} logged — the rest of the day is still there'**
+  String soloLogged(String name);
+
+  /// No description provided for @est1rm.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated 1RM'**
+  String get est1rm;
+
+  /// No description provided for @trendKg.
+  ///
+  /// In en, this message translates to:
+  /// **'{delta} kg / {w} wk'**
+  String trendKg(String delta, int w);
+
+  /// No description provided for @months6.
+  ///
+  /// In en, this message translates to:
+  /// **'6 months'**
+  String get months6;
+
+  /// No description provided for @chartNeedsTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Two workouts with this lift and the trend line starts.'**
+  String get chartNeedsTwo;
+
+  /// No description provided for @best5.
+  ///
+  /// In en, this message translates to:
+  /// **'Best 5 reps'**
+  String get best5;
+
+  /// No description provided for @best8.
+  ///
+  /// In en, this message translates to:
+  /// **'Best 8 reps'**
+  String get best8;
+
+  /// No description provided for @setsWk.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets / wk'**
+  String get setsWk;
+
+  /// No description provided for @exClimbing.
+  ///
+  /// In en, this message translates to:
+  /// **'This lift is still climbing. Whatever you are doing with the deficit, it is tolerable — no reason to slow down yet.'**
+  String get exClimbing;
+
+  /// No description provided for @exFlat.
+  ///
+  /// In en, this message translates to:
+  /// **'Holding steady. In a deficit, holding is winning.'**
+  String get exFlat;
+
+  /// No description provided for @exDropping.
+  ///
+  /// In en, this message translates to:
+  /// **'Down from where it was eight weeks ago. Check sleep and the size of the deficit before blaming the program.'**
+  String get exDropping;
+
+  /// No description provided for @exNoHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet. Log it once and its 1RM trend starts here.'**
+  String get exNoHistory;
+
+  /// No description provided for @historyLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyLbl;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @addAnExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an exercise'**
+  String get addAnExercise;
+
+  /// No description provided for @searchLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the exercise library'**
+  String get searchLibrary;
+
+  /// No description provided for @noExerciseMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches. Try a shorter word, or another muscle.'**
+  String get noExerciseMatch;
+
+  /// No description provided for @inLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'in'**
+  String get inLbl;
+
+  /// No description provided for @alreadyIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in this workout'**
+  String get alreadyIn;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

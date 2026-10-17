@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,11 +7,14 @@ import '../../l10n/app_localizations.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
-import '../common/widgets.dart';
+import '../kit/kit.dart';
+import 'train_kit.dart';
 
-/// Pick one or more exercises. Pops with the chosen list, in tap order.
+/// Search the library. Picking pops with the chosen list, in tap order;
+/// browsing opens each exercise instead.
 class ExercisePickerScreen extends ConsumerStatefulWidget {
-  const ExercisePickerScreen({super.key});
+  const ExercisePickerScreen({super.key, this.browse = false});
+  final bool browse;
 
   @override
   ConsumerState<ExercisePickerScreen> createState() => _ExercisePickerScreenState();
@@ -32,231 +34,111 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
     final lib = ref.watch(exerciseLibraryProvider).value;
     final hits = lib?.search(_q.text, muscle: _muscle) ?? const <Exercise>[];
+    final have = {for (final e in ref.watch(activeWorkoutProvider)?.exercises ?? const []) e.exerciseId};
 
     return Scaffold(
-      body: VoltBackground(
-        child: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+      body: VScreen(
+        overlays: [
+          if (_picked.isNotEmpty)
+            LogBar(
+              aboveTabs: false,
+              children: [
+                Expanded(child: Muted(_picked.map((e) => e.shortName).join(', '))),
+                VBtn(label: l.addCount(_picked.length), small: true, onTap: () => context.pop(List.of(_picked))),
+              ],
+            ),
+        ],
+        child: Column(
+          children: [
+            BackBar(
+              title: widget.browse ? l.myExercises : l.addAnExercise,
+              sub: l.myExercisesSub(lib?.all.length ?? 0),
+              icon: widget.browse ? 'back' : 'close',
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+              child: Container(
+                height: 48,
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(13)),
                 child: Row(
                   children: [
-                    const CloseButton(),
-                    Expanded(child: Text(l.addExercise, style: t.titleLarge)),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  controller: _q,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    hintText: l.searchExercises,
-                    prefixIcon: const Icon(Icons.search_rounded, color: Volt.t3),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 56,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  children: [
-                    for (final m in [null, ...ExerciseLibrary.muscles])
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(end: 8),
-                        child: ChoiceChip(
-                          label: Text(m == null ? l.allMuscles : muscleName(l, m)),
-                          selected: _muscle == m,
-                          onSelected: (_) => setState(() => _muscle = m),
+                    const VIcon('search', size: 18, color: Volt.t3),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: _q,
+                        onChanged: (_) => setState(() {}),
+                        style: const TextStyle(fontSize: 15, color: Volt.t1),
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          filled: false,
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          hintText: l.searchLibrary,
                         ),
                       ),
+                    ),
                   ],
                 ),
-              ),
-              Expanded(
-                child: lib == null
-                    ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 120),
-                        itemCount: hits.length,
-                        itemExtent: 76,
-                        itemBuilder: (_, i) {
-                          final e = hits[i];
-                          final on = _picked.contains(e);
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Material(
-                              color: on ? Volt.brandWash : Volt.card,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(Volt.rRow),
-                                side: BorderSide(color: on ? Volt.brand : Colors.transparent, width: 1.5),
-                              ),
-                              clipBehavior: Clip.antiAlias,
-                              child: InkWell(
-                                onTap: () => setState(() => on ? _picked.remove(e) : _picked.add(e)),
-                                child: Row(
-                                  children: [
-                                    ExerciseThumb(exercise: e, size: 68),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            e.name,
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: t.titleMedium?.copyWith(fontSize: 15),
-                                          ),
-                                          Text(e.primary.map((m) => muscleName(l, m)).join(', '), style: t.bodySmall),
-                                        ],
-                                      ),
-                                    ),
-                                    IconButton(
-                                      tooltip: l.instructions,
-                                      onPressed: () => context.push('/exercise/${Uri.encodeComponent(e.id)}'),
-                                      icon: const Icon(Icons.info_outline_rounded, color: Volt.t3),
-                                    ),
-                                    Icon(
-                                      on ? Icons.check_circle_rounded : Icons.add_circle_outline_rounded,
-                                      color: on ? Volt.brand : Volt.t4,
-                                    ),
-                                    const SizedBox(width: 12),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _picked.isEmpty
-          ? null
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                width: double.infinity,
-                child: GlowButton(label: l.addCount(_picked.length), onPressed: () => context.pop(List.of(_picked))),
               ),
             ),
-    );
-  }
-}
-
-/// The exercise's first photo, cached on the phone after the first view.
-class ExerciseThumb extends ConsumerWidget {
-  const ExerciseThumb({super.key, required this.exercise, this.size = 56});
-  final Exercise exercise;
-  final double size;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final fallback = Container(
-      width: size,
-      height: size,
-      color: Volt.card2,
-      alignment: Alignment.center,
-      child: Text(
-        exercise.badge,
-        style: const TextStyle(fontWeight: FontWeight.w700, color: Volt.t3),
-      ),
-    );
-    if (exercise.images.isEmpty || !ref.watch(showExercisePhotosProvider)) return fallback;
-    return CachedNetworkImage(
-      imageUrl: exercise.imageUrl(0),
-      width: size,
-      height: size,
-      fit: BoxFit.cover,
-      placeholder: (_, _) => fallback,
-      errorWidget: (_, _, _) => fallback,
-    );
-  }
-}
-
-class ExerciseDetailScreen extends ConsumerWidget {
-  const ExerciseDetailScreen({super.key, required this.exerciseId});
-  final String exerciseId;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    final e = ref.watch(exerciseLibraryProvider).value?[exerciseId];
-    return Scaffold(
-      body: VoltBackground(
-        child: SafeArea(
-          child: e == null
-              ? const Center(child: CircularProgressIndicator())
-              : ListView(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
-                  children: [
-                    Row(
-                      children: [
-                        const BackButton(),
-                        Expanded(child: Text(e.name, style: t.titleLarge)),
-                      ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+              child: Row(
+                children: [
+                  for (final (i, m) in [null, ...ExerciseLibrary.muscles].indexed) ...[
+                    if (i > 0) const SizedBox(width: 8),
+                    VChip(
+                      label: m == null ? l.allMuscles : muscleName(l, m),
+                      on: _muscle == m,
+                      onTap: () => setState(() => _muscle = m),
                     ),
-                    const SizedBox(height: 12),
-                    if (e.images.isNotEmpty && ref.watch(showExercisePhotosProvider))
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(Volt.rCard),
-                        child: AspectRatio(
-                          aspectRatio: 4 / 3,
-                          child: PageView(
-                            children: [
-                              for (var i = 0; i < e.images.length; i++)
-                                CachedNetworkImage(
-                                  imageUrl: e.imageUrl(i),
-                                  fit: BoxFit.cover,
-                                  errorWidget: (_, _, _) => Center(child: Text(l.photoUnavailable, style: t.bodySmall)),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    SectionHeader(l.primaryMuscles),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [for (final m in e.primary) Chip(label: Text(muscleName(l, m)))],
-                    ),
-                    if (e.secondary.isNotEmpty) ...[
-                      SectionHeader(l.secondaryMuscles),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [for (final m in e.secondary) Chip(label: Text(muscleName(l, m)))],
-                      ),
-                    ],
-                    SectionHeader(l.instructions),
-                    for (var i = 0; i < e.instructions.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 24,
-                              child: Text('${i + 1}', style: t.titleMedium?.copyWith(color: Volt.brand)),
-                            ),
-                            Expanded(child: Text(e.instructions[i], style: t.bodyMedium)),
-                          ],
-                        ),
-                      ),
                   ],
-                ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: lib == null
+                  ? const SizedBox.shrink()
+                  : hits.isEmpty
+                  ? Padding(padding: const EdgeInsets.all(20), child: Muted(l.noExerciseMatch))
+                  : ListView.separated(
+                      padding: EdgeInsets.fromLTRB(16, 4, 16, _picked.isEmpty ? 24 : 110),
+                      itemCount: hits.length,
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
+                      itemBuilder: (_, i) {
+                        final e = hits[i];
+                        final on = _picked.contains(e);
+                        final inIt = !widget.browse && have.contains(e.id);
+                        return SRow(
+                          label: e.name,
+                          sub: muscleLine(l, e),
+                          on: on,
+                          lead: ExAv(e.badge),
+                          trail: widget.browse
+                              ? const VIcon('fwd', size: 18, color: Volt.t3)
+                              : inIt
+                              ? Muted(l.inLbl)
+                              : Pick(on: on),
+                          onTap: () {
+                            if (widget.browse) {
+                              context.push('/exercise/${Uri.encodeComponent(e.id)}');
+                            } else if (inIt) {
+                              showVToast(context, l.alreadyIn, info: true);
+                            } else {
+                              setState(() => on ? _picked.remove(e) : _picked.add(e));
+                            }
+                          },
+                        );
+                      },
+                    ),
+            ),
+          ],
         ),
       ),
     );

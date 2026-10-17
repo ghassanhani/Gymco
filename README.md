@@ -4,6 +4,18 @@ Diet and training for lifters. Flutter, one codebase for iOS and Android, in Eng
 
 ## What works now
 
+Every screen is drawn from the Volt prototype's own component kit (`lib/ui/kit`): its icons, cards, chips, sheets, keypad, week strip and tab bar, with the same sizes, radii and colours.
+
+### Design pass
+
+- **Train is a day**: the week strip walks the plan, which slides when a session is missed (the block keeps its order, not its dates). Today's session shows its exercises with a start button on each, so one exercise can be done on its own. Rest days, closed days and days ahead each say what they are.
+- **Templates**: Upper / Lower 4 days, Push / Pull / Legs 6 days, Full body 3 days, with weekly volume already inside 10–20 sets a muscle.
+- **Library and builder**: two folders, routine cards, a menu to start, edit, duplicate or delete. The builder sets a weekday (and moves a clash to any day), sets, rep range and rest, and shows what the routine does to weekly sets per muscle.
+- **Live workout**: the prototype's set grid (set, previous, kg, reps, RIR, tick), numbers typed on a keypad, a typed weight filling the sets below, set types, a rest timer per exercise, supersets, notes, and a resume bar that follows you around the app.
+- **Summary and exercise pages**: duration, volume, hard sets, best set of each exercise with PRs, where the week stands, save as routine, share. Each exercise has its estimated 1RM over six months, best 5 and 8 rep sets, sets per week, how to do it and its history.
+- **Diet**: meal detail under the tabs (save as a meal, copy to tomorrow), serving editor with keypad, favourites and save as custom, My meals and Custom shelves, a five-goal onboarding with a 12-week projection and manual macros.
+- **Your data**: export everything as CSV and JSON, see recorded consent, delete everything (GDPR).
+
 ### Phase 2: training
 
 - **Exercise library**: 876 exercises from free-exercise-db (public domain) bundled in the app, with search, muscle filters, instructions and photos (downloaded on first view, then kept on the phone).
@@ -26,7 +38,7 @@ Progress is designed and comes next; its tab says so. Exercise names are English
 ```sh
 flutter pub get
 flutter run          # on a connected phone or simulator
-flutter test         # 55 tests
+flutter test         # 77 tests
 ```
 
 An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone with USB debugging.
@@ -34,7 +46,7 @@ An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone 
 ## Roadmap
 
 1. ~~Core diet~~
-2. ~~Training~~ (supersets and deload weeks still to come)
+2. ~~Training~~ (deload weeks still to come)
 3. **Progress**: weigh-ins and trend chart, weekly check-in using the adaptive engine, streak and awards screens, cheat-meal planning screens
 4. **AI logging** (Write, Voice, Photo, Eating out) on Claude Haiku via a Supabase Edge Function, with simple rules first and a daily cap
 5. **Accounts and sync** (Supabase free tier), reminders, Apple Health / Health Connect, progress photos, large text

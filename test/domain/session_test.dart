@@ -83,4 +83,55 @@ void main() {
     expect(s.nextSet, (0, 1));
     expect(s.hardSetsDone, 0);
   });
+
+  test('a typed weight fills the empty sets after it, not warm-ups or ticked ones', () {
+    final s = WorkoutSession.start(
+      name: 'x',
+      now: t0,
+      exercises: const [
+        SessionExercise(
+          exerciseId: 'bench',
+          name: 'Bench',
+          sets: [SessionSet(), SessionSet(), SessionSet(type: SetType.warmup), SessionSet(weightKg: 90)],
+        ),
+      ],
+    ).editSet(0, 0, weightKg: 100, reps: 5);
+    expect(s.exercises.single.sets.map((x) => x.weightKg), [100, 100, null, 90]);
+    expect(s.exercises.single.sets.first.reps, 5);
+  });
+
+  test('ticking a set with a weight but no reps takes last time\'s reps', () {
+    final s = WorkoutSession.start(
+      name: 'x',
+      now: t0,
+      exercises: const [
+        SessionExercise(
+          exerciseId: 'bench',
+          name: 'Bench',
+          repLow: 6,
+          previous: [SessionSet(weightKg: 100, reps: 8, rir: 2)],
+          sets: [SessionSet(weightKg: 100), SessionSet(weightKg: 100)],
+        ),
+      ],
+    ).toggleDone(0, 0, t0).toggleDone(0, 1, t0);
+    expect(s.exercises.single.sets.map((x) => x.reps), [8, 6]);
+    expect(s.setsDone, 2);
+  });
+
+  test('a superset rests only after its second half', () {
+    SessionExercise ex(String id) => SessionExercise(
+      exerciseId: id,
+      name: id,
+      restSeconds: 120,
+      sets: const [SessionSet(weightKg: 20, reps: 10)],
+    );
+    var s = WorkoutSession.start(name: 'x', now: t0, exercises: [ex('a'), ex('b')]).link(0, true);
+    s = s.toggleDone(0, 0, t0);
+    expect(s.restLeft(t0), isNull);
+    s = s.toggleDone(1, 0, t0);
+    expect(s.restLeft(t0), 120);
+    expect(WorkoutSession.fromJson(s.toJson()).exercises.first.linkNext, isTrue);
+    // Removing either half drops the link.
+    expect(s.removeExercise(1).exercises.single.linkNext, isFalse);
+  });
 }

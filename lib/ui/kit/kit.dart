@@ -131,7 +131,7 @@ class VIcon extends StatelessWidget {
     final c = color ?? IconTheme.of(context).color ?? DefaultTextStyle.of(context).style.color ?? Volt.t1;
     final svg =
         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="$strokeWidth">${voltIconPaths[name] ?? ''}</svg>';
-    return SizedBox.square(
+    final pic = SizedBox.square(
       dimension: size,
       child: SvgPicture.string(
         svg,
@@ -140,6 +140,9 @@ class VIcon extends StatelessWidget {
         theme: SvgTheme(currentColor: c),
       ),
     );
+    // Arrows point the way the reading goes.
+    final rtl = Directionality.maybeOf(context) == TextDirection.rtl;
+    return rtl && (name == 'fwd' || name == 'back') ? Transform.flip(flipX: true, child: pic) : pic;
   }
 }
 
@@ -163,7 +166,9 @@ class VScreen extends StatelessWidget {
           painter: const _GlowPainter(),
           child: SafeArea(
             bottom: false,
+            // Expand: an overlay that draws nothing must not shrink the screen.
             child: Stack(
+              fit: StackFit.expand,
               children: [
                 Positioned.fill(child: child),
                 ...overlays,

@@ -101,10 +101,12 @@ final testLibrary = ExerciseLibrary([
 ]);
 
 extension Fixtures on LocalDb {
-  Future<int> saveRoutineFixture(String name) => saveRoutine(
+  Future<int> saveRoutineFixture(String name, {int? weekday}) => saveRoutine(
     Routine(
       id: null,
       name: name,
+      weekday: weekday,
+      folder: weekday == null ? RoutineFolder.mine : RoutineFolder.plan,
       items: const [RoutineItem(exerciseId: 'bench', sets: 3, repLow: 5, repHigh: 8)],
     ),
   );

@@ -1,245 +1,642 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
+import '../../data/templates.dart';
 import '../../data/training.dart';
+import '../../domain/schedule.dart';
+import '../../domain/volume.dart';
+import '../../domain/workout.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
+import '../common/day_strip.dart';
 import '../common/format.dart';
-import '../common/widgets.dart';
+import '../kit/kit.dart';
+import 'train_kit.dart';
 
-class TrainScreen extends ConsumerWidget {
+/// Train is a day, not a catalogue. The strip picks the day; the body is
+/// that day's exercises. The library sits behind one button.
+class TrainScreen extends ConsumerStatefulWidget {
   const TrainScreen({super.key});
+
+  @override
+  ConsumerState<TrainScreen> createState() => _TrainScreenState();
+}
+
+class _TrainScreenState extends ConsumerState<TrainScreen> {
+  /// The strip index showing; null is today.
+  int? _picked;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final routines = ref.watch(routinesProvider).value;
+    final live = ref.watch(activeWorkoutProvider) != null;
+    if (routines == null) return const VScreen(child: SizedBox.shrink());
+    if (routines.isEmpty) {
+      return VScreen(
+        overlays: const [ResumeBar()],
+        child: Column(
+          children: [
+            VAppBar(title: l.trainTitle, sub: l.noRoutinesTitle),
+            Expanded(
+              child: Pad(bottom: live ? 190 : 116, children: const [_FirstRoutine()]),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final now = ref.watch(clockProvider)();
+    final today = DateTime(now.year, now.month, now.day);
+    final sched = ref.watch(weekScheduleProvider).value ?? const <ScheduledDay>[];
+    final todayI = sched.indexWhere((d) => d.date == today);
+    final i = (_picked ?? todayI).clamp(0, sched.isEmpty ? 0 : sched.length - 1);
+    final isToday = i == todayI;
+    final day = sched.isEmpty ? null : sched[i];
+    final loc = Localizations.localeOf(context).toString();
+    final planDays = routines.where((r) => r.weekday != null).length;
+    final p = ref.watch(profileProvider);
+    final week = p == null ? 1 : now.difference(p.startedOn).inDays ~/ 7 + 1;
+
+    return VScreen(
+      overlays: const [ResumeBar()],
+      child: Column(
+        children: [
+          VAppBar(
+            title: isToday || day == null ? l.trainTitleEm : DateFormat.EEEE(loc).format(day.date),
+            sub: isToday || day == null
+                ? (planDays == 0 ? l.noWeeklyPlan : l.trainSub(planDays, week))
+                : (day.date.isAfter(today)
+                      ? l.dayAhead(DateFormat.MMMMd(loc).format(day.date))
+                      : l.dayClosed(DateFormat.MMMMd(loc).format(day.date))),
+            right: isToday ? null : VChip(label: l.backToToday, onTap: () => setState(() => _picked = null)),
+          ),
+          if (sched.isNotEmpty)
+            WeekStrip(
+              days: stripDaysFor(context, schedule: sched, today: now, train: true),
+              selected: i,
+              onPick: (n) => setState(() => _picked = n == todayI ? null : n),
+            ),
+          Expanded(
+            child: Pad(
+              bottom: live ? 190 : 116,
+              children: [
+                if (day != null) ..._body(context, sched, i, todayI),
+                _ToLibrary(count: routines.length),
+                if (isToday) const _WeekCard(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _body(BuildContext context, List<ScheduledDay> sched, int i, int todayI) {
+    final day = sched[i];
+    final routines = ref.watch(routinesProvider).value ?? const <Routine>[];
+    Routine? byId(int? id) => routines.where((r) => r.id == id).firstOrNull;
+    if (day.done != null) return [_ClosedDay(day: day, routine: byId(day.done!.routineId))];
+    if (day.routine != null) {
+      final r = byId(day.routine!.id);
+      if (r != null) return _plannedDay(context, day, r, ahead: i > todayI, isToday: i == todayI);
+    }
+    int? next;
+    for (var j = i + 1; j < sched.length; j++) {
+      if (sched[j].hasSession) {
+        next = j;
+        break;
+      }
+    }
+    return _restDay(context, day, sched, next, todayI, ahead: i >= todayI);
+  }
+
+  Future<void> _start(Routine r) async {
+    final lib = await ref.read(exerciseLibraryProvider.future);
+    await ref.read(activeWorkoutProvider.notifier).startRoutine(r, lib);
+    if (mounted) context.push('/workout');
+  }
+
+  Future<void> _startOne(Routine r, int index) async {
+    final lib = await ref.read(exerciseLibraryProvider.future);
+    await ref.read(activeWorkoutProvider.notifier).startOne(r, index, lib);
+    if (mounted) context.push('/workout');
+  }
+
+  void _startEmpty() {
+    final l = AppLocalizations.of(context);
+    if (ref.read(activeWorkoutProvider) == null) {
+      ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
+    }
+    context.push('/workout');
+  }
+
+  List<Widget> _plannedDay(
+    BuildContext context,
+    ScheduledDay day,
+    Routine r, {
+    required bool ahead,
+    required bool isToday,
+  }) {
+    final l = AppLocalizations.of(context);
+    final lib = ref.watch(exerciseLibraryProvider).value;
+    final logged = isToday ? (ref.watch(loggedTodayProvider).value ?? const <String>{}) : const <String>{};
+    final done = r.items.where((it) => logged.contains(it.exerciseId)).length;
+    final last = ref.watch(lastRunProvider)[r.id];
+    final dayName = weekdayName(context, weekdayIndex(day.date));
+    final eyebrow = day.moved && r.weekday != null
+        ? l.movedHere(weekdayName(context, r.weekday!))
+        : (isToday ? l.todayLbl : l.plannedOn(dayName));
+    return [
+      VCard(
+        color: Volt.brandWash,
+        border: Border.all(color: Volt.brand, width: 1.5),
+        child: GapCol(
+          gap: 12,
+          cross: CrossAxisAlignment.stretch,
+          children: [
+            GapCol(
+              gap: 4,
+              children: [
+                Eyebrow(eyebrow, color: Volt.brandInk),
+                Text(
+                  r.name,
+                  style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Volt.t1),
+                ),
+              ],
+            ),
+            ExList(
+              onBrand: true,
+              children: [
+                for (final (n, it) in r.items.indexed)
+                  ExLine(
+                    item: it,
+                    exercise: lib?[it.exerciseId],
+                    lead: true,
+                    done: logged.contains(it.exerciseId),
+                    onStart: ahead ? null : () => _startOne(r, n),
+                  ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Muted(
+                    done > 0
+                        ? l.loggedOfPlanned(done, r.items.length, r.totalSets)
+                        : l.setsAbout(r.totalSets, routineMinutes(r)),
+                  ),
+                ),
+                VBtn(
+                  label: ahead ? l.startEarly : (done > 0 ? l.continueBtn : l.startAll),
+                  small: true,
+                  onTap: () => _start(r),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      if (ahead) ...[
+        VCard(
+          tight: true,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 1),
+                child: VIcon('info', size: 17, color: Volt.t3),
+              ),
+              const SizedBox(width: 10),
+              Expanded(child: Muted(l.startEarlyNote)),
+            ],
+          ),
+        ),
+        if (last != null)
+          _InfoRow(
+            icon: 'dumb',
+            label: l.lastTimeRan,
+            value: DateFormat.MMMEd(Localizations.localeOf(context).toString()).format(last),
+          ),
+      ] else
+        VBtn(label: l.somethingElse, kind: BtnKind.ghost, small: true, icon: 'plus', expand: true, onTap: _startEmpty),
+    ];
+  }
+
+  List<Widget> _restDay(
+    BuildContext context,
+    ScheduledDay day,
+    List<ScheduledDay> sched,
+    int? next,
+    int todayI, {
+    required bool ahead,
+  }) {
+    final l = AppLocalizations.of(context);
+    final body = day.missed != null
+        ? l.restMissed(day.missed!.name)
+        : (ahead ? l.restAhead(weekdayName(context, weekdayIndex(day.date))) : l.restPast);
+    final n = next == null ? null : sched[next];
+    final nextName = n?.done?.name ?? n?.routine?.name;
+    return [
+      VCard(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
+        child: Column(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+              child: const Center(child: VIcon('clock', size: 22, color: Volt.t2)),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              l.restDay,
+              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+            ),
+            const SizedBox(height: 4),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 270),
+              child: Muted(body, align: TextAlign.center),
+            ),
+          ],
+        ),
+      ),
+      if (n != null && nextName != null)
+        _InfoRow(
+          icon: 'dumb',
+          label: next! > todayI ? l.nextSession : l.sessionAfter,
+          value: '$nextName · ${DateFormat.E(Localizations.localeOf(context).toString()).format(n.date)}',
+          onTap: () => setState(() => _picked = next == todayI ? null : next),
+        ),
+      VBtn(label: l.logAnyway, kind: BtnKind.ghost, expand: true, onTap: _startEmpty),
+    ];
+  }
+}
+
+/// A day you closed: what you actually did.
+class _ClosedDay extends ConsumerWidget {
+  const _ClosedDay({required this.day, required this.routine});
+  final ScheduledDay day;
+  final Routine? routine;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    final active = ref.watch(activeWorkoutProvider);
-    final routines = ref.watch(routinesProvider).value ?? const <Routine>[];
-    final history = ref.watch(recentWorkoutsProvider).value ?? const <WorkoutRecord>[];
-    final lib = ref.watch(exerciseLibraryProvider).value;
-    final now = ref.watch(clockProvider)();
-
-    Future<void> start(Routine r) async {
-      if (lib == null) return;
-      await ref.read(activeWorkoutProvider.notifier).startRoutine(r, lib);
-      if (context.mounted) context.push('/workout');
-    }
-
-    return VoltBackground(
-      child: SafeArea(
-        bottom: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 22, 16, 140),
-          children: [
-            AccentTitle(template: l.trainTitleTpl('{accent}'), accent: l.trainAccent),
-            const SizedBox(height: 18),
-            if (active != null) ...[
-              _ActiveCard(
-                name: active.name,
-                elapsed: fmtClock(active.elapsed(now)),
-                onResume: () => context.push('/workout'),
-              ),
-              const SizedBox(height: 12),
-            ],
-            if (active == null)
-              Row(
+    final rec = (ref.watch(recentWorkoutsProvider).value ?? const <WorkoutRecord>[])
+        .where((w) => DateUtils.isSameDay(w.startedAt, day.date))
+        .firstOrNull;
+    if (rec == null) return const SizedBox.shrink();
+    final sets = ref.watch(setsOfWorkoutProvider(rec.id)).value ?? const <LoggedExerciseSet>[];
+    final best = bestSets(sets);
+    return GapCol(
+      gap: 12,
+      cross: CrossAxisAlignment.stretch,
+      children: [
+        VCard(
+          child: GapCol(
+            gap: 14,
+            cross: CrossAxisAlignment.stretch,
+            children: [
+              GapCol(
+                gap: 3,
                 children: [
-                  Expanded(
-                    child: GhostButton(
-                      label: l.emptyWorkout,
-                      icon: Icons.add_rounded,
-                      onPressed: () {
-                        ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
-                        context.push('/workout');
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: GhostButton(
-                      label: l.newRoutine,
-                      icon: Icons.playlist_add_rounded,
-                      onPressed: () => context.push('/routine/new'),
-                    ),
+                  Eyebrow(l.closedLbl),
+                  Text(
+                    rec.name,
+                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                 ],
               ),
-            SectionHeader(l.routines),
-            if (routines.isEmpty)
-              VoltCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(l.noRoutinesTitle, style: t.titleMedium),
-                    const SizedBox(height: 4),
-                    Text(l.noRoutinesBody, style: t.bodyMedium),
-                  ],
-                ),
-              ),
-            for (final r in routines) ...[
-              _RoutineCard(
-                routine: r,
-                lib: lib,
-                canStart: active == null,
-                onStart: () => start(r),
-                onEdit: () => context.push('/routine/${r.id}'),
-              ),
-              const SizedBox(height: 10),
-            ],
-            SectionHeader(l.history),
-            if (history.isEmpty) VoltCard(child: Text(l.noHistory, style: t.bodyMedium)),
-            for (final w in history) ...[
-              VoltCard(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                child: Row(
-                  children: [
+              Row(
+                children: [
+                  for (final (k, v) in [
+                    (l.durationLbl, l.minutesShort('${rec.duration.inMinutes}')),
+                    (l.volumeLbl, '${fmtInt(context, rec.volume)} ${l.kgLbl}'),
+                    (l.hardSetsLbl, fmtInt(context, rec.hardSets)),
+                  ])
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: GapCol(
+                        gap: 2,
                         children: [
-                          Text(w.name, style: t.titleMedium),
-                          Text(
-                            '${fmtDay(context, w.startedAt)} · ${l.minutesShort(fmtInt(context, w.duration.inMinutes))} · ${l.setsCount(w.sets)}',
-                            style: t.bodySmall,
-                          ),
+                          Muted(k),
+                          Text(v, style: numStyle(17)),
                         ],
                       ),
                     ),
-                    Text('${fmtInt(context, w.volume)} ${l.kgLbl}', style: t.titleMedium),
+                ],
+              ),
+            ],
+          ),
+        ),
+        if (best.isNotEmpty) ...[
+          Eyebrow(l.bestSetEach, padding: const EdgeInsetsDirectional.only(start: 4)),
+          VList(
+            children: [
+              for (final b in best)
+                VItem(
+                  onTap: () => context.push('/exercise/${Uri.encodeComponent(b.exerciseId)}'),
+                  children: [
+                    ItemText(b.exerciseName, sub: ltr('${fmtKg(context, b.weightKg)} ${l.kgLbl} × ${b.reps}')),
                   ],
                 ),
-              ),
-              const SizedBox(height: 8),
             ],
-          ],
-        ),
-      ),
+          ),
+        ],
+        if (routine != null)
+          VBtn(
+            label: l.runAgain(routine!.name),
+            expand: true,
+            onTap: () async {
+              final lib = await ref.read(exerciseLibraryProvider.future);
+              await ref.read(activeWorkoutProvider.notifier).startRoutine(routine!, lib);
+              if (context.mounted) context.push('/workout');
+            },
+          ),
+      ],
     );
   }
 }
 
-class _ActiveCard extends StatelessWidget {
-  const _ActiveCard({required this.name, required this.elapsed, required this.onResume});
-  final String name;
-  final String elapsed;
-  final VoidCallback onResume;
+/// The heaviest working set of each exercise, by weight × reps, in order.
+List<LoggedExerciseSet> bestSets(List<LoggedExerciseSet> sets) {
+  final out = <String, LoggedExerciseSet>{};
+  for (final s in sets) {
+    if (s.type == SetType.warmup || s.reps <= 0) continue;
+    final b = out[s.exerciseId];
+    if (b == null || s.weightKg * s.reps > b.weightKg * b.reps) out[s.exerciseId] = s;
+  }
+  return out.values.toList();
+}
+
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({required this.icon, required this.label, required this.value, this.onTap});
+  final String icon;
+  final String label;
+  final String value;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => VCard(
+    tight: true,
+    onTap: onTap,
+    child: Row(
+      children: [
+        Container(
+          width: 38,
+          height: 38,
+          decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+          child: Center(child: VIcon(icon, size: 18, color: Volt.t2)),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: GapCol(
+            gap: 2,
+            children: [
+              Muted(label),
+              Text(
+                value,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+              ),
+            ],
+          ),
+        ),
+        if (onTap != null) const VIcon('fwd', size: 18, color: Volt.t3),
+      ],
+    ),
+  );
+}
+
+/// The way into the library, and the only place routines are listed.
+class _ToLibrary extends StatelessWidget {
+  const _ToLibrary({required this.count});
+  final int count;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Volt.brandWash,
-        borderRadius: BorderRadius.circular(Volt.rCard),
-        border: Border.all(color: Volt.brand, width: 1.5),
-      ),
+    return _InfoRowBig(
+      icon: 'list',
+      title: l.allRoutines,
+      sub: l.allRoutinesSub(count),
+      onTap: () => context.push('/train/routines'),
+    );
+  }
+}
+
+class _InfoRowBig extends StatelessWidget {
+  const _InfoRowBig({required this.icon, required this.title, required this.sub, required this.onTap});
+  final String icon;
+  final String title;
+  final String sub;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => VCard(
+    tight: true,
+    onTap: onTap,
+    child: Row(
+      children: [
+        Container(
+          width: 38,
+          height: 38,
+          decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+          child: Center(child: VIcon(icon, size: 18, color: Volt.t2)),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: GapCol(
+            gap: 2,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+              ),
+              Muted(sub),
+            ],
+          ),
+        ),
+        const VIcon('fwd', size: 18, color: Volt.t3),
+      ],
+    ),
+  );
+}
+
+/// The muscle the week leans on most, against the 10–20 band.
+class _WeekCard extends ConsumerWidget {
+  const _WeekCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final lib = ref.watch(exerciseLibraryProvider).value;
+    final routines = ref.watch(routinesProvider).value ?? const <Routine>[];
+    if (lib == null) return const SizedBox.shrink();
+    final plan = [
+      for (final r in routines)
+        if (r.weekday != null)
+          for (final i in r.items)
+            if (lib[i.exerciseId]?.primary.firstOrNull case final m?) (m, i.sets),
+    ];
+    final rows = weeklyVolume(plan, const []);
+    if (rows.isEmpty) return const SizedBox.shrink();
+    final g = rows.first;
+    final (color, zone) = switch (g.state) {
+      VolumeState.inRange => (Volt.ok, l.zoneIn),
+      VolumeState.under => (Volt.t3, l.zoneUnder),
+      VolumeState.over => (Volt.warn, l.zoneOver),
+    };
+    return VCard(
+      tight: true,
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: GapCol(
+              gap: 6,
               children: [
-                Text(name, style: t.titleLarge),
-                Text(l.inProgress(elapsed), style: t.bodySmall?.copyWith(color: Volt.brandInk)),
+                Muted(l.weeklySetsOf(groupName(l, g.group).toLowerCase())),
+                Text.rich(
+                  TextSpan(
+                    text: l.hardSetsN(g.total),
+                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                    children: [
+                      TextSpan(
+                        text: ' · $zone',
+                        style: TextStyle(fontWeight: FontWeight.w500, color: color),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          GlowButton(label: l.resumeWorkout, onPressed: onResume),
+          const SizedBox(width: 14),
+          SizedBox(
+            width: 84,
+            child: VolumeBar(total: g.total, color: color, height: 12),
+          ),
         ],
       ),
     );
   }
 }
 
-class _RoutineCard extends StatelessWidget {
-  const _RoutineCard({
-    required this.routine,
-    required this.lib,
-    required this.canStart,
-    required this.onStart,
-    required this.onEdit,
-  });
-  final Routine routine;
-  final ExerciseLibrary? lib;
-  final bool canStart;
-  final VoidCallback onStart;
-  final VoidCallback onEdit;
+/// A localised name for each template role.
+String templateRoleName(AppLocalizations l, String r) => switch (r) {
+  'upperA' => l.tplUpperA,
+  'upperB' => l.tplUpperB,
+  'lowerA' => l.tplLowerA,
+  'lowerB' => l.tplLowerB,
+  'pushA' => l.tplPushA,
+  'pushB' => l.tplPushB,
+  'pullA' => l.tplPullA,
+  'pullB' => l.tplPullB,
+  'legsA' => l.tplLegsA,
+  'legsB' => l.tplLegsB,
+  'fullA' => l.tplFullA,
+  'fullB' => l.tplFullB,
+  _ => l.tplFullC,
+};
+
+/// The three starter blocks, as (kind, title, sub).
+List<(TemplateKind, String, String)> templateChoices(AppLocalizations l) => [
+  (TemplateKind.upperLower, l.tplUL, l.tplULSub),
+  (TemplateKind.pushPullLegs, l.tplPPL, l.tplPPLSub),
+  (TemplateKind.fullBody, l.tplFB, l.tplFBSub),
+];
+
+/// No routines yet: an empty workout, your own routine, or a template.
+class _FirstRoutine extends ConsumerWidget {
+  const _FirstRoutine();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    return VoltCard(
-      onTap: onEdit,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+
+    Widget bigBtn(String title, String sub, VoidCallback onTap, {bool ghost = false}) => VBtn(
+      label: title,
+      kind: ghost ? BtnKind.ghost : BtnKind.primary,
+      expand: true,
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
         children: [
-          Row(
-            children: [
-              Expanded(child: Text(routine.name, style: t.titleLarge)),
-              IconButton(
-                tooltip: l.edit,
-                onPressed: onEdit,
-                icon: const Icon(Icons.edit_outlined, color: Volt.t3),
-              ),
-            ],
-          ),
-          for (final item in routine.items.take(6))
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Row(
-                children: [
-                  _Badge(lib?[item.exerciseId]?.badge ?? '•'),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      lib?[item.exerciseId]?.name ?? item.exerciseId,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: t.bodyMedium?.copyWith(color: Volt.t1),
-                    ),
+          Expanded(
+            child: GapCol(
+              gap: 2,
+              children: [
+                Text(title),
+                Text(
+                  sub,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: ghost ? Volt.t3 : Volt.ink.withValues(alpha: 0.85),
                   ),
-                  Text('${item.sets} × ${item.repLow}–${item.repHigh}', style: t.bodySmall),
-                ],
-              ),
-            ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  '${l.exercisesCount(routine.items.length)} · ${l.setsCount(routine.totalSets)}',
-                  style: t.bodySmall,
                 ),
-              ),
-              GlowButton(label: l.startRoutine, icon: Icons.play_arrow_rounded, onPressed: canStart ? onStart : null),
-            ],
+              ],
+            ),
           ),
+          const VIcon('plus', size: 18),
         ],
       ),
+    );
+
+    return GapCol(
+      gap: 12,
+      cross: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 4),
+          child: Column(
+            children: [
+              const EmptyArt(size: 72),
+              const SizedBox(height: 10),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 280),
+                child: Muted(l.trainEmptyBody, align: TextAlign.center),
+              ),
+            ],
+          ),
+        ),
+        bigBtn(l.startEmptyWorkout, l.startEmptySub, () {
+          ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
+          context.push('/workout');
+        }),
+        bigBtn(l.buildOwn, l.buildOwnSub, () => context.push('/routine/new'), ghost: true),
+        Eyebrow(l.orTemplate, padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 4, 0)),
+        TemplateList(onDone: (title) => showVToast(context, l.templateAdded(title))),
+      ],
     );
   }
 }
 
-class _Badge extends StatelessWidget {
-  const _Badge(this.text);
-  final String text;
+/// The template rows; tapping one adds its routines to the weekly plan.
+class TemplateList extends ConsumerWidget {
+  const TemplateList({super.key, required this.onDone});
+  final ValueChanged<String> onDone;
 
   @override
-  Widget build(BuildContext context) => Container(
-    width: 30,
-    height: 30,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(9)),
-    child: Text(
-      text,
-      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Volt.t2),
-    ),
-  );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    return VList(
+      children: [
+        for (final (k, title, sub) in templateChoices(l))
+          VItem(
+            semantics: title,
+            onTap: () async {
+              await ref.read(routineActionsProvider).applyTemplate(k, (r) => templateRoleName(l, r));
+              onDone(title);
+            },
+            children: [
+              ItemText(title, sub: sub, weight: FontWeight.w600),
+              const VIcon('fwd', size: 18, color: Volt.t1),
+            ],
+          ),
+      ],
+    );
+  }
 }
