@@ -6,8 +6,9 @@
 // -> 200 { foods: [{ name, local, sure }], left }
 // -> 429 { error: "daily_cap", left: 0 }
 //
-// Secrets: ANTHROPIC_API_KEY (set with `supabase secrets set`). SUPABASE_URL
-// and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase.
+// Secrets: ANTHROPIC_API_KEY (set with `supabase secrets set`), plus
+// ANTHROPIC_WORKSPACE_ID when that key is not scoped to a workspace.
+// SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase.
 
 import Anthropic from "npm:@anthropic-ai/sdk@0.131.0";
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
@@ -49,7 +50,9 @@ const reportFoods: Anthropic.Tool = {
   },
 };
 
-const anthropic = new Anthropic();
+// A key that is not scoped to a workspace must name one on every request.
+const workspace = Deno.env.get("ANTHROPIC_WORKSPACE_ID");
+const anthropic = new Anthropic(workspace ? { defaultHeaders: { "anthropic-workspace-id": workspace } } : {});
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return json(405, { error: "method" });

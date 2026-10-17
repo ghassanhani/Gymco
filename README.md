@@ -71,7 +71,7 @@ The cloud part is in `supabase/`: one migration (`backups`, `ai_usage` with row 
 
 It is deployed to project `vncadogzpeoawikgafaj` (eu-west-1), and the app builds against it by default. Two settings are done in the Supabase dashboard:
 
-1. **Edge Functions → Secrets**: add `ANTHROPIC_API_KEY` — the photo function's key. It never reaches the app.
+1. **Edge Functions → Secrets**: add `ANTHROPIC_API_KEY` — the photo function's key. It never reaches the app. Use a key created inside a workspace; an organization-wide key also needs `ANTHROPIC_WORKSPACE_ID`.
 2. **Authentication → URL Configuration → Redirect URLs**: add `app.gymco.gymco://login-callback`. The sign-in email's link then opens the app signed in (Android intent filter and iOS URL scheme are in the app).
 3. Before launch, **Authentication → Emails → SMTP**: Supabase's built-in mailer sends only a few emails an hour and its templates can't be edited. With your own SMTP you can also add the code to the Magic Link template (`{{ .Token }}`); the app accepts either.
 
