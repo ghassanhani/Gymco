@@ -1,0 +1,192 @@
+{
+  "@@locale": "en",
+  "appName": "Gymco",
+  "tabToday": "Today",
+  "tabFood": "Food",
+  "tabTrain": "Train",
+  "tabProgress": "Progress",
+  "tabMe": "Me",
+  "todayTitle": "Make it {accent}",
+  "@todayTitle": {
+    "placeholders": {
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "todayAccent": "count",
+  "kcalLeft": "{n} kcal left",
+  "@kcalLeft": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "kcalOver": "{n} kcal past target",
+  "@kcalOver": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "ofGrams": "{a} / {b} g",
+  "@ofGrams": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      }
+    }
+  },
+  "protein": "Protein",
+  "carbs": "Carbs",
+  "fat": "Fat",
+  "kcal": "kcal",
+  "meals": "Meals",
+  "breakfast": "Breakfast",
+  "lunch": "Lunch",
+  "dinner": "Dinner",
+  "snack": "Snack",
+  "nothingLogged": "Nothing logged yet",
+  "itemsCount": "{count, plural, =1{1 item} other{{count} items}}",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyDayTitle": "A fresh day",
+  "emptyDayBody": "Start with whatever you ate first. One meal is a good start.",
+  "habitsTitle": "Today's habits",
+  "habitProtein": "Protein at every meal",
+  "habitMealsLogged": "{count, plural, =0{No meals logged} =1{1 meal logged} other{{count} meals logged}}",
+  "@habitMealsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addFood": "Add food",
+  "addTo": "Add to {meal}",
+  "@addTo": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "searchFoods": "Search foods",
+  "scanBarcode": "Scan barcode",
+  "recent": "Recent",
+  "noResults": "No match for \"{q}\"",
+  "@noResults": {
+    "placeholders": {
+      "q": {
+        "type": "String"
+      }
+    }
+  },
+  "noResultsBody": "Try a shorter word, or scan the packet.",
+  "barcodeMiss": "We don't know this product yet",
+  "barcodeMissBody": "Add it to Open Food Facts in about 30 seconds and it'll be there for everyone next time.",
+  "contributeOff": "Add to Open Food Facts",
+  "searchingOnline": "Searching online…",
+  "offlineSearch": "Offline — showing foods saved on this phone",
+  "amount": "Amount",
+  "grams": "g",
+  "per100g": "per 100 g",
+  "log": "Log",
+  "delete": "Delete",
+  "logged": "Logged {food}",
+  "@logged": {
+    "placeholders": {
+      "food": {
+        "type": "String"
+      }
+    }
+  },
+  "cameraPermission": "Allow the camera to scan barcodes.",
+  "obWelcomeTitle": "Diet and training, {accent}",
+  "@obWelcomeTitle": {
+    "placeholders": {
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "obWelcomeAccent": "together",
+  "obWelcomeBody": "Targets that adapt to what you actually eat and weigh. No guessing, no punishment.",
+  "getStarted": "Get started",
+  "obGoalTitle": "What are you working toward?",
+  "goalCut": "Lose fat",
+  "goalCutSub": "Keep the muscle, lose the fat",
+  "goalMaintain": "Maintain",
+  "goalMaintainSub": "Hold your weight, build strength",
+  "goalBulk": "Build muscle",
+  "goalBulkSub": "A slow, lean gain",
+  "obBodyTitle": "About you",
+  "obBodyBody": "Used once to seed your first week. After that, your own logs take over.",
+  "sexMale": "Male",
+  "sexFemale": "Female",
+  "age": "Age",
+  "heightCm": "Height (cm)",
+  "weightKg": "Weight (kg)",
+  "obActivityTitle": "How active is a normal day?",
+  "actSedentary": "Mostly sitting",
+  "actLight": "On my feet some of the day",
+  "actModerate": "Active job or daily walks",
+  "actHigh": "Physical job",
+  "actAthlete": "Hard training twice a day",
+  "obRateTitle": "How fast?",
+  "ratePerWeek": "{pct}% of body weight a week",
+  "@ratePerWeek": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "rateKgPerWeek": "≈ {kg} kg a week",
+  "@rateKgPerWeek": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "rateWarning": "Faster than 0.85% a week usually costs muscle and sleep. You can, but we'll check in more often.",
+  "rateCapNote": "Capped at 1% a week.",
+  "obTargetsTitle": "Your starting targets",
+  "obTargetsBody": "This is week one. Every check-in, Gymco recalculates from your logs and trend weight, by at most 120 kcal a week.",
+  "dailyTarget": "Daily target",
+  "noNumbersOffer": "Rather not see numbers?",
+  "noNumbersOfferBody": "No-numbers mode hides calories, macros and weight, and tracks habits instead.",
+  "continueBtn": "Continue",
+  "startBtn": "Start",
+  "meTitle": "Me",
+  "language": "Language",
+  "systemLanguage": "Phone language",
+  "noNumbersMode": "No-numbers mode",
+  "noNumbersModeSub": "Hide calories, macros and weight",
+  "leaveNoNumbersTitle": "Show numbers again?",
+  "leaveNoNumbersBody": "Calories, macros and weight will be visible on every screen.",
+  "leaveNoNumbersConfirm": "Show numbers",
+  "cancel": "Cancel",
+  "cheatAllowance": "Cheat meals",
+  "cheatOff": "Off",
+  "cheatOnce": "1 a week",
+  "cheatTwice": "2 a week",
+  "targets": "Targets",
+  "redoOnboarding": "Change goal and targets",
+  "trainTitle": "Train",
+  "progressTitle": "Progress",
+  "nextBuild": "This part of Gymco is designed and is being built next.",
+  "repeatYesterday": "Repeat yesterday",
+  "nothingYesterday": "Nothing was logged in this meal yesterday"
+}
