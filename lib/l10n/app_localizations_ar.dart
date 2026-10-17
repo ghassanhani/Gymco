@@ -977,9 +977,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pctPerWeek => '% / أسبوع';
 
   @override
-  String get photoComing => 'صوّر الطبق ويقترح جيمكو ما يراه؛ وأنت تحدّد الكمية. يصل مع التسجيل الذكي.';
-
-  @override
   String get rateHot => 'فوق 0.85% أسبوعيًا تبدأ بخسارة العضل. سيكرّر جيمكو ذلك كل أسبوع حتى تبطئ.';
 
   @override
@@ -1077,9 +1074,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get usuallyNow => 'عادةً تأكل في هذا الوقت';
 
   @override
-  String get voiceComing => 'اضغط مطوّلًا وقل ما أكلته. يمر بالقارئ نفسه كالكتابة. يصل مع التسجيل الذكي.';
-
-  @override
   String get water => 'الماء';
 
   @override
@@ -1096,9 +1090,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get welcomeTitleEm => 'ابدأ رحلة <em>لياقتك</em> اليوم';
-
-  @override
-  String get writeComing => 'اكتب الوجبة كما تقولها — «بيضتان، 150 غ أرز». يصل مع التسجيل الذكي.';
 
   @override
   String get yesterdayCopied => 'نُسخ الأمس';
@@ -2983,4 +2974,210 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dictateMeal => 'أملِ الوجبة';
+
+  @override
+  String get accountTitle => 'الحساب';
+
+  @override
+  String get accountRowSub => 'النسخ الاحتياطي والتسجيل بالصور';
+
+  @override
+  String accountRowSignedIn(String email) {
+    return 'مسجّل الدخول · $email';
+  }
+
+  @override
+  String get accountRowOff => 'على الهاتف فقط';
+
+  @override
+  String get signInTitle => 'احفظ نسخة في حساب';
+
+  @override
+  String get signInSub => 'بريدك ورمز — بلا كلمة مرور';
+
+  @override
+  String get emailHint => 'you@example.com';
+
+  @override
+  String get codeHint => 'رمز من 6 أرقام';
+
+  @override
+  String get sendCode => 'أرسل الرمز';
+
+  @override
+  String get signInAction => 'تسجيل الدخول';
+
+  @override
+  String codeSentTo(String email) {
+    return 'أرسلنا رمزًا إلى $email. قد يستغرق دقيقة.';
+  }
+
+  @override
+  String get useOtherEmail => 'استخدم بريدًا آخر';
+
+  @override
+  String get accountWhy =>
+      'يومياتك تبقى على هذا الهاتف في كل الأحوال. الحساب يضيف نسخة احتياطية تستعيدها على هاتف جديد، والتسجيل بالصور — 10 صور يوميًا مجانًا.';
+
+  @override
+  String get cloudNotSetUp => 'الحسابات غير مفعّلة في هذا الإصدار. كل شيء آخر يعمل على الهاتف.';
+
+  @override
+  String get signedInAs => 'مسجّل الدخول';
+
+  @override
+  String get backupTitle => 'النسخ الاحتياطي';
+
+  @override
+  String backedUpAt(String when) {
+    return 'آخر نسخة $when';
+  }
+
+  @override
+  String get notBackedUp => 'لا توجد نسخة بعد';
+
+  @override
+  String get backupAuto => 'يُنسخ تلقائيًا عند مغادرة التطبيق، مرة كل ست ساعات على الأكثر.';
+
+  @override
+  String get backupNow => 'انسخ الآن';
+
+  @override
+  String get backupDone => 'تم النسخ';
+
+  @override
+  String get restoreAction => 'استعادة من النسخة';
+
+  @override
+  String get restoreTitle => 'استعادة هذه النسخة؟';
+
+  @override
+  String restoreBody(String when) {
+    return 'نسخة $when ستحل محل ما على هذا الهاتف الآن.';
+  }
+
+  @override
+  String get foundBackupTitle => 'في حسابك نسخة احتياطية';
+
+  @override
+  String foundBackupBody(String when) {
+    return 'من $when. استعدها على هذا الهاتف، أو احتفظ بما على الهاتف وانسخه بدلًا منها.';
+  }
+
+  @override
+  String get restoreIt => 'استعدها';
+
+  @override
+  String get keepThisPhone => 'احتفظ ببيانات هذا الهاتف';
+
+  @override
+  String get restored => 'تمت الاستعادة';
+
+  @override
+  String get noBackupYet => 'لا توجد نسخة في هذا الحساب بعد';
+
+  @override
+  String get signOut => 'تسجيل الخروج';
+
+  @override
+  String get signOutNote => 'تسجيل الخروج يبقي كل شيء على هذا الهاتف.';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get deleteAccountSub => 'الحساب ونسخته الاحتياطية';
+
+  @override
+  String get deleteAccountBody => 'يُحذف الحساب ونسخته الآن. ما على هذا الهاتف يبقى؛ احذفه من «بياناتك».';
+
+  @override
+  String get deleteAccountConfirm => 'احذف الحساب والنسخة';
+
+  @override
+  String get accountDeleted => 'حُذف الحساب';
+
+  @override
+  String get errOffline => 'لا اتصال. حاول مجددًا عند الاتصال.';
+
+  @override
+  String get errBadCode => 'الرمز لم يعمل. تحقق منه أو أرسل رمزًا جديدًا.';
+
+  @override
+  String get errBusy => 'محاولات كثيرة الآن. انتظر دقيقة وحاول مجددًا.';
+
+  @override
+  String get errGeneric => 'حدث خطأ. حاول مجددًا.';
+
+  @override
+  String get photoPrompt => 'صوّر الطبق. يقترح Gymco ما يراه، وأنت تحدد الكمية.';
+
+  @override
+  String get takePhoto => 'التقط صورة';
+
+  @override
+  String get choosePhoto => 'اختر من الصور';
+
+  @override
+  String get readingPlate => 'أنظر إلى الطبق…';
+
+  @override
+  String plateThings(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n شيئًا في الطبق',
+      few: '$n أشياء في الطبق',
+      two: 'شيئان في الطبق',
+      one: 'شيء واحد في الطبق',
+      zero: 'لا شيء واضح في الطبق',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tapToConfirm => 'اضغط للتأكيد';
+
+  @override
+  String get fairlyConfident => 'واثق إلى حد ما';
+
+  @override
+  String get notSureCheck => 'غير متأكد — راجع هذا';
+
+  @override
+  String get photoAmountNote =>
+      'لا يمكن لصورة أن تعرف كمية الطعام في الطبق — لا يستطيع أي نظام ذلك. اختر الأطعمة هنا، ثم حدد الكميات بنفسك.';
+
+  @override
+  String get photoNeedsAccount =>
+      'التسجيل بالصور يحتاج حسابًا: تُقرأ الصورة على خادمنا، 10 يوميًا مجانًا. الكتابة والبحث يعملان بدونه.';
+
+  @override
+  String get photoNotSetUp => 'التسجيل بالصور غير مفعّل في هذا الإصدار. اكتب أو ابحث بدلًا من ذلك.';
+
+  @override
+  String scansLeft(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n صورة متبقية اليوم',
+      few: '$n صور متبقية اليوم',
+      two: 'صورتان متبقيتان اليوم',
+      one: 'صورة واحدة متبقية اليوم',
+      zero: 'لا صور متبقية اليوم',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get photoCap => 'هذه صور اليوم العشر. تعود غدًا؛ اكتب أو ابحث في الأثناء.';
+
+  @override
+  String get photoRefused => 'تعذّرت قراءة هذه الصورة. جرّب صورة أخرى.';
+
+  @override
+  String get photoAgain => 'التقط أخرى';
+
+  @override
+  String get notInDbSearch => 'غير موجود على الهاتف — ابحث عنه';
 }

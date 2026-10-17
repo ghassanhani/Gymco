@@ -456,7 +456,6 @@
   "obRateTitleLose": "How fast do you want to lose?",
   "pastNoteWithin": "Within a hundred of target. Days like this are what move the trend line.",
   "pctPerWeek": "% / week",
-  "photoComing": "Photograph the plate and Gymco suggests what it sees; you say how much. Arrives with AI logging.",
   "rateHot": "Above 0.85%/week you start paying in muscle. Gymco will keep saying so, every week, until you slow down.",
   "rateOkGain": "Slow enough that most of the gain is muscle.",
   "rateOkLose": "In the range Helms et al. (2014) recommend for natural lifters holding muscle through a deficit.",
@@ -489,14 +488,12 @@
   "trendWeight": "Trend weight",
   "unitsLanguage": "Units & language",
   "usuallyNow": "You usually eat around now",
-  "voiceComing": "Hold and say what you ate. It goes through the same reader as writing. Arrives with AI logging.",
   "water": "Water",
   "waterAdded": "250 ml added",
   "weightToday": "Weight today",
   "welcomeArtAlt": "A woman mid kettlebell swing",
   "welcomeBody": "Log food in seconds, train with a plan, and keep a streak worth protecting.",
   "welcomeTitleEm": "Start your <em>fitness</em> journey today",
-  "writeComing": "Write the meal the way you would say it — “two eggs, 150 g rice”. Arrives with AI logging.",
   "yesterdayCopied": "Yesterday copied in",
   "yrs": "yrs",
   "addKcal": "Add {kcal} kcal",
@@ -2327,5 +2324,111 @@
   "voiceHeard": "Heard it. Check the transcript before it goes in.",
   "transcriptLbl": "Transcript · edit if it misheard",
   "voiceUnavailable": "Dictation is not available on this phone, or the microphone is off for Gymco. Write it instead.",
-  "dictateMeal": "Dictate the meal"
+  "dictateMeal": "Dictate the meal",
+  "accountTitle": "Account",
+  "accountRowSub": "Backup and photo logging",
+  "accountRowSignedIn": "Signed in · {email}",
+  "@accountRowSignedIn": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountRowOff": "Phone only",
+  "signInTitle": "Back up to an account",
+  "signInSub": "Your email and a code — no password",
+  "emailHint": "you@example.com",
+  "codeHint": "6-digit code",
+  "sendCode": "Send code",
+  "signInAction": "Sign in",
+  "codeSentTo": "We sent a code to {email}. It can take a minute.",
+  "@codeSentTo": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "useOtherEmail": "Use another email",
+  "accountWhy": "Your diary stays on this phone either way. An account adds a backup you can restore on a new phone, and photo logging — 10 photos a day, free.",
+  "cloudNotSetUp": "Accounts are not switched on in this build. Everything else works on the phone.",
+  "signedInAs": "Signed in",
+  "backupTitle": "Backup",
+  "backedUpAt": "Backed up {when}",
+  "@backedUpAt": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notBackedUp": "Not backed up yet",
+  "backupAuto": "It backs up by itself when you leave the app, at most every six hours.",
+  "backupNow": "Back up now",
+  "backupDone": "Backed up",
+  "restoreAction": "Restore from backup",
+  "restoreTitle": "Restore this backup?",
+  "restoreBody": "The backup from {when} replaces what is on this phone now.",
+  "@restoreBody": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "foundBackupTitle": "A backup is in your account",
+  "foundBackupBody": "From {when}. Restore it onto this phone, or keep what this phone has and back that up instead.",
+  "@foundBackupBody": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "restoreIt": "Restore it",
+  "keepThisPhone": "Keep this phone’s data",
+  "restored": "Restored",
+  "noBackupYet": "There is no backup in this account yet",
+  "signOut": "Sign out",
+  "signOutNote": "Signing out keeps everything on this phone.",
+  "deleteAccount": "Delete account",
+  "deleteAccountSub": "The account and its backup",
+  "deleteAccountBody": "The account and its backup are deleted now. What is on this phone stays; delete it under Your data.",
+  "deleteAccountConfirm": "Delete account and backup",
+  "accountDeleted": "Account deleted",
+  "errOffline": "No connection. Try again when you are online.",
+  "errBadCode": "That code did not work. Check it, or send a new one.",
+  "errBusy": "Too many tries just now. Wait a minute and try again.",
+  "errGeneric": "Something went wrong. Try again.",
+  "photoPrompt": "Photograph the plate. Gymco suggests what it sees; you say how much.",
+  "takePhoto": "Take a photo",
+  "choosePhoto": "Choose from photos",
+  "readingPlate": "Looking at the plate…",
+  "plateThings": "{n, plural, =0{Nothing recognisable on the plate} =1{One thing on the plate} other{{n} things on the plate}}",
+  "@plateThings": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tapToConfirm": "tap to confirm",
+  "fairlyConfident": "fairly confident",
+  "notSureCheck": "not sure — check this one",
+  "photoAmountNote": "A photo cannot tell how much is on the plate — no recognition system can. Pick the foods here, then set the amounts yourself.",
+  "photoNeedsAccount": "Photo logging uses an account: the photo is read on our server, 10 a day, free. Writing and search work without one.",
+  "photoNotSetUp": "Photo logging is not switched on in this build. Write or search instead.",
+  "scansLeft": "{n, plural, =0{No photo scans left today} =1{1 photo scan left today} other{{n} photo scans left today}}",
+  "@scansLeft": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "photoCap": "That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.",
+  "photoRefused": "That photo could not be read. Try another one.",
+  "photoAgain": "Take another",
+  "notInDbSearch": "Not on the phone — search for it"
 }

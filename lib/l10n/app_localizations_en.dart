@@ -952,10 +952,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pctPerWeek => '% / week';
 
   @override
-  String get photoComing =>
-      'Photograph the plate and Gymco suggests what it sees; you say how much. Arrives with AI logging.';
-
-  @override
   String get rateHot =>
       'Above 0.85%/week you start paying in muscle. Gymco will keep saying so, every week, until you slow down.';
 
@@ -1055,10 +1051,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usuallyNow => 'You usually eat around now';
 
   @override
-  String get voiceComing =>
-      'Hold and say what you ate. It goes through the same reader as writing. Arrives with AI logging.';
-
-  @override
   String get water => 'Water';
 
   @override
@@ -1075,10 +1067,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeTitleEm => 'Start your <em>fitness</em> journey today';
-
-  @override
-  String get writeComing =>
-      'Write the meal the way you would say it — “two eggs, 150 g rice”. Arrives with AI logging.';
 
   @override
   String get yesterdayCopied => 'Yesterday copied in';
@@ -2976,4 +2964,207 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dictateMeal => 'Dictate the meal';
+
+  @override
+  String get accountTitle => 'Account';
+
+  @override
+  String get accountRowSub => 'Backup and photo logging';
+
+  @override
+  String accountRowSignedIn(String email) {
+    return 'Signed in · $email';
+  }
+
+  @override
+  String get accountRowOff => 'Phone only';
+
+  @override
+  String get signInTitle => 'Back up to an account';
+
+  @override
+  String get signInSub => 'Your email and a code — no password';
+
+  @override
+  String get emailHint => 'you@example.com';
+
+  @override
+  String get codeHint => '6-digit code';
+
+  @override
+  String get sendCode => 'Send code';
+
+  @override
+  String get signInAction => 'Sign in';
+
+  @override
+  String codeSentTo(String email) {
+    return 'We sent a code to $email. It can take a minute.';
+  }
+
+  @override
+  String get useOtherEmail => 'Use another email';
+
+  @override
+  String get accountWhy =>
+      'Your diary stays on this phone either way. An account adds a backup you can restore on a new phone, and photo logging — 10 photos a day, free.';
+
+  @override
+  String get cloudNotSetUp => 'Accounts are not switched on in this build. Everything else works on the phone.';
+
+  @override
+  String get signedInAs => 'Signed in';
+
+  @override
+  String get backupTitle => 'Backup';
+
+  @override
+  String backedUpAt(String when) {
+    return 'Backed up $when';
+  }
+
+  @override
+  String get notBackedUp => 'Not backed up yet';
+
+  @override
+  String get backupAuto => 'It backs up by itself when you leave the app, at most every six hours.';
+
+  @override
+  String get backupNow => 'Back up now';
+
+  @override
+  String get backupDone => 'Backed up';
+
+  @override
+  String get restoreAction => 'Restore from backup';
+
+  @override
+  String get restoreTitle => 'Restore this backup?';
+
+  @override
+  String restoreBody(String when) {
+    return 'The backup from $when replaces what is on this phone now.';
+  }
+
+  @override
+  String get foundBackupTitle => 'A backup is in your account';
+
+  @override
+  String foundBackupBody(String when) {
+    return 'From $when. Restore it onto this phone, or keep what this phone has and back that up instead.';
+  }
+
+  @override
+  String get restoreIt => 'Restore it';
+
+  @override
+  String get keepThisPhone => 'Keep this phone’s data';
+
+  @override
+  String get restored => 'Restored';
+
+  @override
+  String get noBackupYet => 'There is no backup in this account yet';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get signOutNote => 'Signing out keeps everything on this phone.';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountSub => 'The account and its backup';
+
+  @override
+  String get deleteAccountBody =>
+      'The account and its backup are deleted now. What is on this phone stays; delete it under Your data.';
+
+  @override
+  String get deleteAccountConfirm => 'Delete account and backup';
+
+  @override
+  String get accountDeleted => 'Account deleted';
+
+  @override
+  String get errOffline => 'No connection. Try again when you are online.';
+
+  @override
+  String get errBadCode => 'That code did not work. Check it, or send a new one.';
+
+  @override
+  String get errBusy => 'Too many tries just now. Wait a minute and try again.';
+
+  @override
+  String get errGeneric => 'Something went wrong. Try again.';
+
+  @override
+  String get photoPrompt => 'Photograph the plate. Gymco suggests what it sees; you say how much.';
+
+  @override
+  String get takePhoto => 'Take a photo';
+
+  @override
+  String get choosePhoto => 'Choose from photos';
+
+  @override
+  String get readingPlate => 'Looking at the plate…';
+
+  @override
+  String plateThings(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n things on the plate',
+      one: 'One thing on the plate',
+      zero: 'Nothing recognisable on the plate',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tapToConfirm => 'tap to confirm';
+
+  @override
+  String get fairlyConfident => 'fairly confident';
+
+  @override
+  String get notSureCheck => 'not sure — check this one';
+
+  @override
+  String get photoAmountNote =>
+      'A photo cannot tell how much is on the plate — no recognition system can. Pick the foods here, then set the amounts yourself.';
+
+  @override
+  String get photoNeedsAccount =>
+      'Photo logging uses an account: the photo is read on our server, 10 a day, free. Writing and search work without one.';
+
+  @override
+  String get photoNotSetUp => 'Photo logging is not switched on in this build. Write or search instead.';
+
+  @override
+  String scansLeft(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n photo scans left today',
+      one: '1 photo scan left today',
+      zero: 'No photo scans left today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get photoCap => 'That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.';
+
+  @override
+  String get photoRefused => 'That photo could not be read. Try another one.';
+
+  @override
+  String get photoAgain => 'Take another';
+
+  @override
+  String get notInDbSearch => 'Not on the phone — search for it';
 }

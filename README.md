@@ -6,6 +6,13 @@ Diet and training for lifters. Flutter, one codebase for iOS and Android, in Eng
 
 Every screen is drawn from the Volt prototype's own component kit (`lib/ui/kit`): its icons, cards, chips, sheets, keypad, week strip and tab bar, with the same sizes, radii and colours.
 
+### Phase 5: account, backup and photo logging
+
+- **Account** (Me → Account): sign in with your email and a six-digit code, no password. Fully optional: without it the app is phone-only and says so.
+- **Backup**: the whole diary (food log, weigh-ins, measurements, routines, workouts, saved meals, custom foods, favourites, settings) as one document in your account. It backs up by itself when you leave the app, at most every six hours, or on demand. Signing in on a new phone offers to restore it.
+- **Photo**: photograph the plate (or pick a photo) and Claude Haiku names the foods it sees, marking the ones it is not sure of. You tap each to set the amount; it never guesses grams. 10 photos per account per day, counted on the server.
+- **Delete account** removes the account and its backup; what is on the phone stays until you delete it under Your data.
+
 ### Phase 4a: write and say what you ate
 
 - **Write**: type a meal the way you would say it ("200g chicken breast, 150g rice and 10g olive oil", "2 eggs with two slices of bread", "a scoop of whey") and it is read into foods with weights, then logged together. Grams, kilos, ounces and ml; counts, number words, halves and fractions; scoops, slices, spoons, cups. English, Arabic (Arabic digits, an attached "و", duals like "بيضتين") and Spanish.
@@ -53,18 +60,30 @@ Exercise names are English only for now; Arabic and Spanish names come with a tr
 ```sh
 flutter pub get
 flutter run          # on a connected phone or simulator
-flutter test         # 103 tests
+flutter test         # 113 tests
 ```
 
 An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone with USB debugging.
+
+## Cloud setup (Supabase)
+
+The cloud part is in `supabase/`: one migration (`backups`, `ai_usage` with row level security, and the scan allowance functions only the server can call) and two Edge Functions, `food-photo` and `delete-account`.
+
+1. Create a Supabase project (free tier), then from this folder: `supabase link --project-ref <ref>`, `supabase db push`, `supabase functions deploy food-photo delete-account`.
+2. `supabase secrets set ANTHROPIC_API_KEY=...` — the photo function's key. It never reaches the app.
+3. Authentication → Email: keep email sign-in on, and change the Magic Link template to show the code, e.g. `Your Gymco code: {{ .Token }}`. Supabase's built-in mailer sends only a few emails an hour; add your own SMTP before launch.
+4. Build the app with the project's URL and publishable key:
+   `flutter run --dart-define=SUPABASE_URL=https://<ref>.supabase.co --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_...`
+
+Cost: Supabase free tier; Claude Haiku 5.5 is about $0.10 per million input tokens, so a photo costs well under a tenth of a cent and the 10-a-day cap bounds it per user.
 
 ## Roadmap
 
 1. ~~Core diet~~
 2. ~~Training~~ (deload weeks still to come)
 3. ~~Progress~~ (progress photos and cheat-meal planning screens still to come)
-4. AI logging: ~~Write~~ and ~~Voice~~ on rules, on the phone. **Photo** and **Eating out** next, on Claude Haiku via a Supabase Edge Function with a daily cap, built with accounts
-5. **Accounts and sync** (Supabase free tier), reminders, Apple Health / Health Connect, progress photos, large text
+4. ~~AI logging~~: Write and Voice on rules on the phone; Photo on Claude Haiku via a Supabase Edge Function, 10 a day. Eating out still to come
+5. ~~Accounts and backup~~ (Supabase free tier). Next: reminders, Apple Health / Health Connect, progress photos, large text, food names in Arabic and Spanish
 
 ## Free stack
 
@@ -75,6 +94,8 @@ An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone 
 | Food data | Open Food Facts + bundled USDA staples | free |
 | Barcode | mobile_scanner | free |
 | Dictation | speech_to_text (the phone's own recogniser) | free |
+| Accounts, backup | Supabase (email code sign-in, Postgres, Edge Functions) | free tier |
+| Photo logging | Claude Haiku 5.5, 10 photos a day per account | well under $0.001 a photo |
 | Fonts | Urbanist, Instrument Serif, IBM Plex Sans Arabic (OFL, bundled) | free |
 | CI | GitHub Actions | free |
 | Later: accounts and sync | Supabase free tier | free |

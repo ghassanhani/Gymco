@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
+import 'data/cloud.dart';
 import 'data/local_db.dart';
+import 'state/cloud_providers.dart';
 import 'state/providers.dart';
 
 Future<void> main() async {
@@ -13,9 +16,18 @@ Future<void> main() async {
   DateFormat.useNativeDigitsByDefaultFor('ar', false);
   final db = await LocalDb.open();
   final prefs = await SharedPreferences.getInstance();
+  Cloud cloud = const NoCloud();
+  if (supabaseUrl.isNotEmpty && supabasePublishableKey.isNotEmpty) {
+    await Supabase.initialize(url: supabaseUrl, publishableKey: supabasePublishableKey);
+    cloud = SupabaseCloud(Supabase.instance.client);
+  }
   runApp(
     ProviderScope(
-      overrides: [dbProvider.overrideWithValue(db), prefsProvider.overrideWithValue(prefs)],
+      overrides: [
+        dbProvider.overrideWithValue(db),
+        prefsProvider.overrideWithValue(prefs),
+        cloudProvider.overrideWithValue(cloud),
+      ],
       child: const GymcoApp(),
     ),
   );

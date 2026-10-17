@@ -5,12 +5,14 @@ import 'package:go_router/go_router.dart';
 
 import 'data/models.dart';
 import 'l10n/app_localizations.dart';
+import 'state/cloud_providers.dart';
 import 'state/providers.dart';
 import 'theme/volt.dart';
 import 'ui/food/add_food_screen.dart';
 import 'ui/food/meal_screen.dart';
 import 'ui/food/scan_screen.dart';
 import 'ui/food/serving_screen.dart';
+import 'ui/me/account_screen.dart';
 import 'ui/me/data_screen.dart';
 import 'ui/me/me_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
@@ -97,6 +99,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/goal', builder: (_, _) => const GoalSetScreen()),
       GoRoute(path: '/goal/done', builder: (_, _) => const GoalDoneScreen()),
       GoRoute(path: '/data', builder: (_, _) => const DataScreen()),
+      GoRoute(path: '/account', builder: (_, _) => const AccountScreen()),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),
         branches: [
@@ -151,11 +154,31 @@ final routerProvider = Provider<GoRouter>((ref) {
   );
 });
 
-class GymcoApp extends ConsumerWidget {
+class GymcoApp extends ConsumerStatefulWidget {
   const GymcoApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<GymcoApp> createState() => _GymcoAppState();
+}
+
+class _GymcoAppState extends ConsumerState<GymcoApp> {
+  // Leaving the app is the moment to back up: nothing is being typed.
+  late final _lifecycle = AppLifecycleListener(onPause: () => ref.read(cloudActionsProvider).backupIfDue());
+
+  @override
+  void initState() {
+    super.initState();
+    _lifecycle;
+  }
+
+  @override
+  void dispose() {
+    _lifecycle.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final locale = ref.watch(settingsProvider.select((s) => s.locale));
     return MaterialApp.router(
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appName,

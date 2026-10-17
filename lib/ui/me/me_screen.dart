@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../domain/cheat_meal.dart';
 import '../../domain/energy.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/cloud_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
@@ -62,6 +63,8 @@ class MeScreen extends ConsumerWidget {
       CheatAllowance.twicePerWeek => l.cheatTwice,
     };
 
+    final cloud = ref.watch(cloudProvider);
+    final email = ref.watch(accountProvider).value ?? cloud.email;
     final langLabel = s.languageCode == null ? l.systemLanguage : languages[s.languageCode]!;
 
     return VScreen(
@@ -83,6 +86,16 @@ class MeScreen extends ConsumerWidget {
                         () => context.push('/onboarding'),
                       ),
                     row('list', l.unitsLanguage, langLabel, () => context.push('/language')),
+                    row(
+                      'user',
+                      l.accountTitle,
+                      !cloud.available
+                          ? l.accountRowOff
+                          : email == null
+                          ? l.accountRowSub
+                          : l.accountRowSignedIn(email),
+                      () => context.push('/account'),
+                    ),
                     row('dl', l.yourData, l.yourDataSub, () => context.push('/data')),
                   ],
                 ),

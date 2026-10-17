@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data/cloud.dart' show PhotoFood;
 import '../../data/food_source.dart';
 import '../../data/meal_reader.dart';
 import '../../data/models.dart';
@@ -14,6 +15,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import '../progress/progress_screen.dart' show showNumberSheet;
+import 'photo_mode.dart';
 import 'write_mode.dart';
 
 /// The meal a bare "add food" goes to, from the time of day.
@@ -118,6 +120,20 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     });
     showVToast(context, l.itemsLoggedTo(items.length, mealName(l, _meal).toLowerCase()));
     context.go('/meal/${_meal.name}');
+  }
+
+  /// A food the photo suggested: open it to set the amount, or search for it
+  /// when the phone does not have it.
+  Future<void> _pickPhotoFood(PhotoFood f) async {
+    final found = (await readWrittenMeal(ref.read(dbProvider), f.name)).firstOrNull?.food;
+    if (!mounted) return;
+    if (found != null) {
+      context.push('/serving/${Uri.encodeComponent(found.id)}?meal=${_meal.name}');
+    } else {
+      _q.text = f.name;
+      setState(() => _mode = 'search');
+      _run(_q.text);
+    }
   }
 
   /// Not on the phone yet: look for it the usual way.
@@ -441,8 +457,8 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
           ?rows,
         ],
       ];
-    } else if (_mode != 'search') {
-      body = [_ComingMode(mode: _mode)];
+    } else if (_mode == 'camera') {
+      body = [PhotoMode(onPick: _pickPhotoFood)];
     } else if (q.isEmpty && _shelf == 1) {
       body = _savedMeals(l, noNumbers);
     } else if (q.isEmpty && _shelf == 2) {
@@ -681,34 +697,6 @@ class _NoMatchArt extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-/// Write, Voice and Photo arrive with AI logging; until then they say so
-/// rather than pretend.
-class _ComingMode extends StatelessWidget {
-  const _ComingMode({required this.mode});
-  final String mode;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final (icon, text) = switch (mode) {
-      'write' => ('list', l.writeComing),
-      'voice' => ('mic', l.voiceComing),
-      _ => ('camera', l.photoComing),
-    };
-    return VCard(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
-      child: GapCol(
-        gap: 10,
-        cross: CrossAxisAlignment.center,
-        children: [
-          IconBtn(icon, label: text, onTap: null, iconSize: 22, color: Volt.t2),
-          Muted(text, align: TextAlign.center),
-        ],
-      ),
-    );
-  }
 }
 
 /// A barcode the databases don't know: a 30-second contribution back.

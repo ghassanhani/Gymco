@@ -951,10 +951,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get pctPerWeek => '% / semana';
 
   @override
-  String get photoComing =>
-      'Fotografía el plato y Gymco sugiere lo que ve; tú dices cuánto. Llega con el registro con IA.';
-
-  @override
   String get rateHot =>
       'Por encima del 0,85% semanal empiezas a pagar con músculo. Gymco lo dirá cada semana hasta que bajes el ritmo.';
 
@@ -1053,10 +1049,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get usuallyNow => 'Sueles comer a esta hora';
 
   @override
-  String get voiceComing =>
-      'Mantén pulsado y di lo que comiste. Pasa por el mismo lector que la escritura. Llega con el registro con IA.';
-
-  @override
   String get water => 'Agua';
 
   @override
@@ -1073,10 +1065,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get welcomeTitleEm => 'Empieza hoy tu camino <em>fitness</em>';
-
-  @override
-  String get writeComing =>
-      'Escribe la comida como la dirías — «dos huevos, 150 g de arroz». Llega con el registro con IA.';
 
   @override
   String get yesterdayCopied => 'Ayer copiado';
@@ -2983,4 +2971,207 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dictateMeal => 'Dicta la comida';
+
+  @override
+  String get accountTitle => 'Cuenta';
+
+  @override
+  String get accountRowSub => 'Copia de seguridad y registro con fotos';
+
+  @override
+  String accountRowSignedIn(String email) {
+    return 'Sesión iniciada · $email';
+  }
+
+  @override
+  String get accountRowOff => 'Solo en el móvil';
+
+  @override
+  String get signInTitle => 'Guarda una copia en una cuenta';
+
+  @override
+  String get signInSub => 'Tu correo y un código, sin contraseña';
+
+  @override
+  String get emailHint => 'tu@ejemplo.com';
+
+  @override
+  String get codeHint => 'Código de 6 cifras';
+
+  @override
+  String get sendCode => 'Enviar código';
+
+  @override
+  String get signInAction => 'Iniciar sesión';
+
+  @override
+  String codeSentTo(String email) {
+    return 'Hemos enviado un código a $email. Puede tardar un minuto.';
+  }
+
+  @override
+  String get useOtherEmail => 'Usar otro correo';
+
+  @override
+  String get accountWhy =>
+      'Tu diario se queda en este móvil en cualquier caso. La cuenta añade una copia que puedes recuperar en un móvil nuevo y el registro con fotos: 10 fotos al día, gratis.';
+
+  @override
+  String get cloudNotSetUp => 'Las cuentas no están activadas en esta versión. Todo lo demás funciona en el móvil.';
+
+  @override
+  String get signedInAs => 'Sesión iniciada';
+
+  @override
+  String get backupTitle => 'Copia de seguridad';
+
+  @override
+  String backedUpAt(String when) {
+    return 'Copia hecha $when';
+  }
+
+  @override
+  String get notBackedUp => 'Aún sin copia';
+
+  @override
+  String get backupAuto => 'Se copia sola al salir de la app, como mucho cada seis horas.';
+
+  @override
+  String get backupNow => 'Copiar ahora';
+
+  @override
+  String get backupDone => 'Copia hecha';
+
+  @override
+  String get restoreAction => 'Restaurar la copia';
+
+  @override
+  String get restoreTitle => '¿Restaurar esta copia?';
+
+  @override
+  String restoreBody(String when) {
+    return 'La copia del $when sustituye lo que hay ahora en este móvil.';
+  }
+
+  @override
+  String get foundBackupTitle => 'Tu cuenta tiene una copia';
+
+  @override
+  String foundBackupBody(String when) {
+    return 'Del $when. Restáurala en este móvil o quédate con lo que tiene y cópialo en su lugar.';
+  }
+
+  @override
+  String get restoreIt => 'Restaurarla';
+
+  @override
+  String get keepThisPhone => 'Quedarme con lo de este móvil';
+
+  @override
+  String get restored => 'Restaurado';
+
+  @override
+  String get noBackupYet => 'Aún no hay copia en esta cuenta';
+
+  @override
+  String get signOut => 'Cerrar sesión';
+
+  @override
+  String get signOutNote => 'Cerrar sesión deja todo en este móvil.';
+
+  @override
+  String get deleteAccount => 'Eliminar cuenta';
+
+  @override
+  String get deleteAccountSub => 'La cuenta y su copia';
+
+  @override
+  String get deleteAccountBody =>
+      'La cuenta y su copia se eliminan ahora. Lo que hay en este móvil se queda; bórralo en Tus datos.';
+
+  @override
+  String get deleteAccountConfirm => 'Eliminar cuenta y copia';
+
+  @override
+  String get accountDeleted => 'Cuenta eliminada';
+
+  @override
+  String get errOffline => 'Sin conexión. Inténtalo cuando tengas internet.';
+
+  @override
+  String get errBadCode => 'Ese código no ha funcionado. Revísalo o pide otro.';
+
+  @override
+  String get errBusy => 'Demasiados intentos. Espera un minuto y vuelve a probar.';
+
+  @override
+  String get errGeneric => 'Algo ha fallado. Inténtalo de nuevo.';
+
+  @override
+  String get photoPrompt => 'Fotografía el plato. Gymco sugiere lo que ve; tú dices cuánto.';
+
+  @override
+  String get takePhoto => 'Hacer una foto';
+
+  @override
+  String get choosePhoto => 'Elegir de la galería';
+
+  @override
+  String get readingPlate => 'Mirando el plato…';
+
+  @override
+  String plateThings(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n cosas en el plato',
+      one: 'Una cosa en el plato',
+      zero: 'Nada reconocible en el plato',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tapToConfirm => 'toca para confirmar';
+
+  @override
+  String get fairlyConfident => 'bastante seguro';
+
+  @override
+  String get notSureCheck => 'no estoy seguro: revisa este';
+
+  @override
+  String get photoAmountNote =>
+      'Una foto no puede saber cuánto hay en el plato; ningún sistema puede. Elige aquí los alimentos y pon tú las cantidades.';
+
+  @override
+  String get photoNeedsAccount =>
+      'El registro con fotos usa una cuenta: la foto se lee en nuestro servidor, 10 al día, gratis. Escribir y buscar funcionan sin ella.';
+
+  @override
+  String get photoNotSetUp => 'El registro con fotos no está activado en esta versión. Escribe o busca.';
+
+  @override
+  String scansLeft(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Te quedan $n fotos hoy',
+      one: 'Te queda 1 foto hoy',
+      zero: 'No te quedan fotos hoy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get photoCap => 'Ya has usado las 10 fotos de hoy. Vuelven mañana; mientras, escribe o busca.';
+
+  @override
+  String get photoRefused => 'No se ha podido leer esa foto. Prueba con otra.';
+
+  @override
+  String get photoAgain => 'Hacer otra';
+
+  @override
+  String get notInDbSearch => 'No está en el móvil: búscalo';
 }

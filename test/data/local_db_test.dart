@@ -94,4 +94,30 @@ void main() {
     final c = await db.counts();
     expect((c.entries, c.sets, c.weighIns), (0, 0, 0));
   });
+
+  test('a backup imports onto another phone, replacing what was there', () async {
+    final a = await openTestDb();
+    final oats = (await a.searchFoods('oats')).first;
+    await a.addEntry(LogEntry.of(oats, day: '2026-09-26', meal: Meal.breakfast, grams: 80));
+    final mine = await a.saveAsCustom(
+      const Food(id: 'x', name: 'Mum’s kibbeh', kcal: 250, protein: 14, carbs: 20, fat: 12, servingGrams: 120),
+    );
+    final all = await a.exportAll();
+
+    final b = await openTestDb();
+    final rice = (await b.searchFoods('rice')).first;
+    await b.addEntry(LogEntry.of(rice, day: '2026-09-20', meal: Meal.lunch, grams: 150));
+    // A newer phone may carry columns this one does not know.
+    await b.importAll({
+      ...all,
+      'log_entries': [
+        for (final r in all['log_entries']!) {...r, 'from_the_future': 1},
+      ],
+    });
+
+    expect(await b.entriesFor('2026-09-20'), isEmpty);
+    expect((await b.entriesFor('2026-09-26')).single.grams, 80);
+    expect((await b.customFoods()).single.name, mine.name);
+    expect(await b.searchFoods('chicken'), isNotEmpty);
+  });
 }

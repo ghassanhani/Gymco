@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Gymco uses the camera to scan food barcodes.</string>
+	<string>Gymco uses the camera to scan food barcodes and to photograph meals you log.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gymco reads a meal photo you choose so it can suggest the foods on the plate.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Gymco listens while you hold the mic so you can say what you ate.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

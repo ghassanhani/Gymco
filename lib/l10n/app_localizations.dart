@@ -1827,12 +1827,6 @@ abstract class AppLocalizations {
   /// **'% / week'**
   String get pctPerWeek;
 
-  /// No description provided for @photoComing.
-  ///
-  /// In en, this message translates to:
-  /// **'Photograph the plate and Gymco suggests what it sees; you say how much. Arrives with AI logging.'**
-  String get photoComing;
-
   /// No description provided for @rateHot.
   ///
   /// In en, this message translates to:
@@ -2025,12 +2019,6 @@ abstract class AppLocalizations {
   /// **'You usually eat around now'**
   String get usuallyNow;
 
-  /// No description provided for @voiceComing.
-  ///
-  /// In en, this message translates to:
-  /// **'Hold and say what you ate. It goes through the same reader as writing. Arrives with AI logging.'**
-  String get voiceComing;
-
   /// No description provided for @water.
   ///
   /// In en, this message translates to:
@@ -2066,12 +2054,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start your <em>fitness</em> journey today'**
   String get welcomeTitleEm;
-
-  /// No description provided for @writeComing.
-  ///
-  /// In en, this message translates to:
-  /// **'Write the meal the way you would say it — “two eggs, 150 g rice”. Arrives with AI logging.'**
-  String get writeComing;
 
   /// No description provided for @yesterdayCopied.
   ///
@@ -5060,6 +5042,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dictate the meal'**
   String get dictateMeal;
+
+  /// No description provided for @accountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountTitle;
+
+  /// No description provided for @accountRowSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup and photo logging'**
+  String get accountRowSub;
+
+  /// No description provided for @accountRowSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in · {email}'**
+  String accountRowSignedIn(String email);
+
+  /// No description provided for @accountRowOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone only'**
+  String get accountRowOff;
+
+  /// No description provided for @signInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up to an account'**
+  String get signInTitle;
+
+  /// No description provided for @signInSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email and a code — no password'**
+  String get signInSub;
+
+  /// No description provided for @emailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'you@example.com'**
+  String get emailHint;
+
+  /// No description provided for @codeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit code'**
+  String get codeHint;
+
+  /// No description provided for @sendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code'**
+  String get sendCode;
+
+  /// No description provided for @signInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get signInAction;
+
+  /// No description provided for @codeSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a code to {email}. It can take a minute.'**
+  String codeSentTo(String email);
+
+  /// No description provided for @useOtherEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use another email'**
+  String get useOtherEmail;
+
+  /// No description provided for @accountWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'Your diary stays on this phone either way. An account adds a backup you can restore on a new phone, and photo logging — 10 photos a day, free.'**
+  String get accountWhy;
+
+  /// No description provided for @cloudNotSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts are not switched on in this build. Everything else works on the phone.'**
+  String get cloudNotSetUp;
+
+  /// No description provided for @signedInAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get signedInAs;
+
+  /// No description provided for @backupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backupTitle;
+
+  /// No description provided for @backedUpAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Backed up {when}'**
+  String backedUpAt(String when);
+
+  /// No description provided for @notBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Not backed up yet'**
+  String get notBackedUp;
+
+  /// No description provided for @backupAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'It backs up by itself when you leave the app, at most every six hours.'**
+  String get backupAuto;
+
+  /// No description provided for @backupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up now'**
+  String get backupNow;
+
+  /// No description provided for @backupDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Backed up'**
+  String get backupDone;
+
+  /// No description provided for @restoreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from backup'**
+  String get restoreAction;
+
+  /// No description provided for @restoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore this backup?'**
+  String get restoreTitle;
+
+  /// No description provided for @restoreBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup from {when} replaces what is on this phone now.'**
+  String restoreBody(String when);
+
+  /// No description provided for @foundBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A backup is in your account'**
+  String get foundBackupTitle;
+
+  /// No description provided for @foundBackupBody.
+  ///
+  /// In en, this message translates to:
+  /// **'From {when}. Restore it onto this phone, or keep what this phone has and back that up instead.'**
+  String foundBackupBody(String when);
+
+  /// No description provided for @restoreIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore it'**
+  String get restoreIt;
+
+  /// No description provided for @keepThisPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this phone’s data'**
+  String get keepThisPhone;
+
+  /// No description provided for @restored.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored'**
+  String get restored;
+
+  /// No description provided for @noBackupYet.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no backup in this account yet'**
+  String get noBackupYet;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOut;
+
+  /// No description provided for @signOutNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing out keeps everything on this phone.'**
+  String get signOutNote;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The account and its backup'**
+  String get deleteAccountSub;
+
+  /// No description provided for @deleteAccountBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The account and its backup are deleted now. What is on this phone stays; delete it under Your data.'**
+  String get deleteAccountBody;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account and backup'**
+  String get deleteAccountConfirm;
+
+  /// No description provided for @accountDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted'**
+  String get accountDeleted;
+
+  /// No description provided for @errOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Try again when you are online.'**
+  String get errOffline;
+
+  /// No description provided for @errBadCode.
+  ///
+  /// In en, this message translates to:
+  /// **'That code did not work. Check it, or send a new one.'**
+  String get errBadCode;
+
+  /// No description provided for @errBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many tries just now. Wait a minute and try again.'**
+  String get errBusy;
+
+  /// No description provided for @errGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get errGeneric;
+
+  /// No description provided for @photoPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Photograph the plate. Gymco suggests what it sees; you say how much.'**
+  String get photoPrompt;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get takePhoto;
+
+  /// No description provided for @choosePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from photos'**
+  String get choosePhoto;
+
+  /// No description provided for @readingPlate.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking at the plate…'**
+  String get readingPlate;
+
+  /// No description provided for @plateThings.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Nothing recognisable on the plate} =1{One thing on the plate} other{{n} things on the plate}}'**
+  String plateThings(int n);
+
+  /// No description provided for @tapToConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'tap to confirm'**
+  String get tapToConfirm;
+
+  /// No description provided for @fairlyConfident.
+  ///
+  /// In en, this message translates to:
+  /// **'fairly confident'**
+  String get fairlyConfident;
+
+  /// No description provided for @notSureCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'not sure — check this one'**
+  String get notSureCheck;
+
+  /// No description provided for @photoAmountNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A photo cannot tell how much is on the plate — no recognition system can. Pick the foods here, then set the amounts yourself.'**
+  String get photoAmountNote;
+
+  /// No description provided for @photoNeedsAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo logging uses an account: the photo is read on our server, 10 a day, free. Writing and search work without one.'**
+  String get photoNeedsAccount;
+
+  /// No description provided for @photoNotSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo logging is not switched on in this build. Write or search instead.'**
+  String get photoNotSetUp;
+
+  /// No description provided for @scansLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{No photo scans left today} =1{1 photo scan left today} other{{n} photo scans left today}}'**
+  String scansLeft(int n);
+
+  /// No description provided for @photoCap.
+  ///
+  /// In en, this message translates to:
+  /// **'That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.'**
+  String get photoCap;
+
+  /// No description provided for @photoRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'That photo could not be read. Try another one.'**
+  String get photoRefused;
+
+  /// No description provided for @photoAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Take another'**
+  String get photoAgain;
+
+  /// No description provided for @notInDbSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the phone — search for it'**
+  String get notInDbSearch;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

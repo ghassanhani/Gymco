@@ -18,6 +18,9 @@ class LocalDb {
   /// 5: body measurements.
   static const _version = 6;
 
+  /// What a backup was written by, so a newer phone can read an older one.
+  static const schemaVersion = _version;
+
   static Future<void> _createTraining(DatabaseExecutor db) async {
     await db.execute('''
       CREATE TABLE routines(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE COLLATE NOCASE,
@@ -141,6 +144,30 @@ class LocalDb {
     'custom_foods': await _db.query('foods', where: "source = 'local'"),
   };
 
+  /// Replaces everything the user made with [all], as [exportAll] wrote it.
+  /// Columns this version does not know are dropped; the bundled foods stay.
+  Future<void> importAll(Map<String, Object?> all) => _db.transaction((tx) async {
+    for (final t in _userTables.reversed) {
+      await tx.delete(t);
+    }
+    await tx.delete('foods', where: "source = 'local'");
+    Future<void> put(String table, String from, {ConflictAlgorithm? conflict}) async {
+      final known = {for (final c in await tx.rawQuery('PRAGMA table_info($table)')) c['name'] as String};
+      for (final r in (all[from] as List? ?? const [])) {
+        final row = {
+          for (final MapEntry(:key, :value) in (r as Map).cast<String, Object?>().entries)
+            if (known.contains(key)) key: value,
+        };
+        if (row.isNotEmpty) await tx.insert(table, row, conflictAlgorithm: conflict);
+      }
+    }
+
+    await put('foods', 'custom_foods', conflict: ConflictAlgorithm.replace);
+    for (final t in _userTables) {
+      await put(t, t);
+    }
+  });
+
   /// Everything the user made goes; the bundled foods stay, untouched.
   Future<void> wipe() => _db.transaction((tx) async {
     for (final t in _userTables.reversed) {
@@ -178,6 +205,10 @@ class LocalDb {
     final rows = await _db.query('foods', where: "source = 'local'", orderBy: 'name');
     return rows.map(Food.fromRow).toList();
   }
+
+  Future<List<String>> favouriteIds() async => [
+    for (final r in await _db.query('foods', columns: ['id'], where: 'favourite = 1')) r['id']! as String,
+  ];
 
   Future<void> setFavourite(String id, bool on) =>
       _db.update('foods', {'favourite': on ? 1 : 0}, where: 'id = ?', whereArgs: [id]);

@@ -1,15 +1,20 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
+import 'package:gymco/data/cloud.dart';
 import 'package:gymco/data/dictation.dart';
 import 'package:gymco/data/food_source.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
+import 'package:gymco/data/photo_picker.dart';
 import 'package:gymco/data/training.dart';
+import 'package:gymco/state/cloud_providers.dart';
 import 'package:gymco/state/providers.dart';
 import 'package:gymco/state/training_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,6 +55,8 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   DateTime Function()? clock,
   ExerciseLibrary? library,
   Dictation? dictation,
+  Cloud? cloud,
+  PhotoPicker? picker,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -72,6 +79,8 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         exerciseLibraryProvider.overrideWith((_) => library ?? testLibrary),
         showExercisePhotosProvider.overrideWithValue(false),
         dictationProvider.overrideWithValue(dictation ?? FakeDictation()),
+        cloudProvider.overrideWithValue(cloud ?? const NoCloud()),
+        photoPickerProvider.overrideWithValue(picker ?? FakePicker()),
       ],
       child: const GymcoApp(),
     ),
@@ -97,6 +106,73 @@ class FakeDictation implements Dictation {
 
   @override
   Future<void> stop() async => listening = false;
+}
+
+/// An account in memory: code 123456 signs in, one backup slot, a photo
+/// that always shows [photoFoods].
+class FakeCloud implements Cloud {
+  FakeCloud({this.signedIn, this.backup, this.photoFoods = const [], this.scansLeft = 9});
+  String? signedIn;
+  CloudBackup? backup;
+  List<PhotoFood> photoFoods;
+  int scansLeft;
+  final _changes = StreamController<String?>.broadcast();
+  int uploads = 0;
+
+  @override
+  bool get available => true;
+  @override
+  String? get email => signedIn;
+  @override
+  Stream<String?> get emailChanges => _changes.stream;
+  @override
+  Future<void> sendCode(String email) async {}
+  @override
+  Future<void> verifyCode(String email, String code) async {
+    if (code != '123456') throw const CloudException(CloudFailure.badCode);
+    signedIn = email;
+    _changes.add(email);
+  }
+
+  @override
+  Future<void> signOut() async {
+    signedIn = null;
+    _changes.add(null);
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    backup = null;
+    await signOut();
+  }
+
+  @override
+  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion}) async {
+    uploads++;
+    // Through JSON, as the server stores it.
+    backup = CloudBackup(payload: jsonDecode(jsonEncode(payload)) as Map<String, Object?>, at: testNow);
+  }
+
+  @override
+  Future<CloudBackup?> download() async => backup;
+
+  @override
+  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List jpeg, {required String languageCode}) async {
+    if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
+    return (photoFoods, --scansLeft);
+  }
+}
+
+/// Hands back a one-pixel JPEG, or nothing when cancelled.
+class FakePicker implements PhotoPicker {
+  FakePicker({this.cancel = false});
+  final bool cancel;
+  @override
+  Future<Uint8List?> pick({required bool camera}) async => cancel
+      ? null
+      : base64Decode(
+          '/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=',
+        );
 }
 
 /// A finished onboarding, as stored.
