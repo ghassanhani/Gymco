@@ -4,11 +4,16 @@ import 'dart:typed_data';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// The project this build talks to, passed at build time:
-/// `flutter run --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_PUBLISHABLE_KEY=...`.
-/// Without them the app is phone-only and says so where an account is needed.
-const supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-const supabasePublishableKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
+/// The project this build talks to. The publishable key is meant to ship in
+/// the app; row level security and the server functions decide what it can
+/// do. Override for another project with
+/// `--dart-define=SUPABASE_URL=... --dart-define=SUPABASE_PUBLISHABLE_KEY=...`,
+/// or pass empty values for a phone-only build.
+const supabaseUrl = String.fromEnvironment('SUPABASE_URL', defaultValue: 'https://vncadogzpeoawikgafaj.supabase.co');
+const supabasePublishableKey = String.fromEnvironment(
+  'SUPABASE_PUBLISHABLE_KEY',
+  defaultValue: 'sb_publishable_8ZM7KKxLHCzpUpfygmyFcA_5kK_PY2P',
+);
 
 /// A food the photo shows, named in English for the database and in the
 /// user's language for the screen.

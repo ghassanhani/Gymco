@@ -69,11 +69,13 @@ An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone 
 
 The cloud part is in `supabase/`: one migration (`backups`, `ai_usage` with row level security, and the scan allowance functions only the server can call) and two Edge Functions, `food-photo` and `delete-account`.
 
-1. Create a Supabase project (free tier), then from this folder: `supabase link --project-ref <ref>`, `supabase db push`, `supabase functions deploy food-photo delete-account`.
-2. `supabase secrets set ANTHROPIC_API_KEY=...` — the photo function's key. It never reaches the app.
-3. Authentication → Email: keep email sign-in on, and change the Magic Link template to show the code, e.g. `Your Gymco code: {{ .Token }}`. Supabase's built-in mailer sends only a few emails an hour; add your own SMTP before launch.
-4. Build the app with the project's URL and publishable key:
-   `flutter run --dart-define=SUPABASE_URL=https://<ref>.supabase.co --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_...`
+It is deployed to project `vncadogzpeoawikgafaj` (eu-west-1), and the app builds against it by default. Two settings are done in the Supabase dashboard:
+
+1. **Edge Functions → Secrets**: add `ANTHROPIC_API_KEY` — the photo function's key. It never reaches the app.
+2. **Authentication → Emails → Magic Link** template: show the code, e.g. `Your Gymco code: {{ .Token }}`. Supabase's built-in mailer sends only a few emails an hour; add your own SMTP before launch.
+
+For another project: `supabase link --project-ref <ref>`, `supabase db push`, `supabase functions deploy food-photo delete-account`, then build with
+`--dart-define=SUPABASE_URL=https://<ref>.supabase.co --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_...` (empty values build a phone-only app).
 
 Cost: Supabase free tier; Claude Haiku 5.5 is about $0.10 per million input tokens, so a photo costs well under a tenth of a cent and the 10-a-day cap bounds it per user.
 
