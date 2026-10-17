@@ -143,7 +143,8 @@ class GhostButton extends StatelessWidget {
       minimumSize: const Size(44, 44),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const StadiumBorder(),
-      textStyle: const TextStyle(fontWeight: FontWeight.w600),
+      // From the theme so the button keeps the app's font.
+      textStyle: Theme.of(context).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
     ),
   );
 }

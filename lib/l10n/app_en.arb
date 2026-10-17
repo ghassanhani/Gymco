@@ -188,5 +188,173 @@
   "progressTitle": "Progress",
   "nextBuild": "This part of Gymco is designed and is being built next.",
   "repeatYesterday": "Repeat yesterday",
-  "nothingYesterday": "Nothing was logged in this meal yesterday"
+  "nothingYesterday": "Nothing was logged in this meal yesterday",
+  "trainTitleTpl": "Train {accent}",
+  "trainAccent": "hard",
+  "routines": "Routines",
+  "newRoutine": "New routine",
+  "editRoutine": "Edit routine",
+  "emptyWorkout": "Empty workout",
+  "startRoutine": "Start",
+  "resumeWorkout": "Resume",
+  "inProgress": "Workout in progress · {time}",
+  "noRoutinesTitle": "No routines yet",
+  "noRoutinesBody": "Build one, or start an empty workout and add exercises as you go.",
+  "history": "History",
+  "noHistory": "Finished workouts show up here.",
+  "setsCount": "{count, plural, =1{1 set} other{{count} sets}}",
+  "exercisesCount": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "routineName": "Routine name",
+  "addExercise": "Add exercise",
+  "save": "Save",
+  "nameTaken": "You already have a routine called “{name}”.",
+  "deleteRoutine": "Delete routine",
+  "deleteRoutineTitle": "Delete this routine?",
+  "deleteRoutineBody": "Workouts you've already done stay in your history.",
+  "edit": "Edit",
+  "setsLabel": "Sets",
+  "repsLabel": "Reps",
+  "restLabel": "Rest",
+  "repRange": "{lo}–{hi} reps",
+  "restSeconds": "{s} s rest",
+  "searchExercises": "Search exercises",
+  "allMuscles": "All",
+  "addCount": "{count, plural, =1{Add 1 exercise} other{Add {count} exercises}}",
+  "m_chest": "Chest",
+  "m_shoulders": "Shoulders",
+  "m_triceps": "Triceps",
+  "m_biceps": "Biceps",
+  "m_forearms": "Forearms",
+  "m_lats": "Lats",
+  "m_middle_back": "Mid back",
+  "m_lower_back": "Lower back",
+  "m_traps": "Traps",
+  "m_abdominals": "Abs",
+  "m_quadriceps": "Quads",
+  "m_hamstrings": "Hamstrings",
+  "m_glutes": "Glutes",
+  "m_calves": "Calves",
+  "m_adductors": "Adductors",
+  "m_abductors": "Abductors",
+  "m_neck": "Neck",
+  "finish": "Finish",
+  "discard": "Discard workout",
+  "discardTitle": "Discard this workout?",
+  "discardBody": "Nothing from it will be saved.",
+  "unfinishedTitle": "Some sets aren't ticked",
+  "unfinishedBody": "Only ticked sets are saved.",
+  "finishAnyway": "Finish",
+  "keepGoing": "Keep going",
+  "durationLbl": "Time",
+  "volumeLbl": "Volume",
+  "setsDoneLbl": "Sets",
+  "addSet": "Add set",
+  "previous": "Previous",
+  "kgLbl": "kg",
+  "repsLbl": "reps",
+  "restRunning": "Rest",
+  "skip": "Skip",
+  "setTypeTitle": "Set type",
+  "stWarmup": "Warm-up",
+  "stWarmupSub": "Primes the lift. Not counted toward weekly sets.",
+  "stNormal": "Working set",
+  "stNormalSub": "Counts as one hard set.",
+  "stFailure": "To failure",
+  "stFailureSub": "Counts as one hard set.",
+  "stDrop": "Drop set",
+  "stDropSub": "Counts as half a set.",
+  "removeSet": "Remove set",
+  "removeExercise": "Remove exercise",
+  "summaryTitle": "Workout done",
+  "newBest": "New best: {exercise}",
+  "estOneRm": "est. 1RM {kg} kg",
+  "doneBtn": "Done",
+  "instructions": "How to do it",
+  "primaryMuscles": "Main muscles",
+  "secondaryMuscles": "Also works",
+  "photoUnavailable": "Photo not available offline",
+  "workoutDefaultName": "Workout",
+  "startWorkoutHint": "Add an exercise to begin.",
+  "minutesShort": "{m} min",
+  "tickSetHint": "Tick set",
+  "@trainTitleTpl": {
+    "placeholders": {
+      "accent": {
+        "type": "String"
+      }
+    }
+  },
+  "@setsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@exercisesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@addCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@nameTaken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@newBest": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      }
+    }
+  },
+  "@estOneRm": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "@minutesShort": {
+    "placeholders": {
+      "m": {
+        "type": "String"
+      }
+    }
+  },
+  "@inProgress": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@repRange": {
+    "placeholders": {
+      "lo": {
+        "type": "int"
+      },
+      "hi": {
+        "type": "int"
+      }
+    }
+  },
+  "@restSeconds": {
+    "placeholders": {
+      "s": {
+        "type": "int"
+      }
+    }
+  }
 }

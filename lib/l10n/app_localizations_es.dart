@@ -348,4 +348,298 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get nothingYesterday => 'Ayer no registraste nada en esta comida';
+
+  @override
+  String trainTitleTpl(String accent) {
+    return 'Entrena $accent';
+  }
+
+  @override
+  String get trainAccent => 'fuerte';
+
+  @override
+  String get routines => 'Rutinas';
+
+  @override
+  String get newRoutine => 'Nueva rutina';
+
+  @override
+  String get editRoutine => 'Editar rutina';
+
+  @override
+  String get emptyWorkout => 'Entreno vacío';
+
+  @override
+  String get startRoutine => 'Empezar';
+
+  @override
+  String get resumeWorkout => 'Seguir';
+
+  @override
+  String inProgress(String time) {
+    return 'Entreno en curso · $time';
+  }
+
+  @override
+  String get noRoutinesTitle => 'Aún no hay rutinas';
+
+  @override
+  String get noRoutinesBody => 'Crea una, o empieza un entreno vacío y añade ejercicios sobre la marcha.';
+
+  @override
+  String get history => 'Historial';
+
+  @override
+  String get noHistory => 'Aquí aparecen los entrenos terminados.';
+
+  @override
+  String setsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count series', one: '1 serie');
+    return '$_temp0';
+  }
+
+  @override
+  String exercisesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count ejercicios', one: '1 ejercicio');
+    return '$_temp0';
+  }
+
+  @override
+  String get routineName => 'Nombre de la rutina';
+
+  @override
+  String get addExercise => 'Añadir ejercicio';
+
+  @override
+  String get save => 'Guardar';
+
+  @override
+  String nameTaken(String name) {
+    return 'Ya tienes una rutina llamada «$name».';
+  }
+
+  @override
+  String get deleteRoutine => 'Eliminar rutina';
+
+  @override
+  String get deleteRoutineTitle => '¿Eliminar esta rutina?';
+
+  @override
+  String get deleteRoutineBody => 'Los entrenos que ya hiciste se quedan en tu historial.';
+
+  @override
+  String get edit => 'Editar';
+
+  @override
+  String get setsLabel => 'Series';
+
+  @override
+  String get repsLabel => 'Repeticiones';
+
+  @override
+  String get restLabel => 'Descanso';
+
+  @override
+  String repRange(int lo, int hi) {
+    return '$lo–$hi reps';
+  }
+
+  @override
+  String restSeconds(int s) {
+    return '$s s de descanso';
+  }
+
+  @override
+  String get searchExercises => 'Buscar ejercicios';
+
+  @override
+  String get allMuscles => 'Todos';
+
+  @override
+  String addCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Añadir $count ejercicios',
+      one: 'Añadir 1 ejercicio',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get m_chest => 'Pecho';
+
+  @override
+  String get m_shoulders => 'Hombros';
+
+  @override
+  String get m_triceps => 'Tríceps';
+
+  @override
+  String get m_biceps => 'Bíceps';
+
+  @override
+  String get m_forearms => 'Antebrazos';
+
+  @override
+  String get m_lats => 'Dorsales';
+
+  @override
+  String get m_middle_back => 'Espalda media';
+
+  @override
+  String get m_lower_back => 'Lumbar';
+
+  @override
+  String get m_traps => 'Trapecios';
+
+  @override
+  String get m_abdominals => 'Abdomen';
+
+  @override
+  String get m_quadriceps => 'Cuádriceps';
+
+  @override
+  String get m_hamstrings => 'Isquios';
+
+  @override
+  String get m_glutes => 'Glúteos';
+
+  @override
+  String get m_calves => 'Gemelos';
+
+  @override
+  String get m_adductors => 'Aductores';
+
+  @override
+  String get m_abductors => 'Abductores';
+
+  @override
+  String get m_neck => 'Cuello';
+
+  @override
+  String get finish => 'Terminar';
+
+  @override
+  String get discard => 'Descartar entreno';
+
+  @override
+  String get discardTitle => '¿Descartar este entreno?';
+
+  @override
+  String get discardBody => 'No se guardará nada.';
+
+  @override
+  String get unfinishedTitle => 'Hay series sin marcar';
+
+  @override
+  String get unfinishedBody => 'Solo se guardan las series marcadas.';
+
+  @override
+  String get finishAnyway => 'Terminar';
+
+  @override
+  String get keepGoing => 'Seguir';
+
+  @override
+  String get durationLbl => 'Tiempo';
+
+  @override
+  String get volumeLbl => 'Volumen';
+
+  @override
+  String get setsDoneLbl => 'Series';
+
+  @override
+  String get addSet => 'Añadir serie';
+
+  @override
+  String get previous => 'Anterior';
+
+  @override
+  String get kgLbl => 'kg';
+
+  @override
+  String get repsLbl => 'reps';
+
+  @override
+  String get restRunning => 'Descanso';
+
+  @override
+  String get skip => 'Saltar';
+
+  @override
+  String get setTypeTitle => 'Tipo de serie';
+
+  @override
+  String get stWarmup => 'Calentamiento';
+
+  @override
+  String get stWarmupSub => 'Prepara el ejercicio. No cuenta en las series semanales.';
+
+  @override
+  String get stNormal => 'Serie efectiva';
+
+  @override
+  String get stNormalSub => 'Cuenta como una serie dura.';
+
+  @override
+  String get stFailure => 'Al fallo';
+
+  @override
+  String get stFailureSub => 'Cuenta como una serie dura.';
+
+  @override
+  String get stDrop => 'Serie descendente';
+
+  @override
+  String get stDropSub => 'Cuenta como media serie.';
+
+  @override
+  String get removeSet => 'Quitar serie';
+
+  @override
+  String get removeExercise => 'Quitar ejercicio';
+
+  @override
+  String get summaryTitle => 'Entreno terminado';
+
+  @override
+  String newBest(String exercise) {
+    return 'Nueva marca: $exercise';
+  }
+
+  @override
+  String estOneRm(String kg) {
+    return '1RM estimado $kg kg';
+  }
+
+  @override
+  String get doneBtn => 'Listo';
+
+  @override
+  String get instructions => 'Cómo hacerlo';
+
+  @override
+  String get primaryMuscles => 'Músculos principales';
+
+  @override
+  String get secondaryMuscles => 'También trabaja';
+
+  @override
+  String get photoUnavailable => 'Foto no disponible sin conexión';
+
+  @override
+  String get workoutDefaultName => 'Entreno';
+
+  @override
+  String get startWorkoutHint => 'Añade un ejercicio para empezar.';
+
+  @override
+  String minutesShort(String m) {
+    return '$m min';
+  }
+
+  @override
+  String get tickSetHint => 'Marcar serie';
 }

@@ -704,6 +704,534 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing was logged in this meal yesterday'**
   String get nothingYesterday;
+
+  /// No description provided for @trainTitleTpl.
+  ///
+  /// In en, this message translates to:
+  /// **'Train {accent}'**
+  String trainTitleTpl(String accent);
+
+  /// No description provided for @trainAccent.
+  ///
+  /// In en, this message translates to:
+  /// **'hard'**
+  String get trainAccent;
+
+  /// No description provided for @routines.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines'**
+  String get routines;
+
+  /// No description provided for @newRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'New routine'**
+  String get newRoutine;
+
+  /// No description provided for @editRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit routine'**
+  String get editRoutine;
+
+  /// No description provided for @emptyWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty workout'**
+  String get emptyWorkout;
+
+  /// No description provided for @startRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get startRoutine;
+
+  /// No description provided for @resumeWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resumeWorkout;
+
+  /// No description provided for @inProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout in progress · {time}'**
+  String inProgress(String time);
+
+  /// No description provided for @noRoutinesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No routines yet'**
+  String get noRoutinesTitle;
+
+  /// No description provided for @noRoutinesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Build one, or start an empty workout and add exercises as you go.'**
+  String get noRoutinesBody;
+
+  /// No description provided for @history.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get history;
+
+  /// No description provided for @noHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished workouts show up here.'**
+  String get noHistory;
+
+  /// No description provided for @setsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 set} other{{count} sets}}'**
+  String setsCount(int count);
+
+  /// No description provided for @exercisesCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 exercise} other{{count} exercises}}'**
+  String exercisesCount(int count);
+
+  /// No description provided for @routineName.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine name'**
+  String get routineName;
+
+  /// No description provided for @addExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Add exercise'**
+  String get addExercise;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @nameTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a routine called “{name}”.'**
+  String nameTaken(String name);
+
+  /// No description provided for @deleteRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete routine'**
+  String get deleteRoutine;
+
+  /// No description provided for @deleteRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this routine?'**
+  String get deleteRoutineTitle;
+
+  /// No description provided for @deleteRoutineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts you\'ve already done stay in your history.'**
+  String get deleteRoutineBody;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @setsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get setsLabel;
+
+  /// No description provided for @repsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps'**
+  String get repsLabel;
+
+  /// No description provided for @restLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get restLabel;
+
+  /// No description provided for @repRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{lo}–{hi} reps'**
+  String repRange(int lo, int hi);
+
+  /// No description provided for @restSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{s} s rest'**
+  String restSeconds(int s);
+
+  /// No description provided for @searchExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Search exercises'**
+  String get searchExercises;
+
+  /// No description provided for @allMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allMuscles;
+
+  /// No description provided for @addCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Add 1 exercise} other{Add {count} exercises}}'**
+  String addCount(int count);
+
+  /// No description provided for @m_chest.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get m_chest;
+
+  /// No description provided for @m_shoulders.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get m_shoulders;
+
+  /// No description provided for @m_triceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Triceps'**
+  String get m_triceps;
+
+  /// No description provided for @m_biceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Biceps'**
+  String get m_biceps;
+
+  /// No description provided for @m_forearms.
+  ///
+  /// In en, this message translates to:
+  /// **'Forearms'**
+  String get m_forearms;
+
+  /// No description provided for @m_lats.
+  ///
+  /// In en, this message translates to:
+  /// **'Lats'**
+  String get m_lats;
+
+  /// No description provided for @m_middle_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Mid back'**
+  String get m_middle_back;
+
+  /// No description provided for @m_lower_back.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower back'**
+  String get m_lower_back;
+
+  /// No description provided for @m_traps.
+  ///
+  /// In en, this message translates to:
+  /// **'Traps'**
+  String get m_traps;
+
+  /// No description provided for @m_abdominals.
+  ///
+  /// In en, this message translates to:
+  /// **'Abs'**
+  String get m_abdominals;
+
+  /// No description provided for @m_quadriceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Quads'**
+  String get m_quadriceps;
+
+  /// No description provided for @m_hamstrings.
+  ///
+  /// In en, this message translates to:
+  /// **'Hamstrings'**
+  String get m_hamstrings;
+
+  /// No description provided for @m_glutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Glutes'**
+  String get m_glutes;
+
+  /// No description provided for @m_calves.
+  ///
+  /// In en, this message translates to:
+  /// **'Calves'**
+  String get m_calves;
+
+  /// No description provided for @m_adductors.
+  ///
+  /// In en, this message translates to:
+  /// **'Adductors'**
+  String get m_adductors;
+
+  /// No description provided for @m_abductors.
+  ///
+  /// In en, this message translates to:
+  /// **'Abductors'**
+  String get m_abductors;
+
+  /// No description provided for @m_neck.
+  ///
+  /// In en, this message translates to:
+  /// **'Neck'**
+  String get m_neck;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @discard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard workout'**
+  String get discard;
+
+  /// No description provided for @discardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard this workout?'**
+  String get discardTitle;
+
+  /// No description provided for @discardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing from it will be saved.'**
+  String get discardBody;
+
+  /// No description provided for @unfinishedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Some sets aren\'t ticked'**
+  String get unfinishedTitle;
+
+  /// No description provided for @unfinishedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Only ticked sets are saved.'**
+  String get unfinishedBody;
+
+  /// No description provided for @finishAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finishAnyway;
+
+  /// No description provided for @keepGoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get keepGoing;
+
+  /// No description provided for @durationLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get durationLbl;
+
+  /// No description provided for @volumeLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume'**
+  String get volumeLbl;
+
+  /// No description provided for @setsDoneLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get setsDoneLbl;
+
+  /// No description provided for @addSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add set'**
+  String get addSet;
+
+  /// No description provided for @previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous'**
+  String get previous;
+
+  /// No description provided for @kgLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'kg'**
+  String get kgLbl;
+
+  /// No description provided for @repsLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'reps'**
+  String get repsLbl;
+
+  /// No description provided for @restRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get restRunning;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @setTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set type'**
+  String get setTypeTitle;
+
+  /// No description provided for @stWarmup.
+  ///
+  /// In en, this message translates to:
+  /// **'Warm-up'**
+  String get stWarmup;
+
+  /// No description provided for @stWarmupSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Primes the lift. Not counted toward weekly sets.'**
+  String get stWarmupSub;
+
+  /// No description provided for @stNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Working set'**
+  String get stNormal;
+
+  /// No description provided for @stNormalSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts as one hard set.'**
+  String get stNormalSub;
+
+  /// No description provided for @stFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'To failure'**
+  String get stFailure;
+
+  /// No description provided for @stFailureSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts as one hard set.'**
+  String get stFailureSub;
+
+  /// No description provided for @stDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'Drop set'**
+  String get stDrop;
+
+  /// No description provided for @stDropSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts as half a set.'**
+  String get stDropSub;
+
+  /// No description provided for @removeSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove set'**
+  String get removeSet;
+
+  /// No description provided for @removeExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove exercise'**
+  String get removeExercise;
+
+  /// No description provided for @summaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout done'**
+  String get summaryTitle;
+
+  /// No description provided for @newBest.
+  ///
+  /// In en, this message translates to:
+  /// **'New best: {exercise}'**
+  String newBest(String exercise);
+
+  /// No description provided for @estOneRm.
+  ///
+  /// In en, this message translates to:
+  /// **'est. 1RM {kg} kg'**
+  String estOneRm(String kg);
+
+  /// No description provided for @doneBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneBtn;
+
+  /// No description provided for @instructions.
+  ///
+  /// In en, this message translates to:
+  /// **'How to do it'**
+  String get instructions;
+
+  /// No description provided for @primaryMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'Main muscles'**
+  String get primaryMuscles;
+
+  /// No description provided for @secondaryMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'Also works'**
+  String get secondaryMuscles;
+
+  /// No description provided for @photoUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo not available offline'**
+  String get photoUnavailable;
+
+  /// No description provided for @workoutDefaultName.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get workoutDefaultName;
+
+  /// No description provided for @startWorkoutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an exercise to begin.'**
+  String get startWorkoutHint;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{m} min'**
+  String minutesShort(String m);
+
+  /// No description provided for @tickSetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick set'**
+  String get tickSetHint;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -5,7 +5,9 @@ import 'package:gymco/app.dart';
 import 'package:gymco/data/food_source.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
+import 'package:gymco/data/training.dart';
 import 'package:gymco/state/providers.dart';
+import 'package:gymco/state/training_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -41,6 +43,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   FoodSource? source,
   Locale? locale,
   Future<void> Function(LocalDb db)? seed,
+  DateTime Function()? clock,
 }) async {
   SharedPreferences.setMockInitialValues(prefs);
   final p = await SharedPreferences.getInstance();
@@ -55,7 +58,9 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         dbProvider.overrideWithValue(db),
         prefsProvider.overrideWithValue(p),
         foodSourceProvider.overrideWithValue(source ?? FakeFoodSource()),
-        clockProvider.overrideWithValue(() => testNow),
+        clockProvider.overrideWithValue(clock ?? () => testNow),
+        exerciseLibraryProvider.overrideWith((_) => testLibrary),
+        showExercisePhotosProvider.overrideWithValue(false),
       ],
       child: const GymcoApp(),
     ),
@@ -68,3 +73,31 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
 const savedProfile =
     '{"goal":"cut","sex":"male","age":30,"height":180.0,"weight":80.0,"activity":"moderate",'
     '"rate":-0.5,"kcal":2319.0,"p":176.0,"c":245.0,"f":64.0,"started":"2026-09-20T09:00:00.000"}';
+
+Exercise _ex(String id, String name, String eq, List<String> muscles) => Exercise(
+  id: id,
+  name: name,
+  equipment: eq,
+  primary: muscles,
+  secondary: const [],
+  category: 'strength',
+  instructions: const ['Lift it.', 'Lower it.'],
+  images: const [],
+);
+
+final testLibrary = ExerciseLibrary([
+  _ex('bench', 'Barbell Bench Press', 'barbell', ['chest']),
+  _ex('ohp', 'Standing Military Press', 'barbell', ['shoulders']),
+  _ex('lat', 'Side Lateral Raise', 'dumbbell', ['shoulders']),
+  _ex('squat', 'Barbell Squat', 'barbell', ['quadriceps']),
+]);
+
+extension Fixtures on LocalDb {
+  Future<int> saveRoutineFixture(String name) => saveRoutine(
+    Routine(
+      id: null,
+      name: name,
+      items: const [RoutineItem(exerciseId: 'bench', sets: 3, repLow: 5, repHigh: 8)],
+    ),
+  );
+}

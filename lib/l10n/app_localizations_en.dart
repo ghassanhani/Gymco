@@ -349,4 +349,298 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nothingYesterday => 'Nothing was logged in this meal yesterday';
+
+  @override
+  String trainTitleTpl(String accent) {
+    return 'Train $accent';
+  }
+
+  @override
+  String get trainAccent => 'hard';
+
+  @override
+  String get routines => 'Routines';
+
+  @override
+  String get newRoutine => 'New routine';
+
+  @override
+  String get editRoutine => 'Edit routine';
+
+  @override
+  String get emptyWorkout => 'Empty workout';
+
+  @override
+  String get startRoutine => 'Start';
+
+  @override
+  String get resumeWorkout => 'Resume';
+
+  @override
+  String inProgress(String time) {
+    return 'Workout in progress · $time';
+  }
+
+  @override
+  String get noRoutinesTitle => 'No routines yet';
+
+  @override
+  String get noRoutinesBody => 'Build one, or start an empty workout and add exercises as you go.';
+
+  @override
+  String get history => 'History';
+
+  @override
+  String get noHistory => 'Finished workouts show up here.';
+
+  @override
+  String setsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count sets', one: '1 set');
+    return '$_temp0';
+  }
+
+  @override
+  String exercisesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count exercises', one: '1 exercise');
+    return '$_temp0';
+  }
+
+  @override
+  String get routineName => 'Routine name';
+
+  @override
+  String get addExercise => 'Add exercise';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String nameTaken(String name) {
+    return 'You already have a routine called “$name”.';
+  }
+
+  @override
+  String get deleteRoutine => 'Delete routine';
+
+  @override
+  String get deleteRoutineTitle => 'Delete this routine?';
+
+  @override
+  String get deleteRoutineBody => 'Workouts you\'ve already done stay in your history.';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get setsLabel => 'Sets';
+
+  @override
+  String get repsLabel => 'Reps';
+
+  @override
+  String get restLabel => 'Rest';
+
+  @override
+  String repRange(int lo, int hi) {
+    return '$lo–$hi reps';
+  }
+
+  @override
+  String restSeconds(int s) {
+    return '$s s rest';
+  }
+
+  @override
+  String get searchExercises => 'Search exercises';
+
+  @override
+  String get allMuscles => 'All';
+
+  @override
+  String addCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Add $count exercises',
+      one: 'Add 1 exercise',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get m_chest => 'Chest';
+
+  @override
+  String get m_shoulders => 'Shoulders';
+
+  @override
+  String get m_triceps => 'Triceps';
+
+  @override
+  String get m_biceps => 'Biceps';
+
+  @override
+  String get m_forearms => 'Forearms';
+
+  @override
+  String get m_lats => 'Lats';
+
+  @override
+  String get m_middle_back => 'Mid back';
+
+  @override
+  String get m_lower_back => 'Lower back';
+
+  @override
+  String get m_traps => 'Traps';
+
+  @override
+  String get m_abdominals => 'Abs';
+
+  @override
+  String get m_quadriceps => 'Quads';
+
+  @override
+  String get m_hamstrings => 'Hamstrings';
+
+  @override
+  String get m_glutes => 'Glutes';
+
+  @override
+  String get m_calves => 'Calves';
+
+  @override
+  String get m_adductors => 'Adductors';
+
+  @override
+  String get m_abductors => 'Abductors';
+
+  @override
+  String get m_neck => 'Neck';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get discard => 'Discard workout';
+
+  @override
+  String get discardTitle => 'Discard this workout?';
+
+  @override
+  String get discardBody => 'Nothing from it will be saved.';
+
+  @override
+  String get unfinishedTitle => 'Some sets aren\'t ticked';
+
+  @override
+  String get unfinishedBody => 'Only ticked sets are saved.';
+
+  @override
+  String get finishAnyway => 'Finish';
+
+  @override
+  String get keepGoing => 'Keep going';
+
+  @override
+  String get durationLbl => 'Time';
+
+  @override
+  String get volumeLbl => 'Volume';
+
+  @override
+  String get setsDoneLbl => 'Sets';
+
+  @override
+  String get addSet => 'Add set';
+
+  @override
+  String get previous => 'Previous';
+
+  @override
+  String get kgLbl => 'kg';
+
+  @override
+  String get repsLbl => 'reps';
+
+  @override
+  String get restRunning => 'Rest';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get setTypeTitle => 'Set type';
+
+  @override
+  String get stWarmup => 'Warm-up';
+
+  @override
+  String get stWarmupSub => 'Primes the lift. Not counted toward weekly sets.';
+
+  @override
+  String get stNormal => 'Working set';
+
+  @override
+  String get stNormalSub => 'Counts as one hard set.';
+
+  @override
+  String get stFailure => 'To failure';
+
+  @override
+  String get stFailureSub => 'Counts as one hard set.';
+
+  @override
+  String get stDrop => 'Drop set';
+
+  @override
+  String get stDropSub => 'Counts as half a set.';
+
+  @override
+  String get removeSet => 'Remove set';
+
+  @override
+  String get removeExercise => 'Remove exercise';
+
+  @override
+  String get summaryTitle => 'Workout done';
+
+  @override
+  String newBest(String exercise) {
+    return 'New best: $exercise';
+  }
+
+  @override
+  String estOneRm(String kg) {
+    return 'est. 1RM $kg kg';
+  }
+
+  @override
+  String get doneBtn => 'Done';
+
+  @override
+  String get instructions => 'How to do it';
+
+  @override
+  String get primaryMuscles => 'Main muscles';
+
+  @override
+  String get secondaryMuscles => 'Also works';
+
+  @override
+  String get photoUnavailable => 'Photo not available offline';
+
+  @override
+  String get workoutDefaultName => 'Workout';
+
+  @override
+  String get startWorkoutHint => 'Add an exercise to begin.';
+
+  @override
+  String minutesShort(String m) {
+    return '$m min';
+  }
+
+  @override
+  String get tickSetHint => 'Tick set';
 }

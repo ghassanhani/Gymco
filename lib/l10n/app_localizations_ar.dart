@@ -359,4 +359,320 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nothingYesterday => 'لم يُسجَّل شيء في هذه الوجبة أمس';
+
+  @override
+  String trainTitleTpl(String accent) {
+    return 'تمرّن $accent';
+  }
+
+  @override
+  String get trainAccent => 'بقوة';
+
+  @override
+  String get routines => 'البرامج';
+
+  @override
+  String get newRoutine => 'برنامج جديد';
+
+  @override
+  String get editRoutine => 'عدّل البرنامج';
+
+  @override
+  String get emptyWorkout => 'تمرين فارغ';
+
+  @override
+  String get startRoutine => 'ابدأ';
+
+  @override
+  String get resumeWorkout => 'تابع';
+
+  @override
+  String inProgress(String time) {
+    return 'تمرين جارٍ · $time';
+  }
+
+  @override
+  String get noRoutinesTitle => 'لا برامج بعد';
+
+  @override
+  String get noRoutinesBody => 'أنشئ برنامجًا، أو ابدأ تمرينًا فارغًا وأضف التمارين أثناءه.';
+
+  @override
+  String get history => 'السجل';
+
+  @override
+  String get noHistory => 'تظهر التمارين المنتهية هنا.';
+
+  @override
+  String setsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مجموعة',
+      many: '$count مجموعة',
+      few: '$count مجموعات',
+      two: 'مجموعتان',
+      one: 'مجموعة واحدة',
+      zero: 'لا مجموعات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String exercisesCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تمرين',
+      many: '$count تمرينًا',
+      few: '$count تمارين',
+      two: 'تمرينان',
+      one: 'تمرين واحد',
+      zero: 'لا تمارين',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routineName => 'اسم البرنامج';
+
+  @override
+  String get addExercise => 'أضف تمرينًا';
+
+  @override
+  String get save => 'احفظ';
+
+  @override
+  String nameTaken(String name) {
+    return 'لديك برنامج باسم «$name» بالفعل.';
+  }
+
+  @override
+  String get deleteRoutine => 'احذف البرنامج';
+
+  @override
+  String get deleteRoutineTitle => 'حذف هذا البرنامج؟';
+
+  @override
+  String get deleteRoutineBody => 'التمارين التي أنجزتها تبقى في سجلك.';
+
+  @override
+  String get edit => 'تعديل';
+
+  @override
+  String get setsLabel => 'المجموعات';
+
+  @override
+  String get repsLabel => 'التكرارات';
+
+  @override
+  String get restLabel => 'الراحة';
+
+  @override
+  String repRange(int lo, int hi) {
+    return '$lo–$hi تكرار';
+  }
+
+  @override
+  String restSeconds(int s) {
+    return 'راحة $s ث';
+  }
+
+  @override
+  String get searchExercises => 'ابحث عن التمارين';
+
+  @override
+  String get allMuscles => 'الكل';
+
+  @override
+  String addCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'أضف $count تمرين',
+      many: 'أضف $count تمرينًا',
+      few: 'أضف $count تمارين',
+      two: 'أضف تمرينين',
+      one: 'أضف تمرينًا واحدًا',
+      zero: 'أضف',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get m_chest => 'الصدر';
+
+  @override
+  String get m_shoulders => 'الأكتاف';
+
+  @override
+  String get m_triceps => 'الترايسبس';
+
+  @override
+  String get m_biceps => 'البايسبس';
+
+  @override
+  String get m_forearms => 'الساعدان';
+
+  @override
+  String get m_lats => 'الظهر العريض';
+
+  @override
+  String get m_middle_back => 'منتصف الظهر';
+
+  @override
+  String get m_lower_back => 'أسفل الظهر';
+
+  @override
+  String get m_traps => 'الترابيس';
+
+  @override
+  String get m_abdominals => 'البطن';
+
+  @override
+  String get m_quadriceps => 'الفخذ الأمامي';
+
+  @override
+  String get m_hamstrings => 'الفخذ الخلفي';
+
+  @override
+  String get m_glutes => 'الأرداف';
+
+  @override
+  String get m_calves => 'السمانة';
+
+  @override
+  String get m_adductors => 'الفخذ الداخلي';
+
+  @override
+  String get m_abductors => 'الفخذ الخارجي';
+
+  @override
+  String get m_neck => 'الرقبة';
+
+  @override
+  String get finish => 'إنهاء';
+
+  @override
+  String get discard => 'تجاهل التمرين';
+
+  @override
+  String get discardTitle => 'تجاهل هذا التمرين؟';
+
+  @override
+  String get discardBody => 'لن يُحفظ شيء منه.';
+
+  @override
+  String get unfinishedTitle => 'بعض المجموعات غير مؤشَّرة';
+
+  @override
+  String get unfinishedBody => 'تُحفظ المجموعات المؤشَّرة فقط.';
+
+  @override
+  String get finishAnyway => 'إنهاء';
+
+  @override
+  String get keepGoing => 'تابع التمرين';
+
+  @override
+  String get durationLbl => 'الوقت';
+
+  @override
+  String get volumeLbl => 'الحجم';
+
+  @override
+  String get setsDoneLbl => 'المجموعات';
+
+  @override
+  String get addSet => 'أضف مجموعة';
+
+  @override
+  String get previous => 'السابق';
+
+  @override
+  String get kgLbl => 'كغ';
+
+  @override
+  String get repsLbl => 'تكرار';
+
+  @override
+  String get restRunning => 'راحة';
+
+  @override
+  String get skip => 'تخطَّ';
+
+  @override
+  String get setTypeTitle => 'نوع المجموعة';
+
+  @override
+  String get stWarmup => 'إحماء';
+
+  @override
+  String get stWarmupSub => 'تهيئة للرفعة. لا تُحتسب في المجموعات الأسبوعية.';
+
+  @override
+  String get stNormal => 'مجموعة عمل';
+
+  @override
+  String get stNormalSub => 'تُحتسب مجموعة واحدة.';
+
+  @override
+  String get stFailure => 'حتى الفشل';
+
+  @override
+  String get stFailureSub => 'تُحتسب مجموعة واحدة.';
+
+  @override
+  String get stDrop => 'مجموعة تنازلية';
+
+  @override
+  String get stDropSub => 'تُحتسب نصف مجموعة.';
+
+  @override
+  String get removeSet => 'احذف المجموعة';
+
+  @override
+  String get removeExercise => 'احذف التمرين';
+
+  @override
+  String get summaryTitle => 'انتهى التمرين';
+
+  @override
+  String newBest(String exercise) {
+    return 'رقم جديد: $exercise';
+  }
+
+  @override
+  String estOneRm(String kg) {
+    return 'أقصى تكرار تقديري $kg كغ';
+  }
+
+  @override
+  String get doneBtn => 'تم';
+
+  @override
+  String get instructions => 'طريقة الأداء';
+
+  @override
+  String get primaryMuscles => 'العضلات الأساسية';
+
+  @override
+  String get secondaryMuscles => 'يعمل أيضًا على';
+
+  @override
+  String get photoUnavailable => 'الصورة غير متاحة دون اتصال';
+
+  @override
+  String get workoutDefaultName => 'تمرين';
+
+  @override
+  String get startWorkoutHint => 'أضف تمرينًا للبدء.';
+
+  @override
+  String minutesShort(String m) {
+    return '$m د';
+  }
+
+  @override
+  String get tickSetHint => 'أشّر المجموعة';
 }
