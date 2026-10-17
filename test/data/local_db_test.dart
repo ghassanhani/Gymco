@@ -50,4 +50,48 @@ void main() {
     final today = await db.entriesFor('2026-09-26');
     expect(today.every((e) => e.meal == Meal.breakfast), isTrue);
   });
+
+  test('a saved meal keeps its foods and grams, in order', () async {
+    final db = await openTestDb();
+    final oats = seedFoods.firstWhere((f) => f.id == 'usda:oats-rolled');
+    final berries = seedFoods.firstWhere((f) => f.id == 'usda:blueberries');
+    final entries = [
+      LogEntry.of(oats, day: '2026-09-26', meal: Meal.breakfast, grams: 80),
+      LogEntry.of(berries, day: '2026-09-26', meal: Meal.breakfast, grams: 75),
+    ];
+    await db.saveMeal('Oats and berries', entries);
+    final m = (await db.savedMeals()).single;
+    expect(m.name, 'Oats and berries');
+    expect(m.items.map((i) => (i.$1.id, i.$2)), [(oats.id, 80.0), (berries.id, 75.0)]);
+    expect(m.kcal, closeTo(oats.kcal * 0.8 + berries.kcal * 0.75, 1e-9));
+  });
+
+  test('favourites come first in recent, and a custom copy is the user\'s own', () async {
+    final db = await openTestDb();
+    final oats = seedFoods.firstWhere((f) => f.id == 'usda:oats-rolled');
+    await db.addEntry(LogEntry.of(seedFoods.first, day: '2026-09-26', meal: Meal.lunch, grams: 100));
+    await db.setFavourite(oats.id, true);
+    expect((await db.recentFoods()).first.id, oats.id);
+
+    final copy = await db.saveAsCustom(oats);
+    expect(copy.source, 'local');
+    expect((await db.customFoods()).single.kcal, oats.kcal);
+  });
+
+  test('wipe removes everything the user made and keeps the bundled foods', () async {
+    final db = await openTestDb();
+    final oats = seedFoods.firstWhere((f) => f.id == 'usda:oats-rolled');
+    await db.addEntry(LogEntry.of(oats, day: '2026-09-26', meal: Meal.breakfast, grams: 80));
+    await db.setWeight('2026-09-26', 80);
+    await db.saveAsCustom(oats);
+    await db.setFavourite(oats.id, true);
+    await db.wipe();
+    expect(await db.entriesFor('2026-09-26'), isEmpty);
+    expect(await db.weighIns(), isEmpty);
+    expect(await db.customFoods(), isEmpty);
+    expect(await db.recentFoods(), isEmpty);
+    expect(await db.searchFoods('oats'), isNotEmpty);
+    final c = await db.counts();
+    expect((c.entries, c.sets, c.weighIns), (0, 0, 0));
+  });
 }

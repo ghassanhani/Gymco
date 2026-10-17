@@ -91,7 +91,7 @@ void main() {
     expect(best['bench'], closeTo(102.5 * (1 + 5 / 30), 1e-9));
   });
 
-  test('a phase-1 database upgrades without losing the food log', () async {
+  test('a phase-1 database upgrades without losing the food log or foods', () async {
     final dir = await Directory.systemTemp.createTemp('gymco');
     final path = '${dir.path}/gymco.db';
     final old = await databaseFactoryFfiNoIsolate.openDatabase(
@@ -100,7 +100,9 @@ void main() {
         version: 1,
         onCreate: (db, _) async {
           await db.execute('CREATE TABLE log_entries(id INTEGER PRIMARY KEY, day TEXT)');
+          await db.execute('CREATE TABLE foods(id TEXT PRIMARY KEY, name TEXT, source TEXT, last_used INTEGER)');
           await db.insert('log_entries', {'day': '2026-09-01'});
+          await db.insert('foods', {'id': 'usda:oats', 'name': 'Oats', 'source': 'usda'});
         },
       ),
     );
@@ -108,9 +110,11 @@ void main() {
 
     final db = await LocalDb.open(factory: databaseFactoryFfiNoIsolate, path: path, singleInstance: false);
     expect(await db.routines(), isEmpty);
+    expect(await db.savedMeals(), isEmpty);
     await db.close();
     final check = await databaseFactoryFfiNoIsolate.openDatabase(path);
     expect(await check.query('log_entries'), hasLength(1));
+    expect((await check.query('foods')).single['favourite'], 0);
     await check.close();
     await dir.delete(recursive: true);
   });
@@ -123,5 +127,57 @@ void main() {
     final hits = lib.search('bench press', muscle: 'chest');
     expect(hits.first.category, 'strength');
     expect(hits.every((e) => e.primary.contains('chest')), isTrue);
+  });
+
+  test('one routine per weekday: saving onto a taken day moves the other to any day', () async {
+    final db = await openTestDb();
+    await db.saveRoutine(
+      const Routine(
+        id: null,
+        name: 'Push A',
+        weekday: 5,
+        folder: RoutineFolder.plan,
+        items: [RoutineItem(exerciseId: 'bench', rir: 1)],
+      ),
+    );
+    await db.saveRoutine(
+      const Routine(
+        id: null,
+        name: 'Legs',
+        weekday: 5,
+        items: [RoutineItem(exerciseId: 'squat')],
+      ),
+    );
+    final all = {for (final r in await db.routines()) r.name: r};
+    expect(all['Legs']!.weekday, 5);
+    expect(all['Push A']!.weekday, isNull);
+    expect(all['Push A']!.folder, RoutineFolder.plan);
+    expect(all['Push A']!.items.single.rir, 1);
+  });
+
+  test('history groups an exercise by workout, newest first, with RIR', () async {
+    final db = await openTestDb();
+    await db.saveWorkout(session(weight: 100), t0);
+    await db.saveWorkout(
+      WorkoutSession.start(
+        name: 'Push A',
+        now: t0.add(const Duration(days: 3)),
+        exercises: const [
+          SessionExercise(
+            exerciseId: 'bench',
+            name: 'Bench',
+            sets: [SessionSet(weightKg: 105, reps: 5, rir: 1, done: true)],
+          ),
+        ],
+      ),
+      t0.add(const Duration(days: 3)),
+    );
+    final h = await db.historyOf('bench');
+    expect(h, hasLength(2));
+    expect(h.first.$2.single.rir, 1);
+    expect(h.last.$2, hasLength(2));
+    final week = await db.workoutsBetween(t0, t0.add(const Duration(days: 7)));
+    expect(week, hasLength(2));
+    expect(week.last.hardSets, 1);
   });
 }

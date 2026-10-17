@@ -70,4 +70,17 @@ void main() {
     // A first-ever lift has nothing to beat, so it is not called a record.
     expect(newBests(s, {}), isEmpty);
   });
+
+  test('a rest of 0 turns the timer off for that exercise', () {
+    final s = bench().setRest(0, 0).toggleDone(0, 1, t0);
+    expect(s.restLeft(t0), isNull);
+    expect(s.setsDone, 1);
+  });
+
+  test('notes and the next set survive', () {
+    final s = bench().setNote(0, 'Seat 4').toggleDone(0, 0, t0);
+    expect(WorkoutSession.fromJson(s.toJson()).exercises.single.note, 'Seat 4');
+    expect(s.nextSet, (0, 1));
+    expect(s.hardSetsDone, 0);
+  });
 }

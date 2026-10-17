@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -44,7 +47,12 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   Locale? locale,
   Future<void> Function(LocalDb db)? seed,
   DateTime Function()? clock,
+  ExerciseLibrary? library,
 }) async {
+  // A phone, not the default 800 × 600 window.
+  tester.view.physicalSize = const Size(1170, 2532);
+  tester.view.devicePixelRatio = 3;
+  addTearDown(tester.view.reset);
   SharedPreferences.setMockInitialValues(prefs);
   final p = await SharedPreferences.getInstance();
   if (locale != null) await p.setString('lang', locale.languageCode);
@@ -59,7 +67,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         prefsProvider.overrideWithValue(p),
         foodSourceProvider.overrideWithValue(source ?? FakeFoodSource()),
         clockProvider.overrideWithValue(clock ?? () => testNow),
-        exerciseLibraryProvider.overrideWith((_) => testLibrary),
+        exerciseLibraryProvider.overrideWith((_) => library ?? testLibrary),
         showExercisePhotosProvider.overrideWithValue(false),
       ],
       child: const GymcoApp(),
@@ -101,3 +109,9 @@ extension Fixtures on LocalDb {
     ),
   );
 }
+
+/// The real bundled library, parsed synchronously for widget tests.
+ExerciseLibrary realLibrary() => ExerciseLibrary([
+  for (final e in jsonDecode(File('assets/exercises/exercises.json').readAsStringSync()) as List)
+    Exercise.fromJson(e as Map<String, dynamic>),
+]);

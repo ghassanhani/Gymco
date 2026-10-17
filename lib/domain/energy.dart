@@ -9,7 +9,17 @@ import 'dart:math' as math;
 
 enum Sex { male, female }
 
-enum Goal { cut, maintain, bulk }
+/// The goals onboarding offers. Recomposition sits at maintenance; contest
+/// prep is a cut worked back from a stage date.
+enum Goal {
+  cut,
+  bulk,
+  recomp,
+  maintain,
+  prep;
+
+  bool get losing => this == Goal.cut || this == Goal.prep;
+}
 
 /// Energy stored in a kilogram of body mass change, kcal.
 const double kcalPerKg = 7700;
@@ -118,8 +128,10 @@ double? adaptiveExpenditure(List<EnergyDay> days) {
 double clampRate(Goal goal, double ratePctPerWeek) {
   switch (goal) {
     case Goal.maintain:
+    case Goal.recomp:
       return 0;
     case Goal.cut:
+    case Goal.prep:
       return -ratePctPerWeek.abs().clamp(0, maxRatePctPerWeek).toDouble();
     case Goal.bulk:
       return ratePctPerWeek.abs().clamp(0, maxRatePctPerWeek / 2).toDouble();
@@ -156,7 +168,7 @@ double observedRatePctPerWeek({required double fromKg, required double toKg, req
 /// A genuine stall: on a cut, at least 14 complete days, and the trend has
 /// moved less than 0.1% a week.
 bool isStall({required Goal goal, required int completeDays, required double observedRatePct}) =>
-    goal == Goal.cut && completeDays >= minWindowDays && observedRatePct > -0.1;
+    goal.losing && completeDays >= minWindowDays && observedRatePct > -0.1;
 
 /// Daily macro targets in grams.
 class Macros {
@@ -182,7 +194,7 @@ Macros macroTargets({
   double? proteinPerKg,
   double fatShare = 0.25,
 }) {
-  final ppk = proteinPerKg ?? (goal == Goal.cut ? 2.2 : 1.8);
+  final ppk = proteinPerKg ?? (goal == Goal.bulk || goal == Goal.maintain ? 1.8 : 2.2);
   final protein = (weightKg * ppk).roundToDouble();
   final fat = (kcal * fatShare / 9).roundToDouble();
   final carbs = math.max(0.0, ((kcal - protein * 4 - fat * 9) / 4).roundToDouble());

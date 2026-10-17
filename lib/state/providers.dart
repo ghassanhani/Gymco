@@ -95,6 +95,45 @@ final profileProvider = NotifierProvider<ProfileNotifier, Profile?>(ProfileNotif
 
 final todayKeyProvider = Provider<String>((ref) => dayKey(ref.watch(clockProvider)()));
 
+/// The day Today is showing: null is today, else a closed day from the strip.
+class ViewDayNotifier extends Notifier<DateTime?> {
+  @override
+  DateTime? build() => null;
+  void show(DateTime? d) => state = d;
+}
+
+final viewDayProvider = NotifierProvider<ViewDayNotifier, DateTime?>(ViewDayNotifier.new);
+
+/// Which strip days have food logged.
+final loggedDaysProvider = FutureProvider<Set<String>>((ref) {
+  final t = ref.watch(clockProvider)();
+  final from = DateTime(t.year, t.month, t.day - 7);
+  ref.watch(dayEntriesProvider(dayKey(t)));
+  return ref.watch(dbProvider).loggedDays(dayKey(from), dayKey(t));
+});
+
+/// Water drunk per day, in ml, kept on the phone.
+class WaterNotifier extends Notifier<int> {
+  WaterNotifier(this.day);
+  final String day;
+
+  @override
+  int build() => ref.watch(prefsProvider).getInt('water_$day') ?? 0;
+
+  Future<void> add(int ml) async {
+    state = (state + ml).clamp(0, 20000);
+    await ref.read(prefsProvider).setInt('water_$day', state);
+  }
+}
+
+final waterProvider = NotifierProvider.family<WaterNotifier, int, String>(WaterNotifier.new);
+
+/// Every weigh-in, oldest first.
+final weighInsProvider = FutureProvider<List<(String, double)>>((ref) {
+  ref.watch(profileProvider);
+  return ref.watch(dbProvider).weighIns();
+});
+
 final dayEntriesProvider = FutureProvider.family<List<LogEntry>, String>(
   (ref, day) => ref.watch(dbProvider).entriesFor(day),
 );
@@ -117,11 +156,49 @@ class LogActions {
   Future<void> add(LogEntry e) async {
     await ref.read(dbProvider).addEntry(e);
     ref.invalidate(dayEntriesProvider(e.day));
+    ref.invalidate(loggedDaysProvider);
+  }
+
+  Future<void> setGrams(LogEntry e, double grams, Meal meal) async {
+    await ref.read(dbProvider).updateEntryGrams(e, grams, meal);
+    ref.invalidate(dayEntriesProvider(e.day));
+  }
+
+  Future<int> copyDay(String from) async {
+    final to = ref.read(todayKeyProvider);
+    final n = await ref.read(dbProvider).copyDay(from: from, to: to);
+    ref.invalidate(dayEntriesProvider(to));
+    ref.invalidate(loggedDaysProvider);
+    return n;
   }
 
   Future<void> remove(LogEntry e) async {
     await ref.read(dbProvider).deleteEntry(e.id!);
     ref.invalidate(dayEntriesProvider(e.day));
+  }
+
+  /// Copy one meal of today into tomorrow.
+  Future<int> copyToTomorrow(Meal meal) async {
+    final today = ref.read(clockProvider)();
+    final to = dayKey(today.add(const Duration(days: 1)));
+    final n = await ref.read(dbProvider).repeatMeal(from: dayKey(today), to: to, meal: meal);
+    ref.invalidate(dayEntriesProvider(to));
+    ref.invalidate(loggedDaysProvider);
+    return n;
+  }
+
+  Future<void> saveMeal(String name, List<LogEntry> entries) async {
+    await ref.read(dbProvider).saveMeal(name, entries);
+    ref.invalidate(savedMealsProvider);
+  }
+
+  Future<void> logSaved(SavedMeal m, Meal meal) async {
+    final day = ref.read(todayKeyProvider);
+    for (final (f, g) in m.items) {
+      await ref.read(dbProvider).addEntry(LogEntry.of(f, day: day, meal: meal, grams: g));
+    }
+    ref.invalidate(dayEntriesProvider(day));
+    ref.invalidate(loggedDaysProvider);
   }
 
   Future<int> repeatYesterday(Meal meal) async {
@@ -135,3 +212,35 @@ class LogActions {
 }
 
 final logActionsProvider = Provider<LogActions>(LogActions.new);
+
+final savedMealsProvider = FutureProvider<List<SavedMeal>>((ref) => ref.watch(dbProvider).savedMeals());
+final customFoodsProvider = FutureProvider<List<Food>>((ref) => ref.watch(dbProvider).customFoods());
+
+// ---------------- your data ----------------
+
+final dataCountsProvider = FutureProvider((ref) {
+  ref.watch(loggedDaysProvider);
+  return ref.watch(dbProvider).counts();
+});
+
+/// When the health-data consent was given, from onboarding.
+DateTime? consentedAt(SharedPreferences p) => DateTime.tryParse(p.getString('consent_health') ?? '');
+
+Future<void> recordConsent(SharedPreferences p, DateTime at) async {
+  if (p.getString('consent_health') == null) await p.setString('consent_health', at.toIso8601String());
+}
+
+/// Wipe the phone back to a first run.
+Future<void> deleteEverything(WidgetRef ref) async {
+  await ref.read(dbProvider).wipe();
+  await ref.read(prefsProvider).clear();
+  ref.invalidate(settingsProvider);
+  ref.invalidate(profileProvider);
+  ref.invalidate(dayEntriesProvider);
+  ref.invalidate(loggedDaysProvider);
+  ref.invalidate(weighInsProvider);
+  ref.invalidate(waterProvider);
+  ref.invalidate(savedMealsProvider);
+  ref.invalidate(customFoodsProvider);
+  ref.invalidate(dataCountsProvider);
+}

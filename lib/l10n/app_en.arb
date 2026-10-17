@@ -123,15 +123,15 @@
   "obWelcomeAccent": "together",
   "obWelcomeBody": "Targets that adapt to what you actually eat and weigh. No guessing, no punishment.",
   "getStarted": "Get started",
-  "obGoalTitle": "What are you working toward?",
-  "goalCut": "Lose fat",
-  "goalCutSub": "Keep the muscle, lose the fat",
+  "obGoalTitle": "What are you training for?",
+  "goalCut": "Cut",
+  "goalCutSub": "Lose fat, hold on to muscle and strength",
   "goalMaintain": "Maintain",
-  "goalMaintainSub": "Hold your weight, build strength",
-  "goalBulk": "Build muscle",
-  "goalBulkSub": "A slow, lean gain",
+  "goalMaintainSub": "Hold weight and keep logging honestly",
+  "goalBulk": "Lean bulk",
+  "goalBulkSub": "Add size at 0.25–0.5% of body weight a week",
   "obBodyTitle": "About you",
-  "obBodyBody": "Used once to seed your first week. After that, your own logs take over.",
+  "obBodyBody": "Used to seed week one only. After 14 days your real expenditure takes over.",
   "sexMale": "Male",
   "sexFemale": "Female",
   "age": "Age",
@@ -163,7 +163,7 @@
   "rateWarning": "Faster than 0.85% a week usually costs muscle and sleep. You can, but we'll check in more often.",
   "rateCapNote": "Capped at 1% a week.",
   "obTargetsTitle": "Your starting targets",
-  "obTargetsBody": "This is week one. Every check-in, Gymco recalculates from your logs and trend weight, by at most 120 kcal a week.",
+  "obTargetsBody": "An estimate, not a verdict. After two or three weeks of logging, Gymco replaces it with your measured expenditure.",
   "dailyTarget": "Daily target",
   "noNumbersOffer": "Rather not see numbers?",
   "noNumbersOfferBody": "No-numbers mode hides calories, macros and weight, and tracks habits instead.",
@@ -354,6 +354,618 @@
     "placeholders": {
       "s": {
         "type": "int"
+      }
+    }
+  },
+  "about": "about",
+  "actSitting": "Mostly sitting",
+  "actSittingSub": "Desk job, under 5,000 steps",
+  "actFeet": "On my feet",
+  "actFeetSub": "Walking a lot, 5,000–10,000 steps",
+  "actPhysical": "Physical job",
+  "actPhysicalSub": "Lifting or carrying most of the day",
+  "actVery": "Very active",
+  "actVerySub": "Over 12,000 steps or a second sport",
+  "addFoodToMeal": "Add food to this meal",
+  "addNoWeighing": "Add what you ate — no weighing",
+  "addWater": "Add 250 ml of water",
+  "agreeToContinue": "Agree to continue",
+  "backToToday": "Back to today",
+  "calorieFloor": "Calorie floor",
+  "cheatAllowanceNote": "Nothing is ever paid back with cardio. A banked meal takes a slice off the days before it; a free one is simply not logged.",
+  "chooseRoutine": "Choose a routine",
+  "cm": "cm",
+  "consentHealth": "I agree to Gymco storing my weight, measurements and food logs as health data on this phone, to calculate my targets.",
+  "copiedToToday": "Copied to today",
+  "copyToToday": "Copy to today",
+  "createdByYou": "created by you",
+  "custom": "Custom",
+  "customFood": "Custom food",
+  "deleteDigit": "Delete last digit",
+  "emptyMeal": "Empty meal",
+  "firstRunTip": "Most people log the same eight or ten things. Build those once and a day takes about twenty seconds.",
+  "floorBody": "Targets are never set below this. Going lower means typing the number yourself, after a warning.",
+  "floorSub": "kcal · your floor",
+  "followsPhone": "Follows your phone",
+  "freeAlways": "free, always",
+  "genericUsda": "Generic · USDA",
+  "genericUsdaVerified": "Generic · USDA · verified",
+  "goalAndTargets": "Goal and targets",
+  "goalRecomp": "Recomposition",
+  "goalRecompSub": "Sit near maintenance; watch the waist, not the scale",
+  "goalPrep": "Contest prep",
+  "goalPrepSub": "Work backwards from a stage date",
+  "goalShortCut": "cut",
+  "goalShortBulk": "lean bulk",
+  "goalShortRecomp": "recomp",
+  "goalShortMaintain": "maintain",
+  "goalShortPrep": "contest prep",
+  "habitMealsNone": "Meals logged, none skipped",
+  "habitProteinEach": "A protein source at each one",
+  "habitTrained": "Trained today",
+  "habitsHiddenBody": "Your entries are still saved. Nothing is being scored, and no target is tracked against you.",
+  "habitsHiddenTitle": "Calories, macros and weight are hidden",
+  "heightLbl": "Height",
+  "heroDoneBody": "Logged and saved. Recovery is where it turns into the next one.",
+  "heroExercises": "exercises",
+  "heroMin": "min",
+  "heroMuscles": "muscles",
+  "heroRestBody": "Nothing scheduled today. Recovery is where the last session turns into the next one.",
+  "heroRestTitle": "Rest <em>day</em>",
+  "heroSets": "sets",
+  "heroSetupBody": "Pick a split or build your own. Gymco schedules it and tracks every set.",
+  "heroSetupTitle": "Set up your <em>training</em>",
+  "heroTagDone": "Done today",
+  "heroTagInProgress": "In progress",
+  "heroTagToday": "Today’s workout",
+  "howTodayWent": "How today went",
+  "inThisMeal": "In this meal",
+  "kcalADay": "kcal a day",
+  "kcalLeftLabel": "kcal left",
+  "kcalLoggedLabel": "kcal logged",
+  "kcalOverLabel": "kcal past target",
+  "kcalToLog": "kcal to log",
+  "keepThemHidden": "Keep them hidden",
+  "langArabicSub": "Arabic · right-to-left",
+  "langEnglishSub": "English",
+  "langSpanishSub": "Spanish",
+  "logFirstMeal": "Log your first meal",
+  "logNoWeighing": "Log what you ate — no weighing",
+  "mBarcode": "Barcode",
+  "mPhoto": "Photo",
+  "mSearch": "Search",
+  "mVoice": "Voice",
+  "mWrite": "Write",
+  "mealDetailTip": "Tap an item to change its portion. Anything you remove leaves today straight away.",
+  "mealLabel": "Meal",
+  "myMeals": "My meals",
+  "noMatchBody": "Home cooking rarely is. Scan the pack, or try another word.",
+  "noMatchTitle": "No match in the database",
+  "noNumbersOfferLine": "Rather not see numbers? No-numbers mode hides calories, macros and weight, and tracks habits instead.",
+  "noNumbersOn": "On — calories and weight hidden",
+  "noSessionPlanned": "No session planned",
+  "nothingInMeal": "Nothing in this meal yet",
+  "nothingYesterdayDay": "Nothing was logged yesterday",
+  "numbersHidden": "Numbers hidden",
+  "obActivityTitleEm": "How do you <em>move</em> on a normal day?",
+  "obBodyTitleEm": "A bit about <em>you</em>",
+  "obGoalBody": "This sets your rate, protein floor and how the coach reads your data. You can change it any week.",
+  "obRateBodyGain": "Slow is lean. A quarter to half a percent of body weight a week keeps the gain mostly muscle.",
+  "obRateBodyLose": "Faster is not better. Between 0.5 and 1% of body weight a week is where muscle retention holds up.",
+  "obRateTitleGain": "How fast do you want to gain?",
+  "obRateTitleLose": "How fast do you want to lose?",
+  "pastNoteWithin": "Within a hundred of target. Days like this are what move the trend line.",
+  "pctPerWeek": "% / week",
+  "photoComing": "Photograph the plate and Gymco suggests what it sees; you say how much. Arrives with AI logging.",
+  "rateHot": "Above 0.85%/week you start paying in muscle. Gymco will keep saying so, every week, until you slow down.",
+  "rateOkGain": "Slow enough that most of the gain is muscle.",
+  "rateOkLose": "In the range Helms et al. (2014) recommend for natural lifters holding muscle through a deficit.",
+  "readyToLog": "ready to log",
+  "recipes": "Recipes",
+  "restDay": "Rest day",
+  "ringEmptyBody": "Nothing logged yet. Your targets are set — the ring fills as you go.",
+  "rtlNote": "Arabic flips the whole app to right-to-left, including the week strip and swipe directions.",
+  "safeguards": "Safeguards",
+  "savedSeeTrain": "Saved · see it in Train",
+  "scanABarcode": "Scan a barcode",
+  "scanBarcodeSub": "Packaged food resolves straight to the pack’s own numbers",
+  "searchDatabase": "Search the database",
+  "searchOtherLanguage": "Searching in another language often finds more — Gymco keeps every name it learns on the same food.",
+  "seeTheWeek": "See the week",
+  "settings": "Settings",
+  "sexForEquation": "Sex for the energy equation",
+  "startLogging": "Start logging",
+  "startWorkout": "Start workout",
+  "supportBody": "Support lines and services near you",
+  "supportTitle": "Talking to someone helps",
+  "swipeToStart": "Swipe to start",
+  "targetsSaved": "Targets saved — start logging",
+  "theRemainder": "the remainder",
+  "todayPlain": "Today",
+  "todayTitleEm": "Make it <em>count</em>",
+  "training": "Training",
+  "trainingCountedSeparately": "Training is counted separately. Don’t include the gym here.",
+  "trendNeedsDays": "A trend needs about seven days",
+  "trendWeight": "Trend weight",
+  "unitsLanguage": "Units & language",
+  "usuallyNow": "You usually eat around now",
+  "voiceComing": "Hold and say what you ate. It goes through the same reader as writing. Arrives with AI logging.",
+  "water": "Water",
+  "waterAdded": "250 ml added",
+  "weightToday": "Weight today",
+  "welcomeArtAlt": "A woman mid kettlebell swing",
+  "welcomeBody": "Log food in seconds, train with a plan, and keep a streak worth protecting.",
+  "welcomeTitleEm": "Start your <em>fitness</em> journey today",
+  "writeComing": "Write the meal the way you would say it — “two eggs, 150 g rice”. Arrives with AI logging.",
+  "yesterdayCopied": "Yesterday copied in",
+  "yrs": "yrs",
+  "addKcal": "Add {kcal} kcal",
+  "@addKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "saveKcal": "Save · {kcal} kcal",
+  "@saveKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "addToMeal": "Add to {meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "closedDay": "{date} · closed day",
+  "@closedDay": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "floorNote": "Your targets will never be set below {kcal} kcal.",
+  "@floorNote": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "foodAdded": "{food} added",
+  "@foodAdded": {
+    "placeholders": {
+      "food": {
+        "type": "String"
+      }
+    }
+  },
+  "foodRemoved": "{food} removed",
+  "@foodRemoved": {
+    "placeholders": {
+      "food": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFood": "Remove {food}",
+  "@removeFood": {
+    "placeholders": {
+      "food": {
+        "type": "String"
+      }
+    }
+  },
+  "gPerKg": "{g} g/kg",
+  "@gPerKg": {
+    "placeholders": {
+      "g": {
+        "type": "String"
+      }
+    }
+  },
+  "heroDoneTitle": "{name} <em>done</em>",
+  "@heroDoneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "heroWeekTag": "Week {n}",
+  "@heroWeekTag": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "itemsLoggedTo": "{count, plural, =1{1 item logged to {meal}} other{{count} items logged to {meal}}}",
+  "@itemsLoggedTo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "itemsSelected": "{count, plural, =1{1 item selected} other{{count} items selected}}",
+  "@itemsSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "kcalAndProtein": "{kcal} kcal · {p} g protein",
+  "@kcalAndProtein": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "leftToday": "{kcal} kcal and {p} g protein left today",
+  "@leftToday": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "litres": "{l} L",
+  "@litres": {
+    "placeholders": {
+      "l": {
+        "type": "String"
+      }
+    }
+  },
+  "logN": "Log {n}",
+  "@logN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "maxPct": "{pct} max",
+  "@maxPct": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "meSub": "{goal}, week {week}",
+  "@meSub": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      },
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "moreCount": "+{n} more",
+  "@moreCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ofTarget": "/ {n} g",
+  "@ofTarget": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "oneServing": "1 serving · {g} g",
+  "@oneServing": {
+    "placeholders": {
+      "g": {
+        "type": "String"
+      }
+    }
+  },
+  "pastNoteOver": "{n} over target — one day, and the weekly average is what the maths reads.",
+  "@pastNoteOver": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "pastNoteUnder": "{n} under target. Fine once; a habit of it is how you lose more than fat.",
+  "@pastNoteUnder": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "ratePerWeekShort": "{pct} %/wk",
+  "@ratePerWeekShort": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "resultsCount": "{count, plural, =1{1 result} other{{count} results}}",
+  "@resultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resumeAt": "Resume · {time}",
+  "@resumeAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "setTo": "{food} set to {g} g",
+  "@setTo": {
+    "placeholders": {
+      "food": {
+        "type": "String"
+      },
+      "g": {
+        "type": "String"
+      }
+    }
+  },
+  "shareOfToday": "{pct}% of today",
+  "@shareOfToday": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      }
+    }
+  },
+  "targetsHow": "Mifflin-St Jeor × {mult}, then your chosen rate of {rate}%/week. Everything here is editable.",
+  "@targetsHow": {
+    "placeholders": {
+      "mult": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "targetsHowMaintain": "Mifflin-St Jeor × {mult}, at maintenance. Everything here is editable.",
+  "@targetsHowMaintain": {
+    "placeholders": {
+      "mult": {
+        "type": "String"
+      }
+    }
+  },
+  "targetsLine": "Protein {p} g · Carbs {c} g · Fat {f} g",
+  "@targetsLine": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      },
+      "c": {
+        "type": "String"
+      },
+      "f": {
+        "type": "String"
+      }
+    }
+  },
+  "todaySub": "{date} · {goal}, week {week}",
+  "@todaySub": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "goal": {
+        "type": "String"
+      },
+      "week": {
+        "type": "int"
+      }
+    }
+  },
+  "todaySubDayOne": "{date} · day 1",
+  "@todaySubDayOne": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "weighInsSoFar": "{count, plural, =0{No weigh-ins yet} =1{One weigh-in so far} other{{count} weigh-ins so far}}",
+  "@weighInsSoFar": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whatDidYouHave": "What did you have for {meal}?",
+  "@whatDidYouHave": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "mealOptions": "Meal options",
+  "saveAsMeal": "Save as a meal",
+  "savedToMyMeals": "Saved — find it under My meals",
+  "copyToTomorrow": "Copy to tomorrow",
+  "copiedToTomorrow": "Copied to tomorrow",
+  "clearMeal": "Clear this meal",
+  "lastLogged": "Last logged {time}",
+  "@lastLogged": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "saveToFavourites": "Save to favourites",
+  "savedToFavourites": "Saved to favourites",
+  "removedFromFavourites": "Removed from favourites",
+  "saveAsCustom": "Save as custom",
+  "savedAsCustom": "Saved as a custom food",
+  "labelVerifiedOff": "{brand} · label verified · Open Food Facts",
+  "@labelVerifiedOff": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "noSavedMeals": "No saved meals yet. Open a meal you eat often and tap Save as a meal.",
+  "noCustomFoods": "No custom foods yet. Open any food and tap Save as custom to keep your own copy.",
+  "recipesSoon": "Recipes are next: build one from ingredients, split it into portions, log a portion.",
+  "savedMealSub": "{count} items · {kcal} kcal",
+  "@savedMealSub": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "loggedSavedMeal": "{name} logged",
+  "@loggedSavedMeal": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "yourData": "Your data",
+  "yourDataSub": "Export, consents, delete everything",
+  "takeEverything": "Take everything with you",
+  "takeEverythingSub": "CSV and JSON, every table",
+  "foodLogRows": "Food log · {n} rows",
+  "@foodLogRows": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "weighInsCount": "Weigh-ins · {n}",
+  "@weighInsCount": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "exportNow": "Export now",
+  "exportFailed": "Couldn't export — try again",
+  "whatYouAgreed": "What you agreed to, and when",
+  "consentHealthRow": "Health data processing · v1",
+  "consentAnalyticsRow": "Anonymous analytics · none collected",
+  "onPhoneNote": "Everything lives on this phone. There is no account and no server, so nothing leaves it unless you export it.",
+  "deleteEverything": "Delete everything",
+  "deleteEverythingSub": "One tap, then one confirmation",
+  "deleteEverythingBody": "Your log, workouts, routines, weigh-ins and targets go at once. Export first if you want your history — it cannot be recovered afterwards.",
+  "deleteAllData": "Delete all data",
+  "deleteConfirmTitle": "Delete everything?",
+  "deleteConfirm": "Yes, delete it all",
+  "keepMyData": "Keep my data",
+  "dataSetsCount": "Sets · {n}",
+  "@dataSetsCount": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "setMacrosManually": "Set my macros manually",
+  "useTheseMacros": "Use these macros",
+  "backToCalculated": "Back to the calculated split",
+  "manualKcal": "That comes to {kcal} kcal a day.",
+  "@manualKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "manualBelowFloor": "That comes to {kcal} kcal — under the {floor} kcal floor. Only go there with someone qualified watching.",
+  "@manualBelowFloor": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "floor": {
+        "type": "String"
+      }
+    }
+  },
+  "projectedKg": "Projected {kg} kg",
+  "@projectedKg": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "aroundDate": "around {date}",
+  "@aroundDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "inWeeks": "in {n} weeks",
+  "@inWeeks": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "moreOf": "More {what}",
+  "@moreOf": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "lessOf": "Less {what}",
+  "@lessOf": {
+    "placeholders": {
+      "what": {
+        "type": "String"
       }
     }
   }

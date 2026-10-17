@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/cheat_meal.dart';
+import '../../domain/energy.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
-import '../common/widgets.dart';
+import '../kit/kit.dart';
+import '../today/today_screen.dart' show goalShort;
 
 class MeScreen extends ConsumerWidget {
   const MeScreen({super.key});
@@ -17,103 +19,197 @@ class MeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
     final s = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
     final profile = ref.watch(profileProvider);
+    final now = ref.watch(clockProvider)();
+    final week = profile == null ? 1 : now.difference(profile.startedOn).inDays ~/ 7 + 1;
 
-    Future<void> toggleNoNumbers(bool on) async {
-      if (on) return notifier.setNoNumbers(true);
+    Widget row(String icon, String title, String sub, VoidCallback onTap, {Widget? right}) => VItem(
+      onTap: onTap,
+      semantics: title,
+      children: [
+        VIcon(icon, size: 19, color: Volt.t3),
+        ItemText(title, sub: sub),
+        right ?? const VIcon('fwd', size: 18, color: Volt.t1),
+      ],
+    );
+
+    Future<void> toggleNoNumbers() async {
+      if (!s.noNumbers) return notifier.setNoNumbers(true);
       // Leaving needs a deliberate step, not a tap.
-      final ok = await showDialog<bool>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          backgroundColor: Volt.card,
-          title: Text(l.leaveNoNumbersTitle),
-          content: Text(l.leaveNoNumbersBody),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(l.cancel)),
-            FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(l.leaveNoNumbersConfirm)),
-          ],
-        ),
+      await showVSheet<void>(
+        context,
+        title: l.leaveNoNumbersTitle,
+        body: (ctx) => [
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.leaveNoNumbersBody)),
+          SRow(label: l.keepThemHidden, onTap: () => Navigator.pop(ctx)),
+          SRow(
+            label: l.leaveNoNumbersConfirm,
+            tint: Volt.brandInk,
+            onTap: () {
+              notifier.setNoNumbers(false);
+              Navigator.pop(ctx);
+            },
+          ),
+        ],
       );
-      if (ok ?? false) await notifier.setNoNumbers(false);
     }
 
-    return VoltBackground(
-      child: SafeArea(
-        bottom: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 22, 16, 140),
-          children: [
-            Text(l.meTitle, style: t.headlineMedium),
-            if (profile != null && !s.noNumbers) ...[
-              SectionHeader(l.targets),
-              VoltCard(
-                onTap: () => context.push('/onboarding'),
-                child: Row(
+    String cheatLabel(CheatAllowance a) => switch (a) {
+      CheatAllowance.off => l.cheatOff,
+      CheatAllowance.oncePerWeek => l.cheatOnce,
+      CheatAllowance.twicePerWeek => l.cheatTwice,
+    };
+
+    final langLabel = s.languageCode == null ? l.systemLanguage : languages[s.languageCode]!;
+
+    return VScreen(
+      child: Column(
+        children: [
+          VAppBar(title: l.meTitle, sub: profile == null ? null : l.meSub(goalShort(l, profile.goal), week)),
+          Expanded(
+            child: Pad(
+              children: [
+                VList(
                   children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${fmtInt(context, profile.targetKcal)} ${l.kcal}', style: t.titleLarge),
-                          Text(
-                            '${l.protein} ${fmtInt(context, profile.targets.protein)} · '
-                            '${l.carbs} ${fmtInt(context, profile.targets.carbs)} · '
-                            '${l.fat} ${fmtInt(context, profile.targets.fat)} ${l.grams}',
-                            style: t.bodySmall,
+                    if (profile != null)
+                      row(
+                        'chart',
+                        l.goalAndTargets,
+                        s.noNumbers
+                            ? goalShort(l, profile.goal)
+                            : '${fmtInt(context, profile.targetKcal)} ${l.kcal} · ${goalShort(l, profile.goal)}',
+                        () => context.push('/onboarding'),
+                      ),
+                    row('list', l.unitsLanguage, langLabel, () => context.push('/language')),
+                    row('dl', l.yourData, l.yourDataSub, () => context.push('/data')),
+                  ],
+                ),
+                Eyebrow(l.safeguards, padding: const EdgeInsetsDirectional.only(start: 4)),
+                VList(
+                  children: [
+                    row(
+                      'eye',
+                      l.noNumbersMode,
+                      s.noNumbers ? l.noNumbersOn : l.noNumbersModeSub,
+                      toggleNoNumbers,
+                      right: VToggle(on: s.noNumbers),
+                    ),
+                    row(
+                      'star',
+                      l.cheatAllowance,
+                      cheatLabel(s.cheatAllowance),
+                      () => showVSheet<void>(
+                        context,
+                        title: l.cheatAllowance,
+                        body: (ctx) => [
+                          for (final a in CheatAllowance.values)
+                            SRow(
+                              label: cheatLabel(a),
+                              on: a == s.cheatAllowance,
+                              trail: a == s.cheatAllowance
+                                  ? const VIcon('check', size: 18, color: Volt.brandInk)
+                                  : null,
+                              onTap: () {
+                                notifier.setCheatAllowance(a);
+                                Navigator.pop(ctx);
+                              },
+                            ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Muted(l.cheatAllowanceNote),
                           ),
                         ],
                       ),
                     ),
-                    const Icon(Icons.chevron_right_rounded, color: Volt.t3),
                   ],
                 ),
-              ),
-            ],
-            if (profile != null && s.noNumbers) ...[
-              const SizedBox(height: 16),
-              VoltCard(
-                onTap: () => context.push('/onboarding'),
-                child: Text(l.redoOnboarding, style: t.titleMedium),
-              ),
-            ],
-            SectionHeader(l.language),
-            VoltCard(
-              padding: const EdgeInsets.symmetric(vertical: 6),
-              child: RadioGroup<String?>(
-                groupValue: s.languageCode,
-                onChanged: notifier.setLanguage,
-                child: Column(
-                  children: [
-                    RadioListTile<String?>(value: null, title: Text(l.systemLanguage)),
-                    for (final e in languages.entries) RadioListTile<String?>(value: e.key, title: Text(e.value)),
-                  ],
-                ),
-              ),
-            ),
-            SectionHeader(l.noNumbersMode),
-            VoltCard(
-              padding: const EdgeInsets.fromLTRB(18, 4, 8, 4),
-              child: SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                value: s.noNumbers,
-                onChanged: toggleNoNumbers,
-                title: Text(l.noNumbersMode, style: t.titleMedium),
-                subtitle: Text(l.noNumbersModeSub, style: t.bodySmall),
-              ),
-            ),
-            SectionHeader(l.cheatAllowance),
-            SegmentedButton<CheatAllowance>(
-              segments: [
-                ButtonSegment(value: CheatAllowance.off, label: Text(l.cheatOff)),
-                ButtonSegment(value: CheatAllowance.oncePerWeek, label: Text(l.cheatOnce)),
-                ButtonSegment(value: CheatAllowance.twicePerWeek, label: Text(l.cheatTwice)),
+                if (!s.noNumbers)
+                  VCard(
+                    child: GapCol(
+                      gap: 10,
+                      children: [
+                        Eyebrow(l.calorieFloor),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(fmtInt(context, defaultKcalFloor), style: numStyle(22)),
+                            const SizedBox(width: 8),
+                            Flexible(child: Muted(l.floorSub)),
+                          ],
+                        ),
+                        Muted(l.floorBody),
+                      ],
+                    ),
+                  ),
               ],
-              selected: {s.cheatAllowance},
-              showSelectedIcon: false,
-              onSelectionChanged: (v) => notifier.setCheatAllowance(v.first),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Units & language, as the canvas draws it.
+class LanguageScreen extends ConsumerWidget {
+  const LanguageScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final s = ref.watch(settingsProvider);
+    final n = ref.read(settingsProvider.notifier);
+    final options = <(String?, String, String)>[
+      (null, l.systemLanguage, l.followsPhone),
+      ('en', 'English', l.langEnglishSub),
+      ('ar', 'العربية', l.langArabicSub),
+      ('es', 'Español', l.langSpanishSub),
+    ];
+    return Scaffold(
+      body: VScreen(
+        child: Column(
+          children: [
+            BackBar(title: l.unitsLanguage, titleSize: 20),
+            Expanded(
+              child: Pad(
+                bottom: 24,
+                children: [
+                  Eyebrow(l.language, padding: const EdgeInsetsDirectional.only(start: 4)),
+                  VList(
+                    children: [
+                      for (final (code, name, sub) in options)
+                        VItem(
+                          onTap: () => n.setLanguage(code),
+                          semantics: name,
+                          children: [
+                            ItemText(name, sub: sub),
+                            if (s.languageCode == code) const VIcon('check', size: 18, color: Volt.brand),
+                          ],
+                        ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    decoration: BoxDecoration(color: Volt.brandWash, borderRadius: BorderRadius.circular(18)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 1),
+                          child: VIcon('info', size: 18, color: Volt.t2),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(l.rtlNote, style: const TextStyle(fontSize: 13, height: 1.45, color: Volt.t2)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -121,3 +217,11 @@ class MeScreen extends ConsumerWidget {
     );
   }
 }
+
+String goalLong(AppLocalizations l, Goal g) => switch (g) {
+  Goal.cut => l.goalCut,
+  Goal.bulk => l.goalBulk,
+  Goal.recomp => l.goalRecomp,
+  Goal.maintain => l.goalMaintain,
+  Goal.prep => l.goalPrep,
+};

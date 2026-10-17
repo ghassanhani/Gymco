@@ -200,31 +200,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get getStarted => 'ابدأ';
 
   @override
-  String get obGoalTitle => 'ما هدفك؟';
+  String get obGoalTitle => 'لأجل ماذا تتمرّن؟';
 
   @override
-  String get goalCut => 'خسارة الدهون';
+  String get goalCut => 'تنشيف';
 
   @override
-  String get goalCutSub => 'حافظ على العضل واخسر الدهون';
+  String get goalCutSub => 'اخسر الدهون، واحتفظ بالعضل والقوة';
 
   @override
   String get goalMaintain => 'الثبات';
 
   @override
-  String get goalMaintainSub => 'ثبّت وزنك وابنِ القوة';
+  String get goalMaintainSub => 'ثبّت وزنك واستمر في التسجيل بصدق';
 
   @override
-  String get goalBulk => 'بناء العضل';
+  String get goalBulk => 'تضخيم نظيف';
 
   @override
-  String get goalBulkSub => 'زيادة بطيئة ونظيفة';
+  String get goalBulkSub => 'زِد الحجم بنسبة 0.25–0.5% من وزن الجسم أسبوعيًا';
 
   @override
   String get obBodyTitle => 'عنك';
 
   @override
-  String get obBodyBody => 'تُستخدم مرة واحدة لبدء أسبوعك الأول. بعدها تتولّى سجلاتك الأمر.';
+  String get obBodyBody => 'تُستخدم لبدء الأسبوع الأول فقط. بعد 14 يومًا يتولّى إنفاقك الحقيقي.';
 
   @override
   String get sexMale => 'ذكر';
@@ -282,8 +282,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get obTargetsTitle => 'أهدافك الأولى';
 
   @override
-  String get obTargetsBody =>
-      'هذا الأسبوع الأول. في كل مراجعة يعيد جيمكو الحساب من سجلاتك واتجاه وزنك، بما لا يزيد عن 120 سعرة أسبوعيًا.';
+  String get obTargetsBody => 'تقدير لا حكم. بعد أسبوعين أو ثلاثة من التسجيل، يستبدله جيمكو بإنفاقك المقيس.';
 
   @override
   String get dailyTarget => 'الهدف اليومي';
@@ -675,4 +674,828 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tickSetHint => 'أشّر المجموعة';
+
+  @override
+  String get about => 'نحو';
+
+  @override
+  String get actSitting => 'جلوس معظم الوقت';
+
+  @override
+  String get actSittingSub => 'عمل مكتبي، أقل من 5,000 خطوة';
+
+  @override
+  String get actFeet => 'واقف معظم اليوم';
+
+  @override
+  String get actFeetSub => 'مشي كثير، 5,000–10,000 خطوة';
+
+  @override
+  String get actPhysical => 'عمل بدني';
+
+  @override
+  String get actPhysicalSub => 'رفع أو حمل معظم اليوم';
+
+  @override
+  String get actVery => 'نشيط جدًا';
+
+  @override
+  String get actVerySub => 'أكثر من 12,000 خطوة أو رياضة ثانية';
+
+  @override
+  String get addFoodToMeal => 'أضف طعامًا إلى هذه الوجبة';
+
+  @override
+  String get addNoWeighing => 'أضف ما أكلته — بلا وزن';
+
+  @override
+  String get addWater => 'أضف 250 مل من الماء';
+
+  @override
+  String get agreeToContinue => 'وافق للمتابعة';
+
+  @override
+  String get backToToday => 'العودة إلى اليوم';
+
+  @override
+  String get calorieFloor => 'الحد الأدنى للسعرات';
+
+  @override
+  String get cheatAllowanceNote =>
+      'لا يُعوَّض شيء بالكارديو أبدًا. الوجبة المدّخرة تقتطع جزءًا من الأيام التي قبلها؛ والحرّة لا تُسجَّل ببساطة.';
+
+  @override
+  String get chooseRoutine => 'اختر برنامجًا';
+
+  @override
+  String get cm => 'سم';
+
+  @override
+  String get consentHealth =>
+      'أوافق على أن يحفظ جيمكو وزني وقياساتي وسجلات طعامي كبيانات صحية على هذا الهاتف لحساب أهدافي.';
+
+  @override
+  String get copiedToToday => 'نُسخ إلى اليوم';
+
+  @override
+  String get copyToToday => 'انسخ إلى اليوم';
+
+  @override
+  String get createdByYou => 'أنشأته أنت';
+
+  @override
+  String get custom => 'مخصّص';
+
+  @override
+  String get customFood => 'طعام مخصّص';
+
+  @override
+  String get deleteDigit => 'احذف آخر رقم';
+
+  @override
+  String get emptyMeal => 'وجبة فارغة';
+
+  @override
+  String get firstRunTip =>
+      'معظم الناس يسجّلون الأشياء الثمانية أو العشرة نفسها. سجّلها مرة واحدة ويصبح اليوم نحو عشرين ثانية.';
+
+  @override
+  String get floorBody => 'لا تُحدَّد الأهداف تحت هذا الرقم أبدًا. النزول عنه يعني أن تكتب الرقم بنفسك، بعد تحذير.';
+
+  @override
+  String get floorSub => 'سعرة · حدّك الأدنى';
+
+  @override
+  String get followsPhone => 'يتبع لغة هاتفك';
+
+  @override
+  String get freeAlways => 'مجانًا، دائمًا';
+
+  @override
+  String get genericUsda => 'عام · USDA';
+
+  @override
+  String get genericUsdaVerified => 'عام · USDA · موثَّق';
+
+  @override
+  String get goalAndTargets => 'الهدف والأهداف اليومية';
+
+  @override
+  String get goalRecomp => 'إعادة تشكيل الجسم';
+
+  @override
+  String get goalRecompSub => 'ابقَ قرب الثبات؛ راقب الخصر لا الميزان';
+
+  @override
+  String get goalPrep => 'تحضير لمسابقة';
+
+  @override
+  String get goalPrepSub => 'خطّط بالعكس من موعد المسابقة';
+
+  @override
+  String get goalShortCut => 'تنشيف';
+
+  @override
+  String get goalShortBulk => 'تضخيم';
+
+  @override
+  String get goalShortRecomp => 'إعادة تشكيل';
+
+  @override
+  String get goalShortMaintain => 'ثبات';
+
+  @override
+  String get goalShortPrep => 'تحضير';
+
+  @override
+  String get habitMealsNone => 'الوجبات مسجّلة، بلا تخطٍّ';
+
+  @override
+  String get habitProteinEach => 'مصدر بروتين في كل وجبة';
+
+  @override
+  String get habitTrained => 'تمرّنت اليوم';
+
+  @override
+  String get habitsHiddenBody => 'ما تسجّله ما زال محفوظًا. لا شيء يُقيَّم، ولا هدف يُتابَع ضدك.';
+
+  @override
+  String get habitsHiddenTitle => 'السعرات والمغذيات والوزن مخفية';
+
+  @override
+  String get heightLbl => 'الطول';
+
+  @override
+  String get heroDoneBody => 'سُجّل وحُفظ. الراحة هي حيث يتحوّل إلى التمرين القادم.';
+
+  @override
+  String get heroExercises => 'تمارين';
+
+  @override
+  String get heroMin => 'دقيقة';
+
+  @override
+  String get heroMuscles => 'عضلات';
+
+  @override
+  String get heroRestBody => 'لا شيء مجدول اليوم. الراحة هي حيث يتحوّل التمرين الماضي إلى القادم.';
+
+  @override
+  String get heroRestTitle => 'يوم <em>راحة</em>';
+
+  @override
+  String get heroSets => 'مجموعات';
+
+  @override
+  String get heroSetupBody => 'اختر تقسيمًا أو ابنِ برنامجك. جيمكو يجدوله ويتابع كل مجموعة.';
+
+  @override
+  String get heroSetupTitle => 'جهّز <em>تمرينك</em>';
+
+  @override
+  String get heroTagDone => 'أُنجز اليوم';
+
+  @override
+  String get heroTagInProgress => 'جارٍ الآن';
+
+  @override
+  String get heroTagToday => 'تمرين اليوم';
+
+  @override
+  String get howTodayWent => 'كيف كان اليوم';
+
+  @override
+  String get inThisMeal => 'في هذه الوجبة';
+
+  @override
+  String get kcalADay => 'سعرة يوميًا';
+
+  @override
+  String get kcalLeftLabel => 'سعرة متبقية';
+
+  @override
+  String get kcalLoggedLabel => 'سعرة مسجّلة';
+
+  @override
+  String get kcalOverLabel => 'سعرة فوق الهدف';
+
+  @override
+  String get kcalToLog => 'سعرة للتسجيل';
+
+  @override
+  String get keepThemHidden => 'أبقِها مخفية';
+
+  @override
+  String get langArabicSub => 'العربية · من اليمين لليسار';
+
+  @override
+  String get langEnglishSub => 'الإنجليزية';
+
+  @override
+  String get langSpanishSub => 'الإسبانية';
+
+  @override
+  String get logFirstMeal => 'سجّل وجبتك الأولى';
+
+  @override
+  String get logNoWeighing => 'سجّل ما أكلته — بلا وزن';
+
+  @override
+  String get mBarcode => 'باركود';
+
+  @override
+  String get mPhoto => 'صورة';
+
+  @override
+  String get mSearch => 'بحث';
+
+  @override
+  String get mVoice => 'صوت';
+
+  @override
+  String get mWrite => 'كتابة';
+
+  @override
+  String get mealDetailTip => 'المس عنصرًا لتغيير كميته. ما تحذفه يخرج من اليوم فورًا.';
+
+  @override
+  String get mealLabel => 'الوجبة';
+
+  @override
+  String get myMeals => 'وجباتي';
+
+  @override
+  String get noMatchBody => 'الطبخ المنزلي نادرًا ما يكون فيها. امسح العبوة، أو جرّب كلمة أخرى.';
+
+  @override
+  String get noMatchTitle => 'لا تطابق في قاعدة البيانات';
+
+  @override
+  String get noNumbersOfferLine =>
+      'تفضّل ألّا ترى الأرقام؟ وضع بلا أرقام يخفي السعرات والمغذيات والوزن، ويتابع العادات بدلًا منها.';
+
+  @override
+  String get noNumbersOn => 'مفعّل — السعرات والوزن مخفية';
+
+  @override
+  String get noSessionPlanned => 'لا تمرين مخطّط';
+
+  @override
+  String get nothingInMeal => 'لا شيء في هذه الوجبة بعد';
+
+  @override
+  String get nothingYesterdayDay => 'لم يُسجَّل شيء أمس';
+
+  @override
+  String get numbersHidden => 'الأرقام مخفية';
+
+  @override
+  String get obActivityTitleEm => 'كيف <em>تتحرّك</em> في يوم عادي؟';
+
+  @override
+  String get obBodyTitleEm => 'قليلًا <em>عنك</em>';
+
+  @override
+  String get obGoalBody => 'يحدّد هذا سرعتك وحدّ البروتين وطريقة قراءة بياناتك. يمكنك تغييره أي أسبوع.';
+
+  @override
+  String get obRateBodyGain => 'البطء نظيف. ربع إلى نصف بالمئة من وزن الجسم أسبوعيًا يبقي الزيادة عضلًا في معظمها.';
+
+  @override
+  String get obRateBodyLose => 'الأسرع ليس الأفضل. بين 0.5 و1% من وزن الجسم أسبوعيًا يبقى العضل محفوظًا.';
+
+  @override
+  String get obRateTitleGain => 'بأي سرعة تريد أن تزيد؟';
+
+  @override
+  String get obRateTitleLose => 'بأي سرعة تريد أن تخسر؟';
+
+  @override
+  String get pastNoteWithin => 'ضمن مئة سعرة من الهدف. أيام كهذه هي ما يحرّك خط الاتجاه.';
+
+  @override
+  String get pctPerWeek => '% / أسبوع';
+
+  @override
+  String get photoComing => 'صوّر الطبق ويقترح جيمكو ما يراه؛ وأنت تحدّد الكمية. يصل مع التسجيل الذكي.';
+
+  @override
+  String get rateHot => 'فوق 0.85% أسبوعيًا تبدأ بخسارة العضل. سيكرّر جيمكو ذلك كل أسبوع حتى تبطئ.';
+
+  @override
+  String get rateOkGain => 'بطيء بما يكفي لتكون معظم الزيادة عضلًا.';
+
+  @override
+  String get rateOkLose =>
+      'ضمن النطاق الذي يوصي به Helms وزملاؤه (2014) للرياضيين الطبيعيين للحفاظ على العضل أثناء العجز.';
+
+  @override
+  String get readyToLog => 'جاهز للتسجيل';
+
+  @override
+  String get recipes => 'وصفات';
+
+  @override
+  String get restDay => 'يوم راحة';
+
+  @override
+  String get ringEmptyBody => 'لم يُسجَّل شيء بعد. أهدافك جاهزة — تمتلئ الحلقة مع تقدّمك.';
+
+  @override
+  String get rtlNote => 'العربية تقلب التطبيق كله من اليمين لليسار، بما في ذلك شريط الأسبوع واتجاهات السحب.';
+
+  @override
+  String get safeguards => 'ضمانات';
+
+  @override
+  String get savedSeeTrain => 'حُفظ · شاهده في التمرين';
+
+  @override
+  String get scanABarcode => 'امسح باركود';
+
+  @override
+  String get scanBarcodeSub => 'الطعام المعلّب يُقرأ مباشرة من أرقام العبوة';
+
+  @override
+  String get searchDatabase => 'ابحث في قاعدة البيانات';
+
+  @override
+  String get searchOtherLanguage => 'البحث بلغة أخرى يجد أكثر غالبًا — جيمكو يحفظ كل اسم يتعلّمه على الطعام نفسه.';
+
+  @override
+  String get seeTheWeek => 'شاهد الأسبوع';
+
+  @override
+  String get settings => 'الإعدادات';
+
+  @override
+  String get sexForEquation => 'الجنس لمعادلة الطاقة';
+
+  @override
+  String get startLogging => 'ابدأ التسجيل';
+
+  @override
+  String get startWorkout => 'ابدأ التمرين';
+
+  @override
+  String get supportBody => 'خطوط دعم وخدمات قريبة منك';
+
+  @override
+  String get supportTitle => 'التحدث مع أحد يساعد';
+
+  @override
+  String get swipeToStart => 'اسحب للبدء';
+
+  @override
+  String get targetsSaved => 'حُفظت الأهداف — ابدأ التسجيل';
+
+  @override
+  String get theRemainder => 'الباقي';
+
+  @override
+  String get todayPlain => 'اليوم';
+
+  @override
+  String get todayTitleEm => 'اجعلها <em>تُحتسب</em>';
+
+  @override
+  String get training => 'التمرين';
+
+  @override
+  String get trainingCountedSeparately => 'التمرين يُحتسب منفصلًا. لا تُدخل النادي هنا.';
+
+  @override
+  String get trendNeedsDays => 'الاتجاه يحتاج نحو سبعة أيام';
+
+  @override
+  String get trendWeight => 'اتجاه الوزن';
+
+  @override
+  String get unitsLanguage => 'الوحدات واللغة';
+
+  @override
+  String get usuallyNow => 'عادةً تأكل في هذا الوقت';
+
+  @override
+  String get voiceComing => 'اضغط مطوّلًا وقل ما أكلته. يمر بالقارئ نفسه كالكتابة. يصل مع التسجيل الذكي.';
+
+  @override
+  String get water => 'الماء';
+
+  @override
+  String get waterAdded => 'أُضيف 250 مل';
+
+  @override
+  String get weightToday => 'الوزن اليوم';
+
+  @override
+  String get welcomeArtAlt => 'امرأة أثناء أرجحة كيتلبل';
+
+  @override
+  String get welcomeBody => 'سجّل طعامك في ثوانٍ، وتمرّن بخطة، وحافظ على سلسلة تستحق الحماية.';
+
+  @override
+  String get welcomeTitleEm => 'ابدأ رحلة <em>لياقتك</em> اليوم';
+
+  @override
+  String get writeComing => 'اكتب الوجبة كما تقولها — «بيضتان، 150 غ أرز». يصل مع التسجيل الذكي.';
+
+  @override
+  String get yesterdayCopied => 'نُسخ الأمس';
+
+  @override
+  String get yrs => 'سنة';
+
+  @override
+  String addKcal(String kcal) {
+    return 'أضف $kcal سعرة';
+  }
+
+  @override
+  String saveKcal(String kcal) {
+    return 'احفظ · $kcal سعرة';
+  }
+
+  @override
+  String addToMeal(String meal) {
+    return 'أضف إلى $meal';
+  }
+
+  @override
+  String closedDay(String date) {
+    return '$date · يوم مغلق';
+  }
+
+  @override
+  String floorNote(String kcal) {
+    return 'لن تُحدَّد أهدافك تحت $kcal سعرة أبدًا.';
+  }
+
+  @override
+  String foodAdded(String food) {
+    return 'أُضيف $food';
+  }
+
+  @override
+  String foodRemoved(String food) {
+    return 'حُذف $food';
+  }
+
+  @override
+  String removeFood(String food) {
+    return 'احذف $food';
+  }
+
+  @override
+  String gPerKg(String g) {
+    return '$g غ/كغ';
+  }
+
+  @override
+  String heroDoneTitle(String name) {
+    return '$name <em>أُنجز</em>';
+  }
+
+  @override
+  String heroWeekTag(int n) {
+    return 'الأسبوع $n';
+  }
+
+  @override
+  String itemsLoggedTo(int count, String meal) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'سُجّل $count عنصر في $meal',
+      many: 'سُجّل $count عنصرًا في $meal',
+      few: 'سُجّلت $count عناصر في $meal',
+      two: 'سُجّل عنصران في $meal',
+      one: 'سُجّل عنصر واحد في $meal',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String itemsSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count عنصر محدّد',
+      many: '$count عنصرًا محدّدًا',
+      few: '$count عناصر محدّدة',
+      two: 'عنصران محدّدان',
+      one: 'عنصر واحد محدّد',
+      zero: 'لا عناصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String kcalAndProtein(String kcal, String p) {
+    return '$kcal سعرة · $p غ بروتين';
+  }
+
+  @override
+  String leftToday(String kcal, String p) {
+    return 'متبقٍ اليوم $kcal سعرة و$p غ بروتين';
+  }
+
+  @override
+  String litres(String l) {
+    return '$l ل';
+  }
+
+  @override
+  String logN(int n) {
+    return 'سجّل $n';
+  }
+
+  @override
+  String maxPct(String pct) {
+    return '$pct حد أقصى';
+  }
+
+  @override
+  String meSub(String goal, int week) {
+    return '$goal، الأسبوع $week';
+  }
+
+  @override
+  String moreCount(int n) {
+    return '+$n أخرى';
+  }
+
+  @override
+  String ofTarget(String n) {
+    return '/ $n غ';
+  }
+
+  @override
+  String oneServing(String g) {
+    return 'حصة واحدة · $g غ';
+  }
+
+  @override
+  String pastNoteOver(String n) {
+    return '$n فوق الهدف — يوم واحد، والمعدل الأسبوعي هو ما تقرؤه الحسابات.';
+  }
+
+  @override
+  String pastNoteUnder(String n) {
+    return '$n تحت الهدف. لا بأس مرة؛ أما العادة فبها تخسر أكثر من الدهون.';
+  }
+
+  @override
+  String ratePerWeekShort(String pct) {
+    return '$pct %/أسبوع';
+  }
+
+  @override
+  String resultsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count نتيجة',
+      many: '$count نتيجة',
+      few: '$count نتائج',
+      two: 'نتيجتان',
+      one: 'نتيجة واحدة',
+      zero: 'لا نتائج',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String resumeAt(String time) {
+    return 'تابع · $time';
+  }
+
+  @override
+  String setTo(String food, String g) {
+    return 'ضُبط $food على $g غ';
+  }
+
+  @override
+  String shareOfToday(int pct) {
+    return '$pct% من اليوم';
+  }
+
+  @override
+  String targetsHow(String mult, String rate) {
+    return 'معادلة Mifflin-St Jeor × $mult، ثم سرعتك المختارة $rate% أسبوعيًا. كل شيء هنا قابل للتعديل.';
+  }
+
+  @override
+  String targetsHowMaintain(String mult) {
+    return 'معادلة Mifflin-St Jeor × $mult، عند الثبات. كل شيء هنا قابل للتعديل.';
+  }
+
+  @override
+  String targetsLine(String p, String c, String f) {
+    return 'بروتين $p غ · كربوهيدرات $c غ · دهون $f غ';
+  }
+
+  @override
+  String todaySub(String date, String goal, int week) {
+    return '$date · $goal، الأسبوع $week';
+  }
+
+  @override
+  String todaySubDayOne(String date) {
+    return '$date · اليوم الأول';
+  }
+
+  @override
+  String weighInsSoFar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count وزن حتى الآن',
+      many: '$count وزنًا حتى الآن',
+      few: '$count أوزان حتى الآن',
+      two: 'وزنان حتى الآن',
+      one: 'وزن واحد حتى الآن',
+      zero: 'لا أوزان بعد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String whatDidYouHave(String meal) {
+    return 'ماذا تناولت في $meal؟';
+  }
+
+  @override
+  String get mealOptions => 'خيارات الوجبة';
+
+  @override
+  String get saveAsMeal => 'احفظها كوجبة';
+
+  @override
+  String get savedToMyMeals => 'حُفظت — تجدها في وجباتي';
+
+  @override
+  String get copyToTomorrow => 'انسخ إلى الغد';
+
+  @override
+  String get copiedToTomorrow => 'نُسخت إلى الغد';
+
+  @override
+  String get clearMeal => 'امسح هذه الوجبة';
+
+  @override
+  String lastLogged(String time) {
+    return 'آخر تسجيل $time';
+  }
+
+  @override
+  String get saveToFavourites => 'احفظ في المفضّلة';
+
+  @override
+  String get savedToFavourites => 'حُفظ في المفضّلة';
+
+  @override
+  String get removedFromFavourites => 'أُزيل من المفضّلة';
+
+  @override
+  String get saveAsCustom => 'احفظه كمخصّص';
+
+  @override
+  String get savedAsCustom => 'حُفظ كطعام مخصّص';
+
+  @override
+  String labelVerifiedOff(String brand) {
+    return '$brand · ملصق موثّق · Open Food Facts';
+  }
+
+  @override
+  String get noSavedMeals => 'لا وجبات محفوظة بعد. افتح وجبة تأكلها كثيرًا واضغط «احفظها كوجبة».';
+
+  @override
+  String get noCustomFoods => 'لا أطعمة مخصّصة بعد. افتح أي طعام واضغط «احفظه كمخصّص» لتحتفظ بنسختك.';
+
+  @override
+  String get recipesSoon => 'الوصفات قادمة: ابنِها من المكوّنات، قسّمها إلى حصص، وسجّل حصة.';
+
+  @override
+  String savedMealSub(int count, String kcal) {
+    return '$count عناصر · $kcal سعرة';
+  }
+
+  @override
+  String loggedSavedMeal(String name) {
+    return 'سُجّلت $name';
+  }
+
+  @override
+  String get yourData => 'بياناتك';
+
+  @override
+  String get yourDataSub => 'التصدير والموافقات وحذف كل شيء';
+
+  @override
+  String get takeEverything => 'خذ كل شيء معك';
+
+  @override
+  String get takeEverythingSub => 'CSV وJSON، كل الجداول';
+
+  @override
+  String foodLogRows(String n) {
+    return 'سجل الطعام · $n صف';
+  }
+
+  @override
+  String weighInsCount(String n) {
+    return 'الأوزان · $n';
+  }
+
+  @override
+  String get exportNow => 'صدّر الآن';
+
+  @override
+  String get exportFailed => 'تعذّر التصدير — حاول مرة أخرى';
+
+  @override
+  String get whatYouAgreed => 'ما وافقت عليه ومتى';
+
+  @override
+  String get consentHealthRow => 'معالجة البيانات الصحية · v1';
+
+  @override
+  String get consentAnalyticsRow => 'تحليلات مجهولة · لا شيء يُجمع';
+
+  @override
+  String get onPhoneNote => 'كل شيء على هذا الهاتف. لا حساب ولا خادم، فلا يخرج شيء إلا إذا صدّرته.';
+
+  @override
+  String get deleteEverything => 'احذف كل شيء';
+
+  @override
+  String get deleteEverythingSub => 'نقرة واحدة ثم تأكيد واحد';
+
+  @override
+  String get deleteEverythingBody =>
+      'يُحذف سجلك وتمارينك وبرامجك وأوزانك وأهدافك فورًا. صدّر أولًا إن أردت سجلّك — لا يمكن استعادته بعد ذلك.';
+
+  @override
+  String get deleteAllData => 'احذف كل البيانات';
+
+  @override
+  String get deleteConfirmTitle => 'حذف كل شيء؟';
+
+  @override
+  String get deleteConfirm => 'نعم، احذف الكل';
+
+  @override
+  String get keepMyData => 'أبقِ بياناتي';
+
+  @override
+  String dataSetsCount(String n) {
+    return 'المجموعات · $n';
+  }
+
+  @override
+  String get setMacrosManually => 'سأحدد الماكروز بنفسي';
+
+  @override
+  String get useTheseMacros => 'استخدم هذه الماكروز';
+
+  @override
+  String get backToCalculated => 'عُد إلى التقسيم المحسوب';
+
+  @override
+  String manualKcal(String kcal) {
+    return 'المجموع $kcal سعرة في اليوم.';
+  }
+
+  @override
+  String manualBelowFloor(String kcal, String floor) {
+    return 'المجموع $kcal سعرة — أقل من الحد الأدنى $floor. لا تنزل إليه إلا بإشراف مختص.';
+  }
+
+  @override
+  String projectedKg(String kg) {
+    return 'المتوقع $kg كغ';
+  }
+
+  @override
+  String aroundDate(String date) {
+    return 'حوالي $date';
+  }
+
+  @override
+  String inWeeks(int n) {
+    return 'خلال $n أسبوعًا';
+  }
+
+  @override
+  String moreOf(String what) {
+    return 'زد $what';
+  }
+
+  @override
+  String lessOf(String what) {
+    return 'قلّل $what';
+  }
 }

@@ -396,19 +396,19 @@ abstract class AppLocalizations {
   /// No description provided for @obGoalTitle.
   ///
   /// In en, this message translates to:
-  /// **'What are you working toward?'**
+  /// **'What are you training for?'**
   String get obGoalTitle;
 
   /// No description provided for @goalCut.
   ///
   /// In en, this message translates to:
-  /// **'Lose fat'**
+  /// **'Cut'**
   String get goalCut;
 
   /// No description provided for @goalCutSub.
   ///
   /// In en, this message translates to:
-  /// **'Keep the muscle, lose the fat'**
+  /// **'Lose fat, hold on to muscle and strength'**
   String get goalCutSub;
 
   /// No description provided for @goalMaintain.
@@ -420,19 +420,19 @@ abstract class AppLocalizations {
   /// No description provided for @goalMaintainSub.
   ///
   /// In en, this message translates to:
-  /// **'Hold your weight, build strength'**
+  /// **'Hold weight and keep logging honestly'**
   String get goalMaintainSub;
 
   /// No description provided for @goalBulk.
   ///
   /// In en, this message translates to:
-  /// **'Build muscle'**
+  /// **'Lean bulk'**
   String get goalBulk;
 
   /// No description provided for @goalBulkSub.
   ///
   /// In en, this message translates to:
-  /// **'A slow, lean gain'**
+  /// **'Add size at 0.25–0.5% of body weight a week'**
   String get goalBulkSub;
 
   /// No description provided for @obBodyTitle.
@@ -444,7 +444,7 @@ abstract class AppLocalizations {
   /// No description provided for @obBodyBody.
   ///
   /// In en, this message translates to:
-  /// **'Used once to seed your first week. After that, your own logs take over.'**
+  /// **'Used to seed week one only. After 14 days your real expenditure takes over.'**
   String get obBodyBody;
 
   /// No description provided for @sexMale.
@@ -552,7 +552,7 @@ abstract class AppLocalizations {
   /// No description provided for @obTargetsBody.
   ///
   /// In en, this message translates to:
-  /// **'This is week one. Every check-in, Gymco recalculates from your logs and trend weight, by at most 120 kcal a week.'**
+  /// **'An estimate, not a verdict. After two or three weeks of logging, Gymco replaces it with your measured expenditure.'**
   String get obTargetsBody;
 
   /// No description provided for @dailyTarget.
@@ -1232,6 +1232,1362 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tick set'**
   String get tickSetHint;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'about'**
+  String get about;
+
+  /// No description provided for @actSitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Mostly sitting'**
+  String get actSitting;
+
+  /// No description provided for @actSittingSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Desk job, under 5,000 steps'**
+  String get actSittingSub;
+
+  /// No description provided for @actFeet.
+  ///
+  /// In en, this message translates to:
+  /// **'On my feet'**
+  String get actFeet;
+
+  /// No description provided for @actFeetSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Walking a lot, 5,000–10,000 steps'**
+  String get actFeetSub;
+
+  /// No description provided for @actPhysical.
+  ///
+  /// In en, this message translates to:
+  /// **'Physical job'**
+  String get actPhysical;
+
+  /// No description provided for @actPhysicalSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifting or carrying most of the day'**
+  String get actPhysicalSub;
+
+  /// No description provided for @actVery.
+  ///
+  /// In en, this message translates to:
+  /// **'Very active'**
+  String get actVery;
+
+  /// No description provided for @actVerySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Over 12,000 steps or a second sport'**
+  String get actVerySub;
+
+  /// No description provided for @addFoodToMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add food to this meal'**
+  String get addFoodToMeal;
+
+  /// No description provided for @addNoWeighing.
+  ///
+  /// In en, this message translates to:
+  /// **'Add what you ate — no weighing'**
+  String get addNoWeighing;
+
+  /// No description provided for @addWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Add 250 ml of water'**
+  String get addWater;
+
+  /// No description provided for @agreeToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree to continue'**
+  String get agreeToContinue;
+
+  /// No description provided for @backToToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to today'**
+  String get backToToday;
+
+  /// No description provided for @calorieFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Calorie floor'**
+  String get calorieFloor;
+
+  /// No description provided for @cheatAllowanceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is ever paid back with cardio. A banked meal takes a slice off the days before it; a free one is simply not logged.'**
+  String get cheatAllowanceNote;
+
+  /// No description provided for @chooseRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a routine'**
+  String get chooseRoutine;
+
+  /// No description provided for @cm.
+  ///
+  /// In en, this message translates to:
+  /// **'cm'**
+  String get cm;
+
+  /// No description provided for @consentHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to Gymco storing my weight, measurements and food logs as health data on this phone, to calculate my targets.'**
+  String get consentHealth;
+
+  /// No description provided for @copiedToToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to today'**
+  String get copiedToToday;
+
+  /// No description provided for @copyToToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to today'**
+  String get copyToToday;
+
+  /// No description provided for @createdByYou.
+  ///
+  /// In en, this message translates to:
+  /// **'created by you'**
+  String get createdByYou;
+
+  /// No description provided for @custom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get custom;
+
+  /// No description provided for @customFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom food'**
+  String get customFood;
+
+  /// No description provided for @deleteDigit.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete last digit'**
+  String get deleteDigit;
+
+  /// No description provided for @emptyMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty meal'**
+  String get emptyMeal;
+
+  /// No description provided for @firstRunTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Most people log the same eight or ten things. Build those once and a day takes about twenty seconds.'**
+  String get firstRunTip;
+
+  /// No description provided for @floorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets are never set below this. Going lower means typing the number yourself, after a warning.'**
+  String get floorBody;
+
+  /// No description provided for @floorSub.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal · your floor'**
+  String get floorSub;
+
+  /// No description provided for @followsPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Follows your phone'**
+  String get followsPhone;
+
+  /// No description provided for @freeAlways.
+  ///
+  /// In en, this message translates to:
+  /// **'free, always'**
+  String get freeAlways;
+
+  /// No description provided for @genericUsda.
+  ///
+  /// In en, this message translates to:
+  /// **'Generic · USDA'**
+  String get genericUsda;
+
+  /// No description provided for @genericUsdaVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Generic · USDA · verified'**
+  String get genericUsdaVerified;
+
+  /// No description provided for @goalAndTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal and targets'**
+  String get goalAndTargets;
+
+  /// No description provided for @goalRecomp.
+  ///
+  /// In en, this message translates to:
+  /// **'Recomposition'**
+  String get goalRecomp;
+
+  /// No description provided for @goalRecompSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit near maintenance; watch the waist, not the scale'**
+  String get goalRecompSub;
+
+  /// No description provided for @goalPrep.
+  ///
+  /// In en, this message translates to:
+  /// **'Contest prep'**
+  String get goalPrep;
+
+  /// No description provided for @goalPrepSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Work backwards from a stage date'**
+  String get goalPrepSub;
+
+  /// No description provided for @goalShortCut.
+  ///
+  /// In en, this message translates to:
+  /// **'cut'**
+  String get goalShortCut;
+
+  /// No description provided for @goalShortBulk.
+  ///
+  /// In en, this message translates to:
+  /// **'lean bulk'**
+  String get goalShortBulk;
+
+  /// No description provided for @goalShortRecomp.
+  ///
+  /// In en, this message translates to:
+  /// **'recomp'**
+  String get goalShortRecomp;
+
+  /// No description provided for @goalShortMaintain.
+  ///
+  /// In en, this message translates to:
+  /// **'maintain'**
+  String get goalShortMaintain;
+
+  /// No description provided for @goalShortPrep.
+  ///
+  /// In en, this message translates to:
+  /// **'contest prep'**
+  String get goalShortPrep;
+
+  /// No description provided for @habitMealsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals logged, none skipped'**
+  String get habitMealsNone;
+
+  /// No description provided for @habitProteinEach.
+  ///
+  /// In en, this message translates to:
+  /// **'A protein source at each one'**
+  String get habitProteinEach;
+
+  /// No description provided for @habitTrained.
+  ///
+  /// In en, this message translates to:
+  /// **'Trained today'**
+  String get habitTrained;
+
+  /// No description provided for @habitsHiddenBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your entries are still saved. Nothing is being scored, and no target is tracked against you.'**
+  String get habitsHiddenBody;
+
+  /// No description provided for @habitsHiddenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories, macros and weight are hidden'**
+  String get habitsHiddenTitle;
+
+  /// No description provided for @heightLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Height'**
+  String get heightLbl;
+
+  /// No description provided for @heroDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged and saved. Recovery is where it turns into the next one.'**
+  String get heroDoneBody;
+
+  /// No description provided for @heroExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'exercises'**
+  String get heroExercises;
+
+  /// No description provided for @heroMin.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get heroMin;
+
+  /// No description provided for @heroMuscles.
+  ///
+  /// In en, this message translates to:
+  /// **'muscles'**
+  String get heroMuscles;
+
+  /// No description provided for @heroRestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled today. Recovery is where the last session turns into the next one.'**
+  String get heroRestBody;
+
+  /// No description provided for @heroRestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest <em>day</em>'**
+  String get heroRestTitle;
+
+  /// No description provided for @heroSets.
+  ///
+  /// In en, this message translates to:
+  /// **'sets'**
+  String get heroSets;
+
+  /// No description provided for @heroSetupBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a split or build your own. Gymco schedules it and tracks every set.'**
+  String get heroSetupBody;
+
+  /// No description provided for @heroSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your <em>training</em>'**
+  String get heroSetupTitle;
+
+  /// No description provided for @heroTagDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done today'**
+  String get heroTagDone;
+
+  /// No description provided for @heroTagInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get heroTagInProgress;
+
+  /// No description provided for @heroTagToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today’s workout'**
+  String get heroTagToday;
+
+  /// No description provided for @howTodayWent.
+  ///
+  /// In en, this message translates to:
+  /// **'How today went'**
+  String get howTodayWent;
+
+  /// No description provided for @inThisMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'In this meal'**
+  String get inThisMeal;
+
+  /// No description provided for @kcalADay.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal a day'**
+  String get kcalADay;
+
+  /// No description provided for @kcalLeftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal left'**
+  String get kcalLeftLabel;
+
+  /// No description provided for @kcalLoggedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal logged'**
+  String get kcalLoggedLabel;
+
+  /// No description provided for @kcalOverLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal past target'**
+  String get kcalOverLabel;
+
+  /// No description provided for @kcalToLog.
+  ///
+  /// In en, this message translates to:
+  /// **'kcal to log'**
+  String get kcalToLog;
+
+  /// No description provided for @keepThemHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep them hidden'**
+  String get keepThemHidden;
+
+  /// No description provided for @langArabicSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic · right-to-left'**
+  String get langArabicSub;
+
+  /// No description provided for @langEnglishSub.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get langEnglishSub;
+
+  /// No description provided for @langSpanishSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get langSpanishSub;
+
+  /// No description provided for @logFirstMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your first meal'**
+  String get logFirstMeal;
+
+  /// No description provided for @logNoWeighing.
+  ///
+  /// In en, this message translates to:
+  /// **'Log what you ate — no weighing'**
+  String get logNoWeighing;
+
+  /// No description provided for @mBarcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode'**
+  String get mBarcode;
+
+  /// No description provided for @mPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get mPhoto;
+
+  /// No description provided for @mSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get mSearch;
+
+  /// No description provided for @mVoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get mVoice;
+
+  /// No description provided for @mWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'Write'**
+  String get mWrite;
+
+  /// No description provided for @mealDetailTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap an item to change its portion. Anything you remove leaves today straight away.'**
+  String get mealDetailTip;
+
+  /// No description provided for @mealLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal'**
+  String get mealLabel;
+
+  /// No description provided for @myMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'My meals'**
+  String get myMeals;
+
+  /// No description provided for @noMatchBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Home cooking rarely is. Scan the pack, or try another word.'**
+  String get noMatchBody;
+
+  /// No description provided for @noMatchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No match in the database'**
+  String get noMatchTitle;
+
+  /// No description provided for @noNumbersOfferLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Rather not see numbers? No-numbers mode hides calories, macros and weight, and tracks habits instead.'**
+  String get noNumbersOfferLine;
+
+  /// No description provided for @noNumbersOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On — calories and weight hidden'**
+  String get noNumbersOn;
+
+  /// No description provided for @noSessionPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'No session planned'**
+  String get noSessionPlanned;
+
+  /// No description provided for @nothingInMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this meal yet'**
+  String get nothingInMeal;
+
+  /// No description provided for @nothingYesterdayDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was logged yesterday'**
+  String get nothingYesterdayDay;
+
+  /// No description provided for @numbersHidden.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers hidden'**
+  String get numbersHidden;
+
+  /// No description provided for @obActivityTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you <em>move</em> on a normal day?'**
+  String get obActivityTitleEm;
+
+  /// No description provided for @obBodyTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'A bit about <em>you</em>'**
+  String get obBodyTitleEm;
+
+  /// No description provided for @obGoalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This sets your rate, protein floor and how the coach reads your data. You can change it any week.'**
+  String get obGoalBody;
+
+  /// No description provided for @obRateBodyGain.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow is lean. A quarter to half a percent of body weight a week keeps the gain mostly muscle.'**
+  String get obRateBodyGain;
+
+  /// No description provided for @obRateBodyLose.
+  ///
+  /// In en, this message translates to:
+  /// **'Faster is not better. Between 0.5 and 1% of body weight a week is where muscle retention holds up.'**
+  String get obRateBodyLose;
+
+  /// No description provided for @obRateTitleGain.
+  ///
+  /// In en, this message translates to:
+  /// **'How fast do you want to gain?'**
+  String get obRateTitleGain;
+
+  /// No description provided for @obRateTitleLose.
+  ///
+  /// In en, this message translates to:
+  /// **'How fast do you want to lose?'**
+  String get obRateTitleLose;
+
+  /// No description provided for @pastNoteWithin.
+  ///
+  /// In en, this message translates to:
+  /// **'Within a hundred of target. Days like this are what move the trend line.'**
+  String get pastNoteWithin;
+
+  /// No description provided for @pctPerWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'% / week'**
+  String get pctPerWeek;
+
+  /// No description provided for @photoComing.
+  ///
+  /// In en, this message translates to:
+  /// **'Photograph the plate and Gymco suggests what it sees; you say how much. Arrives with AI logging.'**
+  String get photoComing;
+
+  /// No description provided for @rateHot.
+  ///
+  /// In en, this message translates to:
+  /// **'Above 0.85%/week you start paying in muscle. Gymco will keep saying so, every week, until you slow down.'**
+  String get rateHot;
+
+  /// No description provided for @rateOkGain.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow enough that most of the gain is muscle.'**
+  String get rateOkGain;
+
+  /// No description provided for @rateOkLose.
+  ///
+  /// In en, this message translates to:
+  /// **'In the range Helms et al. (2014) recommend for natural lifters holding muscle through a deficit.'**
+  String get rateOkLose;
+
+  /// No description provided for @readyToLog.
+  ///
+  /// In en, this message translates to:
+  /// **'ready to log'**
+  String get readyToLog;
+
+  /// No description provided for @recipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get recipes;
+
+  /// No description provided for @restDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest day'**
+  String get restDay;
+
+  /// No description provided for @ringEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged yet. Your targets are set — the ring fills as you go.'**
+  String get ringEmptyBody;
+
+  /// No description provided for @rtlNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic flips the whole app to right-to-left, including the week strip and swipe directions.'**
+  String get rtlNote;
+
+  /// No description provided for @safeguards.
+  ///
+  /// In en, this message translates to:
+  /// **'Safeguards'**
+  String get safeguards;
+
+  /// No description provided for @savedSeeTrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved · see it in Train'**
+  String get savedSeeTrain;
+
+  /// No description provided for @scanABarcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a barcode'**
+  String get scanABarcode;
+
+  /// No description provided for @scanBarcodeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Packaged food resolves straight to the pack’s own numbers'**
+  String get scanBarcodeSub;
+
+  /// No description provided for @searchDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Search the database'**
+  String get searchDatabase;
+
+  /// No description provided for @searchOtherLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching in another language often finds more — Gymco keeps every name it learns on the same food.'**
+  String get searchOtherLanguage;
+
+  /// No description provided for @seeTheWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'See the week'**
+  String get seeTheWeek;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @sexForEquation.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex for the energy equation'**
+  String get sexForEquation;
+
+  /// No description provided for @startLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Start logging'**
+  String get startLogging;
+
+  /// No description provided for @startWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start workout'**
+  String get startWorkout;
+
+  /// No description provided for @supportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Support lines and services near you'**
+  String get supportBody;
+
+  /// No description provided for @supportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Talking to someone helps'**
+  String get supportTitle;
+
+  /// No description provided for @swipeToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to start'**
+  String get swipeToStart;
+
+  /// No description provided for @targetsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets saved — start logging'**
+  String get targetsSaved;
+
+  /// No description provided for @theRemainder.
+  ///
+  /// In en, this message translates to:
+  /// **'the remainder'**
+  String get theRemainder;
+
+  /// No description provided for @todayPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayPlain;
+
+  /// No description provided for @todayTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Make it <em>count</em>'**
+  String get todayTitleEm;
+
+  /// No description provided for @training.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get training;
+
+  /// No description provided for @trainingCountedSeparately.
+  ///
+  /// In en, this message translates to:
+  /// **'Training is counted separately. Don’t include the gym here.'**
+  String get trainingCountedSeparately;
+
+  /// No description provided for @trendNeedsDays.
+  ///
+  /// In en, this message translates to:
+  /// **'A trend needs about seven days'**
+  String get trendNeedsDays;
+
+  /// No description provided for @trendWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend weight'**
+  String get trendWeight;
+
+  /// No description provided for @unitsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Units & language'**
+  String get unitsLanguage;
+
+  /// No description provided for @usuallyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'You usually eat around now'**
+  String get usuallyNow;
+
+  /// No description provided for @voiceComing.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold and say what you ate. It goes through the same reader as writing. Arrives with AI logging.'**
+  String get voiceComing;
+
+  /// No description provided for @water.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get water;
+
+  /// No description provided for @waterAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'250 ml added'**
+  String get waterAdded;
+
+  /// No description provided for @weightToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight today'**
+  String get weightToday;
+
+  /// No description provided for @welcomeArtAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'A woman mid kettlebell swing'**
+  String get welcomeArtAlt;
+
+  /// No description provided for @welcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Log food in seconds, train with a plan, and keep a streak worth protecting.'**
+  String get welcomeBody;
+
+  /// No description provided for @welcomeTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Start your <em>fitness</em> journey today'**
+  String get welcomeTitleEm;
+
+  /// No description provided for @writeComing.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the meal the way you would say it — “two eggs, 150 g rice”. Arrives with AI logging.'**
+  String get writeComing;
+
+  /// No description provided for @yesterdayCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday copied in'**
+  String get yesterdayCopied;
+
+  /// No description provided for @yrs.
+  ///
+  /// In en, this message translates to:
+  /// **'yrs'**
+  String get yrs;
+
+  /// No description provided for @addKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {kcal} kcal'**
+  String addKcal(String kcal);
+
+  /// No description provided for @saveKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Save · {kcal} kcal'**
+  String saveKcal(String kcal);
+
+  /// No description provided for @addToMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to {meal}'**
+  String addToMeal(String meal);
+
+  /// No description provided for @closedDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · closed day'**
+  String closedDay(String date);
+
+  /// No description provided for @floorNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your targets will never be set below {kcal} kcal.'**
+  String floorNote(String kcal);
+
+  /// No description provided for @foodAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{food} added'**
+  String foodAdded(String food);
+
+  /// No description provided for @foodRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{food} removed'**
+  String foodRemoved(String food);
+
+  /// No description provided for @removeFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {food}'**
+  String removeFood(String food);
+
+  /// No description provided for @gPerKg.
+  ///
+  /// In en, this message translates to:
+  /// **'{g} g/kg'**
+  String gPerKg(String g);
+
+  /// No description provided for @heroDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} <em>done</em>'**
+  String heroDoneTitle(String name);
+
+  /// No description provided for @heroWeekTag.
+  ///
+  /// In en, this message translates to:
+  /// **'Week {n}'**
+  String heroWeekTag(int n);
+
+  /// No description provided for @itemsLoggedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item logged to {meal}} other{{count} items logged to {meal}}}'**
+  String itemsLoggedTo(int count, String meal);
+
+  /// No description provided for @itemsSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item selected} other{{count} items selected}}'**
+  String itemsSelected(int count);
+
+  /// No description provided for @kcalAndProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'{kcal} kcal · {p} g protein'**
+  String kcalAndProtein(String kcal, String p);
+
+  /// No description provided for @leftToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{kcal} kcal and {p} g protein left today'**
+  String leftToday(String kcal, String p);
+
+  /// No description provided for @litres.
+  ///
+  /// In en, this message translates to:
+  /// **'{l} L'**
+  String litres(String l);
+
+  /// No description provided for @logN.
+  ///
+  /// In en, this message translates to:
+  /// **'Log {n}'**
+  String logN(int n);
+
+  /// No description provided for @maxPct.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct} max'**
+  String maxPct(String pct);
+
+  /// No description provided for @meSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{goal}, week {week}'**
+  String meSub(String goal, int week);
+
+  /// No description provided for @moreCount.
+  ///
+  /// In en, this message translates to:
+  /// **'+{n} more'**
+  String moreCount(int n);
+
+  /// No description provided for @ofTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'/ {n} g'**
+  String ofTarget(String n);
+
+  /// No description provided for @oneServing.
+  ///
+  /// In en, this message translates to:
+  /// **'1 serving · {g} g'**
+  String oneServing(String g);
+
+  /// No description provided for @pastNoteOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} over target — one day, and the weekly average is what the maths reads.'**
+  String pastNoteOver(String n);
+
+  /// No description provided for @pastNoteUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} under target. Fine once; a habit of it is how you lose more than fat.'**
+  String pastNoteUnder(String n);
+
+  /// No description provided for @ratePerWeekShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct} %/wk'**
+  String ratePerWeekShort(String pct);
+
+  /// No description provided for @resultsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 result} other{{count} results}}'**
+  String resultsCount(int count);
+
+  /// No description provided for @resumeAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume · {time}'**
+  String resumeAt(String time);
+
+  /// No description provided for @setTo.
+  ///
+  /// In en, this message translates to:
+  /// **'{food} set to {g} g'**
+  String setTo(String food, String g);
+
+  /// No description provided for @shareOfToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% of today'**
+  String shareOfToday(int pct);
+
+  /// No description provided for @targetsHow.
+  ///
+  /// In en, this message translates to:
+  /// **'Mifflin-St Jeor × {mult}, then your chosen rate of {rate}%/week. Everything here is editable.'**
+  String targetsHow(String mult, String rate);
+
+  /// No description provided for @targetsHowMaintain.
+  ///
+  /// In en, this message translates to:
+  /// **'Mifflin-St Jeor × {mult}, at maintenance. Everything here is editable.'**
+  String targetsHowMaintain(String mult);
+
+  /// No description provided for @targetsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein {p} g · Carbs {c} g · Fat {f} g'**
+  String targetsLine(String p, String c, String f);
+
+  /// No description provided for @todaySub.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · {goal}, week {week}'**
+  String todaySub(String date, String goal, int week);
+
+  /// No description provided for @todaySubDayOne.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · day 1'**
+  String todaySubDayOne(String date);
+
+  /// No description provided for @weighInsSoFar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No weigh-ins yet} =1{One weigh-in so far} other{{count} weigh-ins so far}}'**
+  String weighInsSoFar(int count);
+
+  /// No description provided for @whatDidYouHave.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you have for {meal}?'**
+  String whatDidYouHave(String meal);
+
+  /// No description provided for @mealOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal options'**
+  String get mealOptions;
+
+  /// No description provided for @saveAsMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as a meal'**
+  String get saveAsMeal;
+
+  /// No description provided for @savedToMyMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved — find it under My meals'**
+  String get savedToMyMeals;
+
+  /// No description provided for @copyToTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to tomorrow'**
+  String get copyToTomorrow;
+
+  /// No description provided for @copiedToTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to tomorrow'**
+  String get copiedToTomorrow;
+
+  /// No description provided for @clearMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear this meal'**
+  String get clearMeal;
+
+  /// No description provided for @lastLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Last logged {time}'**
+  String lastLogged(String time);
+
+  /// No description provided for @saveToFavourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to favourites'**
+  String get saveToFavourites;
+
+  /// No description provided for @savedToFavourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to favourites'**
+  String get savedToFavourites;
+
+  /// No description provided for @removedFromFavourites.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favourites'**
+  String get removedFromFavourites;
+
+  /// No description provided for @saveAsCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as custom'**
+  String get saveAsCustom;
+
+  /// No description provided for @savedAsCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as a custom food'**
+  String get savedAsCustom;
+
+  /// No description provided for @labelVerifiedOff.
+  ///
+  /// In en, this message translates to:
+  /// **'{brand} · label verified · Open Food Facts'**
+  String labelVerifiedOff(String brand);
+
+  /// No description provided for @noSavedMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved meals yet. Open a meal you eat often and tap Save as a meal.'**
+  String get noSavedMeals;
+
+  /// No description provided for @noCustomFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'No custom foods yet. Open any food and tap Save as custom to keep your own copy.'**
+  String get noCustomFoods;
+
+  /// No description provided for @recipesSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes are next: build one from ingredients, split it into portions, log a portion.'**
+  String get recipesSoon;
+
+  /// No description provided for @savedMealSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items · {kcal} kcal'**
+  String savedMealSub(int count, String kcal);
+
+  /// No description provided for @loggedSavedMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} logged'**
+  String loggedSavedMeal(String name);
+
+  /// No description provided for @yourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get yourData;
+
+  /// No description provided for @yourDataSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Export, consents, delete everything'**
+  String get yourDataSub;
+
+  /// No description provided for @takeEverything.
+  ///
+  /// In en, this message translates to:
+  /// **'Take everything with you'**
+  String get takeEverything;
+
+  /// No description provided for @takeEverythingSub.
+  ///
+  /// In en, this message translates to:
+  /// **'CSV and JSON, every table'**
+  String get takeEverythingSub;
+
+  /// No description provided for @foodLogRows.
+  ///
+  /// In en, this message translates to:
+  /// **'Food log · {n} rows'**
+  String foodLogRows(String n);
+
+  /// No description provided for @weighInsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-ins · {n}'**
+  String weighInsCount(String n);
+
+  /// No description provided for @exportNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Export now'**
+  String get exportNow;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export — try again'**
+  String get exportFailed;
+
+  /// No description provided for @whatYouAgreed.
+  ///
+  /// In en, this message translates to:
+  /// **'What you agreed to, and when'**
+  String get whatYouAgreed;
+
+  /// No description provided for @consentHealthRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Health data processing · v1'**
+  String get consentHealthRow;
+
+  /// No description provided for @consentAnalyticsRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous analytics · none collected'**
+  String get consentAnalyticsRow;
+
+  /// No description provided for @onPhoneNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything lives on this phone. There is no account and no server, so nothing leaves it unless you export it.'**
+  String get onPhoneNote;
+
+  /// No description provided for @deleteEverything.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything'**
+  String get deleteEverything;
+
+  /// No description provided for @deleteEverythingSub.
+  ///
+  /// In en, this message translates to:
+  /// **'One tap, then one confirmation'**
+  String get deleteEverythingSub;
+
+  /// No description provided for @deleteEverythingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your log, workouts, routines, weigh-ins and targets go at once. Export first if you want your history — it cannot be recovered afterwards.'**
+  String get deleteEverythingBody;
+
+  /// No description provided for @deleteAllData.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data'**
+  String get deleteAllData;
+
+  /// No description provided for @deleteConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything?'**
+  String get deleteConfirmTitle;
+
+  /// No description provided for @deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, delete it all'**
+  String get deleteConfirm;
+
+  /// No description provided for @keepMyData.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep my data'**
+  String get keepMyData;
+
+  /// No description provided for @dataSetsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets · {n}'**
+  String dataSetsCount(String n);
+
+  /// No description provided for @setMacrosManually.
+  ///
+  /// In en, this message translates to:
+  /// **'Set my macros manually'**
+  String get setMacrosManually;
+
+  /// No description provided for @useTheseMacros.
+  ///
+  /// In en, this message translates to:
+  /// **'Use these macros'**
+  String get useTheseMacros;
+
+  /// No description provided for @backToCalculated.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the calculated split'**
+  String get backToCalculated;
+
+  /// No description provided for @manualKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'That comes to {kcal} kcal a day.'**
+  String manualKcal(String kcal);
+
+  /// No description provided for @manualBelowFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'That comes to {kcal} kcal — under the {floor} kcal floor. Only go there with someone qualified watching.'**
+  String manualBelowFloor(String kcal, String floor);
+
+  /// No description provided for @projectedKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Projected {kg} kg'**
+  String projectedKg(String kg);
+
+  /// No description provided for @aroundDate.
+  ///
+  /// In en, this message translates to:
+  /// **'around {date}'**
+  String aroundDate(String date);
+
+  /// No description provided for @inWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'in {n} weeks'**
+  String inWeeks(int n);
+
+  /// No description provided for @moreOf.
+  ///
+  /// In en, this message translates to:
+  /// **'More {what}'**
+  String moreOf(String what);
+
+  /// No description provided for @lessOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Less {what}'**
+  String lessOf(String what);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

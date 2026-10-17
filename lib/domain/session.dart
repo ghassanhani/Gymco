@@ -5,31 +5,42 @@ library;
 import 'workout.dart';
 
 class SessionSet {
-  const SessionSet({this.weightKg, this.reps, this.type = SetType.normal, this.done = false});
+  const SessionSet({this.weightKg, this.reps, this.type = SetType.normal, this.done = false, this.rir});
 
   final double? weightKg;
   final int? reps;
   final SetType type;
   final bool done;
 
+  /// Reps in reserve, as the lifter judged it.
+  final int? rir;
+
   bool get complete => weightKg != null && reps != null && reps! > 0;
 
   LoggedSet toLogged() => LoggedSet(weightKg: weightKg ?? 0, reps: reps ?? 0, type: type, done: done);
 
-  SessionSet copyWith({double? Function()? weightKg, int? Function()? reps, SetType? type, bool? done}) => SessionSet(
+  SessionSet copyWith({
+    double? Function()? weightKg,
+    int? Function()? reps,
+    SetType? type,
+    bool? done,
+    int? Function()? rir,
+  }) => SessionSet(
     weightKg: weightKg == null ? this.weightKg : weightKg(),
     reps: reps == null ? this.reps : reps(),
     type: type ?? this.type,
     done: done ?? this.done,
+    rir: rir == null ? this.rir : rir(),
   );
 
-  Map<String, Object?> toJson() => {'w': weightKg, 'r': reps, 't': type.name, 'd': done};
+  Map<String, Object?> toJson() => {'w': weightKg, 'r': reps, 't': type.name, 'd': done, 'rir': rir};
 
   factory SessionSet.fromJson(Map<String, Object?> j) => SessionSet(
     weightKg: (j['w'] as num?)?.toDouble(),
     reps: j['r'] as int?,
     type: SetType.values.byName(j['t']! as String),
     done: j['d']! as bool,
+    rir: j['rir'] as int?,
   );
 }
 
@@ -41,6 +52,8 @@ class SessionExercise {
     this.repLow,
     this.repHigh,
     this.restSeconds = defaultRestSeconds,
+    this.rir,
+    this.note = '',
   });
 
   final String exerciseId;
@@ -48,16 +61,28 @@ class SessionExercise {
   final List<SessionSet> sets;
   final int? repLow;
   final int? repHigh;
+
+  /// Rest after each set; 0 turns the timer off for this exercise.
   final int restSeconds;
 
-  SessionExercise withSets(List<SessionSet> s) => SessionExercise(
+  /// The plan's reps in reserve, when it came from a routine.
+  final int? rir;
+
+  /// A cue, a machine setting, how it felt.
+  final String note;
+
+  SessionExercise copyWith({List<SessionSet>? sets, int? restSeconds, String? note}) => SessionExercise(
     exerciseId: exerciseId,
     name: name,
-    sets: s,
+    sets: sets ?? this.sets,
     repLow: repLow,
     repHigh: repHigh,
-    restSeconds: restSeconds,
+    restSeconds: restSeconds ?? this.restSeconds,
+    rir: rir,
+    note: note ?? this.note,
   );
+
+  SessionExercise withSets(List<SessionSet> s) => copyWith(sets: s);
 
   Map<String, Object?> toJson() => {
     'id': exerciseId,
@@ -65,6 +90,8 @@ class SessionExercise {
     'lo': repLow,
     'hi': repHigh,
     'rest': restSeconds,
+    'rir': rir,
+    'note': note,
     's': [for (final s in sets) s.toJson()],
   };
 
@@ -74,6 +101,8 @@ class SessionExercise {
     repLow: j['lo'] as int?,
     repHigh: j['hi'] as int?,
     restSeconds: j['rest']! as int,
+    rir: j['rir'] as int?,
+    note: (j['note'] as String?) ?? '',
     sets: [for (final s in j['s']! as List) SessionSet.fromJson((s as Map).cast<String, Object?>())],
   );
 }
@@ -151,9 +180,36 @@ class WorkoutSession {
     if (!s.done && !s.complete) return this;
     final next = updateSet(ex, i, (x) => x.copyWith(done: !x.done));
     if (s.done) return next._with(restStartedAt: () => null, restSeconds: () => null);
-    final rest = s.type == SetType.warmup ? 45 : exercises[ex].restSeconds;
+    final planned = exercises[ex].restSeconds;
+    if (planned == 0) return next._with(restStartedAt: () => null, restSeconds: () => null);
+    final rest = s.type == SetType.warmup ? 45 : planned;
     return next._with(restStartedAt: () => now, restSeconds: () => rest);
   }
+
+  WorkoutSession setRest(int ex, int seconds) {
+    final list = [...exercises];
+    list[ex] = list[ex].copyWith(restSeconds: seconds);
+    return _with(exercises: list);
+  }
+
+  WorkoutSession setNote(int ex, String note) {
+    final list = [...exercises];
+    list[ex] = list[ex].copyWith(note: note);
+    return _with(exercises: list);
+  }
+
+  /// Where the next unticked set is, for the rest bar's "next up" line.
+  (int, int)? get nextSet {
+    for (var e = 0; e < exercises.length; e++) {
+      for (var i = 0; i < exercises[e].sets.length; i++) {
+        if (!exercises[e].sets[i].done) return (e, i);
+      }
+    }
+    return null;
+  }
+
+  /// Hard sets done, by set type weight (warm-ups 0, drop ½).
+  double get hardSetsDone => hardSets(_logged);
 
   WorkoutSession adjustRest(int deltaSeconds) =>
       restSeconds == null ? this : _with(restSeconds: () => (restSeconds! + deltaSeconds).clamp(0, 600));

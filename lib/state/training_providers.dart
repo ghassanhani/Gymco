@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/training.dart';
+import '../domain/schedule.dart';
 import '../domain/session.dart';
 import 'providers.dart';
 
@@ -19,6 +20,23 @@ final recentWorkoutsProvider = FutureProvider<List<WorkoutRecord>>((ref) => ref.
 final lastSetsProvider = FutureProvider.family<List<SessionSet>, String>(
   (ref, exerciseId) => ref.watch(dbProvider).lastSetsFor(exerciseId),
 );
+
+/// The strip's seven days with what each holds, slid as the prototype slides them.
+final weekScheduleProvider = FutureProvider<List<ScheduledDay>>((ref) async {
+  final now = ref.watch(clockProvider)();
+  final routines = await ref.watch(routinesProvider.future);
+  ref.watch(recentWorkoutsProvider);
+  final days = stripDays(now);
+  final done = await ref
+      .watch(dbProvider)
+      .workoutsBetween(days.first, DateTime(days.last.year, days.last.month, days.last.day + 1));
+  return schedule(
+    days: days,
+    today: now,
+    routines: [for (final r in routines) PlannedRoutine(id: r.id!, name: r.name, weekday: r.weekday)],
+    workouts: [for (final w in done) DoneWorkout(day: w.startedAt, name: w.name, routineId: w.routineId)],
+  );
+});
 
 class RoutineActions {
   RoutineActions(this.ref);

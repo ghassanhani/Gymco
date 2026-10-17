@@ -16,6 +16,7 @@ class Food {
     this.barcode,
     this.servingGrams,
     this.source = 'local',
+    this.favourite = false,
   });
 
   final String id;
@@ -32,8 +33,18 @@ class Food {
   /// A typical serving, when the source gives one.
   final double? servingGrams;
 
-  /// 'local', 'usda' or 'off'.
+  /// 'local' (made by the user), 'usda' or 'off'.
   final String source;
+
+  final bool favourite;
+
+  /// Generic foods from USDA carry the blue check; packs from Open Food
+  /// Facts are crowd-sourced.
+  bool get verified => source == 'usda';
+
+  /// Ways to measure it: grams first, then one serving when the source gives one.
+  /// Each is (grams per unit, label grams).
+  List<(double, double?)> get units => [(1, null), if (servingGrams != null) (servingGrams!, servingGrams)];
 
   Map<String, Object?> toRow() => {
     'id': id,
@@ -59,7 +70,20 @@ class Food {
     fat: (r['fat']! as num).toDouble(),
     servingGrams: (r['serving_g'] as num?)?.toDouble(),
     source: r['source']! as String,
+    favourite: (r['favourite'] as int? ?? 0) == 1,
   );
+}
+
+/// A meal the user saved to log again in one tap.
+class SavedMeal {
+  const SavedMeal({required this.id, required this.name, required this.items});
+  final int id;
+  final String name;
+
+  /// Each food with its grams.
+  final List<(Food, double)> items;
+
+  double get kcal => items.fold(0, (s, i) => s + i.$1.kcal * i.$2 / 100);
 }
 
 /// One food logged into one meal. Nutrition is snapshotted at log time so a
@@ -76,9 +100,13 @@ class LogEntry {
     required this.protein,
     required this.carbs,
     required this.fat,
+    this.loggedAt,
   });
 
   final int? id;
+
+  /// When it was logged; null before it is saved.
+  final DateTime? loggedAt;
 
   /// yyyy-MM-dd, local time.
   final String day;
@@ -133,6 +161,7 @@ class LogEntry {
     protein: (r['protein']! as num).toDouble(),
     carbs: (r['carbs']! as num).toDouble(),
     fat: (r['fat']! as num).toDouble(),
+    loggedAt: r['created_at'] == null ? null : DateTime.fromMillisecondsSinceEpoch(r['created_at']! as int),
   );
 }
 

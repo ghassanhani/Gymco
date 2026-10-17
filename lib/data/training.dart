@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import '../domain/workout.dart';
+
 /// One exercise from the bundled library (free-exercise-db, public domain).
 class Exercise {
   const Exercise({
@@ -31,6 +33,9 @@ class Exercise {
 
   static const imageBase = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
   String imageUrl(int i) => '$imageBase${images[i]}';
+
+  /// The terser name summaries use: "Barbell Bench Press - Medium Grip" → "Barbell Bench Press".
+  String get shortName => name.split(' - ').first.split(' (').first.trim();
 
   /// Two-letter badge for the equipment, as on the design's Train screen.
   String get badge => switch (equipment) {
@@ -120,6 +125,7 @@ class RoutineItem {
     this.repLow = 8,
     this.repHigh = 12,
     this.restSeconds = 90,
+    this.rir = 2,
   });
 
   final String exerciseId;
@@ -128,22 +134,55 @@ class RoutineItem {
   final int repHigh;
   final int restSeconds;
 
-  RoutineItem copyWith({int? sets, int? repLow, int? repHigh, int? restSeconds}) => RoutineItem(
+  /// Reps in reserve the plan aims for.
+  final int rir;
+
+  String get reps => '$repLow–$repHigh';
+
+  RoutineItem copyWith({int? sets, int? repLow, int? repHigh, int? restSeconds, int? rir}) => RoutineItem(
     exerciseId: exerciseId,
     sets: sets ?? this.sets,
     repLow: repLow ?? this.repLow,
     repHigh: repHigh ?? this.repHigh,
     restSeconds: restSeconds ?? this.restSeconds,
+    rir: rir ?? this.rir,
   );
 }
 
+/// The two folders the builder offers: the weekly plan, and everything else.
+enum RoutineFolder { plan, mine }
+
 class Routine {
-  const Routine({required this.id, required this.name, required this.items});
+  const Routine({
+    required this.id,
+    required this.name,
+    required this.items,
+    this.weekday,
+    this.folder = RoutineFolder.mine,
+  });
   final int? id;
   final String name;
   final List<RoutineItem> items;
 
+  /// 0 = Monday … 6 = Sunday; null is "any day".
+  final int? weekday;
+  final RoutineFolder folder;
+
   int get totalSets => items.fold(0, (n, i) => n + i.sets);
+
+  Routine copyWith({
+    int? Function()? id,
+    String? name,
+    List<RoutineItem>? items,
+    int? Function()? weekday,
+    RoutineFolder? folder,
+  }) => Routine(
+    id: id == null ? this.id : id(),
+    name: name ?? this.name,
+    items: items ?? this.items,
+    weekday: weekday == null ? this.weekday : weekday(),
+    folder: folder ?? this.folder,
+  );
 }
 
 /// A finished workout as the history list shows it.
@@ -151,6 +190,8 @@ class WorkoutRecord {
   const WorkoutRecord({
     required this.id,
     required this.name,
+    this.routineId,
+    this.hardSets = 0,
     required this.startedAt,
     required this.endedAt,
     required this.volume,
@@ -159,10 +200,40 @@ class WorkoutRecord {
 
   final int id;
   final String name;
+  final int? routineId;
+  final double hardSets;
   final DateTime startedAt;
   final DateTime endedAt;
   final double volume;
   final int sets;
 
   Duration get duration => endedAt.difference(startedAt);
+}
+
+/// One stored set with the exercise it belongs to.
+class LoggedExerciseSet {
+  const LoggedExerciseSet({
+    required this.exerciseId,
+    required this.exerciseName,
+    required this.weightKg,
+    required this.reps,
+    required this.type,
+    this.rir,
+  });
+
+  final String exerciseId;
+  final String exerciseName;
+  final double weightKg;
+  final int reps;
+  final SetType type;
+  final int? rir;
+
+  factory LoggedExerciseSet.fromRow(Map<String, Object?> r) => LoggedExerciseSet(
+    exerciseId: r['exercise_id']! as String,
+    exerciseName: r['exercise_name']! as String,
+    weightKg: (r['weight']! as num).toDouble(),
+    reps: r['reps']! as int,
+    type: SetType.values.byName(r['type']! as String),
+    rir: r['rir'] as int?,
+  );
 }

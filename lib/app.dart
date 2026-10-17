@@ -10,6 +10,8 @@ import 'theme/volt.dart';
 import 'ui/food/add_food_screen.dart';
 import 'ui/food/meal_screen.dart';
 import 'ui/food/scan_screen.dart';
+import 'ui/food/serving_screen.dart';
+import 'ui/me/data_screen.dart';
 import 'ui/me/me_screen.dart';
 import 'ui/onboarding/onboarding_screen.dart';
 import 'ui/shell.dart';
@@ -47,17 +49,37 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/add/:meal',
-        builder: (_, s) => AddFoodScreen(meal: Meal.values.byName(s.pathParameters['meal']!)),
+        builder: (_, s) => AddFoodScreen(
+          meal: Meal.values.byName(s.pathParameters['meal']!),
+          mode: s.uri.queryParameters['mode'] ?? 'search',
+        ),
       ),
       GoRoute(
-        path: '/meal/:meal',
-        builder: (_, s) => MealScreen(meal: Meal.values.byName(s.pathParameters['meal']!)),
+        path: '/serving/:food',
+        builder: (_, s) => ServingScreen(
+          foodId: s.pathParameters['food']!,
+          meal: Meal.values.byName(s.uri.queryParameters['meal'] ?? Meal.lunch.name),
+          entryId: int.tryParse(s.uri.queryParameters['entry'] ?? ''),
+        ),
       ),
+      GoRoute(
+        path: '/barcode-miss/:code',
+        builder: (_, s) => BarcodeMissScreen(code: s.pathParameters['code']!),
+      ),
+      GoRoute(path: '/language', builder: (_, _) => const LanguageScreen()),
+      GoRoute(path: '/data', builder: (_, _) => const DataScreen()),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),
         branches: [
           StatefulShellBranch(
-            routes: [GoRoute(path: '/today', builder: (_, _) => const TodayScreen())],
+            routes: [
+              GoRoute(path: '/today', builder: (_, _) => const TodayScreen()),
+              // Under the tabs, as the canvas draws it.
+              GoRoute(
+                path: '/meal/:meal',
+                builder: (_, s) => MealScreen(meal: Meal.values.byName(s.pathParameters['meal']!)),
+              ),
+            ],
           ),
           StatefulShellBranch(
             routes: [

@@ -11,8 +11,7 @@ import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
-import '../common/widgets.dart';
-import 'serving_sheet.dart';
+import '../kit/kit.dart';
 
 /// The meal a bare "add food" goes to, from the time of day.
 Meal mealForHour(int h) => h < 11
@@ -23,12 +22,15 @@ Meal mealForHour(int h) => h < 11
     ? Meal.dinner
     : Meal.snack;
 
+/// Write it, don't search for it: five ways in, as peers, and a search that
+/// collects several foods before logging them together.
 class AddFoodScreen extends ConsumerStatefulWidget {
-  const AddFoodScreen({super.key, required this.meal, this.asTab = false});
+  const AddFoodScreen({super.key, required this.meal, this.asTab = false, this.mode = 'search'});
   final Meal meal;
 
   /// Shown as the Food tab rather than pushed over Today.
   final bool asTab;
+  final String mode;
 
   @override
   ConsumerState<AddFoodScreen> createState() => _AddFoodScreenState();
@@ -42,11 +44,18 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   bool _searching = false;
   bool _offline = false;
   int _seq = 0;
+  late String _mode = widget.mode;
+  late Meal _meal = widget.meal;
+  final _picks = <Food>[];
+
+  /// 0 recent, 1 my meals, 2 recipes, 3 custom.
+  int _shelf = 0;
 
   @override
   void initState() {
     super.initState();
     _run('');
+    if (_mode == 'barcode') WidgetsBinding.instance.addPostFrameCallback((_) => _scan());
   }
 
   @override
@@ -57,6 +66,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   }
 
   void _onChanged(String v) {
+    setState(() {});
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 300), () => _run(v));
   }
@@ -65,7 +75,9 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   Future<void> _run(String q) async {
     final seq = ++_seq;
     final db = ref.read(dbProvider);
-    final local = await db.searchFoods(q);
+    var local = await db.searchFoods(q);
+    // Nothing recent yet: offer the bundled staples instead of an empty list.
+    if (q.trim().isEmpty && local.isEmpty) local = await db.staples();
     if (!mounted || seq != _seq) return;
     setState(() {
       _local = local;
@@ -88,13 +100,51 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     }
   }
 
-  Future<void> _pick(Food f) async {
-    final logged = await showServingSheet(context, food: f, meal: widget.meal);
-    if (logged && mounted) {
-      final l = AppLocalizations.of(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.logged(f.name))));
-      if (!widget.asTab) context.pop();
+  void _toggle(Food f) =>
+      setState(() => _picks.any((p) => p.id == f.id) ? _picks.removeWhere((p) => p.id == f.id) : _picks.add(f));
+
+  Future<void> _logPicks() async {
+    final l = AppLocalizations.of(context);
+    final day = ref.read(todayKeyProvider);
+    for (final f in _picks) {
+      await ref.read(logActionsProvider).add(LogEntry.of(f, day: day, meal: _meal, grams: f.servingGrams ?? 150));
     }
+    final n = _picks.length;
+    if (!mounted) return;
+    setState(_picks.clear);
+    showVToast(context, l.itemsLoggedTo(n, mealName(l, _meal).toLowerCase()));
+    context.go('/meal/${_meal.name}');
+  }
+
+  List<Widget> _savedMeals(AppLocalizations l, bool noNumbers) {
+    final meals = ref.watch(savedMealsProvider).value ?? const <SavedMeal>[];
+    if (meals.isEmpty) return [_Shelf(text: l.noSavedMeals)];
+    return [
+      VList(
+        children: [
+          for (final m in meals)
+            VItem(
+              semantics: m.name,
+              onTap: () async {
+                await ref.read(logActionsProvider).logSaved(m, _meal);
+                if (!mounted) return;
+                showVToast(context, l.loggedSavedMeal(m.name));
+                context.go('/meal/${_meal.name}');
+              },
+              children: [
+                const VIcon('star', size: 19, color: Volt.t3),
+                ItemText(
+                  m.name,
+                  sub: noNumbers
+                      ? l.itemsCount(m.items.length)
+                      : l.savedMealSub(m.items.length, fmtInt(context, m.kcal)),
+                ),
+                const Pick(),
+              ],
+            ),
+        ],
+      ),
+    ];
   }
 
   Future<void> _scan() async {
@@ -114,197 +164,401 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     }
     if (!mounted) return;
     if (food == null) {
-      await _barcodeMiss(code);
+      context.push('/barcode-miss/$code');
     } else {
-      await _pick(food);
+      context.push('/serving/${Uri.encodeComponent(food.id)}?meal=${_meal.name}');
     }
   }
 
-  Future<void> _barcodeMiss(String code) {
-    final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    return showModalBottomSheet<void>(
-      context: context,
-      useRootNavigator: true,
-      builder: (ctx) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(l.barcodeMiss, style: t.titleLarge),
-              const SizedBox(height: 8),
-              Text(l.barcodeMissBody, style: t.bodyMedium),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: GlowButton(
-                  label: l.contributeOff,
-                  onPressed: () {
-                    launchUrl(openFoodFactsAddUrl(code), mode: LaunchMode.externalApplication);
-                    Navigator.pop(ctx);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _pickMode(String m) {
+    if (m == 'barcode') {
+      _scan();
+      return;
+    }
+    setState(() => _mode = m);
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
+    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
+    final profile = ref.watch(profileProvider);
+    final totals = DayTotals(ref.watch(dayEntriesProvider(ref.watch(todayKeyProvider))).value ?? const []);
     final q = _q.text.trim();
     final results = [..._local, ..._online];
+    final meal = mealName(l, _meal).toLowerCase();
 
-    final body = SafeArea(
-      bottom: false,
-      child: Column(
+    final methods = [
+      Method('search', l.mSearch, 'search'),
+      Method('write', l.mWrite, 'list'),
+      Method('voice', l.mVoice, 'mic'),
+      Method('camera', l.mPhoto, 'camera'),
+      Method('barcode', l.mBarcode, 'scan'),
+    ];
+
+    final left = profile == null
+        ? ''
+        : l.leftToday(
+            fmtInt(context, (profile.targetKcal - totals.kcal).clamp(0, 99999)),
+            fmtInt(context, (profile.targets.protein - totals.macros.protein).clamp(0, 9999)),
+          );
+
+    final header = Container(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Volt.line)),
+      ),
+      child: GapCol(
+        cross: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: Row(
-              children: [
-                if (!widget.asTab) const BackButton(),
-                Expanded(child: Text(l.addTo(mealName(l, widget.meal)), style: t.titleLarge)),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _q,
-                    onChanged: _onChanged,
-                    textInputAction: TextInputAction.search,
-                    decoration: InputDecoration(
-                      hintText: l.searchFoods,
-                      prefixIcon: const Icon(Icons.search_rounded, color: Volt.t3),
+          Row(
+            children: [
+              Expanded(
+                child: GapCol(
+                  gap: 2,
+                  children: [
+                    GestureDetector(
+                      onTap: () => setState(() => _meal = Meal.values[(_meal.index + 1) % 4]),
+                      child: Text(
+                        l.addToMeal(meal),
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
+                      ),
                     ),
-                  ),
+                    Muted(noNumbers ? l.logNoWeighing : left),
+                  ],
                 ),
-                const SizedBox(width: 8),
-                IconButton.filled(
-                  tooltip: l.scanBarcode,
-                  onPressed: _scan,
-                  style: IconButton.styleFrom(
-                    backgroundColor: Volt.card2,
-                    foregroundColor: Volt.t1,
-                    minimumSize: const Size(52, 52),
-                  ),
-                  icon: const Icon(Icons.qr_code_scanner_rounded),
-                ),
-              ],
-            ),
+              ),
+              IconBtn(
+                'close',
+                label: MaterialLocalizations.of(context).closeButtonTooltip,
+                iconSize: 18,
+                onTap: () => widget.asTab ? context.go('/today') : context.pop(),
+              ),
+            ],
           ),
-          if (_searching) const LinearProgressIndicator(minHeight: 2),
-          if (_offline)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+          MethodRow(methods: methods, current: _mode, onPick: _pickMode),
+          if (_mode == 'search') ...[
+            Container(
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(13)),
               child: Row(
                 children: [
-                  const Icon(Icons.wifi_off_rounded, size: 16, color: Volt.warn),
-                  const SizedBox(width: 8),
+                  const VIcon('search', size: 18, color: Volt.t3),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: Text(l.offlineSearch, style: t.bodySmall?.copyWith(color: Volt.warn)),
+                    child: TextField(
+                      controller: _q,
+                      onChanged: _onChanged,
+                      textInputAction: TextInputAction.search,
+                      style: const TextStyle(fontSize: 15, color: Volt.t1),
+                      decoration: InputDecoration(
+                        isCollapsed: true,
+                        filled: false,
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintText: l.whatDidYouHave(meal),
+                      ),
+                    ),
                   ),
+                  if (_searching)
+                    const SizedBox.square(dimension: 14, child: CircularProgressIndicator(strokeWidth: 2)),
                 ],
               ),
             ),
-          Expanded(
-            child: results.isEmpty && q.isNotEmpty && !_searching
-                ? _NoResults(query: q, onScan: _scan)
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 140),
-                    itemCount: results.length + (q.isEmpty && results.isNotEmpty ? 1 : 0),
-                    separatorBuilder: (_, _) => const SizedBox(height: 8),
-                    itemBuilder: (ctx, i) {
-                      if (q.isEmpty) {
-                        if (i == 0) {
-                          return Padding(
-                            padding: const EdgeInsetsDirectional.only(start: 4),
-                            child: Text(l.recent, style: t.labelSmall),
-                          );
-                        }
-                        i -= 1;
-                      }
-                      return _FoodRow(food: results[i], onTap: () => _pick(results[i]));
-                    },
-                  ),
-          ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (final (i, label) in [l.recent, l.myMeals, l.recipes, l.custom].indexed) ...[
+                    if (i > 0) const SizedBox(width: 8),
+                    VChip(label: label, on: _shelf == i, onTap: () => setState(() => _shelf = i)),
+                  ],
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );
 
-    return widget.asTab ? VoltBackground(child: body) : Scaffold(body: VoltBackground(child: body));
+    final List<Widget> body;
+    if (_mode != 'search') {
+      body = [_ComingMode(mode: _mode)];
+    } else if (q.isEmpty && _shelf == 1) {
+      body = _savedMeals(l, noNumbers);
+    } else if (q.isEmpty && _shelf == 2) {
+      body = [_Shelf(text: l.recipesSoon)];
+    } else if (q.isEmpty && _shelf == 3) {
+      final custom = ref.watch(customFoodsProvider).value ?? const <Food>[];
+      body = custom.isEmpty
+          ? [_Shelf(text: l.noCustomFoods)]
+          : [
+              VList(
+                children: [
+                  for (final f in custom)
+                    _FoodItem(
+                      food: f,
+                      on: _picks.any((p) => p.id == f.id),
+                      noNumbers: noNumbers,
+                      onTap: () => _toggle(f),
+                    ),
+                ],
+              ),
+            ];
+    } else if (results.isEmpty && q.isNotEmpty && !_searching) {
+      body = [_NoMatch(onScan: _scan)];
+    } else {
+      body = [
+        if (_offline)
+          Row(
+            children: [
+              const VIcon('wifioff', size: 16, color: Volt.warn),
+              const SizedBox(width: 8),
+              Expanded(child: Muted(l.offlineSearch, color: Volt.warn)),
+            ],
+          ),
+        if (results.isNotEmpty)
+          Eyebrow(
+            q.isEmpty ? l.usuallyNow : l.resultsCount(results.length),
+            padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+          ),
+        if (results.isNotEmpty)
+          VList(
+            children: [
+              for (final f in results)
+                _FoodItem(food: f, on: _picks.any((p) => p.id == f.id), noNumbers: noNumbers, onTap: () => _toggle(f)),
+            ],
+          ),
+      ];
+    }
+
+    final pickKcal = _picks.fold<double>(0, (s, f) => s + f.kcal * (f.servingGrams ?? 150) / 100);
+    final pickP = _picks.fold<double>(0, (s, f) => s + f.protein * (f.servingGrams ?? 150) / 100);
+
+    final screen = VScreen(
+      overlays: [
+        if (_picks.isNotEmpty && _mode == 'search')
+          LogBar(
+            aboveTabs: widget.asTab,
+            children: [
+              Expanded(
+                child: GapCol(
+                  gap: 2,
+                  children: [
+                    Text(
+                      l.itemsSelected(_picks.length),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
+                    ),
+                    Muted(
+                      noNumbers ? l.readyToLog : l.kcalAndProtein(fmtInt(context, pickKcal), fmtInt(context, pickP)),
+                    ),
+                  ],
+                ),
+              ),
+              VBtn(label: l.logN(_picks.length), small: true, onTap: _logPicks),
+            ],
+          ),
+      ],
+      child: Column(
+        children: [
+          header,
+          Expanded(
+            child: Pad(top: 12, bottom: _picks.isNotEmpty ? 168 : (widget.asTab ? 116 : 24), children: body),
+          ),
+        ],
+      ),
+    );
+    return widget.asTab ? screen : Scaffold(body: screen);
   }
 }
 
-class _FoodRow extends ConsumerWidget {
-  const _FoodRow({required this.food, required this.onTap});
+class _FoodItem extends StatelessWidget {
+  const _FoodItem({required this.food, required this.on, required this.noNumbers, required this.onTap});
   final Food food;
+  final bool on;
+  final bool noNumbers;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
-    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
-    final sub = [?food.brand, if (!noNumbers) '${fmtInt(context, food.kcal)} ${l.kcal} ${l.per100g}'].join(' · ');
-    return VoltCard(
-      padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
+    final g = food.servingGrams ?? 150;
+    final brand = food.brand ?? (food.source == 'usda' ? l.genericUsda : l.customFood);
+    return VItem(
+      color: on ? Volt.brandWash : null,
       onTap: onTap,
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  food.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: t.titleMedium?.copyWith(fontSize: 15),
-                ),
-                if (sub.isNotEmpty) ...[const SizedBox(height: 2), Text(sub, style: t.bodySmall)],
-              ],
-            ),
-          ),
-          const Icon(Icons.add_rounded, color: Volt.brand),
-        ],
-      ),
+      semantics: food.name,
+      children: [
+        ItemText(
+          food.name,
+          sub: noNumbers
+              ? brand
+              : '$brand · ${fmtInt(context, g)} ${l.grams} · ${fmtInt(context, food.kcal * g / 100)} ${l.kcal}',
+          trailingName: food.verified ? const VIcon('check', size: 14, color: Volt.blue) : null,
+        ),
+        Pick(on: on),
+      ],
     );
   }
 }
 
-class _NoResults extends StatelessWidget {
-  const _NoResults({required this.query, required this.onScan});
-  final String query;
+class _Shelf extends StatelessWidget {
+  const _Shelf({required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
+    child: Text(text, style: const TextStyle(fontSize: 14, height: 1.45, color: Volt.t3)),
+  );
+}
+
+class _NoMatch extends StatelessWidget {
+  const _NoMatch({required this.onScan});
   final VoidCallback onScan;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final t = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      padding: const EdgeInsets.fromLTRB(0, 12, 0, 4),
+      child: GapCol(
+        gap: 14,
+        cross: CrossAxisAlignment.stretch,
         children: [
-          const Icon(Icons.search_off_rounded, size: 40, color: Volt.t3),
-          const SizedBox(height: 12),
-          Text(l.noResults(query), textAlign: TextAlign.center, style: t.titleMedium),
-          const SizedBox(height: 6),
-          Text(l.noResultsBody, textAlign: TextAlign.center, style: t.bodyMedium),
-          const SizedBox(height: 16),
-          GhostButton(label: l.scanBarcode, icon: Icons.qr_code_scanner_rounded, onPressed: onScan),
+          Center(
+            child: GapCol(
+              gap: 10,
+              cross: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 60, height: 60, child: CustomPaint(painter: _NoMatchArt())),
+                Text(
+                  l.noMatchTitle,
+                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                ),
+                Muted(l.noMatchBody, align: TextAlign.center),
+              ],
+            ),
+          ),
+          VBtn(
+            label: l.scanBarcode,
+            onTap: onScan,
+            child: Row(
+              children: [
+                Expanded(
+                  child: GapCol(
+                    gap: 2,
+                    children: [
+                      Text(l.scanBarcode),
+                      Opacity(
+                        opacity: 0.9,
+                        child: Text(
+                          l.scanBarcodeSub,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const VIcon('fwd', size: 18, color: Volt.ink),
+              ],
+            ),
+          ),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.searchOtherLanguage)),
         ],
+      ),
+    );
+  }
+}
+
+class _NoMatchArt extends CustomPainter {
+  const _NoMatchArt();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final k = size.width / 64;
+    Paint p(Color c) => Paint()
+      ..color = c
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5 * k
+      ..strokeCap = StrokeCap.round;
+    canvas.drawCircle(Offset(28 * k, 28 * k), 17 * k, p(Volt.line2));
+    canvas.drawLine(Offset(40 * k, 40 * k), Offset(52 * k, 52 * k), p(Volt.line2));
+    canvas.drawLine(Offset(22 * k, 28 * k), Offset(34 * k, 28 * k), p(Volt.t4));
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+/// Write, Voice and Photo arrive with AI logging; until then they say so
+/// rather than pretend.
+class _ComingMode extends StatelessWidget {
+  const _ComingMode({required this.mode});
+  final String mode;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final (icon, text) = switch (mode) {
+      'write' => ('list', l.writeComing),
+      'voice' => ('mic', l.voiceComing),
+      _ => ('camera', l.photoComing),
+    };
+    return VCard(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
+      child: GapCol(
+        gap: 10,
+        cross: CrossAxisAlignment.center,
+        children: [
+          IconBtn(icon, label: text, onTap: null, iconSize: 22, color: Volt.t2),
+          Muted(text, align: TextAlign.center),
+        ],
+      ),
+    );
+  }
+}
+
+/// A barcode the databases don't know: a 30-second contribution back.
+class BarcodeMissScreen extends StatelessWidget {
+  const BarcodeMissScreen({super.key, required this.code});
+  final String code;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Scaffold(
+      body: VScreen(
+        child: Column(
+          children: [
+            BackBar(title: l.barcodeMiss, sub: code),
+            Expanded(
+              child: Pad(
+                bottom: 24,
+                children: [
+                  VCard(
+                    child: GapCol(
+                      children: [
+                        Text(
+                          l.barcodeMiss,
+                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                        ),
+                        Muted(l.barcodeMissBody),
+                      ],
+                    ),
+                  ),
+                  VBtn(
+                    label: l.contributeOff,
+                    trailingIcon: 'fwd',
+                    onTap: () => launchUrl(openFoodFactsAddUrl(code), mode: LaunchMode.externalApplication),
+                  ),
+                  VBtn(label: l.cancel, kind: BtnKind.ghost, onTap: () => context.pop()),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
