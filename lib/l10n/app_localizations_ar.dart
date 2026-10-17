@@ -2899,4 +2899,88 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get setNextCommitment => 'حدّد التزامك التالي';
+
+  @override
+  String get writeHint => '200 غ صدر دجاج، 150 غ رز و10 غ زيت زيتون\nبيضتين مع شريحتين خبز\nسكوب واي بروتين';
+
+  @override
+  String get writeEmpty => 'اكتب الوجبة كما تقولها. الكميات بالغرام أو بالعدد مثل «بيضتين» و«سكوب»، كلاهما يعمل.';
+
+  @override
+  String itRead(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'قرأ $n عنصرًا',
+      few: 'قرأ $n عناصر',
+      two: 'قرأ عنصرين',
+      one: 'قرأ عنصرًا واحدًا',
+      zero: 'لم يقرأ أي عنصر',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nAssumed(int n) {
+    return '$n مُقدَّر';
+  }
+
+  @override
+  String get assumedTag => 'مُقدَّر';
+
+  @override
+  String get notInDbYet => 'غير موجود في قاعدة البيانات بعد';
+
+  @override
+  String get searchAction => 'بحث';
+
+  @override
+  String get assumedNote =>
+      'الصفوف المعلّمة «مُقدَّر» لم تُكتب لها كمية، فاستُخدمت حصة عادية. اضغط على الصف لتحديد الكمية.';
+
+  @override
+  String addN(int n) {
+    return 'أضف $n';
+  }
+
+  @override
+  String pcfLine(String p, String c, String f) {
+    return 'ب $p · ك $c · د $f';
+  }
+
+  @override
+  String writtenSub(String g, String kcal, String p) {
+    return '$g غ · $kcal سعرة · $p غ بروتين';
+  }
+
+  @override
+  String removeNamed(String name) {
+    return 'إزالة $name';
+  }
+
+  @override
+  String howMuchOf(String name) {
+    return 'كم من $name؟';
+  }
+
+  @override
+  String get gramsNote => 'بالغرام، كما أُكل.';
+
+  @override
+  String get voiceHold => 'اضغط مطولًا وقل ما أكلت. يمر عبر نفس القارئ المستخدم في الكتابة.';
+
+  @override
+  String get voiceListening => 'أستمع… اترك الزر عند الانتهاء.';
+
+  @override
+  String get voiceHeard => 'سمعتها. راجع النص قبل الإضافة.';
+
+  @override
+  String get transcriptLbl => 'النص · عدّله إن أخطأ السمع';
+
+  @override
+  String get voiceUnavailable => 'الإملاء غير متاح على هذا الهاتف أو الميكروفون مغلق لـ Gymco. اكتبها بدلًا من ذلك.';
+
+  @override
+  String get dictateMeal => 'أملِ الوجبة';
 }

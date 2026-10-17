@@ -16,7 +16,7 @@ class LocalDb {
 
   /// 1: diet. 2: training. 3: weekdays, folders, RIR. 4: favourites, saved meals.
   /// 5: body measurements.
-  static const _version = 5;
+  static const _version = 6;
 
   static Future<void> _createTraining(DatabaseExecutor db) async {
     await db.execute('''
@@ -76,6 +76,12 @@ class LocalDb {
           if (from < 3) await _addPlanColumns(db);
           if (from < 4) await _addSavedMeals(db);
           if (from < 5) await _addMeasurements(db);
+          // Staples added since: insert the ones this phone does not have.
+          final batch = db.batch();
+          for (final f in seedFoods) {
+            batch.insert('foods', f.toRow(), conflictAlgorithm: ConflictAlgorithm.ignore);
+          }
+          await batch.commit(noResult: true);
         },
         onCreate: (db, _) async {
           await db.execute('''

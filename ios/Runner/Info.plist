@@ -4,6 +4,10 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Gymco uses the camera to scan food barcodes.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Gymco listens while you hold the mic so you can say what you ate.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Gymco turns what you say into text to log your meal.</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>

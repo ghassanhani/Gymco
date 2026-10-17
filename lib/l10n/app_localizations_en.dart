@@ -2897,4 +2897,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setNextCommitment => 'Set your next commitment';
+
+  @override
+  String get writeHint =>
+      '200g chicken breast, 150g rice and 10g olive oil\n2 eggs with two slices of bread\na scoop of whey';
+
+  @override
+  String get writeEmpty =>
+      'Write the meal the way you would say it. Amounts in grams, or counts like “two eggs” and “a scoop”, both work.';
+
+  @override
+  String itRead(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'It read $n items', one: 'It read 1 item');
+    return '$_temp0';
+  }
+
+  @override
+  String nAssumed(int n) {
+    return '$n assumed';
+  }
+
+  @override
+  String get assumedTag => 'assumed';
+
+  @override
+  String get notInDbYet => 'Not in the database yet';
+
+  @override
+  String get searchAction => 'Search';
+
+  @override
+  String get assumedNote =>
+      'Rows marked assumed had no amount written, so a normal serving was used. Tap a row to set the amount.';
+
+  @override
+  String addN(int n) {
+    return 'Add $n';
+  }
+
+  @override
+  String pcfLine(String p, String c, String f) {
+    return '$p P · $c C · $f F';
+  }
+
+  @override
+  String writtenSub(String g, String kcal, String p) {
+    return '$g g · $kcal kcal · $p g protein';
+  }
+
+  @override
+  String removeNamed(String name) {
+    return 'Remove $name';
+  }
+
+  @override
+  String howMuchOf(String name) {
+    return 'How much $name?';
+  }
+
+  @override
+  String get gramsNote => 'In grams, as eaten.';
+
+  @override
+  String get voiceHold => 'Hold and say what you ate. It goes through the same reader as writing.';
+
+  @override
+  String get voiceListening => 'Listening… let go when you are done.';
+
+  @override
+  String get voiceHeard => 'Heard it. Check the transcript before it goes in.';
+
+  @override
+  String get transcriptLbl => 'Transcript · edit if it misheard';
+
+  @override
+  String get voiceUnavailable =>
+      'Dictation is not available on this phone, or the microphone is off for Gymco. Write it instead.';
+
+  @override
+  String get dictateMeal => 'Dictate the meal';
 }

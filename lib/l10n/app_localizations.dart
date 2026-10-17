@@ -4940,6 +4940,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set your next commitment'**
   String get setNextCommitment;
+
+  /// No description provided for @writeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'200g chicken breast, 150g rice and 10g olive oil\n2 eggs with two slices of bread\na scoop of whey'**
+  String get writeHint;
+
+  /// No description provided for @writeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Write the meal the way you would say it. Amounts in grams, or counts like “two eggs” and “a scoop”, both work.'**
+  String get writeEmpty;
+
+  /// No description provided for @itRead.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{It read 1 item} other{It read {n} items}}'**
+  String itRead(int n);
+
+  /// No description provided for @nAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} assumed'**
+  String nAssumed(int n);
+
+  /// No description provided for @assumedTag.
+  ///
+  /// In en, this message translates to:
+  /// **'assumed'**
+  String get assumedTag;
+
+  /// No description provided for @notInDbYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in the database yet'**
+  String get notInDbYet;
+
+  /// No description provided for @searchAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchAction;
+
+  /// No description provided for @assumedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows marked assumed had no amount written, so a normal serving was used. Tap a row to set the amount.'**
+  String get assumedNote;
+
+  /// No description provided for @addN.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {n}'**
+  String addN(int n);
+
+  /// No description provided for @pcfLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{p} P · {c} C · {f} F'**
+  String pcfLine(String p, String c, String f);
+
+  /// No description provided for @writtenSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{g} g · {kcal} kcal · {p} g protein'**
+  String writtenSub(String g, String kcal, String p);
+
+  /// No description provided for @removeNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}'**
+  String removeNamed(String name);
+
+  /// No description provided for @howMuchOf.
+  ///
+  /// In en, this message translates to:
+  /// **'How much {name}?'**
+  String howMuchOf(String name);
+
+  /// No description provided for @gramsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'In grams, as eaten.'**
+  String get gramsNote;
+
+  /// No description provided for @voiceHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold and say what you ate. It goes through the same reader as writing.'**
+  String get voiceHold;
+
+  /// No description provided for @voiceListening.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening… let go when you are done.'**
+  String get voiceListening;
+
+  /// No description provided for @voiceHeard.
+  ///
+  /// In en, this message translates to:
+  /// **'Heard it. Check the transcript before it goes in.'**
+  String get voiceHeard;
+
+  /// No description provided for @transcriptLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcript · edit if it misheard'**
+  String get transcriptLbl;
+
+  /// No description provided for @voiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictation is not available on this phone, or the microphone is off for Gymco. Write it instead.'**
+  String get voiceUnavailable;
+
+  /// No description provided for @dictateMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate the meal'**
+  String get dictateMeal;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

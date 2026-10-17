@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
+import 'package:gymco/data/dictation.dart';
 import 'package:gymco/data/food_source.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
@@ -48,6 +49,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   Future<void> Function(LocalDb db)? seed,
   DateTime Function()? clock,
   ExerciseLibrary? library,
+  Dictation? dictation,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -69,12 +71,32 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         clockProvider.overrideWithValue(clock ?? () => testNow),
         exerciseLibraryProvider.overrideWith((_) => library ?? testLibrary),
         showExercisePhotosProvider.overrideWithValue(false),
+        dictationProvider.overrideWithValue(dictation ?? FakeDictation()),
       ],
       child: const GymcoApp(),
     ),
   );
   await tester.pumpAndSettle();
   return (db, p);
+}
+
+/// Says [words] as soon as it is asked to listen, or refuses.
+class FakeDictation implements Dictation {
+  FakeDictation({this.words = '', this.available = true});
+  final String words;
+  final bool available;
+  bool listening = false;
+
+  @override
+  Future<bool> start({required String languageCode, required void Function(String words) onWords}) async {
+    if (!available) return false;
+    listening = true;
+    onWords(words);
+    return true;
+  }
+
+  @override
+  Future<void> stop() async => listening = false;
 }
 
 /// A finished onboarding, as stored.

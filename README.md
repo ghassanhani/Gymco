@@ -6,6 +6,13 @@ Diet and training for lifters. Flutter, one codebase for iOS and Android, in Eng
 
 Every screen is drawn from the Volt prototype's own component kit (`lib/ui/kit`): its icons, cards, chips, sheets, keypad, week strip and tab bar, with the same sizes, radii and colours.
 
+### Phase 4a: write and say what you ate
+
+- **Write**: type a meal the way you would say it ("200g chicken breast, 150g rice and 10g olive oil", "2 eggs with two slices of bread", "a scoop of whey") and it is read into foods with weights, then logged together. Grams, kilos, ounces and ml; counts, number words, halves and fractions; scoops, slices, spoons, cups. English, Arabic (Arabic digits, an attached "و", duals like "بيضتين") and Spanish.
+- Rows with no amount are marked **assumed** and use a normal serving; tap any row to set grams. Foods the phone does not know get a Search button.
+- **Voice**: hold the mic and say it; the phone's own speech recogniser writes the transcript, which goes through the same reader and can be edited.
+- No model and no network: rules in `lib/domain/meal_text.dart`, so it is free and works offline.
+
 ### Phase 3: progress
 
 - **Weight**: weigh-ins on a keypad, a smoothed trend line with the next four weeks projected, the weekly rate, change since start, weigh-in count.
@@ -46,7 +53,7 @@ Exercise names are English only for now; Arabic and Spanish names come with a tr
 ```sh
 flutter pub get
 flutter run          # on a connected phone or simulator
-flutter test         # 90 tests
+flutter test         # 103 tests
 ```
 
 An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone with USB debugging.
@@ -56,7 +63,7 @@ An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone 
 1. ~~Core diet~~
 2. ~~Training~~ (deload weeks still to come)
 3. ~~Progress~~ (progress photos and cheat-meal planning screens still to come)
-4. **AI logging** (Write, Voice, Photo, Eating out) on Claude Haiku via a Supabase Edge Function, with simple rules first and a daily cap
+4. AI logging: ~~Write~~ and ~~Voice~~ on rules, on the phone. **Photo** and **Eating out** next, on Claude Haiku via a Supabase Edge Function with a daily cap, built with accounts
 5. **Accounts and sync** (Supabase free tier), reminders, Apple Health / Health Connect, progress photos, large text
 
 ## Free stack
@@ -67,6 +74,7 @@ An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone 
 | On-phone data | SQLite (sqflite) | free |
 | Food data | Open Food Facts + bundled USDA staples | free |
 | Barcode | mobile_scanner | free |
+| Dictation | speech_to_text (the phone's own recogniser) | free |
 | Fonts | Urbanist, Instrument Serif, IBM Plex Sans Arabic (OFL, bundled) | free |
 | CI | GitHub Actions | free |
 | Later: accounts and sync | Supabase free tier | free |

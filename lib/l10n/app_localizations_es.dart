@@ -2899,4 +2899,88 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get setNextCommitment => 'Fija tu próximo compromiso';
+
+  @override
+  String get writeHint =>
+      '200 g de pechuga de pollo, 150 g de arroz y 10 g de aceite de oliva\n2 huevos con dos rebanadas de pan\nun cazo de whey';
+
+  @override
+  String get writeEmpty =>
+      'Escribe la comida como la dirías. Cantidades en gramos o recuentos como «dos huevos» y «un cazo», las dos valen.';
+
+  @override
+  String itRead(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Ha leído $n alimentos',
+      one: 'Ha leído 1 alimento',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String nAssumed(int n) {
+    return '$n estimados';
+  }
+
+  @override
+  String get assumedTag => 'estimado';
+
+  @override
+  String get notInDbYet => 'Aún no está en la base de datos';
+
+  @override
+  String get searchAction => 'Buscar';
+
+  @override
+  String get assumedNote =>
+      'Las filas marcadas como estimado no tenían cantidad, así que se usó una ración normal. Toca una fila para ajustarla.';
+
+  @override
+  String addN(int n) {
+    return 'Añadir $n';
+  }
+
+  @override
+  String pcfLine(String p, String c, String f) {
+    return '$p P · $c C · $f G';
+  }
+
+  @override
+  String writtenSub(String g, String kcal, String p) {
+    return '$g g · $kcal kcal · $p g de proteína';
+  }
+
+  @override
+  String removeNamed(String name) {
+    return 'Quitar $name';
+  }
+
+  @override
+  String howMuchOf(String name) {
+    return '¿Cuánto $name?';
+  }
+
+  @override
+  String get gramsNote => 'En gramos, tal como se comió.';
+
+  @override
+  String get voiceHold => 'Mantén pulsado y di lo que comiste. Pasa por el mismo lector que la escritura.';
+
+  @override
+  String get voiceListening => 'Escuchando… suelta cuando acabes.';
+
+  @override
+  String get voiceHeard => 'Entendido. Revisa la transcripción antes de añadirla.';
+
+  @override
+  String get transcriptLbl => 'Transcripción · edítala si oyó mal';
+
+  @override
+  String get voiceUnavailable =>
+      'El dictado no está disponible en este móvil o el micrófono está desactivado para Gymco. Escríbelo.';
+
+  @override
+  String get dictateMeal => 'Dicta la comida';
 }

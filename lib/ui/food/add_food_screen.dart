@@ -6,12 +6,15 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/food_source.dart';
+import '../../data/meal_reader.dart';
 import '../../data/models.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import '../progress/progress_screen.dart' show showNumberSheet;
+import 'write_mode.dart';
 
 /// The meal a bare "add food" goes to, from the time of day.
 Meal mealForHour(int h) => h < 11
@@ -51,6 +54,18 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   /// 0 recent, 1 my meals, 2 recipes, 3 custom.
   int _shelf = 0;
 
+  // Write and Voice share one text and one reader.
+  final _log = TextEditingController();
+  Timer? _readDebounce;
+  int _readSeq = 0;
+  List<WrittenItem> _written = [];
+  final _dropped = <int>{};
+
+  /// 'write' or 'voice': which mode the text came from.
+  String _textFrom = 'write';
+  bool _listening = false;
+  bool? _micOk;
+
   @override
   void initState() {
     super.initState();
@@ -61,8 +76,96 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   @override
   void dispose() {
     _debounce?.cancel();
+    _readDebounce?.cancel();
+    if (_listening) ref.read(dictationProvider).stop();
     _q.dispose();
+    _log.dispose();
     super.dispose();
+  }
+
+  void _onLogChanged(String _) {
+    setState(() {});
+    _readDebounce?.cancel();
+    _readDebounce = Timer(const Duration(milliseconds: 250), _read);
+  }
+
+  Future<void> _read() async {
+    final seq = ++_readSeq;
+    final items = await readWrittenMeal(ref.read(dbProvider), _log.text);
+    if (!mounted || seq != _readSeq) return;
+    setState(() {
+      _written = items;
+      _dropped.clear();
+    });
+  }
+
+  List<WrittenItem> get _toAdd => [
+    for (final (i, it) in _written.indexed)
+      if (it.food != null && !_dropped.contains(i)) it,
+  ];
+
+  Future<void> _addWritten() async {
+    final l = AppLocalizations.of(context);
+    final day = ref.read(todayKeyProvider);
+    final items = _toAdd;
+    for (final it in items) {
+      await ref.read(logActionsProvider).add(LogEntry.of(it.food!, day: day, meal: _meal, grams: it.grams));
+    }
+    if (!mounted) return;
+    setState(() {
+      _log.clear();
+      _written = [];
+    });
+    showVToast(context, l.itemsLoggedTo(items.length, mealName(l, _meal).toLowerCase()));
+    context.go('/meal/${_meal.name}');
+  }
+
+  /// Not on the phone yet: look for it the usual way.
+  void _findWritten(WrittenItem it) {
+    _q.text = it.phrase.food;
+    setState(() => _mode = 'search');
+    _run(_q.text);
+  }
+
+  void _editWritten(int i) {
+    final l = AppLocalizations.of(context);
+    final it = _written[i];
+    showNumberSheet(
+      context,
+      title: l.howMuchOf(it.food!.name.toLowerCase()),
+      unit: 'g',
+      initial: it.grams,
+      note: l.gramsNote,
+      max: 3000,
+      onSave: (g) => setState(() => _written[i] = it.withGrams(g)),
+    );
+  }
+
+  Future<void> _listen() async {
+    if (_listening) return;
+    setState(() {
+      _listening = true;
+      _textFrom = 'voice';
+    });
+    final ok = await ref
+        .read(dictationProvider)
+        .start(
+          languageCode: Localizations.localeOf(context).languageCode,
+          onWords: (w) {
+            if (!mounted) return;
+            _log.text = w;
+            _onLogChanged(w);
+          },
+        );
+    if (!mounted) return;
+    if (!ok) setState(() => _listening = false);
+    setState(() => _micOk = ok);
+  }
+
+  Future<void> _stopListening() async {
+    if (!_listening) return;
+    await ref.read(dictationProvider).stop();
+    if (mounted) setState(() => _listening = false);
   }
 
   void _onChanged(String v) {
@@ -175,7 +278,11 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       _scan();
       return;
     }
-    setState(() => _mode = m);
+    if (_mode == 'voice') _stopListening();
+    setState(() {
+      _mode = m;
+      if (m == 'write') _textFrom = 'write';
+    });
   }
 
   @override
@@ -282,8 +389,59 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       ),
     );
 
+    final heard = _textFrom == 'voice' && _log.text.trim().isNotEmpty;
+    final rows = _log.text.trim().isEmpty
+        ? null
+        : WrittenRows(
+            items: _written,
+            dropped: _dropped,
+            noNumbers: noNumbers,
+            onDrop: (i) => setState(() => _dropped.add(i)),
+            onSearch: _findWritten,
+            onEdit: _editWritten,
+          );
     final List<Widget> body;
-    if (_mode != 'search') {
+    if (_mode == 'write') {
+      body = [LogArea(controller: _log, onChanged: _onLogChanged, hint: l.writeHint), rows ?? const WriteEmpty()];
+    } else if (_mode == 'voice') {
+      body = [
+        VCard(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+          child: GapCol(
+            gap: 14,
+            cross: CrossAxisAlignment.center,
+            children: [
+              MicButton(listening: _listening, onStart: _listen, onStop: _stopListening),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 250),
+                child: Muted(
+                  _micOk == false
+                      ? l.voiceUnavailable
+                      : _listening
+                      ? l.voiceListening
+                      : heard
+                      ? l.voiceHeard
+                      : l.voiceHold,
+                  align: TextAlign.center,
+                  color: _micOk == false ? Volt.warn : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (heard) ...[
+          GapCol(
+            gap: 8,
+            cross: CrossAxisAlignment.stretch,
+            children: [
+              Eyebrow(l.transcriptLbl, padding: const EdgeInsetsDirectional.only(start: 4)),
+              LogArea(controller: _log, onChanged: _onLogChanged, rows: 3),
+            ],
+          ),
+          ?rows,
+        ],
+      ];
+    } else if (_mode != 'search') {
       body = [_ComingMode(mode: _mode)];
     } else if (q.isEmpty && _shelf == 1) {
       body = _savedMeals(l, noNumbers);
@@ -336,8 +494,37 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     final pickKcal = _picks.fold<double>(0, (s, f) => s + f.kcal * (f.servingGrams ?? 150) / 100);
     final pickP = _picks.fold<double>(0, (s, f) => s + f.protein * (f.servingGrams ?? 150) / 100);
 
+    final toAdd = (_mode == 'write' || (_mode == 'voice' && heard)) ? _toAdd : const <WrittenItem>[];
+    final wk = toAdd.fold<double>(0, (s, it) => s + it.kcal);
     final screen = VScreen(
       overlays: [
+        if (toAdd.isNotEmpty)
+          LogBar(
+            aboveTabs: widget.asTab,
+            children: [
+              Expanded(
+                child: GapCol(
+                  gap: 1,
+                  children: [
+                    Text(
+                      noNumbers ? l.itemsSelected(toAdd.length) : l.kcalChange(fmtInt(context, wk)),
+                      style: numStyle(15),
+                    ),
+                    Muted(
+                      noNumbers
+                          ? l.readyToLog
+                          : l.pcfLine(
+                              fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.protein)),
+                              fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.carbs)),
+                              fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.fat)),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+              VBtn(label: l.addN(toAdd.length), small: true, onTap: _addWritten),
+            ],
+          ),
         if (_picks.isNotEmpty && _mode == 'search')
           LogBar(
             aboveTabs: widget.asTab,
@@ -364,7 +551,11 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
         children: [
           header,
           Expanded(
-            child: Pad(top: 12, bottom: _picks.isNotEmpty ? 168 : (widget.asTab ? 116 : 24), children: body),
+            child: Pad(
+              top: 12,
+              bottom: _picks.isNotEmpty || toAdd.isNotEmpty ? 168 : (widget.asTab ? 116 : 24),
+              children: body,
+            ),
           ),
         ],
       ),

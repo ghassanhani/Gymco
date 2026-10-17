@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/dictation.dart';
 import '../data/food_source.dart';
 import '../data/local_db.dart';
 import '../data/models.dart';
@@ -15,6 +16,9 @@ final dbProvider = Provider<LocalDb>((_) => throw UnimplementedError('dbProvider
 final prefsProvider = Provider<SharedPreferences>((_) => throw UnimplementedError('prefsProvider'));
 
 final foodSourceProvider = Provider<FoodSource>((_) => OpenFoodFactsSource());
+
+/// On-device speech to text; tests swap in a fake.
+final dictationProvider = Provider<Dictation>((_) => DeviceDictation());
 
 /// Injected so tests can pin "today".
 final clockProvider = Provider<DateTime Function()>((_) => DateTime.now);

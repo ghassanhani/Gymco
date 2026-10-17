@@ -114,7 +114,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/food',
-                builder: (_, _) => AddFoodScreen(meal: mealForHour(DateTime.now().hour), asTab: true),
+                builder: (_, _) => AddFoodScreen(meal: mealForHour(ref.read(clockProvider)().hour), asTab: true),
               ),
             ],
           ),

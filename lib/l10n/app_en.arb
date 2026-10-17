@@ -2246,5 +2246,86 @@
       }
     }
   },
-  "setNextCommitment": "Set your next commitment"
+  "setNextCommitment": "Set your next commitment",
+  "writeHint": "200g chicken breast, 150g rice and 10g olive oil\n2 eggs with two slices of bread\na scoop of whey",
+  "writeEmpty": "Write the meal the way you would say it. Amounts in grams, or counts like “two eggs” and “a scoop”, both work.",
+  "itRead": "{n, plural, =1{It read 1 item} other{It read {n} items}}",
+  "@itRead": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nAssumed": "{n} assumed",
+  "@nAssumed": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "assumedTag": "assumed",
+  "notInDbYet": "Not in the database yet",
+  "searchAction": "Search",
+  "assumedNote": "Rows marked assumed had no amount written, so a normal serving was used. Tap a row to set the amount.",
+  "addN": "Add {n}",
+  "@addN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pcfLine": "{p} P · {c} C · {f} F",
+  "@pcfLine": {
+    "placeholders": {
+      "p": {
+        "type": "String"
+      },
+      "c": {
+        "type": "String"
+      },
+      "f": {
+        "type": "String"
+      }
+    }
+  },
+  "writtenSub": "{g} g · {kcal} kcal · {p} g protein",
+  "@writtenSub": {
+    "placeholders": {
+      "g": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      },
+      "p": {
+        "type": "String"
+      }
+    }
+  },
+  "removeNamed": "Remove {name}",
+  "@removeNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "howMuchOf": "How much {name}?",
+  "@howMuchOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "gramsNote": "In grams, as eaten.",
+  "voiceHold": "Hold and say what you ate. It goes through the same reader as writing.",
+  "voiceListening": "Listening… let go when you are done.",
+  "voiceHeard": "Heard it. Check the transcript before it goes in.",
+  "transcriptLbl": "Transcript · edit if it misheard",
+  "voiceUnavailable": "Dictation is not available on this phone, or the microphone is off for Gymco. Write it instead.",
+  "dictateMeal": "Dictate the meal"
 }

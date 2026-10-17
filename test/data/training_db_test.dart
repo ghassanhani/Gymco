@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/local_db.dart';
+import 'package:gymco/data/seed_foods.dart';
 import 'package:gymco/data/training.dart';
 import 'package:gymco/domain/session.dart';
 import 'package:gymco/domain/workout.dart';
@@ -100,9 +101,21 @@ void main() {
         version: 1,
         onCreate: (db, _) async {
           await db.execute('CREATE TABLE log_entries(id INTEGER PRIMARY KEY, day TEXT)');
-          await db.execute('CREATE TABLE foods(id TEXT PRIMARY KEY, name TEXT, source TEXT, last_used INTEGER)');
+          await db.execute('''
+            CREATE TABLE foods(
+              id TEXT PRIMARY KEY, name TEXT NOT NULL, brand TEXT, barcode TEXT,
+              kcal REAL NOT NULL, protein REAL NOT NULL, carbs REAL NOT NULL, fat REAL NOT NULL,
+              serving_g REAL, source TEXT NOT NULL, last_used INTEGER)''');
           await db.insert('log_entries', {'day': '2026-09-01'});
-          await db.insert('foods', {'id': 'usda:oats', 'name': 'Oats', 'source': 'usda'});
+          await db.insert('foods', {
+            'id': 'usda:oats-rolled',
+            'name': 'Oats',
+            'kcal': 379,
+            'protein': 13,
+            'carbs': 68,
+            'fat': 6.5,
+            'source': 'usda',
+          });
         },
       ),
     );
@@ -114,7 +127,11 @@ void main() {
     await db.close();
     final check = await databaseFactoryFfiNoIsolate.openDatabase(path);
     expect(await check.query('log_entries'), hasLength(1));
-    expect((await check.query('foods')).single['favourite'], 0);
+    final foods = await check.query('foods');
+    // The user's row is kept as it was; staples added since are filled in.
+    expect(foods.firstWhere((f) => f['id'] == 'usda:oats-rolled')['name'], 'Oats');
+    expect(foods.firstWhere((f) => f['id'] == 'usda:whey-protein')['favourite'], 0);
+    expect(foods, hasLength(seedFoods.length));
     await check.close();
     await dir.delete(recursive: true);
   });
