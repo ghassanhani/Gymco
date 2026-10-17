@@ -55,7 +55,8 @@ abstract class Cloud {
   String? get email;
   Stream<String?> get emailChanges;
 
-  /// Emails a six-digit sign-in code; there are no passwords.
+  /// Emails a sign-in link (and a six-digit code, when the email template
+  /// shows one); there are no passwords.
   Future<void> sendCode(String email);
   Future<void> verifyCode(String email, String code);
   Future<void> signOut();
@@ -136,9 +137,14 @@ class SupabaseCloud implements Cloud {
     }
   }
 
+  /// Where the email's sign-in link sends the phone. Registered in the app's
+  /// Android manifest and iOS Info.plist, and allowed in Supabase's redirect URLs.
+  static const signInRedirect = 'app.gymco.gymco://login-callback';
+
   @override
-  Future<void> sendCode(String email) =>
-      _guard(() => _sb.auth.signInWithOtp(email: email.trim(), shouldCreateUser: true));
+  Future<void> sendCode(String email) => _guard(
+    () => _sb.auth.signInWithOtp(email: email.trim(), shouldCreateUser: true, emailRedirectTo: signInRedirect),
+  );
 
   @override
   Future<void> verifyCode(String email, String code) =>

@@ -5076,7 +5076,7 @@ abstract class AppLocalizations {
   /// No description provided for @signInSub.
   ///
   /// In en, this message translates to:
-  /// **'Your email and a code — no password'**
+  /// **'Your email and a sign-in link — no password'**
   String get signInSub;
 
   /// No description provided for @emailHint.
@@ -5094,7 +5094,7 @@ abstract class AppLocalizations {
   /// No description provided for @sendCode.
   ///
   /// In en, this message translates to:
-  /// **'Send code'**
+  /// **'Send sign-in link'**
   String get sendCode;
 
   /// No description provided for @signInAction.
@@ -5106,7 +5106,7 @@ abstract class AppLocalizations {
   /// No description provided for @codeSentTo.
   ///
   /// In en, this message translates to:
-  /// **'We sent a code to {email}. It can take a minute.'**
+  /// **'We sent a sign-in link to {email}. Open it on this phone and Gymco signs you in. If the email has a code instead, type it here.'**
   String codeSentTo(String email);
 
   /// No description provided for @useOtherEmail.

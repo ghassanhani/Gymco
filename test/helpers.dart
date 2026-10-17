@@ -134,6 +134,12 @@ class FakeCloud implements Cloud {
     _changes.add(email);
   }
 
+  /// The user tapped the link in the email.
+  void openLink(String email) {
+    signedIn = email;
+    _changes.add(email);
+  }
+
   @override
   Future<void> signOut() async {
     signedIn = null;

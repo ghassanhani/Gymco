@@ -2337,12 +2337,12 @@
   },
   "accountRowOff": "Phone only",
   "signInTitle": "Back up to an account",
-  "signInSub": "Your email and a code — no password",
+  "signInSub": "Your email and a sign-in link — no password",
   "emailHint": "you@example.com",
   "codeHint": "6-digit code",
-  "sendCode": "Send code",
+  "sendCode": "Send sign-in link",
   "signInAction": "Sign in",
-  "codeSentTo": "We sent a code to {email}. It can take a minute.",
+  "codeSentTo": "We sent a sign-in link to {email}. Open it on this phone and Gymco signs you in. If the email has a code instead, type it here.",
   "@codeSentTo": {
     "placeholders": {
       "email": {

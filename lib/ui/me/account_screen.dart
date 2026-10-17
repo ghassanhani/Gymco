@@ -70,9 +70,18 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   }
 
   Future<void> _verify() async {
+    final ok = await _run(() => ref.read(cloudProvider).verifyCode(_email.text, _code.text));
+    if (ok && mounted) await _afterSignIn();
+  }
+
+  /// Signed in by the typed code or by the email's link, whichever came
+  /// first; the other one must not run this again.
+  bool _signedInHere = false;
+
+  Future<void> _afterSignIn() async {
+    if (_signedInHere) return;
+    _signedInHere = true;
     final cloud = ref.read(cloudProvider);
-    final ok = await _run(() => cloud.verifyCode(_email.text, _code.text));
-    if (!ok || !mounted) return;
     _code.clear();
     setState(() => _codeSent = false);
     // A backup already in the account: ask before either side wins.
@@ -155,6 +164,10 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final cloud = ref.watch(cloudProvider);
+    // The email's link signs in outside this screen; pick up from there.
+    ref.listen(accountProvider, (was, now) {
+      if (_codeSent && was?.value == null && now.value != null) _afterSignIn();
+    });
     final email = ref.watch(accountProvider).value ?? cloud.email;
     final last = ref.watch(lastBackupProvider);
 

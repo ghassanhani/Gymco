@@ -2993,7 +2993,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInTitle => 'احفظ نسخة في حساب';
 
   @override
-  String get signInSub => 'بريدك ورمز — بلا كلمة مرور';
+  String get signInSub => 'بريدك ورابط تسجيل دخول — بلا كلمة مرور';
 
   @override
   String get emailHint => 'you@example.com';
@@ -3002,14 +3002,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get codeHint => 'رمز من 6 أرقام';
 
   @override
-  String get sendCode => 'أرسل الرمز';
+  String get sendCode => 'أرسل رابط الدخول';
 
   @override
   String get signInAction => 'تسجيل الدخول';
 
   @override
   String codeSentTo(String email) {
-    return 'أرسلنا رمزًا إلى $email. قد يستغرق دقيقة.';
+    return 'أرسلنا رابط تسجيل دخول إلى $email. افتحه على هذا الهاتف وسيسجّل Gymco دخولك. وإن كان في البريد رمز، اكتبه هنا.';
   }
 
   @override

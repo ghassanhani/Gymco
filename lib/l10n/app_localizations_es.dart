@@ -2990,7 +2990,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signInTitle => 'Guarda una copia en una cuenta';
 
   @override
-  String get signInSub => 'Tu correo y un código, sin contraseña';
+  String get signInSub => 'Tu correo y un enlace de acceso, sin contraseña';
 
   @override
   String get emailHint => 'tu@ejemplo.com';
@@ -2999,14 +2999,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get codeHint => 'Código de 6 cifras';
 
   @override
-  String get sendCode => 'Enviar código';
+  String get sendCode => 'Enviar enlace de acceso';
 
   @override
   String get signInAction => 'Iniciar sesión';
 
   @override
   String codeSentTo(String email) {
-    return 'Hemos enviado un código a $email. Puede tardar un minuto.';
+    return 'Hemos enviado un enlace de acceso a $email. Ábrelo en este móvil y Gymco iniciará tu sesión. Si el correo trae un código, escríbelo aquí.';
   }
 
   @override

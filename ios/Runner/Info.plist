@@ -10,6 +10,19 @@
 	<string>Gymco listens while you hold the mic so you can say what you ate.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Gymco turns what you say into text to log your meal.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>app.gymco.gymco.login</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app.gymco.gymco</string>
+			</array>
+		</dict>
+	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>

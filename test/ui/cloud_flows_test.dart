@@ -19,7 +19,7 @@ Future<void> _openAccount(WidgetTester tester) async {
 Future<void> _signIn(WidgetTester tester, {String code = '123456'}) async {
   await tester.enterText(find.byType(TextField), 'sam@example.com');
   await tester.pumpAndSettle();
-  await tester.tap(find.text('Send code'));
+  await tester.tap(find.text('Send sign-in link'));
   await tester.pumpAndSettle();
   await tester.enterText(find.byType(TextField), code);
   await tester.pumpAndSettle();
@@ -59,6 +59,22 @@ void main() {
     final db = cloud.backup!.payload['db']! as Map;
     expect((db['log_entries']! as List).single['grams'], 80);
     expect(((cloud.backup!.payload['prefs']! as Map)['profile']! as String), contains('"kcal":2319.0'));
+  });
+
+  testWidgets('the email link signs in too, and backs up once', (tester) async {
+    final cloud = FakeCloud();
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await _openAccount(tester);
+    await tester.enterText(find.byType(TextField), 'sam@example.com');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Send sign-in link'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Open it on this phone'), findsOneWidget);
+
+    cloud.openLink('sam@example.com');
+    await tester.pumpAndSettle();
+    expect(find.text('sam@example.com'), findsOneWidget);
+    expect(cloud.uploads, 1);
   });
 
   testWidgets('a wrong code says so and stays signed out', (tester) async {

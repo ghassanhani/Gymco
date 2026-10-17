@@ -2983,7 +2983,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInTitle => 'Back up to an account';
 
   @override
-  String get signInSub => 'Your email and a code — no password';
+  String get signInSub => 'Your email and a sign-in link — no password';
 
   @override
   String get emailHint => 'you@example.com';
@@ -2992,14 +2992,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get codeHint => '6-digit code';
 
   @override
-  String get sendCode => 'Send code';
+  String get sendCode => 'Send sign-in link';
 
   @override
   String get signInAction => 'Sign in';
 
   @override
   String codeSentTo(String email) {
-    return 'We sent a code to $email. It can take a minute.';
+    return 'We sent a sign-in link to $email. Open it on this phone and Gymco signs you in. If the email has a code instead, type it here.';
   }
 
   @override
