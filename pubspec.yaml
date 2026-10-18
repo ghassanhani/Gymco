@@ -135,3 +135,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+dependency_overrides:
+  # 2.5.0 (2026-10-17) calls its Kotlin code through package:jni and crashes
+  # at startup in shrunk release builds (NoSuchMethodError in
+  # SharedPreferencesApiRegistrar.getAll). 2.4.28 uses ordinary platform
+  # channels. Drop this once a fixed release is out.
+  shared_preferences_android: 2.4.28
