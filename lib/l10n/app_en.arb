@@ -3153,5 +3153,12 @@
   "save33": "−33%",
   "mostPopular": "Popular",
   "proIsOnTesting": "Pro is on — free while testing",
-  "freeAlwaysBtn": "Free, always"
+  "freeAlwaysBtn": "Free, always",
+  "healthNotOpenIos": "Apple Health did not open",
+  "healthNotOpen": "Health Connect did not open",
+  "healthWhyIos": "iPhone only skips its permission screen when the app is not allowed to use Apple Health at all. On a test install signed with a free Apple ID, the HealthKit permission can be dropped while signing. If you said no earlier, turn Gymco on in Health → profile → Apps → Gymco.",
+  "healthWhyAndroid": "Check that Health Connect is installed and up to date, then allow Gymco in it.",
+  "healthPhoneSaid": "What the phone said",
+  "tryAgain": "Try again",
+  "openHealthApp": "Open the Health app"
 }

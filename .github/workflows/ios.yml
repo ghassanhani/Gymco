@@ -27,6 +27,8 @@ jobs:
           # An unsigned build carries no entitlements; stamp HealthKit on
           # (ad hoc) so Sideloadly's re-sign keeps it.
           codesign --force --sign - --entitlements ios/Runner/Runner.entitlements Payload/Runner.app
+          # Shown in the log, to check HealthKit made it in.
+          codesign -d --entitlements - Payload/Runner.app
           zip -qry Gymco-ios.ipa Payload
       - uses: actions/upload-artifact@v4
         with:

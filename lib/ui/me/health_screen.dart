@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../state/health_providers.dart';
@@ -22,12 +23,54 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
   bool _busy = false;
 
   Future<void> _toggle(bool on) async {
-    final l = AppLocalizations.of(context);
     setState(() => _busy = true);
     final ok = await setHealth(ref, on);
     if (!mounted) return;
     setState(() => _busy = false);
-    if (!ok) showVToast(context, l.healthRefused, info: true);
+    if (!ok) _whyNot();
+  }
+
+  /// The phone did not show its permission screen, or said no: say what to
+  /// do, with what the phone reported, so it can be fixed.
+  void _whyNot() {
+    final l = AppLocalizations.of(context);
+    final error = ref.read(healthSyncProvider).lastError;
+    showVSheet<void>(
+      context,
+      title: Platform.isIOS ? l.healthNotOpenIos : l.healthNotOpen,
+      body: (ctx) => [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Muted(Platform.isIOS ? l.healthWhyIos : l.healthWhyAndroid, color: Volt.t2),
+        ),
+        if (error != null)
+          VCard(
+            tight: true,
+            child: GapCol(
+              gap: 4,
+              children: [
+                Eyebrow(l.healthPhoneSaid),
+                SelectableText(error, style: const TextStyle(fontSize: 12.5, color: Volt.t3, height: 1.4)),
+              ],
+            ),
+          ),
+        VBtn(
+          label: l.tryAgain,
+          expand: true,
+          onTap: () {
+            Navigator.pop(ctx);
+            _toggle(true);
+          },
+        ),
+        if (Platform.isIOS)
+          VBtn(
+            label: l.openHealthApp,
+            kind: BtnKind.ghost,
+            expand: true,
+            onTap: () => launchUrl(Uri.parse('x-apple-health://')),
+          ),
+      ],
+    );
   }
 
   @override

@@ -1154,5 +1154,12 @@
   "save33": "−٣٣٪",
   "mostPopular": "الأكثر طلبًا",
   "proIsOnTesting": "برو مفعّل — مجاني خلال التجربة",
-  "freeAlwaysBtn": "مجاني دائمًا"
+  "freeAlwaysBtn": "مجاني دائمًا",
+  "healthNotOpenIos": "لم يُفتح Apple Health",
+  "healthNotOpen": "لم يُفتح Health Connect",
+  "healthWhyIos": "لا يتخطى iPhone شاشة الأذونات إلا إذا لم يكن مسموحًا للتطبيق باستخدام Apple Health أصلًا. في نسخة تجريبية موقّعة بحساب Apple مجاني قد يُحذف إذن HealthKit أثناء التوقيع. وإن رفضت سابقًا ففعّل Gymco من Health ← الملف الشخصي ← التطبيقات ← Gymco.",
+  "healthWhyAndroid": "تأكد أن Health Connect مثبت ومحدّث، ثم اسمح لـ Gymco فيه.",
+  "healthPhoneSaid": "ما قاله الهاتف",
+  "tryAgain": "حاول مجددًا",
+  "openHealthApp": "افتح تطبيق Health"
 }

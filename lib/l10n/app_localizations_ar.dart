@@ -4205,4 +4205,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get freeAlwaysBtn => 'مجاني دائمًا';
+
+  @override
+  String get healthNotOpenIos => 'لم يُفتح Apple Health';
+
+  @override
+  String get healthNotOpen => 'لم يُفتح Health Connect';
+
+  @override
+  String get healthWhyIos =>
+      'لا يتخطى iPhone شاشة الأذونات إلا إذا لم يكن مسموحًا للتطبيق باستخدام Apple Health أصلًا. في نسخة تجريبية موقّعة بحساب Apple مجاني قد يُحذف إذن HealthKit أثناء التوقيع. وإن رفضت سابقًا ففعّل Gymco من Health ← الملف الشخصي ← التطبيقات ← Gymco.';
+
+  @override
+  String get healthWhyAndroid => 'تأكد أن Health Connect مثبت ومحدّث، ثم اسمح لـ Gymco فيه.';
+
+  @override
+  String get healthPhoneSaid => 'ما قاله الهاتف';
+
+  @override
+  String get tryAgain => 'حاول مجددًا';
+
+  @override
+  String get openHealthApp => 'افتح تطبيق Health';
 }

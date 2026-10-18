@@ -4168,4 +4168,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get freeAlwaysBtn => 'Free, always';
+
+  @override
+  String get healthNotOpenIos => 'Apple Health did not open';
+
+  @override
+  String get healthNotOpen => 'Health Connect did not open';
+
+  @override
+  String get healthWhyIos =>
+      'iPhone only skips its permission screen when the app is not allowed to use Apple Health at all. On a test install signed with a free Apple ID, the HealthKit permission can be dropped while signing. If you said no earlier, turn Gymco on in Health → profile → Apps → Gymco.';
+
+  @override
+  String get healthWhyAndroid => 'Check that Health Connect is installed and up to date, then allow Gymco in it.';
+
+  @override
+  String get healthPhoneSaid => 'What the phone said';
+
+  @override
+  String get tryAgain => 'Try again';
+
+  @override
+  String get openHealthApp => 'Open the Health app';
 }

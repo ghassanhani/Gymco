@@ -62,9 +62,9 @@ void main() {
     await tester.tap(find.text('Health data'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Connect Health Connect'));
-    await tester.pump();
-    expect(find.textContaining('Nothing was shared'), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(find.text('Health Connect did not open'), findsOneWidget);
+    expect(find.text('Try again'), findsOneWidget);
     expect(prefs.getBool('healthOn'), isNull);
-    await tester.pumpAndSettle(const Duration(seconds: 4));
   });
 }

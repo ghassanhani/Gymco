@@ -7022,6 +7022,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Free, always'**
   String get freeAlwaysBtn;
+
+  /// No description provided for @healthNotOpenIos.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Health did not open'**
+  String get healthNotOpenIos;
+
+  /// No description provided for @healthNotOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Connect did not open'**
+  String get healthNotOpen;
+
+  /// No description provided for @healthWhyIos.
+  ///
+  /// In en, this message translates to:
+  /// **'iPhone only skips its permission screen when the app is not allowed to use Apple Health at all. On a test install signed with a free Apple ID, the HealthKit permission can be dropped while signing. If you said no earlier, turn Gymco on in Health → profile → Apps → Gymco.'**
+  String get healthWhyIos;
+
+  /// No description provided for @healthWhyAndroid.
+  ///
+  /// In en, this message translates to:
+  /// **'Check that Health Connect is installed and up to date, then allow Gymco in it.'**
+  String get healthWhyAndroid;
+
+  /// No description provided for @healthPhoneSaid.
+  ///
+  /// In en, this message translates to:
+  /// **'What the phone said'**
+  String get healthPhoneSaid;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get tryAgain;
+
+  /// No description provided for @openHealthApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Health app'**
+  String get openHealthApp;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

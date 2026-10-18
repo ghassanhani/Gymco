@@ -12,6 +12,9 @@ abstract class HealthSync {
   /// Opens the phone's own permission screen; true when it was granted.
   Future<bool> connect();
 
+  /// Why the last [connect] failed, as the phone put it; null if it did not.
+  String? get lastError;
+
   /// Sends the person to install Health Connect (Android only).
   Future<void> install();
 
@@ -30,6 +33,8 @@ class NoHealth implements HealthSync {
   Future<bool> available() async => false;
   @override
   Future<bool> connect() async => false;
+  @override
+  String? get lastError => null;
   @override
   Future<void> install() async {}
   @override
@@ -64,11 +69,22 @@ class DeviceHealth implements HealthSync {
   }
 
   @override
+  String? lastError;
+
+  @override
   Future<bool> connect() async {
-    if (!await available()) return false;
+    lastError = null;
     try {
-      return await _h.requestAuthorization(_types, permissions: _access);
-    } catch (_) {
+      if (!await available()) {
+        lastError = 'Health store not available on this phone';
+        return false;
+      }
+      final ok = await _h.requestAuthorization(_types, permissions: _access);
+      if (!ok) lastError = 'requestAuthorization returned false';
+      return ok;
+    } catch (e) {
+      // On iPhone this is where a missing HealthKit entitlement shows up.
+      lastError = '$e';
       return false;
     }
   }
