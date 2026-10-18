@@ -21,6 +21,10 @@ jobs:
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    # One release at a time: a newer push waits, older queued ones are dropped.
+    concurrency:
+      group: android-test-build
+      cancel-in-progress: false
     permissions:
       contents: write
     steps:
