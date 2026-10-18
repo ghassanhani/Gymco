@@ -91,6 +91,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           entryId: int.tryParse(s.uri.queryParameters['entry'] ?? ''),
           grams: double.tryParse(s.uri.queryParameters['grams'] ?? ''),
           returnAfterAdd: s.uri.queryParameters['back'] == '1',
+          confirm: s.uri.queryParameters['confirm'] == '1',
         ),
       ),
       GoRoute(

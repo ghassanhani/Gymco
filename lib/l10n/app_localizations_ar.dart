@@ -1882,7 +1882,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get leaveNew => 'لم يُحفظ هذا البرنامج بعد.';
 
   @override
-  String get keepEditing => 'تابع التعديل';
+  String get keepEditing => 'متابعة التعديل';
 
   @override
   String get minimise => 'صغّر التمرين';
@@ -3255,4 +3255,12 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get proKeepNote =>
       'إذا انتهى برو يومًا ما تحتفظ بكل ميزات القائمة المجانية، وتبقى بياناتك ملكك في كل الأحوال.';
+
+  @override
+  String confirmLogTitle(String meal) {
+    return 'إضافة إلى $meal؟';
+  }
+
+  @override
+  String get confirmLogAction => 'تأكيد وإضافة';
 }

@@ -2483,5 +2483,14 @@
   "planLifetime": "Lifetime",
   "proTestingNote": "Gymco is in testing, so nothing is for sale yet and every Pro feature is on. These are the planned prices for launch.",
   "proOnAction": "Got it — Pro is on",
-  "proKeepNote": "If Pro ever lapses you keep every feature in the free list, and your data stays yours either way."
+  "proKeepNote": "If Pro ever lapses you keep every feature in the free list, and your data stays yours either way.",
+  "confirmLogTitle": "Add to {meal}?",
+  "@confirmLogTitle": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmLogAction": "Confirm and add"
 }

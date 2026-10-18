@@ -3242,4 +3242,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get proKeepNote =>
       'If Pro ever lapses you keep every feature in the free list, and your data stays yours either way.';
+
+  @override
+  String confirmLogTitle(String meal) {
+    return 'Add to $meal?';
+  }
+
+  @override
+  String get confirmLogAction => 'Confirm and add';
 }

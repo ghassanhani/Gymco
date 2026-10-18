@@ -904,5 +904,7 @@
   "planLifetime": "De por vida",
   "proTestingNote": "Gymco está en pruebas: aún no se vende nada y todas las funciones Pro están activas. Estos son los precios previstos para el lanzamiento.",
   "proOnAction": "Entendido — Pro está activo",
-  "proKeepNote": "Si Pro termina, conservas todas las funciones de la lista gratuita, y tus datos siguen siendo tuyos."
+  "proKeepNote": "Si Pro termina, conservas todas las funciones de la lista gratuita, y tus datos siguen siendo tuyos.",
+  "confirmLogTitle": "¿Añadir a {meal}?",
+  "confirmLogAction": "Confirmar y añadir"
 }

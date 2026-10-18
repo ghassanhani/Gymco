@@ -17,6 +17,7 @@ import '../common/format.dart';
 import '../kit/kit.dart';
 import '../progress/progress_screen.dart' show showNumberSheet;
 import '../me/account_screen.dart' show cloudMessage;
+import 'confirm_log.dart';
 import 'photo_mode.dart';
 import 'write_mode.dart';
 
@@ -112,6 +113,12 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     final l = AppLocalizations.of(context);
     final day = ref.read(todayKeyProvider);
     final items = _toAdd;
+    final ok = await confirmLog(
+      context,
+      meal: mealName(l, _meal).toLowerCase(),
+      lines: [for (final it in items) (name: it.food!.name, grams: it.grams, kcal: it.kcal, protein: it.protein)],
+    );
+    if (!ok || !mounted) return;
     for (final it in items) {
       await ref.read(logActionsProvider).add(LogEntry.of(it.food!, day: day, meal: _meal, grams: it.grams));
     }
@@ -298,7 +305,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     if (food == null) {
       context.push('/barcode-miss/$code');
     } else {
-      context.push('/serving/${Uri.encodeComponent(food.id)}?meal=${_meal.name}');
+      context.push('/serving/${Uri.encodeComponent(food.id)}?meal=${_meal.name}&confirm=1');
     }
   }
 

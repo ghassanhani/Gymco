@@ -162,6 +162,8 @@ void main() {
     expect(find.text('Lunch'), findsOneWidget);
     await tester.tap(find.text('Add 180 kcal'));
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
 
     // Back on the list, with the photo and the food ticked.
     expect(find.text('2 THINGS ON THE PLATE'), findsOneWidget);
@@ -199,6 +201,8 @@ void main() {
     await tester.ensureVisible(find.textContaining('Add all 2'));
     await tester.pumpAndSettle();
     await tester.tap(find.textContaining('Add all 2'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
     await tester.pumpAndSettle();
 
     final entries = await db.entriesFor(dayKey(testNow));

@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
+import 'confirm_log.dart';
 import '../kit/kit.dart';
 
 /// The serving editor: a big amount, unit chips, live macros, the keypad.
@@ -19,6 +20,7 @@ class ServingScreen extends ConsumerStatefulWidget {
     this.entryId,
     this.grams,
     this.returnAfterAdd = false,
+    this.confirm = false,
   });
   final String foodId;
   final Meal meal;
@@ -31,6 +33,9 @@ class ServingScreen extends ConsumerStatefulWidget {
 
   /// Go back where it came from after adding, rather than to the meal.
   final bool returnAfterAdd;
+
+  /// Ask once more before adding: for foods that came from a scan or photo.
+  final bool confirm;
 
   @override
   ConsumerState<ServingScreen> createState() => _ServingScreenState();
@@ -89,6 +94,14 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
       await logs.setGrams(_entry!, _grams, _meal);
       if (mounted) showVToast(context, l.setTo(name, fmtInt(context, _grams)));
     } else {
+      if (widget.confirm) {
+        final ok = await confirmLog(
+          context,
+          meal: mealName(l, _meal).toLowerCase(),
+          lines: [(name: f.name, grams: _grams, kcal: f.kcal * _grams / 100, protein: f.protein * _grams / 100)],
+        );
+        if (!ok || !mounted) return;
+      }
       await logs.add(LogEntry.of(f, day: ref.read(todayKeyProvider), meal: _meal, grams: _grams));
       if (mounted) showVToast(context, l.foodAdded(name));
       if (widget.returnAfterAdd) {

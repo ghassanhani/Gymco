@@ -5522,6 +5522,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'If Pro ever lapses you keep every feature in the free list, and your data stays yours either way.'**
   String get proKeepNote;
+
+  /// No description provided for @confirmLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to {meal}?'**
+  String confirmLogTitle(String meal);
+
+  /// No description provided for @confirmLogAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm and add'**
+  String get confirmLogAction;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

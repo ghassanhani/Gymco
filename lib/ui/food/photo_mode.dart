@@ -14,6 +14,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
+import 'confirm_log.dart';
 
 /// Photograph the plate, say or write what is on it, or both. The server
 /// names the foods and estimates each portion; foods the phone knows keep the
@@ -118,12 +119,22 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
   Future<void> _open(_Row r) async {
     if (r.food == null) return widget.onSearch(r.guess.name);
     final added = await context.push<bool>(
-      '/serving/${Uri.encodeComponent(r.food!.id)}?meal=${widget.meal.name}&grams=${r.grams.round()}&back=1',
+      '/serving/${Uri.encodeComponent(r.food!.id)}?meal=${widget.meal.name}&grams=${r.grams.round()}&back=1&confirm=1',
     );
     if (added == true && mounted) setState(() => r.added = true);
   }
 
   Future<void> _addAll(List<_Row> rows) async {
+    final l = AppLocalizations.of(context);
+    final ok = await confirmLog(
+      context,
+      meal: mealName(l, widget.meal).toLowerCase(),
+      lines: [
+        for (final r in rows)
+          (name: r.food!.name, grams: r.grams, kcal: r.kcal, protein: r.food!.protein * r.grams / 100),
+      ],
+    );
+    if (!ok || !mounted) return;
     final day = ref.read(todayKeyProvider);
     final logs = ref.read(logActionsProvider);
     for (final r in rows) {

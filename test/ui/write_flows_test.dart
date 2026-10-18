@@ -36,6 +36,9 @@ void main() {
     expect(find.text('IT READ 4 ITEMS'), findsOneWidget);
     await tester.tap(find.text('Add 4'));
     await tester.pumpAndSettle();
+    expect(find.text('Add to lunch?'), findsOneWidget);
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
 
     final entries = await db.entriesFor(dayKey(testNow));
     expect(
@@ -82,6 +85,8 @@ void main() {
     expect(find.text('IT READ 1 ITEM'), findsOneWidget);
     await tester.tap(find.text('Add 1'));
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
     final entries = await db.entriesFor(dayKey(testNow));
     expect([for (final e in entries) (e.foodName, e.grams)], [('Mini pizza', 90)]);
   });
@@ -103,6 +108,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Add 2'));
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
     final entries = await db.entriesFor(dayKey(testNow));
     expect([for (final e in entries) e.grams], [100, 30]);
   });
@@ -123,6 +130,8 @@ void main() {
     await tester.pumpAndSettle();
     await _type(tester, '٢٠٠ غرام دجاج ورز');
     await tester.tap(find.text('أضف 2'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('تأكيد وإضافة'));
     await tester.pumpAndSettle();
     final entries = await db.entriesFor(dayKey(testNow));
     expect(
