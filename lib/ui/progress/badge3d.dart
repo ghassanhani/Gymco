@@ -6,14 +6,20 @@ import 'package:flutter/physics.dart';
 import '../../domain/awards.dart';
 
 /// Awards that have their own enamel-and-chrome artwork, by award id.
-/// The rest keep the drawn medal until their art is added to assets/awards.
 const badgeArt = {
+  's7': 'assets/awards/s7.png',
+  's14': 'assets/awards/s14.png',
+  's30': 'assets/awards/s30.png',
+  's66': 'assets/awards/s66.png',
+  's90': 'assets/awards/s90.png',
+  'back': 'assets/awards/back.png',
   'f1': 'assets/awards/f1.png',
+  'f100': 'assets/awards/f100.png',
   'fp': 'assets/awards/fp.png',
   't1': 'assets/awards/t1.png',
   't25': 'assets/awards/t25.png',
+  'tpr': 'assets/awards/tpr.png',
   'month': 'assets/awards/month.png',
-  // Still to add: s7, s14, s30, s66, s90, back, f100, tpr.
 };
 
 const _greyscale = ColorFilter.matrix([
@@ -27,10 +33,13 @@ const _greyscale = ColorFilter.matrix([
 /// pressing of it while locked. The challenge badge has the month written
 /// into its calendar plate, so one picture serves every month.
 class BadgeFace extends StatelessWidget {
-  const BadgeFace({super.key, required this.award, required this.size, this.month, this.sheen = 0});
+  const BadgeFace({super.key, required this.award, required this.size, this.month, this.sheen = 0, this.dim});
   final Award award;
   final double size;
   final String? month;
+
+  /// Grey it out; by default, while it is locked.
+  final bool? dim;
 
   /// Where the light catches it, -1 to 1; 0 is no highlight.
   final double sheen;
@@ -61,7 +70,7 @@ class BadgeFace extends StatelessWidget {
         child: face,
       );
     }
-    if (!award.earned) {
+    if (dim ?? !award.earned) {
       face = Opacity(
         opacity: 0.38,
         child: ColorFiltered(colorFilter: _greyscale, child: face),

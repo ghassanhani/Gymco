@@ -544,7 +544,13 @@ class AwardsScreen extends ConsumerWidget {
                       decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(24)),
                       child: Row(
                         children: [
-                          Medal(award: month, size: 58, month: DateFormat.MMM(loc).format(now).toUpperCase()),
+                          // The challenge under way shows in colour, done or not.
+                          BadgeFace(
+                            award: month,
+                            size: 58,
+                            month: DateFormat.MMM(loc).format(now).toUpperCase(),
+                            dim: false,
+                          ),
                           const SizedBox(width: 14),
                           Expanded(
                             child: GapCol(
