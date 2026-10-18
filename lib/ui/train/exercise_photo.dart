@@ -28,10 +28,12 @@ class ExThumb extends ConsumerWidget {
     final badge = Container(
       color: Volt.card2,
       alignment: Alignment.center,
-      child: Text(
-        e.badge,
-        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.22, color: Volt.t3),
-      ),
+      child: e.badge == '•'
+          ? VIcon('dumb', size: size * 0.4, color: Volt.t3)
+          : Text(
+              e.badge,
+              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.22, color: Volt.t3),
+            ),
     );
     final px = (size * MediaQuery.devicePixelRatioOf(context)).round();
     return Semantics(

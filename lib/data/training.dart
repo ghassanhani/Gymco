@@ -47,6 +47,9 @@ class Exercise {
     'body only' => 'BW',
     'bands' => 'BD',
     'e-z curl bar' => 'EZ',
+    'medicine ball' => 'MB',
+    'exercise ball' => 'SB',
+    'foam roll' => 'FR',
     _ => '•',
   };
 

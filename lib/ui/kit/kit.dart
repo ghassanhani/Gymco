@@ -852,10 +852,18 @@ class ExAv extends StatelessWidget {
     height: small ? 26 : 34,
     alignment: Alignment.center,
     decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(small ? 9 : 12)),
-    child: Text(
-      badge,
-      style: TextStyle(fontSize: small ? 9.5 : 11, fontWeight: FontWeight.w700, letterSpacing: 0.22, color: Volt.t3),
-    ),
+    // No equipment to name: a dumbbell says "exercise" better than a dot.
+    child: badge == '•' || badge == '··'
+        ? VIcon('dumb', size: small ? 14 : 18, color: Volt.t3)
+        : Text(
+            badge,
+            style: TextStyle(
+              fontSize: small ? 9.5 : 11,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.22,
+              color: Volt.t3,
+            ),
+          ),
   );
 }
 
