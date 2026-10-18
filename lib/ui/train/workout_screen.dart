@@ -559,7 +559,9 @@ class _SetRow extends ConsumerWidget {
 
     void edit() => editSet(context, ref, index, setIndex, number: label);
 
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: voltEase,
       decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14), border: border),
       child: _SetGrid(
         cells: [
@@ -611,7 +613,9 @@ class _SetRow extends ConsumerWidget {
                 n.update((x, now) => x.toggleDone(index, setIndex, now));
               },
               label: l.completeSet(label),
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 240),
+                curve: voltEase,
                 width: 30,
                 height: 30,
                 decoration: BoxDecoration(

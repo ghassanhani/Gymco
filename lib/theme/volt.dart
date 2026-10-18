@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'transitions.dart';
+
 /// Gymco — Volt edition. Dark only: electric lime on near-black, pill
 /// buttons with a lime-to-mint glow, a serif italic accent in titles.
 abstract final class Volt {
@@ -182,6 +184,15 @@ abstract final class Volt {
         labelStyle: TextStyle(fontFamily: family, color: t2, fontWeight: FontWeight.w600),
         secondaryLabelStyle: TextStyle(fontFamily: family, color: brand, fontWeight: FontWeight.w600),
         showCheckmark: false,
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: VoltPageTransitions(),
+          TargetPlatform.iOS: VoltPageTransitions(),
+          TargetPlatform.linux: VoltPageTransitions(),
+          TargetPlatform.macOS: VoltPageTransitions(),
+          TargetPlatform.windows: VoltPageTransitions(),
+        },
       ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: sheet,

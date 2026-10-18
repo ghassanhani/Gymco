@@ -391,18 +391,22 @@ class _RingCard extends StatelessWidget {
         children: [
           SizedBox.square(
             dimension: 108,
-            child: CustomPaint(
-              painter: _Ring(
-                fraction: (totals.kcal / kcalTarget).clamp(0, 1).toDouble(),
-                empty: empty,
-                color: closed ? (over ? Volt.warn : Volt.t3) : Volt.brand,
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: (totals.kcal / kcalTarget).clamp(0, 1).toDouble()),
+              duration: const Duration(milliseconds: 900),
+              curve: voltEase,
+              builder: (context, f, child) => CustomPaint(
+                painter: _Ring(fraction: f, empty: empty, color: closed ? (over ? Volt.warn : Volt.t3) : Volt.brand),
+                child: child,
               ),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      fmtInt(context, empty ? kcalTarget : (closed ? totals.kcal : left)),
+                    AnimatedNum(
+                      empty ? kcalTarget : (closed ? totals.kcal : left),
+                      from: empty || closed ? 0 : kcalTarget,
+                      format: fmtInt,
                       style: numStyle(closed ? 24 : 26, height: 1.15, color: empty ? Volt.t2 : Volt.t1),
                     ),
                     Text(
@@ -474,7 +478,7 @@ class _MacroRow extends StatelessWidget {
               style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Volt.t2),
             ),
           ),
-          Text(fmtInt(context, have), style: numStyle(13)),
+          AnimatedNum(have, format: fmtInt, style: numStyle(13)),
           const SizedBox(width: 5),
           Text(
             AppLocalizations.of(context).ofTarget(fmtInt(context, target)),
@@ -842,7 +846,7 @@ class _Water extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text(fmtDec(context, d.ml / 1000, digits: 2), style: numStyle(22)),
+                        AnimatedNum(d.ml / 1000, format: (c, v) => fmtDec(c, v, digits: 2), style: numStyle(22)),
                         const SizedBox(width: 6),
                         Text(
                           l.ofLitres(fmtDec(context, goal / 1000)),
@@ -854,24 +858,31 @@ class _Water extends ConsumerWidget {
                 ),
               ),
               if (done)
-                Container(
-                  height: 28,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(color: _waterWash, borderRadius: BorderRadius.circular(999)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const VIcon('check', size: 14, color: _waterBlue),
-                      const SizedBox(width: 4),
-                      Text(
-                        l.goalMet,
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _waterBlue),
-                      ),
-                    ],
+                Pop(
+                  trigger: done,
+                  child: Container(
+                    height: 28,
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(color: _waterWash, borderRadius: BorderRadius.circular(999)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const VIcon('check', size: 14, color: _waterBlue),
+                        const SizedBox(width: 4),
+                        Text(
+                          l.goalMet,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _waterBlue),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               else
-                Text('${(d.ml * 100 / goal).clamp(0, 100).round()}%', style: numStyle(14, color: _waterBlue)),
+                AnimatedNum(
+                  (d.ml * 100 / goal).clamp(0, 100).toDouble(),
+                  format: (_, v) => '${v.round()}%',
+                  style: numStyle(14, color: _waterBlue),
+                ),
             ],
           ),
           VBar(fraction: d.ml / goal, color: _waterBlue, height: 8, track: Volt.card2),
@@ -1170,19 +1181,22 @@ class _AwardsButton extends ConsumerWidget {
               PositionedDirectional(
                 top: -4,
                 end: -4,
-                child: Container(
-                  constraints: const BoxConstraints(minWidth: 22),
-                  height: 22,
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Volt.ink,
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: Volt.brand, width: 1.5),
-                  ),
-                  child: Text(
-                    '$earned',
-                    style: numStyle(11, weight: FontWeight.w800, color: Volt.brand),
+                child: Pop(
+                  trigger: earned,
+                  child: Container(
+                    constraints: const BoxConstraints(minWidth: 22),
+                    height: 22,
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Volt.ink,
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(color: Volt.brand, width: 1.5),
+                    ),
+                    child: Text(
+                      '$earned',
+                      style: numStyle(11, weight: FontWeight.w800, color: Volt.brand),
+                    ),
                   ),
                 ),
               ),

@@ -13,6 +13,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme/volt.dart';
 import 'icon_paths.dart';
+import 'motion.dart';
+
+export 'motion.dart';
 
 const _tab = [FontFeature.tabularFigures()];
 
@@ -213,7 +216,9 @@ class _GlowPainter extends CustomPainter {
 }
 
 /// `.pad`: 16 px sides, 12 px between children. [bottom] clears the tab bar.
-class Pad extends StatelessWidget {
+/// What is on screen when it opens eases in a card at a time; anything
+/// scrolled to later is simply there.
+class Pad extends StatefulWidget {
   const Pad({super.key, required this.children, this.top = 0, this.bottom = 116, this.gap = 12, this.controller});
   final List<Widget> children;
   final double top;
@@ -222,12 +227,26 @@ class Pad extends StatelessWidget {
   final ScrollController? controller;
 
   @override
+  State<Pad> createState() => _PadState();
+}
+
+class _PadState extends State<Pad> {
+  final _opened = DateTime.now();
+
+  @override
   Widget build(BuildContext context) => ListView.separated(
-    controller: controller,
-    padding: EdgeInsets.fromLTRB(16, top, 16, bottom + MediaQuery.paddingOf(context).bottom),
-    itemCount: children.length,
-    separatorBuilder: (_, _) => SizedBox(height: gap),
-    itemBuilder: (_, i) => children[i],
+    controller: widget.controller,
+    padding: EdgeInsets.fromLTRB(16, widget.top, 16, widget.bottom + MediaQuery.paddingOf(context).bottom),
+    itemCount: widget.children.length,
+    separatorBuilder: (_, _) => SizedBox(height: widget.gap),
+    itemBuilder: (_, i) {
+      final play = i <= 8 && DateTime.now().difference(_opened) < const Duration(milliseconds: 500);
+      return Entrance(
+        delay: Duration(milliseconds: 45 * i),
+        play: play,
+        child: widget.children[i],
+      );
+    },
   );
 }
 
@@ -807,16 +826,26 @@ class Pick extends StatelessWidget {
   final Color? color;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => AnimatedContainer(
+    duration: const Duration(milliseconds: 220),
+    curve: voltEase,
     width: 28,
     height: 28,
     alignment: Alignment.center,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
-      color: on ? Volt.brand : null,
+      color: on ? Volt.brand : Volt.brand.withValues(alpha: 0),
       border: Border.all(color: on ? Volt.brand : (color ?? Volt.line2)),
     ),
-    child: VIcon(on ? 'check' : 'plus', size: 15, color: on ? Volt.ink : (color ?? Volt.t1)),
+    // The plus turns into a tick.
+    child: AnimatedSwitcher(
+      duration: const Duration(milliseconds: 220),
+      transitionBuilder: (c, a) => RotationTransition(
+        turns: Tween<double>(begin: -0.25, end: 0).animate(a),
+        child: ScaleTransition(scale: a, child: c),
+      ),
+      child: VIcon(on ? 'check' : 'plus', key: ValueKey(on), size: 15, color: on ? Volt.ink : (color ?? Volt.t1)),
+    ),
   );
 }
 
@@ -1209,23 +1238,29 @@ class _Tab extends StatelessWidget {
             clipBehavior: Clip.none,
             alignment: Alignment.center,
             children: [
-              if (on)
-                Positioned(
-                  top: -4,
-                  child: Container(
-                    width: 18,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: Volt.brand,
-                      borderRadius: BorderRadius.circular(3),
-                      boxShadow: const [BoxShadow(color: Volt.brand, blurRadius: 12)],
-                    ),
+              Positioned(
+                top: -4,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 280),
+                  curve: voltEase,
+                  width: on ? 18 : 0,
+                  height: 3,
+                  decoration: BoxDecoration(
+                    color: Volt.brand,
+                    borderRadius: BorderRadius.circular(3),
+                    boxShadow: on ? const [BoxShadow(color: Volt.brand, blurRadius: 12)] : null,
                   ),
                 ),
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  VIcon(icon, size: 22, color: c),
+                  AnimatedScale(
+                    scale: on ? 1.1 : 1,
+                    duration: const Duration(milliseconds: 280),
+                    curve: voltEase,
+                    child: VIcon(icon, size: 22, color: c),
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     label,
