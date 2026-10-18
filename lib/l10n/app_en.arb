@@ -2492,5 +2492,13 @@
       }
     }
   },
-  "confirmLogAction": "Confirm and add"
+  "confirmLogAction": "Confirm and add",
+  "awardsButton": "{n, plural, =0{Awards} =1{Awards, 1 earned} other{Awards, {n} earned}}",
+  "@awardsButton": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

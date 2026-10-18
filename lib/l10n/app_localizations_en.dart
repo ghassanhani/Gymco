@@ -3250,4 +3250,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmLogAction => 'Confirm and add';
+
+  @override
+  String awardsButton(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Awards, $n earned',
+      one: 'Awards, 1 earned',
+      zero: 'Awards',
+    );
+    return '$_temp0';
+  }
 }

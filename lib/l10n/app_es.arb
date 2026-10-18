@@ -906,5 +906,6 @@
   "proOnAction": "Entendido — Pro está activo",
   "proKeepNote": "Si Pro termina, conservas todas las funciones de la lista gratuita, y tus datos siguen siendo tuyos.",
   "confirmLogTitle": "¿Añadir a {meal}?",
-  "confirmLogAction": "Confirmar y añadir"
+  "confirmLogAction": "Confirmar y añadir",
+  "awardsButton": "{n, plural, =0{Logros} =1{Logros, 1 conseguido} other{Logros, {n} conseguidos}}"
 }

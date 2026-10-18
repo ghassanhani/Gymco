@@ -11,6 +11,7 @@ import '../../domain/energy.dart';
 import '../../domain/schedule.dart';
 import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/awards_providers.dart';
 import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
@@ -74,12 +75,7 @@ class _Today extends ConsumerWidget {
 
     return Column(
       children: [
-        VAppBar(
-          title: l.todayTitleEm,
-          sub: sub,
-          logo: true,
-          right: IconBtn('medal', label: l.awardsTitle, iconSize: 24, onTap: () => context.go('/progress/awards')),
-        ),
+        VAppBar(title: l.todayTitleEm, sub: sub, logo: true, right: const _AwardsButton()),
         strip,
         Expanded(
           child: Pad(
@@ -912,3 +908,59 @@ String goalShort(AppLocalizations l, Goal g) => switch (g) {
   Goal.maintain => l.goalShortMaintain,
   Goal.prep => l.goalShortPrep,
 };
+
+/// The way into Awards from Today: a lime medal that shows how many are won.
+class _AwardsButton extends ConsumerWidget {
+  const _AwardsButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final earned = ref.watch(streakProvider).value?.awards.where((a) => a.earned).length ?? 0;
+    return Pressable(
+      onTap: () => context.go('/progress/awards'),
+      label: l.awardsButton(earned),
+      child: SizedBox.square(
+        dimension: 50,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Container(
+              width: 50,
+              height: 50,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: Volt.glow,
+                boxShadow: [
+                  BoxShadow(color: Color(0xB3B6F02A), blurRadius: 22, offset: Offset(0, 8), spreadRadius: -8),
+                ],
+              ),
+              child: const VIcon('medal', size: 26, color: Volt.ink, strokeWidth: 1.8),
+            ),
+            if (earned > 0)
+              PositionedDirectional(
+                top: -4,
+                end: -4,
+                child: Container(
+                  constraints: const BoxConstraints(minWidth: 22),
+                  height: 22,
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Volt.ink,
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(color: Volt.brand, width: 1.5),
+                  ),
+                  child: Text(
+                    '$earned',
+                    style: numStyle(11, weight: FontWeight.w800, color: Volt.brand),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}

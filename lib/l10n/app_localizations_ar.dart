@@ -3263,4 +3263,18 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirmLogAction => 'تأكيد وإضافة';
+
+  @override
+  String awardsButton(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'الجوائز، $n جائزة',
+      few: 'الجوائز، $n جوائز',
+      two: 'الجوائز، جائزتان',
+      one: 'الجوائز، جائزة واحدة',
+      zero: 'الجوائز',
+    );
+    return '$_temp0';
+  }
 }

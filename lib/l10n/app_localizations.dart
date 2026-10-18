@@ -5534,6 +5534,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm and add'**
   String get confirmLogAction;
+
+  /// No description provided for @awardsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Awards} =1{Awards, 1 earned} other{Awards, {n} earned}}'**
+  String awardsButton(int n);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
