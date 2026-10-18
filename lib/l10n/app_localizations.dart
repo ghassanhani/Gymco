@@ -63,8 +63,7 @@ import 'app_localizations_es.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,20 +83,15 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('ar'),
-    Locale('en'),
-    Locale('es'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('es')];
 
   /// No description provided for @appName.
   ///
@@ -5307,10 +5300,231 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get closePhotos;
+
+  /// No description provided for @proTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco <em>Pro</em>'**
+  String get proTitle;
+
+  /// No description provided for @proBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'PRO'**
+  String get proBadge;
+
+  /// No description provided for @proFreeTesting.
+  ///
+  /// In en, this message translates to:
+  /// **'Free while testing'**
+  String get proFreeTesting;
+
+  /// No description provided for @proSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Coaching that adapts to you every week.'**
+  String get proSub;
+
+  /// No description provided for @proPoint1.
+  ///
+  /// In en, this message translates to:
+  /// **'Adaptive targets + weekly check-in'**
+  String get proPoint1;
+
+  /// No description provided for @proPoint2.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength against your deficit'**
+  String get proPoint2;
+
+  /// No description provided for @proPoint3.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume per muscle, full history'**
+  String get proPoint3;
+
+  /// No description provided for @proCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro is on'**
+  String get proCta;
+
+  /// No description provided for @proCtaSub.
+  ///
+  /// In en, this message translates to:
+  /// **'every Pro feature is unlocked for testers'**
+  String get proCtaSub;
+
+  /// No description provided for @proCardLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco Pro, free while testing'**
+  String get proCardLabel;
+
+  /// No description provided for @freeVsPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Free vs Pro'**
+  String get freeVsPro;
+
+  /// No description provided for @proHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay for the coaching, not the basics'**
+  String get proHeadline;
+
+  /// No description provided for @proHeadlineSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode scanning, custom foods and unlimited routines stay free. Permanently, not for a trial.'**
+  String get proHeadlineSub;
+
+  /// No description provided for @freeForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Free forever'**
+  String get freeForever;
+
+  /// No description provided for @freeBarcode.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode scan'**
+  String get freeBarcode;
+
+  /// No description provided for @freeCustomFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom foods'**
+  String get freeCustomFoods;
+
+  /// No description provided for @freeRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes'**
+  String get freeRecipes;
+
+  /// No description provided for @freeCopyDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy day'**
+  String get freeCopyDay;
+
+  /// No description provided for @freeRoutines.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited routines'**
+  String get freeRoutines;
+
+  /// No description provided for @freeCustomExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom exercises'**
+  String get freeCustomExercises;
+
+  /// No description provided for @freeRestTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest timer'**
+  String get freeRestTimer;
+
+  /// No description provided for @freeTrendWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend weight'**
+  String get freeTrendWeight;
+
+  /// No description provided for @freeExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Full export'**
+  String get freeExport;
+
+  /// No description provided for @proAdds.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro adds'**
+  String get proAdds;
+
+  /// No description provided for @proAdds1Lead.
+  ///
+  /// In en, this message translates to:
+  /// **'Adaptive expenditure'**
+  String get proAdds1Lead;
+
+  /// No description provided for @proAdds1.
+  ///
+  /// In en, this message translates to:
+  /// **'and the weekly check-in'**
+  String get proAdds1;
+
+  /// No description provided for @proAdds2Lead.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength against deficit'**
+  String get proAdds2Lead;
+
+  /// No description provided for @proAdds2.
+  ///
+  /// In en, this message translates to:
+  /// **'— the insight no other app gives you'**
+  String get proAdds2;
+
+  /// No description provided for @proAdds3.
+  ///
+  /// In en, this message translates to:
+  /// **'Day types, calorie cycling, diet breaks'**
+  String get proAdds3;
+
+  /// No description provided for @proAdds4.
+  ///
+  /// In en, this message translates to:
+  /// **'Volume per muscle, full history, photo compare'**
+  String get proAdds4;
+
+  /// No description provided for @planMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get planMonthly;
+
+  /// No description provided for @planYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get planYearly;
+
+  /// No description provided for @planYearlySub.
+  ///
+  /// In en, this message translates to:
+  /// **'€3.33 a month'**
+  String get planYearlySub;
+
+  /// No description provided for @planLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetime'**
+  String get planLifetime;
+
+  /// No description provided for @proTestingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco is in testing, so nothing is for sale yet and every Pro feature is on. These are the planned prices for launch.'**
+  String get proTestingNote;
+
+  /// No description provided for @proOnAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it — Pro is on'**
+  String get proOnAction;
+
+  /// No description provided for @proKeepNote.
+  ///
+  /// In en, this message translates to:
+  /// **'If Pro ever lapses you keep every feature in the free list, and your data stays yours either way.'**
+  String get proKeepNote;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -5319,8 +5533,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

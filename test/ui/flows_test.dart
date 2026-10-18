@@ -157,6 +157,19 @@ void main() {
     expect(find.text('No-numbers mode'), findsNothing);
   });
 
+  testWidgets('the Pro card opens Free vs Pro, with nothing to buy while testing', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile});
+    await tester.tap(find.bySemanticsLabel('Me').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Gymco Pro, free while testing'));
+    await tester.pumpAndSettle();
+    expect(find.text('Free vs Pro'), findsOneWidget);
+    expect(find.text('PRO ADDS'), findsOneWidget);
+    await tester.tap(find.text('Got it — Pro is on'));
+    await tester.pumpAndSettle();
+    expect(find.text('Goal and targets'), findsOneWidget);
+  });
+
   testWidgets('delete everything goes back to a first run', (tester) async {
     final (db, prefs) = await pumpApp(
       tester,

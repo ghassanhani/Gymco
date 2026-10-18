@@ -12,6 +12,7 @@ import 'ui/food/add_food_screen.dart';
 import 'ui/food/meal_screen.dart';
 import 'ui/food/scan_screen.dart';
 import 'ui/food/serving_screen.dart';
+import 'ui/me/pro_screen.dart';
 import 'ui/me/account_screen.dart';
 import 'ui/me/data_screen.dart';
 import 'ui/me/me_screen.dart';
@@ -102,6 +103,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/goal/done', builder: (_, _) => const GoalDoneScreen()),
       GoRoute(path: '/data', builder: (_, _) => const DataScreen()),
       GoRoute(path: '/account', builder: (_, _) => const AccountScreen()),
+      GoRoute(path: '/pro', builder: (_, _) => const ProScreen()),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),
         branches: [

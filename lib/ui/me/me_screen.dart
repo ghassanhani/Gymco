@@ -11,6 +11,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import '../today/today_screen.dart' show goalShort;
+import 'pro_screen.dart';
 
 class MeScreen extends ConsumerWidget {
   const MeScreen({super.key});
@@ -53,6 +54,7 @@ class MeScreen extends ConsumerWidget {
           Expanded(
             child: Pad(
               children: [
+                const ProCard(),
                 VList(
                   children: [
                     if (profile != null)

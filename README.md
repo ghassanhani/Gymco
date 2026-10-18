@@ -50,7 +50,7 @@ Every screen is drawn from the Volt prototype's own component kit (`lib/ui/kit`)
 - **Onboarding**: goal, body, activity, rate (capped at 1 %/week, warning above 0.85 %), starting targets from Mifflin-St Jeor.
 - **Today**: calorie ring and macro bars (over and under both read neutral), four meals and an empty-day prompt.
 - **Food logging**: search runs against the phone's database first, then Open Food Facts. Online finds are saved for offline use. Barcode scanning, amount entry with live kcal and macros, swipe to delete, repeat yesterday's meal. An unknown barcode links to adding it on Open Food Facts.
-- **Me**: language (phone, English, العربية, Español), cheat-meal allowance, redo targets.
+- **Me**: the Gymco Pro card and a Free vs Pro screen (nothing is sold while testing; every Pro feature is on), language (phone, English, العربية, Español), cheat-meal allowance, redo targets.
 - **Rules engine** (`lib/domain`, fully tested): adaptive expenditure over a 14–28 day window that drops incomplete and free-cheat days, ±120 kcal check-in cap, trend weight, stall detection, streaks with freezes (1 per 7 kept days, max 3) and a repair window, banked cheat meals (protein untouched, 1,700 floor, steep above 300/day), set types and volume.
 
 Exercise names are English only for now; Arabic and Spanish names come with a translation pass.
