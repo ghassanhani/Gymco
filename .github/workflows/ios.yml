@@ -1,0 +1,38 @@
+name: iOS test build
+# An unsigned iPhone build, for installing with Sideloadly and a free Apple
+# ID. It runs only when asked (Actions tab → iOS test build → Run workflow):
+# macOS minutes cost ten times Linux ones on a private repository.
+on:
+  workflow_dispatch:
+jobs:
+  ios:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+      # An .ipa is a zip with the app inside a Payload folder.
+      - run: |
+          mkdir Payload
+          cp -R build/ios/iphoneos/Runner.app Payload/
+          zip -qry Gymco-ios.ipa Payload
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gymco-ios
+          path: Gymco-ios.ipa
+      - name: Publish the iPhone test build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete test-build-ios --yes --cleanup-tag || true
+          gh release create test-build-ios Gymco-ios.ipa \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Gymco iPhone test build" \
+            --notes "Unsigned iPhone build of main (${GITHUB_SHA::7}). Install it with Sideloadly on a Mac or PC using your Apple ID; free Apple IDs need it reinstalled every 7 days."
