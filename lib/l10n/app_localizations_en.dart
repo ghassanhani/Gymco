@@ -932,9 +932,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get startWorkout => 'Start workout';
 
   @override
-  String get swipeToStart => 'Swipe to start';
-
-  @override
   String get targetsSaved => 'Targets saved — start logging';
 
   @override
@@ -3262,4 +3259,34 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get welcomeLogTitleEm => 'Log food <em>your way</em>';
+
+  @override
+  String get welcomeLogBody =>
+      'Write it, say it, snap a photo or scan the barcode. Gymco reads the meal and you confirm before it is added.';
+
+  @override
+  String get welcomeLogAlt => 'A man logging a meal on his phone';
+
+  @override
+  String get welcomeTrainTitleEm => 'Train with <em>a plan</em>';
+
+  @override
+  String get welcomeTrainBody =>
+      'Routines for your week, 870+ exercises with photos, a rest timer and last time’s numbers on every set.';
+
+  @override
+  String get welcomeTrainAlt => 'A woman pressing dumbbells overhead';
+
+  @override
+  String get welcomeProgressTitleEm => 'See it <em>add up</em>';
+
+  @override
+  String get welcomeProgressBody =>
+      'A trend weight that ignores daily noise, strength through your cut, and awards for showing up.';
+
+  @override
+  String get welcomeProgressAlt => 'An athlete celebrating among award medals';
 }

@@ -285,7 +285,6 @@
   "sexForEquation": "Sexo para la ecuación de energía",
   "startLogging": "Empezar a registrar",
   "startWorkout": "Empezar entreno",
-  "swipeToStart": "Desliza para empezar",
   "targetsSaved": "Objetivos guardados — empieza a registrar",
   "theRemainder": "el resto",
   "todayTitleEm": "Haz que <em>cuente</em>",
@@ -907,5 +906,14 @@
   "proKeepNote": "Si Pro termina, conservas todas las funciones de la lista gratuita, y tus datos siguen siendo tuyos.",
   "confirmLogTitle": "¿Añadir a {meal}?",
   "confirmLogAction": "Confirmar y añadir",
-  "awardsButton": "{n, plural, =0{Logros} =1{Logros, 1 conseguido} other{Logros, {n} conseguidos}}"
+  "awardsButton": "{n, plural, =0{Logros} =1{Logros, 1 conseguido} other{Logros, {n} conseguidos}}",
+  "welcomeLogTitleEm": "Registra la comida <em>a tu manera</em>",
+  "welcomeLogBody": "Escríbela, dila, hazle una foto o escanea el código. Gymco lee la comida y tú confirmas antes de añadirla.",
+  "welcomeLogAlt": "Un hombre registrando una comida en su móvil",
+  "welcomeTrainTitleEm": "Entrena con <em>un plan</em>",
+  "welcomeTrainBody": "Rutinas para tu semana, más de 870 ejercicios con fotos, temporizador de descanso y tus números anteriores en cada serie.",
+  "welcomeTrainAlt": "Una mujer levantando mancuernas sobre la cabeza",
+  "welcomeProgressTitleEm": "Mira cómo <em>suma</em>",
+  "welcomeProgressBody": "Un peso de tendencia que ignora el ruido diario, fuerza durante tu definición y logros por aparecer.",
+  "welcomeProgressAlt": "Un atleta celebrando entre medallas"
 }

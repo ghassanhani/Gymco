@@ -445,7 +445,6 @@
   "sexForEquation": "Sex for the energy equation",
   "startLogging": "Start logging",
   "startWorkout": "Start workout",
-  "swipeToStart": "Swipe to start",
   "targetsSaved": "Targets saved — start logging",
   "theRemainder": "the remainder",
   "todayTitleEm": "Make it <em>count</em>",
@@ -2500,5 +2499,14 @@
         "type": "int"
       }
     }
-  }
+  },
+  "welcomeLogTitleEm": "Log food <em>your way</em>",
+  "welcomeLogBody": "Write it, say it, snap a photo or scan the barcode. Gymco reads the meal and you confirm before it is added.",
+  "welcomeLogAlt": "A man logging a meal on his phone",
+  "welcomeTrainTitleEm": "Train with <em>a plan</em>",
+  "welcomeTrainBody": "Routines for your week, 870+ exercises with photos, a rest timer and last time’s numbers on every set.",
+  "welcomeTrainAlt": "A woman pressing dumbbells overhead",
+  "welcomeProgressTitleEm": "See it <em>add up</em>",
+  "welcomeProgressBody": "A trend weight that ignores daily noise, strength through your cut, and awards for showing up.",
+  "welcomeProgressAlt": "An athlete celebrating among award medals"
 }

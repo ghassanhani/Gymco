@@ -930,9 +930,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get startWorkout => 'Empezar entreno';
 
   @override
-  String get swipeToStart => 'Desliza para empezar';
-
-  @override
   String get targetsSaved => 'Objetivos guardados — empieza a registrar';
 
   @override
@@ -3269,4 +3266,34 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get welcomeLogTitleEm => 'Registra la comida <em>a tu manera</em>';
+
+  @override
+  String get welcomeLogBody =>
+      'Escríbela, dila, hazle una foto o escanea el código. Gymco lee la comida y tú confirmas antes de añadirla.';
+
+  @override
+  String get welcomeLogAlt => 'Un hombre registrando una comida en su móvil';
+
+  @override
+  String get welcomeTrainTitleEm => 'Entrena con <em>un plan</em>';
+
+  @override
+  String get welcomeTrainBody =>
+      'Rutinas para tu semana, más de 870 ejercicios con fotos, temporizador de descanso y tus números anteriores en cada serie.';
+
+  @override
+  String get welcomeTrainAlt => 'Una mujer levantando mancuernas sobre la cabeza';
+
+  @override
+  String get welcomeProgressTitleEm => 'Mira cómo <em>suma</em>';
+
+  @override
+  String get welcomeProgressBody =>
+      'Un peso de tendencia que ignora el ruido diario, fuerza durante tu definición y logros por aparecer.';
+
+  @override
+  String get welcomeProgressAlt => 'Un atleta celebrando entre medallas';
 }

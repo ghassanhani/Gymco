@@ -1008,13 +1008,40 @@ class _Welcome extends StatefulWidget {
   State<_Welcome> createState() => _WelcomeState();
 }
 
+/// The welcome pages: what Gymco does, one feature a page. Swipe through
+/// them or skip straight to the start.
 class _WelcomeState extends State<_Welcome> {
-  double _drag = 0;
+  final _pages = PageController();
+  int _at = 0;
+
+  /// The art that is bundled; a feature page shows only once its picture is.
+  Set<String> _bundled = const {'assets/brand/welcome.webp'};
+
+  @override
+  void initState() {
+    super.initState();
+    AssetManifest.loadFromAssetBundle(rootBundle).then((m) {
+      if (mounted) setState(() => _bundled = m.listAssets().toSet());
+    });
+  }
+
+  @override
+  void dispose() {
+    _pages.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final safe = MediaQuery.paddingOf(context);
+    final pages = [
+      ('assets/brand/welcome.webp', l.welcomeArtAlt, l.welcomeTitleEm, l.welcomeBody),
+      ('assets/onboarding/log.webp', l.welcomeLogAlt, l.welcomeLogTitleEm, l.welcomeLogBody),
+      ('assets/onboarding/train.webp', l.welcomeTrainAlt, l.welcomeTrainTitleEm, l.welcomeTrainBody),
+      ('assets/onboarding/progress.webp', l.welcomeProgressAlt, l.welcomeProgressTitleEm, l.welcomeProgressBody),
+    ].where((p) => _bundled.contains(p.$1)).toList();
+    final artHeight = MediaQuery.sizeOf(context).height * 0.61;
     return Scaffold(
       backgroundColor: Volt.bg,
       body: Stack(
@@ -1031,125 +1058,113 @@ class _WelcomeState extends State<_Welcome> {
               ),
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: safe.top,
-            child: ShaderMask(
-              blendMode: BlendMode.dstIn,
-              shaderCallback: (r) => const LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.black, Colors.black, Colors.transparent],
-                stops: [0, 0.8, 1],
-              ).createShader(r),
-              child: Image.asset(
-                'assets/brand/welcome.webp',
-                height: MediaQuery.sizeOf(context).height * 0.61,
-                fit: BoxFit.cover,
-                alignment: Alignment.topCenter,
-                semanticLabel: l.welcomeArtAlt,
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 24, 20, 30 + safe.bottom),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
+          PageView.builder(
+            controller: _pages,
+            itemCount: pages.length,
+            onPageChanged: (i) => setState(() => _at = i),
+            itemBuilder: (_, i) {
+              final (art, alt, title, body) = pages[i];
+              return Stack(
                 children: [
-                  const VLogo(size: 44),
-                  const SizedBox(height: 16),
-                  EmTitle(l.welcomeTitleEm, size: 40, letterSpacing: -0.03, emScale: 1.12),
-                  const SizedBox(height: 16),
-                  Text(l.welcomeBody, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Container(
-                        width: 34,
-                        height: 4,
-                        decoration: BoxDecoration(color: Volt.brand, borderRadius: BorderRadius.circular(999)),
-                      ),
-                      const SizedBox(width: 6),
-                      for (var i = 0; i < 2; i++) ...[
-                        Container(
-                          width: 22,
-                          height: 4,
-                          decoration: BoxDecoration(color: Volt.line2, borderRadius: BorderRadius.circular(999)),
-                        ),
-                        const SizedBox(width: 6),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  LayoutBuilder(
-                    builder: (_, c) => Semantics(
-                      button: true,
-                      label: l.swipeToStart,
-                      onTap: widget.onStart,
-                      excludeSemantics: true,
-                      child: GestureDetector(
-                        onTap: widget.onStart,
-                        onHorizontalDragUpdate: (d) =>
-                            setState(() => _drag = (_drag + d.delta.dx).clamp(0, c.maxWidth - 64)),
-                        onHorizontalDragEnd: (_) {
-                          if (_drag > c.maxWidth * 0.45) widget.onStart();
-                          setState(() => _drag = 0);
-                        },
-                        child: Container(
-                          height: 64,
-                          padding: const EdgeInsetsDirectional.fromSTEB(22, 0, 8, 0),
-                          decoration: BoxDecoration(
-                            gradient: Volt.glow,
-                            borderRadius: BorderRadius.circular(999),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0xD9B6F02A),
-                                blurRadius: 34,
-                                offset: Offset(0, 18),
-                                spreadRadius: -16,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              const Opacity(
-                                opacity: 0.55,
-                                child: Text(
-                                  '›››',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: -2,
-                                    color: Volt.ink,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  l.swipeToStart,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Volt.ink),
-                                ),
-                              ),
-                              Container(
-                                width: 46,
-                                height: 46,
-                                alignment: Alignment.center,
-                                decoration: const BoxDecoration(shape: BoxShape.circle, color: Volt.ink),
-                                child: const VIcon('fwd', size: 20, color: Volt.brand),
-                              ),
-                            ],
-                          ),
-                        ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: safe.top,
+                    child: ShaderMask(
+                      blendMode: BlendMode.dstIn,
+                      shaderCallback: (r) => const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.black, Colors.black, Colors.transparent],
+                        stops: [0, 0.8, 1],
+                      ).createShader(r),
+                      child: Image.asset(
+                        art,
+                        height: artHeight,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.topCenter,
+                        semanticLabel: alt,
                       ),
                     ),
                   ),
+                  Positioned(
+                    left: 20,
+                    right: 20,
+                    bottom: 30 + safe.bottom + 64 + 20 + 4 + 16,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (i == 0) ...[const VLogo(size: 44), const SizedBox(height: 16)],
+                        EmTitle(title, size: i == 0 ? 40 : 34, letterSpacing: -0.03, emScale: 1.12),
+                        const SizedBox(height: 14),
+                        Text(body, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
+                      ],
+                    ),
+                  ),
                 ],
-              ),
+              );
+            },
+          ),
+          Positioned(
+            left: 20,
+            right: 20,
+            bottom: 30 + safe.bottom,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (pages.length > 1)
+                  Row(
+                    children: [
+                      for (var i = 0; i < pages.length; i++)
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 220),
+                          margin: const EdgeInsetsDirectional.only(end: 6),
+                          width: i == _at ? 34 : 22,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: i == _at ? Volt.brand : Volt.line2,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                        ),
+                    ],
+                  ),
+                if (pages.length > 1) const SizedBox(height: 20),
+                Pressable(
+                  onTap: widget.onStart,
+                  label: l.getStarted,
+                  scale: 0.98,
+                  child: Container(
+                    height: 64,
+                    padding: const EdgeInsetsDirectional.fromSTEB(22, 0, 8, 0),
+                    decoration: BoxDecoration(
+                      gradient: Volt.glow,
+                      borderRadius: BorderRadius.circular(999),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xD9B6F02A), blurRadius: 34, offset: Offset(0, 18), spreadRadius: -16),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 46),
+                        Expanded(
+                          child: Text(
+                            l.getStarted,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Volt.ink),
+                          ),
+                        ),
+                        Container(
+                          width: 46,
+                          height: 46,
+                          alignment: Alignment.center,
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Volt.ink),
+                          child: const VIcon('fwd', size: 20, color: Volt.brand),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -1803,12 +1803,6 @@ abstract class AppLocalizations {
   /// **'Start workout'**
   String get startWorkout;
 
-  /// No description provided for @swipeToStart.
-  ///
-  /// In en, this message translates to:
-  /// **'Swipe to start'**
-  String get swipeToStart;
-
   /// No description provided for @targetsSaved.
   ///
   /// In en, this message translates to:
@@ -5540,6 +5534,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n, plural, =0{Awards} =1{Awards, 1 earned} other{Awards, {n} earned}}'**
   String awardsButton(int n);
+
+  /// No description provided for @welcomeLogTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Log food <em>your way</em>'**
+  String get welcomeLogTitleEm;
+
+  /// No description provided for @welcomeLogBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Write it, say it, snap a photo or scan the barcode. Gymco reads the meal and you confirm before it is added.'**
+  String get welcomeLogBody;
+
+  /// No description provided for @welcomeLogAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'A man logging a meal on his phone'**
+  String get welcomeLogAlt;
+
+  /// No description provided for @welcomeTrainTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Train with <em>a plan</em>'**
+  String get welcomeTrainTitleEm;
+
+  /// No description provided for @welcomeTrainBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Routines for your week, 870+ exercises with photos, a rest timer and last time’s numbers on every set.'**
+  String get welcomeTrainBody;
+
+  /// No description provided for @welcomeTrainAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'A woman pressing dumbbells overhead'**
+  String get welcomeTrainAlt;
+
+  /// No description provided for @welcomeProgressTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'See it <em>add up</em>'**
+  String get welcomeProgressTitleEm;
+
+  /// No description provided for @welcomeProgressBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A trend weight that ignores daily noise, strength through your cut, and awards for showing up.'**
+  String get welcomeProgressBody;
+
+  /// No description provided for @welcomeProgressAlt.
+  ///
+  /// In en, this message translates to:
+  /// **'An athlete celebrating among award medals'**
+  String get welcomeProgressAlt;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

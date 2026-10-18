@@ -953,9 +953,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get startWorkout => 'ابدأ التمرين';
 
   @override
-  String get swipeToStart => 'اسحب للبدء';
-
-  @override
   String get targetsSaved => 'حُفظت الأهداف — ابدأ التسجيل';
 
   @override
@@ -3277,4 +3274,33 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get welcomeLogTitleEm => 'سجّل طعامك <em>بطريقتك</em>';
+
+  @override
+  String get welcomeLogBody => 'اكتبه أو قله أو التقط صورة أو امسح الباركود. يقرأ جيمكو الوجبة وتؤكدها قبل إضافتها.';
+
+  @override
+  String get welcomeLogAlt => 'رجل يسجّل وجبة على هاتفه';
+
+  @override
+  String get welcomeTrainTitleEm => 'تمرّن <em>بخطة</em>';
+
+  @override
+  String get welcomeTrainBody =>
+      'روتينات لأسبوعك، وأكثر من 870 تمرينًا بالصور، ومؤقت راحة، وأرقام المرة الماضية في كل مجموعة.';
+
+  @override
+  String get welcomeTrainAlt => 'امرأة ترفع الدمبل فوق رأسها';
+
+  @override
+  String get welcomeProgressTitleEm => 'شاهد <em>تقدّمك</em>';
+
+  @override
+  String get welcomeProgressBody =>
+      'وزن اتجاهي يتجاهل تقلبات الأيام، وقوة تحافظ عليها أثناء التنشيف، وجوائز على الالتزام.';
+
+  @override
+  String get welcomeProgressAlt => 'رياضي يحتفل بين ميداليات الجوائز';
 }
