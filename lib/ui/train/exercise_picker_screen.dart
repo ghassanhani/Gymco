@@ -8,6 +8,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'create_exercise.dart';
 import 'exercise_photo.dart';
 import 'train_kit.dart';
 
@@ -32,10 +33,34 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
     super.dispose();
   }
 
+  /// Not there: make it, and have it picked (or opened, when browsing).
+  Future<void> _create() async {
+    final e = await createExercise(context, ref, name: _q.text.trim());
+    if (e == null || !mounted) return;
+    if (widget.browse) {
+      showVToast(context, AppLocalizations.of(context).exerciseCreated(e.name));
+    } else {
+      setState(() => _picked.add(e));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final lib = ref.watch(exerciseLibraryProvider).value;
+    final query = _q.text.trim();
+    final create = SRow(
+      label: query.isEmpty ? l.createExercise : l.createNamed(query),
+      sub: l.createExerciseSub,
+      lead: Container(
+        width: 44,
+        height: 44,
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
+        child: const VIcon('plus', size: 20, color: Volt.brandInk),
+      ),
+      onTap: _create,
+    );
     final hits = lib?.search(_q.text, muscle: _muscle) ?? const <Exercise>[];
     final have = {for (final e in ref.watch(activeWorkoutProvider)?.exercises ?? const []) e.exerciseId};
 
@@ -107,12 +132,20 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
               child: lib == null
                   ? const SizedBox.shrink()
                   : hits.isEmpty
-                  ? Padding(padding: const EdgeInsets.all(20), child: Muted(l.noExerciseMatch))
+                  ? ListView(
+                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+                      children: [
+                        Padding(padding: const EdgeInsets.fromLTRB(4, 8, 4, 12), child: Muted(l.noExerciseMatch)),
+                        create,
+                      ],
+                    )
                   : ListView.separated(
                       padding: EdgeInsets.fromLTRB(16, 4, 16, _picked.isEmpty ? 24 : 110),
-                      itemCount: hits.length,
+                      // Making one is always the last row.
+                      itemCount: hits.length + 1,
                       separatorBuilder: (_, _) => const SizedBox(height: 8),
                       itemBuilder: (_, i) {
+                        if (i == hits.length) return create;
                         final e = hits[i];
                         final on = _picked.contains(e);
                         final inIt = !widget.browse && have.contains(e.id);

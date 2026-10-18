@@ -13,7 +13,13 @@ import '../data/models.dart';
 import 'providers.dart';
 
 /// Loaded once from the bundled asset; tests override it.
-final exerciseLibraryProvider = FutureProvider<ExerciseLibrary>((_) => ExerciseLibrary.load());
+final bundledLibraryProvider = FutureProvider<ExerciseLibrary>((_) => ExerciseLibrary.load());
+
+/// The bundled library with the user's own exercises first.
+final exerciseLibraryProvider = FutureProvider<ExerciseLibrary>((ref) async {
+  final base = await ref.watch(bundledLibraryProvider.future);
+  return base.withCustom(await ref.watch(dbProvider).customExercises());
+});
 
 /// Off in tests: photos need the phone's file cache.
 final showExercisePhotosProvider = Provider<bool>((_) => true);

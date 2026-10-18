@@ -7070,6 +7070,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.'**
   String get dayNoteMulti;
+
+  /// No description provided for @createExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an exercise'**
+  String get createExercise;
+
+  /// No description provided for @createNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Create “{name}”'**
+  String createNamed(String name);
+
+  /// No description provided for @createExerciseSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in the library? Make your own.'**
+  String get createExerciseSub;
+
+  /// No description provided for @exerciseNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise name'**
+  String get exerciseNameHint;
+
+  /// No description provided for @mainMuscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Main muscle'**
+  String get mainMuscle;
+
+  /// No description provided for @equipmentLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment'**
+  String get equipmentLbl;
+
+  /// No description provided for @pickMuscleFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the main muscle so it counts toward your weekly sets.'**
+  String get pickMuscleFirst;
+
+  /// No description provided for @customExerciseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved on this phone with the rest of your data, and in your backup.'**
+  String get customExerciseNote;
+
+  /// No description provided for @createAndAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Create exercise'**
+  String get createAndAdd;
+
+  /// No description provided for @exerciseCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} added to your library'**
+  String exerciseCreated(String name);
+
+  /// No description provided for @eqBarbell.
+  ///
+  /// In en, this message translates to:
+  /// **'Barbell'**
+  String get eqBarbell;
+
+  /// No description provided for @eqDumbbell.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbell'**
+  String get eqDumbbell;
+
+  /// No description provided for @eqMachine.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine'**
+  String get eqMachine;
+
+  /// No description provided for @eqCable.
+  ///
+  /// In en, this message translates to:
+  /// **'Cable'**
+  String get eqCable;
+
+  /// No description provided for @eqBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bodyweight'**
+  String get eqBody;
+
+  /// No description provided for @eqKettlebell.
+  ///
+  /// In en, this message translates to:
+  /// **'Kettlebell'**
+  String get eqKettlebell;
+
+  /// No description provided for @eqBands.
+  ///
+  /// In en, this message translates to:
+  /// **'Bands'**
+  String get eqBands;
+
+  /// No description provided for @eqOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get eqOther;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

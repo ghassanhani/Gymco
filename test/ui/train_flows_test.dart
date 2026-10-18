@@ -57,6 +57,43 @@ void main() {
     expect(find.text('Start all'), findsOneWidget);
   });
 
+  testWidgets('an exercise not in the library is made on the spot, and a routine takes several days', (tester) async {
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await openTrain(tester);
+    await tester.tap(find.text('Build my own routine'));
+    await settle(tester);
+    await tester.enterText(find.byType(TextField), 'Home day');
+    await tester.pump();
+    await tester.drag(find.byType(ListView).first, const Offset(0, -400));
+    await settle(tester);
+    await tester.tap(find.text('Add exercise'));
+    await settle(tester);
+    await tester.enterText(find.byType(TextField), 'Towel row');
+    await settle(tester);
+    await tester.tap(find.text('Create “Towel row”'));
+    await settle(tester);
+    await tester.tap(find.text('Lats').last);
+    await tester.ensureVisible(find.text('Bodyweight'));
+    await tester.tap(find.text('Bodyweight'));
+    await tester.pump();
+    await tester.ensureVisible(find.text('Create exercise'));
+    await tester.pump();
+    await tester.tap(find.text('Create exercise'));
+    await settle(tester);
+    await tester.tap(find.text('Add 1 exercise'));
+    await settle(tester);
+    expect(find.text('Towel row'), findsWidgets);
+
+    await tester.tap(find.text('Mon'));
+    await tester.tap(find.text('Thu'));
+    await tester.tap(find.text('Save routine'));
+    await settle(tester);
+    final r = (await db.routines()).single;
+    expect(r.days, {0, 3});
+    expect(r.items.single.exerciseId, startsWith('custom:towel-row'));
+    expect((await db.customExercises()).single.primary, ['lats']);
+  });
+
   testWidgets('a duplicate routine name is refused', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, seed: (db) => db.saveRoutineFixture('Push A'));
     await openTrain(tester);

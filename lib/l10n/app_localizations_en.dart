@@ -4194,4 +4194,62 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dayNoteMulti =>
       'Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.';
+
+  @override
+  String get createExercise => 'Create an exercise';
+
+  @override
+  String createNamed(String name) {
+    return 'Create “$name”';
+  }
+
+  @override
+  String get createExerciseSub => 'Not in the library? Make your own.';
+
+  @override
+  String get exerciseNameHint => 'Exercise name';
+
+  @override
+  String get mainMuscle => 'Main muscle';
+
+  @override
+  String get equipmentLbl => 'Equipment';
+
+  @override
+  String get pickMuscleFirst => 'Pick the main muscle so it counts toward your weekly sets.';
+
+  @override
+  String get customExerciseNote => 'Saved on this phone with the rest of your data, and in your backup.';
+
+  @override
+  String get createAndAdd => 'Create exercise';
+
+  @override
+  String exerciseCreated(String name) {
+    return '$name added to your library';
+  }
+
+  @override
+  String get eqBarbell => 'Barbell';
+
+  @override
+  String get eqDumbbell => 'Dumbbell';
+
+  @override
+  String get eqMachine => 'Machine';
+
+  @override
+  String get eqCable => 'Cable';
+
+  @override
+  String get eqBody => 'Bodyweight';
+
+  @override
+  String get eqKettlebell => 'Kettlebell';
+
+  @override
+  String get eqBands => 'Bands';
+
+  @override
+  String get eqOther => 'Other';
 }

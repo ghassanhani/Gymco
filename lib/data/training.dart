@@ -34,6 +34,9 @@ class Exercise {
   static const imageBase = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
   String imageUrl(int i) => '$imageBase${images[i]}';
 
+  /// Made by the user, not from the bundled library.
+  bool get custom => id.startsWith('custom:');
+
   /// The terser name summaries use: "Barbell Bench Press - Medium Grip" → "Barbell Bench Press".
   String get shortName => name.split(' - ').first.split(' (').first.trim();
 
@@ -109,6 +112,9 @@ class ExerciseLibrary {
     });
     return hits;
   }
+
+  /// The same library with the user's own exercises in it.
+  ExerciseLibrary withCustom(List<Exercise> mine) => mine.isEmpty ? this : ExerciseLibrary([...mine, ...all]);
 
   static Future<ExerciseLibrary> load([AssetBundle? bundle]) async {
     final raw = await (bundle ?? rootBundle).loadString('assets/exercises/exercises.json');

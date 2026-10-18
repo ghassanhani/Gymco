@@ -85,7 +85,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         prefsProvider.overrideWithValue(p),
         foodSourceProvider.overrideWithValue(source ?? FakeFoodSource()),
         clockProvider.overrideWithValue(clock ?? () => testNow),
-        exerciseLibraryProvider.overrideWith((_) => library ?? testLibrary),
+        bundledLibraryProvider.overrideWith((_) => library ?? testLibrary),
         showExercisePhotosProvider.overrideWithValue(exerciseImages != null),
         if (exerciseImages != null) exerciseImageProvider.overrideWithValue(exerciseImages),
         dictationProvider.overrideWithValue(dictation ?? FakeDictation()),

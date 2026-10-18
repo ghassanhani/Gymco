@@ -3161,5 +3161,37 @@
   "healthPhoneSaid": "What the phone said",
   "tryAgain": "Try again",
   "openHealthApp": "Open the Health app",
-  "dayNoteMulti": "Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order."
+  "dayNoteMulti": "Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.",
+  "createExercise": "Create an exercise",
+  "createNamed": "Create “{name}”",
+  "@createNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "createExerciseSub": "Not in the library? Make your own.",
+  "exerciseNameHint": "Exercise name",
+  "mainMuscle": "Main muscle",
+  "equipmentLbl": "Equipment",
+  "pickMuscleFirst": "Pick the main muscle so it counts toward your weekly sets.",
+  "customExerciseNote": "Saved on this phone with the rest of your data, and in your backup.",
+  "createAndAdd": "Create exercise",
+  "exerciseCreated": "{name} added to your library",
+  "@exerciseCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "eqBarbell": "Barbell",
+  "eqDumbbell": "Dumbbell",
+  "eqMachine": "Machine",
+  "eqCable": "Cable",
+  "eqBody": "Bodyweight",
+  "eqKettlebell": "Kettlebell",
+  "eqBands": "Bands",
+  "eqOther": "Other"
 }

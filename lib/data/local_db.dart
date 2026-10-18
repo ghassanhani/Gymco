@@ -17,7 +17,7 @@ class LocalDb {
 
   /// 1: diet. 2: training. 3: weekdays, folders, RIR. 4: favourites, saved meals.
   /// 5: body measurements.
-  static const _version = 8;
+  static const _version = 9;
 
   /// What a backup was written by, so a newer phone can read an older one.
   static const schemaVersion = _version;
@@ -42,6 +42,10 @@ class LocalDb {
         weight REAL NOT NULL, reps INTEGER NOT NULL)''');
     await db.execute('CREATE INDEX sets_exercise ON workout_sets(exercise_id)');
   }
+
+  static Future<void> _addCustomExercises(DatabaseExecutor db) => db.execute('''
+    CREATE TABLE custom_exercises(id TEXT PRIMARY KEY, name TEXT NOT NULL, equipment TEXT,
+      muscles TEXT NOT NULL, created_at INTEGER NOT NULL)''');
 
   /// Several days per routine, as a bitmask, and when they were set.
   static Future<void> _addRoutineDays(DatabaseExecutor db) async {
@@ -100,6 +104,7 @@ class LocalDb {
           if (from < 5) await _addMeasurements(db);
           if (from < 7) await _addRecipes(db);
           if (from < 8) await _addRoutineDays(db);
+          if (from < 9) await _addCustomExercises(db);
           // Staples added since: insert the ones this phone does not have.
           final batch = db.batch();
           for (final f in seedFoods) {
@@ -129,6 +134,7 @@ class LocalDb {
           await _addMeasurements(db);
           await _addRecipes(db);
           await _addRoutineDays(db);
+          await _addCustomExercises(db);
           final batch = db.batch();
           for (final f in seedFoods) {
             batch.insert('foods', f.toRow());
@@ -156,6 +162,7 @@ class LocalDb {
     'measurements',
     'recipes',
     'recipe_items',
+    'custom_exercises',
   ];
 
   Future<({int entries, int sets, int weighIns})> counts() async {
@@ -587,6 +594,48 @@ class LocalDb {
         ),
     ];
   }
+
+  // ---- your own exercises ----
+
+  Future<List<Exercise>> customExercises() async => [
+    for (final r in await _db.query('custom_exercises', orderBy: 'created_at DESC'))
+      Exercise(
+        id: r['id']! as String,
+        name: r['name']! as String,
+        equipment: r['equipment'] as String?,
+        primary: (r['muscles']! as String).split(',').where((m) => m.isNotEmpty).toList(),
+        secondary: const [],
+        category: 'strength',
+        instructions: const [],
+        images: const [],
+      ),
+  ];
+
+  /// Adds one of the user's own; returns it with its new id.
+  Future<Exercise> addCustomExercise({required String name, required String muscle, String? equipment}) async {
+    final now = DateTime.now().millisecondsSinceEpoch;
+    final slug = name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-|-$'), '');
+    final id = 'custom:${slug.isEmpty ? 'exercise' : slug}-$now';
+    await _db.insert('custom_exercises', {
+      'id': id,
+      'name': name.trim(),
+      'equipment': equipment,
+      'muscles': muscle,
+      'created_at': now,
+    });
+    return Exercise(
+      id: id,
+      name: name.trim(),
+      equipment: equipment,
+      primary: [muscle],
+      secondary: const [],
+      category: 'strength',
+      instructions: const [],
+      images: const [],
+    );
+  }
+
+  Future<void> deleteCustomExercise(String id) => _db.delete('custom_exercises', where: 'id = ?', whereArgs: [id]);
 
   /// Insert or replace a routine; returns its id. Throws [DuplicateNameException]
   /// when another routine already uses the name.

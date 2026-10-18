@@ -4231,4 +4231,62 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get dayNoteMulti =>
       'اختر كل يوم يُنفَّذ فيه. إذا فاتك يوم ينتقل إلى يوم التمرين التالي مع الحفاظ على الترتيب.';
+
+  @override
+  String get createExercise => 'أنشئ تمرينًا';
+
+  @override
+  String createNamed(String name) {
+    return 'أنشئ «$name»';
+  }
+
+  @override
+  String get createExerciseSub => 'غير موجود في المكتبة؟ أنشئ تمرينك.';
+
+  @override
+  String get exerciseNameHint => 'اسم التمرين';
+
+  @override
+  String get mainMuscle => 'العضلة الأساسية';
+
+  @override
+  String get equipmentLbl => 'المعدات';
+
+  @override
+  String get pickMuscleFirst => 'اختر العضلة الأساسية ليُحسب ضمن مجموعاتك الأسبوعية.';
+
+  @override
+  String get customExerciseNote => 'يُحفظ على هذا الهاتف مع بقية بياناتك وفي النسخة الاحتياطية.';
+
+  @override
+  String get createAndAdd => 'أنشئ التمرين';
+
+  @override
+  String exerciseCreated(String name) {
+    return 'أُضيف $name إلى مكتبتك';
+  }
+
+  @override
+  String get eqBarbell => 'بار';
+
+  @override
+  String get eqDumbbell => 'دمبل';
+
+  @override
+  String get eqMachine => 'جهاز';
+
+  @override
+  String get eqCable => 'كابل';
+
+  @override
+  String get eqBody => 'وزن الجسم';
+
+  @override
+  String get eqKettlebell => 'كيتلبل';
+
+  @override
+  String get eqBands => 'أشرطة مقاومة';
+
+  @override
+  String get eqOther => 'أخرى';
 }
