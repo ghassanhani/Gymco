@@ -3167,4 +3167,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notInDbSearch => 'Not on the phone — search for it';
+
+  @override
+  String get badgeTurnHint => 'Drag or tap to turn it over';
+
+  @override
+  String badgeBackLabel(String name, String date) {
+    return 'Back of the badge: $name, earned $date';
+  }
 }

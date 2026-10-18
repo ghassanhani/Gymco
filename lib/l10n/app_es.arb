@@ -881,5 +881,7 @@
   "photoCap": "Ya has usado las 10 fotos de hoy. Vuelven mañana; mientras, escribe o busca.",
   "photoRefused": "No se ha podido leer esa foto. Prueba con otra.",
   "photoAgain": "Hacer otra",
-  "notInDbSearch": "No está en el móvil: búscalo"
+  "notInDbSearch": "No está en el móvil: búscalo",
+  "badgeTurnHint": "Arrastra o toca para darle la vuelta",
+  "badgeBackLabel": "Reverso de la insignia: {name}, conseguida el {date}"
 }

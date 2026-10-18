@@ -3180,4 +3180,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notInDbSearch => 'غير موجود على الهاتف — ابحث عنه';
+
+  @override
+  String get badgeTurnHint => 'اسحب أو اضغط لقلبها';
+
+  @override
+  String badgeBackLabel(String name, String date) {
+    return 'ظهر الشارة: $name، نُلت في $date';
+  }
 }

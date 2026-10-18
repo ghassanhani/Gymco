@@ -2430,5 +2430,17 @@
   "photoCap": "That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.",
   "photoRefused": "That photo could not be read. Try another one.",
   "photoAgain": "Take another",
-  "notInDbSearch": "Not on the phone — search for it"
+  "notInDbSearch": "Not on the phone — search for it",
+  "badgeTurnHint": "Drag or tap to turn it over",
+  "badgeBackLabel": "Back of the badge: {name}, earned {date}",
+  "@badgeBackLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

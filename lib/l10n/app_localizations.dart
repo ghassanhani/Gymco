@@ -5384,6 +5384,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not on the phone — search for it'**
   String get notInDbSearch;
+
+  /// No description provided for @badgeTurnHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag or tap to turn it over'**
+  String get badgeTurnHint;
+
+  /// No description provided for @badgeBackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Back of the badge: {name}, earned {date}'**
+  String badgeBackLabel(String name, String date);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -15,6 +15,7 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'badge3d.dart';
 
 // ---------------------------------------------------------------- names
 
@@ -83,6 +84,18 @@ class Medal extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final on = award.earned;
+    if (badgeArt.containsKey(award.id)) {
+      return Semantics(
+        label: on ? l.earnedLabel : l.lockedLabel,
+        child: BadgeFace(
+          award: award,
+          size: size,
+          month: award.id == 'month'
+              ? month ?? DateFormat.MMM(Localizations.localeOf(context).toString()).format(DateTime.now()).toUpperCase()
+              : null,
+        ),
+      );
+    }
     final ink = on ? Colors.white : Volt.t4;
     final k = size / 88;
     final big =
@@ -531,11 +544,7 @@ class AwardsScreen extends ConsumerWidget {
                       decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(24)),
                       child: Row(
                         children: [
-                          Medal(
-                            award: month,
-                            size: 58,
-                            month: month.earned ? DateFormat.MMM(loc).format(now).toUpperCase() : null,
-                          ),
+                          Medal(award: month, size: 58, month: DateFormat.MMM(loc).format(now).toUpperCase()),
                           const SizedBox(width: 14),
                           Expanded(
                             child: GapCol(
@@ -867,6 +876,8 @@ class AwardDetailScreen extends ConsumerWidget {
     if (s == null || a == null) return const Scaffold(body: VScreen(child: SizedBox.shrink()));
     final name = awardName(l, a, now, loc);
     final next = a.group == AwardGroup.streak && a.earned ? nextStreakAward(s.awards) : null;
+    final monthLabel = DateFormat.MMM(loc).format(now).toUpperCase();
+    final engravedDate = DateFormat.yMMMMd(loc).format(a.earnedOn ?? now);
     final status = a.earned
         ? (a.earnedOn == null ? l.earnedLbl : l.earnedOn(DateFormat.yMMMd(loc).format(a.earnedOn!)))
         : awardStatus(l, a, loc);
@@ -893,13 +904,24 @@ class AwardDetailScreen extends ConsumerWidget {
                             )
                           : const BoxDecoration(shape: BoxShape.circle, color: Volt.card),
                       alignment: Alignment.center,
-                      child: Medal(
-                        award: a,
-                        size: 196,
-                        month: a.id == 'month' ? DateFormat.MMM(loc).format(now).toUpperCase() : null,
-                      ),
+                      child: badgeArt.containsKey(a.id)
+                          ? Badge3D(
+                              award: a,
+                              size: 216,
+                              month: a.id == 'month' ? monthLabel : null,
+                              name: name,
+                              date: engravedDate,
+                              backLabel: l.badgeBackLabel(name, engravedDate),
+                            )
+                          : Medal(award: a, size: 196, month: a.id == 'month' ? monthLabel : null),
                     ),
                   ),
+                  if (a.earned && badgeArt.containsKey(a.id))
+                    Text(
+                      l.badgeTurnHint,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 12, color: Volt.t3),
+                    ),
                   Text(
                     name,
                     textAlign: TextAlign.center,

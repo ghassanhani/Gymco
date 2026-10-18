@@ -78,6 +78,7 @@ flutter:
   generate: true
   assets:
     - assets/brand/
+    - assets/awards/
     - assets/exercises/exercises.json
 
   fonts:

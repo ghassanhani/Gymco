@@ -3174,4 +3174,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get notInDbSearch => 'No está en el móvil: búscalo';
+
+  @override
+  String get badgeTurnHint => 'Arrastra o toca para darle la vuelta';
+
+  @override
+  String badgeBackLabel(String name, String date) {
+    return 'Reverso de la insignia: $name, conseguida el $date';
+  }
 }
