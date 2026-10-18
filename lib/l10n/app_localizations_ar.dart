@@ -4142,4 +4142,67 @@ class AppLocalizationsAr extends AppLocalizations {
   String toggleReminder(String name) {
     return 'تشغيل أو إيقاف تذكيرات $name';
   }
+
+  @override
+  String get plansPill => 'الخطط';
+
+  @override
+  String get plansTitleEm => 'ادفع مقابل التدريب، <em>لا الأساسيات</em>';
+
+  @override
+  String get featIconAi => 'تقدير بالذكاء الاصطناعي';
+
+  @override
+  String get featIconCoach => 'تدريب أسبوعي';
+
+  @override
+  String get featIconStrength => 'تحليل القوة';
+
+  @override
+  String get featLogging => 'التسجيل بالبحث والباركود والكتابة والصوت';
+
+  @override
+  String get featAi => 'تقديرات الذكاء الاصطناعي من الصور والكلمات';
+
+  @override
+  String get featOnce => 'ادفع مرة واحدة، لك إلى الأبد';
+
+  @override
+  String get planFree => 'مجاني';
+
+  @override
+  String get planFreeSub => 'كل ما تحتاجه للتسجيل والتمرين.';
+
+  @override
+  String get planPro => 'برو';
+
+  @override
+  String get planProSub => 'تدريب يتكيّف معك كل أسبوع.';
+
+  @override
+  String get planLifetimeSub => 'كل مزايا برو بدفعة واحدة.';
+
+  @override
+  String get priceFree => '٠ €';
+
+  @override
+  String get perMonth => '/ شهر';
+
+  @override
+  String get perYear => '/ سنة';
+
+  @override
+  String get once => 'مرة واحدة';
+
+  @override
+  String get save33 => '−٣٣٪';
+
+  @override
+  String get mostPopular => 'الأكثر طلبًا';
+
+  @override
+  String get proIsOnTesting => 'برو مفعّل — مجاني خلال التجربة';
+
+  @override
+  String get freeAlwaysBtn => 'مجاني دائمًا';
 }

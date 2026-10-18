@@ -3132,5 +3132,26 @@
         "type": "String"
       }
     }
-  }
+  },
+  "plansPill": "Plans",
+  "plansTitleEm": "Pay for the coaching, <em>not the basics</em>",
+  "featIconAi": "AI estimates",
+  "featIconCoach": "Weekly coaching",
+  "featIconStrength": "Strength insight",
+  "featLogging": "Search, barcode, write and voice logging",
+  "featAi": "AI estimates from photos and words",
+  "featOnce": "Pay once, yours for good",
+  "planFree": "Free",
+  "planFreeSub": "Everything you need to log and train.",
+  "planPro": "Pro",
+  "planProSub": "Coaching that adapts to you every week.",
+  "planLifetimeSub": "All of Pro, paid once.",
+  "priceFree": "€0",
+  "perMonth": "/ month",
+  "perYear": "/ year",
+  "once": "once",
+  "save33": "−33%",
+  "mostPopular": "Popular",
+  "proIsOnTesting": "Pro is on — free while testing",
+  "freeAlwaysBtn": "Free, always"
 }

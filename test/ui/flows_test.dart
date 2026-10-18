@@ -165,9 +165,17 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Gymco Pro, free while testing'));
     await tester.pumpAndSettle();
-    expect(find.text('Free vs Pro'), findsOneWidget);
-    expect(find.text('PRO ADDS'), findsOneWidget);
-    await tester.tap(find.text('Got it — Pro is on'));
+    expect(find.text('Plans'), findsOneWidget);
+    // Opens on Pro; yearly first, monthly on the switch.
+    expect(find.text('€39.99'), findsOneWidget);
+    await tester.tap(find.text('Monthly'));
+    await tester.pumpAndSettle();
+    expect(find.text('€4.99'), findsOneWidget);
+    final top = tester.getTopLeft(find.byType(PageView)) + const Offset(200, 60);
+    await tester.dragFrom(top, const Offset(300, 0));
+    await tester.pumpAndSettle();
+    expect(find.text('Free, always'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Back').first);
     await tester.pumpAndSettle();
     expect(find.text('Goal and targets'), findsOneWidget);
   });

@@ -4105,4 +4105,67 @@ class AppLocalizationsEn extends AppLocalizations {
   String toggleReminder(String name) {
     return 'Turn $name reminders on or off';
   }
+
+  @override
+  String get plansPill => 'Plans';
+
+  @override
+  String get plansTitleEm => 'Pay for the coaching, <em>not the basics</em>';
+
+  @override
+  String get featIconAi => 'AI estimates';
+
+  @override
+  String get featIconCoach => 'Weekly coaching';
+
+  @override
+  String get featIconStrength => 'Strength insight';
+
+  @override
+  String get featLogging => 'Search, barcode, write and voice logging';
+
+  @override
+  String get featAi => 'AI estimates from photos and words';
+
+  @override
+  String get featOnce => 'Pay once, yours for good';
+
+  @override
+  String get planFree => 'Free';
+
+  @override
+  String get planFreeSub => 'Everything you need to log and train.';
+
+  @override
+  String get planPro => 'Pro';
+
+  @override
+  String get planProSub => 'Coaching that adapts to you every week.';
+
+  @override
+  String get planLifetimeSub => 'All of Pro, paid once.';
+
+  @override
+  String get priceFree => '€0';
+
+  @override
+  String get perMonth => '/ month';
+
+  @override
+  String get perYear => '/ year';
+
+  @override
+  String get once => 'once';
+
+  @override
+  String get save33 => '−33%';
+
+  @override
+  String get mostPopular => 'Popular';
+
+  @override
+  String get proIsOnTesting => 'Pro is on — free while testing';
+
+  @override
+  String get freeAlwaysBtn => 'Free, always';
 }

@@ -6896,6 +6896,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turn {name} reminders on or off'**
   String toggleReminder(String name);
+
+  /// No description provided for @plansPill.
+  ///
+  /// In en, this message translates to:
+  /// **'Plans'**
+  String get plansPill;
+
+  /// No description provided for @plansTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay for the coaching, <em>not the basics</em>'**
+  String get plansTitleEm;
+
+  /// No description provided for @featIconAi.
+  ///
+  /// In en, this message translates to:
+  /// **'AI estimates'**
+  String get featIconAi;
+
+  /// No description provided for @featIconCoach.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly coaching'**
+  String get featIconCoach;
+
+  /// No description provided for @featIconStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength insight'**
+  String get featIconStrength;
+
+  /// No description provided for @featLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Search, barcode, write and voice logging'**
+  String get featLogging;
+
+  /// No description provided for @featAi.
+  ///
+  /// In en, this message translates to:
+  /// **'AI estimates from photos and words'**
+  String get featAi;
+
+  /// No description provided for @featOnce.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay once, yours for good'**
+  String get featOnce;
+
+  /// No description provided for @planFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get planFree;
+
+  /// No description provided for @planFreeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you need to log and train.'**
+  String get planFreeSub;
+
+  /// No description provided for @planPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro'**
+  String get planPro;
+
+  /// No description provided for @planProSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Coaching that adapts to you every week.'**
+  String get planProSub;
+
+  /// No description provided for @planLifetimeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'All of Pro, paid once.'**
+  String get planLifetimeSub;
+
+  /// No description provided for @priceFree.
+  ///
+  /// In en, this message translates to:
+  /// **'€0'**
+  String get priceFree;
+
+  /// No description provided for @perMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'/ month'**
+  String get perMonth;
+
+  /// No description provided for @perYear.
+  ///
+  /// In en, this message translates to:
+  /// **'/ year'**
+  String get perYear;
+
+  /// No description provided for @once.
+  ///
+  /// In en, this message translates to:
+  /// **'once'**
+  String get once;
+
+  /// No description provided for @save33.
+  ///
+  /// In en, this message translates to:
+  /// **'−33%'**
+  String get save33;
+
+  /// No description provided for @mostPopular.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get mostPopular;
+
+  /// No description provided for @proIsOnTesting.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro is on — free while testing'**
+  String get proIsOnTesting;
+
+  /// No description provided for @freeAlwaysBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Free, always'**
+  String get freeAlwaysBtn;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

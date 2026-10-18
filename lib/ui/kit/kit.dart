@@ -76,8 +76,10 @@ class EmTitle extends StatelessWidget {
     this.emScale = 1.14,
     this.letterSpacing = -0.025,
     this.height = 1.08,
+    this.align,
   });
   final String title;
+  final TextAlign? align;
   final double size;
   final FontWeight weight;
   final double emScale;
@@ -115,7 +117,10 @@ class EmTitle extends StatelessWidget {
       at = m.end;
     }
     if (at < title.length) spans.add(TextSpan(text: title.substring(at)));
-    return Text.rich(TextSpan(style: base, children: spans));
+    return Text.rich(
+      TextSpan(style: base, children: spans),
+      textAlign: align,
+    );
   }
 }
 

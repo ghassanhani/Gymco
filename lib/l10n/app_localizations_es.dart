@@ -4114,4 +4114,67 @@ class AppLocalizationsEs extends AppLocalizations {
   String toggleReminder(String name) {
     return 'Activar o desactivar avisos de $name';
   }
+
+  @override
+  String get plansPill => 'Planes';
+
+  @override
+  String get plansTitleEm => 'Paga por el coaching, <em>no por lo básico</em>';
+
+  @override
+  String get featIconAi => 'Estimación IA';
+
+  @override
+  String get featIconCoach => 'Coaching semanal';
+
+  @override
+  String get featIconStrength => 'Análisis de fuerza';
+
+  @override
+  String get featLogging => 'Registro por búsqueda, código, texto y voz';
+
+  @override
+  String get featAi => 'Estimaciones IA desde fotos y texto';
+
+  @override
+  String get featOnce => 'Pagas una vez, tuyo para siempre';
+
+  @override
+  String get planFree => 'Gratis';
+
+  @override
+  String get planFreeSub => 'Todo lo que necesitas para registrar y entrenar.';
+
+  @override
+  String get planPro => 'Pro';
+
+  @override
+  String get planProSub => 'Coaching que se adapta a ti cada semana.';
+
+  @override
+  String get planLifetimeSub => 'Todo Pro, en un solo pago.';
+
+  @override
+  String get priceFree => '0 €';
+
+  @override
+  String get perMonth => '/ mes';
+
+  @override
+  String get perYear => '/ año';
+
+  @override
+  String get once => 'una vez';
+
+  @override
+  String get save33 => '−33 %';
+
+  @override
+  String get mostPopular => 'Popular';
+
+  @override
+  String get proIsOnTesting => 'Pro activado: gratis en pruebas';
+
+  @override
+  String get freeAlwaysBtn => 'Gratis, siempre';
 }
