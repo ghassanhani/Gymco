@@ -9,6 +9,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'exercise_photo.dart';
 import 'train_kit.dart';
 
 /// The rep ranges the builder offers, as (low, high).
@@ -413,7 +414,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ExAv(e?.badge ?? '··'),
+              ExThumb(e, size: 44),
               const SizedBox(width: 10),
               Expanded(
                 child: GapCol(

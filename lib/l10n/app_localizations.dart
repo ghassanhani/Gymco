@@ -5444,6 +5444,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Estimate'**
   String get estimateAction;
+
+  /// No description provided for @showPhotosOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Show photos of {name}'**
+  String showPhotosOf(String name);
+
+  /// No description provided for @closePhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get closePhotos;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

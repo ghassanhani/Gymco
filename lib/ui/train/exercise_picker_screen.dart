@@ -8,6 +8,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'exercise_photo.dart';
 import 'train_kit.dart';
 
 /// Search the library. Picking pops with the chosen list, in tap order;
@@ -119,7 +120,7 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
                           label: e.name,
                           sub: muscleLine(l, e),
                           on: on,
-                          lead: ExAv(e.badge),
+                          lead: ExThumb(e),
                           trail: widget.browse
                               ? const VIcon('fwd', size: 18, color: Volt.t3)
                               : inIt

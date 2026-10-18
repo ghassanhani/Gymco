@@ -3216,4 +3216,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get estimateAction => 'Estimar';
+
+  @override
+  String showPhotosOf(String name) {
+    return 'Ver fotos de $name';
+  }
+
+  @override
+  String get closePhotos => 'Cerrar';
 }

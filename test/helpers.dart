@@ -57,6 +57,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   Dictation? dictation,
   Cloud? cloud,
   PhotoPicker? picker,
+  ImageProvider Function(String url)? exerciseImages,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -77,7 +78,8 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         foodSourceProvider.overrideWithValue(source ?? FakeFoodSource()),
         clockProvider.overrideWithValue(clock ?? () => testNow),
         exerciseLibraryProvider.overrideWith((_) => library ?? testLibrary),
-        showExercisePhotosProvider.overrideWithValue(false),
+        showExercisePhotosProvider.overrideWithValue(exerciseImages != null),
+        if (exerciseImages != null) exerciseImageProvider.overrideWithValue(exerciseImages),
         dictationProvider.overrideWithValue(dictation ?? FakeDictation()),
         cloudProvider.overrideWithValue(cloud ?? const NoCloud()),
         photoPickerProvider.overrideWithValue(picker ?? FakePicker()),
@@ -198,7 +200,7 @@ Exercise _ex(String id, String name, String eq, List<String> muscles) => Exercis
   secondary: const [],
   category: 'strength',
   instructions: const ['Lift it.', 'Lower it.'],
-  images: const [],
+  images: ['$id/0.jpg', '$id/1.jpg'],
 );
 
 final testLibrary = ExerciseLibrary([

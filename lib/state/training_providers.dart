@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/templates.dart';
@@ -13,6 +15,9 @@ final exerciseLibraryProvider = FutureProvider<ExerciseLibrary>((_) => ExerciseL
 
 /// Off in tests: photos need the phone's file cache.
 final showExercisePhotosProvider = Provider<bool>((_) => true);
+
+/// Where exercise photos come from: the network, kept in the phone's cache.
+final exerciseImageProvider = Provider<ImageProvider Function(String url)>((_) => CachedNetworkImageProvider.new);
 
 final routinesProvider = FutureProvider<List<Routine>>((ref) => ref.watch(dbProvider).routines());
 

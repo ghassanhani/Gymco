@@ -14,6 +14,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'exercise_photo.dart';
 import 'train_kit.dart';
 
 const workoutRests = [0, 60, 90, 120, 150, 180, 240, 300];
@@ -378,7 +379,7 @@ class _ExerciseCard extends ConsumerWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ExAv(ex?.badge ?? '··'),
+                ExThumb(ex, size: 44),
                 const SizedBox(width: 10),
                 Expanded(
                   child: GapCol(

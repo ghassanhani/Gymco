@@ -3209,4 +3209,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get estimateAction => 'Estimate';
+
+  @override
+  String showPhotosOf(String name) {
+    return 'Show photos of $name';
+  }
+
+  @override
+  String get closePhotos => 'Close';
 }

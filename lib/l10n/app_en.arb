@@ -2470,5 +2470,14 @@
       }
     }
   },
-  "estimateAction": "Estimate"
+  "estimateAction": "Estimate",
+  "showPhotosOf": "Show photos of {name}",
+  "@showPhotosOf": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "closePhotos": "Close"
 }

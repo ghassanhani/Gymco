@@ -11,6 +11,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'exercise_photo.dart';
 import 'train_kit.dart';
 
 /// One exercise: its estimated 1RM over time, its bests, how to do it, and
@@ -192,13 +193,16 @@ class ExerciseScreen extends ConsumerWidget {
                         child: PageView(
                           children: [
                             for (var i = 0; i < e.images.length; i++)
-                              CachedNetworkImage(
-                                imageUrl: e.imageUrl(i),
-                                fit: BoxFit.cover,
-                                errorWidget: (_, _, _) => Container(
-                                  color: Volt.card,
-                                  alignment: Alignment.center,
-                                  child: Muted(l.photoUnavailable),
+                              GestureDetector(
+                                onTap: () => showExercisePhotos(context, e, initial: i),
+                                child: CachedNetworkImage(
+                                  imageUrl: e.imageUrl(i),
+                                  fit: BoxFit.cover,
+                                  errorWidget: (_, _, _) => Container(
+                                    color: Volt.card,
+                                    alignment: Alignment.center,
+                                    child: Muted(l.photoUnavailable),
+                                  ),
                                 ),
                               ),
                           ],

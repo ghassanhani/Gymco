@@ -891,5 +891,7 @@
   "aiEstimateShort": "تقدير الذكاء الاصطناعي",
   "aiEstimateLabel": "تقدير الذكاء الاصطناعي · راجع الأرقام",
   "addAllKcal": "{n, plural, =1{أضفه · {kcal} سعرة} =2{أضف الاثنين · {kcal} سعرة} few{أضف الـ{n} · {kcal} سعرة} other{أضف الـ{n} · {kcal} سعرة}}",
-  "estimateAction": "قدّر"
+  "estimateAction": "قدّر",
+  "showPhotosOf": "عرض صور {name}",
+  "closePhotos": "إغلاق"
 }

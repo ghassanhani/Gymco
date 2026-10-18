@@ -10,6 +10,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import 'library_screen.dart';
+import 'exercise_photo.dart';
 import 'train_kit.dart';
 
 /// One routine, read-only: what it holds and what it does to the week.
@@ -104,7 +105,7 @@ class RoutineScreen extends ConsumerWidget {
                         VItem(
                           onTap: () => context.push('/exercise/${Uri.encodeComponent(it.exerciseId)}'),
                           children: [
-                            ExAv(lib?[it.exerciseId]?.badge ?? '··'),
+                            ExThumb(lib?[it.exerciseId], size: 44),
                             ItemText(
                               lib?[it.exerciseId]?.name ?? it.exerciseId,
                               weight: FontWeight.w600,

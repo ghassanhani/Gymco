@@ -891,5 +891,7 @@
   "aiEstimateShort": "estimación de IA",
   "aiEstimateLabel": "Estimado por IA · revisa las cifras",
   "addAllKcal": "{n, plural, =1{Añadirlo · {kcal} kcal} other{Añadir los {n} · {kcal} kcal}}",
-  "estimateAction": "Estimar"
+  "estimateAction": "Estimar",
+  "showPhotosOf": "Ver fotos de {name}",
+  "closePhotos": "Cerrar"
 }

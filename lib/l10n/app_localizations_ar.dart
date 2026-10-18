@@ -3224,4 +3224,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get estimateAction => 'قدّر';
+
+  @override
+  String showPhotosOf(String name) {
+    return 'عرض صور $name';
+  }
+
+  @override
+  String get closePhotos => 'إغلاق';
 }
