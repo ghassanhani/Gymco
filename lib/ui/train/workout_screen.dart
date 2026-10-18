@@ -904,44 +904,61 @@ class _RestBar extends StatelessWidget {
         liveRegion: true,
         label: l.restingFor(fmtRest(left)),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: const EdgeInsets.fromLTRB(18, 14, 14, 16),
           decoration: BoxDecoration(
-            color: Volt.card,
-            borderRadius: BorderRadius.circular(17),
-            border: Border.all(color: Volt.brand.withValues(alpha: 0.22)),
+            gradient: Volt.glow,
+            borderRadius: BorderRadius.circular(Volt.rCard),
             boxShadow: const [
-              BoxShadow(color: Color(0xCC000000), blurRadius: 36, offset: Offset(0, 18), spreadRadius: -14),
-              BoxShadow(color: Color(0x14C6F432), spreadRadius: 1),
+              BoxShadow(color: Color(0x8CC6F432), blurRadius: 34, offset: Offset(0, 14), spreadRadius: -12),
+              BoxShadow(color: Color(0xCC000000), blurRadius: 30, offset: Offset(0, 18), spreadRadius: -16),
             ],
           ),
           child: GapCol(
-            gap: 10,
+            gap: 12,
             cross: CrossAxisAlignment.stretch,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(fmtRest(left), style: numStyle(26)),
-                  const SizedBox(width: 10),
                   Expanded(
                     child: GapCol(
-                      gap: 1,
+                      gap: 2,
                       children: [
-                        Eyebrow(l.resting, color: Volt.brand),
+                        Row(
+                          children: [
+                            const VIcon('clock', size: 14, color: Color(0xB30A0B09)),
+                            const SizedBox(width: 6),
+                            Eyebrow(l.resting, color: const Color(0xB30A0B09)),
+                          ],
+                        ),
+                        Text(
+                          fmtRest(left),
+                          style: numStyle(52, weight: FontWeight.w700, color: Volt.ink, height: 1.05),
+                        ),
                         Text(
                           label,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 13, color: Color(0xA8FFFFFF)),
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Color(0xB30A0B09)),
                         ),
                       ],
                     ),
                   ),
-                  _BarBtn(label: l.minus15, onTap: onMinus),
-                  const SizedBox(width: 8),
-                  _BarBtn(label: l.skip, onTap: onSkip),
+                  const SizedBox(width: 10),
+                  IntrinsicWidth(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _BarBtn(label: l.minus15, onTap: onMinus),
+                        const SizedBox(height: 8),
+                        _BarBtn(label: l.skip, onTap: onSkip, solid: true),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              VBar(fraction: total == 0 ? 0 : left / total, color: Volt.brand, track: const Color(0x2EFFFFFF)),
+              VBar(fraction: total == 0 ? 0 : left / total, color: Volt.ink, height: 8, track: const Color(0x2E0A0B09)),
             ],
           ),
         ),
@@ -950,28 +967,30 @@ class _RestBar extends StatelessWidget {
   }
 }
 
-/// The rest bar's small outlined buttons.
+/// The rest bar's buttons: ink-tinted, or solid ink for the main one.
 class _BarBtn extends StatelessWidget {
-  const _BarBtn({required this.label, required this.onTap});
+  const _BarBtn({required this.label, required this.onTap, this.solid = false});
   final String label;
   final VoidCallback onTap;
+  final bool solid;
 
   @override
   Widget build(BuildContext context) => Pressable(
     onTap: onTap,
     label: label,
     child: Container(
-      height: 34,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      height: 40,
+      constraints: const BoxConstraints(minWidth: 84),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: const Color(0x1FFFFFFF),
+        color: solid ? Volt.ink : const Color(0x1F0A0B09),
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: const Color(0x42FFFFFF)),
+        border: solid ? null : Border.all(color: const Color(0x400A0B09)),
       ),
       child: Text(
         label,
-        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white),
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: solid ? Volt.brand : Volt.ink),
       ),
     ),
   );
