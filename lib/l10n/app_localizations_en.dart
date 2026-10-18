@@ -3555,4 +3555,84 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get healthNote =>
       'Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there.';
+
+  @override
+  String get mEatOut => 'Eat out';
+
+  @override
+  String get eatOutTitleEm => 'Eating <em>out</em>';
+
+  @override
+  String get eatOutSub => 'No label, no problem. An honest guess beats a blank day.';
+
+  @override
+  String get eoWhat => 'What did you have';
+
+  @override
+  String get eoPortion => 'Portion';
+
+  @override
+  String get eoSides => 'Sides';
+
+  @override
+  String get eoEstimate => 'Estimate';
+
+  @override
+  String get eoRange => 'range';
+
+  @override
+  String get eoNote => 'Marked as an estimate — it still counts toward your streak.';
+
+  @override
+  String eoLogTo(String meal) {
+    return 'Log to $meal';
+  }
+
+  @override
+  String get eoBurger => 'Burger';
+
+  @override
+  String get eoPizza => 'Pizza';
+
+  @override
+  String get eoPasta => 'Pasta';
+
+  @override
+  String get eoShawarma => 'Shawarma';
+
+  @override
+  String get eoSushi => 'Sushi';
+
+  @override
+  String get eoCurry => 'Curry';
+
+  @override
+  String get eoSalad => 'Salad';
+
+  @override
+  String get eoGrill => 'Grill plate';
+
+  @override
+  String get eoSmall => 'Small';
+
+  @override
+  String get eoNormal => 'Normal';
+
+  @override
+  String get eoBig => 'Big';
+
+  @override
+  String get eoHuge => 'Huge';
+
+  @override
+  String get eoFries => 'Fries';
+
+  @override
+  String get eoGarlic => 'Garlic sauce';
+
+  @override
+  String get eoBread => 'Bread';
+
+  @override
+  String get eoSoda => 'Soft drink';
 }

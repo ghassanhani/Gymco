@@ -130,16 +130,23 @@ class MealScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Expanded(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.baseline,
-                                textBaseline: TextBaseline.alphabetic,
-                                children: [
-                                  Text(fmtInt(context, t.kcal), style: numStyle(34, height: 1.1)),
-                                  const SizedBox(width: 8),
-                                  Text(l.kcal, style: const TextStyle(fontSize: 14, color: Volt.t2)),
-                                ],
+                              // Big totals shrink to fit rather than spill.
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
+                                  children: [
+                                    Text(fmtInt(context, t.kcal), style: numStyle(34, height: 1.1)),
+                                    const SizedBox(width: 8),
+                                    Text(l.kcal, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                                  ],
+                                ),
                               ),
                             ),
+                            const SizedBox(width: 8),
                             Muted(l.shareOfToday(share)),
                           ],
                         ),

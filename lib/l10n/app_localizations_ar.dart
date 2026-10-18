@@ -3564,4 +3564,84 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get healthNote => 'إيقافه يوقف القراءة والكتابة الجديدة. ما تمت مشاركته يبقى في تطبيق الصحة حتى تحذفه منه.';
+
+  @override
+  String get mEatOut => 'مطعم';
+
+  @override
+  String get eatOutTitleEm => 'الأكل <em>خارجًا</em>';
+
+  @override
+  String get eatOutSub => 'لا ملصق؟ لا مشكلة. التقدير الصادق أفضل من يوم فارغ.';
+
+  @override
+  String get eoWhat => 'ماذا تناولت';
+
+  @override
+  String get eoPortion => 'الحصة';
+
+  @override
+  String get eoSides => 'الإضافات';
+
+  @override
+  String get eoEstimate => 'التقدير';
+
+  @override
+  String get eoRange => 'هامش';
+
+  @override
+  String get eoNote => 'يُسجَّل كتقدير — ويُحسب ضمن سلسلتك.';
+
+  @override
+  String eoLogTo(String meal) {
+    return 'سجّل في $meal';
+  }
+
+  @override
+  String get eoBurger => 'برغر';
+
+  @override
+  String get eoPizza => 'بيتزا';
+
+  @override
+  String get eoPasta => 'باستا';
+
+  @override
+  String get eoShawarma => 'شاورما';
+
+  @override
+  String get eoSushi => 'سوشي';
+
+  @override
+  String get eoCurry => 'كاري';
+
+  @override
+  String get eoSalad => 'سلطة';
+
+  @override
+  String get eoGrill => 'طبق مشاوي';
+
+  @override
+  String get eoSmall => 'صغيرة';
+
+  @override
+  String get eoNormal => 'عادية';
+
+  @override
+  String get eoBig => 'كبيرة';
+
+  @override
+  String get eoHuge => 'ضخمة';
+
+  @override
+  String get eoFries => 'بطاطا مقلية';
+
+  @override
+  String get eoGarlic => 'ثومية';
+
+  @override
+  String get eoBread => 'خبز';
+
+  @override
+  String get eoSoda => 'مشروب غازي';
 }

@@ -2686,5 +2686,38 @@
   "healthWaterSub": "Every drink you log",
   "healthWeighIns": "Weigh-ins",
   "healthWeighInsSub": "The ones you type into Gymco",
-  "healthNote": "Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there."
+  "healthNote": "Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there.",
+  "mEatOut": "Eat out",
+  "eatOutTitleEm": "Eating <em>out</em>",
+  "eatOutSub": "No label, no problem. An honest guess beats a blank day.",
+  "eoWhat": "What did you have",
+  "eoPortion": "Portion",
+  "eoSides": "Sides",
+  "eoEstimate": "Estimate",
+  "eoRange": "range",
+  "eoNote": "Marked as an estimate — it still counts toward your streak.",
+  "eoLogTo": "Log to {meal}",
+  "@eoLogTo": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "eoBurger": "Burger",
+  "eoPizza": "Pizza",
+  "eoPasta": "Pasta",
+  "eoShawarma": "Shawarma",
+  "eoSushi": "Sushi",
+  "eoCurry": "Curry",
+  "eoSalad": "Salad",
+  "eoGrill": "Grill plate",
+  "eoSmall": "Small",
+  "eoNormal": "Normal",
+  "eoBig": "Big",
+  "eoHuge": "Huge",
+  "eoFries": "Fries",
+  "eoGarlic": "Garlic sauce",
+  "eoBread": "Bread",
+  "eoSoda": "Soft drink"
 }

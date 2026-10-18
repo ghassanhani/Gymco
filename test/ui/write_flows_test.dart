@@ -121,6 +121,32 @@ void main() {
     expect([for (final e in entries) (e.foodName, e.grams)], [('Chicken and rice', 250)]);
   });
 
+  testWidgets('eating out logs an honest estimate', (tester) async {
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await tester.tap(find.bySemanticsLabel('Food').first);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Eat out'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Eat out'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Burger'));
+    await tester.tap(find.text('Big'));
+    await tester.tap(find.text('Fries'));
+    await tester.pumpAndSettle();
+    expect(find.text('≈ 1,348'), findsOneWidget);
+    await tester.ensureVisible(find.text('Log to lunch'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Log to lunch'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams.round(), e.kcal.round())], [
+      ('Burger', 338, 878),
+      ('Fries', 150, 470),
+    ]);
+  });
+
   testWidgets('voice goes through the same reader, with an editable transcript', (tester) async {
     final (db, _) = await pumpApp(
       tester,

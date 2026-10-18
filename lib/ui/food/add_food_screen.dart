@@ -18,6 +18,7 @@ import '../kit/kit.dart';
 import '../progress/progress_screen.dart' show showNumberSheet;
 import '../me/account_screen.dart' show cloudMessage;
 import 'confirm_log.dart';
+import 'eat_out_mode.dart';
 import 'photo_mode.dart';
 import 'write_mode.dart';
 
@@ -379,6 +380,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       Method('voice', l.mVoice, 'mic'),
       Method('camera', l.mPhoto, 'camera'),
       Method('barcode', l.mBarcode, 'scan'),
+      Method('eatout', l.mEatOut, 'food'),
     ];
 
     final left = profile == null
@@ -520,6 +522,16 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
           ),
           ?rows,
         ],
+      ];
+    } else if (_mode == 'eatout') {
+      body = [
+        EatOutMode(
+          meal: _meal,
+          onDone: (n) {
+            showVToast(context, l.itemsLoggedTo(n, mealName(l, _meal).toLowerCase()));
+            context.go('/meal/${_meal.name}');
+          },
+        ),
       ];
     } else if (_mode == 'camera') {
       body = [

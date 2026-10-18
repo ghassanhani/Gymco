@@ -33,6 +33,19 @@ const _names = <String, (String ar, String es)>{
   'usda:cottage-cheese': ('جبن قريش، قليل الدسم', 'Requesón bajo en grasa'),
   'usda:bread-white': ('خبز أبيض', 'Pan blanco'),
   'usda:whey-protein': ('بروتين مصل اللبن (واي)', 'Proteína de suero (whey)'),
+  // Eating-out estimates.
+  'eatout:burger': ('برغر (تقدير)', 'Hamburguesa (estimación)'),
+  'eatout:pizza': ('بيتزا، نصف (تقدير)', 'Pizza, media (estimación)'),
+  'eatout:pasta': ('طبق باستا (تقدير)', 'Plato de pasta (estimación)'),
+  'eatout:shawarma': ('شاورما (تقدير)', 'Shawarma (estimación)'),
+  'eatout:sushi': ('سوشي، 12 قطعة (تقدير)', 'Sushi, 12 piezas (estimación)'),
+  'eatout:curry': ('كاري مع أرز (تقدير)', 'Curry con arroz (estimación)'),
+  'eatout:salad': ('سلطة مع صلصة (تقدير)', 'Ensalada con aliño (estimación)'),
+  'eatout:grill': ('طبق مشاوي (تقدير)', 'Parrillada (estimación)'),
+  'eatout:fries': ('بطاطا مقلية (تقدير)', 'Patatas fritas (estimación)'),
+  'eatout:garlic': ('ثومية (تقدير)', 'Salsa de ajo (estimación)'),
+  'eatout:bread': ('خبز (تقدير)', 'Pan (estimación)'),
+  'eatout:soda': ('مشروب غازي (تقدير)', 'Refresco (estimación)'),
 };
 
 /// [english] in [languageCode] when the staple has a name there.

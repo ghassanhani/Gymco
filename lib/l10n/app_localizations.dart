@@ -6032,6 +6032,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there.'**
   String get healthNote;
+
+  /// No description provided for @mEatOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Eat out'**
+  String get mEatOut;
+
+  /// No description provided for @eatOutTitleEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Eating <em>out</em>'**
+  String get eatOutTitleEm;
+
+  /// No description provided for @eatOutSub.
+  ///
+  /// In en, this message translates to:
+  /// **'No label, no problem. An honest guess beats a blank day.'**
+  String get eatOutSub;
+
+  /// No description provided for @eoWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you have'**
+  String get eoWhat;
+
+  /// No description provided for @eoPortion.
+  ///
+  /// In en, this message translates to:
+  /// **'Portion'**
+  String get eoPortion;
+
+  /// No description provided for @eoSides.
+  ///
+  /// In en, this message translates to:
+  /// **'Sides'**
+  String get eoSides;
+
+  /// No description provided for @eoEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate'**
+  String get eoEstimate;
+
+  /// No description provided for @eoRange.
+  ///
+  /// In en, this message translates to:
+  /// **'range'**
+  String get eoRange;
+
+  /// No description provided for @eoNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked as an estimate — it still counts toward your streak.'**
+  String get eoNote;
+
+  /// No description provided for @eoLogTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Log to {meal}'**
+  String eoLogTo(String meal);
+
+  /// No description provided for @eoBurger.
+  ///
+  /// In en, this message translates to:
+  /// **'Burger'**
+  String get eoBurger;
+
+  /// No description provided for @eoPizza.
+  ///
+  /// In en, this message translates to:
+  /// **'Pizza'**
+  String get eoPizza;
+
+  /// No description provided for @eoPasta.
+  ///
+  /// In en, this message translates to:
+  /// **'Pasta'**
+  String get eoPasta;
+
+  /// No description provided for @eoShawarma.
+  ///
+  /// In en, this message translates to:
+  /// **'Shawarma'**
+  String get eoShawarma;
+
+  /// No description provided for @eoSushi.
+  ///
+  /// In en, this message translates to:
+  /// **'Sushi'**
+  String get eoSushi;
+
+  /// No description provided for @eoCurry.
+  ///
+  /// In en, this message translates to:
+  /// **'Curry'**
+  String get eoCurry;
+
+  /// No description provided for @eoSalad.
+  ///
+  /// In en, this message translates to:
+  /// **'Salad'**
+  String get eoSalad;
+
+  /// No description provided for @eoGrill.
+  ///
+  /// In en, this message translates to:
+  /// **'Grill plate'**
+  String get eoGrill;
+
+  /// No description provided for @eoSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'Small'**
+  String get eoSmall;
+
+  /// No description provided for @eoNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get eoNormal;
+
+  /// No description provided for @eoBig.
+  ///
+  /// In en, this message translates to:
+  /// **'Big'**
+  String get eoBig;
+
+  /// No description provided for @eoHuge.
+  ///
+  /// In en, this message translates to:
+  /// **'Huge'**
+  String get eoHuge;
+
+  /// No description provided for @eoFries.
+  ///
+  /// In en, this message translates to:
+  /// **'Fries'**
+  String get eoFries;
+
+  /// No description provided for @eoGarlic.
+  ///
+  /// In en, this message translates to:
+  /// **'Garlic sauce'**
+  String get eoGarlic;
+
+  /// No description provided for @eoBread.
+  ///
+  /// In en, this message translates to:
+  /// **'Bread'**
+  String get eoBread;
+
+  /// No description provided for @eoSoda.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft drink'**
+  String get eoSoda;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
