@@ -1082,23 +1082,21 @@ class _WelcomeState extends State<_Welcome> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: ClipRect(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Transform.scale(
-                              scale: 1.22,
+                        // The picture fills the room above its title and melts into the background.
+                        child: ShaderMask(
+                          blendMode: BlendMode.dstIn,
+                          shaderCallback: (r) => const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.transparent, Colors.black, Colors.black, Colors.transparent],
+                            stops: [0, 0.18, 0.92, 1],
+                          ).createShader(r),
+                          child: SizedBox.expand(
+                            child: Image.asset(
+                              art,
+                              fit: BoxFit.cover,
                               alignment: Alignment.bottomCenter,
-                              // Its top and bottom melt into the background.
-                              child: ShaderMask(
-                                blendMode: BlendMode.dstIn,
-                                shaderCallback: (r) => const LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [Colors.transparent, Colors.black, Colors.black, Colors.transparent],
-                                  stops: [0, 0.22, 0.9, 1],
-                                ).createShader(r),
-                                child: Image.asset(art, fit: BoxFit.fitWidth, semanticLabel: alt),
-                              ),
+                              semanticLabel: alt,
                             ),
                           ),
                         ),
@@ -1185,7 +1183,12 @@ class _WelcomeState extends State<_Welcome> {
                           child: Text(
                             l.getStarted,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Volt.ink),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: -0.2,
+                              color: Volt.ink,
+                            ),
                           ),
                         ),
                         Container(
@@ -1193,7 +1196,7 @@ class _WelcomeState extends State<_Welcome> {
                           height: 46,
                           alignment: Alignment.center,
                           decoration: const BoxDecoration(shape: BoxShape.circle, color: Volt.ink),
-                          child: const VIcon('fwd', size: 20, color: Volt.brand),
+                          child: const VIcon('fwd', size: 22, color: Volt.brand, strokeWidth: 2.2),
                         ),
                       ],
                     ),
