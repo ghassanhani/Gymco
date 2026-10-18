@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/models.dart';
 import '../../data/training.dart';
 import '../../domain/session.dart';
 import '../../domain/workout.dart';
@@ -15,6 +16,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import 'exercise_photo.dart';
+import 'swap_pain.dart';
 import 'train_kit.dart';
 
 const workoutRests = [0, 60, 90, 120, 150, 180, 240, 300];
@@ -350,6 +352,14 @@ class _ExerciseCard extends ConsumerWidget {
             },
           ),
         SRow(
+          label: l.swapExercise,
+          sub: l.swapExerciseSub,
+          onTap: () {
+            Navigator.pop(ctx);
+            swapSheet(context, ref, index);
+          },
+        ),
+        SRow(
           label: l.seeHistory,
           onTap: () {
             Navigator.pop(ctx);
@@ -410,6 +420,7 @@ class _ExerciseCard extends ConsumerWidget {
               ],
             ),
           ),
+          PainReminder(exerciseId: e.exerciseId, today: dayKey(s.startedAt)),
           _Note(index: index, initial: e.note),
           Pressable(
             onTap: () => host.restSheet(index),
@@ -525,12 +536,7 @@ class _SetRow extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final n = ref.read(activeWorkoutProvider.notifier);
     final type = set.type;
-    final label = switch (type) {
-      SetType.warmup => 'W',
-      SetType.drop => 'D',
-      SetType.failure => 'F',
-      SetType.normal => '$number',
-    };
+    final label = _label;
     final typeColor = switch (type) {
       SetType.warmup => Volt.warn,
       SetType.failure => Volt.brandInk,
@@ -567,14 +573,30 @@ class _SetRow extends ConsumerWidget {
         cells: [
           Pressable(
             onTap: () => _typeSheet(context, ref),
-            label: l.setTypeLabel(_typeName(l, type)),
+            label: set.pain == null
+                ? l.setTypeLabel(_typeName(l, type))
+                : '${l.setTypeLabel(_typeName(l, type))}, ${l.painFlaggedOn(painAreaName(l, set.pain!.area))}',
             child: SizedBox(
               height: 26,
-              child: Center(
-                child: Text(
-                  label,
-                  style: numStyle(12, weight: FontWeight.w700, color: typeColor),
-                ),
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Text(
+                    label,
+                    style: numStyle(12, weight: FontWeight.w700, color: set.pain == null ? typeColor : Volt.warn),
+                  ),
+                  if (set.pain != null)
+                    PositionedDirectional(
+                      top: -1,
+                      end: 0,
+                      child: Container(
+                        width: 7,
+                        height: 7,
+                        decoration: const BoxDecoration(color: Volt.warn, shape: BoxShape.circle),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
@@ -637,6 +659,13 @@ class _SetRow extends ConsumerWidget {
     );
   }
 
+  String get _label => switch (set.type) {
+    SetType.warmup => 'W',
+    SetType.drop => 'D',
+    SetType.failure => 'F',
+    SetType.normal => '$number',
+  };
+
   void _typeSheet(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final n = ref.read(activeWorkoutProvider.notifier);
@@ -667,6 +696,25 @@ class _SetRow extends ConsumerWidget {
             onTap: () {
               Navigator.pop(ctx);
               n.update((x, _) => x.updateSet(index, setIndex, (s) => s.copyWith(type: t)));
+            },
+          ),
+        if (set.pain == null)
+          SRow(
+            label: l.flagPain,
+            sub: l.flagPainSub,
+            tint: Volt.warn,
+            onTap: () {
+              Navigator.pop(ctx);
+              painSheet(context, ref, index, setIndex, number: _label);
+            },
+          )
+        else
+          SRow(
+            label: l.clearPain,
+            sub: painAreaName(l, set.pain!.area),
+            onTap: () {
+              Navigator.pop(ctx);
+              n.flagPain(index, setIndex, null);
             },
           ),
         SRow(

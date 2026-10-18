@@ -3720,4 +3720,115 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get catchupCardSub => 'Catch up in a few taps';
+
+  @override
+  String get swapExercise => 'Swap exercise';
+
+  @override
+  String get swapExerciseSub => 'Machine taken, or it does not feel right';
+
+  @override
+  String swapTitle(String name) {
+    return 'Swap $name';
+  }
+
+  @override
+  String get swapSub => 'Same muscles, a different movement. Sets you already did stay where they are.';
+
+  @override
+  String get swapNone => 'No close match in the library.';
+
+  @override
+  String swapped(String name) {
+    return 'Swapped to $name';
+  }
+
+  @override
+  String get flagPain => 'Flag pain';
+
+  @override
+  String get flagPainSub => 'Something hurt on this set';
+
+  @override
+  String get clearPain => 'Clear pain flag';
+
+  @override
+  String get painWhere => 'Where does it hurt?';
+
+  @override
+  String get painNote => 'Muscle burn is normal. Pain in a joint, or sharp pain, is not.';
+
+  @override
+  String get painShoulder => 'Shoulder';
+
+  @override
+  String get painElbow => 'Elbow';
+
+  @override
+  String get painWrist => 'Wrist';
+
+  @override
+  String get painBack => 'Lower back';
+
+  @override
+  String get painHip => 'Hip';
+
+  @override
+  String get painKnee => 'Knee';
+
+  @override
+  String get painOther => 'Elsewhere';
+
+  @override
+  String painOnSet(String area, String set) {
+    return '$area · set $set';
+  }
+
+  @override
+  String get painAcheLighter => 'An ache: go 10% lighter';
+
+  @override
+  String get painAcheLighterSub => 'The sets left drop 10%. Stop if it gets worse.';
+
+  @override
+  String get painAcheKeep => 'An ache: keep going';
+
+  @override
+  String get painAcheKeepSub => 'Flagged, so you can watch it next time.';
+
+  @override
+  String get painSharpStop => 'Sharp: stop this exercise';
+
+  @override
+  String get painSharpStopSub => 'Sharp pain is a stop sign. The sets left go.';
+
+  @override
+  String get painSharpSwap => 'Sharp: swap it';
+
+  @override
+  String get painSharpSwapSub => 'Try a movement that does not load it.';
+
+  @override
+  String get painLightened => 'Sets left are 10% lighter';
+
+  @override
+  String get painFlagged => 'Pain flagged';
+
+  @override
+  String get painStopped => 'Stopped here. Rest it, and see someone if it lasts.';
+
+  @override
+  String painFlaggedOn(String area) {
+    return 'Pain flagged: $area';
+  }
+
+  @override
+  String painLastAche(String area, String date) {
+    return 'Last time ($date) your $area ached here. Start lighter.';
+  }
+
+  @override
+  String painLastSharp(String area, String date) {
+    return 'Last time ($date) you had sharp $area pain here. Swap it if it comes back.';
+  }
 }

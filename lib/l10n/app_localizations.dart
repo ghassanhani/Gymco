@@ -6302,6 +6302,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Catch up in a few taps'**
   String get catchupCardSub;
+
+  /// No description provided for @swapExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap exercise'**
+  String get swapExercise;
+
+  /// No description provided for @swapExerciseSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine taken, or it does not feel right'**
+  String get swapExerciseSub;
+
+  /// No description provided for @swapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap {name}'**
+  String swapTitle(String name);
+
+  /// No description provided for @swapSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Same muscles, a different movement. Sets you already did stay where they are.'**
+  String get swapSub;
+
+  /// No description provided for @swapNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No close match in the library.'**
+  String get swapNone;
+
+  /// No description provided for @swapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Swapped to {name}'**
+  String swapped(String name);
+
+  /// No description provided for @flagPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Flag pain'**
+  String get flagPain;
+
+  /// No description provided for @flagPainSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Something hurt on this set'**
+  String get flagPainSub;
+
+  /// No description provided for @clearPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear pain flag'**
+  String get clearPain;
+
+  /// No description provided for @painWhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Where does it hurt?'**
+  String get painWhere;
+
+  /// No description provided for @painNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscle burn is normal. Pain in a joint, or sharp pain, is not.'**
+  String get painNote;
+
+  /// No description provided for @painShoulder.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulder'**
+  String get painShoulder;
+
+  /// No description provided for @painElbow.
+  ///
+  /// In en, this message translates to:
+  /// **'Elbow'**
+  String get painElbow;
+
+  /// No description provided for @painWrist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrist'**
+  String get painWrist;
+
+  /// No description provided for @painBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower back'**
+  String get painBack;
+
+  /// No description provided for @painHip.
+  ///
+  /// In en, this message translates to:
+  /// **'Hip'**
+  String get painHip;
+
+  /// No description provided for @painKnee.
+  ///
+  /// In en, this message translates to:
+  /// **'Knee'**
+  String get painKnee;
+
+  /// No description provided for @painOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Elsewhere'**
+  String get painOther;
+
+  /// No description provided for @painOnSet.
+  ///
+  /// In en, this message translates to:
+  /// **'{area} · set {set}'**
+  String painOnSet(String area, String set);
+
+  /// No description provided for @painAcheLighter.
+  ///
+  /// In en, this message translates to:
+  /// **'An ache: go 10% lighter'**
+  String get painAcheLighter;
+
+  /// No description provided for @painAcheLighterSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The sets left drop 10%. Stop if it gets worse.'**
+  String get painAcheLighterSub;
+
+  /// No description provided for @painAcheKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'An ache: keep going'**
+  String get painAcheKeep;
+
+  /// No description provided for @painAcheKeepSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Flagged, so you can watch it next time.'**
+  String get painAcheKeepSub;
+
+  /// No description provided for @painSharpStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp: stop this exercise'**
+  String get painSharpStop;
+
+  /// No description provided for @painSharpStopSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp pain is a stop sign. The sets left go.'**
+  String get painSharpStopSub;
+
+  /// No description provided for @painSharpSwap.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp: swap it'**
+  String get painSharpSwap;
+
+  /// No description provided for @painSharpSwapSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a movement that does not load it.'**
+  String get painSharpSwapSub;
+
+  /// No description provided for @painLightened.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets left are 10% lighter'**
+  String get painLightened;
+
+  /// No description provided for @painFlagged.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain flagged'**
+  String get painFlagged;
+
+  /// No description provided for @painStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped here. Rest it, and see someone if it lasts.'**
+  String get painStopped;
+
+  /// No description provided for @painFlaggedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain flagged: {area}'**
+  String painFlaggedOn(String area);
+
+  /// No description provided for @painLastAche.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time ({date}) your {area} ached here. Start lighter.'**
+  String painLastAche(String area, String date);
+
+  /// No description provided for @painLastSharp.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time ({date}) you had sharp {area} pain here. Swap it if it comes back.'**
+  String painLastSharp(String area, String date);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

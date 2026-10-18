@@ -5,7 +5,7 @@ library;
 import 'workout.dart';
 
 class SessionSet {
-  const SessionSet({this.weightKg, this.reps, this.type = SetType.normal, this.done = false, this.rir});
+  const SessionSet({this.weightKg, this.reps, this.type = SetType.normal, this.done = false, this.rir, this.pain});
 
   final double? weightKg;
   final int? reps;
@@ -14,6 +14,9 @@ class SessionSet {
 
   /// Reps in reserve, as the lifter judged it.
   final int? rir;
+
+  /// Where it hurt on this set, when the lifter flagged it.
+  final PainFlag? pain;
 
   bool get complete => weightKg != null && reps != null && reps! > 0;
 
@@ -25,15 +28,24 @@ class SessionSet {
     SetType? type,
     bool? done,
     int? Function()? rir,
+    PainFlag? Function()? pain,
   }) => SessionSet(
     weightKg: weightKg == null ? this.weightKg : weightKg(),
     reps: reps == null ? this.reps : reps(),
     type: type ?? this.type,
     done: done ?? this.done,
     rir: rir == null ? this.rir : rir(),
+    pain: pain == null ? this.pain : pain(),
   );
 
-  Map<String, Object?> toJson() => {'w': weightKg, 'r': reps, 't': type.name, 'd': done, 'rir': rir};
+  Map<String, Object?> toJson() => {
+    'w': weightKg,
+    'r': reps,
+    't': type.name,
+    'd': done,
+    'rir': rir,
+    if (pain != null) 'pain': pain!.toJson(),
+  };
 
   factory SessionSet.fromJson(Map<String, Object?> j) => SessionSet(
     weightKg: (j['w'] as num?)?.toDouble(),
@@ -41,7 +53,21 @@ class SessionSet {
     type: SetType.values.byName(j['t']! as String),
     done: j['d']! as bool,
     rir: j['rir'] as int?,
+    pain: j['pain'] == null ? null : PainFlag.fromJson((j['pain']! as Map).cast<String, Object?>()),
   );
+}
+
+enum PainArea { shoulder, elbow, wrist, back, hip, knee, other }
+
+/// Pain on a set: where, and whether it was sharp rather than a dull ache.
+class PainFlag {
+  const PainFlag(this.area, {this.sharp = false});
+  final PainArea area;
+  final bool sharp;
+
+  Map<String, Object?> toJson() => {'a': area.name, 's': sharp};
+  factory PainFlag.fromJson(Map<String, Object?> j) =>
+      PainFlag(PainArea.values.byName(j['a']! as String), sharp: (j['s'] as bool?) ?? false);
 }
 
 class SessionExercise {
@@ -192,6 +218,39 @@ class WorkoutSession {
       ),
     );
   });
+
+  /// Swap [ex] for [other]. Sets already done stay with the exercise that
+  /// did them; the rest move to the new one, right after it.
+  WorkoutSession swapExercise(int ex, SessionExercise other) {
+    final old = exercises[ex];
+    final done = old.sets.where((x) => x.done).toList();
+    final list = [...exercises];
+    final swapped = other.copyWith(linkNext: old.linkNext);
+    if (done.isEmpty) {
+      list[ex] = swapped;
+    } else {
+      list[ex] = old.copyWith(sets: done, linkNext: false);
+      list.insert(ex + 1, swapped);
+    }
+    return _with(exercises: list);
+  }
+
+  /// Flag pain on a set, or clear it with null.
+  WorkoutSession flagPain(int ex, int i, PainFlag? pain) => updateSet(ex, i, (s) => s.copyWith(pain: () => pain));
+
+  /// Take [fraction] off the weight of every set not done yet, rounded to
+  /// the nearest 0.5 kg.
+  WorkoutSession lighten(int ex, double fraction) => _editSets(
+    ex,
+    (s) => [
+      for (final x in s)
+        x.done || x.weightKg == null ? x : x.copyWith(weightKg: () => ((x.weightKg! * (1 - fraction)) * 2).round() / 2),
+    ],
+  );
+
+  /// Stop an exercise here: the sets not done yet go, except the one that
+  /// carries the pain flag.
+  WorkoutSession stopExercise(int ex) => _editSets(ex, (s) => s.where((x) => x.done || x.pain != null).toList());
 
   WorkoutSession removeSet(int ex, int i) => _editSets(ex, (s) => s..removeAt(i));
 

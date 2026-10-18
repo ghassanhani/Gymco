@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/templates.dart';
 import '../data/training.dart';
 import '../domain/schedule.dart';
 import '../domain/session.dart';
+import '../data/models.dart';
 import 'providers.dart';
 
 /// Loaded once from the bundled asset; tests override it.
@@ -212,6 +214,49 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
     update((s, _) => adds.fold(s, (n, e) => n.addExercise(e)));
   }
 
+  /// Swap exercise [ex] for [e], keeping the plan's sets, reps and rest.
+  Future<void> swap(int ex, Exercise e) async {
+    final s = state;
+    if (s == null) return;
+    final old = s.exercises[ex];
+    final prev = await ref.read(dbProvider).lastSetsFor(e.id);
+    final left = old.sets.where((x) => !x.done).toList();
+    final next = SessionExercise(
+      exerciseId: e.id,
+      name: e.name,
+      repLow: old.repLow,
+      repHigh: old.repHigh,
+      restSeconds: old.restSeconds,
+      rir: old.rir,
+      previous: prev,
+      sets: [
+        for (final (i, x) in (left.isEmpty ? old.sets : left).indexed)
+          SessionSet(
+            type: x.type,
+            weightKg: i < prev.length ? prev[i].weightKg : (prev.isEmpty ? null : prev.last.weightKg),
+          ),
+      ],
+    );
+    update((x, _) => x.swapExercise(ex, next));
+  }
+
+  /// Flag pain on a set, and remember it for next time this exercise comes up.
+  void flagPain(int ex, int i, PainFlag? pain) {
+    final s = state;
+    if (s == null) return;
+    update((x, _) => x.flagPain(ex, i, pain));
+    final p = ref.read(prefsProvider);
+    final all = painMemory(p);
+    final id = s.exercises[ex].exerciseId;
+    if (pain == null) {
+      all.remove(id);
+    } else {
+      all[id] = {...pain.toJson(), 'day': dayKey(_now)};
+    }
+    p.setString(_painKey, jsonEncode(all));
+    ref.invalidate(lastPainProvider);
+  }
+
   void discard() => _set(null);
 
   Future<FinishedWorkout?> finish() async {
@@ -243,4 +288,29 @@ final setsOfWorkoutProvider = FutureProvider.family<List<LoggedExerciseSet>, int
 final exerciseHistoryProvider = FutureProvider.family<List<(DateTime, List<LoggedExerciseSet>)>, String>((ref, id) {
   ref.watch(recentWorkoutsProvider);
   return ref.watch(dbProvider).historyOf(id);
+});
+
+const _painKey = 'painFlags';
+
+Map<String, Object?> painMemory(SharedPreferences p) {
+  try {
+    return (jsonDecode(p.getString(_painKey) ?? '{}') as Map).cast<String, Object?>();
+  } on Object {
+    return {};
+  }
+}
+
+/// The last pain flagged on each exercise, with the day it was.
+final lastPainProvider = Provider<Map<String, (PainFlag, String)>>((ref) {
+  final out = <String, (PainFlag, String)>{};
+  for (final MapEntry(:key, :value) in painMemory(ref.watch(prefsProvider)).entries) {
+    if (value case {'day': final String day} && final Map m) {
+      try {
+        out[key] = (PainFlag.fromJson(m.cast<String, Object?>()), day);
+      } on Object {
+        continue;
+      }
+    }
+  }
+  return out;
 });

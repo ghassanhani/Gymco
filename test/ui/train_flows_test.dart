@@ -179,6 +179,46 @@ void main() {
     expect(find.text('600 kg'), findsOneWidget);
   });
 
+  testWidgets('swap an exercise mid-workout, then flag pain on a set', (tester) async {
+    final s = WorkoutSession.start(
+      name: 'Shoulders',
+      now: testNow.subtract(const Duration(minutes: 5)),
+      exercises: const [
+        SessionExercise(
+          exerciseId: 'ohp',
+          name: 'Standing Military Press',
+          sets: [SessionSet(weightKg: 50, reps: 5, done: true), SessionSet(weightKg: 50), SessionSet(weightKg: 50)],
+        ),
+      ],
+    );
+    final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile, 'activeWorkout': jsonEncode(s.toJson())});
+    await openTrain(tester);
+    await tester.tap(find.text('Resume'));
+    await settle(tester);
+    await tester.tap(find.bySemanticsLabel('Options for Standing Military Press'));
+    await settle(tester);
+    await tester.tap(find.text('Swap exercise'));
+    await settle(tester);
+    expect(find.text('Barbell Bench Press'), findsNothing, reason: 'chest is not shoulders');
+    await tester.tap(find.text('Side Lateral Raise'));
+    await settle(tester);
+    expect(find.text('Side Lateral Raise'), findsOneWidget);
+    expect(find.text('Standing Military Press'), findsOneWidget);
+    expect(find.text('1 / 3'), findsOneWidget);
+
+    await tester.tap(find.bySemanticsLabel(RegExp('^Set type')).last);
+    await settle(tester);
+    await tester.tap(find.text('Flag pain'));
+    await settle(tester);
+    await tester.tap(find.text('Shoulder'));
+    await settle(tester);
+    await tester.tap(find.text('Sharp: stop this exercise'));
+    await settle(tester);
+    expect(find.text('1 / 2'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('Pain flagged: Shoulder')), findsOneWidget);
+    expect(prefs.getString('painFlags'), contains('shoulder'));
+  });
+
   testWidgets('the Train tab reads right to left in Arabic', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, locale: const Locale('ar'));
     await openTrain(tester, label: 'التمرين');

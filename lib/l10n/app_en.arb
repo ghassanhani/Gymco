@@ -2790,5 +2790,89 @@
       }
     }
   },
-  "catchupCardSub": "Catch up in a few taps"
+  "catchupCardSub": "Catch up in a few taps",
+  "swapExercise": "Swap exercise",
+  "swapExerciseSub": "Machine taken, or it does not feel right",
+  "swapTitle": "Swap {name}",
+  "@swapTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "swapSub": "Same muscles, a different movement. Sets you already did stay where they are.",
+  "swapNone": "No close match in the library.",
+  "swapped": "Swapped to {name}",
+  "@swapped": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "flagPain": "Flag pain",
+  "flagPainSub": "Something hurt on this set",
+  "clearPain": "Clear pain flag",
+  "painWhere": "Where does it hurt?",
+  "painNote": "Muscle burn is normal. Pain in a joint, or sharp pain, is not.",
+  "painShoulder": "Shoulder",
+  "painElbow": "Elbow",
+  "painWrist": "Wrist",
+  "painBack": "Lower back",
+  "painHip": "Hip",
+  "painKnee": "Knee",
+  "painOther": "Elsewhere",
+  "painOnSet": "{area} · set {set}",
+  "@painOnSet": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "set": {
+        "type": "String"
+      }
+    }
+  },
+  "painAcheLighter": "An ache: go 10% lighter",
+  "painAcheLighterSub": "The sets left drop 10%. Stop if it gets worse.",
+  "painAcheKeep": "An ache: keep going",
+  "painAcheKeepSub": "Flagged, so you can watch it next time.",
+  "painSharpStop": "Sharp: stop this exercise",
+  "painSharpStopSub": "Sharp pain is a stop sign. The sets left go.",
+  "painSharpSwap": "Sharp: swap it",
+  "painSharpSwapSub": "Try a movement that does not load it.",
+  "painLightened": "Sets left are 10% lighter",
+  "painFlagged": "Pain flagged",
+  "painStopped": "Stopped here. Rest it, and see someone if it lasts.",
+  "painFlaggedOn": "Pain flagged: {area}",
+  "@painFlaggedOn": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "painLastAche": "Last time ({date}) your {area} ached here. Start lighter.",
+  "@painLastAche": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "painLastSharp": "Last time ({date}) you had sharp {area} pain here. Swap it if it comes back.",
+  "@painLastSharp": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

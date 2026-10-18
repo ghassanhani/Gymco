@@ -3724,4 +3724,115 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get catchupCardSub => 'Ponte al día en unos toques';
+
+  @override
+  String get swapExercise => 'Cambiar ejercicio';
+
+  @override
+  String get swapExerciseSub => 'Máquina ocupada, o no se siente bien';
+
+  @override
+  String swapTitle(String name) {
+    return 'Cambiar $name';
+  }
+
+  @override
+  String get swapSub => 'Mismos músculos, otro movimiento. Las series que ya hiciste se quedan donde están.';
+
+  @override
+  String get swapNone => 'No hay una alternativa cercana en la biblioteca.';
+
+  @override
+  String swapped(String name) {
+    return 'Cambiado a $name';
+  }
+
+  @override
+  String get flagPain => 'Marcar dolor';
+
+  @override
+  String get flagPainSub => 'Algo dolió en esta serie';
+
+  @override
+  String get clearPain => 'Quitar marca de dolor';
+
+  @override
+  String get painWhere => '¿Dónde duele?';
+
+  @override
+  String get painNote => 'El ardor muscular es normal. El dolor en una articulación, o un dolor agudo, no.';
+
+  @override
+  String get painShoulder => 'Hombro';
+
+  @override
+  String get painElbow => 'Codo';
+
+  @override
+  String get painWrist => 'Muñeca';
+
+  @override
+  String get painBack => 'Lumbar';
+
+  @override
+  String get painHip => 'Cadera';
+
+  @override
+  String get painKnee => 'Rodilla';
+
+  @override
+  String get painOther => 'Otro sitio';
+
+  @override
+  String painOnSet(String area, String set) {
+    return '$area · serie $set';
+  }
+
+  @override
+  String get painAcheLighter => 'Molestia: baja un 10%';
+
+  @override
+  String get painAcheLighterSub => 'Las series restantes bajan un 10%. Para si empeora.';
+
+  @override
+  String get painAcheKeep => 'Molestia: sigue';
+
+  @override
+  String get painAcheKeepSub => 'Queda marcado para vigilarlo la próxima vez.';
+
+  @override
+  String get painSharpStop => 'Agudo: para este ejercicio';
+
+  @override
+  String get painSharpStopSub => 'El dolor agudo es una señal de parar. Las series restantes se quitan.';
+
+  @override
+  String get painSharpSwap => 'Agudo: cámbialo';
+
+  @override
+  String get painSharpSwapSub => 'Prueba un movimiento que no lo cargue.';
+
+  @override
+  String get painLightened => 'Las series restantes pesan un 10% menos';
+
+  @override
+  String get painFlagged => 'Dolor marcado';
+
+  @override
+  String get painStopped => 'Paras aquí. Descansa y consulta a alguien si continúa.';
+
+  @override
+  String painFlaggedOn(String area) {
+    return 'Dolor marcado: $area';
+  }
+
+  @override
+  String painLastAche(String area, String date) {
+    return 'La última vez ($date) notaste molestia aquí ($area). Empieza más ligero.';
+  }
+
+  @override
+  String painLastSharp(String area, String date) {
+    return 'La última vez ($date) tuviste dolor agudo aquí ($area). Cámbialo si vuelve.';
+  }
 }

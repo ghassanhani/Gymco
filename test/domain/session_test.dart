@@ -135,4 +135,44 @@ void main() {
     // Removing either half drops the link.
     expect(s.removeExercise(1).exercises.single.linkNext, isFalse);
   });
+
+  test('a swap keeps done sets on the old exercise and moves the rest', () {
+    const old = SessionExercise(
+      exerciseId: 'ohp',
+      name: 'Press',
+      sets: [SessionSet(weightKg: 50, reps: 5, done: true), SessionSet(weightKg: 50), SessionSet(weightKg: 50)],
+    );
+    const other = SessionExercise(exerciseId: 'lat', name: 'Raise', sets: [SessionSet(), SessionSet()]);
+    final s = WorkoutSession.start(name: 'x', now: t0, exercises: [old]).swapExercise(0, other);
+    expect(s.exercises.map((e) => e.exerciseId), ['ohp', 'lat']);
+    expect(s.exercises.first.sets, hasLength(1));
+    expect(s.exercises.last.sets, hasLength(2));
+    // Nothing done yet: replaced in place.
+    final fresh = WorkoutSession.start(
+      name: 'x',
+      now: t0,
+      exercises: [
+        old.withSets(const [SessionSet(weightKg: 50)]),
+      ],
+    ).swapExercise(0, other);
+    expect(fresh.exercises.single.exerciseId, 'lat');
+  });
+
+  test('pain lightens or stops the sets left, and survives a restart', () {
+    const e = SessionExercise(
+      exerciseId: 'squat',
+      name: 'Squat',
+      sets: [SessionSet(weightKg: 100, reps: 5, done: true), SessionSet(weightKg: 100), SessionSet(weightKg: 100)],
+    );
+    final s = WorkoutSession.start(
+      name: 'x',
+      now: t0,
+      exercises: [e],
+    ).flagPain(0, 0, const PainFlag(PainArea.knee, sharp: true));
+    expect(s.lighten(0, 0.1).exercises.single.sets.map((x) => x.weightKg), [100, 90, 90]);
+    expect(s.flagPain(0, 0, null).stopExercise(0).exercises.single.sets, hasLength(1));
+    expect(s.flagPain(0, 2, const PainFlag(PainArea.knee)).stopExercise(0).exercises.single.sets, hasLength(2));
+    final back = WorkoutSession.fromJson(s.toJson()).exercises.single.sets.first.pain!;
+    expect((back.area, back.sharp), (PainArea.knee, true));
+  });
 }

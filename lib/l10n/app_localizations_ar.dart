@@ -3740,4 +3740,115 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get catchupCardSub => 'استدرك ببضع نقرات';
+
+  @override
+  String get swapExercise => 'استبدال التمرين';
+
+  @override
+  String get swapExerciseSub => 'الجهاز مشغول، أو لا تشعر بالراحة';
+
+  @override
+  String swapTitle(String name) {
+    return 'استبدال $name';
+  }
+
+  @override
+  String get swapSub => 'نفس العضلات بحركة مختلفة. المجموعات التي أنهيتها تبقى كما هي.';
+
+  @override
+  String get swapNone => 'لا يوجد بديل قريب في المكتبة.';
+
+  @override
+  String swapped(String name) {
+    return 'تم الاستبدال بـ $name';
+  }
+
+  @override
+  String get flagPain => 'الإبلاغ عن ألم';
+
+  @override
+  String get flagPainSub => 'شعرت بألم في هذه المجموعة';
+
+  @override
+  String get clearPain => 'إزالة علامة الألم';
+
+  @override
+  String get painWhere => 'أين الألم؟';
+
+  @override
+  String get painNote => 'الحرقان في العضلة طبيعي. أما الألم في المفصل أو الألم الحاد فلا.';
+
+  @override
+  String get painShoulder => 'الكتف';
+
+  @override
+  String get painElbow => 'المرفق';
+
+  @override
+  String get painWrist => 'الرسغ';
+
+  @override
+  String get painBack => 'أسفل الظهر';
+
+  @override
+  String get painHip => 'الورك';
+
+  @override
+  String get painKnee => 'الركبة';
+
+  @override
+  String get painOther => 'مكان آخر';
+
+  @override
+  String painOnSet(String area, String set) {
+    return '$area · المجموعة $set';
+  }
+
+  @override
+  String get painAcheLighter => 'ألم خفيف: خفّف الوزن ١٠٪';
+
+  @override
+  String get painAcheLighterSub => 'تنخفض المجموعات المتبقية ١٠٪. توقف إذا ازداد الألم.';
+
+  @override
+  String get painAcheKeep => 'ألم خفيف: تابع';
+
+  @override
+  String get painAcheKeepSub => 'سيُعلَّم لتنتبه له في المرة القادمة.';
+
+  @override
+  String get painSharpStop => 'حاد: أوقف هذا التمرين';
+
+  @override
+  String get painSharpStopSub => 'الألم الحاد إشارة توقف. تُحذف المجموعات المتبقية.';
+
+  @override
+  String get painSharpSwap => 'حاد: استبدله';
+
+  @override
+  String get painSharpSwapSub => 'جرّب حركة لا تضغط عليه.';
+
+  @override
+  String get painLightened => 'المجموعات المتبقية أخف بـ ١٠٪';
+
+  @override
+  String get painFlagged => 'تم تسجيل الألم';
+
+  @override
+  String get painStopped => 'توقفت هنا. أرحه، وراجع مختصًا إن استمر.';
+
+  @override
+  String painFlaggedOn(String area) {
+    return 'ألم مسجّل: $area';
+  }
+
+  @override
+  String painLastAche(String area, String date) {
+    return 'في المرة السابقة ($date) شعرت بألم خفيف في $area. ابدأ بوزن أخف.';
+  }
+
+  @override
+  String painLastSharp(String area, String date) {
+    return 'في المرة السابقة ($date) شعرت بألم حاد في $area. استبدله إن عاد.';
+  }
 }
