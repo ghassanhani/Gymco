@@ -3065,5 +3065,17 @@
         "type": "int"
       }
     }
+  },
+  "eoOther": "Something else",
+  "eoOtherHint": "Describe it, e.g. chicken biryani with raita",
+  "eoAskAi": "Ask AI to estimate it",
+  "eoRoughGuess": "No AI? Guess the total",
+  "eoAiNote": "A restaurant meal, normal restaurant portion: {meal}",
+  "@eoAiNote": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
   }
 }

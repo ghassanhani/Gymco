@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../data/cloud.dart' show CloudException;
+import '../../data/meal_reader.dart';
 
 import '../../data/models.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/cloud_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import '../me/account_screen.dart' show cloudMessage;
 import 'confirm_log.dart';
 
 /// A restaurant dish at a normal portion: grams and its totals.
@@ -56,15 +62,83 @@ class EatOutMode extends ConsumerStatefulWidget {
   ConsumerState<EatOutMode> createState() => _EatOutModeState();
 }
 
+/// A meal not on the list, as a plain rough total: the kcal as guessed,
+/// split the way a restaurant plate usually is.
+Food _roughFood(String name, double kcal) => Food(
+  id: 'eatout:other',
+  name: name,
+  kcal: kcal / 4,
+  protein: kcal * 0.2 / 4 / 4,
+  carbs: kcal * 0.45 / 4 / 4,
+  fat: kcal * 0.35 / 9 / 4,
+  servingGrams: 400,
+  source: 'estimate',
+);
+
 class _EatOutModeState extends ConsumerState<EatOutMode> {
+  /// The dish picked; [_other] when it is not on the list.
   int? _dish;
+  static const _other = -1;
   int _portion = 1;
   final _picked = <int>{};
+  final _described = TextEditingController();
+  List<(Food, double)> _ai = const [];
+  double _rough = 700;
+  bool _asking = false;
 
-  List<(_Dish, double)> get _lines => [
-    if (_dish != null) (_dishes[_dish!], _dishes[_dish!].g * _portions[_portion]),
-    for (final i in _picked) (_sides[i], _sides[i].g),
-  ];
+  @override
+  void dispose() {
+    _described.dispose();
+    super.dispose();
+  }
+
+  List<(Food, double)> get _lines {
+    final scale = _portions[_portion];
+    return [
+      if (_dish case final d? when d >= 0) (_asFood(_dishes[d]), _dishes[d].g * scale),
+      if (_dish == _other)
+        if (_ai.isNotEmpty)
+          for (final (f, g) in _ai) (f, g * scale)
+        else
+          (
+            _roughFood(_described.text.trim().isEmpty ? 'Restaurant meal' : _described.text.trim(), _rough * scale),
+            400.0,
+          ),
+      for (final i in _picked) (_asFood(_sides[i]), _sides[i].g),
+    ];
+  }
+
+  /// The model reads the meal as described, at a restaurant's portion.
+  Future<void> _askAi() async {
+    final l = AppLocalizations.of(context);
+    final text = _described.text.trim();
+    if (text.isEmpty) return;
+    if ((ref.read(accountProvider).value ?? ref.read(cloudProvider).email) == null) {
+      showVToast(context, l.aiNeedsAccount, info: true);
+      context.push('/account');
+      return;
+    }
+    FocusScope.of(context).unfocus();
+    setState(() => _asking = true);
+    try {
+      final (foods, _) = await ref
+          .read(cloudProvider)
+          .scanPhoto(null, languageCode: Localizations.localeOf(context).languageCode, note: l.eoAiNote(text));
+      final db = ref.read(dbProvider);
+      final out = <(Food, double)>[];
+      for (final f in foods) {
+        final food = await resolveEstimate(db, f);
+        if (food != null) out.add((food, f.grams ?? food.servingGrams ?? 100));
+      }
+      if (!mounted) return;
+      setState(() => _ai = out);
+      if (out.isEmpty) showVToast(context, l.aiCouldNot(1), info: true);
+    } on CloudException catch (e) {
+      if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
+    } finally {
+      if (mounted) setState(() => _asking = false);
+    }
+  }
 
   Future<void> _log() async {
     final l = AppLocalizations.of(context);
@@ -73,26 +147,77 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
       context,
       meal: mealName(l, widget.meal).toLowerCase(),
       lines: [
-        for (final (d, g) in lines)
-          (name: foodName(context, 'eatout:${d.id}', d.name), grams: g, kcal: d.kcal * g / d.g, protein: d.p * g / d.g),
+        for (final (f, g) in lines)
+          (name: foodName(context, f.id, f.name), grams: g, kcal: f.kcal * g / 100, protein: f.protein * g / 100),
       ],
     );
     if (!ok || !mounted) return;
     final db = ref.read(dbProvider);
-    await db.upsertFoods([for (final (d, _) in lines) _asFood(d)]);
+    await db.upsertFoods([for (final (f, _) in lines) f]);
     final day = ref.read(todayKeyProvider);
-    for (final (d, g) in lines) {
-      await ref.read(logActionsProvider).add(LogEntry.of(_asFood(d), day: day, meal: widget.meal, grams: g));
+    for (final (f, g) in lines) {
+      await ref.read(logActionsProvider).add(LogEntry.of(f, day: day, meal: widget.meal, grams: g));
     }
     if (mounted) widget.onDone(lines.length);
   }
+
+  /// Not on the list: describe it for the AI, or just guess the total.
+  List<Widget> _otherMeal(AppLocalizations l) => [
+    TextField(
+      controller: _described,
+      onChanged: (_) => setState(() => _ai = const []),
+      textCapitalization: TextCapitalization.sentences,
+      style: const TextStyle(fontSize: 15, color: Volt.t1),
+      decoration: InputDecoration(
+        hintText: l.eoOtherHint,
+        hintStyle: const TextStyle(color: Volt.t4),
+        filled: true,
+        fillColor: Volt.card,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
+      ),
+    ),
+    VBtn(
+      label: _asking ? l.aiThinking : l.eoAskAi,
+      icon: _asking ? null : 'star',
+      expand: true,
+      onTap: _asking || _described.text.trim().isEmpty ? null : _askAi,
+    ),
+    if (_ai.isNotEmpty)
+      VList(
+        children: [
+          for (final (f, g) in _ai)
+            VItem(
+              children: [
+                ItemText(
+                  foodName(context, f.id, f.name),
+                  sub: '${fmtInt(context, g)} ${l.grams} · ${fmtInt(context, f.kcal * g / 100)} ${l.kcal}',
+                ),
+              ],
+            ),
+        ],
+      )
+    else
+      VCard(
+        tight: true,
+        child: Row(
+          children: [
+            Expanded(child: Muted(l.eoRoughGuess)),
+            VStepper(
+              label: '${fmtInt(context, _rough)} ${l.kcal}',
+              onMinus: _rough > 100 ? () => setState(() => _rough -= 50) : null,
+              onPlus: _rough < 3000 ? () => setState(() => _rough += 50) : null,
+            ),
+          ],
+        ),
+      ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final lines = _lines;
-    final kcal = lines.fold<double>(0, (s, x) => s + x.$1.kcal * x.$2 / x.$1.g);
-    final protein = lines.fold<double>(0, (s, x) => s + x.$1.p * x.$2 / x.$1.g);
+    final kcal = lines.fold<double>(0, (s, x) => s + x.$1.kcal * x.$2 / 100);
+    final protein = lines.fold<double>(0, (s, x) => s + x.$1.protein * x.$2 / 100);
     final dishNames = [l.eoBurger, l.eoPizza, l.eoPasta, l.eoShawarma, l.eoSushi, l.eoCurry, l.eoSalad, l.eoGrill];
     final sideNames = [l.eoFries, l.eoGarlic, l.eoBread, l.eoSoda];
     final portionNames = [l.eoSmall, l.eoNormal, l.eoBig, l.eoHuge];
@@ -112,7 +237,21 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
           child: GapCol(gap: 4, children: [EmTitle(l.eatOutTitleEm, size: 24), Muted(l.eatOutSub)]),
         ),
         Eyebrow(l.eoWhat, padding: const EdgeInsetsDirectional.only(start: 4)),
-        chips(dishNames, (i) => _dish == i, (i) => setState(() => _dish = _dish == i ? null : i)),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final (i, n) in dishNames.indexed)
+              VChip(label: n, on: _dish == i, onTap: () => setState(() => _dish = _dish == i ? null : i)),
+            VChip(
+              label: l.eoOther,
+              icon: 'plus',
+              on: _dish == _other,
+              onTap: () => setState(() => _dish = _dish == _other ? null : _other),
+            ),
+          ],
+        ),
+        if (_dish == _other) ..._otherMeal(l),
         Eyebrow(l.eoPortion, padding: const EdgeInsetsDirectional.only(start: 4)),
         chips(portionNames, (i) => _portion == i, (i) => setState(() => _portion = i)),
         Eyebrow(l.eoSides, padding: const EdgeInsetsDirectional.only(start: 4)),

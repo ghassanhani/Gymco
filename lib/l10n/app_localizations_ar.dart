@@ -4091,4 +4091,21 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get eoOther => 'شيء آخر';
+
+  @override
+  String get eoOtherHint => 'صفها، مثلًا: برياني دجاج مع رايتا';
+
+  @override
+  String get eoAskAi => 'اطلب من الذكاء الاصطناعي تقديرها';
+
+  @override
+  String get eoRoughGuess => 'بلا ذكاء اصطناعي؟ قدّر المجموع';
+
+  @override
+  String eoAiNote(String meal) {
+    return 'وجبة مطعم بحصة مطعم عادية: $meal';
+  }
 }

@@ -6818,6 +6818,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n, plural, =1{The AI could not place 1 food. Try other words or search.} other{The AI could not place {n} foods. Try other words or search.}}'**
   String aiCouldNot(int n);
+
+  /// No description provided for @eoOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get eoOther;
+
+  /// No description provided for @eoOtherHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe it, e.g. chicken biryani with raita'**
+  String get eoOtherHint;
+
+  /// No description provided for @eoAskAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask AI to estimate it'**
+  String get eoAskAi;
+
+  /// No description provided for @eoRoughGuess.
+  ///
+  /// In en, this message translates to:
+  /// **'No AI? Guess the total'**
+  String get eoRoughGuess;
+
+  /// No description provided for @eoAiNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A restaurant meal, normal restaurant portion: {meal}'**
+  String eoAiNote(String meal);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

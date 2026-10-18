@@ -4054,4 +4054,21 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get eoOther => 'Something else';
+
+  @override
+  String get eoOtherHint => 'Describe it, e.g. chicken biryani with raita';
+
+  @override
+  String get eoAskAi => 'Ask AI to estimate it';
+
+  @override
+  String get eoRoughGuess => 'No AI? Guess the total';
+
+  @override
+  String eoAiNote(String meal) {
+    return 'A restaurant meal, normal restaurant portion: $meal';
+  }
 }

@@ -52,7 +52,10 @@ Future<List<WrittenItem>> readWrittenMeal(LocalDb db, String text) async {
 /// estimate, kept as an "estimated" food. Null when neither exists.
 Future<Food?> resolveEstimate(LocalDb db, PhotoFood f) async {
   final found = (await readWrittenMeal(db, f.name)).firstOrNull?.food;
-  if (found != null) return found;
+  // Only the same food: the reader drops words until something matches, and
+  // "chicken biryani" is not chicken breast.
+  final words = f.name.toLowerCase().split(RegExp(r'[^a-z]+')).where((w) => w.length > 2);
+  if (found != null && words.every(found.name.toLowerCase().contains)) return found;
   if (!f.hasNutrition) return null;
   final slug = f.name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-|-$'), '');
   final food = Food(

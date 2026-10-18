@@ -175,6 +175,49 @@ void main() {
     );
   });
 
+  testWidgets('a restaurant meal not on the list is estimated by the AI, or guessed', (tester) async {
+    final cloud = FakeCloud(
+      signedIn: 'sam@example.com',
+      photoFoods: const [
+        PhotoFood(
+          name: 'Chicken biryani',
+          local: 'Chicken biryani',
+          sure: true,
+          grams: 450,
+          kcal: 180,
+          protein: 9,
+          carbs: 22,
+          fat: 6,
+        ),
+      ],
+    );
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await tester.tap(find.bySemanticsLabel('Food').first);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Eat out'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Eat out'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Something else'));
+    await tester.pumpAndSettle();
+    // Without the AI, the rough total counts.
+    expect(find.text('≈ 700'), findsOneWidget);
+    await tester.enterText(find.byType(TextField), 'chicken biryani');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ask AI to estimate it'));
+    await tester.pumpAndSettle();
+    expect(cloud.lastNote, contains('chicken biryani'));
+    expect(find.text('≈ 810'), findsOneWidget);
+    await tester.ensureVisible(find.text('Log to lunch'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Log to lunch'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams.round())], [('Chicken biryani', 450)]);
+  });
+
   testWidgets('voice goes through the same reader, with an editable transcript', (tester) async {
     final (db, _) = await pumpApp(
       tester,

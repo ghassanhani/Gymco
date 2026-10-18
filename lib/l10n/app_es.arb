@@ -1120,5 +1120,10 @@
   "askAiN": "{n, plural, =1{Preguntar a la IA} other{Preguntar a la IA por {n} alimentos}}",
   "aiThinking": "Estimando…",
   "aiNeedsAccount": "Inicia sesión para usar la IA: es gratis durante las pruebas.",
-  "aiCouldNot": "{n, plural, =1{La IA no reconoció 1 alimento. Prueba otras palabras o busca.} other{La IA no reconoció {n} alimentos. Prueba otras palabras o busca.}}"
+  "aiCouldNot": "{n, plural, =1{La IA no reconoció 1 alimento. Prueba otras palabras o busca.} other{La IA no reconoció {n} alimentos. Prueba otras palabras o busca.}}",
+  "eoOther": "Otra cosa",
+  "eoOtherHint": "Descríbelo, p. ej. biryani de pollo con raita",
+  "eoAskAi": "Pedir a la IA que lo estime",
+  "eoRoughGuess": "¿Sin IA? Calcula el total",
+  "eoAiNote": "Comida de restaurante, ración normal: {meal}"
 }
