@@ -49,11 +49,13 @@ class _AppShellState extends State<AppShell> with SingleTickerProviderStateMixin
               child: shell,
             ),
           ),
-          VTabBar(
-            current: shell.currentIndex,
-            labels: [l.tabToday, l.tabFood, l.tabTrain, l.tabProgress, l.tabMe],
-            onTap: (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
-          ),
+          // Behind the keyboard, not riding on top of it.
+          if (View.of(context).viewInsets.bottom == 0)
+            VTabBar(
+              current: shell.currentIndex,
+              labels: [l.tabToday, l.tabFood, l.tabTrain, l.tabProgress, l.tabMe],
+              onTap: (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
+            ),
         ],
       ),
     );

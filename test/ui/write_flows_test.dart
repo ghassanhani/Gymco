@@ -91,6 +91,34 @@ void main() {
     expect([for (final e in entries) (e.foodName, e.grams)], [('Mini pizza', 90)]);
   });
 
+  testWidgets('Ask AI estimates every missing food at once; a written weight wins', (tester) async {
+    PhotoFood f(String name, double g) =>
+        PhotoFood(name: name, local: name, sure: true, grams: g, kcal: 300, protein: 8, carbs: 50, fat: 7);
+    final cloud = FakeCloud(signedIn: 'sam@example.com', photoFoods: [f('Tortilla', 60), f('Molokhia', 250)]);
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await _openWrite(tester, 'Write');
+    await _type(tester, 'tortilla 100 g, ملوخية');
+    await tester.tap(find.text('Ask AI about 2 foods'));
+    await tester.pumpAndSettle();
+    expect(cloud.lastNote, 'tortilla 100 g\nملوخيه');
+    expect(find.text('IT READ 2 ITEMS'), findsOneWidget);
+    await tester.tap(find.text('Add 2'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams)], [('Tortilla', 100), ('Molokhia', 250)]);
+  });
+
+  testWidgets('signed out, Ask AI goes to sign in', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: FakeCloud());
+    await _openWrite(tester, 'Write');
+    await _type(tester, 'quinoa');
+    await tester.tap(find.text('Ask AI'));
+    await tester.pumpAndSettle();
+    expect(find.text('Account'), findsOneWidget);
+  });
+
   testWidgets('a recipe is built from written ingredients and a serving is logged', (tester) async {
     final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
     await tester.tap(find.bySemanticsLabel('Food').first);

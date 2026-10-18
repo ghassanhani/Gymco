@@ -4024,4 +4024,43 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String aiCanEstimate(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n alimentos no están en el móvil. La IA puede estimarlos.',
+      one: '1 alimento no está en el móvil. La IA puede estimarlo.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String askAiN(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Preguntar a la IA por $n alimentos',
+      one: 'Preguntar a la IA',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiThinking => 'Estimando…';
+
+  @override
+  String get aiNeedsAccount => 'Inicia sesión para usar la IA: es gratis durante las pruebas.';
+
+  @override
+  String aiCouldNot(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'La IA no reconoció $n alimentos. Prueba otras palabras o busca.',
+      one: 'La IA no reconoció 1 alimento. Prueba otras palabras o busca.',
+    );
+    return '$_temp0';
+  }
 }

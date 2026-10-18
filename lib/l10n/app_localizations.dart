@@ -6788,6 +6788,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n, plural, =1{Streak paused for 1 day} other{Streak paused for {n} days}}'**
   String streakPaused(int n);
+
+  /// No description provided for @aiCanEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 food is not on the phone. The AI can estimate it.} other{{n} foods are not on the phone. The AI can estimate them.}}'**
+  String aiCanEstimate(int n);
+
+  /// No description provided for @askAiN.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Ask AI} other{Ask AI about {n} foods}}'**
+  String askAiN(int n);
+
+  /// No description provided for @aiThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimating…'**
+  String get aiThinking;
+
+  /// No description provided for @aiNeedsAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to use the AI — it is free while testing.'**
+  String get aiNeedsAccount;
+
+  /// No description provided for @aiCouldNot.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{The AI could not place 1 food. Try other words or search.} other{The AI could not place {n} foods. Try other words or search.}}'**
+  String aiCouldNot(int n);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

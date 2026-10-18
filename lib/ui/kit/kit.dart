@@ -1109,11 +1109,13 @@ class LogBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final safe = MediaQuery.paddingOf(context).bottom;
+    // With the keyboard up the tab bar hides, so the bar sits on the keyboard.
+    final keyboard = View.of(context).viewInsets.bottom > 0;
+    final safe = keyboard ? 0.0 : MediaQuery.paddingOf(context).bottom;
     return Positioned(
       left: 14,
       right: 14,
-      bottom: (aboveTabs ? 88 : 14) + safe,
+      bottom: (aboveTabs && !keyboard ? 88 : 10) + safe,
       child: _Glass(
         radius: 999,
         color: const Color(0xDB15171A),

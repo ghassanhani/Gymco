@@ -1115,5 +1115,10 @@
   "pausedUntil": "En pausa hasta el {date}",
   "pauseSub": "Enfermedad, viajes, la vida. Los días en pausa no cuentan ni rompen la racha, y tus congelaciones se quedan.",
   "endPause": "Terminar pausa",
-  "streakPaused": "{n, plural, =1{Racha en pausa 1 día} other{Racha en pausa {n} días}}"
+  "streakPaused": "{n, plural, =1{Racha en pausa 1 día} other{Racha en pausa {n} días}}",
+  "aiCanEstimate": "{n, plural, =1{1 alimento no está en el móvil. La IA puede estimarlo.} other{{n} alimentos no están en el móvil. La IA puede estimarlos.}}",
+  "askAiN": "{n, plural, =1{Preguntar a la IA} other{Preguntar a la IA por {n} alimentos}}",
+  "aiThinking": "Estimando…",
+  "aiNeedsAccount": "Inicia sesión para usar la IA: es gratis durante las pruebas.",
+  "aiCouldNot": "{n, plural, =1{La IA no reconoció 1 alimento. Prueba otras palabras o busca.} other{La IA no reconoció {n} alimentos. Prueba otras palabras o busca.}}"
 }

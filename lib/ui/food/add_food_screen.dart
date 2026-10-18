@@ -135,9 +135,66 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     context.go('/meal/${_meal.name}');
   }
 
+  bool _asking = false;
+
+  bool get _signedIn => (ref.read(accountProvider).value ?? ref.read(cloudProvider).email) != null;
+
+  /// The model needs an account (it keeps the daily count), so say so.
+  bool _needAccount() {
+    if (_signedIn) return false;
+    showVToast(context, AppLocalizations.of(context).aiNeedsAccount, info: true);
+    context.push('/account');
+    return true;
+  }
+
+  /// Every food the reader could not match, sent to the model in one go,
+  /// using the words as written. A written weight wins over its guess.
+  Future<void> _askAll() async {
+    if (_needAccount()) return;
+    final l = AppLocalizations.of(context);
+    final missing = [
+      for (final (i, it) in _written.indexed)
+        if (it.food == null && !_dropped.contains(i)) i,
+    ];
+    if (missing.isEmpty) return;
+    setState(() => _asking = true);
+    try {
+      final note = missing.map((i) => _written[i].phrase.text).join('\n');
+      final (foods, _) = await ref
+          .read(cloudProvider)
+          .scanPhoto(null, languageCode: Localizations.localeOf(context).languageCode, note: note);
+      final db = ref.read(dbProvider);
+      if (foods.length == missing.length) {
+        for (final (k, i) in missing.indexed) {
+          final food = await resolveEstimate(db, foods[k]);
+          if (food == null) continue;
+          final it = _written[i];
+          _written[i] = WrittenItem(
+            phrase: it.phrase,
+            food: food,
+            grams: it.phrase.grams ?? foods[k].grams ?? food.servingGrams ?? 100,
+          );
+        }
+      } else {
+        // Counts differ: ask about each one on its own.
+        for (final i in missing) {
+          await _estimateWritten(i, quiet: true);
+        }
+      }
+      if (!mounted) return;
+      final still = missing.where((i) => _written[i].food == null).length;
+      if (still > 0) showVToast(context, l.aiCouldNot(still), info: true);
+    } on CloudException catch (e) {
+      if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
+    } finally {
+      if (mounted) setState(() => _asking = false);
+    }
+  }
+
   /// A food the reader could not match: ask the model for its figures,
   /// using the words as written. Takes one of the day's scans.
-  Future<void> _estimateWritten(int i) async {
+  Future<void> _estimateWritten(int i, {bool quiet = false}) async {
+    if (!quiet && _needAccount()) return;
     final l = AppLocalizations.of(context);
     final it = _written[i];
     try {
@@ -148,13 +205,18 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       final food = guess == null ? null : await resolveEstimate(ref.read(dbProvider), guess);
       if (!mounted) return;
       if (food == null) {
-        showVToast(context, l.notInDbYet, info: true);
+        if (!quiet) showVToast(context, l.notInDbYet, info: true);
         return;
       }
       setState(
-        () => _written[i] = WrittenItem(phrase: it.phrase, food: food, grams: guess!.grams ?? food.servingGrams ?? 100),
+        () => _written[i] = WrittenItem(
+          phrase: it.phrase,
+          food: food,
+          grams: it.phrase.grams ?? guess!.grams ?? food.servingGrams ?? 100,
+        ),
       );
     } on CloudException catch (e) {
+      if (quiet) rethrow;
       if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
     }
   }
@@ -477,9 +539,9 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
             dropped: _dropped,
             onDrop: (i) => setState(() => _dropped.add(i)),
             onSearch: _findWritten,
-            onEstimate: (ref.watch(accountProvider).value ?? ref.watch(cloudProvider).email) != null
-                ? _estimateWritten
-                : null,
+            onEstimate: _estimateWritten,
+            onAskAll: _askAll,
+            asking: _asking,
             onEdit: _editWritten,
           );
     final List<Widget> body;
@@ -612,7 +674,13 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                   ],
                 ),
               ),
-              VBtn(label: l.addN(toAdd.length), small: true, onTap: _addWritten),
+              VBtn(
+                label: l.addN(toAdd.length),
+                minHeight: 54,
+                fontSize: 17,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                onTap: _addWritten,
+              ),
             ],
           ),
         if (_picks.isNotEmpty && _mode == 'search')
@@ -631,7 +699,13 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                   ],
                 ),
               ),
-              VBtn(label: l.logN(_picks.length), small: true, onTap: _logPicks),
+              VBtn(
+                label: l.logN(_picks.length),
+                minHeight: 54,
+                fontSize: 17,
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                onTap: _logPicks,
+              ),
             ],
           ),
       ],

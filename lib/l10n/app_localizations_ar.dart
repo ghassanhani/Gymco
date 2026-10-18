@@ -4050,4 +4050,45 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String aiCanEstimate(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n طعامًا غير موجود على الهاتف. يمكن للذكاء الاصطناعي تقديرها.',
+      few: '$n أطعمة غير موجودة على الهاتف. يمكن للذكاء الاصطناعي تقديرها.',
+      two: 'طعامان غير موجودين على الهاتف. يمكن للذكاء الاصطناعي تقديرهما.',
+      one: 'طعام واحد غير موجود على الهاتف. يمكن للذكاء الاصطناعي تقديره.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String askAiN(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'اسأل الذكاء الاصطناعي عن $n أطعمة',
+      one: 'اسأل الذكاء الاصطناعي',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiThinking => 'جارٍ التقدير…';
+
+  @override
+  String get aiNeedsAccount => 'سجّل الدخول لاستخدام الذكاء الاصطناعي — مجاني خلال فترة التجربة.';
+
+  @override
+  String aiCouldNot(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'لم يتعرف الذكاء الاصطناعي على $n أطعمة. جرّب كلمات أخرى أو ابحث.',
+      one: 'لم يتعرف الذكاء الاصطناعي على طعام واحد. جرّب كلمات أخرى أو ابحث.',
+    );
+    return '$_temp0';
+  }
 }

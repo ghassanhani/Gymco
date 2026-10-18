@@ -3039,5 +3039,31 @@
         "type": "int"
       }
     }
+  },
+  "aiCanEstimate": "{n, plural, =1{1 food is not on the phone. The AI can estimate it.} other{{n} foods are not on the phone. The AI can estimate them.}}",
+  "@aiCanEstimate": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "askAiN": "{n, plural, =1{Ask AI} other{Ask AI about {n} foods}}",
+  "@askAiN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "aiThinking": "Estimating…",
+  "aiNeedsAccount": "Sign in to use the AI — it is free while testing.",
+  "aiCouldNot": "{n, plural, =1{The AI could not place 1 food. Try other words or search.} other{The AI could not place {n} foods. Try other words or search.}}",
+  "@aiCouldNot": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

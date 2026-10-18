@@ -4020,4 +4020,38 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String aiCanEstimate(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n foods are not on the phone. The AI can estimate them.',
+      one: '1 food is not on the phone. The AI can estimate it.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String askAiN(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Ask AI about $n foods', one: 'Ask AI');
+    return '$_temp0';
+  }
+
+  @override
+  String get aiThinking => 'Estimating…';
+
+  @override
+  String get aiNeedsAccount => 'Sign in to use the AI — it is free while testing.';
+
+  @override
+  String aiCouldNot(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'The AI could not place $n foods. Try other words or search.',
+      one: 'The AI could not place 1 food. Try other words or search.',
+    );
+    return '$_temp0';
+  }
 }

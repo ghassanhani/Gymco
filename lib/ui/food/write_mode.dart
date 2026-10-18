@@ -77,6 +77,8 @@ class WrittenRows extends StatelessWidget {
     required this.onDrop,
     required this.onSearch,
     this.onEstimate,
+    this.onAskAll,
+    this.asking = false,
     required this.onEdit,
   });
   final List<WrittenItem> items;
@@ -86,6 +88,10 @@ class WrittenRows extends StatelessWidget {
 
   /// Asks the model for a food the phone does not have; null when signed out.
   final ValueChanged<int>? onEstimate;
+
+  /// Sends every food it could not match to the model in one go.
+  final VoidCallback? onAskAll;
+  final bool asking;
   final ValueChanged<int> onEdit;
 
   @override
@@ -97,6 +103,7 @@ class WrittenRows extends StatelessWidget {
     ];
     final found = kept.where((e) => e.$2.food != null).toList();
     final assumed = found.where((e) => e.$2.assumed).length;
+    final missing = kept.length - found.length;
     return GapCol(
       gap: 12,
       cross: CrossAxisAlignment.stretch,
@@ -110,6 +117,35 @@ class WrittenRows extends StatelessWidget {
             ],
           ),
         ),
+        if (missing > 0 && onAskAll != null)
+          VCard(
+            color: Volt.brandWash,
+            border: Border.all(color: Volt.brandEdge),
+            child: GapCol(
+              gap: 12,
+              cross: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    const VIcon('star', size: 20, color: Volt.brandInk),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        l.aiCanEstimate(missing),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                      ),
+                    ),
+                  ],
+                ),
+                VBtn(
+                  label: asking ? l.aiThinking : l.askAiN(missing),
+                  icon: asking ? null : 'star',
+                  expand: true,
+                  onTap: asking ? null : onAskAll,
+                ),
+              ],
+            ),
+          ),
         for (final (i, it) in kept)
           if (it.food == null)
             VCard(
