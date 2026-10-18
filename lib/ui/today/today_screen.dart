@@ -639,22 +639,13 @@ class _Ring extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final c = size.center(Offset.zero);
     const r = 46.0, w = 11.0;
+    // Empty or not, the track is one solid ring; it fills as food is logged.
     final track = Paint()
       ..color = Volt.line
       ..style = PaintingStyle.stroke
-      ..strokeWidth = w
-      ..strokeCap = empty ? StrokeCap.round : StrokeCap.butt;
-    if (empty) {
-      // stroke-dasharray="4 10" round
-      const circ = 2 * math.pi * r;
-      final n = (circ / 14).floor();
-      for (var i = 0; i < n; i++) {
-        canvas.drawArc(Rect.fromCircle(center: c, radius: r), i * 2 * math.pi / n, 4 / r, false, track);
-      }
-      return;
-    }
+      ..strokeWidth = w;
     canvas.drawCircle(c, r, track);
-    if (fraction <= 0) return;
+    if (empty || fraction <= 0) return;
     canvas.drawArc(
       Rect.fromCircle(center: c, radius: r),
       -math.pi / 2,
