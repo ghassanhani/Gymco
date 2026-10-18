@@ -170,6 +170,27 @@ void main() {
     expect(find.text('Goal and targets'), findsOneWidget);
   });
 
+  testWidgets('water counts toward a goal from body weight, with undo and a day log', (tester) async {
+    final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await tester.scrollUntilVisible(find.text('+500'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.pumpAndSettle();
+    expect(find.text('of 2.8 L'), findsOneWidget);
+    await tester.tap(find.text('+500'));
+    await tester.tap(find.text('+750'));
+    await tester.pumpAndSettle();
+    expect(find.text('1.25'), findsOneWidget);
+    expect(prefs.getInt('water_${dayKey(testNow)}'), 1250);
+    await tester.tap(find.bySemanticsLabel('Undo the last drink'));
+    await tester.pumpAndSettle();
+    expect(find.text('0.50'), findsOneWidget);
+
+    await tester.tap(find.text('Hydration'));
+    await tester.pumpAndSettle();
+    expect(find.text('Water today'), findsOneWidget);
+    expect(find.text('500 ml'), findsOneWidget);
+  });
+
   testWidgets('delete everything goes back to a first run', (tester) async {
     final (db, prefs) = await pumpApp(
       tester,

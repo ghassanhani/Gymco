@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import '../../data/models.dart';
 import '../../data/training.dart';
 import '../../domain/energy.dart';
+import '../../domain/hydration.dart';
 import '../../domain/schedule.dart';
 import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
@@ -85,7 +87,7 @@ class _Today extends ConsumerWidget {
               if (dayOne && entries.isEmpty) const _FirstRun(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
               const _Trend(),
-              _Water(day: key),
+              _Water(day: key, trained: schedule.where((d) => d.today).firstOrNull?.done != null),
             ],
           ),
         ),
@@ -683,6 +685,14 @@ class _Trend extends ConsumerWidget {
       onTap: () => context.go('/progress'),
       child: Row(
         children: [
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
+            child: const VIcon('scale', size: 20, color: Volt.brandInk),
+          ),
+          const SizedBox(width: 12),
           Expanded(
             child: GapCol(
               gap: 3,
@@ -756,40 +766,258 @@ class _Spark extends CustomPainter {
   bool shouldRepaint(_Spark o) => true;
 }
 
+const _waterBlue = Volt.blue;
+const _waterWash = Color(0x1F4CC9F0);
+
+/// The day's goal: the one the user set, or one from their weight.
+int _goalFor(WidgetRef ref, {required bool trained}) =>
+    ref.watch(waterGoalProvider) ?? waterGoalMl(weightKg: ref.watch(profileProvider)?.weightKg ?? 75, trained: trained);
+
+Future<void> _drink(BuildContext context, WidgetRef ref, String day, int ml, int goal) async {
+  final l = AppLocalizations.of(context);
+  final before = ref.read(waterProvider(day)).ml;
+  await ref.read(waterProvider(day).notifier).add(ml);
+  if (!context.mounted) return;
+  HapticFeedback.lightImpact();
+  showVToast(context, before < goal && before + ml >= goal ? l.waterGoalReached : l.waterAddedMl(ml));
+}
+
+/// Hydration: today's water against a goal that knows your weight and
+/// whether you trained, with one-tap amounts and the day's log behind it.
 class _Water extends ConsumerWidget {
-  const _Water({required this.day});
+  const _Water({required this.day, required this.trained});
   final String day;
+  final bool trained;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final ml = ref.watch(waterProvider(day));
+    final d = ref.watch(waterProvider(day));
+    final goal = _goalFor(ref, trained: trained);
+    final done = d.ml >= goal;
+    final auto = ref.watch(waterGoalProvider) == null;
+
+    Widget quick(int ml, String label) => Expanded(
+      child: Pressable(
+        onTap: () => _drink(context, ref, day, ml, goal),
+        label: l.addWaterMl(ml),
+        radius: 14,
+        child: Container(
+          height: 52,
+          decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(14)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('+${fmtInt(context, ml.toDouble())}', style: numStyle(14, color: Volt.t1)),
+              const SizedBox(height: 1),
+              Text(label, style: const TextStyle(fontSize: 11, color: Volt.t3)),
+            ],
+          ),
+        ),
+      ),
+    );
+
     return VCard(
-      tight: true,
-      child: Row(
+      onTap: () => _waterSheet(context, day: day, trained: trained),
+      child: GapCol(
+        gap: 12,
+        cross: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: GapCol(
-              gap: 2,
-              children: [
-                Muted(l.water),
-                Text(l.litres(fmtDec(context, ml / 1000)), style: numStyle(17)),
-              ],
-            ),
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(color: _waterWash, shape: BoxShape.circle),
+                child: const VIcon('drop', size: 20, color: _waterBlue),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: GapCol(
+                  gap: 1,
+                  children: [
+                    Muted(l.hydration),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(fmtDec(context, d.ml / 1000, digits: 2), style: numStyle(22)),
+                        const SizedBox(width: 6),
+                        Text(
+                          l.ofLitres(fmtDec(context, goal / 1000)),
+                          style: const TextStyle(fontSize: 13, color: Volt.t2),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              if (done)
+                Container(
+                  height: 28,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(color: _waterWash, borderRadius: BorderRadius.circular(999)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const VIcon('check', size: 14, color: _waterBlue),
+                      const SizedBox(width: 4),
+                      Text(
+                        l.goalMet,
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _waterBlue),
+                      ),
+                    ],
+                  ),
+                )
+              else
+                Text('${(d.ml * 100 / goal).clamp(0, 100).round()}%', style: numStyle(14, color: _waterBlue)),
+            ],
           ),
-          IconBtn(
-            'plus',
-            label: l.addWater,
-            iconSize: 18,
-            onTap: () {
-              ref.read(waterProvider(day).notifier).add(250);
-              showVToast(context, l.waterAdded);
-            },
+          VBar(fraction: d.ml / goal, color: _waterBlue, height: 8, track: Volt.card2),
+          Row(
+            children: [
+              quick(250, l.waterGlass),
+              const SizedBox(width: 8),
+              quick(500, l.waterBottle),
+              const SizedBox(width: 8),
+              quick(750, l.waterLarge),
+              const SizedBox(width: 8),
+              Opacity(
+                opacity: d.sips.isEmpty ? 0.4 : 1,
+                child: IconBtn(
+                  'repeat',
+                  label: l.undoLastDrink,
+                  size: 52,
+                  iconSize: 18,
+                  color: Volt.t2,
+                  onTap: d.sips.isEmpty ? null : () => ref.read(waterProvider(day).notifier).undo(),
+                ),
+              ),
+            ],
           ),
+          if (auto && trained) Muted(l.waterTrainingBonus, color: Volt.t3),
         ],
       ),
     );
   }
+}
+
+/// The day's drinks, a custom amount, and the goal.
+Future<void> _waterSheet(BuildContext context, {required String day, required bool trained}) {
+  final l = AppLocalizations.of(context);
+  var custom = 330;
+  return showVSheet<void>(
+    context,
+    title: l.waterToday,
+    body: (ctx) => [
+      Consumer(
+        builder: (ctx, ref, _) => StatefulBuilder(
+          builder: (ctx, setState) {
+            final d = ref.watch(waterProvider(day));
+            final set = ref.watch(waterGoalProvider);
+            final goal = _goalFor(ref, trained: trained);
+            final auto = waterGoalMl(weightKg: ref.watch(profileProvider)?.weightKg ?? 75, trained: trained);
+            String clock(int m) => '${(m ~/ 60).toString().padLeft(2, '0')}:${(m % 60).toString().padLeft(2, '0')}';
+            return GapCol(
+              gap: 12,
+              cross: CrossAxisAlignment.stretch,
+              children: [
+                if (d.sips.isEmpty)
+                  Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.noWaterYet))
+                else
+                  VList(
+                    children: [
+                      for (final (i, x) in d.sips.indexed.toList().reversed)
+                        VItem(
+                          children: [
+                            const VIcon('drop', size: 18, color: _waterBlue),
+                            ItemText(
+                              l.mlAmount(fmtInt(ctx, x.ml.toDouble())),
+                              sub: x.minute == 0 && d.sips.length == 1 ? null : clock(x.minute),
+                            ),
+                            IconBtn(
+                              'trash',
+                              label: l.removeDrink,
+                              size: 34,
+                              iconSize: 16,
+                              background: Colors.transparent,
+                              color: Volt.t3,
+                              onTap: () => ref.read(waterProvider(day).notifier).removeAt(i),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
+                VCard(
+                  color: Volt.card2,
+                  tight: true,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(l.otherAmount, style: const TextStyle(fontSize: 14, color: Volt.t1)),
+                      ),
+                      VStepper(
+                        label: l.mlAmount(fmtInt(ctx, custom.toDouble())),
+                        onMinus: custom > 50 ? () => setState(() => custom -= 50) : null,
+                        onPlus: custom < 2000 ? () => setState(() => custom += 50) : null,
+                      ),
+                      const SizedBox(width: 8),
+                      IconBtn(
+                        'plus',
+                        label: l.addWaterMl(custom),
+                        size: 36,
+                        iconSize: 16,
+                        background: _waterBlue,
+                        color: Volt.ink,
+                        onTap: () => _drink(ctx, ref, day, custom, goal),
+                      ),
+                    ],
+                  ),
+                ),
+                VCard(
+                  color: Volt.card2,
+                  tight: true,
+                  child: GapCol(
+                    gap: 10,
+                    cross: CrossAxisAlignment.stretch,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GapCol(
+                              gap: 2,
+                              children: [
+                                Text(l.dailyGoal, style: const TextStyle(fontSize: 14, color: Volt.t1)),
+                                Muted(set == null ? l.waterGoalAuto : l.waterGoalSet),
+                              ],
+                            ),
+                          ),
+                          VStepper(
+                            label: l.litres(fmtDec(ctx, goal / 1000)),
+                            onMinus: goal > 1000 ? () => ref.read(waterGoalProvider.notifier).set(goal - 250) : null,
+                            onPlus: goal < 6000 ? () => ref.read(waterGoalProvider.notifier).set(goal + 250) : null,
+                          ),
+                        ],
+                      ),
+                      if (set != null)
+                        VBtn(
+                          label: l.useAutoGoal(fmtDec(ctx, auto / 1000)),
+                          kind: BtnKind.ghost,
+                          small: true,
+                          expand: true,
+                          onTap: () => ref.read(waterGoalProvider.notifier).set(null),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    ],
+  );
 }
 
 // ---------------------------------------------------------------- a closed day

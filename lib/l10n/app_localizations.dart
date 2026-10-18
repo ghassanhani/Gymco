@@ -63,7 +63,8 @@ import 'app_localizations_es.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,15 +85,20 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('es')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+    Locale('es'),
+  ];
 
   /// No description provided for @appName.
   ///
@@ -1233,12 +1240,6 @@ abstract class AppLocalizations {
   /// **'Add food to this meal'**
   String get addFoodToMeal;
 
-  /// No description provided for @addWater.
-  ///
-  /// In en, this message translates to:
-  /// **'Add 250 ml of water'**
-  String get addWater;
-
   /// No description provided for @agreeToContinue.
   ///
   /// In en, this message translates to:
@@ -1856,18 +1857,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You usually eat around now'**
   String get usuallyNow;
-
-  /// No description provided for @water.
-  ///
-  /// In en, this message translates to:
-  /// **'Water'**
-  String get water;
-
-  /// No description provided for @waterAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'250 ml added'**
-  String get waterAdded;
 
   /// No description provided for @weightToday.
   ///
@@ -5588,9 +5577,130 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An athlete celebrating among award medals'**
   String get welcomeProgressAlt;
+
+  /// No description provided for @hydration.
+  ///
+  /// In en, this message translates to:
+  /// **'Hydration'**
+  String get hydration;
+
+  /// No description provided for @ofLitres.
+  ///
+  /// In en, this message translates to:
+  /// **'of {l} L'**
+  String ofLitres(String l);
+
+  /// No description provided for @goalMet.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal met'**
+  String get goalMet;
+
+  /// No description provided for @waterGlass.
+  ///
+  /// In en, this message translates to:
+  /// **'glass'**
+  String get waterGlass;
+
+  /// No description provided for @waterBottle.
+  ///
+  /// In en, this message translates to:
+  /// **'bottle'**
+  String get waterBottle;
+
+  /// No description provided for @waterLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'large'**
+  String get waterLarge;
+
+  /// No description provided for @undoLastDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo the last drink'**
+  String get undoLastDrink;
+
+  /// No description provided for @addWaterMl.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {ml} ml of water'**
+  String addWaterMl(int ml);
+
+  /// No description provided for @waterAddedMl.
+  ///
+  /// In en, this message translates to:
+  /// **'{ml} ml added'**
+  String waterAddedMl(int ml);
+
+  /// No description provided for @waterGoalReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Water goal reached — nice work'**
+  String get waterGoalReached;
+
+  /// No description provided for @waterTrainingBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes +0.5 L for today’s training'**
+  String get waterTrainingBonus;
+
+  /// No description provided for @waterToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Water today'**
+  String get waterToday;
+
+  /// No description provided for @noWaterYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged yet today.'**
+  String get noWaterYet;
+
+  /// No description provided for @mlAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'{ml} ml'**
+  String mlAmount(String ml);
+
+  /// No description provided for @removeDrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this drink'**
+  String get removeDrink;
+
+  /// No description provided for @otherAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Other amount'**
+  String get otherAmount;
+
+  /// No description provided for @dailyGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily goal'**
+  String get dailyGoal;
+
+  /// No description provided for @waterGoalAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'From your weight, +0.5 L on training days'**
+  String get waterGoalAuto;
+
+  /// No description provided for @waterGoalSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by you'**
+  String get waterGoalSet;
+
+  /// No description provided for @useAutoGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Use the goal from my weight ({l} L)'**
+  String useAutoGoal(String l);
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -5599,7 +5709,8 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

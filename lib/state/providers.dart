@@ -10,6 +10,7 @@ import '../data/local_db.dart';
 import '../data/models.dart';
 import '../domain/cheat_meal.dart';
 import '../domain/energy.dart';
+import '../domain/hydration.dart';
 
 /// Opened in main() and injected with an override.
 final dbProvider = Provider<LocalDb>((_) => throw UnimplementedError('dbProvider'));
@@ -105,21 +106,57 @@ final loggedDaysProvider = FutureProvider<Set<String>>((ref) {
   return ref.watch(dbProvider).loggedDays(dayKey(from), dayKey(t));
 });
 
-/// Water drunk per day, in ml, kept on the phone.
-class WaterNotifier extends Notifier<int> {
+/// Water drunk per day, every drink with its time, kept on the phone.
+class WaterNotifier extends Notifier<WaterDay> {
   WaterNotifier(this.day);
   final String day;
 
+  String get _key => 'waterlog_$day';
+
   @override
-  int build() => ref.watch(prefsProvider).getInt('water_$day') ?? 0;
+  WaterDay build() {
+    final p = ref.watch(prefsProvider);
+    return WaterDay.decode(p.getString(_key), legacyMl: p.getInt('water_$day'));
+  }
 
   Future<void> add(int ml) async {
-    state = (state + ml).clamp(0, 20000);
-    await ref.read(prefsProvider).setInt('water_$day', state);
+    final now = ref.read(clockProvider)();
+    if (state.ml + ml > 20000) return;
+    await _save(WaterDay([...state.sips, (minute: now.hour * 60 + now.minute, ml: ml)]));
+  }
+
+  /// Takes back the last drink.
+  Future<void> undo() async {
+    if (state.sips.isEmpty) return;
+    await _save(WaterDay(state.sips.sublist(0, state.sips.length - 1)));
+  }
+
+  Future<void> removeAt(int i) async => _save(WaterDay([...state.sips]..removeAt(i)));
+
+  Future<void> _save(WaterDay d) async {
+    state = d;
+    final p = ref.read(prefsProvider);
+    await p.setString(_key, d.encode());
+    // The total too, for anything that reads only that.
+    await p.setInt('water_$day', d.ml);
   }
 }
 
-final waterProvider = NotifierProvider.family<WaterNotifier, int, String>(WaterNotifier.new);
+final waterProvider = NotifierProvider.family<WaterNotifier, WaterDay, String>(WaterNotifier.new);
+
+/// A goal the user set, in ml; null means work it out from their weight.
+class WaterGoalNotifier extends Notifier<int?> {
+  @override
+  int? build() => ref.watch(prefsProvider).getInt('waterGoal');
+
+  Future<void> set(int? ml) async {
+    final p = ref.read(prefsProvider);
+    ml == null ? await p.remove('waterGoal') : await p.setInt('waterGoal', ml);
+    state = ml;
+  }
+}
+
+final waterGoalProvider = NotifierProvider<WaterGoalNotifier, int?>(WaterGoalNotifier.new);
 
 /// Every weigh-in, oldest first.
 final weighInsProvider = FutureProvider<List<(String, double)>>((ref) {
@@ -233,6 +270,7 @@ Future<void> deleteEverything(WidgetRef ref) async {
   ref.invalidate(loggedDaysProvider);
   ref.invalidate(weighInsProvider);
   ref.invalidate(waterProvider);
+  ref.invalidate(waterGoalProvider);
   ref.invalidate(savedMealsProvider);
   ref.invalidate(customFoodsProvider);
   ref.invalidate(dataCountsProvider);

@@ -350,7 +350,6 @@
   "actVery": "Very active",
   "actVerySub": "Over 12,000 steps or a second sport",
   "addFoodToMeal": "Add food to this meal",
-  "addWater": "Add 250 ml of water",
   "agreeToContinue": "Agree to continue",
   "backToToday": "Back to today",
   "calorieFloor": "Calorie floor",
@@ -454,8 +453,6 @@
   "trendWeight": "Trend weight",
   "unitsLanguage": "Units & language",
   "usuallyNow": "You usually eat around now",
-  "water": "Water",
-  "waterAdded": "250 ml added",
   "weightToday": "Weight today",
   "welcomeArtAlt": "A woman mid kettlebell swing",
   "welcomeBody": "Log food in seconds, train with a plan, and keep a streak worth protecting.",
@@ -2508,5 +2505,60 @@
   "welcomeTrainAlt": "A woman pressing dumbbells overhead",
   "welcomeProgressTitleEm": "See it <em>add up</em>",
   "welcomeProgressBody": "A trend weight that ignores daily noise, strength through your cut, and awards for showing up.",
-  "welcomeProgressAlt": "An athlete celebrating among award medals"
+  "welcomeProgressAlt": "An athlete celebrating among award medals",
+  "hydration": "Hydration",
+  "ofLitres": "of {l} L",
+  "@ofLitres": {
+    "placeholders": {
+      "l": {
+        "type": "String"
+      }
+    }
+  },
+  "goalMet": "Goal met",
+  "waterGlass": "glass",
+  "waterBottle": "bottle",
+  "waterLarge": "large",
+  "undoLastDrink": "Undo the last drink",
+  "addWaterMl": "Add {ml} ml of water",
+  "@addWaterMl": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "waterAddedMl": "{ml} ml added",
+  "@waterAddedMl": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "waterGoalReached": "Water goal reached — nice work",
+  "waterTrainingBonus": "Includes +0.5 L for today’s training",
+  "waterToday": "Water today",
+  "noWaterYet": "Nothing logged yet today.",
+  "mlAmount": "{ml} ml",
+  "@mlAmount": {
+    "placeholders": {
+      "ml": {
+        "type": "String"
+      }
+    }
+  },
+  "removeDrink": "Remove this drink",
+  "otherAmount": "Other amount",
+  "dailyGoal": "Daily goal",
+  "waterGoalAuto": "From your weight, +0.5 L on training days",
+  "waterGoalSet": "Set by you",
+  "useAutoGoal": "Use the goal from my weight ({l} L)",
+  "@useAutoGoal": {
+    "placeholders": {
+      "l": {
+        "type": "String"
+      }
+    }
+  }
 }
