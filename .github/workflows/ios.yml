@@ -36,9 +36,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete test-build-ios --yes --cleanup-tag || true
-          gh release create test-build-ios Gymco-ios.ipa \
-            --prerelease \
-            --target "$GITHUB_SHA" \
-            --title "Gymco iPhone test build" \
-            --notes "Unsigned iPhone build of main (${GITHUB_SHA::7}). Install it with Sideloadly on a Mac or PC using your Apple ID; free Apple IDs need it reinstalled every 7 days."
+          notes="Unsigned iPhone build of main (${GITHUB_SHA::7}). Install it with Sideloadly on a Mac or PC using your Apple ID; free Apple IDs need it reinstalled every 7 days."
+          if gh release view test-build-ios > /dev/null 2>&1; then
+            gh release upload test-build-ios Gymco-ios.ipa --clobber
+            gh release edit test-build-ios --notes "$notes"
+          else
+            gh release create test-build-ios Gymco-ios.ipa --prerelease --target "$GITHUB_SHA" \
+              --title "Gymco iPhone test build" --notes "$notes"
+          fi

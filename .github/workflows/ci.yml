@@ -49,9 +49,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete test-build --yes --cleanup-tag || true
-          gh release create test-build Gymco-test.apk \
-            --prerelease \
-            --target "$GITHUB_SHA" \
-            --title "Gymco test build" \
-            --notes "Latest Android build of main (${GITHUB_SHA::7}). On the phone: download Gymco-test.apk, open it, and allow installing from this source. If an update will not install over the old one, uninstall the old one first."
+          notes="Latest Android build of main (${GITHUB_SHA::7}). On the phone: download Gymco-test.apk, open it, and allow installing from this source. If an update will not install over the old one, uninstall the old one first."
+          # Keep one release and swap its file: deleting and recreating it
+          # was refused by GitHub (HTTP 403) right after a delete.
+          if gh release view test-build > /dev/null 2>&1; then
+            gh release upload test-build Gymco-test.apk --clobber
+            gh release edit test-build --notes "$notes"
+          else
+            gh release create test-build Gymco-test.apk --prerelease --target "$GITHUB_SHA" \
+              --title "Gymco test build" --notes "$notes"
+          fi
