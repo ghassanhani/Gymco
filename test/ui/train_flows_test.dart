@@ -143,6 +143,20 @@ void main() {
     expect(find.text('Barbell Bench Press'), findsWidgets);
   });
 
+  testWidgets('a set changes type from its sheet', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile}, seed: (db) => db.saveRoutineFixture('Push A', weekday: 5));
+    await openTrain(tester);
+    await tester.tap(find.bySemanticsLabel('Start Barbell Bench Press on its own'));
+    await settle(tester);
+    for (final (type, mark) in [('Warm-up', 'W'), ('Failure', 'F'), ('Drop set', 'D')]) {
+      await tester.tap(find.bySemanticsLabel(RegExp('^Set type')).first);
+      await settle(tester);
+      await tester.tap(find.text(type));
+      await settle(tester);
+      expect(find.text(mark), findsOneWidget, reason: type);
+    }
+  });
+
   testWidgets('a workout left running comes back after the app restarts', (tester) async {
     final s = WorkoutSession.start(
       name: 'Legs',
