@@ -43,8 +43,55 @@ final weekScheduleProvider = FutureProvider<List<ScheduledDay>>((ref) async {
     today: now,
     routines: [for (final r in routines) PlannedRoutine(id: r.id!, name: r.name, weekday: r.weekday)],
     workouts: [for (final w in done) DoneWorkout(day: w.startedAt, name: w.name, routineId: w.routineId)],
+    restDays: _days(ref.watch(prefsProvider), _restKey),
+    skipDays: _days(ref.watch(prefsProvider), _skipKey),
   );
 });
+
+const _restKey = 'restDays', _skipKey = 'skipDays';
+
+/// Days the plan was changed to rest or skip, as day keys: rest by choice
+/// still keeps the streak.
+Set<String> chosenRestDays(SharedPreferences p) => {...?p.getStringList(_restKey), ...?p.getStringList(_skipKey)};
+
+Set<DateTime> _days(SharedPreferences p, String key) => {
+  for (final d in p.getStringList(key) ?? const <String>[]) ?DateTime.tryParse(d),
+};
+
+/// Changing the day's plan: rest now and train tomorrow, or skip it.
+class DayPlanActions {
+  DayPlanActions(this.ref);
+  final Ref ref;
+
+  Future<void> _edit(String key, String day, bool on) async {
+    final p = ref.read(prefsProvider);
+    final cur = {...?p.getStringList(key)};
+    on ? cur.add(day) : cur.remove(day);
+    // Only the last few weeks matter to the strip.
+    final keep = cur.toList()..sort();
+    await p.setStringList(key, keep.length > 40 ? keep.sublist(keep.length - 40) : keep);
+    ref.invalidate(weekScheduleProvider);
+  }
+
+  String get _today => dayKey(ref.read(clockProvider)());
+
+  Future<void> restToday() async {
+    await _edit(_skipKey, _today, false);
+    await _edit(_restKey, _today, true);
+  }
+
+  Future<void> skipToday() async {
+    await _edit(_restKey, _today, false);
+    await _edit(_skipKey, _today, true);
+  }
+
+  Future<void> undoToday() async {
+    await _edit(_restKey, _today, false);
+    await _edit(_skipKey, _today, false);
+  }
+}
+
+final dayPlanActionsProvider = Provider<DayPlanActions>(DayPlanActions.new);
 
 class RoutineActions {
   RoutineActions(this.ref);
@@ -193,7 +240,7 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
 
   void update(WorkoutSession Function(WorkoutSession s, DateTime now) f) {
     final s = state;
-    if (s != null) _set(f(s, _now));
+    if (s != null) _set(f(s, _now).touch(_now));
   }
 
   Future<void> addExercises(Iterable<Exercise> list) async {
@@ -259,11 +306,12 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
 
   void discard() => _set(null);
 
-  Future<FinishedWorkout?> finish() async {
+  /// Save it. [at] ends it in the past, for a workout left open.
+  Future<FinishedWorkout?> finish({DateTime? at}) async {
     final s = state;
     if (s == null) return null;
     final db = ref.read(dbProvider);
-    final endedAt = _now;
+    final endedAt = at ?? _now;
     final before = await db.bestOneRepMaxes(s.exercises.map((e) => e.exerciseId));
     if (!s.isEmpty) {
       await db.saveWorkout(s, endedAt);

@@ -161,6 +161,7 @@ class WorkoutSession {
     this.routineId,
     this.restStartedAt,
     this.restSeconds,
+    this.touchedAt,
   });
 
   final String name;
@@ -171,6 +172,17 @@ class WorkoutSession {
   /// The rest timer runs from the last ticked set; null when none is running.
   final DateTime? restStartedAt;
   final int? restSeconds;
+
+  /// The last change made to it; null until the first.
+  final DateTime? touchedAt;
+
+  DateTime get lastActive => touchedAt ?? startedAt;
+
+  /// Left open for hours with nothing done: the app closed, the phone died,
+  /// or the gym ended and Finish never got tapped.
+  bool interrupted(DateTime now) => now.difference(lastActive) >= const Duration(hours: 3);
+
+  WorkoutSession touch(DateTime now) => _with(touchedAt: now);
 
   factory WorkoutSession.start({
     required String name,
@@ -183,6 +195,7 @@ class WorkoutSession {
     List<SessionExercise>? exercises,
     DateTime? Function()? restStartedAt,
     int? Function()? restSeconds,
+    DateTime? touchedAt,
   }) => WorkoutSession(
     name: name,
     routineId: routineId,
@@ -190,6 +203,7 @@ class WorkoutSession {
     exercises: exercises ?? this.exercises,
     restStartedAt: restStartedAt == null ? this.restStartedAt : restStartedAt(),
     restSeconds: restSeconds == null ? this.restSeconds : restSeconds(),
+    touchedAt: touchedAt ?? this.touchedAt,
   );
 
   WorkoutSession _editSets(int ex, List<SessionSet> Function(List<SessionSet>) f) {
@@ -353,6 +367,7 @@ class WorkoutSession {
     'start': startedAt.toIso8601String(),
     'restAt': restStartedAt?.toIso8601String(),
     'rest': restSeconds,
+    if (touchedAt != null) 'touched': touchedAt!.toIso8601String(),
     'ex': [for (final e in exercises) e.toJson()],
   };
 
@@ -362,6 +377,7 @@ class WorkoutSession {
     startedAt: DateTime.parse(j['start']! as String),
     restStartedAt: j['restAt'] == null ? null : DateTime.parse(j['restAt']! as String),
     restSeconds: j['rest'] as int?,
+    touchedAt: j['touched'] == null ? null : DateTime.parse(j['touched']! as String),
     exercises: [for (final e in j['ex']! as List) SessionExercise.fromJson((e as Map).cast<String, Object?>())],
   );
 }

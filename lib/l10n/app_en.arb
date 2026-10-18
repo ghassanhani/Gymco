@@ -2874,5 +2874,88 @@
         "type": "String"
       }
     }
+  },
+  "heroTagLeftOpen": "Left open",
+  "heroLeftOpenEm": "{name} was <em>left open</em>",
+  "@heroLeftOpenEm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "heroLeftOpenBody": "{n, plural, =0{Nothing ticked yet} =1{1 set done} other{{n} sets done}}, last touched {time}. Save what you did, or pick it up again.",
+  "@heroLeftOpenBody": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "yesterdayAt": "yesterday {time}",
+  "@yesterdayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "saveAsDone": "Save as done",
+  "heroTagSkipped": "Skipped",
+  "heroRestChosenTitle": "Resting <em>today</em>",
+  "heroRestChosenBody": "{name} moves to tomorrow. Rest is part of the plan, not a break from it.",
+  "@heroRestChosenBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "heroSkippedTitle": "Skipped <em>today</em>",
+  "heroSkippedBody": "{name} is off this week. The rest of the week stays as planned.",
+  "@heroSkippedBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "trainAnyway": "Train anyway",
+  "trainAnywaySub": "Pick a routine, or start empty and add as you go.",
+  "undoChange": "Undo",
+  "notToday": "Not today",
+  "notTodayTitle": "Not today?",
+  "restTodayLabel": "Rest today, train tomorrow",
+  "restTodaySub": "{name} and the rest of the week slide one day.",
+  "@restTodaySub": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "skipTodayLabel": "Skip it this week",
+  "skipTodaySub": "{name} is dropped; the other days stay where they are.",
+  "@skipTodaySub": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notTodayNote": "Either way your streak is safe: a planned rest day never breaks it.",
+  "routineSize": "{n, plural, =1{1 exercise} other{{n} exercises}} · {sets} sets",
+  "@routineSize": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
   }
 }

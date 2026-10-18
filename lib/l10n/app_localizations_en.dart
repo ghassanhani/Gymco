@@ -3831,4 +3831,91 @@ class AppLocalizationsEn extends AppLocalizations {
   String painLastSharp(String area, String date) {
     return 'Last time ($date) you had sharp $area pain here. Swap it if it comes back.';
   }
+
+  @override
+  String get heroTagLeftOpen => 'Left open';
+
+  @override
+  String heroLeftOpenEm(String name) {
+    return '$name was <em>left open</em>';
+  }
+
+  @override
+  String heroLeftOpenBody(int n, String time) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n sets done',
+      one: '1 set done',
+      zero: 'Nothing ticked yet',
+    );
+    return '$_temp0, last touched $time. Save what you did, or pick it up again.';
+  }
+
+  @override
+  String yesterdayAt(String time) {
+    return 'yesterday $time';
+  }
+
+  @override
+  String get saveAsDone => 'Save as done';
+
+  @override
+  String get heroTagSkipped => 'Skipped';
+
+  @override
+  String get heroRestChosenTitle => 'Resting <em>today</em>';
+
+  @override
+  String heroRestChosenBody(String name) {
+    return '$name moves to tomorrow. Rest is part of the plan, not a break from it.';
+  }
+
+  @override
+  String get heroSkippedTitle => 'Skipped <em>today</em>';
+
+  @override
+  String heroSkippedBody(String name) {
+    return '$name is off this week. The rest of the week stays as planned.';
+  }
+
+  @override
+  String get trainAnyway => 'Train anyway';
+
+  @override
+  String get trainAnywaySub => 'Pick a routine, or start empty and add as you go.';
+
+  @override
+  String get undoChange => 'Undo';
+
+  @override
+  String get notToday => 'Not today';
+
+  @override
+  String get notTodayTitle => 'Not today?';
+
+  @override
+  String get restTodayLabel => 'Rest today, train tomorrow';
+
+  @override
+  String restTodaySub(String name) {
+    return '$name and the rest of the week slide one day.';
+  }
+
+  @override
+  String get skipTodayLabel => 'Skip it this week';
+
+  @override
+  String skipTodaySub(String name) {
+    return '$name is dropped; the other days stay where they are.';
+  }
+
+  @override
+  String get notTodayNote => 'Either way your streak is safe: a planned rest day never breaks it.';
+
+  @override
+  String routineSize(int n, int sets) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n exercises', one: '1 exercise');
+    return '$_temp0 · $sets sets';
+  }
 }

@@ -127,12 +127,50 @@ class _Hero extends ConsumerWidget {
         cta: _HeroCta(label: l.chooseRoutine, onTap: () => context.go('/train')),
       );
     }
+    final plan = ref.read(dayPlanActionsProvider);
+    if (live && active.interrupted(now)) {
+      final at = DateFormat.Hm(Localizations.localeOf(context).toString()).format(active.lastActive);
+      final day = DateUtils.isSameDay(active.lastActive, now) ? at : l.yesterdayAt(at);
+      Future<void> save() async {
+        final f = await ref.read(activeWorkoutProvider.notifier).finish(at: active.lastActive);
+        if (f != null && context.mounted) context.push('/summary', extra: f);
+      }
+
+      return _HeroShell(
+        tags: [_WoTag(l.heroTagLeftOpen, icon: 'warn')],
+        title: l.heroLeftOpenEm(active.name),
+        body: Muted(l.heroLeftOpenBody(active.setsDone, day), color: Volt.t2),
+        cta: active.isEmpty
+            ? _HeroCta(label: l.resumeWorkout, icon: 'play', onTap: () => context.push('/workout'))
+            : _HeroCta(label: l.saveAsDone, icon: 'check', onTap: save),
+        extra: _HeroLinks([
+          if (!active.isEmpty) (l.resumeWorkout, () => context.push('/workout')),
+          (l.discardShort, () => ref.read(activeWorkoutProvider.notifier).discard()),
+        ]),
+      );
+    }
+    if (!live && !done && (today?.restTaken != null || today?.skipped != null)) {
+      final rested = today!.restTaken != null;
+      return _HeroShell(
+        tags: [_WoTag(rested ? l.restDay : l.heroTagSkipped, icon: 'clock', ghost: true)],
+        title: rested ? l.heroRestChosenTitle : l.heroSkippedTitle,
+        body: Muted(
+          rested ? l.heroRestChosenBody(today.restTaken!.name) : l.heroSkippedBody(today.skipped!.name),
+          color: Volt.t2,
+        ),
+        cta: _HeroCta(label: l.trainAnyway, ghost: true, onTap: () => _trainAnyway(context, ref)),
+        extra: _HeroLinks([(l.undoChange, plan.undoToday)]),
+      );
+    }
     if (r == null && !live) {
       return _HeroShell(
         tags: [_WoTag(done ? l.heroTagDone : l.restDay, icon: done ? 'check' : 'clock', ghost: !done)],
         title: done ? l.heroDoneTitle(today!.done!.name) : l.heroRestTitle,
         body: Muted(done ? l.heroDoneBody : l.heroRestBody, color: Volt.t2),
-        cta: _HeroCta(label: done ? l.savedSeeTrain : l.seeTheWeek, ghost: true, onTap: () => context.go('/train')),
+        cta: done
+            ? _HeroCta(label: l.savedSeeTrain, ghost: true, onTap: () => context.go('/train'))
+            : _HeroCta(label: l.trainAnyway, ghost: true, onTap: () => _trainAnyway(context, ref)),
+        extra: done ? null : _HeroLinks([(l.seeTheWeek, () => context.go('/train'))]),
         done: done,
       );
     }
@@ -180,8 +218,101 @@ class _Hero extends ConsumerWidget {
                 if (context.mounted) context.push('/workout');
               },
             ),
+      extra: done || live ? null : _HeroLinks([(l.notToday, () => _notToday(context, ref, r!.name))]),
     );
   }
+}
+
+/// Small text links under the hero's button.
+class _HeroLinks extends StatelessWidget {
+  const _HeroLinks(this.links);
+  final List<(String, VoidCallback)> links;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      for (final (label, onTap) in links)
+        Pressable(
+          onTap: onTap,
+          label: label,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            child: Text(
+              label,
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t2),
+            ),
+          ),
+        ),
+    ],
+  );
+}
+
+/// Today's session is not happening: rest now and do it tomorrow, or drop it.
+void _notToday(BuildContext context, WidgetRef ref, String name) {
+  final l = AppLocalizations.of(context);
+  final plan = ref.read(dayPlanActionsProvider);
+  showVSheet<void>(
+    context,
+    title: l.notTodayTitle,
+    body: (ctx) => [
+      SRow(
+        label: l.restTodayLabel,
+        sub: l.restTodaySub(name),
+        lead: const VIcon('moon', size: 18, color: Volt.brandInk),
+        onTap: () {
+          Navigator.pop(ctx);
+          plan.restToday();
+        },
+      ),
+      SRow(
+        label: l.skipTodayLabel,
+        sub: l.skipTodaySub(name),
+        lead: const VIcon('fwd', size: 18, color: Volt.t2),
+        onTap: () {
+          Navigator.pop(ctx);
+          plan.skipToday();
+        },
+      ),
+      Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.notTodayNote)),
+    ],
+  );
+}
+
+/// A rest day, but the gym is calling: any routine, or start empty.
+void _trainAnyway(BuildContext context, WidgetRef ref) {
+  final l = AppLocalizations.of(context);
+  final routines = ref.read(routinesProvider).value ?? const <Routine>[];
+  final lib = ref.read(exerciseLibraryProvider).value;
+  final n = ref.read(activeWorkoutProvider.notifier);
+  showVSheet<void>(
+    context,
+    title: l.trainAnyway,
+    body: (ctx) => [
+      Padding(padding: const EdgeInsets.fromLTRB(4, 0, 4, 4), child: Muted(l.trainAnywaySub)),
+      for (final r in routines)
+        SRow(
+          label: r.name,
+          sub: l.routineSize(r.items.length, r.totalSets),
+          lead: const VIcon('dumb', size: 18, color: Volt.brandInk),
+          onTap: () async {
+            Navigator.pop(ctx);
+            if (lib == null) return;
+            await n.startRoutine(r, lib);
+            if (context.mounted) context.push('/workout');
+          },
+        ),
+      SRow(
+        label: l.emptyWorkout,
+        lead: const VIcon('plus', size: 18, color: Volt.t2),
+        onTap: () {
+          Navigator.pop(ctx);
+          n.startEmpty(l.workoutDefaultName);
+          context.push('/workout');
+        },
+      ),
+    ],
+  );
 }
 
 class _HeroShell extends StatelessWidget {
@@ -193,7 +324,9 @@ class _HeroShell extends StatelessWidget {
     this.stats,
     this.chips,
     this.done = false,
+    this.extra,
   });
+  final Widget? extra;
   final List<Widget> tags;
   final String title;
   final Widget cta;
@@ -304,6 +437,7 @@ class _HeroShell extends StatelessWidget {
                     ],
                   ),
                 Padding(padding: const EdgeInsets.only(top: 2), child: cta),
+                ?extra,
               ],
             ),
           ),

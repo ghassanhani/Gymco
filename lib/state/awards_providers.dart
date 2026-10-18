@@ -56,6 +56,7 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
   final start = DateTime(p.startedOn.year, p.startedOn.month, p.startedOn.day);
   final routines = await ref.watch(routinesProvider.future);
   final planDays = {for (final r in routines) ?r.weekday};
+  final chosenRest = chosenRestDays(ref.watch(prefsProvider));
 
   final totals = await db.dayTotals(dayKey(start), dayKey(today));
   final workouts = await db.workoutsBetween(start, DateTime(today.year, today.month, today.day + 1));
@@ -70,7 +71,7 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
         mealsLogged: totals[k]?.meals.containsAll(_mainMeals) ?? false,
         trained: trained.contains(k),
         // With no weekly plan, every day you do not train is a rest day.
-        plannedRest: !planDays.contains(d.weekday - 1),
+        plannedRest: !planDays.contains(d.weekday - 1) || chosenRest.contains(k),
       ),
     );
   }

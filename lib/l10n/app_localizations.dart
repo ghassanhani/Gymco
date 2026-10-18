@@ -6500,6 +6500,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last time ({date}) you had sharp {area} pain here. Swap it if it comes back.'**
   String painLastSharp(String area, String date);
+
+  /// No description provided for @heroTagLeftOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Left open'**
+  String get heroTagLeftOpen;
+
+  /// No description provided for @heroLeftOpenEm.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was <em>left open</em>'**
+  String heroLeftOpenEm(String name);
+
+  /// No description provided for @heroLeftOpenBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Nothing ticked yet} =1{1 set done} other{{n} sets done}}, last touched {time}. Save what you did, or pick it up again.'**
+  String heroLeftOpenBody(int n, String time);
+
+  /// No description provided for @yesterdayAt.
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday {time}'**
+  String yesterdayAt(String time);
+
+  /// No description provided for @saveAsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as done'**
+  String get saveAsDone;
+
+  /// No description provided for @heroTagSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped'**
+  String get heroTagSkipped;
+
+  /// No description provided for @heroRestChosenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting <em>today</em>'**
+  String get heroRestChosenTitle;
+
+  /// No description provided for @heroRestChosenBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} moves to tomorrow. Rest is part of the plan, not a break from it.'**
+  String heroRestChosenBody(String name);
+
+  /// No description provided for @heroSkippedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped <em>today</em>'**
+  String get heroSkippedTitle;
+
+  /// No description provided for @heroSkippedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is off this week. The rest of the week stays as planned.'**
+  String heroSkippedBody(String name);
+
+  /// No description provided for @trainAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Train anyway'**
+  String get trainAnyway;
+
+  /// No description provided for @trainAnywaySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a routine, or start empty and add as you go.'**
+  String get trainAnywaySub;
+
+  /// No description provided for @undoChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undoChange;
+
+  /// No description provided for @notToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Not today'**
+  String get notToday;
+
+  /// No description provided for @notTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not today?'**
+  String get notTodayTitle;
+
+  /// No description provided for @restTodayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest today, train tomorrow'**
+  String get restTodayLabel;
+
+  /// No description provided for @restTodaySub.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} and the rest of the week slide one day.'**
+  String restTodaySub(String name);
+
+  /// No description provided for @skipTodayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip it this week'**
+  String get skipTodayLabel;
+
+  /// No description provided for @skipTodaySub.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is dropped; the other days stay where they are.'**
+  String skipTodaySub(String name);
+
+  /// No description provided for @notTodayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Either way your streak is safe: a planned rest day never breaks it.'**
+  String get notTodayNote;
+
+  /// No description provided for @routineSize.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 exercise} other{{n} exercises}} · {sets} sets'**
+  String routineSize(int n, int sets);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

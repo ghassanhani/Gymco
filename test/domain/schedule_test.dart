@@ -59,4 +59,42 @@ void main() {
     );
     expect(s.every((d) => d.rest), isTrue);
   });
+
+  test('resting today moves the session to tomorrow; skipping drops it', () {
+    final rest = schedule(
+      days: days,
+      today: today,
+      routines: const [push, monday],
+      workouts: const [],
+      restDays: {today},
+    );
+    expect(rest[4].restTaken, push);
+    expect(rest[4].routine, isNull);
+    expect(rest[5].routine, push);
+    expect(rest[5].moved, isTrue);
+    expect(rest[6].routine, monday);
+
+    final skip = schedule(
+      days: days,
+      today: today,
+      routines: const [push, monday],
+      workouts: const [],
+      skipDays: {today},
+    );
+    expect(skip[4].skipped, push);
+    expect(skip[5].rest, isTrue);
+    expect(skip[6].routine, monday);
+  });
+
+  test('a past skipped day does not carry its routine forward', () {
+    final s = schedule(
+      days: days,
+      today: today,
+      routines: const [pull],
+      workouts: const [],
+      skipDays: {DateTime(2026, 9, 23)},
+    );
+    expect(s[1].skipped, pull);
+    expect(s.skip(4).every((d) => d.routine == null), isTrue);
+  });
 }

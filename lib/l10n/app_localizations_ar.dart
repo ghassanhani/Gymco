@@ -3851,4 +3851,100 @@ class AppLocalizationsAr extends AppLocalizations {
   String painLastSharp(String area, String date) {
     return 'في المرة السابقة ($date) شعرت بألم حاد في $area. استبدله إن عاد.';
   }
+
+  @override
+  String get heroTagLeftOpen => 'لم يُغلق';
+
+  @override
+  String heroLeftOpenEm(String name) {
+    return '$name <em>لم يُغلق</em>';
+  }
+
+  @override
+  String heroLeftOpenBody(int n, String time) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n مجموعة منجزة',
+      few: '$n مجموعات منجزة',
+      two: 'مجموعتان منجزتان',
+      one: 'مجموعة واحدة منجزة',
+      zero: 'لا مجموعات منجزة بعد',
+    );
+    return '$_temp0، آخر تعديل $time. احفظ ما أنجزته أو تابع من حيث توقفت.';
+  }
+
+  @override
+  String yesterdayAt(String time) {
+    return 'أمس $time';
+  }
+
+  @override
+  String get saveAsDone => 'احفظه كمنجز';
+
+  @override
+  String get heroTagSkipped => 'متخطّى';
+
+  @override
+  String get heroRestChosenTitle => 'راحة <em>اليوم</em>';
+
+  @override
+  String heroRestChosenBody(String name) {
+    return 'ينتقل $name إلى الغد. الراحة جزء من الخطة لا خروج عنها.';
+  }
+
+  @override
+  String get heroSkippedTitle => 'تخطّي <em>اليوم</em>';
+
+  @override
+  String heroSkippedBody(String name) {
+    return 'أُلغي $name هذا الأسبوع. بقية الأسبوع كما خُطط له.';
+  }
+
+  @override
+  String get trainAnyway => 'تمرّن على أي حال';
+
+  @override
+  String get trainAnywaySub => 'اختر روتينًا، أو ابدأ فارغًا وأضف أثناء التمرين.';
+
+  @override
+  String get undoChange => 'تراجع';
+
+  @override
+  String get notToday => 'ليس اليوم';
+
+  @override
+  String get notTodayTitle => 'ليس اليوم؟';
+
+  @override
+  String get restTodayLabel => 'ارتح اليوم وتمرّن غدًا';
+
+  @override
+  String restTodaySub(String name) {
+    return 'ينزاح $name وبقية الأسبوع يومًا واحدًا.';
+  }
+
+  @override
+  String get skipTodayLabel => 'تخطَّه هذا الأسبوع';
+
+  @override
+  String skipTodaySub(String name) {
+    return 'يُلغى $name؛ وتبقى الأيام الأخرى في مكانها.';
+  }
+
+  @override
+  String get notTodayNote => 'في الحالتين سلسلتك بأمان: يوم الراحة المخطط لا يكسرها.';
+
+  @override
+  String routineSize(int n, int sets) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n تمرينًا',
+      few: '$n تمارين',
+      two: 'تمرينان',
+      one: 'تمرين واحد',
+    );
+    return '$_temp0 · $sets مجموعة';
+  }
 }

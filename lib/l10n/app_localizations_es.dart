@@ -3835,4 +3835,91 @@ class AppLocalizationsEs extends AppLocalizations {
   String painLastSharp(String area, String date) {
     return 'La última vez ($date) tuviste dolor agudo aquí ($area). Cámbialo si vuelve.';
   }
+
+  @override
+  String get heroTagLeftOpen => 'Sin cerrar';
+
+  @override
+  String heroLeftOpenEm(String name) {
+    return '$name quedó <em>abierto</em>';
+  }
+
+  @override
+  String heroLeftOpenBody(int n, String time) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n series hechas',
+      one: '1 serie hecha',
+      zero: 'Nada marcado aún',
+    );
+    return '$_temp0, último cambio $time. Guarda lo que hiciste o retómalo.';
+  }
+
+  @override
+  String yesterdayAt(String time) {
+    return 'ayer $time';
+  }
+
+  @override
+  String get saveAsDone => 'Guardar como hecho';
+
+  @override
+  String get heroTagSkipped => 'Saltado';
+
+  @override
+  String get heroRestChosenTitle => 'Descanso <em>hoy</em>';
+
+  @override
+  String heroRestChosenBody(String name) {
+    return '$name pasa a mañana. Descansar es parte del plan, no salirse de él.';
+  }
+
+  @override
+  String get heroSkippedTitle => 'Saltado <em>hoy</em>';
+
+  @override
+  String heroSkippedBody(String name) {
+    return '$name queda fuera esta semana. El resto sigue como estaba.';
+  }
+
+  @override
+  String get trainAnyway => 'Entrenar igualmente';
+
+  @override
+  String get trainAnywaySub => 'Elige una rutina, o empieza vacío y añade sobre la marcha.';
+
+  @override
+  String get undoChange => 'Deshacer';
+
+  @override
+  String get notToday => 'Hoy no';
+
+  @override
+  String get notTodayTitle => '¿Hoy no?';
+
+  @override
+  String get restTodayLabel => 'Descansa hoy, entrena mañana';
+
+  @override
+  String restTodaySub(String name) {
+    return '$name y el resto de la semana se mueven un día.';
+  }
+
+  @override
+  String get skipTodayLabel => 'Sáltalo esta semana';
+
+  @override
+  String skipTodaySub(String name) {
+    return '$name se quita; los demás días se quedan donde están.';
+  }
+
+  @override
+  String get notTodayNote => 'En ambos casos tu racha está a salvo: un descanso planificado nunca la rompe.';
+
+  @override
+  String routineSize(int n, int sets) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ejercicios', one: '1 ejercicio');
+    return '$_temp0 · $sets series';
+  }
 }

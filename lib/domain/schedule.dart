@@ -33,6 +33,8 @@ class ScheduledDay {
     this.missed,
     this.moved = false,
     this.today = false,
+    this.restTaken,
+    this.skipped,
   });
 
   final DateTime date;
@@ -49,6 +51,12 @@ class ScheduledDay {
   /// The routine here was carried from an earlier missed day.
   final bool moved;
   final bool today;
+
+  /// A rest day taken on purpose; this routine moved on to the next day.
+  final PlannedRoutine? restTaken;
+
+  /// This routine was skipped here and dropped, not carried forward.
+  final PlannedRoutine? skipped;
 
   bool get rest => done == null && routine == null;
   bool get hasSession => done != null || routine != null;
@@ -70,7 +78,11 @@ List<ScheduledDay> schedule({
   required DateTime today,
   required List<PlannedRoutine> routines,
   required List<DoneWorkout> workouts,
+  Set<DateTime> restDays = const {},
+  Set<DateTime> skipDays = const {},
 }) {
+  final rests = {for (final d in restDays) _day(d)};
+  final skips = {for (final d in skipDays) _day(d)};
   final t = _day(today);
   PlannedRoutine? dueOn(DateTime d) {
     final w = weekdayIndex(d);
@@ -97,6 +109,12 @@ List<ScheduledDay> schedule({
       final done = doneOn(d);
       if (done != null) {
         out.add(ScheduledDay(date: d, done: done));
+      } else if (skips.contains(d)) {
+        // A skip drops the day's own routine; anything carried still waits.
+        out.add(ScheduledDay(date: d, skipped: due));
+      } else if (rests.contains(d)) {
+        if (due != null) queue.add(due);
+        out.add(ScheduledDay(date: d, restTaken: queue.firstOrNull));
       } else {
         if (due != null) queue.add(due);
         out.add(ScheduledDay(date: d, missed: due));
@@ -106,6 +124,18 @@ List<ScheduledDay> schedule({
     // Today and ahead: overdue work first, then what the day is for.
     final isToday = d == t;
     final done = isToday ? doneOn(d) : null;
+    if (done == null && (skips.contains(d) || rests.contains(d))) {
+      final head = queue.isNotEmpty ? queue.removeAt(0) : due;
+      if (skips.contains(d)) {
+        if (head != null && head != due && due != null) queue.add(due);
+        out.add(ScheduledDay(date: d, today: isToday, skipped: head));
+      } else {
+        if (head != null) queue.insert(0, head);
+        if (due != null && head != due) queue.add(due);
+        out.add(ScheduledDay(date: d, today: isToday, restTaken: head));
+      }
+      continue;
+    }
     final r = queue.isNotEmpty ? queue.removeAt(0) : due;
     final moved = r != null && r != due;
     if (r != null && due != null && r != due) queue.add(due);
