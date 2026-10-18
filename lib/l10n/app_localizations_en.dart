@@ -3635,4 +3635,89 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eoSoda => 'Soft drink';
+
+  @override
+  String get catchupTitle => 'Catch up';
+
+  @override
+  String get catchupHeadEm => 'Fill the <em>gaps</em>';
+
+  @override
+  String catchupSub(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days have nothing logged.',
+      one: 'One day has nothing logged.',
+    );
+    return '$_temp0 Fill them roughly or leave them out — no guilt either way.';
+  }
+
+  @override
+  String catchupTrained(String name) {
+    return 'Trained · $name';
+  }
+
+  @override
+  String catchupPlanned(String name) {
+    return 'Planned · $name';
+  }
+
+  @override
+  String get catchupRest => 'Planned rest';
+
+  @override
+  String get catchupUsual => 'Usual day';
+
+  @override
+  String get catchupRough => 'Rough total';
+
+  @override
+  String get catchupLeave => 'Leave out';
+
+  @override
+  String get catchupRoughLabel => 'About how much';
+
+  @override
+  String catchupUsualNote(String kcal, String protein) {
+    return 'Fills with your 7-day average: ≈ $kcal kcal, $protein g protein.';
+  }
+
+  @override
+  String get catchupRoughNote => 'Protein follows your usual share of the day.';
+
+  @override
+  String get catchupLeaveNote => 'Left out of your expenditure average. The day stays open for your streak.';
+
+  @override
+  String get catchupFooter => 'Filled days are marked as estimates.';
+
+  @override
+  String catchupSave(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Save $n days', one: 'Save 1 day');
+    return '$_temp0';
+  }
+
+  @override
+  String catchupSaved(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days caught up', one: 'Day caught up');
+    return '$_temp0';
+  }
+
+  @override
+  String get catchupNone => 'All caught up.';
+
+  @override
+  String catchupCard(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n days without food logs',
+      one: '1 day without food logs',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchupCardSub => 'Catch up in a few taps';
 }

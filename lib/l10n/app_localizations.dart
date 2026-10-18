@@ -6188,6 +6188,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Soft drink'**
   String get eoSoda;
+
+  /// No description provided for @catchupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Catch up'**
+  String get catchupTitle;
+
+  /// No description provided for @catchupHeadEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the <em>gaps</em>'**
+  String get catchupHeadEm;
+
+  /// No description provided for @catchupSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{One day has nothing logged.} other{{n} days have nothing logged.}} Fill them roughly or leave them out — no guilt either way.'**
+  String catchupSub(int n);
+
+  /// No description provided for @catchupTrained.
+  ///
+  /// In en, this message translates to:
+  /// **'Trained · {name}'**
+  String catchupTrained(String name);
+
+  /// No description provided for @catchupPlanned.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned · {name}'**
+  String catchupPlanned(String name);
+
+  /// No description provided for @catchupRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Planned rest'**
+  String get catchupRest;
+
+  /// No description provided for @catchupUsual.
+  ///
+  /// In en, this message translates to:
+  /// **'Usual day'**
+  String get catchupUsual;
+
+  /// No description provided for @catchupRough.
+  ///
+  /// In en, this message translates to:
+  /// **'Rough total'**
+  String get catchupRough;
+
+  /// No description provided for @catchupLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave out'**
+  String get catchupLeave;
+
+  /// No description provided for @catchupRoughLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About how much'**
+  String get catchupRoughLabel;
+
+  /// No description provided for @catchupUsualNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Fills with your 7-day average: ≈ {kcal} kcal, {protein} g protein.'**
+  String catchupUsualNote(String kcal, String protein);
+
+  /// No description provided for @catchupRoughNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein follows your usual share of the day.'**
+  String get catchupRoughNote;
+
+  /// No description provided for @catchupLeaveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Left out of your expenditure average. The day stays open for your streak.'**
+  String get catchupLeaveNote;
+
+  /// No description provided for @catchupFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filled days are marked as estimates.'**
+  String get catchupFooter;
+
+  /// No description provided for @catchupSave.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Save 1 day} other{Save {n} days}}'**
+  String catchupSave(int n);
+
+  /// No description provided for @catchupSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Day caught up} other{{n} days caught up}}'**
+  String catchupSaved(int n);
+
+  /// No description provided for @catchupNone.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up.'**
+  String get catchupNone;
+
+  /// No description provided for @catchupCard.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day without food logs} other{{n} days without food logs}}'**
+  String catchupCard(int n);
+
+  /// No description provided for @catchupCardSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Catch up in a few taps'**
+  String get catchupCardSub;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

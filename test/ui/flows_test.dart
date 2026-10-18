@@ -72,6 +72,7 @@ void main() {
 
   testWidgets('searching and logging a food moves the day', (tester) async {
     final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await tester.scrollUntilVisible(find.text('Lunch'), 200, scrollable: find.byType(Scrollable).first);
     await tester.ensureVisible(find.text('Lunch'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Lunch'));

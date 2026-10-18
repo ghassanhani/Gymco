@@ -2719,5 +2719,76 @@
   "eoFries": "Fries",
   "eoGarlic": "Garlic sauce",
   "eoBread": "Bread",
-  "eoSoda": "Soft drink"
+  "eoSoda": "Soft drink",
+  "catchupTitle": "Catch up",
+  "catchupHeadEm": "Fill the <em>gaps</em>",
+  "catchupSub": "{n, plural, =1{One day has nothing logged.} other{{n} days have nothing logged.}} Fill them roughly or leave them out — no guilt either way.",
+  "@catchupSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "catchupTrained": "Trained · {name}",
+  "@catchupTrained": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "catchupPlanned": "Planned · {name}",
+  "@catchupPlanned": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "catchupRest": "Planned rest",
+  "catchupUsual": "Usual day",
+  "catchupRough": "Rough total",
+  "catchupLeave": "Leave out",
+  "catchupRoughLabel": "About how much",
+  "catchupUsualNote": "Fills with your 7-day average: ≈ {kcal} kcal, {protein} g protein.",
+  "@catchupUsualNote": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "String"
+      }
+    }
+  },
+  "catchupRoughNote": "Protein follows your usual share of the day.",
+  "catchupLeaveNote": "Left out of your expenditure average. The day stays open for your streak.",
+  "catchupFooter": "Filled days are marked as estimates.",
+  "catchupSave": "{n, plural, =1{Save 1 day} other{Save {n} days}}",
+  "@catchupSave": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "catchupSaved": "{n, plural, =1{Day caught up} other{{n} days caught up}}",
+  "@catchupSaved": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "catchupNone": "All caught up.",
+  "catchupCard": "{n, plural, =1{1 day without food logs} other{{n} days without food logs}}",
+  "@catchupCard": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "catchupCardSub": "Catch up in a few taps"
 }

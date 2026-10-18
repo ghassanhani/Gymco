@@ -141,10 +141,10 @@ void main() {
     await tester.tap(find.text('Confirm and add'));
     await tester.pumpAndSettle();
     final entries = await db.entriesFor(dayKey(testNow));
-    expect([for (final e in entries) (e.foodName, e.grams.round(), e.kcal.round())], [
-      ('Burger', 338, 878),
-      ('Fries', 150, 470),
-    ]);
+    expect(
+      [for (final e in entries) (e.foodName, e.grams.round(), e.kcal.round())],
+      [('Burger', 338, 878), ('Fries', 150, 470)],
+    );
   });
 
   testWidgets('voice goes through the same reader, with an editable transcript', (tester) async {

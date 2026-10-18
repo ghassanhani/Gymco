@@ -3639,4 +3639,89 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eoSoda => 'Refresco';
+
+  @override
+  String get catchupTitle => 'Ponerte al día';
+
+  @override
+  String get catchupHeadEm => 'Rellena los <em>huecos</em>';
+
+  @override
+  String catchupSub(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días no tienen registros.',
+      one: 'Un día no tiene registros.',
+    );
+    return '$_temp0 Rellénalos a grandes rasgos o déjalos fuera, sin culpa.';
+  }
+
+  @override
+  String catchupTrained(String name) {
+    return 'Entrenaste · $name';
+  }
+
+  @override
+  String catchupPlanned(String name) {
+    return 'Planificado · $name';
+  }
+
+  @override
+  String get catchupRest => 'Descanso planificado';
+
+  @override
+  String get catchupUsual => 'Día habitual';
+
+  @override
+  String get catchupRough => 'Total aproximado';
+
+  @override
+  String get catchupLeave => 'Dejar fuera';
+
+  @override
+  String get catchupRoughLabel => 'Más o menos';
+
+  @override
+  String catchupUsualNote(String kcal, String protein) {
+    return 'Se rellena con tu media de 7 días: ≈ $kcal kcal, $protein g de proteína.';
+  }
+
+  @override
+  String get catchupRoughNote => 'La proteína sigue tu proporción habitual del día.';
+
+  @override
+  String get catchupLeaveNote => 'Queda fuera de tu media de gasto. El día sigue abierto para tu racha.';
+
+  @override
+  String get catchupFooter => 'Los días rellenados se marcan como estimaciones.';
+
+  @override
+  String catchupSave(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Guardar $n días', one: 'Guardar 1 día');
+    return '$_temp0';
+  }
+
+  @override
+  String catchupSaved(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n días al día', one: 'Día al día');
+    return '$_temp0';
+  }
+
+  @override
+  String get catchupNone => 'Todo al día.';
+
+  @override
+  String catchupCard(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días sin registrar comida',
+      one: '1 día sin registrar comida',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchupCardSub => 'Ponte al día en unos toques';
 }

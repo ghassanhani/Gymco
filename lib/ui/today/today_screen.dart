@@ -21,6 +21,7 @@ import '../../theme/volt.dart';
 import '../common/day_strip.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'catchup_screen.dart';
 
 class TodayScreen extends ConsumerWidget {
   const TodayScreen({super.key});
@@ -86,6 +87,7 @@ class _Today extends ConsumerWidget {
               _Hero(schedule: schedule, week: week),
               _RingCard(totals: totals, targets: profile.targets, kcalTarget: profile.targetKcal),
               if (dayOne && entries.isEmpty) const _FirstRun(),
+              if (!dayOne) const CatchupCard(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
               const _Trend(),
               const _Steps(),

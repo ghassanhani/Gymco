@@ -3644,4 +3644,100 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eoSoda => 'مشروب غازي';
+
+  @override
+  String get catchupTitle => 'استدراك';
+
+  @override
+  String get catchupHeadEm => 'املأ <em>الفجوات</em>';
+
+  @override
+  String catchupSub(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n يومًا بلا تسجيل.',
+      few: '$n أيام بلا تسجيل.',
+      two: 'يومان بلا تسجيل.',
+      one: 'يوم واحد بلا تسجيل.',
+    );
+    return '$_temp0 املأها تقريبيًا أو استبعدها — بلا لوم في الحالتين.';
+  }
+
+  @override
+  String catchupTrained(String name) {
+    return 'تمرين · $name';
+  }
+
+  @override
+  String catchupPlanned(String name) {
+    return 'مخطط · $name';
+  }
+
+  @override
+  String get catchupRest => 'راحة مخططة';
+
+  @override
+  String get catchupUsual => 'يوم معتاد';
+
+  @override
+  String get catchupRough => 'مجموع تقريبي';
+
+  @override
+  String get catchupLeave => 'استبعاد';
+
+  @override
+  String get catchupRoughLabel => 'تقريبًا كم';
+
+  @override
+  String catchupUsualNote(String kcal, String protein) {
+    return 'يُملأ بمتوسط ٧ أيام: ≈ $kcal سعرة، $protein غ بروتين.';
+  }
+
+  @override
+  String get catchupRoughNote => 'يتبع البروتين حصتك المعتادة من اليوم.';
+
+  @override
+  String get catchupLeaveNote => 'يُستبعد من متوسط الحرق. ويبقى اليوم مفتوحًا لسلسلتك.';
+
+  @override
+  String get catchupFooter => 'الأيام المملوءة تُعلَّم كتقديرات.';
+
+  @override
+  String catchupSave(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'احفظ $n يومًا',
+      few: 'احفظ $n أيام',
+      two: 'احفظ يومين',
+      one: 'احفظ يومًا',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String catchupSaved(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'تم استدراك $n أيام', one: 'تم استدراك اليوم');
+    return '$_temp0';
+  }
+
+  @override
+  String get catchupNone => 'كل شيء محدّث.';
+
+  @override
+  String catchupCard(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n يومًا بلا تسجيل طعام',
+      few: '$n أيام بلا تسجيل طعام',
+      two: 'يومان بلا تسجيل طعام',
+      one: 'يوم بلا تسجيل طعام',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get catchupCardSub => 'استدرك ببضع نقرات';
 }
