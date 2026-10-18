@@ -1,0 +1,39 @@
+name: Mirror to iFynx
+# Every push here is pushed on to iFynx/Gymco, branches and tags alike, so
+# both repositories always match. Needs the MIRROR_TOKEN secret: a
+# fine-grained token with Contents read and write on iFynx/Gymco.
+on:
+  push:
+    branches: ['**']
+    tags: ['**']
+  workflow_dispatch:
+concurrency:
+  group: mirror-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  mirror:
+    # Only from the original, so the copy never pushes back.
+    if: github.repository == 'ghassanhani/Gymco'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to iFynx/Gymco
+        env:
+          TOKEN: ${{ secrets.MIRROR_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "::error::Add the MIRROR_TOKEN secret first." && exit 1; fi
+          git config --unset-all http.https://github.com/.extraheader || true
+          git remote add mirror "https://x-access-token:${TOKEN}@github.com/iFynx/Gymco.git"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # A first full copy: every branch and tag.
+            for b in $(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin | grep -v '^HEAD$'); do
+              git push --force mirror "refs/remotes/origin/$b:refs/heads/$b"
+            done
+            git push --force mirror --tags
+          elif [ "${{ github.ref_type }}" = "tag" ]; then
+            git push --force mirror "${{ github.ref }}"
+          else
+            git push --force mirror "HEAD:refs/heads/${{ github.ref_name }}"
+          fi
