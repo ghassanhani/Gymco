@@ -154,7 +154,6 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
     final l = AppLocalizations.of(context);
     final cloud = ref.watch(cloudProvider);
     final email = ref.watch(accountProvider).value ?? cloud.email;
-    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
 
     if (!cloud.available) return _card('info', l.photoNotSetUp);
     if (email == null) {
@@ -267,7 +266,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
                         sub: r.food == null
                             ? l.notInDbSearch
                             : [
-                                if (!noNumbers) l.aboutGramsKcal(fmtInt(context, r.grams), fmtInt(context, r.kcal)),
+                                l.aboutGramsKcal(fmtInt(context, r.grams), fmtInt(context, r.kcal)),
                                 if (r.food!.source == 'ai') l.aiEstimateShort else if (!r.guess.sure) l.notSureCheck,
                               ].join(' · '),
                       ),
@@ -278,11 +277,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
             ),
           _card('warn', l.photoAmountNote, color: Volt.warn, edge: Volt.warnEdge),
           if (open.isNotEmpty)
-            VBtn(
-              label: noNumbers ? l.addN(open.length) : l.addAllKcal(open.length, fmtInt(context, total)),
-              expand: true,
-              onTap: () => _addAll(open),
-            ),
+            VBtn(label: l.addAllKcal(open.length, fmtInt(context, total)), expand: true, onTap: () => _addAll(open)),
           VBtn(
             label: l.photoAgain,
             kind: BtnKind.ghost,

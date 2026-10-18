@@ -78,7 +78,6 @@ class WrittenRows extends StatelessWidget {
     required this.onSearch,
     this.onEstimate,
     required this.onEdit,
-    this.noNumbers = false,
   });
   final List<WrittenItem> items;
   final Set<int> dropped;
@@ -88,7 +87,6 @@ class WrittenRows extends StatelessWidget {
   /// Asks the model for a food the phone does not have; null when signed out.
   final ValueChanged<int>? onEstimate;
   final ValueChanged<int> onEdit;
-  final bool noNumbers;
 
   @override
   Widget build(BuildContext context) {
@@ -180,13 +178,11 @@ class WrittenRows extends StatelessWidget {
                           ],
                         ),
                         Text(
-                          noNumbers
-                              ? '${fmtInt(context, it.grams)} g'
-                              : l.writtenSub(
-                                  fmtInt(context, it.grams),
-                                  fmtInt(context, it.kcal),
-                                  fmtDec(context, it.protein, digits: 1),
-                                ),
+                          l.writtenSub(
+                            fmtInt(context, it.grams),
+                            fmtInt(context, it.kcal),
+                            fmtDec(context, it.protein, digits: 1),
+                          ),
                           style: numStyle(13, weight: FontWeight.w400, color: Volt.t3),
                         ),
                       ],

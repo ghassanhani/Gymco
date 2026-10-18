@@ -31,7 +31,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   ActivityLevel _activity = ActivityLevel.moderate;
   double _rate = 0.5;
   bool _consent = false;
-  bool _noNumbers = false;
 
   @override
   void initState() {
@@ -48,7 +47,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       _consent = true;
       _step = _Step.goal;
     }
-    _noNumbers = ref.read(settingsProvider).noNumbers;
   }
 
   @override
@@ -185,7 +183,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     final tg = _targets();
     final now = ref.read(clockProvider)();
     final p = ref.read(profileProvider);
-    await ref.read(settingsProvider.notifier).setNoNumbers(_noNumbers);
     await recordConsent(ref.read(prefsProvider), now);
     await ref
         .read(profileProvider.notifier)
@@ -628,7 +625,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           ),
         ),
         _Check(on: _consent, onTap: () => setState(() => _consent = !_consent), text: l.consentHealth),
-        _Check(on: _noNumbers, onTap: () => setState(() => _noNumbers = !_noNumbers), text: l.noNumbersOfferLine),
       ],
     );
   }

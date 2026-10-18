@@ -148,32 +148,13 @@ void main() {
     expect(find.text('Scan barcode'), findsOneWidget);
   });
 
-  testWidgets('no-numbers mode hides calories', (tester) async {
-    await pumpApp(
-      tester,
-      prefs: {'profile': savedProfile, 'noNumbers': true},
-      seed: (db) => db.addEntry(
-        LogEntry.of(
-          const Food(id: 'x', name: 'Skyr', kcal: 63, protein: 11, carbs: 4, fat: 0.2),
-          day: dayKey(testNow),
-          meal: Meal.breakfast,
-          grams: 200,
-        ),
-      ),
-    );
-    expect(find.textContaining('kcal'), findsNothing);
-  });
-
-  testWidgets('leaving no-numbers mode needs a confirmation', (tester) async {
-    final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile, 'noNumbers': true});
+  testWidgets('a phone that had numbers hidden shows them again', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile, 'noNumbers': true});
+    expect(find.text('Numbers hidden'), findsNothing);
+    expect(find.textContaining('kcal'), findsWidgets);
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('No-numbers mode'));
-    await tester.pumpAndSettle();
-    expect(find.text('Show numbers again?'), findsOneWidget);
-    await tester.tap(find.text('Keep them hidden'));
-    await tester.pumpAndSettle();
-    expect(prefs.getBool('noNumbers'), isTrue);
+    expect(find.text('No-numbers mode'), findsNothing);
   });
 
   testWidgets('delete everything goes back to a first run', (tester) async {

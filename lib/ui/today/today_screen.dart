@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../data/models.dart';
 import '../../data/training.dart';
@@ -28,7 +27,6 @@ class TodayScreen extends ConsumerWidget {
     final view = ref.watch(viewDayProvider);
     final today = DateTime(now.year, now.month, now.day);
     final showing = view ?? today;
-    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
     final sched =
         ref.watch(weekScheduleProvider).value ??
         schedule(days: stripDays(now), today: now, routines: const [], workouts: const []);
@@ -47,8 +45,6 @@ class TodayScreen extends ConsumerWidget {
     final Widget body;
     if (view != null && view != today) {
       body = _PastDay(day: view, strip: strip, schedule: sched);
-    } else if (noNumbers) {
-      body = _Habits(strip: strip, schedule: sched);
     } else {
       body = _Today(strip: strip, schedule: sched);
     }
@@ -603,10 +599,9 @@ class _MealItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
     final kcal = entries.fold<double>(0, (s, e) => s + e.kcal);
     final sub = entries.isEmpty
-        ? (noNumbers ? l.addNoWeighing : l.nothingLogged)
+        ? l.nothingLogged
         : '${entries.take(3).map((e) => e.foodName.split(',').first).join(', ')} · ${l.itemsCount(entries.length)}';
     return VItem(
       semantics: mealName(l, meal),
@@ -616,10 +611,8 @@ class _MealItem extends ConsumerWidget {
       children: [
         MealIco(meal: meal.index, on: entries.isNotEmpty),
         ItemText(mealName(l, meal), sub: sub),
-        if (entries.isNotEmpty && !noNumbers)
+        if (entries.isNotEmpty)
           Text(fmtInt(context, kcal), style: numStyle(14, color: Volt.t2))
-        else if (entries.isNotEmpty)
-          const VIcon('check', size: 16, color: Volt.ok)
         else if (!readOnly)
           const Pick(),
       ],
@@ -901,123 +894,6 @@ class _PastDay extends ConsumerWidget {
                       ),
                     ),
                     if (sd?.done != null) const VIcon('fwd', size: 18, color: Volt.t3),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ---------------------------------------------------------------- no-numbers
-
-class _Habits extends ConsumerWidget {
-  const _Habits({required this.strip, required this.schedule});
-  final Widget strip;
-  final List<ScheduledDay> schedule;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l = AppLocalizations.of(context);
-    final now = ref.watch(clockProvider)();
-    final key = ref.watch(todayKeyProvider);
-    final totals = DayTotals(ref.watch(dayEntriesProvider(key)).value ?? const []);
-    final mainMeals = [Meal.breakfast, Meal.lunch, Meal.dinner];
-    final logged = mainMeals.where((m) => totals.inMeal(m).isNotEmpty).toList();
-    final protein =
-        logged.isNotEmpty && logged.every((m) => totals.inMeal(m).fold<double>(0, (s, e) => s + e.protein) >= 20);
-    final trained = schedule.where((d) => d.today).firstOrNull?.done != null;
-
-    Widget line(bool ok, String text) => Row(
-      children: [
-        Container(
-          width: 36,
-          height: 36,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: ok ? Volt.okWash : Volt.card2),
-          child: VIcon(ok ? 'check' : 'minus', size: 18, color: ok ? Volt.ok : Volt.t3),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Text(text, style: const TextStyle(fontSize: 14, color: Volt.t1)),
-        ),
-      ],
-    );
-
-    return Column(
-      children: [
-        VAppBar(
-          title: l.todayPlain,
-          sub: DateFormat.MMMMEEEEd(Localizations.localeOf(context).toString()).format(now),
-          right: VChip(label: l.numbersHidden, icon: 'eye', flat: true),
-        ),
-        strip,
-        Expanded(
-          child: Pad(
-            children: [
-              VCard(
-                child: GapCol(
-                  gap: 14,
-                  children: [
-                    Text(
-                      l.howTodayWent,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
-                    ),
-                    line(logged.length == mainMeals.length, l.habitMealsNone),
-                    line(protein, l.habitProteinEach),
-                    line(trained, l.habitTrained),
-                  ],
-                ),
-              ),
-              VList(
-                children: [for (final m in mainMeals) _MealItem(meal: m, entries: totals.inMeal(m))],
-              ),
-              VCard(
-                tight: true,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 2),
-                      child: VIcon('info', size: 18, color: Volt.t3),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: GapCol(
-                        gap: 4,
-                        children: [
-                          Text(
-                            l.habitsHiddenTitle,
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
-                          ),
-                          Muted(l.habitsHiddenBody),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              VCard(
-                tight: true,
-                onTap: () => launchUrl(Uri.parse('https://findahelpline.com'), mode: LaunchMode.externalApplication),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GapCol(
-                        gap: 3,
-                        children: [
-                          Text(
-                            l.supportTitle,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
-                          ),
-                          Muted(l.supportBody),
-                        ],
-                      ),
-                    ),
-                    const VIcon('fwd', size: 18, color: Volt.t1),
                   ],
                 ),
               ),

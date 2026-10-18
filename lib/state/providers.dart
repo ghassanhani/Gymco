@@ -26,45 +26,34 @@ final clockProvider = Provider<DateTime Function()>((_) => DateTime.now);
 // ---------------- settings ----------------
 
 class Settings {
-  const Settings({this.languageCode, this.noNumbers = false, this.cheatAllowance = CheatAllowance.oncePerWeek});
+  const Settings({this.languageCode, this.cheatAllowance = CheatAllowance.oncePerWeek});
 
   /// Null follows the phone.
   final String? languageCode;
-  final bool noNumbers;
   final CheatAllowance cheatAllowance;
 
   Locale? get locale => languageCode == null ? null : Locale(languageCode!);
 
-  Settings copyWith({String? Function()? languageCode, bool? noNumbers, CheatAllowance? cheatAllowance}) => Settings(
+  Settings copyWith({String? Function()? languageCode, CheatAllowance? cheatAllowance}) => Settings(
     languageCode: languageCode == null ? this.languageCode : languageCode(),
-    noNumbers: noNumbers ?? this.noNumbers,
     cheatAllowance: cheatAllowance ?? this.cheatAllowance,
   );
 }
 
 class SettingsNotifier extends Notifier<Settings> {
-  static const _kLang = 'lang', _kNoNum = 'noNumbers', _kCheat = 'cheatAllowance';
+  static const _kLang = 'lang', _kCheat = 'cheatAllowance';
 
   SharedPreferences get _p => ref.read(prefsProvider);
 
   @override
   Settings build() {
     final p = ref.watch(prefsProvider);
-    return Settings(
-      languageCode: p.getString(_kLang),
-      noNumbers: p.getBool(_kNoNum) ?? false,
-      cheatAllowance: CheatAllowance.values[p.getInt(_kCheat) ?? 1],
-    );
+    return Settings(languageCode: p.getString(_kLang), cheatAllowance: CheatAllowance.values[p.getInt(_kCheat) ?? 1]);
   }
 
   Future<void> setLanguage(String? code) async {
     code == null ? await _p.remove(_kLang) : await _p.setString(_kLang, code);
     state = state.copyWith(languageCode: () => code);
-  }
-
-  Future<void> setNoNumbers(bool on) async {
-    await _p.setBool(_kNoNum, on);
-    state = state.copyWith(noNumbers: on);
   }
 
   Future<void> setCheatAllowance(CheatAllowance a) async {

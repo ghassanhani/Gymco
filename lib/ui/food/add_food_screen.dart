@@ -253,7 +253,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     context.go('/meal/${_meal.name}');
   }
 
-  List<Widget> _savedMeals(AppLocalizations l, bool noNumbers) {
+  List<Widget> _savedMeals(AppLocalizations l) {
     final meals = ref.watch(savedMealsProvider).value ?? const <SavedMeal>[];
     if (meals.isEmpty) return [_Shelf(text: l.noSavedMeals)];
     return [
@@ -270,12 +270,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
               },
               children: [
                 const VIcon('star', size: 19, color: Volt.t3),
-                ItemText(
-                  m.name,
-                  sub: noNumbers
-                      ? l.itemsCount(m.items.length)
-                      : l.savedMealSub(m.items.length, fmtInt(context, m.kcal)),
-                ),
+                ItemText(m.name, sub: l.savedMealSub(m.items.length, fmtInt(context, m.kcal))),
                 const Pick(),
               ],
             ),
@@ -322,7 +317,6 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
     final profile = ref.watch(profileProvider);
     final totals = DayTotals(ref.watch(dayEntriesProvider(ref.watch(todayKeyProvider))).value ?? const []);
     final q = _q.text.trim();
@@ -365,7 +359,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
                       ),
                     ),
-                    Muted(noNumbers ? l.logNoWeighing : left),
+                    Muted(left),
                   ],
                 ),
               ),
@@ -429,7 +423,6 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
         : WrittenRows(
             items: _written,
             dropped: _dropped,
-            noNumbers: noNumbers,
             onDrop: (i) => setState(() => _dropped.add(i)),
             onSearch: _findWritten,
             onEstimate: (ref.watch(accountProvider).value ?? ref.watch(cloudProvider).email) != null
@@ -490,7 +483,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
         ),
       ];
     } else if (q.isEmpty && _shelf == 1) {
-      body = _savedMeals(l, noNumbers);
+      body = _savedMeals(l);
     } else if (q.isEmpty && _shelf == 2) {
       body = [_Shelf(text: l.recipesSoon)];
     } else if (q.isEmpty && _shelf == 3) {
@@ -501,12 +494,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
               VList(
                 children: [
                   for (final f in custom)
-                    _FoodItem(
-                      food: f,
-                      on: _picks.any((p) => p.id == f.id),
-                      noNumbers: noNumbers,
-                      onTap: () => _toggle(f),
-                    ),
+                    _FoodItem(food: f, on: _picks.any((p) => p.id == f.id), onTap: () => _toggle(f)),
                 ],
               ),
             ];
@@ -530,8 +518,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
         if (results.isNotEmpty)
           VList(
             children: [
-              for (final f in results)
-                _FoodItem(food: f, on: _picks.any((p) => p.id == f.id), noNumbers: noNumbers, onTap: () => _toggle(f)),
+              for (final f in results) _FoodItem(food: f, on: _picks.any((p) => p.id == f.id), onTap: () => _toggle(f)),
             ],
           ),
       ];
@@ -552,18 +539,13 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                 child: GapCol(
                   gap: 1,
                   children: [
-                    Text(
-                      noNumbers ? l.itemsSelected(toAdd.length) : l.kcalChange(fmtInt(context, wk)),
-                      style: numStyle(15),
-                    ),
+                    Text(l.kcalChange(fmtInt(context, wk)), style: numStyle(15)),
                     Muted(
-                      noNumbers
-                          ? l.readyToLog
-                          : l.pcfLine(
-                              fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.protein)),
-                              fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.carbs)),
-                              fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.fat)),
-                            ),
+                      l.pcfLine(
+                        fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.protein)),
+                        fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.carbs)),
+                        fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.fat)),
+                      ),
                     ),
                   ],
                 ),
@@ -583,9 +565,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                       l.itemsSelected(_picks.length),
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                     ),
-                    Muted(
-                      noNumbers ? l.readyToLog : l.kcalAndProtein(fmtInt(context, pickKcal), fmtInt(context, pickP)),
-                    ),
+                    Muted(l.kcalAndProtein(fmtInt(context, pickKcal), fmtInt(context, pickP))),
                   ],
                 ),
               ),
@@ -611,10 +591,9 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
 }
 
 class _FoodItem extends StatelessWidget {
-  const _FoodItem({required this.food, required this.on, required this.noNumbers, required this.onTap});
+  const _FoodItem({required this.food, required this.on, required this.onTap});
   final Food food;
   final bool on;
-  final bool noNumbers;
   final VoidCallback onTap;
 
   @override
@@ -629,9 +608,7 @@ class _FoodItem extends StatelessWidget {
       children: [
         ItemText(
           food.name,
-          sub: noNumbers
-              ? brand
-              : '$brand · ${fmtInt(context, g)} ${l.grams} · ${fmtInt(context, food.kcal * g / 100)} ${l.kcal}',
+          sub: '$brand · ${fmtInt(context, g)} ${l.grams} · ${fmtInt(context, food.kcal * g / 100)} ${l.kcal}',
           trailingName: food.verified ? const VIcon('check', size: 14, color: Volt.blue) : null,
         ),
         Pick(on: on),

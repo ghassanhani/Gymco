@@ -36,27 +36,6 @@ class MeScreen extends ConsumerWidget {
       ],
     );
 
-    Future<void> toggleNoNumbers() async {
-      if (!s.noNumbers) return notifier.setNoNumbers(true);
-      // Leaving needs a deliberate step, not a tap.
-      await showVSheet<void>(
-        context,
-        title: l.leaveNoNumbersTitle,
-        body: (ctx) => [
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.leaveNoNumbersBody)),
-          SRow(label: l.keepThemHidden, onTap: () => Navigator.pop(ctx)),
-          SRow(
-            label: l.leaveNoNumbersConfirm,
-            tint: Volt.brandInk,
-            onTap: () {
-              notifier.setNoNumbers(false);
-              Navigator.pop(ctx);
-            },
-          ),
-        ],
-      );
-    }
-
     String cheatLabel(CheatAllowance a) => switch (a) {
       CheatAllowance.off => l.cheatOff,
       CheatAllowance.oncePerWeek => l.cheatOnce,
@@ -80,9 +59,7 @@ class MeScreen extends ConsumerWidget {
                       row(
                         'chart',
                         l.goalAndTargets,
-                        s.noNumbers
-                            ? goalShort(l, profile.goal)
-                            : '${fmtInt(context, profile.targetKcal)} ${l.kcal} · ${goalShort(l, profile.goal)}',
+                        '${fmtInt(context, profile.targetKcal)} ${l.kcal} · ${goalShort(l, profile.goal)}',
                         () => context.push('/onboarding'),
                       ),
                     row('list', l.unitsLanguage, langLabel, () => context.push('/language')),
@@ -102,13 +79,6 @@ class MeScreen extends ConsumerWidget {
                 Eyebrow(l.safeguards, padding: const EdgeInsetsDirectional.only(start: 4)),
                 VList(
                   children: [
-                    row(
-                      'eye',
-                      l.noNumbersMode,
-                      s.noNumbers ? l.noNumbersOn : l.noNumbersModeSub,
-                      toggleNoNumbers,
-                      right: VToggle(on: s.noNumbers),
-                    ),
                     row(
                       'star',
                       l.cheatAllowance,
@@ -138,25 +108,24 @@ class MeScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-                if (!s.noNumbers)
-                  VCard(
-                    child: GapCol(
-                      gap: 10,
-                      children: [
-                        Eyebrow(l.calorieFloor),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(fmtInt(context, defaultKcalFloor), style: numStyle(22)),
-                            const SizedBox(width: 8),
-                            Flexible(child: Muted(l.floorSub)),
-                          ],
-                        ),
-                        Muted(l.floorBody),
-                      ],
-                    ),
+                VCard(
+                  child: GapCol(
+                    gap: 10,
+                    children: [
+                      Eyebrow(l.calorieFloor),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(fmtInt(context, defaultKcalFloor), style: numStyle(22)),
+                          const SizedBox(width: 8),
+                          Flexible(child: Muted(l.floorSub)),
+                        ],
+                      ),
+                      Muted(l.floorBody),
+                    ],
                   ),
+                ),
               ],
             ),
           ),

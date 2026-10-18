@@ -63,7 +63,8 @@ import 'app_localizations_es.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,15 +85,20 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('es')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('en'),
+    Locale('es'),
+  ];
 
   /// No description provided for @appName.
   ///
@@ -236,24 +243,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start with whatever you ate first. One meal is a good start.'**
   String get emptyDayBody;
-
-  /// No description provided for @habitsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Today\'s habits'**
-  String get habitsTitle;
-
-  /// No description provided for @habitProtein.
-  ///
-  /// In en, this message translates to:
-  /// **'Protein at every meal'**
-  String get habitProtein;
-
-  /// No description provided for @habitMealsLogged.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{No meals logged} =1{1 meal logged} other{{count} meals logged}}'**
-  String habitMealsLogged(int count);
 
   /// No description provided for @addFood.
   ///
@@ -561,18 +550,6 @@ abstract class AppLocalizations {
   /// **'Daily target'**
   String get dailyTarget;
 
-  /// No description provided for @noNumbersOffer.
-  ///
-  /// In en, this message translates to:
-  /// **'Rather not see numbers?'**
-  String get noNumbersOffer;
-
-  /// No description provided for @noNumbersOfferBody.
-  ///
-  /// In en, this message translates to:
-  /// **'No-numbers mode hides calories, macros and weight, and tracks habits instead.'**
-  String get noNumbersOfferBody;
-
   /// No description provided for @continueBtn.
   ///
   /// In en, this message translates to:
@@ -602,36 +579,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phone language'**
   String get systemLanguage;
-
-  /// No description provided for @noNumbersMode.
-  ///
-  /// In en, this message translates to:
-  /// **'No-numbers mode'**
-  String get noNumbersMode;
-
-  /// No description provided for @noNumbersModeSub.
-  ///
-  /// In en, this message translates to:
-  /// **'Hide calories, macros and weight'**
-  String get noNumbersModeSub;
-
-  /// No description provided for @leaveNoNumbersTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Show numbers again?'**
-  String get leaveNoNumbersTitle;
-
-  /// No description provided for @leaveNoNumbersBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Calories, macros and weight will be visible on every screen.'**
-  String get leaveNoNumbersBody;
-
-  /// No description provided for @leaveNoNumbersConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Show numbers'**
-  String get leaveNoNumbersConfirm;
 
   /// No description provided for @cancel.
   ///
@@ -1293,12 +1240,6 @@ abstract class AppLocalizations {
   /// **'Add food to this meal'**
   String get addFoodToMeal;
 
-  /// No description provided for @addNoWeighing.
-  ///
-  /// In en, this message translates to:
-  /// **'Add what you ate — no weighing'**
-  String get addNoWeighing;
-
   /// No description provided for @addWater.
   ///
   /// In en, this message translates to:
@@ -1491,36 +1432,6 @@ abstract class AppLocalizations {
   /// **'contest prep'**
   String get goalShortPrep;
 
-  /// No description provided for @habitMealsNone.
-  ///
-  /// In en, this message translates to:
-  /// **'Meals logged, none skipped'**
-  String get habitMealsNone;
-
-  /// No description provided for @habitProteinEach.
-  ///
-  /// In en, this message translates to:
-  /// **'A protein source at each one'**
-  String get habitProteinEach;
-
-  /// No description provided for @habitTrained.
-  ///
-  /// In en, this message translates to:
-  /// **'Trained today'**
-  String get habitTrained;
-
-  /// No description provided for @habitsHiddenBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Your entries are still saved. Nothing is being scored, and no target is tracked against you.'**
-  String get habitsHiddenBody;
-
-  /// No description provided for @habitsHiddenTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Calories, macros and weight are hidden'**
-  String get habitsHiddenTitle;
-
   /// No description provided for @heightLbl.
   ///
   /// In en, this message translates to:
@@ -1599,12 +1510,6 @@ abstract class AppLocalizations {
   /// **'Today’s workout'**
   String get heroTagToday;
 
-  /// No description provided for @howTodayWent.
-  ///
-  /// In en, this message translates to:
-  /// **'How today went'**
-  String get howTodayWent;
-
   /// No description provided for @inThisMeal.
   ///
   /// In en, this message translates to:
@@ -1641,12 +1546,6 @@ abstract class AppLocalizations {
   /// **'kcal to log'**
   String get kcalToLog;
 
-  /// No description provided for @keepThemHidden.
-  ///
-  /// In en, this message translates to:
-  /// **'Keep them hidden'**
-  String get keepThemHidden;
-
   /// No description provided for @langArabicSub.
   ///
   /// In en, this message translates to:
@@ -1670,12 +1569,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log your first meal'**
   String get logFirstMeal;
-
-  /// No description provided for @logNoWeighing.
-  ///
-  /// In en, this message translates to:
-  /// **'Log what you ate — no weighing'**
-  String get logNoWeighing;
 
   /// No description provided for @mBarcode.
   ///
@@ -1737,18 +1630,6 @@ abstract class AppLocalizations {
   /// **'No match in the database'**
   String get noMatchTitle;
 
-  /// No description provided for @noNumbersOfferLine.
-  ///
-  /// In en, this message translates to:
-  /// **'Rather not see numbers? No-numbers mode hides calories, macros and weight, and tracks habits instead.'**
-  String get noNumbersOfferLine;
-
-  /// No description provided for @noNumbersOn.
-  ///
-  /// In en, this message translates to:
-  /// **'On — calories and weight hidden'**
-  String get noNumbersOn;
-
   /// No description provided for @noSessionPlanned.
   ///
   /// In en, this message translates to:
@@ -1766,12 +1647,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing was logged yesterday'**
   String get nothingYesterdayDay;
-
-  /// No description provided for @numbersHidden.
-  ///
-  /// In en, this message translates to:
-  /// **'Numbers hidden'**
-  String get numbersHidden;
 
   /// No description provided for @obActivityTitleEm.
   ///
@@ -1844,12 +1719,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'In the range Helms et al. (2014) recommend for natural lifters holding muscle through a deficit.'**
   String get rateOkLose;
-
-  /// No description provided for @readyToLog.
-  ///
-  /// In en, this message translates to:
-  /// **'ready to log'**
-  String get readyToLog;
 
   /// No description provided for @recipes.
   ///
@@ -1941,18 +1810,6 @@ abstract class AppLocalizations {
   /// **'Start workout'**
   String get startWorkout;
 
-  /// No description provided for @supportBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Support lines and services near you'**
-  String get supportBody;
-
-  /// No description provided for @supportTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Talking to someone helps'**
-  String get supportTitle;
-
   /// No description provided for @swipeToStart.
   ///
   /// In en, this message translates to:
@@ -1970,12 +1827,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'the remainder'**
   String get theRemainder;
-
-  /// No description provided for @todayPlain.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get todayPlain;
 
   /// No description provided for @todayTitleEm.
   ///
@@ -5458,7 +5309,8 @@ abstract class AppLocalizations {
   String get closePhotos;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -5467,7 +5319,8 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['ar', 'en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['ar', 'en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

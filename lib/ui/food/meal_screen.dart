@@ -20,7 +20,6 @@ class MealScreen extends ConsumerWidget {
     final day = ref.watch(todayKeyProvider);
     final now = ref.watch(clockProvider)();
     final profile = ref.watch(profileProvider);
-    final noNumbers = ref.watch(settingsProvider.select((s) => s.noNumbers));
     final rows = (ref.watch(dayEntriesProvider(day)).value ?? const <LogEntry>[]).where((e) => e.meal == meal).toList();
     final t = DayTotals(rows);
     final share = profile == null ? 0 : (t.kcal / profile.targetKcal * 100).round();
@@ -119,41 +118,40 @@ class MealScreen extends ConsumerWidget {
               child: Pad(
                 bottom: 190,
                 children: [
-                  if (!noNumbers)
-                    VCard(
-                      child: GapCol(
-                        gap: 14,
-                        cross: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                                  textBaseline: TextBaseline.alphabetic,
-                                  children: [
-                                    Text(fmtInt(context, t.kcal), style: numStyle(34, height: 1.1)),
-                                    const SizedBox(width: 8),
-                                    Text(l.kcal, style: const TextStyle(fontSize: 14, color: Volt.t2)),
-                                  ],
-                                ),
+                  VCard(
+                    child: GapCol(
+                      gap: 14,
+                      cross: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  Text(fmtInt(context, t.kcal), style: numStyle(34, height: 1.1)),
+                                  const SizedBox(width: 8),
+                                  Text(l.kcal, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                                ],
                               ),
-                              Muted(l.shareOfToday(share)),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              tile(l.protein, t.macros.protein, Volt.protein),
-                              const SizedBox(width: 8),
-                              tile(l.carbs, t.macros.carbs, Volt.carbs),
-                              const SizedBox(width: 8),
-                              tile(l.fat, t.macros.fat, Volt.fat),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            Muted(l.shareOfToday(share)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            tile(l.protein, t.macros.protein, Volt.protein),
+                            const SizedBox(width: 8),
+                            tile(l.carbs, t.macros.carbs, Volt.carbs),
+                            const SizedBox(width: 8),
+                            tile(l.fat, t.macros.fat, Volt.fat),
+                          ],
+                        ),
+                      ],
                     ),
+                  ),
                   Eyebrow(l.inThisMeal, padding: const EdgeInsets.fromLTRB(4, 4, 4, 0)),
                   VList(
                     children: [
@@ -175,9 +173,8 @@ class MealScreen extends ConsumerWidget {
                                   children: [
                                     ItemText(
                                       e.foodName,
-                                      sub: noNumbers
-                                          ? null
-                                          : '${fmtInt(context, e.kcal)} ${l.kcal} · P ${fmtInt(context, e.protein)} C ${fmtInt(context, e.carbs)} F ${fmtInt(context, e.fat)}',
+                                      sub:
+                                          '${fmtInt(context, e.kcal)} ${l.kcal} · P ${fmtInt(context, e.protein)} C ${fmtInt(context, e.carbs)} F ${fmtInt(context, e.fat)}',
                                     ),
                                   ],
                                 ),
