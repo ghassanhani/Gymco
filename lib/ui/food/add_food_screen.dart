@@ -116,7 +116,10 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     final ok = await confirmLog(
       context,
       meal: mealName(l, _meal).toLowerCase(),
-      lines: [for (final it in items) (name: it.food!.name, grams: it.grams, kcal: it.kcal, protein: it.protein)],
+      lines: [
+        for (final it in items)
+          (name: foodName(context, it.food!.id, it.food!.name), grams: it.grams, kcal: it.kcal, protein: it.protein),
+      ],
     );
     if (!ok || !mounted) return;
     for (final it in items) {
@@ -173,7 +176,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     final it = _written[i];
     showNumberSheet(
       context,
-      title: l.howMuchOf(it.food!.name.toLowerCase()),
+      title: l.howMuchOf(foodName(context, it.food!.id, it.food!.name).toLowerCase()),
       unit: 'g',
       initial: it.grams,
       note: l.gramsNote,
@@ -651,10 +654,10 @@ class _FoodItem extends StatelessWidget {
     return VItem(
       color: on ? Volt.brandWash : null,
       onTap: onTap,
-      semantics: food.name,
+      semantics: foodName(context, food.id, food.name),
       children: [
         ItemText(
-          food.name,
+          foodName(context, food.id, food.name),
           sub: '$brand · ${fmtInt(context, g)} ${l.grams} · ${fmtInt(context, food.kcal * g / 100)} ${l.kcal}',
           trailingName: food.verified ? const VIcon('check', size: 14, color: Volt.blue) : null,
         ),

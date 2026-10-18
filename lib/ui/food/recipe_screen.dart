@@ -153,13 +153,13 @@ class _RecipeScreenState extends ConsumerState<RecipeScreen> {
                           VItem(
                             children: [
                               ItemText(
-                                f.name,
+                                foodName(context, f.id, f.name),
                                 sub:
                                     '${fmtInt(context, grams)} ${l.grams} · ${fmtInt(context, f.kcal * grams / 100)} ${l.kcal}',
                               ),
                               IconBtn(
                                 'close',
-                                label: l.removeNamed(f.name),
+                                label: l.removeNamed(foodName(context, f.id, f.name)),
                                 size: 32,
                                 iconSize: 16,
                                 background: Colors.transparent,

@@ -604,7 +604,7 @@ class _MealItem extends ConsumerWidget {
     final kcal = entries.fold<double>(0, (s, e) => s + e.kcal);
     final sub = entries.isEmpty
         ? l.nothingLogged
-        : '${entries.take(3).map((e) => e.foodName.split(',').first).join(', ')} · ${l.itemsCount(entries.length)}';
+        : '${entries.take(3).map((e) => foodName(context, e.foodId, e.foodName).split(',').first).join(', ')} · ${l.itemsCount(entries.length)}';
     return VItem(
       semantics: mealName(l, meal),
       onTap: readOnly

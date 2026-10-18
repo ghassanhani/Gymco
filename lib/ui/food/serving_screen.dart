@@ -89,7 +89,7 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
     final l = AppLocalizations.of(context);
     final f = _food!;
     final logs = ref.read(logActionsProvider);
-    final name = f.name.split(',').first;
+    final name = foodName(context, f.id, f.name).split(',').first;
     if (_entry != null) {
       await logs.setGrams(_entry!, _grams, _meal);
       if (mounted) showVToast(context, l.setTo(name, fmtInt(context, _grams)));
@@ -98,7 +98,14 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
         final ok = await confirmLog(
           context,
           meal: mealName(l, _meal).toLowerCase(),
-          lines: [(name: f.name, grams: _grams, kcal: f.kcal * _grams / 100, protein: f.protein * _grams / 100)],
+          lines: [
+            (
+              name: foodName(context, f.id, f.name),
+              grams: _grams,
+              kcal: f.kcal * _grams / 100,
+              protein: f.protein * _grams / 100,
+            ),
+          ],
         );
         if (!ok || !mounted) return;
       }
@@ -173,7 +180,7 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                             children: [
                               Flexible(
                                 child: Text(
-                                  f.name,
+                                  foodName(context, f.id, f.name),
                                   style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
                                 ),
                               ),

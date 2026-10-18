@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../data/models.dart';
+import '../../data/food_names.dart';
 import '../../l10n/app_localizations.dart';
 
 String fmtInt(BuildContext context, num v) =>
@@ -56,3 +57,7 @@ String fmtKg(BuildContext context, double kg) => kg == kg.roundToDouble() ? fmtI
 
 /// Keeps a number range like 5–8 in reading order inside right-to-left text.
 String ltr(String s) => '\u2066$s\u2069';
+
+/// A food's name in the app's language, where the staple has one.
+String foodName(BuildContext context, String id, String english) =>
+    localFoodName(id, english, Localizations.localeOf(context).languageCode);

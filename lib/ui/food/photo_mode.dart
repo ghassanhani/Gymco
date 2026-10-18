@@ -131,7 +131,12 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
       meal: mealName(l, widget.meal).toLowerCase(),
       lines: [
         for (final r in rows)
-          (name: r.food!.name, grams: r.grams, kcal: r.kcal, protein: r.food!.protein * r.grams / 100),
+          (
+            name: foodName(context, r.food!.id, r.food!.name),
+            grams: r.grams,
+            kcal: r.kcal,
+            protein: r.food!.protein * r.grams / 100,
+          ),
       ],
     );
     if (!ok || !mounted) return;

@@ -37,7 +37,10 @@ class MealScreen extends ConsumerWidget {
     Future<void> saveMeal() async {
       await ref
           .read(logActionsProvider)
-          .saveMeal('${mealName(l, meal)} · ${rows.take(2).map((e) => e.foodName.split(',').first).join(', ')}', rows);
+          .saveMeal(
+            '${mealName(l, meal)} · ${rows.take(2).map((e) => foodName(context, e.foodId, e.foodName).split(',').first).join(', ')}',
+            rows,
+          );
       if (context.mounted) showVToast(context, l.savedToMyMeals);
     }
 
@@ -172,7 +175,7 @@ class MealScreen extends ConsumerWidget {
                                 child: Row(
                                   children: [
                                     ItemText(
-                                      e.foodName,
+                                      foodName(context, e.foodId, e.foodName),
                                       sub:
                                           '${fmtInt(context, e.kcal)} ${l.kcal} · P ${fmtInt(context, e.protein)} C ${fmtInt(context, e.carbs)} F ${fmtInt(context, e.fat)}',
                                     ),
@@ -186,12 +189,15 @@ class MealScreen extends ConsumerWidget {
                             ),
                             IconBtn(
                               'close',
-                              label: l.removeFood(e.foodName),
+                              label: l.removeFood(foodName(context, e.foodId, e.foodName)),
                               size: 32,
                               iconSize: 15,
                               onTap: () {
                                 ref.read(logActionsProvider).remove(e);
-                                showVToast(context, l.foodRemoved(e.foodName.split(',').first));
+                                showVToast(
+                                  context,
+                                  l.foodRemoved(foodName(context, e.foodId, e.foodName).split(',').first),
+                                );
                               },
                             ),
                           ],

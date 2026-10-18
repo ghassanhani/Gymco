@@ -171,7 +171,7 @@ class WrittenRows extends StatelessWidget {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             Text(
-                              it.food!.name,
+                              foodName(context, it.food!.id, it.food!.name),
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                             ),
                             if (it.assumed) const _AssumedTag(),
@@ -190,7 +190,7 @@ class WrittenRows extends StatelessWidget {
                   ),
                   IconBtn(
                     'close',
-                    label: l.removeNamed(it.food!.name),
+                    label: l.removeNamed(foodName(context, it.food!.id, it.food!.name)),
                     size: 32,
                     iconSize: 16,
                     background: Colors.transparent,

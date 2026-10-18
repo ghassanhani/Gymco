@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 import '../domain/session.dart';
 import '../domain/workout.dart';
+import 'food_names.dart';
 import 'models.dart';
 import 'seed_foods.dart';
 import 'training.dart';
@@ -197,9 +198,13 @@ class LocalDb {
     final q = query.trim().toLowerCase();
     if (q.isEmpty) return recentFoods(limit: limit);
     final words = q.split(RegExp(r'\s+'));
-    final where = words.map((_) => "(lower(name) LIKE ? OR lower(ifnull(brand,'')) LIKE ?)").join(' AND ');
+    final english = words.map((_) => "(lower(name) LIKE ? OR lower(ifnull(brand,'')) LIKE ?)").join(' AND ');
+    // Staples also answer to their Arabic and Spanish names.
+    final local = foodIdsNamed(q);
+    final where = local.isEmpty ? english : '($english) OR id IN (${List.filled(local.length, '?').join(',')})';
     final args = [
       for (final w in words) ...['%$w%', '%$w%'],
+      ...local,
     ];
     final rows = await _db.query('foods', where: where, whereArgs: args, orderBy: 'last_used DESC, name', limit: limit);
     return rows.map(Food.fromRow).toList();
