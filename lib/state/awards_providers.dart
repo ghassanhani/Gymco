@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/models.dart';
 import '../domain/awards.dart';
 import '../domain/streak.dart';
+import 'cloud_providers.dart';
 import 'providers.dart';
 import 'training_providers.dart';
 
@@ -136,13 +137,44 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
     trainedToday: trained.contains(dayKey(today)),
     restToday: !planDays.contains(today.weekday - 1),
     plannedToday: todayRoutine?.name,
-    awards: awards(stats),
+    awards: _isTester(ref) ? previewUnlock(awards(stats), today) : awards(stats),
     restKept: {
       for (final h in history)
         if (h.kept && !h.trained) h.date,
     },
   );
 });
+
+/// Testers who see a set of badges already earned, to check how they look.
+const testerEmails = {'ghassanhani0@gmail.com'};
+
+bool _isTester(Ref ref) {
+  final email = ref.watch(accountProvider).value ?? ref.watch(cloudProvider).email;
+  return email != null && testerEmails.contains(email.toLowerCase());
+}
+
+/// The first two badges of each group, earned over the past days.
+List<Award> previewUnlock(List<Award> all, DateTime today) {
+  final seen = <AwardGroup, int>{};
+  return [
+    for (final (i, a) in all.indexed)
+      if (a.earned || (seen[a.group] = (seen[a.group] ?? 0) + 1) > 2)
+        a
+      else
+        Award(
+          id: a.id,
+          group: a.group,
+          shape: a.shape,
+          tone: a.tone,
+          need: a.need,
+          have: a.need,
+          big: a.big,
+          small: a.small,
+          icon: a.icon,
+          earnedOn: today.subtract(Duration(days: i % 9)),
+        ),
+  ];
+}
 
 Future<void> setCommitment(WidgetRef ref, int days) async {
   await ref.read(prefsProvider).setInt('streakGoal', days);

@@ -95,4 +95,10 @@ void main() {
     await settle(tester);
     expect(prefs.getInt('streakGoal'), 30);
   });
+
+  testWidgets('a tester account sees badges unlocked to preview them', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: FakeCloud(signedIn: 'ghassanhani0@gmail.com'));
+    await settle(tester);
+    expect(find.bySemanticsLabel(RegExp(r'^Awards, ([1-9]\d*) earned')), findsOneWidget);
+  });
 }
