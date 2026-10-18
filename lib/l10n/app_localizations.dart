@@ -5690,6 +5690,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use the goal from my weight ({l} L)'**
   String useAutoGoal(String l);
+
+  /// No description provided for @remindBreakfastTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast logged?'**
+  String get remindBreakfastTitle;
+
+  /// No description provided for @remindLunchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunch logged?'**
+  String get remindLunchTitle;
+
+  /// No description provided for @remindDinnerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dinner logged?'**
+  String get remindDinnerTitle;
+
+  /// No description provided for @remindMealBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Write it, say it or snap it — it takes a few seconds.'**
+  String get remindMealBody;
+
+  /// No description provided for @remindWaterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for some water'**
+  String get remindWaterTitle;
+
+  /// No description provided for @remindWaterBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A glass now keeps you on pace for {l} L today.'**
+  String remindWaterBody(String l);
+
+  /// No description provided for @remindWorkoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{routine} today'**
+  String remindWorkoutTitle(String routine);
+
+  /// No description provided for @remindWorkoutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan has a session today. Ready when you are.'**
+  String get remindWorkoutBody;
+
+  /// No description provided for @reminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminders;
+
+  /// No description provided for @remindMeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Meals'**
+  String get remindMeals;
+
+  /// No description provided for @remindMealsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'If a meal isn’t logged by 9:30, 13:30 or 20:00'**
+  String get remindMealsSub;
+
+  /// No description provided for @remindWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get remindWater;
+
+  /// No description provided for @remindWaterSub.
+  ///
+  /// In en, this message translates to:
+  /// **'At 11:00, 15:00 and 18:30 when you’re behind'**
+  String get remindWaterSub;
+
+  /// No description provided for @remindWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get remindWorkout;
+
+  /// No description provided for @remindWorkoutSub.
+  ///
+  /// In en, this message translates to:
+  /// **'At 17:00 on days your plan has a session'**
+  String get remindWorkoutSub;
+
+  /// No description provided for @remindersOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off for Gymco. Turn them on in your phone’s settings.'**
+  String get remindersOff;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

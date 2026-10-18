@@ -13,9 +13,11 @@ import 'package:gymco/data/food_source.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
 import 'package:gymco/data/photo_picker.dart';
+import 'package:gymco/data/reminder_scheduler.dart';
 import 'package:gymco/data/training.dart';
 import 'package:gymco/state/cloud_providers.dart';
 import 'package:gymco/state/providers.dart';
+import 'package:gymco/state/reminder_providers.dart';
 import 'package:gymco/state/training_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -58,6 +60,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   Cloud? cloud,
   PhotoPicker? picker,
   ImageProvider Function(String url)? exerciseImages,
+  FakeReminders? reminders,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -83,6 +86,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         dictationProvider.overrideWithValue(dictation ?? FakeDictation()),
         cloudProvider.overrideWithValue(cloud ?? const NoCloud()),
         photoPickerProvider.overrideWithValue(picker ?? FakePicker()),
+        reminderSchedulerProvider.overrideWithValue(reminders ?? FakeReminders()),
       ],
       child: const GymcoApp(),
     ),
@@ -227,3 +231,16 @@ ExerciseLibrary realLibrary() => ExerciseLibrary([
   for (final e in jsonDecode(File('assets/exercises/exercises.json').readAsStringSync()) as List)
     Exercise.fromJson(e as Map<String, dynamic>),
 ]);
+
+/// Keeps what would be scheduled, and can refuse permission.
+class FakeReminders implements ReminderScheduler {
+  FakeReminders({this.allow = true});
+  final bool allow;
+  List<ReminderNote> scheduled = const [];
+
+  @override
+  Future<bool> requestPermission() async => allow;
+
+  @override
+  Future<void> replaceAll(List<ReminderNote> notes) async => scheduled = notes;
+}

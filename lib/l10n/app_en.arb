@@ -2560,5 +2560,35 @@
         "type": "String"
       }
     }
-  }
+  },
+  "remindBreakfastTitle": "Breakfast logged?",
+  "remindLunchTitle": "Lunch logged?",
+  "remindDinnerTitle": "Dinner logged?",
+  "remindMealBody": "Write it, say it or snap it — it takes a few seconds.",
+  "remindWaterTitle": "Time for some water",
+  "remindWaterBody": "A glass now keeps you on pace for {l} L today.",
+  "@remindWaterBody": {
+    "placeholders": {
+      "l": {
+        "type": "String"
+      }
+    }
+  },
+  "remindWorkoutTitle": "{routine} today",
+  "@remindWorkoutTitle": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
+  "remindWorkoutBody": "Your plan has a session today. Ready when you are.",
+  "reminders": "Reminders",
+  "remindMeals": "Meals",
+  "remindMealsSub": "If a meal isn’t logged by 9:30, 13:30 or 20:00",
+  "remindWater": "Water",
+  "remindWaterSub": "At 11:00, 15:00 and 18:30 when you’re behind",
+  "remindWorkout": "Workouts",
+  "remindWorkoutSub": "At 17:00 on days your plan has a session",
+  "remindersOff": "Notifications are off for Gymco. Turn them on in your phone’s settings."
 }

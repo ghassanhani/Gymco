@@ -16,3 +16,10 @@
 # Some plugins (shared_preferences among them) call Kotlin straight from Dart
 # through package:jni, which looks methods up by name at run time.
 -keep class com.github.dart_lang.jni.** { *; }
+
+# Reminders: the notifications plugin stores schedules with Gson, which
+# needs its classes and generic signatures intact.
+-keep class com.dexterous.** { *; }
+-keepattributes Signature
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class * extends com.google.gson.reflect.TypeToken

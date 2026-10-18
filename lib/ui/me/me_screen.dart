@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../domain/cheat_meal.dart';
 import '../../domain/energy.dart';
+import '../../domain/reminders.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
 import '../../state/providers.dart';
+import '../../state/reminder_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
@@ -24,6 +26,7 @@ class MeScreen extends ConsumerWidget {
     final s = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
     final profile = ref.watch(profileProvider);
+    final reminders = ref.watch(reminderSettingsProvider);
     final now = ref.watch(clockProvider)();
     final week = profile == null ? 1 : now.difference(profile.startedOn).inDays ~/ 7 + 1;
 
@@ -108,6 +111,20 @@ class MeScreen extends ConsumerWidget {
                         ],
                       ),
                     ),
+                  ],
+                ),
+                Eyebrow(l.reminders, padding: const EdgeInsetsDirectional.only(start: 4)),
+                VList(
+                  children: [
+                    for (final (kind, icon, title, sub, on) in [
+                      (ReminderKind.lunch, 'food', l.remindMeals, l.remindMealsSub, reminders.meals),
+                      (ReminderKind.water, 'drop', l.remindWater, l.remindWaterSub, reminders.water),
+                      (ReminderKind.workout, 'dumb', l.remindWorkout, l.remindWorkoutSub, reminders.workout),
+                    ])
+                      row(icon, title, sub, () async {
+                        final ok = await ref.read(reminderSettingsProvider.notifier).set(kind, !on);
+                        if (!ok && context.mounted) showVToast(context, l.remindersOff, info: true);
+                      }, right: VToggle(on: on)),
                   ],
                 ),
                 VCard(

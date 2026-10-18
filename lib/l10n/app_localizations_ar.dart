@@ -3364,4 +3364,56 @@ class AppLocalizationsAr extends AppLocalizations {
   String useAutoGoal(String l) {
     return 'استخدم الهدف حسب وزني ($l لتر)';
   }
+
+  @override
+  String get remindBreakfastTitle => 'هل سجّلت الفطور؟';
+
+  @override
+  String get remindLunchTitle => 'هل سجّلت الغداء؟';
+
+  @override
+  String get remindDinnerTitle => 'هل سجّلت العشاء؟';
+
+  @override
+  String get remindMealBody => 'اكتبه أو قله أو صوّره — يستغرق ثوانٍ.';
+
+  @override
+  String get remindWaterTitle => 'حان وقت شرب الماء';
+
+  @override
+  String remindWaterBody(String l) {
+    return 'كوب الآن يبقيك على الطريق نحو $l لتر اليوم.';
+  }
+
+  @override
+  String remindWorkoutTitle(String routine) {
+    return '$routine اليوم';
+  }
+
+  @override
+  String get remindWorkoutBody => 'خطتك فيها جلسة تمرين اليوم. جاهز متى كنت جاهزًا.';
+
+  @override
+  String get reminders => 'التذكيرات';
+
+  @override
+  String get remindMeals => 'الوجبات';
+
+  @override
+  String get remindMealsSub => 'إذا لم تُسجَّل وجبة بحلول 9:30 أو 13:30 أو 20:00';
+
+  @override
+  String get remindWater => 'الماء';
+
+  @override
+  String get remindWaterSub => 'في 11:00 و15:00 و18:30 إذا كنت متأخرًا';
+
+  @override
+  String get remindWorkout => 'التمارين';
+
+  @override
+  String get remindWorkoutSub => 'في 17:00 في أيام التمرين في خطتك';
+
+  @override
+  String get remindersOff => 'الإشعارات متوقفة لجيمكو. فعّلها من إعدادات هاتفك.';
 }

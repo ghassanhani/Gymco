@@ -932,5 +932,21 @@
   "dailyGoal": "Meta diaria",
   "waterGoalAuto": "Según tu peso, +0,5 L los días de entreno",
   "waterGoalSet": "Fijada por ti",
-  "useAutoGoal": "Usar la meta según mi peso ({l} L)"
+  "useAutoGoal": "Usar la meta según mi peso ({l} L)",
+  "remindBreakfastTitle": "¿Has registrado el desayuno?",
+  "remindLunchTitle": "¿Has registrado la comida?",
+  "remindDinnerTitle": "¿Has registrado la cena?",
+  "remindMealBody": "Escríbela, dila o hazle una foto: son unos segundos.",
+  "remindWaterTitle": "Hora de beber agua",
+  "remindWaterBody": "Un vaso ahora te mantiene en ritmo para {l} L hoy.",
+  "remindWorkoutTitle": "{routine} hoy",
+  "remindWorkoutBody": "Tu plan tiene sesión hoy. Cuando quieras.",
+  "reminders": "Recordatorios",
+  "remindMeals": "Comidas",
+  "remindMealsSub": "Si una comida no está registrada a las 9:30, 13:30 o 20:00",
+  "remindWater": "Agua",
+  "remindWaterSub": "A las 11:00, 15:00 y 18:30 si vas por detrás",
+  "remindWorkout": "Entrenos",
+  "remindWorkoutSub": "A las 17:00 los días con sesión en tu plan",
+  "remindersOff": "Las notificaciones de Gymco están desactivadas. Actívalas en los ajustes del móvil."
 }

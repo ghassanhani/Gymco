@@ -7,6 +7,7 @@ import 'data/models.dart';
 import 'l10n/app_localizations.dart';
 import 'state/cloud_providers.dart';
 import 'state/providers.dart';
+import 'state/reminder_providers.dart';
 import 'theme/volt.dart';
 import 'ui/food/add_food_screen.dart';
 import 'ui/food/meal_screen.dart';
@@ -168,7 +169,11 @@ class GymcoApp extends ConsumerStatefulWidget {
 
 class _GymcoAppState extends ConsumerState<GymcoApp> {
   // Leaving the app is the moment to back up: nothing is being typed.
-  late final _lifecycle = AppLifecycleListener(onPause: () => ref.read(cloudActionsProvider).backupIfDue());
+  // Coming back is the moment to bring reminders up to date with the day.
+  late final _lifecycle = AppLifecycleListener(
+    onPause: () => ref.read(cloudActionsProvider).backupIfDue(),
+    onResume: () => ref.invalidate(reminderSyncProvider),
+  );
 
   @override
   void initState() {
@@ -185,6 +190,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> {
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(settingsProvider.select((s) => s.locale));
+    ref.watch(reminderSyncProvider);
     return MaterialApp.router(
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appName,
       debugShowCheckedModeBanner: false,

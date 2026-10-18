@@ -191,6 +191,34 @@ void main() {
     expect(find.text('500 ml'), findsOneWidget);
   });
 
+  testWidgets('turning reminders on schedules them; a refused permission says so', (tester) async {
+    final reminders = FakeReminders();
+    final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile}, reminders: reminders);
+    await tester.tap(find.bySemanticsLabel('Me').first);
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.tap(find.text('Meals'));
+    await tester.pumpAndSettle();
+    expect(prefs.getBool('remindMeals'), isTrue);
+    expect(reminders.scheduled, isNotEmpty);
+    expect(reminders.scheduled.first.title, 'Lunch logged?');
+    await tester.tap(find.text('Meals'));
+    await tester.pumpAndSettle();
+    expect(reminders.scheduled, isEmpty);
+  });
+
+  testWidgets('a phone that refuses notifications keeps reminders off', (tester) async {
+    final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile}, reminders: FakeReminders(allow: false));
+    await tester.tap(find.bySemanticsLabel('Me').first);
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Water'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.tap(find.text('Water'));
+    await tester.pump();
+    expect(find.textContaining('Notifications are off'), findsOneWidget);
+    expect(prefs.getBool('remindWater'), isNull);
+    await tester.pumpAndSettle(const Duration(seconds: 4));
+  });
+
   testWidgets('delete everything goes back to a first run', (tester) async {
     final (db, prefs) = await pumpApp(
       tester,

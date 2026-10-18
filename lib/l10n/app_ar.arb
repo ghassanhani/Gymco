@@ -932,5 +932,21 @@
   "dailyGoal": "الهدف اليومي",
   "waterGoalAuto": "حسب وزنك، و‎+0.5 لتر في أيام التمرين",
   "waterGoalSet": "حددته أنت",
-  "useAutoGoal": "استخدم الهدف حسب وزني ({l} لتر)"
+  "useAutoGoal": "استخدم الهدف حسب وزني ({l} لتر)",
+  "remindBreakfastTitle": "هل سجّلت الفطور؟",
+  "remindLunchTitle": "هل سجّلت الغداء؟",
+  "remindDinnerTitle": "هل سجّلت العشاء؟",
+  "remindMealBody": "اكتبه أو قله أو صوّره — يستغرق ثوانٍ.",
+  "remindWaterTitle": "حان وقت شرب الماء",
+  "remindWaterBody": "كوب الآن يبقيك على الطريق نحو {l} لتر اليوم.",
+  "remindWorkoutTitle": "{routine} اليوم",
+  "remindWorkoutBody": "خطتك فيها جلسة تمرين اليوم. جاهز متى كنت جاهزًا.",
+  "reminders": "التذكيرات",
+  "remindMeals": "الوجبات",
+  "remindMealsSub": "إذا لم تُسجَّل وجبة بحلول 9:30 أو 13:30 أو 20:00",
+  "remindWater": "الماء",
+  "remindWaterSub": "في 11:00 و15:00 و18:30 إذا كنت متأخرًا",
+  "remindWorkout": "التمارين",
+  "remindWorkoutSub": "في 17:00 في أيام التمرين في خطتك",
+  "remindersOff": "الإشعارات متوقفة لجيمكو. فعّلها من إعدادات هاتفك."
 }

@@ -3357,4 +3357,56 @@ class AppLocalizationsEs extends AppLocalizations {
   String useAutoGoal(String l) {
     return 'Usar la meta según mi peso ($l L)';
   }
+
+  @override
+  String get remindBreakfastTitle => '¿Has registrado el desayuno?';
+
+  @override
+  String get remindLunchTitle => '¿Has registrado la comida?';
+
+  @override
+  String get remindDinnerTitle => '¿Has registrado la cena?';
+
+  @override
+  String get remindMealBody => 'Escríbela, dila o hazle una foto: son unos segundos.';
+
+  @override
+  String get remindWaterTitle => 'Hora de beber agua';
+
+  @override
+  String remindWaterBody(String l) {
+    return 'Un vaso ahora te mantiene en ritmo para $l L hoy.';
+  }
+
+  @override
+  String remindWorkoutTitle(String routine) {
+    return '$routine hoy';
+  }
+
+  @override
+  String get remindWorkoutBody => 'Tu plan tiene sesión hoy. Cuando quieras.';
+
+  @override
+  String get reminders => 'Recordatorios';
+
+  @override
+  String get remindMeals => 'Comidas';
+
+  @override
+  String get remindMealsSub => 'Si una comida no está registrada a las 9:30, 13:30 o 20:00';
+
+  @override
+  String get remindWater => 'Agua';
+
+  @override
+  String get remindWaterSub => 'A las 11:00, 15:00 y 18:30 si vas por detrás';
+
+  @override
+  String get remindWorkout => 'Entrenos';
+
+  @override
+  String get remindWorkoutSub => 'A las 17:00 los días con sesión en tu plan';
+
+  @override
+  String get remindersOff => 'Las notificaciones de Gymco están desactivadas. Actívalas en los ajustes del móvil.';
 }

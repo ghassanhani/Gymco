@@ -3350,4 +3350,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String useAutoGoal(String l) {
     return 'Use the goal from my weight ($l L)';
   }
+
+  @override
+  String get remindBreakfastTitle => 'Breakfast logged?';
+
+  @override
+  String get remindLunchTitle => 'Lunch logged?';
+
+  @override
+  String get remindDinnerTitle => 'Dinner logged?';
+
+  @override
+  String get remindMealBody => 'Write it, say it or snap it — it takes a few seconds.';
+
+  @override
+  String get remindWaterTitle => 'Time for some water';
+
+  @override
+  String remindWaterBody(String l) {
+    return 'A glass now keeps you on pace for $l L today.';
+  }
+
+  @override
+  String remindWorkoutTitle(String routine) {
+    return '$routine today';
+  }
+
+  @override
+  String get remindWorkoutBody => 'Your plan has a session today. Ready when you are.';
+
+  @override
+  String get reminders => 'Reminders';
+
+  @override
+  String get remindMeals => 'Meals';
+
+  @override
+  String get remindMealsSub => 'If a meal isn’t logged by 9:30, 13:30 or 20:00';
+
+  @override
+  String get remindWater => 'Water';
+
+  @override
+  String get remindWaterSub => 'At 11:00, 15:00 and 18:30 when you’re behind';
+
+  @override
+  String get remindWorkout => 'Workouts';
+
+  @override
+  String get remindWorkoutSub => 'At 17:00 on days your plan has a session';
+
+  @override
+  String get remindersOff => 'Notifications are off for Gymco. Turn them on in your phone’s settings.';
 }
