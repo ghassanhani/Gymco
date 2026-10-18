@@ -1,5 +1,6 @@
 package app.gymco.gymco
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// A fragment activity, so Health Connect can show its permission screen.
+class MainActivity : FlutterFragmentActivity()

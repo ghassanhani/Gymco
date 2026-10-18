@@ -2654,5 +2654,37 @@
     }
   },
   "noRecipes": "No recipes yet. Make one from what you cook often, then log a serving in one tap.",
-  "yourRecipe": "Your recipe"
+  "yourRecipe": "Your recipe",
+  "healthData": "Health data",
+  "healthDataSub": "What Gymco reads and writes",
+  "healthOn": "Connected",
+  "healthOff": "Not connected",
+  "appleHealth": "Apple Health",
+  "healthConnect": "Health Connect",
+  "connectStore": "Connect {store}",
+  "@connectStore": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "healthHeadline": "What Gymco reads, and what it writes",
+  "healthBody": "Your scale and your steps come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.",
+  "healthConnectMissing": "Health Connect isn’t on this phone. Install it from Google Play to connect.",
+  "installHealthConnect": "Install Health Connect",
+  "healthRefused": "Nothing was shared. You can allow it in your phone’s health settings.",
+  "readsFromHealth": "Reads",
+  "writesToHealth": "Writes",
+  "healthWeight": "Body weight",
+  "healthWeightSub": "Your scale’s weigh-ins feed the trend line",
+  "healthSteps": "Steps",
+  "healthStepsSub": "Shown on Today",
+  "healthWorkouts": "Workouts",
+  "healthWorkoutsSub": "Each finished session, as strength training",
+  "healthWater": "Water",
+  "healthWaterSub": "Every drink you log",
+  "healthWeighIns": "Weigh-ins",
+  "healthWeighInsSub": "The ones you type into Gymco",
+  "healthNote": "Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there."
 }

@@ -10,6 +10,7 @@ import 'package:gymco/app.dart';
 import 'package:gymco/data/cloud.dart';
 import 'package:gymco/data/dictation.dart';
 import 'package:gymco/data/food_source.dart';
+import 'package:gymco/data/health_sync.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
 import 'package:gymco/data/photo_picker.dart';
@@ -61,6 +62,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   PhotoPicker? picker,
   ImageProvider Function(String url)? exerciseImages,
   FakeReminders? reminders,
+  HealthSync? health,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -87,6 +89,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         cloudProvider.overrideWithValue(cloud ?? const NoCloud()),
         photoPickerProvider.overrideWithValue(picker ?? FakePicker()),
         reminderSchedulerProvider.overrideWithValue(reminders ?? FakeReminders()),
+        healthSyncProvider.overrideWithValue(health ?? const NoHealth()),
       ],
       child: const GymcoApp(),
     ),

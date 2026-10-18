@@ -3480,4 +3480,83 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get yourRecipe => 'Tu receta';
+
+  @override
+  String get healthData => 'Datos de salud';
+
+  @override
+  String get healthDataSub => 'Qué lee y escribe Gymco';
+
+  @override
+  String get healthOn => 'Conectado';
+
+  @override
+  String get healthOff => 'No conectado';
+
+  @override
+  String get appleHealth => 'Salud de Apple';
+
+  @override
+  String get healthConnect => 'Health Connect';
+
+  @override
+  String connectStore(String store) {
+    return 'Conectar $store';
+  }
+
+  @override
+  String get healthHeadline => 'Qué lee Gymco y qué escribe';
+
+  @override
+  String get healthBody =>
+      'Entran tu báscula y tus pasos; salen tus entrenos, agua y pesajes. Eliges cada uno en la pantalla de permisos del móvil.';
+
+  @override
+  String get healthConnectMissing => 'Health Connect no está en este móvil. Instálalo desde Google Play para conectar.';
+
+  @override
+  String get installHealthConnect => 'Instalar Health Connect';
+
+  @override
+  String get healthRefused => 'No se compartió nada. Puedes permitirlo en los ajustes de salud del móvil.';
+
+  @override
+  String get readsFromHealth => 'Lee';
+
+  @override
+  String get writesToHealth => 'Escribe';
+
+  @override
+  String get healthWeight => 'Peso corporal';
+
+  @override
+  String get healthWeightSub => 'Los pesajes de tu báscula alimentan la tendencia';
+
+  @override
+  String get healthSteps => 'Pasos';
+
+  @override
+  String get healthStepsSub => 'Se muestran en Hoy';
+
+  @override
+  String get healthWorkouts => 'Entrenos';
+
+  @override
+  String get healthWorkoutsSub => 'Cada sesión terminada, como fuerza';
+
+  @override
+  String get healthWater => 'Agua';
+
+  @override
+  String get healthWaterSub => 'Cada bebida que registras';
+
+  @override
+  String get healthWeighIns => 'Pesajes';
+
+  @override
+  String get healthWeighInsSub => 'Los que escribes en Gymco';
+
+  @override
+  String get healthNote =>
+      'Desactivarlo detiene nuevas lecturas y escrituras. Lo ya compartido sigue en tu app de salud hasta que lo borres allí.';
 }

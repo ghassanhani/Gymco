@@ -220,7 +220,10 @@ class ActiveWorkoutNotifier extends Notifier<WorkoutSession?> {
     final db = ref.read(dbProvider);
     final endedAt = _now;
     final before = await db.bestOneRepMaxes(s.exercises.map((e) => e.exerciseId));
-    if (!s.isEmpty) await db.saveWorkout(s, endedAt);
+    if (!s.isEmpty) {
+      await db.saveWorkout(s, endedAt);
+      toHealth(ref, (h) => h.writeWorkout(s.name, s.startedAt, endedAt));
+    }
     _set(null);
     ref.invalidate(recentWorkoutsProvider);
     for (final e in s.exercises) {

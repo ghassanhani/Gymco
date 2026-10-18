@@ -197,6 +197,8 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Meals'));
     await tester.pumpAndSettle();
     expect(prefs.getBool('remindMeals'), isTrue);
@@ -212,6 +214,8 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text('Water'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Water'));
     await tester.pump();
     expect(find.textContaining('Notifications are off'), findsOneWidget);
@@ -227,9 +231,12 @@ void main() {
     );
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Your data'), 200, scrollable: find.byType(Scrollable).last);
+    await tester.ensureVisible(find.text('Your data'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Your data'));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Delete all data'));
+    await tester.scrollUntilVisible(find.text('Delete all data'), 200, scrollable: find.byType(Scrollable).last);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete all data'));
     await tester.pumpAndSettle();

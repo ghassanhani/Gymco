@@ -23,3 +23,7 @@
 -keepattributes Signature
 -keep class com.google.gson.reflect.TypeToken { *; }
 -keep class * extends com.google.gson.reflect.TypeToken
+
+# Health Connect: the health plugin and the androidx records it maps.
+-keep class cachet.plugins.health.** { *; }
+-keep class androidx.health.** { *; }

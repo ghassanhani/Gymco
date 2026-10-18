@@ -14,6 +14,7 @@ import '../../domain/schedule.dart';
 import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/awards_providers.dart';
+import '../../state/health_providers.dart';
 import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
@@ -87,6 +88,7 @@ class _Today extends ConsumerWidget {
               if (dayOne && entries.isEmpty) const _FirstRun(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
               const _Trend(),
+              const _Steps(),
               _Water(day: key, trained: schedule.where((d) => d.today).firstOrNull?.done != null),
             ],
           ),
@@ -1202,6 +1204,42 @@ class _AwardsButton extends ConsumerWidget {
               ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Today's steps from the health store; only there once it is connected.
+class _Steps extends ConsumerWidget {
+  const _Steps();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final steps = ref.watch(stepsTodayProvider).value;
+    if (steps == null) return const SizedBox.shrink();
+    final l = AppLocalizations.of(context);
+    return VCard(
+      tight: true,
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(color: Color(0x1FFF9F43), shape: BoxShape.circle),
+            child: const VIcon('bolt', size: 20, color: Volt.orange),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: GapCol(
+              gap: 1,
+              children: [
+                Muted(l.healthSteps),
+                AnimatedNum(steps.toDouble(), format: fmtInt, style: numStyle(22)),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

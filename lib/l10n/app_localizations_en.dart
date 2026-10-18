@@ -3476,4 +3476,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourRecipe => 'Your recipe';
+
+  @override
+  String get healthData => 'Health data';
+
+  @override
+  String get healthDataSub => 'What Gymco reads and writes';
+
+  @override
+  String get healthOn => 'Connected';
+
+  @override
+  String get healthOff => 'Not connected';
+
+  @override
+  String get appleHealth => 'Apple Health';
+
+  @override
+  String get healthConnect => 'Health Connect';
+
+  @override
+  String connectStore(String store) {
+    return 'Connect $store';
+  }
+
+  @override
+  String get healthHeadline => 'What Gymco reads, and what it writes';
+
+  @override
+  String get healthBody =>
+      'Your scale and your steps come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.';
+
+  @override
+  String get healthConnectMissing => 'Health Connect isn’t on this phone. Install it from Google Play to connect.';
+
+  @override
+  String get installHealthConnect => 'Install Health Connect';
+
+  @override
+  String get healthRefused => 'Nothing was shared. You can allow it in your phone’s health settings.';
+
+  @override
+  String get readsFromHealth => 'Reads';
+
+  @override
+  String get writesToHealth => 'Writes';
+
+  @override
+  String get healthWeight => 'Body weight';
+
+  @override
+  String get healthWeightSub => 'Your scale’s weigh-ins feed the trend line';
+
+  @override
+  String get healthSteps => 'Steps';
+
+  @override
+  String get healthStepsSub => 'Shown on Today';
+
+  @override
+  String get healthWorkouts => 'Workouts';
+
+  @override
+  String get healthWorkoutsSub => 'Each finished session, as strength training';
+
+  @override
+  String get healthWater => 'Water';
+
+  @override
+  String get healthWaterSub => 'Every drink you log';
+
+  @override
+  String get healthWeighIns => 'Weigh-ins';
+
+  @override
+  String get healthWeighInsSub => 'The ones you type into Gymco';
+
+  @override
+  String get healthNote =>
+      'Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there.';
 }

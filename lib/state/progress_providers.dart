@@ -63,6 +63,7 @@ class ProgressActions {
   Future<void> weigh(DateTime day, double kg) async {
     await ref.read(dbProvider).setWeight(dayKey(day), kg);
     ref.invalidate(weighInsProvider);
+    toHealth(ref, (h) => h.writeWeight(kg, ref.read(clockProvider)()));
   }
 
   Future<void> unweigh(String day) async {

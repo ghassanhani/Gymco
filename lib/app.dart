@@ -7,6 +7,7 @@ import 'data/models.dart';
 import 'l10n/app_localizations.dart';
 import 'state/cloud_providers.dart';
 import 'state/providers.dart';
+import 'state/health_providers.dart';
 import 'state/reminder_providers.dart';
 import 'theme/volt.dart';
 import 'ui/food/add_food_screen.dart';
@@ -14,6 +15,7 @@ import 'ui/food/meal_screen.dart';
 import 'ui/food/scan_screen.dart';
 import 'ui/food/recipe_screen.dart';
 import 'ui/food/serving_screen.dart';
+import 'ui/me/health_screen.dart';
 import 'ui/me/pro_screen.dart';
 import 'ui/me/account_screen.dart';
 import 'ui/me/data_screen.dart';
@@ -107,6 +109,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/data', builder: (_, _) => const DataScreen()),
       GoRoute(path: '/account', builder: (_, _) => const AccountScreen()),
       GoRoute(path: '/pro', builder: (_, _) => const ProScreen()),
+      GoRoute(path: '/health', builder: (_, _) => const HealthScreen()),
       GoRoute(path: '/recipe/new', builder: (_, _) => const RecipeScreen()),
       GoRoute(
         path: '/recipe/:id',
@@ -178,7 +181,11 @@ class _GymcoAppState extends ConsumerState<GymcoApp> {
   // Coming back is the moment to bring reminders up to date with the day.
   late final _lifecycle = AppLifecycleListener(
     onPause: () => ref.read(cloudActionsProvider).backupIfDue(),
-    onResume: () => ref.invalidate(reminderSyncProvider),
+    onResume: () {
+      ref.invalidate(reminderSyncProvider);
+      ref.invalidate(healthImportProvider);
+      ref.invalidate(stepsTodayProvider);
+    },
   );
 
   @override
@@ -197,6 +204,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> {
   Widget build(BuildContext context) {
     final locale = ref.watch(settingsProvider.select((s) => s.locale));
     ref.watch(reminderSyncProvider);
+    ref.watch(healthImportProvider);
     return MaterialApp.router(
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appName,
       debugShowCheckedModeBanner: false,

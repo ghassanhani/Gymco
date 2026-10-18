@@ -21,6 +21,9 @@ jobs:
       - run: |
           mkdir Payload
           cp -R build/ios/iphoneos/Runner.app Payload/
+          # An unsigned build carries no entitlements; stamp HealthKit on
+          # (ad hoc) so Sideloadly's re-sign keeps it.
+          codesign --force --sign - --entitlements ios/Runner/Runner.entitlements Payload/Runner.app
           zip -qry Gymco-ios.ipa Payload
       - uses: actions/upload-artifact@v4
         with:

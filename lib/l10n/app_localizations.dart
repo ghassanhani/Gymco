@@ -5882,6 +5882,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your recipe'**
   String get yourRecipe;
+
+  /// No description provided for @healthData.
+  ///
+  /// In en, this message translates to:
+  /// **'Health data'**
+  String get healthData;
+
+  /// No description provided for @healthDataSub.
+  ///
+  /// In en, this message translates to:
+  /// **'What Gymco reads and writes'**
+  String get healthDataSub;
+
+  /// No description provided for @healthOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get healthOn;
+
+  /// No description provided for @healthOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected'**
+  String get healthOff;
+
+  /// No description provided for @appleHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Health'**
+  String get appleHealth;
+
+  /// No description provided for @healthConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Connect'**
+  String get healthConnect;
+
+  /// No description provided for @connectStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect {store}'**
+  String connectStore(String store);
+
+  /// No description provided for @healthHeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'What Gymco reads, and what it writes'**
+  String get healthHeadline;
+
+  /// No description provided for @healthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your scale and your steps come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.'**
+  String get healthBody;
+
+  /// No description provided for @healthConnectMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Connect isn’t on this phone. Install it from Google Play to connect.'**
+  String get healthConnectMissing;
+
+  /// No description provided for @installHealthConnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Health Connect'**
+  String get installHealthConnect;
+
+  /// No description provided for @healthRefused.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was shared. You can allow it in your phone’s health settings.'**
+  String get healthRefused;
+
+  /// No description provided for @readsFromHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Reads'**
+  String get readsFromHealth;
+
+  /// No description provided for @writesToHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Writes'**
+  String get writesToHealth;
+
+  /// No description provided for @healthWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Body weight'**
+  String get healthWeight;
+
+  /// No description provided for @healthWeightSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Your scale’s weigh-ins feed the trend line'**
+  String get healthWeightSub;
+
+  /// No description provided for @healthSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get healthSteps;
+
+  /// No description provided for @healthStepsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown on Today'**
+  String get healthStepsSub;
+
+  /// No description provided for @healthWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get healthWorkouts;
+
+  /// No description provided for @healthWorkoutsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Each finished session, as strength training'**
+  String get healthWorkoutsSub;
+
+  /// No description provided for @healthWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get healthWater;
+
+  /// No description provided for @healthWaterSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Every drink you log'**
+  String get healthWaterSub;
+
+  /// No description provided for @healthWeighIns.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-ins'**
+  String get healthWeighIns;
+
+  /// No description provided for @healthWeighInsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The ones you type into Gymco'**
+  String get healthWeighInsSub;
+
+  /// No description provided for @healthNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning it off stops new reads and writes. What was already shared stays in your health app until you delete it there.'**
+  String get healthNote;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

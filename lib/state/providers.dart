@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/dictation.dart';
 import '../data/food_source.dart';
+import '../data/health_sync.dart';
 import '../data/local_db.dart';
 import '../data/models.dart';
 import '../domain/cheat_meal.dart';
@@ -106,6 +107,27 @@ final loggedDaysProvider = FutureProvider<Set<String>>((ref) {
   return ref.watch(dbProvider).loggedDays(dayKey(from), dayKey(t));
 });
 
+/// Apple Health or Health Connect; tests swap in [NoHealth].
+final healthSyncProvider = Provider<HealthSync>((_) => DeviceHealth());
+
+/// Whether the person connected a health store.
+class HealthOnNotifier extends Notifier<bool> {
+  @override
+  bool build() => ref.watch(prefsProvider).getBool('healthOn') ?? false;
+
+  Future<void> set(bool on) async {
+    await ref.read(prefsProvider).setBool('healthOn', on);
+    state = on;
+  }
+}
+
+final healthOnProvider = NotifierProvider<HealthOnNotifier, bool>(HealthOnNotifier.new);
+
+/// Sends a record to the health store when it is connected; never waits.
+void toHealth(Ref ref, Future<void> Function(HealthSync h) write) {
+  if (ref.read(healthOnProvider)) write(ref.read(healthSyncProvider));
+}
+
 /// Water drunk per day, every drink with its time, kept on the phone.
 class WaterNotifier extends Notifier<WaterDay> {
   WaterNotifier(this.day);
@@ -123,6 +145,7 @@ class WaterNotifier extends Notifier<WaterDay> {
     final now = ref.read(clockProvider)();
     if (state.ml + ml > 20000) return;
     await _save(WaterDay([...state.sips, (minute: now.hour * 60 + now.minute, ml: ml)]));
+    toHealth(ref, (h) => h.writeWater(ml, now));
   }
 
   /// Takes back the last drink.

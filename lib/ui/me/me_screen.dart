@@ -78,6 +78,12 @@ class MeScreen extends ConsumerWidget {
                           : l.accountRowSignedIn(email),
                       () => context.push('/account'),
                     ),
+                    row(
+                      'shield',
+                      l.healthData,
+                      ref.watch(healthOnProvider) ? l.healthOn : l.healthDataSub,
+                      () => context.push('/health'),
+                    ),
                     row('dl', l.yourData, l.yourDataSub, () => context.push('/data')),
                   ],
                 ),

@@ -3487,4 +3487,81 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get yourRecipe => 'وصفتك';
+
+  @override
+  String get healthData => 'بيانات الصحة';
+
+  @override
+  String get healthDataSub => 'ما يقرؤه جيمكو وما يكتبه';
+
+  @override
+  String get healthOn => 'متصل';
+
+  @override
+  String get healthOff => 'غير متصل';
+
+  @override
+  String get appleHealth => 'Apple Health';
+
+  @override
+  String get healthConnect => 'Health Connect';
+
+  @override
+  String connectStore(String store) {
+    return 'ربط $store';
+  }
+
+  @override
+  String get healthHeadline => 'ما يقرؤه جيمكو، وما يكتبه';
+
+  @override
+  String get healthBody => 'يدخل وزن ميزانك وخطواتك، ويخرج تمرينك وماؤك وأوزانك. تختار كل واحد من شاشة أذونات هاتفك.';
+
+  @override
+  String get healthConnectMissing => 'تطبيق Health Connect غير مثبّت على هذا الهاتف. ثبّته من Google Play للربط.';
+
+  @override
+  String get installHealthConnect => 'تثبيت Health Connect';
+
+  @override
+  String get healthRefused => 'لم تتم مشاركة شيء. يمكنك السماح بذلك من إعدادات الصحة في هاتفك.';
+
+  @override
+  String get readsFromHealth => 'يقرأ';
+
+  @override
+  String get writesToHealth => 'يكتب';
+
+  @override
+  String get healthWeight => 'وزن الجسم';
+
+  @override
+  String get healthWeightSub => 'أوزان ميزانك تغذي خط الاتجاه';
+
+  @override
+  String get healthSteps => 'الخطوات';
+
+  @override
+  String get healthStepsSub => 'تظهر في صفحة اليوم';
+
+  @override
+  String get healthWorkouts => 'التمارين';
+
+  @override
+  String get healthWorkoutsSub => 'كل جلسة مكتملة كتمرين قوة';
+
+  @override
+  String get healthWater => 'الماء';
+
+  @override
+  String get healthWaterSub => 'كل شربة تسجّلها';
+
+  @override
+  String get healthWeighIns => 'الأوزان';
+
+  @override
+  String get healthWeighInsSub => 'التي تكتبها في جيمكو';
+
+  @override
+  String get healthNote => 'إيقافه يوقف القراءة والكتابة الجديدة. ما تمت مشاركته يبقى في تطبيق الصحة حتى تحذفه منه.';
 }
