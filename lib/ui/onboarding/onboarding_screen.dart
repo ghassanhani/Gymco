@@ -1064,6 +1064,54 @@ class _WelcomeState extends State<_Welcome> {
             onPageChanged: (i) => setState(() => _at = i),
             itemBuilder: (_, i) {
               final (art, alt, title, body) = pages[i];
+              final text = Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (i == 0) ...[const VLogo(size: 44), const SizedBox(height: 16)],
+                  EmTitle(title, size: i == 0 ? 40 : 34, letterSpacing: -0.03, emScale: 1.12),
+                  const SizedBox(height: 14),
+                  Text(body, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
+                ],
+              );
+              final textBottom = 30 + safe.bottom + 64 + 20 + 4 + 16;
+              if (i > 0) {
+                // A feature picture sits right on its title, filling the room above.
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(0, safe.top, 0, textBottom),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ClipRect(
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Transform.scale(
+                              scale: 1.22,
+                              alignment: Alignment.bottomCenter,
+                              // Its top and bottom melt into the background.
+                              child: ShaderMask(
+                                blendMode: BlendMode.dstIn,
+                                shaderCallback: (r) => const LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [Colors.transparent, Colors.black, Colors.black, Colors.transparent],
+                                  stops: [0, 0.22, 0.9, 1],
+                                ).createShader(r),
+                                child: Image.asset(art, fit: BoxFit.fitWidth, semanticLabel: alt),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SizedBox(width: double.infinity, child: text),
+                      ),
+                    ],
+                  ),
+                );
+              }
               return Stack(
                 children: [
                   Positioned(
@@ -1087,20 +1135,7 @@ class _WelcomeState extends State<_Welcome> {
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 20,
-                    right: 20,
-                    bottom: 30 + safe.bottom + 64 + 20 + 4 + 16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (i == 0) ...[const VLogo(size: 44), const SizedBox(height: 16)],
-                        EmTitle(title, size: i == 0 ? 40 : 34, letterSpacing: -0.03, emScale: 1.12),
-                        const SizedBox(height: 14),
-                        Text(body, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
-                      ],
-                    ),
-                  ),
+                  Positioned(left: 20, right: 20, bottom: textBottom, child: text),
                 ],
               );
             },
