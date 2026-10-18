@@ -1776,7 +1776,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String dayTaken(String name, String day) {
-    return '$name مخصص ليوم $day. الحفظ ينقله إلى «أي يوم».';
+    return '$name موجود بالفعل يوم $day. الحفظ سيأخذ هذا اليوم منه.';
   }
 
   @override
@@ -4227,4 +4227,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openHealthApp => 'افتح تطبيق Health';
+
+  @override
+  String get dayNoteMulti =>
+      'اختر كل يوم يُنفَّذ فيه. إذا فاتك يوم ينتقل إلى يوم التمرين التالي مع الحفاظ على الترتيب.';
 }

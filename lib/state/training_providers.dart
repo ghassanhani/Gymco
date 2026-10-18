@@ -41,7 +41,7 @@ final weekScheduleProvider = FutureProvider<List<ScheduledDay>>((ref) async {
   return schedule(
     days: days,
     today: now,
-    routines: [for (final r in routines) PlannedRoutine(id: r.id!, name: r.name, weekday: r.weekday)],
+    routines: [for (final r in routines) PlannedRoutine(id: r.id!, name: r.name, days: r.days, since: r.planSince)],
     workouts: [for (final w in done) DoneWorkout(day: w.startedAt, name: w.name, routineId: w.routineId)],
     restDays: _days(ref.watch(prefsProvider), _restKey),
     skipDays: _days(ref.watch(prefsProvider), _skipKey),
@@ -121,7 +121,7 @@ class RoutineActions {
   /// A copy off the weekly rotation, so it never moves the original.
   Future<String> duplicate(Routine r, String copyName) async {
     final name = await freeName(copyName);
-    await save(r.copyWith(id: () => null, name: name, weekday: () => null, folder: RoutineFolder.mine));
+    await save(r.copyWith(id: () => null, name: name, days: const {}, folder: RoutineFolder.mine));
     return name;
   }
 
@@ -134,7 +134,7 @@ class RoutineActions {
           id: null,
           name: await freeName(name(t.role)),
           items: t.items,
-          weekday: t.weekday,
+          days: {t.weekday},
           folder: RoutineFolder.plan,
         ),
       );

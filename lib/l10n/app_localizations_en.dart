@@ -1741,7 +1741,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String dayTaken(String name, String day) {
-    return '$name is already on $day. Saving this moves that one to Any day.';
+    return '$name is already on $day. Saving this takes that day from it.';
   }
 
   @override
@@ -4190,4 +4190,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openHealthApp => 'Open the Health app';
+
+  @override
+  String get dayNoteMulti =>
+      'Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.';
 }

@@ -1299,7 +1299,7 @@
       }
     }
   },
-  "dayTaken": "{name} is already on {day}. Saving this moves that one to Any day.",
+  "dayTaken": "{name} is already on {day}. Saving this takes that day from it.",
   "@dayTaken": {
     "placeholders": {
       "name": {
@@ -3160,5 +3160,6 @@
   "healthWhyAndroid": "Check that Health Connect is installed and up to date, then allow Gymco in it.",
   "healthPhoneSaid": "What the phone said",
   "tryAgain": "Try again",
-  "openHealthApp": "Open the Health app"
+  "openHealthApp": "Open the Health app",
+  "dayNoteMulti": "Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order."
 }

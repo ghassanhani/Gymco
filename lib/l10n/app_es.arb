@@ -491,7 +491,7 @@
   "folderLbl": "Carpeta",
   "dayLbl": "Día",
   "dayTakenBy": "{day}, ocupado por {name}",
-  "dayTaken": "{name} ya está el {day}. Al guardar, esa pasa a Cualquier día.",
+  "dayTaken": "{name} ya está el {day}. Al guardar, ese día pasa a esta rutina.",
   "anyDayNote": "Hazla cuando quieras: queda fuera de la rotación semanal.",
   "dayNote": "Si la saltas, pasa a tu siguiente día de entreno y el bloque mantiene su orden.",
   "builderEmpty": "Aún no hay ejercicios. Añade el primero y Gymco te mostrará lo que hace a tus series semanales.",
@@ -1161,5 +1161,6 @@
   "healthWhyAndroid": "Comprueba que Health Connect está instalado y actualizado, y permite Gymco en él.",
   "healthPhoneSaid": "Lo que dijo el teléfono",
   "tryAgain": "Intentar de nuevo",
-  "openHealthApp": "Abrir la app Salud"
+  "openHealthApp": "Abrir la app Salud",
+  "dayNoteMulti": "Toca cada día que toca. Si fallas uno, pasa a tu siguiente día de entreno, manteniendo el orden."
 }

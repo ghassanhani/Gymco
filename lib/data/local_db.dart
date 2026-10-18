@@ -17,7 +17,7 @@ class LocalDb {
 
   /// 1: diet. 2: training. 3: weekdays, folders, RIR. 4: favourites, saved meals.
   /// 5: body measurements.
-  static const _version = 7;
+  static const _version = 8;
 
   /// What a backup was written by, so a newer phone can read an older one.
   static const schemaVersion = _version;
@@ -41,6 +41,14 @@ class LocalDb {
         exercise_id TEXT NOT NULL, exercise_name TEXT NOT NULL, set_index INTEGER NOT NULL, type TEXT NOT NULL,
         weight REAL NOT NULL, reps INTEGER NOT NULL)''');
     await db.execute('CREATE INDEX sets_exercise ON workout_sets(exercise_id)');
+  }
+
+  /// Several days per routine, as a bitmask, and when they were set.
+  static Future<void> _addRoutineDays(DatabaseExecutor db) async {
+    await db.execute('ALTER TABLE routines ADD COLUMN days INTEGER');
+    await db.execute('ALTER TABLE routines ADD COLUMN plan_since INTEGER');
+    await db.execute('UPDATE routines SET days = 1 << weekday WHERE weekday IS NOT NULL');
+    await db.execute('UPDATE routines SET plan_since = created_at');
   }
 
   static Future<void> _addPlanColumns(DatabaseExecutor db) async {
@@ -91,6 +99,7 @@ class LocalDb {
           if (from < 4) await _addSavedMeals(db);
           if (from < 5) await _addMeasurements(db);
           if (from < 7) await _addRecipes(db);
+          if (from < 8) await _addRoutineDays(db);
           // Staples added since: insert the ones this phone does not have.
           final batch = db.batch();
           for (final f in seedFoods) {
@@ -119,6 +128,7 @@ class LocalDb {
           await _addSavedMeals(db);
           await _addMeasurements(db);
           await _addRecipes(db);
+          await _addRoutineDays(db);
           final batch = db.batch();
           for (final f in seedFoods) {
             batch.insert('foods', f.toRow());
@@ -550,7 +560,18 @@ class LocalDb {
         Routine(
           id: r['id']! as int,
           name: r['name']! as String,
-          weekday: r['weekday'] as int?,
+          // Old backups have only the one weekday.
+          days: switch (r['days']) {
+            final int mask => {
+              for (var d = 0; d < 7; d++)
+                if (mask & (1 << d) != 0) d,
+            },
+            _ => {?(r['weekday'] as int?)},
+          },
+          planSince: switch (r['plan_since'] ?? r['created_at']) {
+            final int ms => DateTime.fromMillisecondsSinceEpoch(ms),
+            _ => null,
+          },
           folder: RoutineFolder.values.byName(r['folder']! as String),
           items: [
             for (final i in items.where((i) => i['routine_id'] == r['id']))
@@ -573,21 +594,40 @@ class LocalDb {
     try {
       return await _db.transaction((tx) async {
         int id;
-        final row = {'name': r.name.trim(), 'weekday': r.weekday, 'folder': r.folder.name};
-        // One routine per weekday: whoever held the day moves to any day.
-        if (r.weekday != null) {
-          await tx.update(
-            'routines',
-            {'weekday': null},
-            where: r.id == null ? 'weekday = ?' : 'weekday = ? AND id != ?',
-            whereArgs: [r.weekday, ?r.id],
-          );
+        final mask = r.days.fold(0, (m, d) => m | (1 << d));
+        final now = DateTime.now().millisecondsSinceEpoch;
+        final row = {'name': r.name.trim(), 'weekday': r.weekday, 'days': mask, 'folder': r.folder.name};
+        // One routine per weekday: whoever held one of these days gives it up.
+        if (mask != 0) {
+          for (final o in await tx.query('routines', columns: ['id', 'days', 'weekday'])) {
+            if (o['id'] == r.id) continue;
+            final had = (o['days'] as int?) ?? (o['weekday'] == null ? 0 : 1 << (o['weekday']! as int));
+            if (had & mask == 0) continue;
+            final left = had & ~mask;
+            int? first;
+            for (var d = 0; d < 7 && first == null; d++) {
+              if (left & (1 << d) != 0) first = d;
+            }
+            await tx.update(
+              'routines',
+              {'days': left, 'weekday': first, 'plan_since': now},
+              where: 'id = ?',
+              whereArgs: [o['id']],
+            );
+          }
         }
         if (r.id == null) {
-          id = await tx.insert('routines', {...row, 'created_at': DateTime.now().millisecondsSinceEpoch});
+          id = await tx.insert('routines', {...row, 'created_at': now, 'plan_since': now});
         } else {
           id = r.id!;
-          await tx.update('routines', row, where: 'id = ?', whereArgs: [id]);
+          // Moving it to other days starts its plan again from today.
+          final old = (await tx.query('routines', columns: ['days'], where: 'id = ?', whereArgs: [id])).firstOrNull;
+          await tx.update(
+            'routines',
+            {...row, if (old == null || old['days'] != mask) 'plan_since': now},
+            where: 'id = ?',
+            whereArgs: [id],
+          );
           await tx.delete('routine_items', where: 'routine_id = ?', whereArgs: [id]);
         }
         for (var i = 0; i < r.items.length; i++) {

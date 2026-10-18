@@ -31,7 +31,7 @@ class BuilderScreen extends ConsumerStatefulWidget {
 class _BuilderScreenState extends ConsumerState<BuilderScreen> {
   final _name = TextEditingController();
   late RoutineFolder _folder = widget.seed?.folder ?? widget.folder;
-  int? _day;
+  Set<int> _days = {};
   List<RoutineItem> _items = [];
   Routine? _editing;
   bool _loaded = false;
@@ -44,7 +44,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
     if (s != null) {
       _name.text = s.name;
       _items = [...s.items];
-      _day = s.weekday;
+      _days = {...s.days};
       _dirty = true;
     }
     _name.addListener(() => setState(() => _dirty = true));
@@ -64,7 +64,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
     _editing = r;
     _name.text = r.name;
     _items = [...r.items];
-    _day = r.weekday;
+    _days = {...r.days};
     _folder = r.folder;
     _dirty = false;
   }
@@ -90,7 +90,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
     try {
       await ref
           .read(routineActionsProvider)
-          .save(Routine(id: _editing?.id, name: _name.text.trim(), items: _items, weekday: _day, folder: _folder));
+          .save(Routine(id: _editing?.id, name: _name.text.trim(), items: _items, days: _days, folder: _folder));
       if (!mounted) return;
       showVToast(context, l.routineSaved(_name.text.trim()));
       context.pop();
@@ -247,8 +247,11 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
         : _items.isEmpty
         ? (false, l.hintExercise)
         : (true, l.setsAbout(draft.totalSets, minutes));
-    Routine? taken(int w) => routines.where((r) => r.weekday == w && r.id != _editing?.id).firstOrNull;
-    final clash = _day == null ? null : taken(_day!);
+    Routine? taken(int w) => routines.where((r) => r.days.contains(w) && r.id != _editing?.id).firstOrNull;
+    final clash = [
+      for (final w in _days)
+        if (taken(w) case final r?) (w, r),
+    ].firstOrNull;
 
     return PopScope(
       canPop: !_dirty,
@@ -362,19 +365,20 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                                     : l.dayTakenBy(weekdayName(context, w), taken(w)!.name),
                                 child: VChip(
                                   label: weekdayShort(context, w),
-                                  on: _day == w,
-                                  onTap: () => _edit(() => _day = w),
+                                  on: _days.contains(w),
+                                  // Several days: tap each one it runs on.
+                                  onTap: () => _edit(() => _days.contains(w) ? _days.remove(w) : _days.add(w)),
                                 ),
                               ),
-                            VChip(label: l.anyDay, on: _day == null, onTap: () => _edit(() => _day = null)),
+                            VChip(label: l.anyDay, on: _days.isEmpty, onTap: () => _edit(() => _days = {})),
                           ],
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(start: 4),
                           child: Muted(
                             clash != null
-                                ? l.dayTaken(clash.name, weekdayName(context, _day!))
-                                : (_day == null ? l.anyDayNote : l.dayNote),
+                                ? l.dayTaken(clash.$2.name, weekdayName(context, clash.$1))
+                                : (_days.isEmpty ? l.anyDayNote : l.dayNoteMulti),
                           ),
                         ),
                       ],
@@ -390,7 +394,13 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                       color: Volt.brandInk,
                       onTap: _add,
                     ),
-                    VolumeCard(items: _items, title: l.weekIfSave, exceptRoutineId: _editing?.id),
+                    VolumeCard(
+                      items: [
+                        for (final _ in _days.isEmpty ? const {0} : _days) ..._items,
+                      ],
+                      title: l.weekIfSave,
+                      exceptRoutineId: _editing?.id,
+                    ),
                   ],
                 ),
               ),

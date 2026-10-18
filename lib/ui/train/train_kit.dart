@@ -42,7 +42,10 @@ String muscleLine(AppLocalizations l, Exercise e) {
 /// When a routine runs: "Every Saturday" or "Any day".
 String whenLine(BuildContext context, Routine r) {
   final l = AppLocalizations.of(context);
-  return r.weekday == null ? l.anyDay : l.everyDay(weekdayName(context, r.weekday!));
+  final days = r.days.toList()..sort();
+  if (days.isEmpty) return l.anyDay;
+  if (days.length == 1) return l.everyDay(weekdayName(context, days.single));
+  return l.everyDay(days.map((d) => weekdayShort(context, d)).join(', '));
 }
 
 /// The plan's minutes, the prototype's honest estimate.
@@ -177,9 +180,10 @@ class VolumeCard extends ConsumerWidget {
     ];
     final rest = [
       for (final r in routines)
-        if (r.weekday != null && r.id != exceptRoutineId)
-          for (final i in r.items)
-            if (muscle(i.exerciseId) case final m?) (m, i.sets),
+        if (r.id != exceptRoutineId)
+          for (final _ in r.days)
+            for (final i in r.items)
+              if (muscle(i.exerciseId) case final m?) (m, i.sets),
     ];
     final rows = weeklyVolume(plan, rest);
     if (rows.isEmpty) return const SizedBox.shrink();

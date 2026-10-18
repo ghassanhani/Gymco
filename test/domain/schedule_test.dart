@@ -97,4 +97,30 @@ void main() {
     expect(s[1].skipped, pull);
     expect(s.skip(4).every((d) => d.routine == null), isTrue);
   });
+
+  test('a routine made today owes nothing for the days before it', () {
+    // Planned on Wednesday, created on Saturday: Wednesday was never missed.
+    final wed = PlannedRoutine(id: 7, name: 'h1', days: const {2}, since: today);
+    final s = schedule(days: days, today: today, routines: [wed], workouts: const []);
+    expect(s[1].missed, isNull);
+    expect(s[4].routine, isNull);
+    expect(s.every((d) => !d.moved), isTrue);
+  });
+
+  test('one routine on several days runs on each; a miss is caught up once', () {
+    const both = PlannedRoutine(id: 8, name: 'Full', days: {2, 5, 0}); // Mon, Wed, Sat
+    final s = schedule(days: days, today: today, routines: const [both], workouts: const []);
+    expect(s[1].missed, both);
+    // Today was due anyway, so the missed Wednesday does not pile up.
+    expect(s[4].routine, both);
+    expect(s[5].rest, isTrue);
+    expect(s[6].routine, both);
+  });
+
+  test('a moved routine says the day it was missed on', () {
+    const wed = PlannedRoutine(id: 9, name: 'Pull', days: {2});
+    final s = schedule(days: days, today: today, routines: const [wed], workouts: const []);
+    expect(s[4].moved, isTrue);
+    expect(s[4].movedFrom, DateTime(2026, 9, 23));
+  });
 }

@@ -83,7 +83,7 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
   final today = DateTime(now.year, now.month, now.day);
   final start = DateTime(p.startedOn.year, p.startedOn.month, p.startedOn.day);
   final routines = await ref.watch(routinesProvider.future);
-  final planDays = {for (final r in routines) ?r.weekday};
+  final planDays = {for (final r in routines) ...r.days};
   final chosenRest = chosenRestDays(ref.watch(prefsProvider));
   final pause = ref.watch(streakPauseProvider);
 

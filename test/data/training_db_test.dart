@@ -197,4 +197,15 @@ void main() {
     expect(week, hasLength(2));
     expect(week.last.hardSets, 1);
   });
+
+  test('a routine keeps several days, and takes a day from whoever had it', () async {
+    final db = await openTestDb();
+    const item = RoutineItem(exerciseId: 'bench', sets: 3, repLow: 5, repHigh: 8);
+    final a = await db.saveRoutine(const Routine(id: null, name: 'A', items: [item], days: {0, 2, 4}));
+    await db.saveRoutine(const Routine(id: null, name: 'B', items: [item], days: {2}));
+    final all = {for (final r in await db.routines()) r.id: r};
+    expect(all[a]!.days, {0, 4});
+    expect(all[a]!.weekday, 0);
+    expect(all.values.firstWhere((r) => r.name == 'B').days, {2});
+  });
 }

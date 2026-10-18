@@ -3042,7 +3042,7 @@ abstract class AppLocalizations {
   /// No description provided for @dayTaken.
   ///
   /// In en, this message translates to:
-  /// **'{name} is already on {day}. Saving this moves that one to Any day.'**
+  /// **'{name} is already on {day}. Saving this takes that day from it.'**
   String dayTaken(String name, String day);
 
   /// No description provided for @anyDayNote.
@@ -7064,6 +7064,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open the Health app'**
   String get openHealthApp;
+
+  /// No description provided for @dayNoteMulti.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.'**
+  String get dayNoteMulti;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

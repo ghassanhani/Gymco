@@ -1740,7 +1740,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String dayTaken(String name, String day) {
-    return '$name ya está el $day. Al guardar, esa pasa a Cualquier día.';
+    return '$name ya está el $day. Al guardar, ese día pasa a esta rutina.';
   }
 
   @override
@@ -4199,4 +4199,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get openHealthApp => 'Abrir la app Salud';
+
+  @override
+  String get dayNoteMulti =>
+      'Toca cada día que toca. Si fallas uno, pasa a tu siguiente día de entreno, manteniendo el orden.';
 }

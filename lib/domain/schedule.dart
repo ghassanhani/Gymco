@@ -9,12 +9,18 @@ library;
 
 /// What the schedule needs to know about a routine.
 class PlannedRoutine {
-  const PlannedRoutine({required this.id, required this.name, this.weekday});
+  const PlannedRoutine({required this.id, required this.name, this.weekday, Set<int>? days, this.since})
+    : _days = days; // ignore: prefer_initializing_formals
   final int id;
   final String name;
-
-  /// 0 = Monday … 6 = Sunday; null runs on any day, outside the rotation.
   final int? weekday;
+  final Set<int>? _days;
+
+  /// When its days were set; a day before that was never missed.
+  final DateTime? since;
+
+  /// 0 = Monday … 6 = Sunday; empty runs on any day, outside the rotation.
+  Set<int> get days => _days ?? {?weekday};
 }
 
 /// One finished workout, by the day it started.
@@ -35,7 +41,11 @@ class ScheduledDay {
     this.today = false,
     this.restTaken,
     this.skipped,
+    this.movedFrom,
   });
+
+  /// For a moved routine, the day it was missed on.
+  final DateTime? movedFrom;
 
   final DateTime date;
 
@@ -87,7 +97,7 @@ List<ScheduledDay> schedule({
   PlannedRoutine? dueOn(DateTime d) {
     final w = weekdayIndex(d);
     for (final r in routines) {
-      if (r.weekday == w) return r;
+      if (r.days.contains(w)) return r;
     }
     return null;
   }
@@ -100,6 +110,17 @@ List<ScheduledDay> schedule({
   }
 
   final queue = <PlannedRoutine>[];
+  final missedOn = <PlannedRoutine, DateTime>{};
+  // A past day it was due on, and missed: queue it once, however many
+  // times it was missed, and only from when it was planned.
+  void owe(PlannedRoutine? r, DateTime d) {
+    if (r == null || queue.contains(r)) return;
+    final since = r.since == null ? null : _day(r.since!);
+    if (since != null && !since.isAfter(t) && d.isBefore(since)) return;
+    queue.add(r);
+    missedOn[r] ??= d;
+  }
+
   final out = <ScheduledDay>[];
   for (final raw in days) {
     final d = _day(raw);
@@ -113,11 +134,11 @@ List<ScheduledDay> schedule({
         // A skip drops the day's own routine; anything carried still waits.
         out.add(ScheduledDay(date: d, skipped: due));
       } else if (rests.contains(d)) {
-        if (due != null) queue.add(due);
+        owe(due, d);
         out.add(ScheduledDay(date: d, restTaken: queue.firstOrNull));
       } else {
-        if (due != null) queue.add(due);
-        out.add(ScheduledDay(date: d, missed: due));
+        owe(due, d);
+        out.add(ScheduledDay(date: d, missed: due != null && queue.contains(due) ? due : null));
       }
       continue;
     }
@@ -127,19 +148,28 @@ List<ScheduledDay> schedule({
     if (done == null && (skips.contains(d) || rests.contains(d))) {
       final head = queue.isNotEmpty ? queue.removeAt(0) : due;
       if (skips.contains(d)) {
-        if (head != null && head != due && due != null) queue.add(due);
+        if (head != null && head != due && due != null && !queue.contains(due)) queue.add(due);
         out.add(ScheduledDay(date: d, today: isToday, skipped: head));
       } else {
         if (head != null) queue.insert(0, head);
-        if (due != null && head != due) queue.add(due);
+        if (due != null && head != due && !queue.contains(due)) queue.add(due);
         out.add(ScheduledDay(date: d, today: isToday, restTaken: head));
       }
       continue;
     }
     final r = queue.isNotEmpty ? queue.removeAt(0) : due;
     final moved = r != null && r != due;
-    if (r != null && due != null && r != due) queue.add(due);
-    out.add(ScheduledDay(date: d, routine: r, moved: moved, today: isToday, done: done));
+    if (r != null && due != null && r != due && !queue.contains(due)) queue.add(due);
+    out.add(
+      ScheduledDay(
+        date: d,
+        routine: r,
+        moved: moved,
+        movedFrom: moved ? missedOn[r] : null,
+        today: isToday,
+        done: done,
+      ),
+    );
   }
   return out;
 }

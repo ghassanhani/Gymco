@@ -160,16 +160,29 @@ class Routine {
     required this.id,
     required this.name,
     required this.items,
-    this.weekday,
+    int? weekday,
+    Set<int>? days,
     this.folder = RoutineFolder.mine,
-  });
+    this.planSince,
+    // Kept as two inputs so older callers can still pass one weekday.
+  }) : _weekday = weekday, // ignore: prefer_initializing_formals
+       _days = days; // ignore: prefer_initializing_formals
   final int? id;
   final String name;
   final List<RoutineItem> items;
-
-  /// 0 = Monday … 6 = Sunday; null is "any day".
-  final int? weekday;
+  final int? _weekday;
+  final Set<int>? _days;
   final RoutineFolder folder;
+
+  /// When its days were last set: days before this were never missed.
+  final DateTime? planSince;
+
+  /// The weekdays it is planned on, 0 = Monday … 6 = Sunday; empty is
+  /// "any day".
+  Set<int> get days => _days ?? {?_weekday};
+
+  /// The first of its days, or null for "any day".
+  int? get weekday => days.isEmpty ? null : days.reduce((a, b) => a < b ? a : b);
 
   int get totalSets => items.fold(0, (n, i) => n + i.sets);
 
@@ -177,14 +190,15 @@ class Routine {
     int? Function()? id,
     String? name,
     List<RoutineItem>? items,
-    int? Function()? weekday,
+    Set<int>? days,
     RoutineFolder? folder,
   }) => Routine(
     id: id == null ? this.id : id(),
     name: name ?? this.name,
     items: items ?? this.items,
-    weekday: weekday == null ? this.weekday : weekday(),
+    days: days ?? this.days,
     folder: folder ?? this.folder,
+    planSince: planSince,
   );
 }
 

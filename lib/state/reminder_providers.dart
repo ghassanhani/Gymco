@@ -114,7 +114,7 @@ final reminderSyncProvider = FutureProvider<void>((ref) async {
     trainedToday: trained,
     planByWeekday: {
       for (final r in routines)
-        if (r.weekday != null) r.weekday!: r.name,
+        for (final d in r.days) d: r.name,
     },
   );
 

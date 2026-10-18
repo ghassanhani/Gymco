@@ -58,7 +58,7 @@ class _TrainScreenState extends ConsumerState<TrainScreen> {
     final isToday = i == todayI;
     final day = sched.isEmpty ? null : sched[i];
     final loc = Localizations.localeOf(context).toString();
-    final planDays = routines.where((r) => r.weekday != null).length;
+    final planDays = routines.fold(0, (n, r) => n + r.days.length);
     final p = ref.watch(profileProvider);
     final week = p == null ? 1 : now.difference(p.startedOn).inDays ~/ 7 + 1;
 
@@ -148,8 +148,8 @@ class _TrainScreenState extends ConsumerState<TrainScreen> {
     final done = r.items.where((it) => logged.contains(it.exerciseId)).length;
     final last = ref.watch(lastRunProvider)[r.id];
     final dayName = weekdayName(context, weekdayIndex(day.date));
-    final eyebrow = day.moved && r.weekday != null
-        ? l.movedHere(weekdayName(context, r.weekday!))
+    final eyebrow = day.moved && day.movedFrom != null
+        ? l.movedHere(weekdayName(context, weekdayIndex(day.movedFrom!)))
         : (isToday ? l.todayLbl : l.plannedOn(dayName));
     return [
       VCard(
@@ -477,7 +477,7 @@ class _WeekCard extends ConsumerWidget {
     if (lib == null) return const SizedBox.shrink();
     final plan = [
       for (final r in routines)
-        if (r.weekday != null)
+        for (final _ in r.days)
           for (final i in r.items)
             if (lib[i.exerciseId]?.primary.firstOrNull case final m?) (m, i.sets),
     ];

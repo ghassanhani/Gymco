@@ -115,7 +115,14 @@ class RoutineScreen extends ConsumerWidget {
                         ),
                     ],
                   ),
-                  VolumeCard(items: r.items, title: l.weekEffect, exceptRoutineId: r.weekday == null ? null : r.id),
+                  VolumeCard(
+                    // Twice a week counts twice.
+                    items: [
+                      for (final _ in r.days.isEmpty ? const {0} : r.days) ...r.items,
+                    ],
+                    title: l.weekEffect,
+                    exceptRoutineId: r.days.isEmpty ? null : r.id,
+                  ),
                 ],
               ),
             ),
