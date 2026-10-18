@@ -2584,11 +2584,11 @@
   "remindWorkoutBody": "Your plan has a session today. Ready when you are.",
   "reminders": "Reminders",
   "remindMeals": "Meals",
-  "remindMealsSub": "If a meal isn’t logged by 9:30, 13:30 or 20:00",
+  "remindMealsSub": "If a meal isn’t logged by {b}, {l} or {d}",
   "remindWater": "Water",
-  "remindWaterSub": "At 11:00, 15:00 and 18:30 when you’re behind",
+  "remindWaterSub": "At {a}, {b} and {c} when you’re behind",
   "remindWorkout": "Workouts",
-  "remindWorkoutSub": "At 17:00 on days your plan has a session",
+  "remindWorkoutSub": "At {t} on days your plan has a session",
   "remindersOff": "Notifications are off for Gymco. Turn them on in your phone’s settings.",
   "newRecipe": "New recipe",
   "editRecipe": "Edit recipe",
@@ -3074,6 +3074,61 @@
   "@eoAiNote": {
     "placeholders": {
       "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "@remindMealsSub": {
+    "placeholders": {
+      "b": {
+        "type": "String"
+      },
+      "l": {
+        "type": "String"
+      },
+      "d": {
+        "type": "String"
+      }
+    }
+  },
+  "@remindWaterSub": {
+    "placeholders": {
+      "a": {
+        "type": "String"
+      },
+      "b": {
+        "type": "String"
+      },
+      "c": {
+        "type": "String"
+      }
+    }
+  },
+  "@remindWorkoutSub": {
+    "placeholders": {
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderOn": "On",
+  "reminderOff": "Off",
+  "waterNudgeN": "Nudge {n}",
+  "@waterNudgeN": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "remindWorkoutAt": "Time",
+  "remindMealsNote": "Each one only goes off if that meal is still empty.",
+  "remindWaterNote": "Each nudge only goes off if you are behind your water for that time.",
+  "remindWorkoutNote": "Only on days your plan has a session, and not once it is done.",
+  "toggleReminder": "Turn {name} reminders on or off",
+  "@toggleReminder": {
+    "placeholders": {
+      "name": {
         "type": "String"
       }
     }

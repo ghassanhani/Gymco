@@ -16,14 +16,25 @@ final reminderSchedulerProvider = Provider<ReminderScheduler>((_) => DeviceRemin
 
 class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
   static const _kMeals = 'remindMeals', _kWater = 'remindWater', _kWorkout = 'remindWorkout';
+  static const _kMealAt = 'remindMealAt', _kWaterAt = 'remindWaterAt', _kWorkoutAt = 'remindWorkoutAt';
+  static const _meals = [ReminderKind.breakfast, ReminderKind.lunch, ReminderKind.dinner];
 
   @override
   ReminderSettings build() {
     final p = ref.watch(prefsProvider);
+    List<ClockTime>? times(String key, int n) {
+      final list = [for (final x in p.getStringList(key) ?? const <String>[]) decodeClock(x)];
+      return list.length == n && list.every((t) => t != null) ? list.cast<ClockTime>() : null;
+    }
+
+    final meals = times(_kMealAt, 3);
     return ReminderSettings(
       meals: p.getBool(_kMeals) ?? false,
       water: p.getBool(_kWater) ?? false,
       workout: p.getBool(_kWorkout) ?? false,
+      mealAt: meals == null ? mealTimes : {for (final (i, k) in _meals.indexed) k: meals[i]},
+      waterAt: times(_kWaterAt, 3) ?? waterTimes,
+      workoutAt: decodeClock(p.getString(_kWorkoutAt)) ?? workoutTime,
     );
   }
 
@@ -35,15 +46,33 @@ class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
     switch (kind) {
       case ReminderKind.water:
         await p.setBool(_kWater, on);
-        state = ReminderSettings(meals: state.meals, water: on, workout: state.workout);
+        state = state.copyWith(water: on);
       case ReminderKind.workout:
         await p.setBool(_kWorkout, on);
-        state = ReminderSettings(meals: state.meals, water: state.water, workout: on);
+        state = state.copyWith(workout: on);
       case _:
         await p.setBool(_kMeals, on);
-        state = ReminderSettings(meals: on, water: state.water, workout: state.workout);
+        state = state.copyWith(meals: on);
     }
     return true;
+  }
+
+  /// Moves one reminder: a meal by kind, a water nudge by [index].
+  Future<void> setTime(ReminderKind kind, ClockTime t, {int index = 0}) async {
+    final p = ref.read(prefsProvider);
+    switch (kind) {
+      case ReminderKind.water:
+        final list = [...state.waterAt]..[index] = t;
+        await p.setStringList(_kWaterAt, [for (final x in list) encodeClock(x)]);
+        state = state.copyWith(waterAt: list);
+      case ReminderKind.workout:
+        await p.setString(_kWorkoutAt, encodeClock(t));
+        state = state.copyWith(workoutAt: t);
+      case _:
+        final map = {...state.mealAt, kind: t};
+        await p.setStringList(_kMealAt, [for (final k in _meals) encodeClock(map[k]!)]);
+        state = state.copyWith(mealAt: map);
+    }
   }
 }
 

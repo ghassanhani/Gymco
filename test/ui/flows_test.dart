@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/models.dart';
@@ -200,14 +201,40 @@ void main() {
     await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Meals'));
+    await tester.tap(find.bySemanticsLabel('Turn Meals reminders on or off'));
     await tester.pumpAndSettle();
     expect(prefs.getBool('remindMeals'), isTrue);
     expect(reminders.scheduled, isNotEmpty);
     expect(reminders.scheduled.first.title, 'Lunch logged?');
-    await tester.tap(find.text('Meals'));
+    await tester.tap(find.bySemanticsLabel('Turn Meals reminders on or off'));
     await tester.pumpAndSettle();
     expect(reminders.scheduled, isEmpty);
+  });
+
+  testWidgets('a reminder opens to its times, and a moved time is what gets scheduled', (tester) async {
+    final reminders = FakeReminders();
+    await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'remindMeals': true,
+        'remindMealAt': ['8:00', '14:15', '21:00'],
+      },
+      reminders: reminders,
+    );
+    await tester.tap(find.bySemanticsLabel('Me').first);
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
+    expect(find.text('If a meal isn’t logged by 08:00, 14:15 or 21:00'), findsOneWidget);
+    expect(reminders.scheduled.first.at, DateTime(2026, 9, 26, 14, 15));
+    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Meals'));
+    await tester.pumpAndSettle();
+    expect(find.text('14:15'), findsOneWidget);
+    await tester.tap(find.text('Lunch'));
+    await tester.pumpAndSettle();
+    expect(find.byType(CupertinoDatePicker), findsOneWidget);
   });
 
   testWidgets('a phone that refuses notifications keeps reminders off', (tester) async {
@@ -217,7 +244,7 @@ void main() {
     await tester.scrollUntilVisible(find.text('Water'), 300, scrollable: find.byType(Scrollable).last);
     await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Water'));
+    await tester.tap(find.bySemanticsLabel('Turn Water reminders on or off'));
     await tester.pump();
     expect(find.textContaining('Notifications are off'), findsOneWidget);
     expect(prefs.getBool('remindWater'), isNull);

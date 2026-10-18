@@ -5748,8 +5748,8 @@ abstract class AppLocalizations {
   /// No description provided for @remindMealsSub.
   ///
   /// In en, this message translates to:
-  /// **'If a meal isn’t logged by 9:30, 13:30 or 20:00'**
-  String get remindMealsSub;
+  /// **'If a meal isn’t logged by {b}, {l} or {d}'**
+  String remindMealsSub(String b, String l, String d);
 
   /// No description provided for @remindWater.
   ///
@@ -5760,8 +5760,8 @@ abstract class AppLocalizations {
   /// No description provided for @remindWaterSub.
   ///
   /// In en, this message translates to:
-  /// **'At 11:00, 15:00 and 18:30 when you’re behind'**
-  String get remindWaterSub;
+  /// **'At {a}, {b} and {c} when you’re behind'**
+  String remindWaterSub(String a, String b, String c);
 
   /// No description provided for @remindWorkout.
   ///
@@ -5772,8 +5772,8 @@ abstract class AppLocalizations {
   /// No description provided for @remindWorkoutSub.
   ///
   /// In en, this message translates to:
-  /// **'At 17:00 on days your plan has a session'**
-  String get remindWorkoutSub;
+  /// **'At {t} on days your plan has a session'**
+  String remindWorkoutSub(String t);
 
   /// No description provided for @remindersOff.
   ///
@@ -6848,6 +6848,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A restaurant meal, normal restaurant portion: {meal}'**
   String eoAiNote(String meal);
+
+  /// No description provided for @reminderOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get reminderOn;
+
+  /// No description provided for @reminderOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get reminderOff;
+
+  /// No description provided for @waterNudgeN.
+  ///
+  /// In en, this message translates to:
+  /// **'Nudge {n}'**
+  String waterNudgeN(int n);
+
+  /// No description provided for @remindWorkoutAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get remindWorkoutAt;
+
+  /// No description provided for @remindMealsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Each one only goes off if that meal is still empty.'**
+  String get remindMealsNote;
+
+  /// No description provided for @remindWaterNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Each nudge only goes off if you are behind your water for that time.'**
+  String get remindWaterNote;
+
+  /// No description provided for @remindWorkoutNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Only on days your plan has a session, and not once it is done.'**
+  String get remindWorkoutNote;
+
+  /// No description provided for @toggleReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn {name} reminders on or off'**
+  String toggleReminder(String name);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

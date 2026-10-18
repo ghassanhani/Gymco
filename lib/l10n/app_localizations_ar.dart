@@ -3397,19 +3397,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get remindMeals => 'الوجبات';
 
   @override
-  String get remindMealsSub => 'إذا لم تُسجَّل وجبة بحلول 9:30 أو 13:30 أو 20:00';
+  String remindMealsSub(String b, String l, String d) {
+    return 'إذا لم تُسجَّل وجبة بحلول $b أو $l أو $d';
+  }
 
   @override
   String get remindWater => 'الماء';
 
   @override
-  String get remindWaterSub => 'في 11:00 و15:00 و18:30 إذا كنت متأخرًا';
+  String remindWaterSub(String a, String b, String c) {
+    return 'في $a و$b و$c إذا كنت متأخرًا';
+  }
 
   @override
   String get remindWorkout => 'التمارين';
 
   @override
-  String get remindWorkoutSub => 'في 17:00 في أيام التمرين في خطتك';
+  String remindWorkoutSub(String t) {
+    return 'في $t في أيام التمرين في خطتك';
+  }
 
   @override
   String get remindersOff => 'الإشعارات متوقفة لجيمكو. فعّلها من إعدادات هاتفك.';
@@ -4107,5 +4113,33 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String eoAiNote(String meal) {
     return 'وجبة مطعم بحصة مطعم عادية: $meal';
+  }
+
+  @override
+  String get reminderOn => 'مفعّل';
+
+  @override
+  String get reminderOff => 'متوقف';
+
+  @override
+  String waterNudgeN(int n) {
+    return 'تذكير $n';
+  }
+
+  @override
+  String get remindWorkoutAt => 'الوقت';
+
+  @override
+  String get remindMealsNote => 'لا يصل التذكير إلا إذا كانت الوجبة ما زالت فارغة.';
+
+  @override
+  String get remindWaterNote => 'لا يصل التذكير إلا إذا كنت متأخرًا عن هدف الماء في ذلك الوقت.';
+
+  @override
+  String get remindWorkoutNote => 'فقط في أيام التمرين في خطتك، ولا يصل بعد إنهائه.';
+
+  @override
+  String toggleReminder(String name) {
+    return 'تشغيل أو إيقاف تذكيرات $name';
   }
 }

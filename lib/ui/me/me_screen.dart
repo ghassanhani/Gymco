@@ -12,6 +12,7 @@ import '../../state/reminder_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'reminder_sheet.dart';
 import '../today/today_screen.dart' show goalShort;
 import 'pro_screen.dart';
 
@@ -123,14 +124,53 @@ class MeScreen extends ConsumerWidget {
                 VList(
                   children: [
                     for (final (kind, icon, title, sub, on) in [
-                      (ReminderKind.lunch, 'food', l.remindMeals, l.remindMealsSub, reminders.meals),
-                      (ReminderKind.water, 'drop', l.remindWater, l.remindWaterSub, reminders.water),
-                      (ReminderKind.workout, 'dumb', l.remindWorkout, l.remindWorkoutSub, reminders.workout),
+                      (
+                        ReminderKind.lunch,
+                        'food',
+                        l.remindMeals,
+                        l.remindMealsSub(
+                          fmtClockTime(context, reminders.mealAt[ReminderKind.breakfast]!),
+                          fmtClockTime(context, reminders.mealAt[ReminderKind.lunch]!),
+                          fmtClockTime(context, reminders.mealAt[ReminderKind.dinner]!),
+                        ),
+                        reminders.meals,
+                      ),
+                      (
+                        ReminderKind.water,
+                        'drop',
+                        l.remindWater,
+                        l.remindWaterSub(
+                          fmtClockTime(context, reminders.waterAt[0]),
+                          fmtClockTime(context, reminders.waterAt[1]),
+                          fmtClockTime(context, reminders.waterAt[2]),
+                        ),
+                        reminders.water,
+                      ),
+                      (
+                        ReminderKind.workout,
+                        'dumb',
+                        l.remindWorkout,
+                        l.remindWorkoutSub(fmtClockTime(context, reminders.workoutAt)),
+                        reminders.workout,
+                      ),
                     ])
-                      row(icon, title, sub, () async {
-                        final ok = await ref.read(reminderSettingsProvider.notifier).set(kind, !on);
-                        if (!ok && context.mounted) showVToast(context, l.remindersOff, info: true);
-                      }, right: VToggle(on: on)),
+                      row(
+                        icon,
+                        title,
+                        sub,
+                        () => showReminderSheet(context, kind),
+                        right: Pressable(
+                          label: l.toggleReminder(title),
+                          onTap: () async {
+                            final ok = await ref.read(reminderSettingsProvider.notifier).set(kind, !on);
+                            if (!ok && context.mounted) showVToast(context, l.remindersOff, info: true);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(6),
+                            child: VToggle(on: on),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
                 VCard(

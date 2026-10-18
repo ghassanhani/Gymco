@@ -3383,19 +3383,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get remindMeals => 'Meals';
 
   @override
-  String get remindMealsSub => 'If a meal isn’t logged by 9:30, 13:30 or 20:00';
+  String remindMealsSub(String b, String l, String d) {
+    return 'If a meal isn’t logged by $b, $l or $d';
+  }
 
   @override
   String get remindWater => 'Water';
 
   @override
-  String get remindWaterSub => 'At 11:00, 15:00 and 18:30 when you’re behind';
+  String remindWaterSub(String a, String b, String c) {
+    return 'At $a, $b and $c when you’re behind';
+  }
 
   @override
   String get remindWorkout => 'Workouts';
 
   @override
-  String get remindWorkoutSub => 'At 17:00 on days your plan has a session';
+  String remindWorkoutSub(String t) {
+    return 'At $t on days your plan has a session';
+  }
 
   @override
   String get remindersOff => 'Notifications are off for Gymco. Turn them on in your phone’s settings.';
@@ -4070,5 +4076,33 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String eoAiNote(String meal) {
     return 'A restaurant meal, normal restaurant portion: $meal';
+  }
+
+  @override
+  String get reminderOn => 'On';
+
+  @override
+  String get reminderOff => 'Off';
+
+  @override
+  String waterNudgeN(int n) {
+    return 'Nudge $n';
+  }
+
+  @override
+  String get remindWorkoutAt => 'Time';
+
+  @override
+  String get remindMealsNote => 'Each one only goes off if that meal is still empty.';
+
+  @override
+  String get remindWaterNote => 'Each nudge only goes off if you are behind your water for that time.';
+
+  @override
+  String get remindWorkoutNote => 'Only on days your plan has a session, and not once it is done.';
+
+  @override
+  String toggleReminder(String name) {
+    return 'Turn $name reminders on or off';
   }
 }

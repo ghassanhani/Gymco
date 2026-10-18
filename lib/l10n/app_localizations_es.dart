@@ -3390,19 +3390,25 @@ class AppLocalizationsEs extends AppLocalizations {
   String get remindMeals => 'Comidas';
 
   @override
-  String get remindMealsSub => 'Si una comida no está registrada a las 9:30, 13:30 o 20:00';
+  String remindMealsSub(String b, String l, String d) {
+    return 'Si una comida no está registrada a las $b, $l o $d';
+  }
 
   @override
   String get remindWater => 'Agua';
 
   @override
-  String get remindWaterSub => 'A las 11:00, 15:00 y 18:30 si vas por detrás';
+  String remindWaterSub(String a, String b, String c) {
+    return 'A las $a, $b y $c si vas por detrás';
+  }
 
   @override
   String get remindWorkout => 'Entrenos';
 
   @override
-  String get remindWorkoutSub => 'A las 17:00 los días con sesión en tu plan';
+  String remindWorkoutSub(String t) {
+    return 'A las $t los días con sesión en tu plan';
+  }
 
   @override
   String get remindersOff => 'Las notificaciones de Gymco están desactivadas. Actívalas en los ajustes del móvil.';
@@ -4079,5 +4085,33 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String eoAiNote(String meal) {
     return 'Comida de restaurante, ración normal: $meal';
+  }
+
+  @override
+  String get reminderOn => 'Activado';
+
+  @override
+  String get reminderOff => 'Desactivado';
+
+  @override
+  String waterNudgeN(int n) {
+    return 'Aviso $n';
+  }
+
+  @override
+  String get remindWorkoutAt => 'Hora';
+
+  @override
+  String get remindMealsNote => 'Cada aviso solo suena si esa comida sigue vacía.';
+
+  @override
+  String get remindWaterNote => 'Cada aviso solo suena si vas por detrás con el agua a esa hora.';
+
+  @override
+  String get remindWorkoutNote => 'Solo los días con sesión en tu plan, y no si ya la hiciste.';
+
+  @override
+  String toggleReminder(String name) {
+    return 'Activar o desactivar avisos de $name';
   }
 }
