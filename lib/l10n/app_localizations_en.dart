@@ -4252,4 +4252,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eqOther => 'Other';
+
+  @override
+  String get aiTag => 'AI';
 }

@@ -102,7 +102,9 @@ class WrittenRows extends StatelessWidget {
         if (!dropped.contains(i)) (i, it),
     ];
     final found = kept.where((e) => e.$2.food != null).toList();
-    final assumed = found.where((e) => e.$2.assumed).length;
+    // An AI row carries its own tag; its amount is the model's, not a default.
+    bool assumedRow(WrittenItem it) => it.assumed && it.food?.source != 'ai';
+    final assumed = found.where((e) => assumedRow(e.$2)).length;
     final missing = kept.length - found.length;
     return GapCol(
       gap: 12,
@@ -210,7 +212,8 @@ class WrittenRows extends StatelessWidget {
                               foodName(context, it.food!.id, it.food!.name),
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                             ),
-                            if (it.assumed) const _AssumedTag(),
+                            if (it.food!.source == 'ai') const _AiTag(),
+                            if (assumedRow(it)) const _AssumedTag(),
                           ],
                         ),
                         Text(
@@ -255,6 +258,33 @@ class WrittenRows extends StatelessWidget {
       ],
     );
   }
+}
+
+/// On a food the model estimated, so it reads as a guess to check.
+class _AiTag extends StatelessWidget {
+  const _AiTag();
+
+  @override
+  Widget build(BuildContext context) => Container(
+    height: 22,
+    padding: const EdgeInsets.symmetric(horizontal: 8),
+    decoration: BoxDecoration(
+      color: Volt.brandWash,
+      borderRadius: BorderRadius.circular(999),
+      border: Border.all(color: Volt.brandEdge),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const VIcon('star', size: 11, color: Volt.brandInk, strokeWidth: 2),
+        const SizedBox(width: 4),
+        Text(
+          AppLocalizations.of(context).aiTag,
+          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 0.6, color: Volt.brandInk),
+        ),
+      ],
+    ),
+  );
 }
 
 class _AssumedTag extends StatelessWidget {

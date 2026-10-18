@@ -663,13 +663,14 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                 child: GapCol(
                   gap: 1,
                   children: [
-                    Text(l.kcalChange(fmtInt(context, wk)), style: numStyle(15)),
-                    Muted(
+                    Text(l.kcalChange(fmtInt(context, wk)), style: numStyle(22, weight: FontWeight.w800)),
+                    Text(
                       l.pcfLine(
                         fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.protein)),
                         fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.carbs)),
                         fmtInt(context, toAdd.fold<double>(0, (s, it) => s + it.fat)),
                       ),
+                      style: numStyle(15, weight: FontWeight.w500, color: Volt.t2),
                     ),
                   ],
                 ),
@@ -695,7 +696,10 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                       l.itemsSelected(_picks.length),
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                     ),
-                    Muted(l.kcalAndProtein(fmtInt(context, pickKcal), fmtInt(context, pickP))),
+                    Text(
+                      l.kcalAndProtein(fmtInt(context, pickKcal), fmtInt(context, pickP)),
+                      style: numStyle(17, weight: FontWeight.w700),
+                    ),
                   ],
                 ),
               ),

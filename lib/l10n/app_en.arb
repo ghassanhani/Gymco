@@ -3193,5 +3193,6 @@
   "eqBody": "Bodyweight",
   "eqKettlebell": "Kettlebell",
   "eqBands": "Bands",
-  "eqOther": "Other"
+  "eqOther": "Other",
+  "aiTag": "AI"
 }

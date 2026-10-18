@@ -4289,4 +4289,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get eqOther => 'أخرى';
+
+  @override
+  String get aiTag => 'ذكاء اصطناعي';
 }

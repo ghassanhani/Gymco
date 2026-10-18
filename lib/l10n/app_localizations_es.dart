@@ -4261,4 +4261,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get eqOther => 'Otro';
+
+  @override
+  String get aiTag => 'IA';
 }

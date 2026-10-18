@@ -1180,5 +1180,6 @@
   "eqBody": "Peso corporal",
   "eqKettlebell": "Kettlebell",
   "eqBands": "Bandas",
-  "eqOther": "Otro"
+  "eqOther": "Otro",
+  "aiTag": "IA"
 }

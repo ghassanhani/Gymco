@@ -1180,5 +1180,6 @@
   "eqBody": "وزن الجسم",
   "eqKettlebell": "كيتلبل",
   "eqBands": "أشرطة مقاومة",
-  "eqOther": "أخرى"
+  "eqOther": "أخرى",
+  "aiTag": "ذكاء اصطناعي"
 }

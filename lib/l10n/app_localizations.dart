@@ -7178,6 +7178,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Other'**
   String get eqOther;
+
+  /// No description provided for @aiTag.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get aiTag;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
