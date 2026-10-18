@@ -63,6 +63,8 @@ flutter run          # on a connected phone or simulator
 flutter test         # 113 tests
 ```
 
+**Try it on Android without any tools:** every push to `main` builds an APK. Open the repo's Releases page on the phone, take `Gymco-test.apk` from **Gymco test build**, and allow installing from that source. It is signed with a throwaway test key, so if an update won't install over the old one, uninstall the old one first.
+
 An iPhone needs a Mac with Xcode. Android needs Android Studio, or just a phone with USB debugging.
 
 ## Cloud setup (Supabase)

@@ -14,3 +14,40 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
+
+  # An installable Android build of main, for trying Gymco on a phone.
+  # Signed with the runner's throwaway debug key: not for the Play Store.
+  android:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.7
+          channel: stable
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - run: cp build/app/outputs/flutter-apk/app-release.apk Gymco-test.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gymco-android
+          path: Gymco-test.apk
+      # One pre-release that always holds the latest build, easy to open on a phone.
+      - name: Publish the test build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete test-build --yes --cleanup-tag || true
+          gh release create test-build Gymco-test.apk \
+            --prerelease \
+            --target "$GITHUB_SHA" \
+            --title "Gymco test build" \
+            --notes "Latest Android build of main (${GITHUB_SHA::7}). On the phone: download Gymco-test.apk, open it, and allow installing from this source. If an update will not install over the old one, uninstall the old one first."
