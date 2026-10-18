@@ -1223,9 +1223,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noCustomFoods => 'No custom foods yet. Open any food and tap Save as custom to keep your own copy.';
 
   @override
-  String get recipesSoon => 'Recipes are next: build one from ingredients, split it into portions, log a portion.';
-
-  @override
   String savedMealSub(int count, String kcal) {
     return '$count items · $kcal kcal';
   }
@@ -3402,4 +3399,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remindersOff => 'Notifications are off for Gymco. Turn them on in your phone’s settings.';
+
+  @override
+  String get newRecipe => 'New recipe';
+
+  @override
+  String get editRecipe => 'Edit recipe';
+
+  @override
+  String get deleteRecipe => 'Delete recipe';
+
+  @override
+  String get saveRecipe => 'Save';
+
+  @override
+  String recipeSaved(String name) {
+    return '$name saved';
+  }
+
+  @override
+  String get recipeNameHint => 'Name it — “Chicken curry”';
+
+  @override
+  String get servingsLabel => 'Servings';
+
+  @override
+  String ingredientsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ingredients',
+      one: '1 ingredient',
+      zero: 'Ingredients',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipeIngredientsHint => 'Write what goes in: “500g chicken breast, 300g rice, 2 tbsp olive oil”';
+
+  @override
+  String get addIngredients => 'Add ingredients';
+
+  @override
+  String recipeMissed(String items) {
+    return 'Not in the database yet, so left out: $items. Add them as custom foods to include them.';
+  }
+
+  @override
+  String get perServing => 'Per serving';
+
+  @override
+  String kcalPerServing(String kcal) {
+    return '$kcal kcal a serving';
+  }
+
+  @override
+  String servingsOf(int n, String g) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n servings of $g g',
+      one: '1 serving of $g g',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recipeSub(int n, String kcal) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n servings', one: '1 serving');
+    return '$_temp0 · $kcal kcal a serving';
+  }
+
+  @override
+  String get noRecipes => 'No recipes yet. Make one from what you cook often, then log a serving in one tap.';
+
+  @override
+  String get yourRecipe => 'Your recipe';
 }

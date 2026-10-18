@@ -1222,9 +1222,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'Aún no hay alimentos propios. Abre cualquiera y pulsa Guardar como propio para tener tu copia.';
 
   @override
-  String get recipesSoon => 'Las recetas llegan pronto: créala con ingredientes, divídela en raciones y registra una.';
-
-  @override
   String savedMealSub(int count, String kcal) {
     return '$count elementos · $kcal kcal';
   }
@@ -3409,4 +3406,78 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get remindersOff => 'Las notificaciones de Gymco están desactivadas. Actívalas en los ajustes del móvil.';
+
+  @override
+  String get newRecipe => 'Nueva receta';
+
+  @override
+  String get editRecipe => 'Editar receta';
+
+  @override
+  String get deleteRecipe => 'Eliminar receta';
+
+  @override
+  String get saveRecipe => 'Guardar';
+
+  @override
+  String recipeSaved(String name) {
+    return '$name guardada';
+  }
+
+  @override
+  String get recipeNameHint => 'Ponle nombre — «Curry de pollo»';
+
+  @override
+  String get servingsLabel => 'Raciones';
+
+  @override
+  String ingredientsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ingredientes',
+      one: '1 ingrediente',
+      zero: 'Ingredientes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipeIngredientsHint =>
+      'Escribe lo que lleva: «500g pechuga de pollo, 300g arroz, 2 cucharadas de aceite»';
+
+  @override
+  String get addIngredients => 'Añadir ingredientes';
+
+  @override
+  String recipeMissed(String items) {
+    return 'Aún no está en la base de datos, así que se omitió: $items. Añádelo como alimento propio para incluirlo.';
+  }
+
+  @override
+  String get perServing => 'Por ración';
+
+  @override
+  String kcalPerServing(String kcal) {
+    return '$kcal kcal por ración';
+  }
+
+  @override
+  String servingsOf(int n, String g) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n raciones de $g g', one: '1 ración de $g g');
+    return '$_temp0';
+  }
+
+  @override
+  String recipeSub(int n, String kcal) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n raciones', one: '1 ración');
+    return '$_temp0 · $kcal kcal por ración';
+  }
+
+  @override
+  String get noRecipes =>
+      'Aún no hay recetas. Crea una con lo que cocinas a menudo y registra una ración con un toque.';
+
+  @override
+  String get yourRecipe => 'Tu receta';
 }

@@ -8,7 +8,7 @@ import 'package:gymco/ui/today/today_screen.dart';
 import '../helpers.dart';
 
 Future<void> _throughBody(WidgetTester tester) async {
-  await tester.tap(find.text('Get started'));
+  await tester.tap(find.text('GET STARTED'));
   await tester.pumpAndSettle();
   await tester.tap(find.text('Continue'));
   await tester.pumpAndSettle();
@@ -237,7 +237,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(prefs.getString('profile'), isNull);
     expect(await db.weighIns(), isEmpty);
-    expect(find.text('Get started'), findsOneWidget);
+    expect(find.text('GET STARTED'), findsOneWidget);
   });
 
   testWidgets('Arabic runs right to left', (tester) async {

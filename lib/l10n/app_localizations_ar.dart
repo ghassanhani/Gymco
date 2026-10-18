@@ -1264,9 +1264,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noCustomFoods => 'لا أطعمة مخصّصة بعد. افتح أي طعام واضغط «احفظه كمخصّص» لتحتفظ بنسختك.';
 
   @override
-  String get recipesSoon => 'الوصفات قادمة: ابنِها من المكوّنات، قسّمها إلى حصص، وسجّل حصة.';
-
-  @override
   String savedMealSub(int count, String kcal) {
     return '$count عناصر · $kcal سعرة';
   }
@@ -3416,4 +3413,78 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get remindersOff => 'الإشعارات متوقفة لجيمكو. فعّلها من إعدادات هاتفك.';
+
+  @override
+  String get newRecipe => 'وصفة جديدة';
+
+  @override
+  String get editRecipe => 'تعديل الوصفة';
+
+  @override
+  String get deleteRecipe => 'حذف الوصفة';
+
+  @override
+  String get saveRecipe => 'حفظ';
+
+  @override
+  String recipeSaved(String name) {
+    return 'تم حفظ $name';
+  }
+
+  @override
+  String get recipeNameHint => 'سمّها — «كاري الدجاج»';
+
+  @override
+  String get servingsLabel => 'الحصص';
+
+  @override
+  String ingredientsCount(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n مكوّنًا',
+      few: '$n مكوّنات',
+      two: 'مكوّنان',
+      one: 'مكوّن واحد',
+      zero: 'المكونات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get recipeIngredientsHint => 'اكتب ما يدخل فيها: «500غ صدر دجاج، 300غ أرز، ملعقتان زيت زيتون»';
+
+  @override
+  String get addIngredients => 'أضف المكوّنات';
+
+  @override
+  String recipeMissed(String items) {
+    return 'غير موجود في قاعدة البيانات بعد، لذا لم يُضف: $items. أضفها كأطعمة مخصصة لتُحسب.';
+  }
+
+  @override
+  String get perServing => 'لكل حصة';
+
+  @override
+  String kcalPerServing(String kcal) {
+    return '$kcal سعرة للحصة';
+  }
+
+  @override
+  String servingsOf(int n, String g) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n حصص من $g غ', one: 'حصة واحدة من $g غ');
+    return '$_temp0';
+  }
+
+  @override
+  String recipeSub(int n, String kcal) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n حصص', one: 'حصة واحدة');
+    return '$_temp0 · $kcal سعرة للحصة';
+  }
+
+  @override
+  String get noRecipes => 'لا وصفات بعد. اصنع واحدة مما تطبخه كثيرًا، ثم سجّل حصة بلمسة واحدة.';
+
+  @override
+  String get yourRecipe => 'وصفتك';
 }

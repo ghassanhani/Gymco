@@ -2193,12 +2193,6 @@ abstract class AppLocalizations {
   /// **'No custom foods yet. Open any food and tap Save as custom to keep your own copy.'**
   String get noCustomFoods;
 
-  /// No description provided for @recipesSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Recipes are next: build one from ingredients, split it into portions, log a portion.'**
-  String get recipesSoon;
-
   /// No description provided for @savedMealSub.
   ///
   /// In en, this message translates to:
@@ -5786,6 +5780,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications are off for Gymco. Turn them on in your phone’s settings.'**
   String get remindersOff;
+
+  /// No description provided for @newRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'New recipe'**
+  String get newRecipe;
+
+  /// No description provided for @editRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit recipe'**
+  String get editRecipe;
+
+  /// No description provided for @deleteRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete recipe'**
+  String get deleteRecipe;
+
+  /// No description provided for @saveRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveRecipe;
+
+  /// No description provided for @recipeSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} saved'**
+  String recipeSaved(String name);
+
+  /// No description provided for @recipeNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name it — “Chicken curry”'**
+  String get recipeNameHint;
+
+  /// No description provided for @servingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Servings'**
+  String get servingsLabel;
+
+  /// No description provided for @ingredientsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =0{Ingredients} =1{1 ingredient} other{{n} ingredients}}'**
+  String ingredientsCount(int n);
+
+  /// No description provided for @recipeIngredientsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write what goes in: “500g chicken breast, 300g rice, 2 tbsp olive oil”'**
+  String get recipeIngredientsHint;
+
+  /// No description provided for @addIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredients'**
+  String get addIngredients;
+
+  /// No description provided for @recipeMissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in the database yet, so left out: {items}. Add them as custom foods to include them.'**
+  String recipeMissed(String items);
+
+  /// No description provided for @perServing.
+  ///
+  /// In en, this message translates to:
+  /// **'Per serving'**
+  String get perServing;
+
+  /// No description provided for @kcalPerServing.
+  ///
+  /// In en, this message translates to:
+  /// **'{kcal} kcal a serving'**
+  String kcalPerServing(String kcal);
+
+  /// No description provided for @servingsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 serving of {g} g} other{{n} servings of {g} g}}'**
+  String servingsOf(int n, String g);
+
+  /// No description provided for @recipeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 serving} other{{n} servings}} · {kcal} kcal a serving'**
+  String recipeSub(int n, String kcal);
+
+  /// No description provided for @noRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'No recipes yet. Make one from what you cook often, then log a serving in one tap.'**
+  String get noRecipes;
+
+  /// No description provided for @yourRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Your recipe'**
+  String get yourRecipe;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

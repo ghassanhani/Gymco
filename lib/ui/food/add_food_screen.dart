@@ -286,6 +286,46 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     ];
   }
 
+  List<Widget> _recipes(AppLocalizations l) {
+    final recipes = ref.watch(recipesProvider).value ?? const <Recipe>[];
+    return [
+      VBtn(
+        label: l.newRecipe,
+        kind: BtnKind.ghost,
+        icon: 'plus',
+        expand: true,
+        onTap: () => context.push('/recipe/new'),
+      ),
+      if (recipes.isEmpty)
+        _Shelf(text: l.noRecipes)
+      else
+        VList(
+          children: [
+            for (final r in recipes)
+              VItem(
+                semantics: r.name,
+                onTap: () =>
+                    context.push('/serving/${Uri.encodeComponent(Recipe.foodId(r.id))}?meal=${_meal.name}&confirm=1'),
+                children: [
+                  const VIcon('food', size: 19, color: Volt.t3),
+                  ItemText(r.name, sub: l.recipeSub(r.servings, fmtInt(context, r.kcalPerServing))),
+                  IconBtn(
+                    'more',
+                    label: l.editRecipe,
+                    size: 32,
+                    iconSize: 16,
+                    background: Colors.transparent,
+                    color: Volt.t3,
+                    onTap: () => context.push('/recipe/${r.id}'),
+                  ),
+                  const Pick(),
+                ],
+              ),
+          ],
+        ),
+    ];
+  }
+
   Future<void> _scan() async {
     final code = await context.push<String>('/scan');
     if (code == null || !mounted) return;
@@ -492,7 +532,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     } else if (q.isEmpty && _shelf == 1) {
       body = _savedMeals(l);
     } else if (q.isEmpty && _shelf == 2) {
-      body = [_Shelf(text: l.recipesSoon)];
+      body = _recipes(l);
     } else if (q.isEmpty && _shelf == 3) {
       final custom = ref.watch(customFoodsProvider).value ?? const <Food>[];
       body = custom.isEmpty

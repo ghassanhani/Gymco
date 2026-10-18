@@ -86,6 +86,39 @@ class SavedMeal {
   double get kcal => items.fold(0, (s, i) => s + i.$1.kcal * i.$2 / 100);
 }
 
+/// A dish made from several foods, cooked once and eaten over [servings].
+class Recipe {
+  const Recipe({required this.id, required this.name, required this.servings, required this.items});
+  final int id;
+  final String name;
+  final int servings;
+
+  /// Each ingredient with its grams, as it goes into the pot.
+  final List<(Food, double)> items;
+
+  double get grams => items.fold(0, (s, i) => s + i.$2);
+  double _sum(double Function(Food) n) => items.fold(0, (s, i) => s + n(i.$1) * i.$2 / 100);
+  double get kcal => _sum((f) => f.kcal);
+  double get kcalPerServing => kcal / servings;
+
+  static String foodId(int id) => 'recipe:$id';
+
+  /// The dish as one food, per 100 g, so a serving logs like anything else.
+  Food asFood() {
+    final g = grams <= 0 ? 1.0 : grams;
+    return Food(
+      id: foodId(id),
+      name: name,
+      kcal: kcal * 100 / g,
+      protein: _sum((f) => f.protein) * 100 / g,
+      carbs: _sum((f) => f.carbs) * 100 / g,
+      fat: _sum((f) => f.fat) * 100 / g,
+      servingGrams: g / servings,
+      source: 'recipe',
+    );
+  }
+}
+
 /// One food logged into one meal. Nutrition is snapshotted at log time so a
 /// later edit to the food never rewrites history.
 class LogEntry {

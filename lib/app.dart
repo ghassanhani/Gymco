@@ -12,6 +12,7 @@ import 'theme/volt.dart';
 import 'ui/food/add_food_screen.dart';
 import 'ui/food/meal_screen.dart';
 import 'ui/food/scan_screen.dart';
+import 'ui/food/recipe_screen.dart';
 import 'ui/food/serving_screen.dart';
 import 'ui/me/pro_screen.dart';
 import 'ui/me/account_screen.dart';
@@ -106,6 +107,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/data', builder: (_, _) => const DataScreen()),
       GoRoute(path: '/account', builder: (_, _) => const AccountScreen()),
       GoRoute(path: '/pro', builder: (_, _) => const ProScreen()),
+      GoRoute(path: '/recipe/new', builder: (_, _) => const RecipeScreen()),
+      GoRoute(
+        path: '/recipe/:id',
+        builder: (_, s) => RecipeScreen(recipeId: int.tryParse(s.pathParameters['id']!)),
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => AppShell(shell: shell),
         branches: [

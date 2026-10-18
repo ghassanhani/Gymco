@@ -16,7 +16,7 @@ class LocalDb {
 
   /// 1: diet. 2: training. 3: weekdays, folders, RIR. 4: favourites, saved meals.
   /// 5: body measurements.
-  static const _version = 6;
+  static const _version = 7;
 
   /// What a backup was written by, so a newer phone can read an older one.
   static const schemaVersion = _version;
@@ -61,6 +61,16 @@ class LocalDb {
         food_id TEXT NOT NULL, grams REAL NOT NULL)''');
   }
 
+  static Future<void> _addRecipes(DatabaseExecutor db) async {
+    await db.execute('''
+      CREATE TABLE recipes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, servings INTEGER NOT NULL,
+        created_at INTEGER NOT NULL)''');
+    await db.execute('''
+      CREATE TABLE recipe_items(id INTEGER PRIMARY KEY AUTOINCREMENT,
+        recipe_id INTEGER NOT NULL REFERENCES recipes(id) ON DELETE CASCADE, position INTEGER NOT NULL,
+        food_id TEXT NOT NULL, grams REAL NOT NULL)''');
+  }
+
   static Future<void> _addMeasurements(DatabaseExecutor db) => db.execute('''
     CREATE TABLE measurements(day TEXT NOT NULL, kind TEXT NOT NULL, value REAL NOT NULL, PRIMARY KEY(day, kind))''');
 
@@ -79,6 +89,7 @@ class LocalDb {
           if (from < 3) await _addPlanColumns(db);
           if (from < 4) await _addSavedMeals(db);
           if (from < 5) await _addMeasurements(db);
+          if (from < 7) await _addRecipes(db);
           // Staples added since: insert the ones this phone does not have.
           final batch = db.batch();
           for (final f in seedFoods) {
@@ -106,6 +117,7 @@ class LocalDb {
           await _addPlanColumns(db);
           await _addSavedMeals(db);
           await _addMeasurements(db);
+          await _addRecipes(db);
           final batch = db.batch();
           for (final f in seedFoods) {
             batch.insert('foods', f.toRow());
@@ -131,6 +143,8 @@ class LocalDb {
     'saved_meals',
     'saved_meal_items',
     'measurements',
+    'recipes',
+    'recipe_items',
   ];
 
   Future<({int entries, int sets, int weighIns})> counts() async {
@@ -266,6 +280,52 @@ class LocalDb {
   }
 
   Future<void> deleteSavedMeal(int id) => _db.delete('saved_meals', where: 'id = ?', whereArgs: [id]);
+
+  // ---- recipes ----
+
+  /// Saves a new recipe, or replaces [id]'s, and keeps its food in step.
+  Future<int> saveRecipe(String name, int servings, List<(Food, double)> items, {int? id}) =>
+      _db.transaction((tx) async {
+        final row = {'name': name, 'servings': servings, 'created_at': DateTime.now().millisecondsSinceEpoch};
+        final rid = id ?? await tx.insert('recipes', row);
+        if (id != null) {
+          await tx.update('recipes', {'name': name, 'servings': servings}, where: 'id = ?', whereArgs: [id]);
+          await tx.delete('recipe_items', where: 'recipe_id = ?', whereArgs: [id]);
+        }
+        for (final (i, (f, g)) in items.indexed) {
+          await tx.insert('foods', f.toRow(), conflictAlgorithm: ConflictAlgorithm.ignore);
+          await tx.insert('recipe_items', {'recipe_id': rid, 'position': i, 'food_id': f.id, 'grams': g});
+        }
+        final r = Recipe(id: rid, name: name, servings: servings, items: items);
+        await tx.insert('foods', r.asFood().toRow(), conflictAlgorithm: ConflictAlgorithm.replace);
+        return rid;
+      });
+
+  Future<List<Recipe>> recipes() async {
+    final out = <Recipe>[];
+    for (final m in await _db.query('recipes', orderBy: 'created_at DESC')) {
+      final rows = await _db.rawQuery(
+        'SELECT f.*, i.grams AS item_g FROM recipe_items i JOIN foods f ON f.id = i.food_id '
+        'WHERE i.recipe_id = ? ORDER BY i.position',
+        [m['id']],
+      );
+      final r = Recipe(
+        id: m['id']! as int,
+        name: m['name']! as String,
+        servings: m['servings']! as int,
+        items: [for (final x in rows) (Food.fromRow(x), (x['item_g']! as num).toDouble())],
+      );
+      // A restored backup brings the recipe back; this brings back its food.
+      await _db.insert('foods', r.asFood().toRow(), conflictAlgorithm: ConflictAlgorithm.replace);
+      out.add(r);
+    }
+    return out;
+  }
+
+  Future<void> deleteRecipe(int id) async {
+    await _db.delete('recipes', where: 'id = ?', whereArgs: [id]);
+    await _db.delete('foods', where: 'id = ?', whereArgs: [Recipe.foodId(id)]);
+  }
 
   /// The generic foods shipped with the app, for a first search with no history.
   Future<List<Food>> staples({int limit = 8}) async {

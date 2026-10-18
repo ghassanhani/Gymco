@@ -5,6 +5,26 @@ import 'package:gymco/data/seed_foods.dart';
 import '../helpers.dart';
 
 void main() {
+  test('a recipe is saved as one food per serving, and edits keep it in step', () async {
+    final db = await openTestDb();
+    final chicken = (await db.foodById('usda:chicken-breast-raw'))!;
+    final rice = (await db.searchFoods('rice')).first;
+    final id = await db.saveRecipe('Chicken and rice', 4, [(chicken, 600), (rice, 400)]);
+    final r = (await db.recipes()).single;
+    expect(r.servings, 4);
+    expect(r.grams, 1000);
+    final food = (await db.foodById('recipe:$id'))!;
+    expect(food.servingGrams, 250);
+    expect(food.kcal, closeTo(r.kcal / 10, 0.01));
+    expect(food.source, 'recipe');
+
+    await db.saveRecipe('Chicken and rice', 2, [(chicken, 600)], id: id);
+    expect((await db.foodById('recipe:$id'))!.servingGrams, 300);
+    await db.deleteRecipe(id);
+    expect(await db.recipes(), isEmpty);
+    expect(await db.foodById('recipe:$id'), isNull);
+  });
+
   test('ships with staples so search works offline on first launch', () async {
     final db = await openTestDb();
     final r = await db.searchFoods('chicken');

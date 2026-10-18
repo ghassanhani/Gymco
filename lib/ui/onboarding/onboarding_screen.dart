@@ -1168,7 +1168,6 @@ class _WelcomeState extends State<_Welcome> {
                   scale: 0.98,
                   child: Container(
                     height: 64,
-                    padding: const EdgeInsetsDirectional.fromSTEB(22, 0, 8, 0),
                     decoration: BoxDecoration(
                       gradient: Volt.glow,
                       borderRadius: BorderRadius.circular(999),
@@ -1176,29 +1175,16 @@ class _WelcomeState extends State<_Welcome> {
                         BoxShadow(color: Color(0xD9B6F02A), blurRadius: 34, offset: Offset(0, 18), spreadRadius: -16),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 46),
-                        Expanded(
-                          child: Text(
-                            l.getStarted,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: -0.2,
-                              color: Volt.ink,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 46,
-                          height: 46,
-                          alignment: Alignment.center,
-                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Volt.ink),
-                          child: const VIcon('fwd', size: 22, color: Volt.brand, strokeWidth: 2.2),
-                        ),
-                      ],
+                    alignment: Alignment.center,
+                    child: Text(
+                      l.getStarted.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 1.6,
+                        color: Volt.ink,
+                      ),
                     ),
                   ),
                 ),

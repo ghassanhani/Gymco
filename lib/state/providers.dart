@@ -220,6 +220,7 @@ class LogActions {
   Future<void> saveMeal(String name, List<LogEntry> entries) async {
     await ref.read(dbProvider).saveMeal(name, entries);
     ref.invalidate(savedMealsProvider);
+    ref.invalidate(recipesProvider);
   }
 
   Future<void> logSaved(SavedMeal m, Meal meal) async {
@@ -244,6 +245,8 @@ class LogActions {
 final logActionsProvider = Provider<LogActions>(LogActions.new);
 
 final savedMealsProvider = FutureProvider<List<SavedMeal>>((ref) => ref.watch(dbProvider).savedMeals());
+
+final recipesProvider = FutureProvider<List<Recipe>>((ref) => ref.watch(dbProvider).recipes());
 final customFoodsProvider = FutureProvider<List<Food>>((ref) => ref.watch(dbProvider).customFoods());
 
 // ---------------- your data ----------------
@@ -272,6 +275,7 @@ Future<void> deleteEverything(WidgetRef ref) async {
   ref.invalidate(waterProvider);
   ref.invalidate(waterGoalProvider);
   ref.invalidate(savedMealsProvider);
+  ref.invalidate(recipesProvider);
   ref.invalidate(customFoodsProvider);
   ref.invalidate(dataCountsProvider);
 }

@@ -190,6 +190,8 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                                 ? l.genericUsdaVerified
                                 : f.source == 'ai'
                                 ? l.aiEstimateLabel
+                                : f.source == 'recipe'
+                                ? l.yourRecipe
                                 : '${f.brand ?? l.customFood} · ${l.createdByYou}',
                           ),
                         ],
@@ -309,7 +311,7 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
               padding: EdgeInsets.fromLTRB(12, 8, 12, 18 + MediaQuery.paddingOf(context).bottom),
               child: Row(
                 children: [
-                  if (f.source != 'local') ...[
+                  if (f.source != 'local' && f.source != 'recipe') ...[
                     Expanded(
                       flex: 10,
                       child: VBtn(label: l.saveAsCustom, kind: BtnKind.ghost, expand: true, onTap: _saveCustom),

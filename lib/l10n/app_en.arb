@@ -806,7 +806,6 @@
   },
   "noSavedMeals": "No saved meals yet. Open a meal you eat often and tap Save as a meal.",
   "noCustomFoods": "No custom foods yet. Open any food and tap Save as custom to keep your own copy.",
-  "recipesSoon": "Recipes are next: build one from ingredients, split it into portions, log a portion.",
   "savedMealSub": "{count} items · {kcal} kcal",
   "@savedMealSub": {
     "placeholders": {
@@ -2590,5 +2589,70 @@
   "remindWaterSub": "At 11:00, 15:00 and 18:30 when you’re behind",
   "remindWorkout": "Workouts",
   "remindWorkoutSub": "At 17:00 on days your plan has a session",
-  "remindersOff": "Notifications are off for Gymco. Turn them on in your phone’s settings."
+  "remindersOff": "Notifications are off for Gymco. Turn them on in your phone’s settings.",
+  "newRecipe": "New recipe",
+  "editRecipe": "Edit recipe",
+  "deleteRecipe": "Delete recipe",
+  "saveRecipe": "Save",
+  "recipeSaved": "{name} saved",
+  "@recipeSaved": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeNameHint": "Name it — “Chicken curry”",
+  "servingsLabel": "Servings",
+  "ingredientsCount": "{n, plural, =0{Ingredients} =1{1 ingredient} other{{n} ingredients}}",
+  "@ingredientsCount": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeIngredientsHint": "Write what goes in: “500g chicken breast, 300g rice, 2 tbsp olive oil”",
+  "addIngredients": "Add ingredients",
+  "recipeMissed": "Not in the database yet, so left out: {items}. Add them as custom foods to include them.",
+  "@recipeMissed": {
+    "placeholders": {
+      "items": {
+        "type": "String"
+      }
+    }
+  },
+  "perServing": "Per serving",
+  "kcalPerServing": "{kcal} kcal a serving",
+  "@kcalPerServing": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "servingsOf": "{n, plural, =1{1 serving of {g} g} other{{n} servings of {g} g}}",
+  "@servingsOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "g": {
+        "type": "String"
+      }
+    }
+  },
+  "recipeSub": "{n, plural, =1{1 serving} other{{n} servings}} · {kcal} kcal a serving",
+  "@recipeSub": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "noRecipes": "No recipes yet. Make one from what you cook often, then log a serving in one tap.",
+  "yourRecipe": "Your recipe"
 }

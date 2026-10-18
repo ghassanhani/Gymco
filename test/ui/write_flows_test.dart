@@ -91,6 +91,36 @@ void main() {
     expect([for (final e in entries) (e.foodName, e.grams)], [('Mini pizza', 90)]);
   });
 
+  testWidgets('a recipe is built from written ingredients and a serving is logged', (tester) async {
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await tester.tap(find.bySemanticsLabel('Food').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Recipes'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('New recipe'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField).first, 'Chicken and rice');
+    await tester.enterText(find.byType(TextField).last, '600g chicken breast, 400g rice');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Add ingredients'));
+    await tester.pumpAndSettle();
+    expect(find.text('2 INGREDIENTS'), findsOneWidget);
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Chicken and rice'), findsOneWidget);
+    await tester.tap(find.text('Chicken and rice'));
+    await tester.pumpAndSettle();
+    expect(find.text('Your recipe'), findsOneWidget);
+    await tester.tap(find.textContaining(RegExp(r'^Add \d')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Confirm and add'));
+    await tester.pumpAndSettle();
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams)], [('Chicken and rice', 250)]);
+  });
+
   testWidgets('voice goes through the same reader, with an editable transcript', (tester) async {
     final (db, _) = await pumpApp(
       tester,
