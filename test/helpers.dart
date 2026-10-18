@@ -14,9 +14,11 @@ import 'package:gymco/data/health_sync.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
 import 'package:gymco/data/photo_picker.dart';
+import 'package:gymco/data/photo_store.dart';
 import 'package:gymco/data/reminder_scheduler.dart';
 import 'package:gymco/data/training.dart';
 import 'package:gymco/state/cloud_providers.dart';
+import 'package:gymco/state/progress_providers.dart';
 import 'package:gymco/state/providers.dart';
 import 'package:gymco/state/reminder_providers.dart';
 import 'package:gymco/state/training_providers.dart';
@@ -63,6 +65,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   ImageProvider Function(String url)? exerciseImages,
   FakeReminders? reminders,
   HealthSync? health,
+  PhotoStore? photos,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -90,6 +93,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         photoPickerProvider.overrideWithValue(picker ?? FakePicker()),
         reminderSchedulerProvider.overrideWithValue(reminders ?? FakeReminders()),
         healthSyncProvider.overrideWithValue(health ?? const NoHealth()),
+        photoStoreProvider.overrideWithValue(photos ?? MemoryPhotoStore()),
       ],
       child: const GymcoApp(),
     ),

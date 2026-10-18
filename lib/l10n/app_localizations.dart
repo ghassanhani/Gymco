@@ -6626,6 +6626,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n, plural, =1{1 exercise} other{{n} exercises}} · {sets} sets'**
   String routineSize(int n, int sets);
+
+  /// No description provided for @photosTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get photosTab;
+
+  /// No description provided for @poseFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Front'**
+  String get poseFront;
+
+  /// No description provided for @poseSide.
+  ///
+  /// In en, this message translates to:
+  /// **'Side'**
+  String get poseSide;
+
+  /// No description provided for @poseBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get poseBack;
+
+  /// No description provided for @photoOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{pose} photo'**
+  String photoOf(String pose);
+
+  /// No description provided for @addPhotoOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {pose} photo'**
+  String addPhotoOf(String pose);
+
+  /// No description provided for @chooseFromLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from library'**
+  String get chooseFromLibrary;
+
+  /// No description provided for @photoTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Same spot, same light, same time of day — morning, before eating, works best.'**
+  String get photoTip;
+
+  /// No description provided for @deletePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete photo'**
+  String get deletePhoto;
+
+  /// No description provided for @todaysPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s photos'**
+  String get todaysPhotos;
+
+  /// No description provided for @onThisPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Only on this phone'**
+  String get onThisPhone;
+
+  /// No description provided for @photosNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos never leave your phone: no upload, no backup. Every two to four weeks is plenty.'**
+  String get photosNote;
+
+  /// No description provided for @compareLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare'**
+  String get compareLbl;
+
+  /// No description provided for @latestOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest · {date}'**
+  String latestOn(String date);
+
+  /// No description provided for @compareFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare from'**
+  String get compareFrom;
+
+  /// No description provided for @compareNeedsTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the same pose on another day to compare.'**
+  String get compareNeedsTwo;
+
+  /// No description provided for @strengthInsightLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 8 weeks'**
+  String get strengthInsightLbl;
+
+  /// No description provided for @strengthHeldEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength <em>held</em>'**
+  String get strengthHeldEm;
+
+  /// No description provided for @strengthUpEm.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength <em>climbing</em>'**
+  String get strengthUpEm;
+
+  /// No description provided for @strengthHeldBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{held} of {n} lifts kept their strength while you cut. Holding strength in a deficit means you are keeping muscle.'**
+  String strengthHeldBody(int held, int n);
+
+  /// No description provided for @strengthUpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{up} of {n} lifts are stronger than 8 weeks ago.'**
+  String strengthUpBody(int up, int n);
+
+  /// No description provided for @pauseStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause the streak'**
+  String get pauseStreak;
+
+  /// No description provided for @pauseHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ill or away'**
+  String get pauseHint;
+
+  /// No description provided for @pausedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused until {date}'**
+  String pausedUntil(String date);
+
+  /// No description provided for @pauseSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Ill, travelling, life happening. Paused days neither count nor break the streak, and your freezes stay where they are.'**
+  String get pauseSub;
+
+  /// No description provided for @endPause.
+  ///
+  /// In en, this message translates to:
+  /// **'End pause'**
+  String get endPause;
+
+  /// No description provided for @streakPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Streak paused for 1 day} other{Streak paused for {n} days}}'**
+  String streakPaused(int n);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

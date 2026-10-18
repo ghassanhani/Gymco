@@ -45,6 +45,34 @@ const _mainMeals = {Meal.breakfast, Meal.lunch, Meal.dinner};
 
 final commitmentGoalProvider = Provider<int>((ref) => ref.watch(prefsProvider).getInt('streakGoal') ?? 90);
 
+/// A pause in the streak, first and last day, when one is set.
+final streakPauseProvider = Provider<(DateTime, DateTime)?>((ref) {
+  final raw = ref.watch(prefsProvider).getString('streakPause')?.split('|');
+  if (raw == null || raw.length != 2) return null;
+  final (a, b) = (DateTime.tryParse(raw[0]), DateTime.tryParse(raw[1]));
+  return a == null || b == null ? null : (a, b);
+});
+
+/// Pause the streak from today for [days] days, or end it with 0.
+Future<void> setStreakPause(WidgetRef ref, int days) async {
+  final p = ref.read(prefsProvider);
+  final now = ref.read(clockProvider)();
+  final today = DateTime(now.year, now.month, now.day);
+  if (days == 0) {
+    final cur = ref.read(streakPauseProvider);
+    // Ending early keeps the days already paused.
+    if (cur != null && cur.$1.isBefore(today)) {
+      await p.setString('streakPause', '${dayKey(cur.$1)}|${dayKey(today.subtract(const Duration(days: 1)))}');
+    } else {
+      await p.remove('streakPause');
+    }
+  } else {
+    await p.setString('streakPause', '${dayKey(today)}|${dayKey(today.add(Duration(days: days - 1)))}');
+  }
+  ref.invalidate(streakPauseProvider);
+  ref.invalidate(streakProvider);
+}
+
 final streakProvider = FutureProvider<StreakInfo?>((ref) async {
   final p = ref.watch(profileProvider);
   if (p == null) return null;
@@ -57,6 +85,7 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
   final routines = await ref.watch(routinesProvider.future);
   final planDays = {for (final r in routines) ?r.weekday};
   final chosenRest = chosenRestDays(ref.watch(prefsProvider));
+  final pause = ref.watch(streakPauseProvider);
 
   final totals = await db.dayTotals(dayKey(start), dayKey(today));
   final workouts = await db.workoutsBetween(start, DateTime(today.year, today.month, today.day + 1));
@@ -72,6 +101,7 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
         trained: trained.contains(k),
         // With no weekly plan, every day you do not train is a rest day.
         plannedRest: !planDays.contains(d.weekday - 1) || chosenRest.contains(k),
+        paused: pause != null && !d.isBefore(pause.$1) && !d.isAfter(pause.$2),
       ),
     );
   }

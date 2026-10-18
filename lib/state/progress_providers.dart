@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models.dart';
+import '../data/photo_store.dart';
 import '../data/training.dart';
 import '../domain/checkin.dart';
 import '../domain/energy.dart';
@@ -207,4 +208,17 @@ final liftTrendsProvider = FutureProvider<List<LiftTrend>>((ref) async {
   }
   out.sort((a, b) => b.sessions.compareTo(a.sessions));
   return out;
+});
+
+final photoStoreProvider = Provider<PhotoStore>((_) => DevicePhotoStore());
+
+/// Progress photos by day, newest day first.
+final progressPhotosProvider = FutureProvider<List<(String, Map<Pose, ProgressPhoto>)>>((ref) async {
+  final all = await ref.watch(photoStoreProvider).list();
+  final byDay = <String, Map<Pose, ProgressPhoto>>{};
+  for (final p in all) {
+    (byDay[p.day] ??= {})[p.pose] = p;
+  }
+  final days = byDay.keys.toList()..sort((a, b) => b.compareTo(a));
+  return [for (final d in days) (d, byDay[d]!)];
 });

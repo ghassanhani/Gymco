@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
+import '../../domain/energy.dart';
 import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/progress_providers.dart';
@@ -12,10 +13,11 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'photos_view.dart';
 import '../train/train_kit.dart';
 import 'awards_screen.dart' show StreakCard;
 
-enum _View { weight, measure, strength }
+enum _View { weight, measure, strength, photos }
 
 /// Progress: weight and its trend, waist, strength, and the week's sets.
 class ProgressScreen extends ConsumerStatefulWidget {
@@ -56,6 +58,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                   (_View.weight, l.weightTab),
                   (_View.measure, l.measureTab),
                   (_View.strength, l.strengthTab),
+                  (_View.photos, l.photosTab),
                 ].indexed) ...[
                   if (i > 0) const SizedBox(width: 8),
                   VChip(label: label, on: _view == v, onTap: () => setState(() => _view = v)),
@@ -75,6 +78,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                 ],
                 _View.measure => [const _Waist()],
                 _View.strength => [const _Strength()],
+                _View.photos => [const PhotosView()],
               },
             ),
           ),
@@ -546,6 +550,32 @@ class _Waist extends ConsumerWidget {
 class _Strength extends ConsumerWidget {
   const _Strength();
 
+  /// The headline: on a cut, did strength hold; otherwise, did it climb.
+  Widget? _insight(BuildContext context, WidgetRef ref, List<LiftTrend> lifts) {
+    final l = AppLocalizations.of(context);
+    final measured = [for (final t in lifts) ?t.changePct];
+    if (measured.length < 2) return null;
+    final cut = ref.watch(profileProvider)?.goal == Goal.cut;
+    // Within 2.5% is noise from one session to the next.
+    final held = measured.where((c) => c >= -2.5).length;
+    final up = measured.where((c) => c >= 2.5).length;
+    final good = cut ? held : up;
+    final title = cut ? l.strengthHeldEm : l.strengthUpEm;
+    final body = cut ? l.strengthHeldBody(held, measured.length) : l.strengthUpBody(up, measured.length);
+    return VCard(
+      color: good * 2 >= measured.length ? Volt.brandWash : Volt.card,
+      border: Border.all(color: good * 2 >= measured.length ? Volt.brandEdge : Volt.line),
+      child: GapCol(
+        gap: 6,
+        children: [
+          Eyebrow(l.strengthInsightLbl, color: Volt.brandInk),
+          EmTitle(title, size: 24),
+          Muted(body, color: Volt.t2),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
@@ -556,6 +586,7 @@ class _Strength extends ConsumerWidget {
       gap: 12,
       cross: CrossAxisAlignment.stretch,
       children: [
+        ?_insight(context, ref, lifts),
         Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.strengthNote)),
         VList(
           children: [

@@ -3947,4 +3947,107 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0 · $sets مجموعة';
   }
+
+  @override
+  String get photosTab => 'الصور';
+
+  @override
+  String get poseFront => 'أمام';
+
+  @override
+  String get poseSide => 'جانب';
+
+  @override
+  String get poseBack => 'خلف';
+
+  @override
+  String photoOf(String pose) {
+    return 'صورة $pose';
+  }
+
+  @override
+  String addPhotoOf(String pose) {
+    return 'أضف صورة $pose';
+  }
+
+  @override
+  String get chooseFromLibrary => 'اختر من المعرض';
+
+  @override
+  String get photoTip => 'المكان نفسه والإضاءة نفسها والوقت نفسه — الصباح قبل الأكل هو الأفضل.';
+
+  @override
+  String get deletePhoto => 'احذف الصورة';
+
+  @override
+  String get todaysPhotos => 'صور اليوم';
+
+  @override
+  String get onThisPhone => 'على هذا الهاتف فقط';
+
+  @override
+  String get photosNote => 'لا تغادر الصور هاتفك: لا رفع ولا نسخ احتياطي. مرة كل أسبوعين إلى أربعة أسابيع تكفي.';
+
+  @override
+  String get compareLbl => 'قارن';
+
+  @override
+  String latestOn(String date) {
+    return 'الأحدث · $date';
+  }
+
+  @override
+  String get compareFrom => 'قارن من';
+
+  @override
+  String get compareNeedsTwo => 'التقط الوضعية نفسها في يوم آخر للمقارنة.';
+
+  @override
+  String get strengthInsightLbl => 'آخر ٨ أسابيع';
+
+  @override
+  String get strengthHeldEm => 'القوة <em>ثابتة</em>';
+
+  @override
+  String get strengthUpEm => 'القوة <em>ترتفع</em>';
+
+  @override
+  String strengthHeldBody(int held, int n) {
+    return '$held من $n تمارين حافظت على قوتها أثناء التنشيف. الحفاظ على القوة مع العجز يعني أنك تحافظ على العضل.';
+  }
+
+  @override
+  String strengthUpBody(int up, int n) {
+    return '$up من $n تمارين أقوى مما كانت قبل ٨ أسابيع.';
+  }
+
+  @override
+  String get pauseStreak => 'أوقف السلسلة مؤقتًا';
+
+  @override
+  String get pauseHint => 'مريض أو مسافر';
+
+  @override
+  String pausedUntil(String date) {
+    return 'متوقفة حتى $date';
+  }
+
+  @override
+  String get pauseSub => 'مرض أو سفر أو ظروف الحياة. أيام التوقف لا تُحسب ولا تكسر السلسلة، وتبقى أيام التجميد كما هي.';
+
+  @override
+  String get endPause => 'أنهِ التوقف';
+
+  @override
+  String streakPaused(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'أُوقفت السلسلة $n يومًا',
+      few: 'أُوقفت السلسلة $n أيام',
+      two: 'أُوقفت السلسلة يومين',
+      one: 'أُوقفت السلسلة يومًا',
+    );
+    return '$_temp0';
+  }
 }

@@ -10,7 +10,13 @@ const int daysPerFreeze = 7;
 const int maxFreezes = 3;
 
 class StreakDay {
-  const StreakDay({required this.date, this.mealsLogged = false, this.trained = false, this.plannedRest = false});
+  const StreakDay({
+    required this.date,
+    this.mealsLogged = false,
+    this.trained = false,
+    this.plannedRest = false,
+    this.paused = false,
+  });
 
   final DateTime date;
 
@@ -18,6 +24,9 @@ class StreakDay {
   final bool mealsLogged;
   final bool trained;
   final bool plannedRest;
+
+  /// Inside a pause (ill, travelling): the day neither counts nor breaks.
+  final bool paused;
 
   bool get kept => mealsLogged && (trained || plannedRest);
 }
@@ -75,6 +84,10 @@ StreakState computeStreak({required List<StreakDay> history, required DateTime s
     final entry = byDay[d];
     if (entry != null && entry.kept) {
       keep(d);
+      continue;
+    }
+    if (entry != null && entry.paused && d != today) {
+      marks[d] = DayMark.frozen;
       continue;
     }
     if (d == today) {

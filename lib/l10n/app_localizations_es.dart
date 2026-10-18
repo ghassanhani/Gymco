@@ -3922,4 +3922,106 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ejercicios', one: '1 ejercicio');
     return '$_temp0 · $sets series';
   }
+
+  @override
+  String get photosTab => 'Fotos';
+
+  @override
+  String get poseFront => 'Frente';
+
+  @override
+  String get poseSide => 'Perfil';
+
+  @override
+  String get poseBack => 'Espalda';
+
+  @override
+  String photoOf(String pose) {
+    return 'Foto de $pose';
+  }
+
+  @override
+  String addPhotoOf(String pose) {
+    return 'Añadir foto de $pose';
+  }
+
+  @override
+  String get chooseFromLibrary => 'Elegir de la galería';
+
+  @override
+  String get photoTip => 'Mismo sitio, misma luz, misma hora: por la mañana, antes de comer, es lo mejor.';
+
+  @override
+  String get deletePhoto => 'Borrar foto';
+
+  @override
+  String get todaysPhotos => 'Fotos de hoy';
+
+  @override
+  String get onThisPhone => 'Solo en este móvil';
+
+  @override
+  String get photosNote => 'Las fotos no salen de tu móvil: sin subidas ni copias. Cada dos a cuatro semanas basta.';
+
+  @override
+  String get compareLbl => 'Comparar';
+
+  @override
+  String latestOn(String date) {
+    return 'Última · $date';
+  }
+
+  @override
+  String get compareFrom => 'Comparar desde';
+
+  @override
+  String get compareNeedsTwo => 'Haz la misma pose otro día para comparar.';
+
+  @override
+  String get strengthInsightLbl => 'Últimas 8 semanas';
+
+  @override
+  String get strengthHeldEm => 'Fuerza <em>mantenida</em>';
+
+  @override
+  String get strengthUpEm => 'Fuerza <em>en subida</em>';
+
+  @override
+  String strengthHeldBody(int held, int n) {
+    return '$held de $n ejercicios mantuvieron su fuerza durante la definición. Mantener fuerza en déficit significa que conservas músculo.';
+  }
+
+  @override
+  String strengthUpBody(int up, int n) {
+    return '$up de $n ejercicios están más fuertes que hace 8 semanas.';
+  }
+
+  @override
+  String get pauseStreak => 'Pausar la racha';
+
+  @override
+  String get pauseHint => 'Enfermo o fuera';
+
+  @override
+  String pausedUntil(String date) {
+    return 'En pausa hasta el $date';
+  }
+
+  @override
+  String get pauseSub =>
+      'Enfermedad, viajes, la vida. Los días en pausa no cuentan ni rompen la racha, y tus congelaciones se quedan.';
+
+  @override
+  String get endPause => 'Terminar pausa';
+
+  @override
+  String streakPaused(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Racha en pausa $n días',
+      one: 'Racha en pausa 1 día',
+    );
+    return '$_temp0';
+  }
 }

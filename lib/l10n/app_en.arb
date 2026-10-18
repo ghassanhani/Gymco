@@ -2957,5 +2957,87 @@
         "type": "int"
       }
     }
+  },
+  "photosTab": "Photos",
+  "poseFront": "Front",
+  "poseSide": "Side",
+  "poseBack": "Back",
+  "photoOf": "{pose} photo",
+  "@photoOf": {
+    "placeholders": {
+      "pose": {
+        "type": "String"
+      }
+    }
+  },
+  "addPhotoOf": "Add {pose} photo",
+  "@addPhotoOf": {
+    "placeholders": {
+      "pose": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseFromLibrary": "Choose from library",
+  "photoTip": "Same spot, same light, same time of day — morning, before eating, works best.",
+  "deletePhoto": "Delete photo",
+  "todaysPhotos": "Today's photos",
+  "onThisPhone": "Only on this phone",
+  "photosNote": "Photos never leave your phone: no upload, no backup. Every two to four weeks is plenty.",
+  "compareLbl": "Compare",
+  "latestOn": "Latest · {date}",
+  "@latestOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "compareFrom": "Compare from",
+  "compareNeedsTwo": "Take the same pose on another day to compare.",
+  "strengthInsightLbl": "Last 8 weeks",
+  "strengthHeldEm": "Strength <em>held</em>",
+  "strengthUpEm": "Strength <em>climbing</em>",
+  "strengthHeldBody": "{held} of {n} lifts kept their strength while you cut. Holding strength in a deficit means you are keeping muscle.",
+  "@strengthHeldBody": {
+    "placeholders": {
+      "held": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "strengthUpBody": "{up} of {n} lifts are stronger than 8 weeks ago.",
+  "@strengthUpBody": {
+    "placeholders": {
+      "up": {
+        "type": "int"
+      },
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "pauseStreak": "Pause the streak",
+  "pauseHint": "Ill or away",
+  "pausedUntil": "Paused until {date}",
+  "@pausedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "pauseSub": "Ill, travelling, life happening. Paused days neither count nor break the streak, and your freezes stay where they are.",
+  "endPause": "End pause",
+  "streakPaused": "{n, plural, =1{Streak paused for 1 day} other{Streak paused for {n} days}}",
+  "@streakPaused": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

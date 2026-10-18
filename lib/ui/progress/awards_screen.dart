@@ -531,6 +531,7 @@ class AwardsScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        const _PauseRow(),
                       ],
                     ),
                   ),
@@ -1408,6 +1409,79 @@ class GoalDoneScreen extends ConsumerWidget {
                 ],
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Ill or away: pause the streak instead of watching it break.
+class _PauseRow extends ConsumerWidget {
+  const _PauseRow();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final now = ref.watch(clockProvider)();
+    final today = DateTime(now.year, now.month, now.day);
+    final pause = ref.watch(streakPauseProvider);
+    final active = pause != null && !pause.$2.isBefore(today);
+    final until = active ? DateFormat('d MMM', Localizations.localeOf(context).toString()).format(pause.$2) : '';
+
+    void sheet() => showVSheet<void>(
+      context,
+      title: active ? l.pausedUntil(until) : l.pauseStreak,
+      body: (ctx) => [
+        Padding(padding: const EdgeInsets.fromLTRB(4, 0, 4, 4), child: Muted(l.pauseSub)),
+        if (active)
+          SRow(
+            label: l.endPause,
+            tint: Volt.brandInk,
+            onTap: () {
+              Navigator.pop(ctx);
+              setStreakPause(ref, 0);
+            },
+          )
+        else
+          RGrid(
+            columns: 3,
+            children: [
+              for (final n in [3, 7, 14])
+                RChip(
+                  label: l.nDays(n),
+                  on: false,
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    setStreakPause(ref, n);
+                    showVToast(context, l.streakPaused(n));
+                  },
+                ),
+            ],
+          ),
+      ],
+    );
+
+    return Pressable(
+      onTap: sheet,
+      label: active ? l.pausedUntil(until) : l.pauseStreak,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: active ? const Color(0x1A4CC9F0) : const Color(0x0DFFFFFF),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Row(
+          children: [
+            VIcon(active ? 'play' : 'moon', size: 16, color: active ? Volt.blue : Volt.t2),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                active ? l.pausedUntil(until) : l.pauseStreak,
+                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: Volt.t1),
+              ),
+            ),
+            Text(active ? l.endPause : l.pauseHint, style: const TextStyle(fontSize: 12.5, color: Volt.t3)),
           ],
         ),
       ),
