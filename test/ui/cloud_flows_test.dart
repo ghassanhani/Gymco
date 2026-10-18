@@ -137,28 +137,87 @@ void main() {
     expect(find.text('Back up to an account'), findsOneWidget);
   });
 
-  testWidgets('a photo suggests foods; tapping one opens it to set the amount', (tester) async {
+  testWidgets('a photo suggests foods; one opens to set the amount and comes back ticked', (tester) async {
     final cloud = FakeCloud(
       signedIn: 'sam@example.com',
       photoFoods: const [
-        PhotoFood(name: 'Chicken breast', local: 'Chicken breast', sure: true),
+        PhotoFood(name: 'Chicken breast', local: 'Chicken breast', sure: true, grams: 150),
         PhotoFood(name: 'Quinoa, cooked', local: 'Quinoa', sure: false),
       ],
     );
-    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
     await _openPhoto(tester);
     await tester.tap(find.bySemanticsLabel('Take a photo'));
     await tester.pumpAndSettle();
 
     expect(find.text('2 THINGS ON THE PLATE'), findsOneWidget);
-    expect(find.text('fairly confident'), findsOneWidget);
-    expect(find.text('not sure — check this one'), findsOneWidget);
-    expect(find.textContaining('A photo cannot tell how much'), findsOneWidget);
+    expect(find.text('≈ 150 g · 180 kcal'), findsOneWidget);
+    expect(find.textContaining('Amounts are estimated'), findsOneWidget);
     expect(find.text('8 photo scans left today'), findsOneWidget);
+    expect(cloud.lastHadImage, isTrue);
 
     await tester.tap(find.text('Chicken breast'));
     await tester.pumpAndSettle();
     expect(find.text('Chicken breast, raw'), findsWidgets);
+    expect(find.text('Lunch'), findsOneWidget);
+    await tester.tap(find.text('Add 180 kcal'));
+    await tester.pumpAndSettle();
+
+    // Back on the list, with the photo and the food ticked.
+    expect(find.text('2 THINGS ON THE PLATE'), findsOneWidget);
+    expect(find.byType(Image), findsWidgets);
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams, e.meal)], [('Chicken breast, raw', 150, Meal.lunch)]);
+  });
+
+  testWidgets('a food missing from the database is estimated, and all can be added at once', (tester) async {
+    final cloud = FakeCloud(
+      signedIn: 'sam@example.com',
+      photoFoods: const [
+        PhotoFood(
+          name: 'Mini pizza',
+          local: 'Mini pizza',
+          sure: true,
+          grams: 120,
+          kcal: 270,
+          protein: 11,
+          carbs: 30,
+          fat: 11,
+        ),
+        PhotoFood(name: 'Banana', local: 'Banana', sure: true),
+      ],
+    );
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await _openPhoto(tester);
+    await tester.enterText(find.byType(TextField), '4 mini pizzas with beef and cheddar');
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Take a photo'));
+    await tester.pumpAndSettle();
+
+    expect(cloud.lastNote, '4 mini pizzas with beef and cheddar');
+    expect(find.text('≈ 120 g · 324 kcal · AI estimate'), findsOneWidget);
+    await tester.ensureVisible(find.textContaining('Add all 2'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.textContaining('Add all 2'));
+    await tester.pumpAndSettle();
+
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams)], [('Mini pizza', 120), ('Banana', 118)]);
+  });
+
+  testWidgets('a note alone is enough for an estimate', (tester) async {
+    final cloud = FakeCloud(
+      signedIn: 'sam@example.com',
+      photoFoods: const [PhotoFood(name: 'Chicken breast', local: 'Chicken breast', sure: true, grams: 200)],
+    );
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await _openPhoto(tester);
+    await tester.enterText(find.byType(TextField), '200g grilled chicken');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Estimate from the note'));
+    await tester.pumpAndSettle();
+    expect(cloud.lastHadImage, isFalse);
+    expect(find.text('≈ 200 g · 240 kcal'), findsOneWidget);
   });
 
   testWidgets('a food the phone lacks goes to search', (tester) async {

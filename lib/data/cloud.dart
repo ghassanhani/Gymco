@@ -15,19 +15,52 @@ const supabasePublishableKey = String.fromEnvironment(
   defaultValue: 'sb_publishable_8ZM7KKxLHCzpUpfygmyFcA_5kK_PY2P',
 );
 
-/// A food the photo shows, named in English for the database and in the
-/// user's language for the screen.
+/// A food the model saw or read about, named in English for the database and
+/// in the user's language for the screen, with its estimated portion and
+/// typical nutrition per 100 g. All of it is an estimate.
 class PhotoFood {
-  const PhotoFood({required this.name, required this.local, required this.sure});
+  const PhotoFood({
+    required this.name,
+    required this.local,
+    required this.sure,
+    this.grams,
+    this.kcal,
+    this.protein,
+    this.carbs,
+    this.fat,
+  });
   final String name;
   final String local;
   final bool sure;
 
-  factory PhotoFood.fromJson(Map<String, Object?> j) => PhotoFood(
-    name: j['name'] as String? ?? '',
-    local: j['local'] as String? ?? (j['name'] as String? ?? ''),
-    sure: j['sure'] as bool? ?? false,
-  );
+  /// The portion as eaten.
+  final double? grams;
+
+  /// Per 100 g.
+  final double? kcal;
+  final double? protein;
+  final double? carbs;
+  final double? fat;
+
+  /// Enough to log it without a database match.
+  bool get hasNutrition => kcal != null && protein != null && carbs != null && fat != null;
+
+  factory PhotoFood.fromJson(Map<String, Object?> j) {
+    double? n(String k) => switch (j[k]) {
+      final num v when v >= 0 && v.isFinite => v.toDouble(),
+      _ => null,
+    };
+    return PhotoFood(
+      name: j['name'] as String? ?? '',
+      local: j['local'] as String? ?? (j['name'] as String? ?? ''),
+      sure: j['sure'] as bool? ?? false,
+      grams: n('grams'),
+      kcal: n('kcal'),
+      protein: n('protein'),
+      carbs: n('carbs'),
+      fat: n('fat'),
+    );
+  }
 }
 
 /// Why a cloud call did not go through, in terms the screen can say.
@@ -65,8 +98,9 @@ abstract class Cloud {
   Future<void> upload(Map<String, Object?> payload, {required int schemaVersion});
   Future<CloudBackup?> download();
 
-  /// Names the foods in a JPEG. Returns them with the scans left today.
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List jpeg, {required String languageCode});
+  /// Names the foods in a JPEG, a written description, or both, with
+  /// estimated portions. Returns them with the scans left today.
+  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''});
 }
 
 /// A build with no project: phone-only.
@@ -92,7 +126,8 @@ class NoCloud implements Cloud {
   @override
   Future<CloudBackup?> download() async => _no();
   @override
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List jpeg, {required String languageCode}) async => _no();
+  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''}) async =>
+      _no();
 }
 
 class SupabaseCloud implements Cloud {
@@ -181,14 +216,22 @@ class SupabaseCloud implements Cloud {
   });
 
   @override
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List jpeg, {required String languageCode}) => _guard(() async {
-    _uid;
-    final r = await _sb.functions.invoke('food-photo', body: {'image': base64Encode(jpeg), 'lang': languageCode});
-    final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
-    final foods = [
-      for (final f in (data['foods'] as List? ?? const []))
-        if (f is Map) PhotoFood.fromJson(f.cast<String, Object?>()),
-    ].where((f) => f.name.isNotEmpty).toList();
-    return (foods, (data['left'] as num?)?.toInt() ?? 0);
-  });
+  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''}) =>
+      _guard(() async {
+        _uid;
+        final r = await _sb.functions.invoke(
+          'food-photo',
+          body: {
+            'image': ?(jpeg == null ? null : base64Encode(jpeg)),
+            'note': ?(note.trim().isEmpty ? null : note.trim()),
+            'lang': languageCode,
+          },
+        );
+        final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
+        final foods = [
+          for (final f in (data['foods'] as List? ?? const []))
+            if (f is Map) PhotoFood.fromJson(f.cast<String, Object?>()),
+        ].where((f) => f.name.isNotEmpty).toList();
+        return (foods, (data['left'] as num?)?.toInt() ?? 0);
+      });
 }

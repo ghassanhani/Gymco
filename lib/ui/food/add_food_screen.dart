@@ -5,16 +5,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../data/cloud.dart' show PhotoFood;
+import '../../data/cloud.dart' show CloudException;
 import '../../data/food_source.dart';
 import '../../data/meal_reader.dart';
 import '../../data/models.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/cloud_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import '../progress/progress_screen.dart' show showNumberSheet;
+import '../me/account_screen.dart' show cloudMessage;
 import 'photo_mode.dart';
 import 'write_mode.dart';
 
@@ -122,18 +124,34 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     context.go('/meal/${_meal.name}');
   }
 
-  /// A food the photo suggested: open it to set the amount, or search for it
-  /// when the phone does not have it.
-  Future<void> _pickPhotoFood(PhotoFood f) async {
-    final found = (await readWrittenMeal(ref.read(dbProvider), f.name)).firstOrNull?.food;
-    if (!mounted) return;
-    if (found != null) {
-      context.push('/serving/${Uri.encodeComponent(found.id)}?meal=${_meal.name}');
-    } else {
-      _q.text = f.name;
-      setState(() => _mode = 'search');
-      _run(_q.text);
+  /// A food the reader could not match: ask the model for its figures,
+  /// using the words as written. Takes one of the day's scans.
+  Future<void> _estimateWritten(int i) async {
+    final l = AppLocalizations.of(context);
+    final it = _written[i];
+    try {
+      final (foods, _) = await ref
+          .read(cloudProvider)
+          .scanPhoto(null, languageCode: Localizations.localeOf(context).languageCode, note: it.phrase.text);
+      final guess = foods.firstOrNull;
+      final food = guess == null ? null : await resolveEstimate(ref.read(dbProvider), guess);
+      if (!mounted) return;
+      if (food == null) {
+        showVToast(context, l.notInDbYet, info: true);
+        return;
+      }
+      setState(
+        () => _written[i] = WrittenItem(phrase: it.phrase, food: food, grams: guess!.grams ?? food.servingGrams ?? 100),
+      );
+    } on CloudException catch (e) {
+      if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
     }
+  }
+
+  void _findByName(String name) {
+    _q.text = name;
+    setState(() => _mode = 'search');
+    _run(_q.text);
   }
 
   /// Not on the phone yet: look for it the usual way.
@@ -414,6 +432,9 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
             noNumbers: noNumbers,
             onDrop: (i) => setState(() => _dropped.add(i)),
             onSearch: _findWritten,
+            onEstimate: (ref.watch(accountProvider).value ?? ref.watch(cloudProvider).email) != null
+                ? _estimateWritten
+                : null,
             onEdit: _editWritten,
           );
     final List<Widget> body;
@@ -458,7 +479,16 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
         ],
       ];
     } else if (_mode == 'camera') {
-      body = [PhotoMode(onPick: _pickPhotoFood)];
+      body = [
+        PhotoMode(
+          meal: _meal,
+          onSearch: _findByName,
+          onDone: (n) {
+            showVToast(context, l.itemsLoggedTo(n, mealName(l, _meal).toLowerCase()));
+            context.go('/meal/${_meal.name}');
+          },
+        ),
+      ];
     } else if (q.isEmpty && _shelf == 1) {
       body = _savedMeals(l, noNumbers);
     } else if (q.isEmpty && _shelf == 2) {

@@ -874,7 +874,7 @@
   "tapToConfirm": "toca para confirmar",
   "fairlyConfident": "bastante seguro",
   "notSureCheck": "no estoy seguro: revisa este",
-  "photoAmountNote": "Una foto no puede saber cuánto hay en el plato; ningún sistema puede. Elige aquí los alimentos y pon tú las cantidades.",
+  "photoAmountNote": "Las cantidades se estiman con la foto y tu descripción, y los alimentos que no están en la base de datos usan cifras de IA. Toca cualquiera para revisarlo antes de añadirlo.",
   "photoNeedsAccount": "El registro con fotos usa una cuenta: la foto se lee en nuestro servidor, 10 al día, gratis. Escribir y buscar funcionan sin ella.",
   "photoNotSetUp": "El registro con fotos no está activado en esta versión. Escribe o busca.",
   "scansLeft": "{n, plural, =0{No te quedan fotos hoy} =1{Te queda 1 foto hoy} other{Te quedan {n} fotos hoy}}",
@@ -883,5 +883,13 @@
   "photoAgain": "Hacer otra",
   "notInDbSearch": "No está en el móvil: búscalo",
   "badgeTurnHint": "Arrastra o toca para darle la vuelta",
-  "badgeBackLabel": "Reverso de la insignia: {name}, conseguida el {date}"
+  "badgeBackLabel": "Reverso de la insignia: {name}, conseguida el {date}",
+  "photoNoteHint": "Añade detalles (opcional): cuántos, qué lleva. «4 minipizzas con carne y cheddar»",
+  "dictateNote": "Di los detalles",
+  "estimateFromNote": "Estimar con la descripción",
+  "aboutGramsKcal": "≈ {g} g · {kcal} kcal",
+  "aiEstimateShort": "estimación de IA",
+  "aiEstimateLabel": "Estimado por IA · revisa las cifras",
+  "addAllKcal": "{n, plural, =1{Añadirlo · {kcal} kcal} other{Añadir los {n} · {kcal} kcal}}",
+  "estimateAction": "Estimar"
 }

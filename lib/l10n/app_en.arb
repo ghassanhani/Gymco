@@ -2416,7 +2416,7 @@
   "tapToConfirm": "tap to confirm",
   "fairlyConfident": "fairly confident",
   "notSureCheck": "not sure — check this one",
-  "photoAmountNote": "A photo cannot tell how much is on the plate — no recognition system can. Pick the foods here, then set the amounts yourself.",
+  "photoAmountNote": "Amounts are estimated from the photo and your note, and foods not in the database use AI figures. Tap any food to check it before adding.",
   "photoNeedsAccount": "Photo logging uses an account: the photo is read on our server, 10 a day, free. Writing and search work without one.",
   "photoNotSetUp": "Photo logging is not switched on in this build. Write or search instead.",
   "scansLeft": "{n, plural, =0{No photo scans left today} =1{1 photo scan left today} other{{n} photo scans left today}}",
@@ -2442,5 +2442,33 @@
         "type": "String"
       }
     }
-  }
+  },
+  "photoNoteHint": "Add details (optional) — how many, what is in it. “4 mini pizzas with beef and cheddar”",
+  "dictateNote": "Say the details",
+  "estimateFromNote": "Estimate from the note",
+  "aboutGramsKcal": "≈ {g} g · {kcal} kcal",
+  "@aboutGramsKcal": {
+    "placeholders": {
+      "g": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "aiEstimateShort": "AI estimate",
+  "aiEstimateLabel": "Estimated by AI · check the numbers",
+  "addAllKcal": "{n, plural, =1{Add it · {kcal} kcal} other{Add all {n} · {kcal} kcal}}",
+  "@addAllKcal": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "estimateAction": "Estimate"
 }

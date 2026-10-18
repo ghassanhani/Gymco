@@ -116,6 +116,8 @@ class FakeCloud implements Cloud {
   CloudBackup? backup;
   List<PhotoFood> photoFoods;
   int scansLeft;
+  String? lastNote;
+  bool? lastHadImage;
   final _changes = StreamController<String?>.broadcast();
   int uploads = 0;
 
@@ -163,7 +165,9 @@ class FakeCloud implements Cloud {
   Future<CloudBackup?> download() async => backup;
 
   @override
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List jpeg, {required String languageCode}) async {
+  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''}) async {
+    lastNote = note;
+    lastHadImage = jpeg != null;
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
     return (photoFoods, --scansLeft);
   }

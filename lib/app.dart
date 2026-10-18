@@ -88,6 +88,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           foodId: s.pathParameters['food']!,
           meal: Meal.values.byName(s.uri.queryParameters['meal'] ?? Meal.lunch.name),
           entryId: int.tryParse(s.uri.queryParameters['entry'] ?? ''),
+          grams: double.tryParse(s.uri.queryParameters['grams'] ?? ''),
+          returnAfterAdd: s.uri.queryParameters['back'] == '1',
         ),
       ),
       GoRoute(

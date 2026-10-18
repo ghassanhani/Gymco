@@ -12,12 +12,25 @@ import '../kit/kit.dart';
 /// The serving editor: a big amount, unit chips, live macros, the keypad.
 /// Kcal and macros track every digit.
 class ServingScreen extends ConsumerStatefulWidget {
-  const ServingScreen({super.key, required this.foodId, required this.meal, this.entryId});
+  const ServingScreen({
+    super.key,
+    required this.foodId,
+    required this.meal,
+    this.entryId,
+    this.grams,
+    this.returnAfterAdd = false,
+  });
   final String foodId;
   final Meal meal;
 
   /// Set when changing a portion already logged.
   final int? entryId;
+
+  /// A suggested amount to start from, such as a photo's estimate.
+  final double? grams;
+
+  /// Go back where it came from after adding, rather than to the meal.
+  final bool returnAfterAdd;
 
   @override
   ConsumerState<ServingScreen> createState() => _ServingScreenState();
@@ -47,7 +60,7 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
     setState(() {
       _food = f;
       _entry = e;
-      _amount = (e?.grams ?? f?.servingGrams ?? 150).round().toString();
+      _amount = (e?.grams ?? widget.grams ?? f?.servingGrams ?? 150).round().toString();
     });
   }
 
@@ -78,6 +91,10 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
     } else {
       await logs.add(LogEntry.of(f, day: ref.read(todayKeyProvider), meal: _meal, grams: _grams));
       if (mounted) showVToast(context, l.foodAdded(name));
+      if (widget.returnAfterAdd) {
+        if (mounted) context.pop(true);
+        return;
+      }
     }
     if (mounted) context.go('/meal/${_meal.name}');
   }
@@ -156,9 +173,11 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                           Muted(
                             f.source == 'off'
                                 ? l.labelVerifiedOff(f.brand ?? '')
-                                : (f.source == 'usda'
-                                      ? l.genericUsdaVerified
-                                      : '${f.brand ?? l.customFood} · ${l.createdByYou}'),
+                                : f.source == 'usda'
+                                ? l.genericUsdaVerified
+                                : f.source == 'ai'
+                                ? l.aiEstimateLabel
+                                : '${f.brand ?? l.customFood} · ${l.createdByYou}',
                           ),
                         ],
                       ),

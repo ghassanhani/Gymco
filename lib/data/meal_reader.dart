@@ -1,4 +1,5 @@
 import '../domain/meal_text.dart';
+import 'cloud.dart' show PhotoFood;
 import 'local_db.dart';
 import 'models.dart';
 
@@ -44,4 +45,26 @@ Future<List<WrittenItem>> readWrittenMeal(LocalDb db, String text) async {
     );
   }
   return out;
+}
+
+/// A food the model named, as something the phone can log: the database's
+/// own entry when there is one, so its figures win; otherwise the model's
+/// estimate, kept as an "estimated" food. Null when neither exists.
+Future<Food?> resolveEstimate(LocalDb db, PhotoFood f) async {
+  final found = (await readWrittenMeal(db, f.name)).firstOrNull?.food;
+  if (found != null) return found;
+  if (!f.hasNutrition) return null;
+  final slug = f.name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-|-$'), '');
+  final food = Food(
+    id: 'ai:${slug.isEmpty ? f.local.hashCode : slug}',
+    name: f.local.isEmpty ? f.name : f.local,
+    kcal: f.kcal!,
+    protein: f.protein!,
+    carbs: f.carbs!,
+    fat: f.fat!,
+    servingGrams: f.grams,
+    source: 'ai',
+  );
+  await db.upsertFoods([food]);
+  return food;
 }

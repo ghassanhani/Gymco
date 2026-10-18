@@ -76,6 +76,7 @@ class WrittenRows extends StatelessWidget {
     required this.dropped,
     required this.onDrop,
     required this.onSearch,
+    this.onEstimate,
     required this.onEdit,
     this.noNumbers = false,
   });
@@ -83,6 +84,9 @@ class WrittenRows extends StatelessWidget {
   final Set<int> dropped;
   final ValueChanged<int> onDrop;
   final ValueChanged<WrittenItem> onSearch;
+
+  /// Asks the model for a food the phone does not have; null when signed out.
+  final ValueChanged<int>? onEstimate;
   final ValueChanged<int> onEdit;
   final bool noNumbers;
 
@@ -130,6 +134,17 @@ class WrittenRows extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 10),
+                  if (onEstimate != null) ...[
+                    VBtn(
+                      label: l.estimateAction,
+                      small: true,
+                      minHeight: 34,
+                      fontSize: 13,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      onTap: () => onEstimate!(i),
+                    ),
+                    const SizedBox(width: 6),
+                  ],
                   VBtn(
                     label: l.searchAction,
                     kind: BtnKind.ghost,

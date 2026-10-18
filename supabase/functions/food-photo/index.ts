@@ -1,9 +1,11 @@
-// Names the foods on a photographed plate. It does not guess amounts: a photo
-// cannot tell how much is there, so the app asks the user for those.
+// Names the foods in a meal and estimates each portion and its nutrition,
+// from a photo, the user's own words about it, or both. Everything it returns
+// is an estimate the app asks the user to check.
 //
-// POST { image: <base64 JPEG>, lang: "en" | "ar" | "es" }
+// POST { image?: <base64 JPEG>, note?: "4 mini pizzas with beef", lang: "en" | "ar" | "es" }
 // with the signed-in user's Authorization header.
-// -> 200 { foods: [{ name, local, sure }], left }
+// -> 200 { foods: [{ name, local, sure, grams, kcal, protein, carbs, fat }], left }
+//    grams is the portion as eaten; the four nutrients are per 100 g.
 // -> 429 { error: "daily_cap", left: 0 }
 //
 // Secrets: ANTHROPIC_API_KEY (set with `supabase secrets set`), plus
@@ -14,6 +16,7 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.131.0";
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
 
 const MAX_IMAGE_BYTES = 4_000_000;
+const MAX_NOTE_CHARS = 500;
 const LANGS: Record<string, string> = { en: "English", ar: "Arabic", es: "Spanish" };
 
 const json = (status: number, body: unknown) =>
@@ -39,8 +42,16 @@ const reportFoods: Anthropic.Tool = {
             },
             local: { type: "string", description: "The same food named in the user's language." },
             sure: { type: "boolean", description: "True when the food is clearly identifiable." },
+            grams: {
+              type: "number",
+              description: "Best estimate of the portion eaten, in grams, from the photo and the user's note.",
+            },
+            kcal: { type: "number", description: "Typical energy per 100 g, kcal." },
+            protein: { type: "number", description: "Typical protein per 100 g, grams." },
+            carbs: { type: "number", description: "Typical carbohydrate per 100 g, grams." },
+            fat: { type: "number", description: "Typical fat per 100 g, grams." },
           },
-          required: ["name", "local", "sure"],
+          required: ["name", "local", "sure", "grams", "kcal", "protein", "carbs", "fat"],
           additionalProperties: false,
         },
       },
@@ -64,14 +75,16 @@ Deno.serve(async (req) => {
   if (authError || !who.user) return json(401, { error: "auth" });
   const uid = who.user.id;
 
-  let body: { image?: unknown; lang?: unknown };
+  let body: { image?: unknown; note?: unknown; lang?: unknown };
   try {
     body = await req.json();
   } catch {
     return json(400, { error: "body" });
   }
   const image = typeof body.image === "string" ? body.image : "";
-  if (!image || image.length * 0.75 > MAX_IMAGE_BYTES) return json(400, { error: "image" });
+  const note = typeof body.note === "string" ? body.note.trim().slice(0, MAX_NOTE_CHARS) : "";
+  if (!image && !note) return json(400, { error: "empty" });
+  if (image.length * 0.75 > MAX_IMAGE_BYTES) return json(400, { error: "image" });
   const language = LANGS[typeof body.lang === "string" ? body.lang : "en"] ?? "English";
 
   const { data: left, error: creditError } = await admin.rpc("take_ai_credit", { uid });
@@ -89,14 +102,19 @@ Deno.serve(async (req) => {
         {
           role: "user",
           content: [
-            { type: "image", source: { type: "base64", media_type: "image/jpeg", data: image } },
+            ...(image
+              ? [{ type: "image" as const, source: { type: "base64" as const, media_type: "image/jpeg" as const, data: image } }]
+              : []),
             {
               type: "text",
               text:
-                `List the foods you can see in this photo of a meal. The user reads ${language}. ` +
-                "Name each food generically, as a nutrition database would, and do not estimate amounts. " +
-                "Mark a food as not sure when it is partly hidden or could be something else. " +
-                "If there is no food in the photo, report an empty list.",
+                (image ? "List the foods you can see in this photo of a meal. " : "List the foods in this meal. ") +
+                `The user reads ${language}. ` +
+                (note ? `The user describes it as: <note>${note}</note> Use the note for counts, sizes and ingredients. ` : "") +
+                "Name each food generically, as a nutrition database would. Estimate each portion in grams as eaten, " +
+                "and give typical nutrition per 100 g for that food as prepared. " +
+                "Mark a food as not sure when it is partly hidden, could be something else, or its amount is hard to judge. " +
+                "If there is no food, report an empty list.",
             },
           ],
         },

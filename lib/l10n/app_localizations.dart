@@ -63,8 +63,7 @@ import 'app_localizations_es.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -72,8 +71,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -85,20 +83,15 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('ar'),
-    Locale('en'),
-    Locale('es'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('ar'), Locale('en'), Locale('es')];
 
   /// No description provided for @appName.
   ///
@@ -5347,7 +5340,7 @@ abstract class AppLocalizations {
   /// No description provided for @photoAmountNote.
   ///
   /// In en, this message translates to:
-  /// **'A photo cannot tell how much is on the plate — no recognition system can. Pick the foods here, then set the amounts yourself.'**
+  /// **'Amounts are estimated from the photo and your note, and foods not in the database use AI figures. Tap any food to check it before adding.'**
   String get photoAmountNote;
 
   /// No description provided for @photoNeedsAccount.
@@ -5403,10 +5396,57 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back of the badge: {name}, earned {date}'**
   String badgeBackLabel(String name, String date);
+
+  /// No description provided for @photoNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add details (optional) — how many, what is in it. “4 mini pizzas with beef and cheddar”'**
+  String get photoNoteHint;
+
+  /// No description provided for @dictateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Say the details'**
+  String get dictateNote;
+
+  /// No description provided for @estimateFromNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate from the note'**
+  String get estimateFromNote;
+
+  /// No description provided for @aboutGramsKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {g} g · {kcal} kcal'**
+  String aboutGramsKcal(String g, String kcal);
+
+  /// No description provided for @aiEstimateShort.
+  ///
+  /// In en, this message translates to:
+  /// **'AI estimate'**
+  String get aiEstimateShort;
+
+  /// No description provided for @aiEstimateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated by AI · check the numbers'**
+  String get aiEstimateLabel;
+
+  /// No description provided for @addAllKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Add it · {kcal} kcal} other{Add all {n} · {kcal} kcal}}'**
+  String addAllKcal(int n, String kcal);
+
+  /// No description provided for @estimateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate'**
+  String get estimateAction;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -5415,8 +5455,7 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['ar', 'en', 'es'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

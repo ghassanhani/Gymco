@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymco/data/cloud.dart';
 import 'package:gymco/data/models.dart';
 
 import '../helpers.dart';
@@ -53,6 +54,36 @@ void main() {
     await tester.tap(find.text('Search').last);
     await tester.pumpAndSettle();
     expect(find.widgetWithText(TextField, 'quinoa'), findsOneWidget);
+  });
+
+  testWidgets('a signed-in user can have a missing food estimated', (tester) async {
+    final cloud = FakeCloud(
+      signedIn: 'sam@example.com',
+      photoFoods: const [
+        PhotoFood(
+          name: 'Mini pizza',
+          local: 'Mini pizza',
+          sure: true,
+          grams: 90,
+          kcal: 270,
+          protein: 11,
+          carbs: 30,
+          fat: 11,
+        ),
+      ],
+    );
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await _openWrite(tester, 'Write');
+    await _type(tester, '3 mini pizzas');
+    await tester.tap(find.text('Estimate'));
+    await tester.pumpAndSettle();
+    expect(cloud.lastNote, '3 mini pizzas');
+    expect(cloud.lastHadImage, isFalse);
+    expect(find.text('IT READ 1 ITEM'), findsOneWidget);
+    await tester.tap(find.text('Add 1'));
+    await tester.pumpAndSettle();
+    final entries = await db.entriesFor(dayKey(testNow));
+    expect([for (final e in entries) (e.foodName, e.grams)], [('Mini pizza', 90)]);
   });
 
   testWidgets('voice goes through the same reader, with an editable transcript', (tester) async {
