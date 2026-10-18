@@ -78,7 +78,7 @@ class _Today extends ConsumerWidget {
           title: l.todayTitleEm,
           sub: sub,
           logo: true,
-          right: IconBtn('gear', label: l.settings, onTap: () => context.go('/me')),
+          right: IconBtn('medal', label: l.awardsTitle, iconSize: 24, onTap: () => context.go('/progress/awards')),
         ),
         strip,
         Expanded(
