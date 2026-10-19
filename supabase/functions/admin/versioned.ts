@@ -10,8 +10,8 @@ import type { VersionedTable, VersionRow } from "./store.ts";
 export interface Versioned {
   table: VersionedTable;
   section: string;
-  /** Normalise and check a body; errors are shown next to their fields. */
-  validate(body: unknown, kind?: string): Promise<{ ok: boolean; body: unknown; errors: { key: string; message: string }[] }>;
+  /** Normalise and check a body; errors are shown next to their fields. Packs read other packs through ctx. */
+  validate(body: unknown, kind: string | undefined, ctx: Ctx): Promise<{ ok: boolean; body: unknown; errors: { key: string; message: string }[] }>;
   /** Keys a non-owner changed that only the owner may change. */
   ownerKeys?(before: unknown, after: unknown): string[];
   checksum?(body: unknown): Promise<string>;
@@ -48,7 +48,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
 
   async function publish(ctx: Ctx, kind: string | undefined, row: VersionRow, all: VersionRow[], action: string): Promise<Reply> {
     const before = live(all);
-    const check = await v.validate(row.body, kind);
+    const check = await v.validate(row.body, kind, ctx);
     if (!check.ok) return fail(400, "invalid", { errors: check.errors });
     try {
       await ctx.store.publishVersion(v.table, row.version, ctx.admin.email, kind);
@@ -87,7 +87,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
       run: async (ctx, body) => {
         const kind = kindOf(body);
         if (badKind(kind)) return fail(400, "bad_kind");
-        const check = await v.validate(body.body, kind);
+        const check = await v.validate(body.body, kind, ctx);
         if (!check.ok) return fail(400, "invalid", { errors: check.errors });
         const all = await rows(ctx, kind);
         const pub = live(all);
@@ -115,6 +115,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
       cap: "draft",
       run: async (ctx, body) => {
         const kind = kindOf(body);
+        if (badKind(kind)) return fail(400, "bad_kind");
         const draft = editing(await rows(ctx, kind));
         if (!draft || draft.status !== "draft") return fail(404, "no_draft");
         await ctx.store.updateVersion(v.table, draft.version, { status: "in_review", submitted_by: ctx.admin.email }, kind);
@@ -127,6 +128,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
       cap: "draft",
       run: async (ctx, body) => {
         const kind = kindOf(body);
+        if (badKind(kind)) return fail(400, "bad_kind");
         const draft = editing(await rows(ctx, kind));
         if (!draft) return fail(404, "no_draft");
         await ctx.store.updateVersion(v.table, draft.version, { status: "archived" }, kind);
@@ -139,6 +141,8 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
       cap: "publish",
       run: async (ctx, body) => {
         const kind = kindOf(body);
+        // Without a kind the rows of every pack would match the version.
+        if (badKind(kind)) return fail(400, "bad_kind");
         const all = await rows(ctx, kind);
         const row = all.find((r) => r.version === Number(body.version) && (r.status === "draft" || r.status === "in_review"));
         if (!row) return fail(404, "no_draft");
@@ -150,6 +154,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
       cap: "publish",
       run: async (ctx, body) => {
         const kind = kindOf(body);
+        if (badKind(kind)) return fail(400, "bad_kind");
         const all = await rows(ctx, kind);
         const from = all.find((r) => r.version === Number(body.to_version) && r.status !== "draft" && r.status !== "in_review");
         if (!from) return fail(404, "no_version");

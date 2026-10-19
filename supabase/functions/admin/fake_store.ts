@@ -2,7 +2,7 @@
 // rules depend on it; nothing else.
 
 import type { Role } from "./access.ts";
-import type { AdminRow, AuditEntry, AuditQuery, Store, VersionedTable, VersionRow } from "./store.ts";
+import type { AdminRow, AuditEntry, AuditQuery, ManualGrant, Store, VersionedTable, VersionRow } from "./store.ts";
 
 /** A token with the given assurance level (the handler only reads `aal`). */
 export const token = (aal: "aal1" | "aal2") => `h.${btoa(JSON.stringify({ aal })).replace(/=+$/, "")}.s`;
@@ -13,7 +13,7 @@ export class FakeStore implements Store {
   backups = new Set<string>();
   grants = new Map<string, number>();
   capsReset: string[] = [];
-  entitlements = new Map<string, unknown>();
+  entitlements = new Map<string, { plan: "pro" | "lifetime"; source: "store" | "manual"; expires_at: string | null; granted_by: string | null; at: string }>();
   notes: { uid: string; note: string }[] = [];
   audit: (AuditEntry & { id: number })[] = [];
   codesSent: string[] = [];
@@ -83,15 +83,21 @@ export class FakeStore implements Store {
     this.codesSent.push(email);
     return Promise.resolve();
   }
-  setEntitlement(uid: string, plan: "pro" | "lifetime", expiresAt: string | null) {
+  setEntitlement(uid: string, plan: "pro" | "lifetime", expiresAt: string | null, by: string) {
     const before = this.entitlements.get(uid) ?? null;
-    this.entitlements.set(uid, { plan, expiresAt });
+    this.entitlements.set(uid, { plan, source: "manual", expires_at: expiresAt, granted_by: by, at: new Date().toISOString() });
     return Promise.resolve(before);
   }
   clearEntitlement(uid: string) {
     const before = this.entitlements.get(uid) ?? null;
     this.entitlements.delete(uid);
     return Promise.resolve(before);
+  }
+  manualGrants() {
+    const out: ManualGrant[] = [...this.entitlements].filter(([, e]) => e.source === "manual").map(([uid, e]) => ({
+      user_id: uid, email: this.users.get(uid)?.email ?? null, plan: e.plan, expires_at: e.expires_at, granted_at: e.at, granted_by: e.granted_by,
+    }));
+    return Promise.resolve(out);
   }
   addNote(uid: string, _by: string, note: string) {
     this.notes.push({ uid, note });

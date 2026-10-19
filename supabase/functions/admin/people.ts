@@ -174,6 +174,11 @@ export const peopleRoutes: Record<string, Route> = {
       }),
   },
 
+  "plans.grants": {
+    cap: "support",
+    run: async (ctx) => ok({ grants: await ctx.store.manualGrants() }),
+  },
+
   "audit.export": {
     cap: "audit_export",
     run: async (ctx) => {

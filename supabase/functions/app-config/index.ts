@@ -5,10 +5,10 @@
 // GET ?platform=ios|android&locale=en|ar|es&build=103&bucket=0-99
 // -> 200 { config_version, config, packs: { kind: { version, checksum } }, announcements, generated_at }
 // GET ?pack=<kind>
-// -> 200 { kind, version, checksum, body } | 404 { error: "no_pack" }
+// -> 200 { kind, version, checksum, body_json } | 404 { error: "no_pack" }
 
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
-import { deviceOf, respond } from "./respond.ts";
+import { deviceOf, packReply, respond } from "./respond.ts";
 
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
@@ -29,7 +29,7 @@ async function serve(url: URL): Promise<Response> {
       .eq("kind", pack).eq("status", "published").maybeSingle();
     if (error) throw error;
     // A pack's body never changes for a version, so phones may keep it a day.
-    return data ? json(200, data, 86_400) : json(404, { error: "no_pack" });
+    return data ? json(200, packReply(data), 86_400) : json(404, { error: "no_pack" });
   }
   const [config, packs, announcements] = await Promise.all([
     db.from("remote_config").select("version, body").eq("status", "published").maybeSingle(),

@@ -1,5 +1,6 @@
 import { assert, assertEquals } from "jsr:@std/assert@1.0.13";
-import { deviceOf, respond } from "./respond.ts";
+import { deviceOf, packReply, respond } from "./respond.ts";
+import { checksum } from "../_shared/packs.ts";
 
 const now = new Date("2026-10-20T12:00:00Z");
 const ann = (over: Record<string, unknown> = {}) => ({
@@ -46,4 +47,16 @@ Deno.test("device details are read from the query and kept to known values", () 
   const d = deviceOf(new URL("https://x/app-config?platform=ios&locale=ar&build=103&bucket=42"));
   assertEquals(d, { platform: "ios", locale: "ar", build: 103, bucket: 42 });
   assertEquals(deviceOf(new URL("https://x/app-config?platform=windows&bucket=500")), { platform: undefined, locale: undefined, build: undefined, bucket: undefined });
+});
+
+Deno.test("a pack is served as the canonical string its checksum was computed over", async () => {
+  // jsonb hands keys back in its own order; the served string must not depend on it.
+  const body = { items: [{ name: { es: "Labné", en: "Labneh", ar: "لبنة" }, kcal: 160, id: "labneh", fat: 14, protein: 6, carbs: 4 }] };
+  const saved = await checksum(body);
+  const r = packReply({ kind: "foods", version: 3, checksum: saved, body });
+  assertEquals(Object.keys(r), ["kind", "version", "checksum", "body_json"]);
+  assertEquals(r.body_json, '{"items":[{"carbs":4,"fat":14,"id":"labneh","kcal":160,"name":{"ar":"لبنة","en":"Labneh","es":"Labné"},"protein":6}]}');
+  const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(r.body_json)))].map((b) => b.toString(16).padStart(2, "0")).join("");
+  assertEquals(hash, r.checksum);
+  assertEquals(JSON.parse(r.body_json), body);
 });

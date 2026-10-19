@@ -4,6 +4,7 @@
 import { aalOf, can, type Capability, type Role } from "./access.ts";
 import type { AdminRow, AuditEntry, Store } from "./store.ts";
 import { configRoutes } from "./config.ts";
+import { packRoutes } from "./packs.ts";
 import { peopleRoutes } from "./people.ts";
 
 export interface Reply {
@@ -41,6 +42,7 @@ export const allRoutes: Record<string, Route> = {
   },
   ...peopleRoutes,
   ...configRoutes,
+  ...packRoutes,
 };
 
 export async function handle(input: { jwt: string | null; body: unknown }, deps: Deps): Promise<Reply> {

@@ -46,6 +46,16 @@ export interface VersionRow {
   published_at?: string | null;
 }
 
+/** A plan granted by hand from the dashboard, not bought in a store. */
+export interface ManualGrant {
+  user_id: string;
+  email: string | null;
+  plan: "pro" | "lifetime";
+  expires_at: string | null;
+  granted_at: string;
+  granted_by: string | null;
+}
+
 export type VersionedTable = "remote_config" | "content_packs";
 
 export interface Store {
@@ -65,6 +75,7 @@ export interface Store {
   sendCode(email: string): Promise<void>;
   setEntitlement(uid: string, plan: "pro" | "lifetime", expiresAt: string | null, by: string): Promise<unknown>;
   clearEntitlement(uid: string): Promise<unknown>;
+  manualGrants(): Promise<ManualGrant[]>;
   addNote(uid: string, by: string, note: string): Promise<void>;
   team(): Promise<unknown[]>;
   userIdByEmail(email: string): Promise<string | null>;
@@ -151,6 +162,15 @@ export class SupabaseStore implements Store {
     const before = must(await this.db.from("entitlements").select("*").eq("user_id", uid).maybeSingle());
     must(await this.db.from("entitlements").delete().eq("user_id", uid).eq("source", "manual"));
     return before;
+  }
+  async manualGrants() {
+    const rows = must(await this.db.from("entitlements").select("user_id, plan, expires_at, granted_by, at")
+      .eq("source", "manual").order("at", { ascending: false }).limit(500)) as any[];
+    // Few rows (grants are by hand), so one lookup each is fine.
+    return Promise.all(rows.map(async (r) => ({
+      user_id: r.user_id, email: await this.userEmail(r.user_id), plan: r.plan,
+      expires_at: r.expires_at, granted_at: r.at, granted_by: r.granted_by,
+    })));
   }
   async addNote(uid: string, by: string, note: string) {
     must(await this.db.from("account_notes").insert({ user_id: uid, admin_email: by, note }));

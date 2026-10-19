@@ -2,6 +2,7 @@
 // device, the current pack versions, and live announcements aimed at it.
 
 import { type Device, resolve, validate } from "../_shared/config_schema.ts";
+import { canonicalJson } from "../_shared/packs.ts";
 
 interface Announcement {
   id: number;
@@ -52,4 +53,12 @@ export function respond(input: {
       .map(({ status: _s, targeting: _t, ...a }) => a),
     generated_at: now.toISOString(),
   };
+}
+
+/**
+ * One published pack. The body goes out as the canonical string the checksum
+ * was computed over at save time, so the phone hashes exactly what it got.
+ */
+export function packReply(row: { kind: string; version: number; checksum: string; body: unknown }) {
+  return { kind: row.kind, version: row.version, checksum: row.checksum, body_json: canonicalJson(row.body) };
 }
