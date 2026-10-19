@@ -28,8 +28,9 @@ async function serve(url: URL): Promise<Response> {
     const { data, error } = await db.from("content_packs").select("kind, version, checksum, body")
       .eq("kind", pack).eq("status", "published").maybeSingle();
     if (error) throw error;
-    // A pack's body never changes for a version, so phones may keep it a day.
-    return data ? json(200, packReply(data), 86_400) : json(404, { error: "no_pack" });
+    // Same URL for every version of a kind, so caches may keep it only as
+    // long as the config that lists the version.
+    return data ? json(200, packReply(data)) : json(404, { error: "no_pack" });
   }
   const device = deviceOf(url);
   const [config, packs, announcements, notes] = await Promise.all([
