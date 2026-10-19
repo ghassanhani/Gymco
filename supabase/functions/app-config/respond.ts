@@ -1,5 +1,6 @@
 // What a phone gets from app-config: the published config resolved for that
-// device, the current pack versions, and live announcements aimed at it.
+// device, the current pack versions, live announcements aimed at it, and the
+// release note for its build when one is published.
 
 import { type Device, resolve, validate } from "../_shared/config_schema.ts";
 import { canonicalJson } from "../_shared/packs.ts";
@@ -11,6 +12,13 @@ interface Announcement {
   status: string;
   targeting: { platform?: string; locale?: string; min_build?: number; max_build?: number };
   [k: string]: unknown;
+}
+
+export interface ReleaseNote {
+  build: number;
+  version: string;
+  body: unknown;
+  published: boolean;
 }
 
 export function deviceOf(url: URL): Device {
@@ -39,6 +47,7 @@ export function respond(input: {
   config: { version: number; body: unknown } | null;
   packs: { kind: string; version: number; checksum: string }[];
   announcements: Announcement[];
+  release_notes?: ReleaseNote[];
   device: Device;
   now: Date;
 }) {
@@ -51,8 +60,14 @@ export function respond(input: {
     announcements: input.announcements
       .filter((a) => a.status === "published" && new Date(a.starts_at) <= now && now < new Date(a.ends_at) && aimedAt(a.targeting ?? {}, device))
       .map(({ status: _s, targeting: _t, ...a }) => a),
+    whats_new: whatsNew(input.release_notes ?? [], device.build),
     generated_at: now.toISOString(),
   };
+}
+
+function whatsNew(notes: ReleaseNote[], build: number | undefined) {
+  const n = build == null ? undefined : notes.find((x) => x.published && x.build === build);
+  return n ? { build: n.build, version: n.version, body: n.body } : null;
 }
 
 /**

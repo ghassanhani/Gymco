@@ -4,8 +4,14 @@
 import { aalOf, can, type Capability, type Role } from "./access.ts";
 import type { AdminRow, AuditEntry, Store } from "./store.ts";
 import { configRoutes } from "./config.ts";
+import { healthRoutes } from "./health.ts";
+import { messagingRoutes } from "./messaging.ts";
 import { packRoutes } from "./packs.ts";
 import { peopleRoutes } from "./people.ts";
+import { releaseRoutes } from "./releases.ts";
+import { envServices, type Services } from "./services.ts";
+import { supportRoutes } from "./support.ts";
+import { websiteRoutes } from "./website.ts";
 
 export interface Reply {
   status: number;
@@ -35,7 +41,8 @@ export const fail = (status: number, error: string, extra: Record<string, unknow
   body: { error, ...extra },
 });
 
-export const allRoutes: Record<string, Route> = {
+/** Every action, with the outside services (FCM, GitHub, Resend) it may touch. */
+export const buildRoutes = (s: Services): Record<string, Route> => ({
   me: {
     cap: "read",
     run: (ctx) => Promise.resolve(ok({ email: ctx.admin.email, role: ctx.admin.role })),
@@ -43,7 +50,14 @@ export const allRoutes: Record<string, Route> = {
   ...peopleRoutes,
   ...configRoutes,
   ...packRoutes,
-};
+  ...messagingRoutes(s),
+  ...supportRoutes(s),
+  ...releaseRoutes(s),
+  ...websiteRoutes(s),
+  ...healthRoutes(s),
+});
+
+export const allRoutes: Record<string, Route> = buildRoutes(envServices());
 
 export async function handle(input: { jwt: string | null; body: unknown }, deps: Deps): Promise<Reply> {
   if (!input.jwt) return fail(401, "signed_out");

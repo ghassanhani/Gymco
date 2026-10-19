@@ -2,7 +2,11 @@
 // rules depend on it; nothing else.
 
 import type { Role } from "./access.ts";
-import type { AdminRow, AuditEntry, AuditQuery, ManualGrant, Store, VersionedTable, VersionRow } from "./store.ts";
+import type {
+  AdminRow, AnnouncementRow, AuditEntry, AuditQuery, CampaignRow, ManualGrant, MessageRow, ReleaseNoteRow, Store,
+  TicketCounts, TicketRow, TicketTab, VersionedTable, VersionRow,
+} from "./store.ts";
+import { kindColumn } from "./store.ts";
 
 /** A token with the given assurance level (the handler only reads `aal`). */
 export const token = (aal: "aal1" | "aal2") => `h.${btoa(JSON.stringify({ aal })).replace(/=+$/, "")}.s`;
@@ -22,24 +26,36 @@ export class FakeStore implements Store {
   extra: Record<string, unknown> = {};
   configs: VersionRow[] = [];
   packs: VersionRow[] = [];
+  pages: VersionRow[] = [];
+  announcementRows: AnnouncementRow[] = [];
+  campaignRows: CampaignRow[] = [];
+  ticketRows: TicketRow[] = [];
+  messages: MessageRow[] = [];
+  releaseNoteRows: ReleaseNoteRow[] = [];
+  fnCalls: { fn: string; calls: number; errors: number }[] = [];
+  tokens = 0;
+  now = () => new Date();
 
   private rows(table: VersionedTable) {
-    return table === "remote_config" ? this.configs : this.packs;
+    return table === "remote_config" ? this.configs : table === "website_pages" ? this.pages : this.packs;
+  }
+  private kindOf(table: VersionedTable, r: VersionRow) {
+    return r[kindColumn(table)];
   }
   versions(table: VersionedTable, kind?: string) {
-    return Promise.resolve(this.rows(table).filter((r) => !kind || r.kind === kind).map((r) => ({ ...r })).sort((a, b) => b.version - a.version));
+    return Promise.resolve(this.rows(table).filter((r) => !kind || this.kindOf(table, r) === kind).map((r) => ({ ...r })).sort((a, b) => b.version - a.version));
   }
   insertVersion(table: VersionedTable, row: VersionRow) {
     this.rows(table).push({ ...row });
     return Promise.resolve();
   }
   updateVersion(table: VersionedTable, version: number, patch: Partial<VersionRow>, kind?: string) {
-    const r = this.rows(table).find((x) => x.version === version && (!kind || x.kind === kind));
+    const r = this.rows(table).find((x) => x.version === version && (!kind || this.kindOf(table, x) === kind));
     if (r) Object.assign(r, patch);
     return Promise.resolve();
   }
   publishVersion(table: VersionedTable, version: number, by: string, kind?: string) {
-    const rows = this.rows(table).filter((x) => !kind || x.kind === kind);
+    const rows = this.rows(table).filter((x) => !kind || this.kindOf(table, x) === kind);
     const target = rows.find((x) => x.version === version && (x.status === "draft" || x.status === "in_review"));
     if (!target) return Promise.reject(new Error("not_publishable"));
     for (const r of rows) if (r.status === "published") r.status = "archived";
@@ -50,7 +66,7 @@ export class FakeStore implements Store {
   adminRow(uid: string) {
     return Promise.resolve(this.admins.get(uid) ?? null);
   }
-  stats(range: number) {
+  stats(range: number): Promise<unknown> {
     return Promise.resolve({ range });
   }
   accountCard(email: string) {
@@ -142,5 +158,100 @@ export class FakeStore implements Store {
   noteCall(fn: string) {
     this.calls.push(fn);
     return Promise.resolve();
+  }
+
+  private nextId(rows: { id?: number }[]) {
+    return rows.reduce((m, r) => Math.max(m, r.id ?? 0), 0) + 1;
+  }
+  announcements() {
+    return Promise.resolve([...this.announcementRows].reverse().map((r) => ({ ...r })));
+  }
+  insertAnnouncement(row: AnnouncementRow) {
+    const id = this.nextId(this.announcementRows);
+    this.announcementRows.push({ ...row, id, created_at: this.now().toISOString(), published_by: row.published_by ?? null });
+    return Promise.resolve(id);
+  }
+  updateAnnouncement(id: number, patch: Partial<AnnouncementRow>) {
+    const r = this.announcementRows.find((x) => x.id === id);
+    if (r) Object.assign(r, patch);
+    return Promise.resolve();
+  }
+  campaigns() {
+    return Promise.resolve([...this.campaignRows].reverse().map((r) => ({ ...r })));
+  }
+  insertCampaign(row: CampaignRow) {
+    const id = this.nextId(this.campaignRows);
+    this.campaignRows.push({ sent_count: 0, ...row, id, created_at: this.now().toISOString() });
+    return Promise.resolve(id);
+  }
+  updateCampaign(id: number, patch: Partial<CampaignRow>) {
+    const r = this.campaignRows.find((x) => x.id === id);
+    if (r) Object.assign(r, patch);
+    return Promise.resolve();
+  }
+  tickets(tab: TicketTab, q?: string) {
+    const needle = (q ?? "").toLowerCase();
+    const hit = (t: TicketRow) => !needle || t.email.toLowerCase().includes(needle) || t.subject.toLowerCase().includes(needle);
+    const rows = this.ticketRows.filter((t) => (tab === "deletion" ? t.kind === "deletion" : t.status === tab) && hit(t));
+    const sorted = tab === "deletion"
+      ? rows.sort((a, b) => (a.deadline_at ?? "9").localeCompare(b.deadline_at ?? "9"))
+      : rows.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? "") || (b.id ?? 0) - (a.id ?? 0));
+    return Promise.resolve(sorted.map(({ body: _b, ...rest }) => ({ ...rest })));
+  }
+  ticket(id: number) {
+    const r = this.ticketRows.find((x) => x.id === id);
+    return Promise.resolve(r ? { ...r } : null);
+  }
+  insertTicket(row: TicketRow) {
+    const id = this.nextId(this.ticketRows);
+    const at = this.now().toISOString();
+    this.ticketRows.push({ ...row, id, created_at: row.created_at ?? at, updated_at: at });
+    return Promise.resolve(id);
+  }
+  updateTicket(id: number, patch: Partial<TicketRow>) {
+    const r = this.ticketRows.find((x) => x.id === id);
+    if (r) Object.assign(r, patch, { updated_at: this.now().toISOString() });
+    return Promise.resolve();
+  }
+  ticketMessages(id: number) {
+    return Promise.resolve(this.messages.filter((m) => m.ticket_id === id).map((m) => ({ ...m })));
+  }
+  insertMessage(row: MessageRow) {
+    const id = this.nextId(this.messages);
+    this.messages.push({ ...row, id, at: this.now().toISOString() });
+    return Promise.resolve(id);
+  }
+  ticketCounts() {
+    const t = this.ticketRows;
+    const now = this.now().toISOString();
+    const open = t.filter((x) => x.kind === "deletion" && x.status !== "solved");
+    const counts: TicketCounts = {
+      new: t.filter((x) => x.status === "new").length,
+      waiting: t.filter((x) => x.status === "waiting").length,
+      solved: t.filter((x) => x.status === "solved").length,
+      deletion_open: open.length,
+      overdue: open.filter((x) => x.deadline_at && x.deadline_at < now).length,
+    };
+    return Promise.resolve(counts);
+  }
+  releaseNotes() {
+    return Promise.resolve([...this.releaseNoteRows].sort((a, b) => b.build - a.build).map((r) => ({ ...r })));
+  }
+  upsertReleaseNote(row: ReleaseNoteRow) {
+    const cur = this.releaseNoteRows.find((x) => x.build === row.build);
+    if (cur) Object.assign(cur, { version: row.version, body: row.body });
+    else this.releaseNoteRows.push({ ...row, created_at: this.now().toISOString(), published_at: null });
+    return Promise.resolve();
+  }
+  publishReleaseNote(build: number) {
+    const cur = this.releaseNoteRows.find((x) => x.build === build);
+    if (cur) Object.assign(cur, { published: true, published_at: this.now().toISOString() });
+    return Promise.resolve(!!cur);
+  }
+  fnCalls24h() {
+    return Promise.resolve(this.fnCalls.map((r) => ({ ...r })));
+  }
+  pushTokenCount() {
+    return Promise.resolve(this.tokens);
   }
 }

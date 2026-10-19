@@ -3,7 +3,7 @@
 // Public and read-only; deploy with verify_jwt off.
 //
 // GET ?platform=ios|android&locale=en|ar|es&build=103&bucket=0-99
-// -> 200 { config_version, config, packs: { kind: { version, checksum } }, announcements, generated_at }
+// -> 200 { config_version, config, packs: { kind: { version, checksum } }, announcements, whats_new, generated_at }
 // GET ?pack=<kind>
 // -> 200 { kind, version, checksum, body_json } | 404 { error: "no_pack" }
 
@@ -31,16 +31,18 @@ async function serve(url: URL): Promise<Response> {
     // A pack's body never changes for a version, so phones may keep it a day.
     return data ? json(200, packReply(data), 86_400) : json(404, { error: "no_pack" });
   }
-  const [config, packs, announcements] = await Promise.all([
+  const device = deviceOf(url);
+  const [config, packs, announcements, notes] = await Promise.all([
     db.from("remote_config").select("version, body").eq("status", "published").maybeSingle(),
     db.from("content_packs").select("kind, version, checksum").eq("status", "published"),
     db.from("announcements").select("id, title, body, cta, starts_at, ends_at, targeting, status")
       .eq("status", "published").gt("ends_at", new Date().toISOString()),
+    db.from("release_notes").select("build, version, body, published").eq("published", true).eq("build", device.build ?? -1),
   ]);
-  for (const r of [config, packs, announcements]) if (r.error) throw r.error;
+  for (const r of [config, packs, announcements, notes]) if (r.error) throw r.error;
   return json(200, respond({
-    config: config.data, packs: packs.data ?? [], announcements: announcements.data ?? [],
-    device: deviceOf(url), now: new Date(),
+    config: config.data, packs: packs.data ?? [], announcements: announcements.data ?? [], release_notes: notes.data ?? [],
+    device, now: new Date(),
   }));
 }
 

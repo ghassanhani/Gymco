@@ -43,6 +43,19 @@ Deno.test("only live announcements targeted at this device are sent", () => {
   assertEquals(ids({ platform: "ios", locale: "en", build: 101 }), [1, 5]);
 });
 
+Deno.test("whats_new is the published note for this device's build, or null", () => {
+  const notes = [
+    { build: 104, version: "1.2.0", body: { en: "Faster", ar: "أسرع", es: "Más rápido" }, published: true },
+    { build: 105, version: "1.3.0", body: { en: "Soon", ar: "قريبًا", es: "Pronto" }, published: false },
+  ];
+  const at = (build?: number) => respond({ config: null, packs: [], announcements: [], release_notes: notes, device: { build }, now }).whats_new;
+  assertEquals(at(104), { build: 104, version: "1.2.0", body: { en: "Faster", ar: "أسرع", es: "Más rápido" } });
+  assertEquals(at(105), null);
+  assertEquals(at(103), null);
+  assertEquals(at(undefined), null);
+  assertEquals(respond({ config: null, packs: [], announcements: [], device: { build: 104 }, now }).whats_new, null);
+});
+
 Deno.test("device details are read from the query and kept to known values", () => {
   const d = deviceOf(new URL("https://x/app-config?platform=ios&locale=ar&build=103&bucket=42"));
   assertEquals(d, { platform: "ios", locale: "ar", build: 103, bucket: 42 });

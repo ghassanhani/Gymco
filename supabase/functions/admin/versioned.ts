@@ -17,6 +17,8 @@ export interface Versioned {
   checksum?(body: unknown): Promise<string>;
   /** Kinds this thing comes in (content packs); none for the config. */
   kinds?: readonly string[];
+  /** The request field and column the kind is in; "kind" unless said otherwise (website pages use "page"). */
+  kindField?: string;
   /** What a fresh draft starts from when nothing is published yet. */
   base(kind?: string): unknown;
 }
@@ -40,7 +42,9 @@ export function diff(a: unknown, b: unknown, prefix = ""): Change[] {
 const meta = ({ body: _b, ...rest }: VersionRow) => rest;
 
 export function versionedRoutes(prefix: string, v: Versioned): Record<string, Route> {
-  const kindOf = (body: Record<string, unknown>) => (v.kinds ? String(body.kind ?? "") : undefined);
+  const field = v.kindField ?? "kind";
+  const kindOf = (body: Record<string, unknown>) => (v.kinds ? String(body[field] ?? "") : undefined);
+  const withKind = (kind?: string) => (kind ? { [field]: kind } : {});
   const badKind = (kind?: string) => v.kinds && !v.kinds.includes(kind ?? "");
   const rows = (ctx: Ctx, kind?: string) => ctx.store.versions(v.table, kind);
   const live = (all: VersionRow[]) => all.find((r) => r.status === "published") ?? null;
@@ -102,7 +106,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
         } else {
           const next = (all[0]?.version ?? 0) + 1;
           await ctx.store.insertVersion(v.table, {
-            ...(kind ? { kind } : {}), version: next, status: "draft", body: check.body, note, created_by: ctx.admin.email,
+            ...withKind(kind), version: next, status: "draft", body: check.body, note, created_by: ctx.admin.email,
             ...(checksum ? { checksum } : {}),
           });
         }
@@ -163,7 +167,7 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
         if (draft) await ctx.store.updateVersion(v.table, draft.version, { status: "archived" }, kind);
         const next = (all[0]?.version ?? 0) + 1;
         const copy: VersionRow = {
-          ...(kind ? { kind } : {}), version: next, status: "draft", body: from.body, note: `Rollback to v${from.version}`,
+          ...withKind(kind), version: next, status: "draft", body: from.body, note: `Rollback to v${from.version}`,
           created_by: ctx.admin.email, ...(from.checksum ? { checksum: from.checksum } : {}),
         };
         await ctx.store.insertVersion(v.table, copy);

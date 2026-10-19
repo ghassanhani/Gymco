@@ -34,6 +34,8 @@ export interface AuditQuery {
 /** One version of something published to phones: the config, or a content pack. */
 export interface VersionRow {
   kind?: string;
+  /** website_pages names its kind "page". */
+  page?: string;
   version: number;
   status: "draft" | "in_review" | "published" | "archived";
   body: unknown;
@@ -56,7 +58,82 @@ export interface ManualGrant {
   granted_by: string | null;
 }
 
-export type VersionedTable = "remote_config" | "content_packs";
+export type VersionedTable = "remote_config" | "content_packs" | "website_pages";
+
+/** The column a table's kind lives in. */
+export const kindColumn = (table: VersionedTable) => (table === "website_pages" ? "page" : "kind");
+
+export interface AnnouncementRow {
+  id?: number;
+  title: unknown;
+  body: unknown;
+  cta: unknown;
+  starts_at: string;
+  ends_at: string;
+  targeting: unknown;
+  status: "draft" | "in_review" | "published" | "archived";
+  created_by: string;
+  created_at?: string;
+  published_by?: string | null;
+}
+
+export interface CampaignRow {
+  id?: number;
+  title: unknown;
+  body: unknown;
+  send_at_local: string;
+  targeting: unknown;
+  status: "draft" | "scheduled" | "sent" | "cancelled";
+  sent_count?: number;
+  created_by: string;
+  created_at?: string;
+}
+
+export interface TicketRow {
+  id?: number;
+  email: string;
+  subject: string;
+  body?: string;
+  locale: string | null;
+  app_version: string | null;
+  platform: string | null;
+  kind: "general" | "deletion";
+  status: "new" | "waiting" | "solved";
+  tags: string[];
+  source: "app" | "email" | "admin";
+  created_at?: string;
+  updated_at?: string;
+  deadline_at: string | null;
+}
+
+export interface MessageRow {
+  id?: number;
+  ticket_id: number;
+  from_admin: boolean;
+  author: string;
+  body: string;
+  at?: string;
+}
+
+export interface ReleaseNoteRow {
+  build: number;
+  version: string;
+  body: unknown;
+  published: boolean;
+  created_by: string;
+  created_at?: string;
+  published_at?: string | null;
+}
+
+export interface TicketCounts {
+  new: number;
+  waiting: number;
+  solved: number;
+  deletion_open: number;
+  overdue: number;
+}
+
+export type TicketTab = "new" | "waiting" | "solved" | "deletion";
 
 export interface Store {
   versions(table: VersionedTable, kind?: string): Promise<VersionRow[]>;
@@ -87,6 +164,26 @@ export interface Store {
   appendAudit(entry: AuditEntry): Promise<void>;
   auditList(q: AuditQuery): Promise<(AuditEntry & { id: number })[]>;
   noteCall(fn: string, ok: boolean): Promise<void>;
+
+  announcements(): Promise<AnnouncementRow[]>;
+  insertAnnouncement(row: AnnouncementRow): Promise<number>;
+  updateAnnouncement(id: number, patch: Partial<AnnouncementRow>): Promise<void>;
+  campaigns(): Promise<CampaignRow[]>;
+  insertCampaign(row: CampaignRow): Promise<number>;
+  updateCampaign(id: number, patch: Partial<CampaignRow>): Promise<void>;
+  /** Without bodies: a list never carries what people wrote. */
+  tickets(tab: TicketTab, q?: string): Promise<TicketRow[]>;
+  ticket(id: number): Promise<TicketRow | null>;
+  insertTicket(row: TicketRow): Promise<number>;
+  updateTicket(id: number, patch: Partial<TicketRow>): Promise<void>;
+  ticketMessages(id: number): Promise<MessageRow[]>;
+  insertMessage(row: MessageRow): Promise<number>;
+  ticketCounts(): Promise<TicketCounts>;
+  releaseNotes(): Promise<ReleaseNoteRow[]>;
+  upsertReleaseNote(row: ReleaseNoteRow): Promise<void>;
+  publishReleaseNote(build: number): Promise<boolean>;
+  fnCalls24h(): Promise<{ fn: string; calls: number; errors: number }[]>;
+  pushTokenCount(): Promise<number>;
 }
 
 function must<T>(r: { data: T; error: unknown }): T {
@@ -99,7 +196,7 @@ export class SupabaseStore implements Store {
 
   async versions(table: VersionedTable, kind?: string) {
     let q = this.db.from(table).select("*").order("version", { ascending: false }).limit(100);
-    if (kind) q = q.eq("kind", kind);
+    if (kind) q = q.eq(kindColumn(table), kind);
     return must(await q) as VersionRow[];
   }
   async insertVersion(table: VersionedTable, row: VersionRow) {
@@ -107,12 +204,14 @@ export class SupabaseStore implements Store {
   }
   async updateVersion(table: VersionedTable, version: number, patch: Partial<VersionRow>, kind?: string) {
     let q = this.db.from(table).update(patch).eq("version", version);
-    if (kind) q = q.eq("kind", kind);
+    if (kind) q = q.eq(kindColumn(table), kind);
     must(await q);
   }
   async publishVersion(table: VersionedTable, version: number, by: string, kind?: string) {
     must(await (table === "remote_config"
       ? this.db.rpc("publish_config", { v: version, by_email: by })
+      : table === "website_pages"
+      ? this.db.rpc("publish_page", { page_name: kind, v: version, by_email: by })
       : this.db.rpc("publish_pack", { pack_kind: kind, v: version, by_email: by })));
   }
 
@@ -212,5 +311,75 @@ export class SupabaseStore implements Store {
   }
   async noteCall(fn: string, ok: boolean) {
     await this.db.rpc("note_fn_call", { fn, ok });
+  }
+
+  async announcements() {
+    return must(await this.db.from("announcements").select("*").order("id", { ascending: false }).limit(200)) as AnnouncementRow[];
+  }
+  async insertAnnouncement(row: AnnouncementRow) {
+    return (must(await this.db.from("announcements").insert(row).select("id").single()) as { id: number }).id;
+  }
+  async updateAnnouncement(id: number, patch: Partial<AnnouncementRow>) {
+    must(await this.db.from("announcements").update(patch).eq("id", id));
+  }
+  async campaigns() {
+    return must(await this.db.from("push_campaigns").select("*").order("id", { ascending: false }).limit(200)) as CampaignRow[];
+  }
+  async insertCampaign(row: CampaignRow) {
+    return (must(await this.db.from("push_campaigns").insert(row).select("id").single()) as { id: number }).id;
+  }
+  async updateCampaign(id: number, patch: Partial<CampaignRow>) {
+    must(await this.db.from("push_campaigns").update(patch).eq("id", id));
+  }
+
+  private static TICKET_COLS = "id, email, subject, locale, app_version, platform, kind, status, tags, source, created_at, updated_at, deadline_at";
+  async tickets(tab: TicketTab, q?: string) {
+    let query = this.db.from("support_tickets").select(SupabaseStore.TICKET_COLS).limit(200);
+    query = tab === "deletion"
+      ? query.eq("kind", "deletion").order("deadline_at", { ascending: true, nullsFirst: false })
+      : query.eq("status", tab).order("created_at", { ascending: false }).order("id", { ascending: false });
+    if (q) {
+      const safe = q.replace(/[%,()]/g, "");
+      query = query.or(`email.ilike.%${safe}%,subject.ilike.%${safe}%`);
+    }
+    return must(await query) as unknown as TicketRow[];
+  }
+  async ticket(id: number) {
+    return must(await this.db.from("support_tickets").select("*").eq("id", id).maybeSingle()) as TicketRow | null;
+  }
+  async insertTicket(row: TicketRow) {
+    return (must(await this.db.from("support_tickets").insert(row).select("id").single()) as { id: number }).id;
+  }
+  async updateTicket(id: number, patch: Partial<TicketRow>) {
+    must(await this.db.from("support_tickets").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", id));
+  }
+  async ticketMessages(id: number) {
+    return must(await this.db.from("ticket_messages").select("*").eq("ticket_id", id).order("id", { ascending: true })) as MessageRow[];
+  }
+  async insertMessage(row: MessageRow) {
+    return (must(await this.db.from("ticket_messages").insert(row).select("id").single()) as { id: number }).id;
+  }
+  async ticketCounts() {
+    return must(await this.db.rpc("support_ticket_counts")) as TicketCounts;
+  }
+
+  async releaseNotes() {
+    return must(await this.db.from("release_notes").select("*").order("build", { ascending: false }).limit(100)) as ReleaseNoteRow[];
+  }
+  async upsertReleaseNote(row: ReleaseNoteRow) {
+    // A saved note keeps its published flag: re-saving corrects, publishing is its own step.
+    const { published: _p, ...rest } = row;
+    const cur = must(await this.db.from("release_notes").select("build").eq("build", row.build).maybeSingle());
+    must(await (cur ? this.db.from("release_notes").update(rest).eq("build", row.build) : this.db.from("release_notes").insert(row)));
+  }
+  async publishReleaseNote(build: number) {
+    const rows = must(await this.db.from("release_notes").update({ published: true, published_at: new Date().toISOString() }).eq("build", build).select("build"));
+    return (rows ?? []).length > 0;
+  }
+  async fnCalls24h() {
+    return must(await this.db.rpc("fn_calls_24h")) as { fn: string; calls: number; errors: number }[];
+  }
+  async pushTokenCount() {
+    return must(await this.db.rpc("push_token_count")) as number;
   }
 }
