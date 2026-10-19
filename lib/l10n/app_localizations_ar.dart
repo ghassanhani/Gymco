@@ -4292,4 +4292,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get aiTag => 'ذكاء اصطناعي';
+
+  @override
+  String get aboutGymco => 'حول التطبيق';
+
+  @override
+  String get helpSupport => 'المساعدة والدعم';
+
+  @override
+  String get helpSupportSub => 'أسئلة، أخطاء، أفكار';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get privacyPolicySub => 'ما يبقى على هاتفك';
+
+  @override
+  String get termsOfUse => 'شروط الاستخدام';
+
+  @override
+  String get termsOfUseSub => 'الاشتراكات والسلامة';
 }

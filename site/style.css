@@ -1,0 +1,31 @@
+:root{--bg:#0A0B09;--card:#15171A;--line:#2A2E33;--t1:#F5F7F0;--t2:#C9CEC4;--brand:#C6F432;--ink:#0A0B09}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--t2);font:16px/1.65 Urbanist,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--brand)}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;gap:12px;height:64px}
+header a.brand{display:flex;align-items:center;gap:10px;color:var(--t1);text-decoration:none;font-weight:700;font-size:18px}
+header img{width:32px;height:32px;border-radius:8px}
+nav{margin-inline-start:auto;display:flex;gap:16px;font-size:14px}
+nav a{color:var(--t2);text-decoration:none}nav a:hover{color:var(--t1)}
+main{padding:40px 0 64px}
+h1{font:italic 400 44px/1.1 "Instrument Serif",Georgia,serif;color:var(--t1);margin:0 0 8px}
+h1 em{color:var(--brand)}
+h2{color:var(--t1);font-size:20px;margin:36px 0 8px}
+.muted{color:#8C9288;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0}
+.btn{display:inline-block;background:var(--brand);color:var(--ink);font-weight:700;border-radius:999px;padding:12px 22px;text-decoration:none}
+ul,ol{padding-inline-start:22px}
+li{margin:4px 0}
+.hero{text-align:center;padding:40px 0}
+.hero img{width:96px;height:96px;border-radius:22px}
+.hero h1{font-size:56px;margin-top:20px}
+.hero p{font-size:18px;max-width:520px;margin:12px auto 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;text-align:start}
+.grid .card{margin:0}.grid b{color:var(--t1);display:block}
+footer{border-top:1px solid var(--line);padding:24px 0;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px}
+footer a{color:var(--t2)}
+@media (max-width:520px){nav{gap:12px;font-size:13px}h1{font-size:36px}.hero h1{font-size:44px}}

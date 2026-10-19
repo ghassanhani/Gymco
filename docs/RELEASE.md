@@ -54,3 +54,15 @@ App ID on both stores: `app.gymco.gymco`
    `PLAY_SERVICE_ACCOUNT_JSON`.
 
 After that, every **Release** run sends a new build to both testing tracks.
+
+## Store listing links (gymcoapp.com)
+
+| Field | URL |
+|---|---|
+| Marketing / website | https://gymcoapp.com |
+| Support URL | https://gymcoapp.com/support/ |
+| Privacy policy URL | https://gymcoapp.com/privacy/ |
+| Terms of use (EULA) | https://gymcoapp.com/terms/ |
+| Google Play: delete account URL | https://gymcoapp.com/delete-account/ |
+
+The site lives in `site/` and deploys with `.github/workflows/site.yml` (GitHub Pages).

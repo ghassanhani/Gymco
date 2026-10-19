@@ -7184,6 +7184,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AI'**
   String get aiTag;
+
+  /// No description provided for @aboutGymco.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get aboutGymco;
+
+  /// No description provided for @helpSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & support'**
+  String get helpSupport;
+
+  /// No description provided for @helpSupportSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions, bugs, ideas'**
+  String get helpSupportSub;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicySub.
+  ///
+  /// In en, this message translates to:
+  /// **'What stays on your phone'**
+  String get privacyPolicySub;
+
+  /// No description provided for @termsOfUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get termsOfUse;
+
+  /// No description provided for @termsOfUseSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions and safety'**
+  String get termsOfUseSub;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

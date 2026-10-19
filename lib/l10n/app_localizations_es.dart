@@ -4264,4 +4264,25 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get aiTag => 'IA';
+
+  @override
+  String get aboutGymco => 'Acerca de';
+
+  @override
+  String get helpSupport => 'Ayuda y soporte';
+
+  @override
+  String get helpSupportSub => 'Preguntas, errores, ideas';
+
+  @override
+  String get privacyPolicy => 'Política de privacidad';
+
+  @override
+  String get privacyPolicySub => 'Lo que se queda en tu teléfono';
+
+  @override
+  String get termsOfUse => 'Términos de uso';
+
+  @override
+  String get termsOfUseSub => 'Suscripciones y seguridad';
 }

@@ -3194,5 +3194,12 @@
   "eqKettlebell": "Kettlebell",
   "eqBands": "Bands",
   "eqOther": "Other",
-  "aiTag": "AI"
+  "aiTag": "AI",
+  "aboutGymco": "About",
+  "helpSupport": "Help & support",
+  "helpSupportSub": "Questions, bugs, ideas",
+  "privacyPolicy": "Privacy policy",
+  "privacyPolicySub": "What stays on your phone",
+  "termsOfUse": "Terms of use",
+  "termsOfUseSub": "Subscriptions and safety"
 }

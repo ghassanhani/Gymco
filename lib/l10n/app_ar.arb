@@ -1181,5 +1181,12 @@
   "eqKettlebell": "كيتلبل",
   "eqBands": "أشرطة مقاومة",
   "eqOther": "أخرى",
-  "aiTag": "ذكاء اصطناعي"
+  "aiTag": "ذكاء اصطناعي",
+  "aboutGymco": "حول التطبيق",
+  "helpSupport": "المساعدة والدعم",
+  "helpSupportSub": "أسئلة، أخطاء، أفكار",
+  "privacyPolicy": "سياسة الخصوصية",
+  "privacyPolicySub": "ما يبقى على هاتفك",
+  "termsOfUse": "شروط الاستخدام",
+  "termsOfUseSub": "الاشتراكات والسلامة"
 }

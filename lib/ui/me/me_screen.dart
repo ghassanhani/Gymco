@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../domain/cheat_meal.dart';
 import '../../domain/energy.dart';
 import '../../domain/reminders.dart';
+import '../../data/site.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
 import '../../state/providers.dart';
@@ -190,6 +191,14 @@ class MeScreen extends ConsumerWidget {
                       Muted(l.floorBody),
                     ],
                   ),
+                ),
+                Eyebrow(l.aboutGymco, padding: const EdgeInsetsDirectional.only(start: 4)),
+                VList(
+                  children: [
+                    row('info', l.helpSupport, l.helpSupportSub, () => openSite('support')),
+                    row('shield', l.privacyPolicy, l.privacyPolicySub, () => openSite('privacy')),
+                    row('list', l.termsOfUse, l.termsOfUseSub, () => openSite('terms')),
+                  ],
                 ),
               ],
             ),

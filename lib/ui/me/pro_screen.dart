@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/site.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/volt.dart';
 import '../kit/kit.dart';
@@ -365,6 +366,15 @@ class _ProScreenState extends State<ProScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 28),
                     child: Muted(l.proTestingNote, align: TextAlign.center),
                   ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _Link(l.termsOfUse, () => openSite('terms')),
+                      const Muted('  ·  '),
+                      _Link(l.privacyPolicy, () => openSite('privacy')),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -593,4 +603,31 @@ class _PlanCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Link extends StatelessWidget {
+  const _Link(this.label, this.onTap);
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    link: true,
+    child: GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            color: Volt.t2,
+            decoration: TextDecoration.underline,
+            decorationColor: Volt.t3,
+          ),
+        ),
+      ),
+    ),
+  );
 }

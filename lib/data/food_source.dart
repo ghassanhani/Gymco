@@ -19,7 +19,7 @@ abstract class FoodSource {
 /// the Gulf.
 class OpenFoodFactsSource implements FoodSource {
   OpenFoodFactsSource() {
-    OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gymco', url: 'https://github.com/ghassanhani/Gymco');
+    OpenFoodAPIConfiguration.userAgent = UserAgent(name: 'Gymco', url: 'https://gymcoapp.com');
   }
 
   static const _fields = [
