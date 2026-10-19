@@ -81,6 +81,19 @@ class CloudBackup {
   final DateTime at;
 }
 
+/// Sent beside a backup so the admin dashboard can show the platform and
+/// language mix without opening the backup itself.
+class BackupMeta {
+  const BackupMeta({this.platform, required this.locale, this.appVersion});
+
+  /// 'ios' or 'android'; null elsewhere.
+  final String? platform;
+
+  /// 'en', 'ar' or 'es'.
+  final String locale;
+  final String? appVersion;
+}
+
 /// Accounts, backup and the AI photo scan. Everything else works without it.
 abstract class Cloud {
   /// False when this build has no project to talk to.
@@ -95,7 +108,7 @@ abstract class Cloud {
   Future<void> signOut();
   Future<void> deleteAccount();
 
-  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion});
+  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion, BackupMeta? meta});
   Future<CloudBackup?> download();
 
   /// Names the foods in a JPEG, a written description, or both, with
@@ -122,7 +135,7 @@ class NoCloud implements Cloud {
   @override
   Future<void> deleteAccount() async => _no();
   @override
-  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion}) async => _no();
+  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion, BackupMeta? meta}) async => _no();
   @override
   Future<CloudBackup?> download() async => _no();
   @override
@@ -195,12 +208,15 @@ class SupabaseCloud implements Cloud {
   });
 
   @override
-  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion}) => _guard(
+  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion, BackupMeta? meta}) => _guard(
     () => _sb.from('backups').upsert({
       'user_id': _uid,
       'payload': payload,
       'schema_version': schemaVersion,
       'updated_at': DateTime.now().toUtc().toIso8601String(),
+      'platform': ?meta?.platform,
+      'locale': ?meta?.locale,
+      'app_version': ?meta?.appVersion,
     }),
   );
 

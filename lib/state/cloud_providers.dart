@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,6 +45,10 @@ Future<Map<String, Object?>> backupPayload(LocalDb db, SharedPreferences prefs) 
   },
 };
 
+/// The installed version, as "1.0.2 (102)"; filled in by main() from the
+/// platform, null in tests.
+final appVersionProvider = Provider<String?>((_) => null);
+
 final cloudActionsProvider = Provider<CloudActions>(CloudActions.new);
 
 class CloudActions {
@@ -52,9 +58,26 @@ class CloudActions {
   Future<void> backupNow() async {
     final db = ref.read(dbProvider);
     final prefs = ref.read(prefsProvider);
-    await ref.read(cloudProvider).upload(await backupPayload(db, prefs), schemaVersion: LocalDb.schemaVersion);
+    await ref
+        .read(cloudProvider)
+        .upload(await backupPayload(db, prefs), schemaVersion: LocalDb.schemaVersion, meta: _meta());
     await prefs.setInt(_lastBackupKey, ref.read(clockProvider)().millisecondsSinceEpoch);
     ref.invalidate(lastBackupProvider);
+  }
+
+  BackupMeta _meta() {
+    const supported = {'en', 'ar', 'es'};
+    final lang =
+        ref.read(settingsProvider).languageCode ?? WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+    return BackupMeta(
+      platform: switch (defaultTargetPlatform) {
+        TargetPlatform.iOS => 'ios',
+        TargetPlatform.android => 'android',
+        _ => null,
+      },
+      locale: supported.contains(lang) ? lang : 'en',
+      appVersion: ref.read(appVersionProvider),
+    );
   }
 
   /// Backs up at most every six hours, quietly; a failure waits for next time.

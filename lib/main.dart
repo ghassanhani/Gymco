@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,6 +28,7 @@ Future<void> main() async {
           dbProvider.overrideWithValue(db),
           prefsProvider.overrideWithValue(prefs),
           cloudProvider.overrideWithValue(await _connect()),
+          appVersionProvider.overrideWithValue(await _version()),
         ],
         child: const GymcoApp(),
       ),
@@ -35,6 +37,15 @@ Future<void> main() async {
     // Never hang on the splash: show what went wrong instead.
     reportError(e, s);
     runApp(_StartupFailed(error: e, stack: s));
+  }
+}
+
+Future<String?> _version() async {
+  try {
+    final p = await PackageInfo.fromPlatform();
+    return '${p.version} (${p.buildNumber})';
+  } catch (_) {
+    return null;
   }
 }
 

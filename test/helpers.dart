@@ -167,9 +167,12 @@ class FakeCloud implements Cloud {
     await signOut();
   }
 
+  BackupMeta? lastMeta;
+
   @override
-  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion}) async {
+  Future<void> upload(Map<String, Object?> payload, {required int schemaVersion, BackupMeta? meta}) async {
     uploads++;
+    lastMeta = meta;
     // Through JSON, as the server stores it.
     backup = CloudBackup(payload: jsonDecode(jsonEncode(payload)) as Map<String, Object?>, at: testNow);
   }

@@ -59,6 +59,8 @@ void main() {
     final db = cloud.backup!.payload['db']! as Map;
     expect((db['log_entries']! as List).single['grams'], 80);
     expect(((cloud.backup!.payload['prefs']! as Map)['profile']! as String), contains('"kcal":2319.0'));
+    // What the dashboard's account mix reads, without opening the backup.
+    expect(cloud.lastMeta?.locale, 'en');
   });
 
   testWidgets('the email link signs in too, and backs up once', (tester) async {
