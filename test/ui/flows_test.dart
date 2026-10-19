@@ -207,7 +207,7 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
-    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.ensureVisible(find.bySemanticsLabel('Turn Meals reminders on or off'));
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Turn Meals reminders on or off'));
     await tester.pumpAndSettle();
@@ -235,7 +235,7 @@ void main() {
     await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
     expect(find.text('If a meal isn’t logged by 08:00, 14:15 or 21:00'), findsOneWidget);
     expect(reminders.scheduled.first.at, DateTime(2026, 9, 26, 14, 15));
-    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.ensureVisible(find.text('Meals'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Meals'));
     await tester.pumpAndSettle();
