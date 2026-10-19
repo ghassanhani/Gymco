@@ -5,12 +5,15 @@
 
 import { ApiError } from "../lib/api.js";
 import { h, icon } from "../lib/dom.js";
+import { errorText } from "../lib/errors.js";
 import { fmtEur, relTime } from "../lib/format.js";
 import { can } from "../lib/roles.js";
 import { checkField, countChanges, ruleSummary, setKey, targetLabel } from "../lib/config_form.js";
 import { chip, confirmDialog, diffView, langField, pageHead, sheet, statusChip, table, toggleSwitch } from "../lib/ui.js";
 
 const AI_KEYS = ["limits.ai_scans_per_day", "ai.daily_budget_eur"];
+// What an older server that doesn't send `untargetable` refuses in rules.
+const UNTARGETABLE = ["limits.ai_scans_per_day"];
 
 export async function render(el, { call, toast, me }) {
   const owner = can(me.role, "owner_keys");
@@ -152,7 +155,8 @@ export async function render(el, { call, toast, me }) {
 
   function rulesCard() {
     const rules = work.rules ?? [];
-    const targetable = Object.entries(data.schema).flatMap(([g, ks]) => Object.entries(ks).filter(([, s]) => s.kind !== "text3" && (!s.owner || owner)).map(([k]) => `${g}.${k}`));
+    const skip = data.untargetable ?? UNTARGETABLE;
+    const targetable = Object.entries(data.schema).flatMap(([g, ks]) => Object.entries(ks).filter(([, s]) => s.kind !== "text3" && (!s.owner || owner)).map(([k]) => `${g}.${k}`)).filter((p) => !skip.includes(p));
     const key = h("select", { class: "input", "aria-label": "Setting" }, targetable.map((p) => h("option", { value: p }, p)));
     const valueSlot = h("div", { class: "field" });
     let valueInput;
@@ -269,7 +273,11 @@ export async function render(el, { call, toast, me }) {
 
   async function submit() {
     if (countChanges(data.draft?.body ?? live(), work) && !(await save())) return;
-    await call("config.submit");
+    try {
+      await call("config.submit");
+    } catch (e) {
+      return toast(errorText(e, "Couldn’t send it for review"), "bad");
+    }
     toast("Sent to the Owner for review");
     await load();
   }
@@ -287,7 +295,11 @@ export async function render(el, { call, toast, me }) {
 
   async function discard() {
     if (!(await confirmDialog({ title: "Discard this draft?", body: "Phones keep what is published. The draft is archived and logged.", confirm: "Discard", danger: true }))) return;
-    await call("config.discard");
+    try {
+      await call("config.discard");
+    } catch (e) {
+      return toast(errorText(e, "Couldn’t discard the draft"), "bad");
+    }
     toast("Draft discarded");
     await load();
   }
@@ -303,12 +315,12 @@ export async function render(el, { call, toast, me }) {
     if (!ok) return;
     const unsaved = countChanges(data.draft?.body ?? live(), work) > 0 || !data.draft;
     if (unsaved && !(await save())) return;
-    const fresh = await call("config.get");
     try {
+      const fresh = await call("config.get");
       await call("config.publish", { version: fresh.draft.version });
       toast(`v${fresh.draft.version} published`);
     } catch (e) {
-      toast(e instanceof ApiError && e.code === "invalid" ? "The draft has errors" : "Couldn’t publish", "bad");
+      toast(e instanceof ApiError && e.code === "invalid" ? "The draft has errors" : errorText(e, "Couldn’t publish"), "bad");
     }
     await load();
   }
@@ -316,11 +328,15 @@ export async function render(el, { call, toast, me }) {
   async function rollback(r) {
     const ok = await confirmDialog({
       title: `Roll back to v${r.version}?`,
-      body: `v${data.published?.version ?? "?"} becomes archived and v${r.version}'s values go out as a new version. This is logged and can be undone by rolling forward.`,
+      body: `v${data.published?.version ?? "?"} becomes archived and v${r.version}'s values go out as a new version.${data.draft ? ` Your open draft v${data.draft.version} is archived first.` : ""} This is logged and can be undone by rolling forward.`,
       confirm: "Roll back", danger: true,
     });
     if (!ok) return;
-    await call("config.rollback", { to_version: r.version });
+    try {
+      await call("config.rollback", { to_version: r.version });
+    } catch (e) {
+      return toast(errorText(e, "Couldn’t roll back"), "bad");
+    }
     toast(`Rolled back to v${r.version}`);
     await load();
   }

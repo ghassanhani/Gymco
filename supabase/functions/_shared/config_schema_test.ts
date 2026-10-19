@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "jsr:@std/assert@1.0.13";
-import { defaults, ownerKeysChanged, resolve, validate } from "./config_schema.ts";
+import { defaults, ownerKeysChanged, resolve, UNTARGETABLE, validate } from "./config_schema.ts";
 
 Deno.test("defaults are what the app does today", () => {
   const d = defaults();
@@ -64,14 +64,14 @@ Deno.test("rules target platform, language, version range and a percentage of in
   const body = validate({
     rules: [
       { key: "features.photo_log", value: false, target: { platform: "android" } },
-      { key: "limits.ai_scans_per_day", value: 20, target: { locale: "ar", min_build: 102 } },
+      { key: "limits.photo_note_max_chars", value: 200, target: { locale: "ar", min_build: 102 } },
       { key: "features.dictate", value: false, target: { percent: 25 } },
     ],
   }).body;
   const ios = resolve(body, { platform: "ios", locale: "en", build: 101, bucket: 50 });
-  assertEquals([ios.features.photo_log, ios.limits.ai_scans_per_day, ios.features.dictate], [true, 10, true]);
+  assertEquals([ios.features.photo_log, ios.limits.photo_note_max_chars, ios.features.dictate], [true, 500, true]);
   const android = resolve(body, { platform: "android", locale: "ar", build: 102, bucket: 10 });
-  assertEquals([android.features.photo_log, android.limits.ai_scans_per_day, android.features.dictate], [false, 20, false]);
+  assertEquals([android.features.photo_log, android.limits.photo_note_max_chars, android.features.dictate], [false, 200, false]);
   assert(!("rules" in android));
 });
 
@@ -84,4 +84,11 @@ Deno.test("a rule can't set a value outside the key's bounds", () => {
 Deno.test("a rule on an unknown key is an error", () => {
   const r = validate({ rules: [{ key: "features.teleport", value: true, target: {} }] });
   assert(!r.ok);
+});
+
+Deno.test("the daily scan cap can't be targeted: the server applies one cap to everyone", () => {
+  assertEquals(UNTARGETABLE, ["limits.ai_scans_per_day"]);
+  const r = validate({ rules: [{ key: "limits.ai_scans_per_day", value: 20, target: { platform: "ios" } }] });
+  assert(!r.ok);
+  assertEquals(r.errors, [{ key: "rules.0.key", message: "The daily scan cap applies to everyone; it can't be targeted" }]);
 });

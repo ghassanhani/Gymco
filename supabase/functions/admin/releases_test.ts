@@ -84,3 +84,13 @@ Deno.test("release notes: an editor saves, only an owner publishes", async () =>
   await owner.run({ ...save, body: t3("Fixed") });
   assertEquals([owner.store.releaseNoteRows[0].published, (owner.store.releaseNoteRows[0].body as any).en], [true, "Fixed"]);
 });
+
+Deno.test("release notes: a build that isn't a whole number is a field error, not a crash", async () => {
+  const { run } = setup("owner");
+  for (const build of ["abc", 1.5, null, true, "105"]) {
+    const p = await run({ action: "releases.notes_publish", build });
+    assertEquals([p.status, (p.body as any).error, (p.body as any).errors], [400, "invalid", [{ key: "build", message: "Enter the build number" }]], String(build));
+  }
+  const s = await run({ action: "releases.notes_save", build: true, version: "1.3.0", body: t3("x") });
+  assertEquals([s.status, (s.body as any).errors.map((e: any) => e.key)], [400, ["build"]]);
+});

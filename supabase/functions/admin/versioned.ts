@@ -97,7 +97,9 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
         const pub = live(all);
         const draft = editing(all);
         const compareTo = pub?.body ?? v.base(kind);
-        const ownerOnly = v.ownerKeys?.(compareTo, check.body) ?? [];
+        // Owner keys are checked against the shared draft, so an editor can save
+        // over the owner's draft changes but can't quietly undo them.
+        const ownerOnly = v.ownerKeys?.(draft?.body ?? compareTo, check.body) ?? [];
         if (ownerOnly.length && !can(ctx.admin.role, "owner_keys")) return fail(403, "owner_keys", { keys: ownerOnly });
         const note = typeof body.note === "string" ? body.note.slice(0, 500) : null;
         const checksum = v.checksum ? await v.checksum(check.body) : undefined;
@@ -162,6 +164,10 @@ export function versionedRoutes(prefix: string, v: Versioned): Record<string, Ro
         const all = await rows(ctx, kind);
         const from = all.find((r) => r.version === Number(body.to_version) && r.status !== "draft" && r.status !== "in_review");
         if (!from) return fail(404, "no_version");
+        // Check first: an old version may no longer fit (a pack it uses changed),
+        // and the open draft must survive a refused rollback.
+        const check = await v.validate(from.body, kind, ctx);
+        if (!check.ok) return fail(400, "invalid", { errors: check.errors });
         // A draft in progress would collide with the copy: archive it first.
         const draft = editing(all);
         if (draft) await ctx.store.updateVersion(v.table, draft.version, { status: "archived" }, kind);

@@ -61,7 +61,9 @@ const { SCHEMA, defaults } = await import("../../supabase/functions/_shared/conf
 
 function configGet(empty, review) {
   const base = defaults();
-  if (empty) return { base, published: null, draft: null, diff: [], history: [], schema: SCHEMA, defaults: base };
+  // Settings the server refuses in targeting rules (dotted keys).
+  const untargetable = ["limits.ai_scans_per_day"];
+  if (empty) return { base, published: null, draft: null, diff: [], history: [], schema: SCHEMA, defaults: base, untargetable };
   const pub = structuredClone(base);
   pub.rules = [
     { key: "features.monthly_challenge", value: true, target: { locale: "ar", percent: 50 } },
@@ -88,6 +90,7 @@ function configGet(empty, review) {
     ],
     schema: SCHEMA,
     defaults: base,
+    untargetable,
   };
 }
 

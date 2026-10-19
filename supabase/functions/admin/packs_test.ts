@@ -136,3 +136,21 @@ Deno.test("plans.grants is not for viewers", async () => {
   const r = await run({ action: "plans.grants" });
   assertEquals([r.status, (r.body as any).error], [403, "forbidden"]);
 });
+
+Deno.test("packs: a rollback that no longer validates changes nothing", async () => {
+  const { run, store } = setup("owner");
+  const tpl = (exercise: string) => ({ items: [{ id: "core", name: t3("Core"), level: "beginner", routines: [{ name: t3("A"), weekday: 0, items: [{ exercise, sets: 3, rep_low: 8, rep_high: 12, rest_s: 60 }] }] }] });
+  await run({ action: "packs.save_draft", kind: "templates", body: tpl("Sit_Up") });
+  await run({ action: "packs.publish", kind: "templates", version: 1 });
+  await run({ action: "packs.save_draft", kind: "templates", body: tpl("Cable_Crunch") });
+  await run({ action: "packs.publish", kind: "templates", version: 2 });
+  await run({ action: "packs.save_draft", kind: "exercises", body: { items: [], removed: ["Sit_Up"] } });
+  await run({ action: "packs.publish", kind: "exercises", version: 1 });
+  await run({ action: "packs.save_draft", kind: "templates", body: tpl("Cable_Crunch"), note: "Work in progress" });
+  const before = structuredClone(store.packs);
+  const r = await run({ action: "packs.rollback", kind: "templates", to_version: 1 });
+  assertEquals([r.status, (r.body as any).error], [400, "invalid"]);
+  assertEquals((r.body as any).errors[0].key, "items.0.routines.0.items.0.exercise");
+  assertEquals(store.packs, before);
+  assertEquals(store.packs.find((p) => p.kind === "templates" && p.version === 3)?.status, "draft");
+});

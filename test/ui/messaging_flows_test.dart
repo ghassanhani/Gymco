@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,8 +42,9 @@ Map<String, Object?> published({List<Map<String, Object?>> announcements = const
     };
 
 /// A published announcement live from [from] to [to] (testNow is 26 Sep 2026, 13:00).
+/// The server sends [id] as a number (announcements.id is a bigint).
 Map<String, Object?> ann(
-  String id,
+  Object id,
   String title, {
   required DateTime from,
   required DateTime to,
@@ -57,9 +60,9 @@ Map<String, Object?> ann(
   'status': 'published',
 };
 
-final live = ann('a1', 'Welcome week', from: DateTime(2026, 9, 20), to: DateTime(2026, 10, 1));
+final live = ann(1, 'Welcome week', from: DateTime(2026, 9, 20), to: DateTime(2026, 10, 1));
 final newer = ann(
-  'a2',
+  2,
   'New food packs',
   from: DateTime(2026, 9, 25),
   to: DateTime(2026, 10, 5),
@@ -81,7 +84,7 @@ void main() {
     expect(find.text('New food packs'), findsNothing);
     // The next one down takes its place.
     expect(find.text('Welcome week'), findsOneWidget);
-    expect(prefs.getString('rc.dismissed_ann'), contains('a2'));
+    expect(jsonDecode(prefs.getString('rc.dismissed_ann')!), ['2']);
 
     // A later launch with the same phone and the same config: still dismissed.
     await pumpApp(
@@ -96,7 +99,7 @@ void main() {
     await tester.pumpAndSettle();
     await scrollTo(tester, find.text('Welcome week'));
     expect(find.text('New food packs'), findsNothing);
-    expect(containerOf(tester).read(liveAnnouncementProvider)?.id, 'a1');
+    expect(containerOf(tester).read(liveAnnouncementProvider)?.id, '1');
   });
 
   testWidgets('an announcement that has ended or not yet started stays off Today', (tester) async {
@@ -112,6 +115,16 @@ void main() {
     expect(find.text('Summer plans'), findsNothing);
     expect(find.text('Winter plans'), findsNothing);
     expect(containerOf(tester).read(liveAnnouncementProvider), isNull);
+  });
+
+  testWidgets('an announcement with a string id shows too', (tester) async {
+    final cloud = FakeCloud()
+      ..config = published(
+        announcements: [ann('s1', 'Spring sale', from: DateTime(2026, 9, 20), to: DateTime(2026, 10, 1))],
+      );
+    await pumpApp(tester, cloud: cloud, prefs: {'profile': savedProfile});
+    await tester.pumpAndSettle();
+    expect(containerOf(tester).read(liveAnnouncementProvider)?.id, 's1');
   });
 
   testWidgets('in Arabic the announcement reads in Arabic', (tester) async {

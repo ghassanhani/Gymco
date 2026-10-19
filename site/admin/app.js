@@ -4,6 +4,7 @@
 import { ApiError, call, onAuthLost, sb } from "./lib/api.js";
 import { gate, idleTooLong, markActive } from "./lib/auth.js";
 import { clear, h, icon } from "./lib/dom.js";
+import { errorText } from "./lib/errors.js";
 import { can, ROLE_LABEL } from "./lib/roles.js";
 import { NAV, PAGES, parseHash } from "./lib/routes.js";
 import { initTheme, themeToggle } from "./lib/theme.js";
@@ -105,6 +106,13 @@ function needsRole(page) {
 }
 
 window.addEventListener("hashchange", route);
+
+// A handler that let a call fail still says so; sign-outs have their own toast.
+window.addEventListener("unhandledrejection", (e) => {
+  e.preventDefault();
+  if (e.reason instanceof ApiError && e.reason.status === 401) return;
+  toast(errorText(e.reason), "bad");
+});
 
 // Idle sign-out after 12 hours; any input counts as activity.
 let lastMark = 0;

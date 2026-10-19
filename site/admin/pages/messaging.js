@@ -5,6 +5,7 @@
 
 import { ApiError } from "../lib/api.js";
 import { clear, h, icon } from "../lib/dom.js";
+import { errorText } from "../lib/errors.js";
 import { dayLabel, fmtInt } from "../lib/format.js";
 import { targetLabel } from "../lib/config_form.js";
 import { onDate, quietNote, weekTakenBy } from "../lib/push_rules.js";
@@ -367,14 +368,24 @@ export async function render(el, { call, toast, me, params, isCurrent }) {
 
     async function cancel() {
       if (!(await confirmDialog({ title: "Cancel this send?", body: "The campaign stays as cancelled; copy it into a new one to send later.", confirm: "Cancel send", danger: true }))) return;
-      await call("push.cancel", { id: c.id });
+      try {
+        await call("push.cancel", { id: c.id });
+      } catch (e) {
+        return toast(errorText(e, "Couldn’t cancel the send. It's still scheduled."), "bad");
+      }
       toast("Send cancelled");
       c.status = "cancelled";
       reload();
     }
 
     async function reload() {
-      const fresh = await call("push.list");
+      let fresh;
+      try {
+        fresh = await call("push.list");
+      } catch (e) {
+        if (isCurrent()) toast(errorText(e, "Saved, but the list didn’t refresh. Reload the page."), "bad");
+        return;
+      }
       if (!isCurrent()) return;
       Object.assign(data, fresh);
       const cur = data.items.find((p) => p.id === c.id);

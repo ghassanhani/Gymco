@@ -18,12 +18,13 @@ export function featureOf(body: { image?: unknown; note?: unknown; feature?: unk
   return body.feature === "eating_out" ? "eating_out" : "write";
 }
 
-export function gate(config: any, feature: Feature, spentTodayEur: number): GateResult {
+/** [spentTodayEur] is null when the spend couldn't be read: then AI rests, so an outage can't overspend. */
+export function gate(config: any, feature: Feature, spentTodayEur: number | null): GateResult {
   if (config.app_gate?.maintenance_mode) return { ok: false, reason: "maintenance" };
   if (config.ai?.[feature] === false) return { ok: false, reason: "feature_off" };
   if (feature === "photo" && config.features?.photo_log === false) return { ok: false, reason: "feature_off" };
   if (feature === "eating_out" && config.features?.eating_out === false) return { ok: false, reason: "feature_off" };
-  if (spentTodayEur >= (config.ai?.daily_budget_eur ?? 10)) return { ok: false, reason: "budget" };
+  if (spentTodayEur === null || spentTodayEur >= (config.ai?.daily_budget_eur ?? 10)) return { ok: false, reason: "budget" };
   return { ok: true };
 }
 

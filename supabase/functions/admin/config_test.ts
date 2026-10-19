@@ -101,3 +101,26 @@ Deno.test("history lists versions newest first, without their bodies", async () 
   assertEquals(h.map((x: any) => [x.version, x.status]), [[2, "draft"], [1, "published"]]);
   assert(!("body" in h[0]));
 });
+
+Deno.test("config.get lists the keys rules can't target", async () => {
+  const { run } = setup("viewer");
+  assertEquals((await run({ action: "config.get" }) as any).body.untargetable, ["limits.ai_scans_per_day"]);
+});
+
+Deno.test("an editor can save over the owner's draft changes but not undo them", async () => {
+  const owner = setup("owner");
+  const { store } = owner;
+  await owner.run({ action: "config.save_draft", body: {} });
+  await owner.run({ action: "config.publish", version: 1 });
+  await owner.run({ action: "config.save_draft", body: { safety: { calorie_floor: 1800 } } });
+  store.admins.set(ME.id, { user_id: ME.id, email: ME.email, role: "editor" });
+  // The owner's value stays: only the editor's own change differs from the draft.
+  const keep = await owner.run({ action: "config.save_draft", body: { safety: { calorie_floor: 1800 }, features: { dictate: false } } });
+  assertEquals(keep.status, 200);
+  // The diff shown is still against what phones have.
+  assertEquals((keep.body as any).diff.map((c: any) => c.key), ["features.dictate", "safety.calorie_floor"]);
+  // Dropping the owner's value would quietly revert it.
+  const revert = await owner.run({ action: "config.save_draft", body: { features: { dictate: false } } });
+  assertEquals([revert.status, (revert.body as any).error, (revert.body as any).keys], [403, "owner_keys", ["safety.calorie_floor"]]);
+  assertEquals((store.configs.find((r) => r.version === 2)!.body as any).safety.calorie_floor, 1800);
+});

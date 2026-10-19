@@ -122,3 +122,26 @@ Deno.test("audit export is owner only and comes back as CSV", async () => {
   assertEquals(r.status, 200);
   assert(String((r.body as { csv: string }).csv).startsWith("at,admin,section,action,object,reason,before,after"));
 });
+
+Deno.test("no admin's account or backup can be deleted from the accounts page", async () => {
+  const { run, store } = setup("support");
+  store.users.set(ME.id, { id: ME.id, email: ME.email });
+  store.users.set("u-boss", { id: "u-boss", email: "boss@gymco.test" });
+  store.admins.set("u-boss", { user_id: "u-boss", email: "boss@gymco.test", role: "owner" });
+  for (const act of ["delete_account", "delete_backup"]) {
+    for (const [uid, email] of [["u-boss", "boss@gymco.test"], [ME.id, ME.email]]) {
+      const r = await run({ action: "account.action", user_id: uid, act, reason: "deletion_request", confirm_email: email });
+      assertEquals([r.status, (r.body as { error: string }).error], [403, "is_admin"], `${act} ${uid}`);
+    }
+  }
+  assert(store.users.has("u-boss") && store.admins.has("u-boss"));
+  assertEquals(store.deletionsCounted, 0);
+  assertEquals(store.audit.length, 0);
+});
+
+Deno.test("the audit list is for support and up, not viewers", async () => {
+  const viewer = setup("viewer");
+  const r = await viewer.run({ action: "audit.list" });
+  assertEquals([r.status, (r.body as { error: string }).error], [403, "forbidden"]);
+  assertEquals((await setup("support").run({ action: "audit.list" })).status, 200);
+});

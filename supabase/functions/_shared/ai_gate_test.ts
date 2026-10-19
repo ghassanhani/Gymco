@@ -60,3 +60,7 @@ Deno.test("cost is tokens × the model's price, in euros", () => {
   assertAlmostEquals(costEur("claude-haiku-5-5", { input_tokens: 2000, output_tokens: 400 }), (2000 * 0.1 + 400 * 0.5) / 1e6 * 0.92, 1e-12);
   assert(costEur("unknown-model", { input_tokens: 10, output_tokens: 10 }) > 0);
 });
+
+Deno.test("when today's spend can't be read, AI rests as if the budget were reached", () => {
+  assertEquals(gate(defaults(), "photo", null), { ok: false, reason: "budget" });
+});

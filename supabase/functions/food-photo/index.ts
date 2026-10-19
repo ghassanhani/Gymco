@@ -95,8 +95,9 @@ Deno.serve(async (req) => {
 
   const feature = featureOf(body);
   const config = await liveConfig();
-  const { data: spent } = await admin.rpc("ai_spend_today");
-  const open = gate(config, feature, Number(spent ?? 0));
+  const { data: spent, error: spendError } = await admin.rpc("ai_spend_today");
+  if (spendError) console.error("food-photo: ai_spend_today:", spendError);
+  const open = gate(config, feature, spendError ? null : Number(spent ?? 0));
   if (!open.ok) return json(503, { error: "paused", reason: open.reason });
   const bucket = Number.isInteger(body.bucket) && (body.bucket as number) >= 0 && (body.bucket as number) < 100
     ? body.bucket as number

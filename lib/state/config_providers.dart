@@ -80,7 +80,10 @@ class RemoteConfigNotifier extends Notifier<RemoteConfig> {
     if (data == null) return;
     final body = data['config'];
     if (body is Map) {
-      final version = (data['config_version'] as num?)?.toInt() ?? 0;
+      final version = switch (data['config_version']) {
+        final num n => n.toInt(),
+        _ => 0,
+      };
       final c = RemoteConfig.fromJson(body.cast<String, Object?>(), version: version);
       final prefs = ref.read(prefsProvider);
       await prefs.setString(_configKey, jsonEncode(c.toJson()));

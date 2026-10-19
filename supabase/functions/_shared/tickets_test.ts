@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "jsr:@std/assert@1.0.13";
-import { DAILY_LIMIT, daysLeft, deletionDeadline, mailtoFor, overDailyLimit, parseTicket } from "./tickets.ts";
+import { appTicket, DAILY_LIMIT, GLOBAL_DAILY_LIMIT, overGlobalLimit, daysLeft, deletionDeadline, mailtoFor, overDailyLimit, parseTicket } from "./tickets.ts";
 
 const now = new Date("2026-10-20T12:00:00Z");
 
@@ -36,4 +36,19 @@ Deno.test("five tickets per email per day", () => {
 
 Deno.test("a mailto link carries the reply subject and body", () => {
   assertEquals(mailtoFor("ana@example.com", "Restore", "Hi Ana,\nDone."), "mailto:ana@example.com?subject=Re%3A%20Restore&body=Hi%20Ana%2C%0ADone.");
+});
+
+Deno.test("at most 300 tickets a day from everyone together", () => {
+  assertEquals(GLOBAL_DAILY_LIMIT, 300);
+  assertEquals(overGlobalLimit(299), false);
+  assertEquals(overGlobalLimit(300), true);
+});
+
+Deno.test("a ticket from the app: deletions get the deadline and are marked unverified", () => {
+  const p = parseTicket({ email: "a@b.co", subject: "Delete me", body: "Please", kind: "deletion" });
+  assert(p.ok);
+  const del = appTicket(p.row, now);
+  assertEquals([del.source, del.deadline_at, del.tags], ["app", "2026-11-19T12:00:00.000Z", ["unverified"]]);
+  const general = appTicket({ ...p.row, kind: "general" }, now);
+  assertEquals([general.deadline_at, general.tags], [null, []]);
 });

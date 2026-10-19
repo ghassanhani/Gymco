@@ -30,8 +30,8 @@ export function ageLabel(iso, now = new Date()) {
 /** A new ticket nobody has answered for over 24 hours is shown in red. */
 export const ageLate = (t, now = new Date()) => t.status === "new" && now - new Date(t.created_at) > DAY;
 
-/** Whole days until the deadline; negative when it has passed. */
-export const daysLeft = (deadlineAt, now = new Date()) => (deadlineAt ? Math.ceil((new Date(deadlineAt) - now) / DAY) : null);
+/** Whole days until the deadline, rounded down like the server; negative once passed. */
+export const daysLeft = (deadlineAt, now = new Date()) => (deadlineAt ? Math.floor((new Date(deadlineAt) - now) / DAY) : null);
 
 /** The big number on a deletion ticket: yellow from 7 days, red once overdue. */
 export function deadlineLine(days, deadlineAt) {

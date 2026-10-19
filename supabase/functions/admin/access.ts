@@ -4,8 +4,8 @@
 export type Role = "viewer" | "support" | "editor" | "owner";
 
 export type Capability =
-  | "read" //          Overview, health, releases, audit list
-  | "support" //       account lookup, notes, cap reset, extra scans, support inbox
+  | "read" //          Overview, health, releases
+  | "support" //       account lookup, notes, cap reset, extra scans, support inbox, audit list
   | "destroy" //       delete backup or account, manual plan grant (always with a reason)
   | "draft" //         draft content, copy, config, announcements; submit for review
   | "publish" //       publish or roll back anything that reaches phones

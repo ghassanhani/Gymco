@@ -74,6 +74,10 @@ export const SCHEMA: Record<string, Record<string, KeySpec>> = {
   },
 };
 
+/** Keys a rule can't target. The server's scan cap (ai_cap() in SQL) reads only
+ *  the base body, so a targeted value would leave phone and server disagreeing. */
+export const UNTARGETABLE = ["limits.ai_scans_per_day"];
+
 export type Config = Record<string, Record<string, unknown>> & { rules?: Rule[] };
 export interface Rule {
   key: string;
@@ -139,6 +143,10 @@ export function validate(input: unknown): { ok: boolean; body: any; errors: Conf
   const rules = Array.isArray(src.rules) ? src.rules : [];
   body.rules = rules.slice(0, 50).map((r: any, i: number) => {
     const spec = specOf(String(r?.key ?? ""));
+    if (UNTARGETABLE.includes(String(r?.key))) {
+      errors.push({ key: `rules.${i}.key`, message: "The daily scan cap applies to everyone; it can't be targeted" });
+      return null;
+    }
     if (!spec || spec.kind === "text3") {
       errors.push({ key: `rules.${i}.key`, message: "Unknown or untargetable key" });
       return null;

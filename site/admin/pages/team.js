@@ -1,6 +1,7 @@
 // 11 Team & audit log: admins and their roles, and every change, append-only.
 
 import { h, icon } from "../lib/dom.js";
+import { errorText } from "../lib/errors.js";
 import { relTime } from "../lib/format.js";
 import { ROLE_LABEL } from "../lib/roles.js";
 import { chip, confirmDialog, diffView, empty, pageHead, sheet, table } from "../lib/ui.js";
@@ -28,7 +29,14 @@ export async function render(el, { call, toast, me }) {
       h("form", { class: "form", on: { submit: async (e) => {
         e.preventDefault();
         if (!email.value.includes("@")) return toast("Enter an email", "bad");
-        await call("team.invite", { email: email.value.trim(), role: role.value });
+        const btn = e.submitter ?? e.target.querySelector("[type=submit]");
+        btn.disabled = true;
+        try {
+          await call("team.invite", { email: email.value.trim(), role: role.value });
+        } catch (err) {
+          btn.disabled = false;
+          return toast(errorText(err, `Couldn't add ${email.value.trim()}`), "bad");
+        }
         toast(`${email.value.trim()} added as ${ROLE_LABEL[role.value]}`);
         drawTeam();
         drawLog();
@@ -43,16 +51,30 @@ export async function render(el, { call, toast, me }) {
     const sel = h("select", { class: "input", style: { minHeight: "36px", width: "140px" }, "aria-label": `Role for ${a.email}` },
       ["viewer", "support", "editor"].map((r) => h("option", { value: r, selected: r === a.role }, ROLE_LABEL[r])));
     sel.addEventListener("change", async () => {
-      await call("team.set_role", { user_id: a.user_id, role: sel.value });
-      toast(`${a.email} is now ${ROLE_LABEL[sel.value]}`);
-      drawLog();
+      sel.disabled = true;
+      try {
+        await call("team.set_role", { user_id: a.user_id, role: sel.value });
+        a.role = sel.value;
+        toast(`${a.email} is now ${ROLE_LABEL[sel.value]}`);
+        drawLog();
+      } catch (err) {
+        // Show the role they still have.
+        sel.value = a.role;
+        toast(errorText(err, `Couldn't change ${a.email}'s role`), "bad");
+      } finally {
+        sel.disabled = false;
+      }
     });
     return sel;
   }
 
   async function remove(a) {
     if (!(await confirmDialog({ title: `Remove ${a.email}?`, body: "They lose access at their next request. Their account stays.", confirm: "Remove", danger: true }))) return;
-    await call("team.remove", { user_id: a.user_id });
+    try {
+      await call("team.remove", { user_id: a.user_id });
+    } catch (err) {
+      return toast(errorText(err, `Couldn't remove ${a.email}`), "bad");
+    }
     toast(`${a.email} removed`);
     drawTeam();
     drawLog();

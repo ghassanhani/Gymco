@@ -77,8 +77,22 @@ It is deployed to project `vncadogzpeoawikgafaj` (eu-west-1), and the app builds
 2. **Authentication → URL Configuration → Redirect URLs**: add `app.gymco.gymco://login-callback`. The sign-in email's link then opens the app signed in (Android intent filter and iOS URL scheme are in the app).
 3. Before launch, **Authentication → Emails → SMTP**: Supabase's built-in mailer sends only a few emails an hour and its templates can't be edited. With your own SMTP you can also add the code to the Magic Link template (`{{ .Token }}`); the app accepts either.
 
-For another project: `supabase link --project-ref <ref>`, `supabase db push`, `supabase functions deploy food-photo delete-account`, then build with
+For another project: `supabase link --project-ref <ref>`, `supabase db push`, then
+
+```sh
+supabase functions deploy admin app-config food-photo support-ticket push-register delete-account
+```
+
+`admin`, `app-config`, `support-ticket` and `push-register` are deployed with `--no-verify-jwt`. `admin` checks the JWT itself, so the dashboard's CORS preflight gets through; the other three take requests without a sign-in by design. Then build with
 `--dart-define=SUPABASE_URL=https://<ref>.supabase.co --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_...` (empty values build a phone-only app).
+
+Optional secrets, under **Edge Functions → Secrets**; without one, that part of the Control Center says it isn't set up:
+
+- `RESEND_API_KEY`: support replies go out by email. Without it, a reply opens your mail app instead.
+- `GITHUB_TOKEN`: a fine-grained token on this repo with **Contents** and **Actions** read and write. Shows CI runs, re-runs them and publishes the website.
+- `FCM_SERVICE_ACCOUNT`: the Firebase service account JSON, for push campaigns.
+
+**Lost authenticator.** The Control Center needs a second factor. If the Owner loses theirs: in the Supabase dashboard, **Authentication → Users →** the user **→ MFA factors →** delete the TOTP factor, then sign in and enrol a new one. The lock after 3 wrong codes is enforced in the browser; the server-side defence is Supabase Auth's own MFA rate limit.
 
 Cost: Supabase free tier; Claude Haiku 5.5 is about $0.10 per million input tokens, so a photo costs well under a tenth of a cent and the 10-a-day cap bounds it per user.
 

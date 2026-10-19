@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "jsr:@std/assert@1.0.13";
-import { parseRegistration, parseUnregister } from "./push_register.ts";
+import { MAX_TOKENS, parseRegistration, refuseNewToken, parseUnregister } from "./push_register.ts";
 
 Deno.test("a registration is kept to the token table's columns and values", () => {
   const r = parseRegistration({ token: " abc ", platform: "ios", locale: "ar", utc_offset_min: 180, app_version: "1.2.0 (104)", extra: 1 });
@@ -29,4 +29,11 @@ Deno.test("removing a token needs the token", () => {
   assertEquals(parseUnregister({ token: " abc " }), "abc");
   assertEquals(parseUnregister({}), null);
   assertEquals(parseUnregister({ token: 5 }), null);
+});
+
+Deno.test("past 100,000 tokens a new one is refused, a known one still updates", () => {
+  assertEquals(MAX_TOKENS, 100_000);
+  assertEquals(refuseNewToken(99_999, false), false);
+  assertEquals(refuseNewToken(100_000, false), true);
+  assertEquals(refuseNewToken(100_000, true), false);
 });

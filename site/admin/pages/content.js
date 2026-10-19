@@ -5,6 +5,7 @@
 
 import { ApiError } from "../lib/api.js";
 import { clear, h, icon } from "../lib/dom.js";
+import { errorText } from "../lib/errors.js";
 import { relTime } from "../lib/format.js";
 import { can } from "../lib/roles.js";
 import {
@@ -633,7 +634,11 @@ export async function render(el, { call, toast, me, params, isCurrent }) {
 
   async function discard() {
     if (!(await confirmDialog({ title: "Discard this draft?", body: `Phones keep the published ${K.label} pack. The draft is archived and logged.`, confirm: "Discard", danger: true }))) return;
-    await call("packs.discard", { kind });
+    try {
+      await call("packs.discard", { kind });
+    } catch (e) {
+      return toast(errorText(e, "Couldn’t discard the draft"), "bad");
+    }
     toast("Draft discarded");
     await load();
   }

@@ -1,12 +1,13 @@
 // A support ticket from the app's help form. No auth: anyone may ask for
-// help, so the shape is checked here and an email may send five a day.
+// help, so the shape is checked here, an email may send five a day and
+// everyone together 300 a day (UTC).
 // Deploy with verify_jwt off.
 //
 // POST { email, subject, body, locale?, app_version?, platform?, kind? }
 // -> 201 { id } | 400 { error: "invalid", errors } | 429 { error: "too_many" }
 
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
-import { deletionDeadline, overDailyLimit, parseTicket } from "../_shared/tickets.ts";
+import { appTicket, overDailyLimit, overGlobalLimit, parseTicket } from "../_shared/tickets.ts";
 
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 
@@ -33,10 +34,12 @@ async function serve(req: Request): Promise<Response> {
     .eq("email", check.row.email).gte("created_at", today);
   if (error) throw error;
   if (overDailyLimit(count ?? 0)) return json(429, { error: "too_many" });
+  const { count: all, error: allError } = await db.from("support_tickets").select("id", { count: "exact", head: true })
+    .gte("created_at", today);
+  if (allError) throw allError;
+  if (overGlobalLimit(all ?? 0)) return json(429, { error: "too_many" });
 
-  const { data, error: insertError } = await db.from("support_tickets").insert({
-    ...check.row, source: "app", deadline_at: check.row.kind === "deletion" ? deletionDeadline() : null,
-  }).select("id").single();
+  const { data, error: insertError } = await db.from("support_tickets").insert(appTicket(check.row)).select("id").single();
   if (insertError) throw insertError;
   return json(201, { id: data.id });
 }

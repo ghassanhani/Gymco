@@ -107,10 +107,12 @@ export async function render(el, { call, toast, me, params, isCurrent }) {
     const act = async (action, body, done) => {
       try {
         const res = await call(action, { id: t.id, ...body });
-        if (res?.sent === false && res.mailto) {
+        // Only a mailto: link is followed; anything else would navigate away.
+        if (res?.sent === false && /^mailto:/i.test(res.mailto ?? "")) {
           location.href = res.mailto;
           toast("Your mail client was opened with the reply · it’s saved here too");
-        } else toast(done);
+        } else if (res?.sent === false) toast("Saved here · it wasn’t emailed", "bad");
+        else toast(done);
         await load();
       } catch (e) {
         toast(e instanceof ApiError && e.code === "invalid" ? "The reply can’t be empty" : "Couldn’t do that", "bad");

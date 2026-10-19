@@ -60,10 +60,15 @@ class Announcement {
   static Announcement? fromJson(Object? j) {
     if (j is! Map) return null;
     final m = j.cast<String, Object?>();
-    final id = m['id'];
+    // The server's ids are numbers (a bigint column); accept a string too.
+    final id = switch (m['id']) {
+      final String s when s.isNotEmpty => s,
+      final num n => n.toInt().toString(),
+      _ => null,
+    };
     final starts = m['starts_at'] is String ? DateTime.tryParse(m['starts_at'] as String) : null;
     final ends = m['ends_at'] is String ? DateTime.tryParse(m['ends_at'] as String) : null;
-    if (id is! String || id.isEmpty || starts == null || ends == null || m['title'] is! Map) return null;
+    if (id == null || starts == null || ends == null || m['title'] is! Map) return null;
     AnnouncementCta? cta;
     if (m['cta'] case {'label': final Map label, 'url': final String url}) {
       final u = Uri.tryParse(url);

@@ -3,6 +3,7 @@
 
 import { ApiError } from "../lib/api.js";
 import { h, icon } from "../lib/dom.js";
+import { errorText } from "../lib/errors.js";
 import { dayLabel, fmtBytes, fmtInt, relTime } from "../lib/format.js";
 import { can } from "../lib/roles.js";
 import { chip, confirmDialog, empty, pageHead } from "../lib/ui.js";
@@ -10,6 +11,12 @@ import { chip, confirmDialog, empty, pageHead } from "../lib/ui.js";
 export const REASONS = [["support_ticket", "Support ticket"], ["deletion_request", "Deletion request"], ["abuse", "Abuse"], ["test", "Test"]];
 const LANG = { en: "English", ar: "Arabic", es: "Spanish" };
 const PLATFORM = { ios: "iOS", android: "Android" };
+
+// Why an account action failed: a typo in the typed email, an admin's
+// account (403 is_admin: remove them from the team first), or the usual.
+const failText = (e, fallback) => (e?.code === "confirm_mismatch" ? "The email didn't match"
+  : e instanceof ApiError && e.status === 403 && e.code === "is_admin" ? "Admins can't be deleted from Accounts. Remove them from the team first"
+    : errorText(e, fallback));
 
 export async function render(el, { call, params, toast, me }) {
   const email = h("input", { class: "input", type: "email", id: "lookup-email", value: params.email ?? "", required: true, autocomplete: "off" });
@@ -56,7 +63,7 @@ export async function render(el, { call, params, toast, me }) {
         toast(done);
         lookup();
       } catch (e) {
-        toast(e.code === "confirm_mismatch" ? "The email didn't match" : `Couldn't do that (${e.code})`, "bad");
+        toast(failText(e, "Couldn't do that. Nothing was changed."), "bad");
       }
     };
 
@@ -104,7 +111,7 @@ export async function render(el, { call, params, toast, me }) {
                 toast("Account deleted");
                 result.replaceChildren(h("div", { class: "card" }, empty("Account deleted", "Its backup and scan counts went with it. The deletion is counted on the Overview.")));
               } catch (e) {
-                toast(`Couldn't delete (${e.code})`, "bad");
+                toast(failText(e, "Couldn't delete the account. Nothing was changed."), "bad");
               }
             }
           }, "destroy"),
@@ -113,9 +120,16 @@ export async function render(el, { call, params, toast, me }) {
           h("h2", {}, "Internal notes"),
           c.notes.length ? c.notes.map((n) => h("div", { class: "well" }, h("div", {}, n.note), h("div", { class: "small muted", style: { marginTop: "4px" } }, `${n.by.split("@")[0]} · ${dayLabel(n.at)}`))) : h("span", { class: "small muted" }, "No notes yet."),
           h("label", { class: "field" }, h("span", {}, "Add a note"), note),
-          h("button", { type: "button", class: "btn small", on: { click: async () => {
+          h("button", { type: "button", class: "btn small", on: { click: async (e) => {
             if (!note.value.trim()) return;
-            await call("note.add", { user_id: c.user_id, note: note.value.trim() });
+            const btn = e.currentTarget;
+            btn.disabled = true;
+            try {
+              await call("note.add", { user_id: c.user_id, note: note.value.trim() });
+            } catch (err) {
+              btn.disabled = false;
+              return toast(errorText(err, "Couldn't add the note"), "bad");
+            }
             toast("Note added");
             lookup();
           } } }, "Add note"))));

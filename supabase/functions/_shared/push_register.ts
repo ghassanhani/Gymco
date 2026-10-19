@@ -9,6 +9,12 @@ export interface TokenRow {
   app_version: string | null;
 }
 
+/** Tokens kept at most. The endpoint has no auth, so this bounds a flood of fake ones. */
+export const MAX_TOKENS = 100_000;
+
+/** Past the ceiling only a token already registered may update its row. */
+export const refuseNewToken = (total: number, known: boolean) => !known && total >= MAX_TOKENS;
+
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 
 export function parseRegistration(input: unknown): { ok: true; row: TokenRow } | { ok: false; error: string } {

@@ -2,11 +2,11 @@
 // offset, nothing about who holds the phone. No auth, by design. Deploy
 // with verify_jwt off. (Sending isn't built yet; this keeps tokens ready.)
 //
-// POST { token, platform, locale, utc_offset_min, app_version? } -> 200 { ok }
+// POST { token, platform, locale, utc_offset_min, app_version? } -> 200 { ok } | 429 { error: "too_many" }
 // DELETE { token } -> 200 { ok }
 
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
-import { parseRegistration, parseUnregister } from "../_shared/push_register.ts";
+import { parseRegistration, parseUnregister, refuseNewToken } from "../_shared/push_register.ts";
 
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
 
@@ -25,6 +25,8 @@ async function serve(req: Request): Promise<Response> {
   } catch {
     // An unreadable body fails validation below.
   }
+  // DELETE needs no ceiling or auth: FCM/APNs tokens are unguessable strings of
+  // 100+ characters, so only the phone holding one can remove it.
   if (req.method === "DELETE") {
     const token = parseUnregister(body);
     if (!token) return json(400, { error: "token" });
@@ -34,6 +36,15 @@ async function serve(req: Request): Promise<Response> {
   }
   const check = parseRegistration(body);
   if (!check.ok) return json(400, { error: check.error });
+  const { data: total, error: countError } = await db.rpc("push_token_count");
+  if (countError) throw countError;
+  if (refuseNewToken(Number(total ?? 0), false)) {
+    // At the ceiling: still let a phone refresh the token it already has.
+    const { count: known, error: knownError } = await db.from("push_tokens").select("token", { count: "exact", head: true })
+      .eq("token", check.row.token);
+    if (knownError) throw knownError;
+    if (refuseNewToken(Number(total ?? 0), (known ?? 0) > 0)) return json(429, { error: "too_many" });
+  }
   const { error } = await db.from("push_tokens").upsert({ ...check.row, updated_at: new Date().toISOString() });
   if (error) throw error;
   return json(200, { ok: true });

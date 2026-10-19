@@ -70,6 +70,9 @@ export const peopleRoutes: Record<string, Route> = {
           return ok();
         case "delete_backup":
         case "delete_account": {
+          // An admin's auth user cascades to their admins row: deleting it here
+          // could remove the Owner. Admins leave through the team page first.
+          if (await ctx.store.adminRow(uid)) return fail(403, "is_admin");
           if (!sameEmail(str(body.confirm_email), email)) return fail(400, "confirm_mismatch");
           if (act === "delete_backup") {
             const had = await ctx.store.deleteBackup(uid);
@@ -162,7 +165,8 @@ export const peopleRoutes: Record<string, Route> = {
   },
 
   "audit.list": {
-    cap: "read",
+    // Entries carry looked-up emails and note text, so not for viewers.
+    cap: "support",
     run: async (ctx, body) =>
       ok({
         entries: await ctx.store.auditList({

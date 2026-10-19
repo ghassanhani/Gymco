@@ -7,6 +7,10 @@ import { fail, ok, type Route } from "./handler.ts";
 import type { Services } from "./services.ts";
 
 const SECTION = "releases";
+
+/** A build number from the request, or null unless it's a whole number in range. */
+const buildFrom = (v: unknown) => (typeof v === "number" && Number.isInteger(v) && v >= 1 && v <= 1_000_000 ? v : null);
+const BAD_BUILD = { key: "build", message: "Enter the build number" };
 export const MIRROR = "iFynx/Gymco";
 
 /** "1.2.0 (104)" → 104; anything without a build number stays as written. */
@@ -69,13 +73,13 @@ export function releaseRoutes(s: Services): Record<string, Route> {
     "releases.notes_save": {
       cap: "draft",
       run: async (ctx, body) => {
-        const build = Number(body.build);
+        const build = buildFrom(body.build);
         const version = typeof body.version === "string" ? body.version.trim() : "";
         const text = checkT3(body.body, "body", 500);
         const errors = [...text.errors];
-        if (!Number.isInteger(build) || build < 1 || build > 1_000_000) errors.unshift({ key: "build", message: "Enter the build number" });
+        if (build === null) errors.unshift(BAD_BUILD);
         if (!version || version.length > 32) errors.unshift({ key: "version", message: "Enter the version, like 1.2.0" });
-        if (errors.length) return fail(400, "invalid", { errors });
+        if (build === null || errors.length) return fail(400, "invalid", { errors });
         const before = (await ctx.store.releaseNotes()).find((n) => n.build === build) ?? null;
         await ctx.store.upsertReleaseNote({ build, version, body: text.value, published: false, created_by: ctx.admin.email });
         await ctx.audit({ section: SECTION, action: "notes_save", object_id: String(build), before, after: { version, body: text.value } });
@@ -86,7 +90,8 @@ export function releaseRoutes(s: Services): Record<string, Route> {
     "releases.notes_publish": {
       cap: "publish",
       run: async (ctx, body) => {
-        const build = Number(body.build);
+        const build = buildFrom(body.build);
+        if (build === null) return fail(400, "invalid", { errors: [BAD_BUILD] });
         if (!(await ctx.store.publishReleaseNote(build))) return fail(404, "no_note");
         await ctx.audit({ section: SECTION, action: "notes_publish", object_id: String(build), after: { published: true } });
         return ok();

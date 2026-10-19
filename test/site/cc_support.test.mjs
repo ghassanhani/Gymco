@@ -26,6 +26,11 @@ test("age reads in the unit that fits and goes red after a day unanswered", () =
 test("the deletion countdown: plain, yellow from 7 days, red once overdue", () => {
   assert.equal(daysLeft("2026-11-15T12:00:00Z", now), 27);
   assert.equal(daysLeft("2026-10-17T12:00:00Z", now), -2);
+  // Whole days round down, as the server's days_left does.
+  assert.equal(daysLeft("2026-11-15T00:00:00Z", now), 26);
+  assert.equal(daysLeft("2026-10-19T18:00:00Z", now), 0);
+  assert.equal(daysLeft("2026-10-19T06:00:00Z", now), -1);
+  assert.equal(daysLeft(null, now), null);
   const far = deadlineLine(27, "2026-11-15T12:00:00Z");
   assert.deepEqual(far, { number: "27", label: "days left to complete deletion", tone: "", legal: "Legal deadline: 30 days from 16 Oct" });
   assert.equal(deadlineLine(3, "2026-10-22T12:00:00Z").tone, "warn");

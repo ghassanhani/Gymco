@@ -87,4 +87,42 @@ void main() {
     await tester.pumpAndSettle();
     expect(RemoteConfig.current.photoNoteMaxChars, 99);
   });
+
+  testWidgets('a malformed response leaves the cached config and packs as they were', (tester) async {
+    final cloud = FakeCloud()..config = {'config_version': 'x', 'config': 'nope', 'packs': 5, 'announcements': {}};
+    final (_, prefs) = await pumpApp(
+      tester,
+      cloud: cloud,
+      prefs: {
+        'rc.config': jsonEncode({
+          'limits': {'photo_note_max_chars': 99},
+        }),
+        'rc.version': 3,
+        'rc.pack.foods': '[]',
+        'rc.pack.foods.version': 2,
+      },
+    );
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    expect(RemoteConfig.current.photoNoteMaxChars, 99);
+    expect(jsonDecode(prefs.getString('rc.config')!), containsPair('limits', {'photo_note_max_chars': 99}));
+    expect(prefs.getInt('rc.version'), 3);
+    expect(prefs.getString('rc.pack.foods'), '[]');
+    expect(prefs.getInt('rc.pack.foods.version'), 2);
+  });
+
+  testWidgets('a config_version that is not a number counts as 0; the config still applies', (tester) async {
+    final cloud = FakeCloud()
+      ..config = {
+        ...published({
+          'water': {'ml_per_kg': 33},
+        }),
+        'config_version': 'x',
+      };
+    final (_, prefs) = await pumpApp(tester, cloud: cloud);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    expect(RemoteConfig.current.waterMlPerKg, 33);
+    expect(prefs.getInt('rc.version'), 0);
+  });
 }

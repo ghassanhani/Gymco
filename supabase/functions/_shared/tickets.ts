@@ -2,6 +2,8 @@
 // deletion deadline, and the reply link used when no email service is set.
 
 export const DAILY_LIMIT = 5;
+/** Tickets a day from everyone together: the form has no auth, so this bounds a flood. */
+export const GLOBAL_DAILY_LIMIT = 300;
 const DAY_MS = 86_400_000;
 
 export interface TicketRow {
@@ -40,6 +42,18 @@ export function parseTicket(input: unknown): { ok: true; row: TicketRow; errors:
 
 /** True once an email has sent today's allowance. */
 export const overDailyLimit = (sentToday: number) => sentToday >= DAILY_LIMIT;
+
+/** True once today's tickets from everyone reach the ceiling. */
+export const overGlobalLimit = (allToday: number) => allToday >= GLOBAL_DAILY_LIMIT;
+
+/** The row stored for a ticket from the app. Anyone can type any email into the
+ *  form, so a deletion request is tagged until support confirms it's the owner. */
+export const appTicket = (row: TicketRow, now = new Date()) => ({
+  ...row,
+  source: "app" as const,
+  deadline_at: row.kind === "deletion" ? deletionDeadline(now) : null,
+  tags: row.kind === "deletion" ? ["unverified"] : [],
+});
 
 /** A deletion request must be answered within 30 days. */
 export const deletionDeadline = (now = new Date()) => new Date(now.getTime() + 30 * DAY_MS).toISOString();
