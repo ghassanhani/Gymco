@@ -31,7 +31,28 @@ export interface AuditQuery {
   limit?: number;
 }
 
+/** One version of something published to phones: the config, or a content pack. */
+export interface VersionRow {
+  kind?: string;
+  version: number;
+  status: "draft" | "in_review" | "published" | "archived";
+  body: unknown;
+  checksum?: string;
+  note?: string | null;
+  created_by: string;
+  created_at?: string;
+  submitted_by?: string | null;
+  published_by?: string | null;
+  published_at?: string | null;
+}
+
+export type VersionedTable = "remote_config" | "content_packs";
+
 export interface Store {
+  versions(table: VersionedTable, kind?: string): Promise<VersionRow[]>;
+  insertVersion(table: VersionedTable, row: VersionRow): Promise<void>;
+  updateVersion(table: VersionedTable, version: number, patch: Partial<VersionRow>, kind?: string): Promise<void>;
+  publishVersion(table: VersionedTable, version: number, by: string, kind?: string): Promise<void>;
   adminRow(uid: string): Promise<AdminRow | null>;
   stats(range: number): Promise<unknown>;
   accountCard(email: string): Promise<{ user_id: string; email: string } & Record<string, unknown> | null>;
@@ -64,6 +85,25 @@ function must<T>(r: { data: T; error: unknown }): T {
 
 export class SupabaseStore implements Store {
   constructor(private db: SupabaseClient) {}
+
+  async versions(table: VersionedTable, kind?: string) {
+    let q = this.db.from(table).select("*").order("version", { ascending: false }).limit(100);
+    if (kind) q = q.eq("kind", kind);
+    return must(await q) as VersionRow[];
+  }
+  async insertVersion(table: VersionedTable, row: VersionRow) {
+    must(await this.db.from(table).insert(row));
+  }
+  async updateVersion(table: VersionedTable, version: number, patch: Partial<VersionRow>, kind?: string) {
+    let q = this.db.from(table).update(patch).eq("version", version);
+    if (kind) q = q.eq("kind", kind);
+    must(await q);
+  }
+  async publishVersion(table: VersionedTable, version: number, by: string, kind?: string) {
+    must(await (table === "remote_config"
+      ? this.db.rpc("publish_config", { v: version, by_email: by })
+      : this.db.rpc("publish_pack", { pack_kind: kind, v: version, by_email: by })));
+  }
 
   async adminRow(uid: string) {
     return must(await this.db.from("admins").select("user_id, email, role, invited_by").eq("user_id", uid).maybeSingle()) as AdminRow | null;

@@ -2,7 +2,7 @@
 // rules depend on it; nothing else.
 
 import type { Role } from "./access.ts";
-import type { AdminRow, AuditEntry, AuditQuery, Store } from "./store.ts";
+import type { AdminRow, AuditEntry, AuditQuery, Store, VersionedTable, VersionRow } from "./store.ts";
 
 /** A token with the given assurance level (the handler only reads `aal`). */
 export const token = (aal: "aal1" | "aal2") => `h.${btoa(JSON.stringify({ aal })).replace(/=+$/, "")}.s`;
@@ -20,6 +20,32 @@ export class FakeStore implements Store {
   deletionsCounted = 0;
   calls: string[] = [];
   extra: Record<string, unknown> = {};
+  configs: VersionRow[] = [];
+  packs: VersionRow[] = [];
+
+  private rows(table: VersionedTable) {
+    return table === "remote_config" ? this.configs : this.packs;
+  }
+  versions(table: VersionedTable, kind?: string) {
+    return Promise.resolve(this.rows(table).filter((r) => !kind || r.kind === kind).map((r) => ({ ...r })).sort((a, b) => b.version - a.version));
+  }
+  insertVersion(table: VersionedTable, row: VersionRow) {
+    this.rows(table).push({ ...row });
+    return Promise.resolve();
+  }
+  updateVersion(table: VersionedTable, version: number, patch: Partial<VersionRow>, kind?: string) {
+    const r = this.rows(table).find((x) => x.version === version && (!kind || x.kind === kind));
+    if (r) Object.assign(r, patch);
+    return Promise.resolve();
+  }
+  publishVersion(table: VersionedTable, version: number, by: string, kind?: string) {
+    const rows = this.rows(table).filter((x) => !kind || x.kind === kind);
+    const target = rows.find((x) => x.version === version && (x.status === "draft" || x.status === "in_review"));
+    if (!target) return Promise.reject(new Error("not_publishable"));
+    for (const r of rows) if (r.status === "published") r.status = "archived";
+    Object.assign(target, { status: "published", published_by: by });
+    return Promise.resolve();
+  }
 
   adminRow(uid: string) {
     return Promise.resolve(this.admins.get(uid) ?? null);

@@ -3,6 +3,7 @@
 
 import { aalOf, can, type Capability, type Role } from "./access.ts";
 import type { AdminRow, AuditEntry, Store } from "./store.ts";
+import { configRoutes } from "./config.ts";
 import { peopleRoutes } from "./people.ts";
 
 export interface Reply {
@@ -39,6 +40,7 @@ export const allRoutes: Record<string, Route> = {
     run: (ctx) => Promise.resolve(ok({ email: ctx.admin.email, role: ctx.admin.role })),
   },
   ...peopleRoutes,
+  ...configRoutes,
 };
 
 export async function handle(input: { jwt: string | null; body: unknown }, deps: Deps): Promise<Reply> {

@@ -2,11 +2,14 @@
 // from a photo, the user's own words about it, or both. Everything it returns
 // is an estimate the app asks the user to check.
 //
-// POST { image?: <base64 JPEG>, note?: "4 mini pizzas with beef", lang: "en" | "ar" | "es" }
+// POST { image?: <base64 JPEG>, note?: "4 mini pizzas with beef", lang: "en" | "ar" | "es",
+//        feature?: "eating_out", bucket?: 0-99 }
 // with the signed-in user's Authorization header.
 // -> 200 { foods: [{ name, local, sure, grams, kcal, protein, carbs, fat }], left }
 //    grams is the portion as eaten; the four nutrients are per 100 g.
 // -> 429 { error: "daily_cap", left: 0 }
+// -> 503 { error: "paused", reason: "feature_off" | "budget" | "maintenance" }
+//    when the Control Center has switched this off or today's AI budget is spent.
 //
 // Secrets: ANTHROPIC_API_KEY (set with `supabase secrets set`), plus
 // ANTHROPIC_WORKSPACE_ID when that key is not scoped to a workspace.
@@ -14,6 +17,8 @@
 
 import Anthropic from "npm:@anthropic-ai/sdk@0.131.0";
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
+import { costEur, featureOf, gate, pickModel } from "../_shared/ai_gate.ts";
+import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
 
 const MAX_IMAGE_BYTES = 4_000_000;
 const MAX_NOTE_CHARS = 500;
@@ -64,18 +69,19 @@ const reportFoods: Anthropic.Tool = {
 // A key that is not scoped to a workspace must name one on every request.
 const workspace = Deno.env.get("ANTHROPIC_WORKSPACE_ID");
 const anthropic = new Anthropic(workspace ? { defaultHeaders: { "anthropic-workspace-id": workspace } } : {});
+const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+const liveConfig = cachedConfig(publishedBody(admin));
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return json(405, { error: "method" });
 
   const jwt = req.headers.get("Authorization")?.replace(/^Bearer /, "");
   if (!jwt) return json(401, { error: "auth" });
-  const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const { data: who, error: authError } = await admin.auth.getUser(jwt);
   if (authError || !who.user) return json(401, { error: "auth" });
   const uid = who.user.id;
 
-  let body: { image?: unknown; note?: unknown; lang?: unknown };
+  let body: { image?: unknown; note?: unknown; lang?: unknown; feature?: unknown; bucket?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -87,13 +93,30 @@ Deno.serve(async (req) => {
   if (image.length * 0.75 > MAX_IMAGE_BYTES) return json(400, { error: "image" });
   const language = LANGS[typeof body.lang === "string" ? body.lang : "en"] ?? "English";
 
+  const feature = featureOf(body);
+  const config = await liveConfig();
+  const { data: spent } = await admin.rpc("ai_spend_today");
+  const open = gate(config, feature, Number(spent ?? 0));
+  if (!open.ok) return json(503, { error: "paused", reason: open.reason });
+  const bucket = Number.isInteger(body.bucket) && (body.bucket as number) >= 0 && (body.bucket as number) < 100
+    ? body.bucket as number
+    : 99;
+  const { model } = pickModel(config, bucket);
+  const usage = async (ok: boolean, started: number, u?: { input_tokens?: number; output_tokens?: number }) => {
+    await admin.rpc("note_ai_usage", {
+      feature, tokens_in: u?.input_tokens ?? 0, tokens_out: u?.output_tokens ?? 0,
+      cost_eur: u ? costEur(model, u) : 0, ok, latency_ms: Date.now() - started,
+    });
+  };
+
   const { data: left, error: creditError } = await admin.rpc("take_ai_credit", { uid });
   if (creditError) return json(500, { error: "credit" });
   if (left < 0) return json(429, { error: "daily_cap", left: 0 });
 
+  const started = Date.now();
   try {
     const response = await anthropic.messages.create({
-      model: "claude-haiku-5-5",
+      model,
       max_tokens: 2048,
       output_config: { effort: "low" },
       tools: [reportFoods],
@@ -121,6 +144,7 @@ Deno.serve(async (req) => {
       ],
     });
 
+    await usage(response.stop_reason !== "refusal", started, response.usage);
     if (response.stop_reason === "refusal") {
       await admin.rpc("refund_ai_credit", { uid });
       return json(422, { error: "refused", left: left + 1 });
@@ -129,6 +153,7 @@ Deno.serve(async (req) => {
     const foods = (call?.type === "tool_use" ? (call.input as { foods?: unknown }).foods : null) ?? [];
     return json(200, { foods, left });
   } catch (e) {
+    await usage(false, started);
     await admin.rpc("refund_ai_credit", { uid });
     if (e instanceof Anthropic.RateLimitError) return json(503, { error: "busy", left: left + 1 });
     if (e instanceof Anthropic.APIError) return json(502, { error: "model", left: left + 1 });
