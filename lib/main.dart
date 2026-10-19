@@ -8,12 +8,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app.dart';
 import 'data/cloud.dart';
+import 'data/crash_reports.dart';
 import 'data/local_db.dart';
 import 'state/cloud_providers.dart';
 import 'state/providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await startCrashReports();
   try {
     // One digit style everywhere: Western digits in Arabic too, as in the design.
     DateFormat.useNativeDigitsByDefaultFor('ar', false);
@@ -31,6 +33,7 @@ Future<void> main() async {
     );
   } catch (e, s) {
     // Never hang on the splash: show what went wrong instead.
+    reportError(e, s);
     runApp(_StartupFailed(error: e, stack: s));
   }
 }

@@ -19,7 +19,19 @@ jobs:
           flutter-version: 3.47.7
           channel: stable
       - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
+      # Crash reports: Firebase values from secrets (docs/CRASHES.md); empty means off.
+      - name: Crash reports config
+        env:
+          P: ${{ secrets.FIREBASE_PROJECT_ID }}
+          S: ${{ secrets.FIREBASE_SENDER_ID }}
+          AK: ${{ secrets.FIREBASE_ANDROID_API_KEY }}
+          AA: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          IK: ${{ secrets.FIREBASE_IOS_API_KEY }}
+          IA: ${{ secrets.FIREBASE_IOS_APP_ID }}
+        run: |
+          jq -n --arg p "$P" --arg s "$S" --arg ak "$AK" --arg aa "$AA" --arg ik "$IK" --arg ia "$IA" \
+            '{FIREBASE_PROJECT_ID:$p,FIREBASE_SENDER_ID:$s,FIREBASE_ANDROID_API_KEY:$ak,FIREBASE_ANDROID_APP_ID:$aa,FIREBASE_IOS_API_KEY:$ik,FIREBASE_IOS_APP_ID:$ia}' > firebase.json
+      - run: flutter build ios --release --no-codesign --dart-define-from-file=firebase.json
       # An .ipa is a zip with the app inside a Payload folder.
       - run: |
           mkdir Payload

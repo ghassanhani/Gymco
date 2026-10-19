@@ -38,8 +38,20 @@ jobs:
           keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
           PROPS
       - run: flutter pub get
+      # Crash reports: Firebase values from secrets (docs/CRASHES.md); empty means off.
+      - name: Crash reports config
+        env:
+          P: ${{ secrets.FIREBASE_PROJECT_ID }}
+          S: ${{ secrets.FIREBASE_SENDER_ID }}
+          AK: ${{ secrets.FIREBASE_ANDROID_API_KEY }}
+          AA: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          IK: ${{ secrets.FIREBASE_IOS_API_KEY }}
+          IA: ${{ secrets.FIREBASE_IOS_APP_ID }}
+        run: |
+          jq -n --arg p "$P" --arg s "$S" --arg ak "$AK" --arg aa "$AA" --arg ik "$IK" --arg ia "$IA" \
+            '{FIREBASE_PROJECT_ID:$p,FIREBASE_SENDER_ID:$s,FIREBASE_ANDROID_API_KEY:$ak,FIREBASE_ANDROID_APP_ID:$aa,FIREBASE_IOS_API_KEY:$ik,FIREBASE_IOS_APP_ID:$ia}' > firebase.json
       # Every run gets a higher build number than the last, as the stores require.
-      - run: flutter build appbundle --release --build-number=$((100 + GITHUB_RUN_NUMBER))
+      - run: flutter build appbundle --release --dart-define-from-file=firebase.json --build-number=$((100 + GITHUB_RUN_NUMBER))
       - uses: actions/upload-artifact@v4
         with:
           name: gymco-android-aab
@@ -69,7 +81,19 @@ jobs:
         if: env.HAS_ASC != 'true'
         run: echo "::error::Set APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID and ASC_KEY_P8 first (docs/RELEASE.md)." && exit 1
       - run: flutter pub get
-      - run: flutter build ios --release --no-codesign --build-number=$((100 + GITHUB_RUN_NUMBER))
+      # Crash reports: Firebase values from secrets (docs/CRASHES.md); empty means off.
+      - name: Crash reports config
+        env:
+          P: ${{ secrets.FIREBASE_PROJECT_ID }}
+          S: ${{ secrets.FIREBASE_SENDER_ID }}
+          AK: ${{ secrets.FIREBASE_ANDROID_API_KEY }}
+          AA: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          IK: ${{ secrets.FIREBASE_IOS_API_KEY }}
+          IA: ${{ secrets.FIREBASE_IOS_APP_ID }}
+        run: |
+          jq -n --arg p "$P" --arg s "$S" --arg ak "$AK" --arg aa "$AA" --arg ik "$IK" --arg ia "$IA" \
+            '{FIREBASE_PROJECT_ID:$p,FIREBASE_SENDER_ID:$s,FIREBASE_ANDROID_API_KEY:$ak,FIREBASE_ANDROID_APP_ID:$aa,FIREBASE_IOS_API_KEY:$ik,FIREBASE_IOS_APP_ID:$ia}' > firebase.json
+      - run: flutter build ios --release --no-codesign --dart-define-from-file=firebase.json --build-number=$((100 + GITHUB_RUN_NUMBER))
       - name: Archive, sign and send to TestFlight
         env:
           TEAM: ${{ secrets.APPLE_TEAM_ID }}
