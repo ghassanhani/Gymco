@@ -7,9 +7,11 @@ import { aiCost, barGeometry, cleanCode, fmtBytes, fmtInt, weekCompare } from ".
 const SUPABASE_URL = "https://vncadogzpeoawikgafaj.supabase.co";
 const PUBLISHABLE_KEY = "sb_publishable_8ZM7KKxLHCzpUpfygmyFcA_5kK_PY2P";
 const FREE_DB_BYTES = 500_000_000;
+const ADMIN_URL = "https://gymcoapp.com/admin/";
 
-const sb = window.supabase.createClient(SUPABASE_URL, PUBLISHABLE_KEY);
 const $ = (id) => document.getElementById(id);
+// supabase-js comes from a CDN; if it didn't load, say so instead of a blank page.
+const sb = window.supabase?.createClient(SUPABASE_URL, PUBLISHABLE_KEY);
 const show = (...ids) => {
   for (const id of ["login", "locked", "dash", "error", "bar-actions"]) $(id).hidden = !ids.includes(id);
 };
@@ -27,10 +29,11 @@ $("email-form").addEventListener("submit", async (e) => {
   const email = $("email").value.trim();
   if (!email) return loginError("Enter your email.");
   await busy(e.submitter, async () => {
-    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+    // The email may hold a link, a code or both: the link comes back here signed in.
+    const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: ADMIN_URL } });
     if (error) return loginError(/signup|not found|not allowed/i.test(error.message) ? "No Gymco account uses that email." : "Couldn't send the code. Try again in a minute.");
     pendingEmail = email;
-    $("code-sent").textContent = `We sent a code to ${email}.`;
+    $("code-sent").textContent = `We emailed ${email}. Open the link in it, or type the code.`;
     $("email-form").hidden = true;
     $("code-form").hidden = false;
     loginError("");
@@ -86,6 +89,7 @@ $("retry").addEventListener("click", () => load());
 // ---- Loading -------------------------------------------------------------
 
 async function load() {
+  if (!sb) return location.reload();
   const { data } = await sb.auth.getSession();
   const session = data.session;
   if (!session) return show("login");
@@ -137,7 +141,6 @@ function render(s) {
   chart($("chart-signups"), s.signups, "sign-ups");
   chart($("chart-scans"), s.scans, "scans");
 
-  const capped = s.scans.slice(-7).reduce((a, d) => a + d.capped, 0);
   const deleted = s.deletions.slice(-7).reduce((a, d) => a + d.n, 0);
   const share = Math.min(1, s.db_bytes / FREE_DB_BYTES);
   $("health").innerHTML = `
@@ -146,7 +149,7 @@ function render(s) {
       <div class="meter" role="meter" aria-label="Database size" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(share * 100)}"><i style="width:${(share * 100).toFixed(1)}%"></i></div>
     </div>
     <div><dt>Backups stored</dt><dd>${fmtInt(s.backups.count)} · ${fmtBytes(s.backups.bytes)}</dd></div>
-    <div><dt>Hit the daily scan cap · 7 days</dt><dd>${fmtInt(capped)}</dd></div>
+    <div><dt>Accounts that hit the daily scan cap · 7 days</dt><dd>${fmtInt(s.capped_7d)}</dd></div>
     <div><dt>Accounts deleted · 7 days</dt><dd>${fmtInt(deleted)}</dd></div>`;
 
   const at = new Date(s.generated_at);
@@ -203,7 +206,13 @@ function chart(el, series, noun) {
   });
 }
 
-sb.auth.onAuthStateChange((event) => {
-  if (event === "SIGNED_OUT") show("login");
-});
-load();
+if (sb) {
+  sb.auth.onAuthStateChange((event) => {
+    if (event === "SIGNED_OUT") show("login");
+    // Arriving from the email's link: the session lands after the first load.
+    if (event === "SIGNED_IN" && !$("login").hidden) load();
+  });
+  load();
+} else {
+  show("error");
+}

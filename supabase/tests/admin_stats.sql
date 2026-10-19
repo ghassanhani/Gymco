@@ -6,6 +6,7 @@ union all select 'scans is 30 days', jsonb_array_length(s->'scans') = 30 from s
 union all select 'deletions is 30 days', jsonb_array_length(s->'deletions') = 30 from s
 union all select 'series ends today', (s->'signups'->29->>'day')::date = current_date from s
 union all select 'accounts match', (s->>'accounts')::int = (select count(*) from auth.users) from s
+union all select 'capped_7d counts accounts', (s->>'capped_7d')::int = (select count(distinct user_id) from public.ai_usage where day > current_date - 7 and count >= 10) from s
 union all select 'no emails leak', position('@' in s::text) = 0 from s
 union all select 'anon cannot read', not has_function_privilege('anon', 'public.admin_stats()', 'execute')
 union all select 'users cannot read', not has_function_privilege('authenticated', 'public.admin_stats()', 'execute')

@@ -32,7 +32,7 @@
   <section class="login card" id="login" hidden>
     <h1>Sign in</h1>
     <form id="email-form" novalidate>
-      <p class="muted">We'll email you a 6-digit code. Only Gymco admins can see this page.</p>
+      <p class="muted">We'll email you a sign-in link and code. Only Gymco admins can see this page.</p>
       <label for="email">Email</label>
       <input id="email" type="email" autocomplete="email" required>
       <button class="btn btn-primary btn-wide" type="submit">Send code</button>
@@ -101,7 +101,7 @@
 
 <div class="tip" id="tip" role="status" hidden></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js" crossorigin="anonymous"></script>
 <script type="module" src="admin.js"></script>
 </body>
 </html>
