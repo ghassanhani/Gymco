@@ -12,13 +12,15 @@ import 'dart:math' as math;
 
 import 'energy.dart';
 
+import 'remote_config.dart';
+
 enum CheatAllowance { off, oncePerWeek, twicePerWeek }
 
 extension CheatAllowanceX on CheatAllowance {
   int get perWeek => index;
 }
 
-const double steepSliceKcal = 300;
+double get steepSliceKcal => RemoteConfig.current.bankedSliceWarnKcal;
 
 class BankDay {
   const BankDay({required this.date, required this.target, required this.slice});
@@ -52,8 +54,9 @@ BankPlan planBankedCheat({
   required DateTime mealDay,
   required double extraKcal,
   required Macros dailyTarget,
-  double floor = defaultKcalFloor,
+  double? floor,
 }) {
+  floor ??= defaultKcalFloor;
   final start = DateTime(today.year, today.month, today.day);
   final end = DateTime(mealDay.year, mealDay.month, mealDay.day);
   final n = math.max(1, end.difference(start).inDays);

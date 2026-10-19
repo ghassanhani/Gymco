@@ -66,6 +66,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   FakeReminders? reminders,
   HealthSync? health,
   PhotoStore? photos,
+  String? appVersion,
 }) async {
   // A phone, not the default 800 × 600 window.
   tester.view.physicalSize = const Size(1170, 2532);
@@ -94,6 +95,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         reminderSchedulerProvider.overrideWithValue(reminders ?? FakeReminders()),
         healthSyncProvider.overrideWithValue(health ?? const NoHealth()),
         photoStoreProvider.overrideWithValue(photos ?? MemoryPhotoStore()),
+        appVersionProvider.overrideWithValue(appVersion),
       ],
       child: const GymcoApp(),
     ),
@@ -180,9 +182,28 @@ class FakeCloud implements Cloud {
   @override
   Future<CloudBackup?> download() async => backup;
 
+  Map<String, Object?>? config;
+  Map<String, String>? lastDevice;
+  String? lastFeature;
+  bool paused = false;
+
   @override
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''}) async {
+  Future<Map<String, Object?>?> fetchConfig(Map<String, String> device) async {
+    lastDevice = device;
+    return config;
+  }
+
+  @override
+  Future<(List<PhotoFood>, int)> scanPhoto(
+    Uint8List? jpeg, {
+    required String languageCode,
+    String note = '',
+    String? feature,
+    int? bucket,
+  }) async {
     lastNote = note;
+    lastFeature = feature;
+    if (paused) throw const CloudException(CloudFailure.paused);
     lastHadImage = jpeg != null;
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
     return (photoFoods, --scansLeft);

@@ -3060,7 +3060,31 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get photoCap => 'Ya has usado las 10 fotos de hoy. Vuelven mañana; mientras, escribe o busca.';
+  String photoCap(int n) {
+    return 'Ya has usado las $n fotos de hoy. Vuelven mañana; mientras, escribe o busca.';
+  }
+
+  @override
+  String get gateUpdateTitle => 'Es hora de actualizar Gymco';
+
+  @override
+  String get gateUpdateBody =>
+      'Esta versión ya no puede sincronizar ni hacer copias de forma segura. Actualiza para seguir; todo lo de tu teléfono se queda.';
+
+  @override
+  String get gateUpdateCta => 'Actualizar';
+
+  @override
+  String get gateSuggest => 'Hay una versión nueva de Gymco.';
+
+  @override
+  String get gateLater => 'Más tarde';
+
+  @override
+  String get gateRestingTitle => 'Gymco está descansando';
+
+  @override
+  String get photoPaused => 'El registro por foto descansa hasta mañana. Escribir o buscar siguen funcionando.';
 
   @override
   String get photoRefused => 'No se ha podido leer esa foto. Prueba con otra.';

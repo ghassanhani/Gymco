@@ -16,6 +16,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import 'badge3d.dart';
+import '../../state/config_providers.dart';
 
 // ---------------------------------------------------------------- names
 
@@ -536,64 +537,65 @@ class AwardsScreen extends ConsumerWidget {
                     ),
                   ),
                   // The month's challenge sits on the lime glow, as the prototype draws it.
-                  Pressable(
-                    onTap: () => context.push('/progress/award/month'),
-                    scale: 0.99,
-                    label: awardName(l, month, now, loc),
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(24)),
-                      child: Row(
-                        children: [
-                          // The challenge under way shows in colour, done or not.
-                          BadgeFace(
-                            award: month,
-                            size: 58,
-                            month: DateFormat.MMM(loc).format(now).toUpperCase(),
-                            dim: false,
-                          ),
-                          const SizedBox(width: 14),
-                          Expanded(
-                            child: GapCol(
-                              gap: 6,
-                              cross: CrossAxisAlignment.stretch,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        awardName(l, month, now, loc),
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Volt.ink,
+                  if (ref.watch(remoteConfigProvider).monthlyChallenge)
+                    Pressable(
+                      onTap: () => context.push('/progress/award/month'),
+                      scale: 0.99,
+                      label: awardName(l, month, now, loc),
+                      child: Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(24)),
+                        child: Row(
+                          children: [
+                            // The challenge under way shows in colour, done or not.
+                            BadgeFace(
+                              award: month,
+                              size: 58,
+                              month: DateFormat.MMM(loc).format(now).toUpperCase(),
+                              dim: false,
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: GapCol(
+                                gap: 6,
+                                cross: CrossAxisAlignment.stretch,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          awardName(l, month, now, loc),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Volt.ink,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Text(
-                                      '${math.min(month.have, month.need)} / ${month.need}',
-                                      textDirection: TextDirection.ltr,
-                                      style: numStyle(12, color: const Color(0xFF2E4A0A)),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  month.earned ? l.challengeDone(month.need) : l.challengeLeft(month.need, daysLeft),
-                                  style: const TextStyle(fontSize: 12, color: Color(0xFF2E4A0A)),
-                                ),
-                                VBar(
-                                  fraction: math.min(1, month.have / month.need),
-                                  color: Volt.ink,
-                                  track: const Color(0x2E000000),
-                                  height: 8,
-                                ),
-                              ],
+                                      Text(
+                                        '${math.min(month.have, month.need)} / ${month.need}',
+                                        textDirection: TextDirection.ltr,
+                                        style: numStyle(12, color: const Color(0xFF2E4A0A)),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    month.earned ? l.challengeDone(month.need) : l.challengeLeft(month.need, daysLeft),
+                                    style: const TextStyle(fontSize: 12, color: Color(0xFF2E4A0A)),
+                                  ),
+                                  VBar(
+                                    fraction: math.min(1, month.have / month.need),
+                                    color: Volt.ink,
+                                    track: const Color(0x2E000000),
+                                    height: 8,
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                   _Shelf(title: l.shelfStreaks, awards: s.awards.where((a) => a.group == AwardGroup.streak).toList()),
                   _Shelf(title: l.shelfFood, awards: s.awards.where((a) => a.group == AwardGroup.food).toList()),
                   _Shelf(

@@ -3064,7 +3064,31 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get photoCap => 'هذه صور اليوم العشر. تعود غدًا؛ اكتب أو ابحث في الأثناء.';
+  String photoCap(int n) {
+    return 'انتهت صور اليوم ($n). تعود غدًا؛ اكتب أو ابحث في الأثناء.';
+  }
+
+  @override
+  String get gateUpdateTitle => 'حان وقت تحديث Gymco';
+
+  @override
+  String get gateUpdateBody =>
+      'لم يعد هذا الإصدار قادرًا على المزامنة أو النسخ الاحتياطي بأمان. حدّث للمتابعة؛ كل ما على هاتفك يبقى.';
+
+  @override
+  String get gateUpdateCta => 'تحديث';
+
+  @override
+  String get gateSuggest => 'إصدار أحدث من Gymco جاهز.';
+
+  @override
+  String get gateLater => 'لاحقًا';
+
+  @override
+  String get gateRestingTitle => 'Gymco في استراحة';
+
+  @override
+  String get photoPaused => 'تسجيل الصور في استراحة حتى الغد. الكتابة والبحث ما زالا يعملان.';
 
   @override
   String get photoRefused => 'تعذّرت قراءة هذه الصورة. جرّب صورة أخرى.';

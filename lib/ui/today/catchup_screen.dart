@@ -8,6 +8,7 @@ import '../../state/catchup_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import '../../state/config_providers.dart';
 
 enum _Fill { usual, rough, leave }
 
@@ -166,7 +167,7 @@ class CatchupCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final days = ref.watch(openDaysProvider).value ?? const <OpenDay>[];
-    if (days.isEmpty) return const SizedBox.shrink();
+    if (days.isEmpty || !ref.watch(remoteConfigProvider).catchUp) return const SizedBox.shrink();
     return VCard(
       tight: true,
       color: Volt.brandWash,

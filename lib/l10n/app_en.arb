@@ -2389,7 +2389,15 @@
       }
     }
   },
-  "photoCap": "That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.",
+  "photoCap": "That is today’s {n} photo scans. They come back tomorrow; write or search in the meantime.",
+  "gateUpdateTitle": "Time to update Gymco",
+  "gateUpdateBody": "This version can no longer sync or back up safely. Update to keep going; everything on your phone stays.",
+  "gateUpdateCta": "Update",
+  "gateSuggest": "A newer Gymco is ready.",
+  "gateLater": "Later",
+  "gateRestingTitle": "Gymco is resting",
+  "photoPaused": "Photo logging is resting until tomorrow. Write or search still work.",
+  "@photoCap": {"placeholders": {"n": {"type": "int"}}},
   "photoRefused": "That photo could not be read. Try another one.",
   "photoAgain": "Take another",
   "notInDbSearch": "Not on the phone — search for it",

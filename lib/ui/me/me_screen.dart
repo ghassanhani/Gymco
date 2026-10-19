@@ -16,6 +16,7 @@ import '../kit/kit.dart';
 import 'reminder_sheet.dart';
 import '../today/today_screen.dart' show goalShort;
 import 'pro_screen.dart';
+import '../../state/config_providers.dart';
 
 class MeScreen extends ConsumerWidget {
   const MeScreen({super.key});
@@ -89,38 +90,40 @@ class MeScreen extends ConsumerWidget {
                     row('dl', l.yourData, l.yourDataSub, () => context.push('/data')),
                   ],
                 ),
-                Eyebrow(l.safeguards, padding: const EdgeInsetsDirectional.only(start: 4)),
-                VList(
-                  children: [
-                    row(
-                      'star',
-                      l.cheatAllowance,
-                      cheatLabel(s.cheatAllowance),
-                      () => showVSheet<void>(
-                        context,
-                        title: l.cheatAllowance,
-                        body: (ctx) => [
-                          for (final a in CheatAllowance.values)
-                            SRow(
-                              label: cheatLabel(a),
-                              on: a == s.cheatAllowance,
-                              trail: a == s.cheatAllowance
-                                  ? const VIcon('check', size: 18, color: Volt.brandInk)
-                                  : null,
-                              onTap: () {
-                                notifier.setCheatAllowance(a);
-                                Navigator.pop(ctx);
-                              },
+                if (ref.watch(remoteConfigProvider).cheatMeals) ...[
+                  Eyebrow(l.safeguards, padding: const EdgeInsetsDirectional.only(start: 4)),
+                  VList(
+                    children: [
+                      row(
+                        'star',
+                        l.cheatAllowance,
+                        cheatLabel(s.cheatAllowance),
+                        () => showVSheet<void>(
+                          context,
+                          title: l.cheatAllowance,
+                          body: (ctx) => [
+                            for (final a in CheatAllowance.values)
+                              SRow(
+                                label: cheatLabel(a),
+                                on: a == s.cheatAllowance,
+                                trail: a == s.cheatAllowance
+                                    ? const VIcon('check', size: 18, color: Volt.brandInk)
+                                    : null,
+                                onTap: () {
+                                  notifier.setCheatAllowance(a);
+                                  Navigator.pop(ctx);
+                                },
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              child: Muted(l.cheatAllowanceNote),
                             ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Muted(l.cheatAllowanceNote),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
                 Eyebrow(l.reminders, padding: const EdgeInsetsDirectional.only(start: 4)),
                 VList(
                   children: [

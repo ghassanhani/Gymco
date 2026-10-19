@@ -96,8 +96,9 @@ CheckIn weeklyCheckIn({
   required double currentKcal,
   required Macros currentMacros,
   double? previousExpenditure,
-  double floor = defaultKcalFloor,
+  double? floor,
 }) {
+  floor ??= defaultKcalFloor;
   final sorted = [...days]..sort((a, b) => a.date.compareTo(b.date));
   final window = sorted.length > maxWindowDays ? sorted.sublist(sorted.length - maxWindowDays) : sorted;
   final last7 = window.length > 7 ? window.sublist(window.length - 7) : window;

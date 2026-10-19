@@ -4,7 +4,7 @@ import { defaults, ownerKeysChanged, resolve, validate } from "./config_schema.t
 Deno.test("defaults are what the app does today", () => {
   const d = defaults();
   assertEquals(d.limits.ai_scans_per_day, 10);
-  assertEquals(d.limits.photo_note_max_chars, 140);
+  assertEquals(d.limits.photo_note_max_chars, 500);
   assertEquals(d.safety.calorie_floor, 1700);
   assertEquals(d.safety.max_rate_pct_week, 1);
   assertEquals(d.safety.max_weekly_target_change_kcal, 120);

@@ -21,6 +21,7 @@ import 'confirm_log.dart';
 import 'eat_out_mode.dart';
 import 'photo_mode.dart';
 import 'write_mode.dart';
+import '../../state/config_providers.dart';
 
 /// The meal a bare "add food" goes to, from the time of day.
 Meal mealForHour(int h) => h < 11
@@ -162,7 +163,12 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       final note = missing.map((i) => _written[i].phrase.text).join('\n');
       final (foods, _) = await ref
           .read(cloudProvider)
-          .scanPhoto(null, languageCode: Localizations.localeOf(context).languageCode, note: note);
+          .scanPhoto(
+            null,
+            languageCode: Localizations.localeOf(context).languageCode,
+            note: note,
+            bucket: ref.read(installBucketProvider),
+          );
       final db = ref.read(dbProvider);
       if (foods.length == missing.length) {
         for (final (k, i) in missing.indexed) {
@@ -200,7 +206,12 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     try {
       final (foods, _) = await ref
           .read(cloudProvider)
-          .scanPhoto(null, languageCode: Localizations.localeOf(context).languageCode, note: it.phrase.text);
+          .scanPhoto(
+            null,
+            languageCode: Localizations.localeOf(context).languageCode,
+            note: it.phrase.text,
+            bucket: ref.read(installBucketProvider),
+          );
       final guess = foods.firstOrNull;
       final food = guess == null ? null : await resolveEstimate(ref.read(dbProvider), guess);
       if (!mounted) return;
@@ -436,13 +447,14 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     final results = [..._local, ..._online];
     final meal = mealName(l, _meal).toLowerCase();
 
+    final rc = ref.watch(remoteConfigProvider);
     final methods = [
       Method('search', l.mSearch, 'search'),
       Method('write', l.mWrite, 'list'),
-      Method('voice', l.mVoice, 'mic'),
-      Method('camera', l.mPhoto, 'camera'),
+      if (rc.dictate) Method('voice', l.mVoice, 'mic'),
+      if (rc.photoLog) Method('camera', l.mPhoto, 'camera'),
       Method('barcode', l.mBarcode, 'scan'),
-      Method('eatout', l.mEatOut, 'food'),
+      if (rc.eatingOut) Method('eatout', l.mEatOut, 'food'),
     ];
 
     final left = profile == null
@@ -874,10 +886,14 @@ class BarcodeMissScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  VBtn(
-                    label: l.contributeOff,
-                    trailingIcon: 'fwd',
-                    onTap: () => launchUrl(openFoodFactsAddUrl(code), mode: LaunchMode.externalApplication),
+                  Consumer(
+                    builder: (_, ref, _) => ref.watch(remoteConfigProvider).barcodeContribute
+                        ? VBtn(
+                            label: l.contributeOff,
+                            trailingIcon: 'fwd',
+                            onTap: () => launchUrl(openFoodFactsAddUrl(code), mode: LaunchMode.externalApplication),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   VBtn(label: l.cancel, kind: BtnKind.ghost, onTap: () => context.pop()),
                 ],

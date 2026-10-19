@@ -250,4 +250,31 @@ void main() {
     expect(find.textContaining('today’s 10 photo scans'), findsOneWidget);
     expect(find.text('No photo scans left today'), findsOneWidget);
   });
+
+  testWidgets('when the Control Center pauses AI, the phone says photos rest until tomorrow', (tester) async {
+    final cloud = FakeCloud(signedIn: 'sam@example.com')..paused = true;
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await _openPhoto(tester);
+    await tester.tap(find.bySemanticsLabel('Take a photo'));
+    await tester.pumpAndSettle();
+    expect(find.text('Photo logging is resting until tomorrow. Write or search still work.'), findsOneWidget);
+  });
+
+  testWidgets('switched-off features leave the food methods', (tester) async {
+    final cloud = FakeCloud(signedIn: 'sam@example.com')
+      ..config = {
+        'config_version': 2,
+        'config': {
+          'features': {'photo_log': false, 'eating_out': false, 'dictate': false},
+        },
+      };
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await tester.pumpAndSettle();
+    await tester.tap(find.bySemanticsLabel('Food').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Photo'), findsNothing);
+    expect(find.text('Voice'), findsNothing);
+    expect(find.text('Eat out'), findsNothing);
+    expect(find.text('Write'), findsOneWidget);
+  });
 }

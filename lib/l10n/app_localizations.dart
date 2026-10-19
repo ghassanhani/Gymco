@@ -5178,8 +5178,50 @@ abstract class AppLocalizations {
   /// No description provided for @photoCap.
   ///
   /// In en, this message translates to:
-  /// **'That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.'**
-  String get photoCap;
+  /// **'That is today’s {n} photo scans. They come back tomorrow; write or search in the meantime.'**
+  String photoCap(int n);
+
+  /// No description provided for @gateUpdateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time to update Gymco'**
+  String get gateUpdateTitle;
+
+  /// No description provided for @gateUpdateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This version can no longer sync or back up safely. Update to keep going; everything on your phone stays.'**
+  String get gateUpdateBody;
+
+  /// No description provided for @gateUpdateCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get gateUpdateCta;
+
+  /// No description provided for @gateSuggest.
+  ///
+  /// In en, this message translates to:
+  /// **'A newer Gymco is ready.'**
+  String get gateSuggest;
+
+  /// No description provided for @gateLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get gateLater;
+
+  /// No description provided for @gateRestingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco is resting'**
+  String get gateRestingTitle;
+
+  /// No description provided for @photoPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo logging is resting until tomorrow. Write or search still work.'**
+  String get photoPaused;
 
   /// No description provided for @photoRefused.
   ///

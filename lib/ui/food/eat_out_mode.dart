@@ -14,6 +14,7 @@ import '../common/format.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'confirm_log.dart';
+import '../../state/config_providers.dart';
 
 /// A restaurant dish at a normal portion: grams and its totals.
 typedef _Dish = ({String id, String name, double g, double kcal, double p, double c, double f});
@@ -113,6 +114,10 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
     final l = AppLocalizations.of(context);
     final text = _described.text.trim();
     if (text.isEmpty) return;
+    if (!ref.read(remoteConfigProvider).eatingOutAi) {
+      showVToast(context, l.photoPaused, info: true);
+      return;
+    }
     if ((ref.read(accountProvider).value ?? ref.read(cloudProvider).email) == null) {
       showVToast(context, l.aiNeedsAccount, info: true);
       context.push('/account');
@@ -123,7 +128,13 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
     try {
       final (foods, _) = await ref
           .read(cloudProvider)
-          .scanPhoto(null, languageCode: Localizations.localeOf(context).languageCode, note: l.eoAiNote(text));
+          .scanPhoto(
+            null,
+            languageCode: Localizations.localeOf(context).languageCode,
+            note: l.eoAiNote(text),
+            feature: 'eating_out',
+            bucket: ref.read(installBucketProvider),
+          );
       final db = ref.read(dbProvider);
       final out = <(Food, double)>[];
       for (final f in foods) {

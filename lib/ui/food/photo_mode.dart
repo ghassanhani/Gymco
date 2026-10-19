@@ -15,6 +15,7 @@ import '../common/format.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'confirm_log.dart';
+import '../../state/config_providers.dart';
 
 /// Photograph the plate, say or write what is on it, or both. The server
 /// names the foods and estimates each portion; foods the phone knows keep the
@@ -78,7 +79,9 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
       _failure = null;
     });
     try {
-      final (foods, left) = await ref.read(cloudProvider).scanPhoto(jpeg, languageCode: lang, note: _note.text);
+      final (foods, left) = await ref
+          .read(cloudProvider)
+          .scanPhoto(jpeg, languageCode: lang, note: _note.text, bucket: ref.read(installBucketProvider));
       final db = ref.read(dbProvider);
       final rows = [for (final f in foods) _Row(f, await resolveEstimate(db, f))];
       if (!mounted) return;
@@ -193,7 +196,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
           controller: _note,
           minLines: 2,
           maxLines: 4,
-          maxLength: 500,
+          maxLength: ref.watch(remoteConfigProvider).photoNoteMaxChars,
           onChanged: (_) => setState(() {}),
           style: const TextStyle(fontSize: 15, height: 1.45, color: Volt.t1),
           decoration: InputDecoration(
@@ -210,19 +213,20 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
             ),
           ),
         ),
-        PositionedDirectional(
-          end: 6,
-          top: 6,
-          child: IconBtn(
-            'mic',
-            label: l.dictateNote,
-            size: 38,
-            iconSize: 18,
-            background: _listening ? Volt.brand : Volt.card2,
-            color: _listening ? Volt.ink : Volt.t2,
-            onTap: _toggleDictation,
+        if (ref.watch(remoteConfigProvider).dictate)
+          PositionedDirectional(
+            end: 6,
+            top: 6,
+            child: IconBtn(
+              'mic',
+              label: l.dictateNote,
+              size: 38,
+              iconSize: 18,
+              background: _listening ? Volt.brand : Volt.card2,
+              color: _listening ? Volt.ink : Volt.t2,
+              onTap: _toggleDictation,
+            ),
           ),
-        ),
       ],
     );
 

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../data/cloud.dart';
+import '../../domain/remote_config.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
 import '../../theme/volt.dart';
@@ -15,7 +16,8 @@ String cloudMessage(AppLocalizations l, CloudFailure f) => switch (f) {
   CloudFailure.offline => l.errOffline,
   CloudFailure.badCode => l.errBadCode,
   CloudFailure.busy => l.errBusy,
-  CloudFailure.dailyCap => l.photoCap,
+  CloudFailure.dailyCap => l.photoCap(RemoteConfig.current.aiScansPerDay),
+  CloudFailure.paused => l.photoPaused,
   CloudFailure.refused => l.photoRefused,
   CloudFailure.signedOut || CloudFailure.unknown => l.errGeneric,
 };

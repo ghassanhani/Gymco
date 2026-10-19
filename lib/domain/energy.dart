@@ -7,6 +7,8 @@ library;
 
 import 'dart:math' as math;
 
+import 'remote_config.dart';
+
 enum Sex { male, female }
 
 /// The goals onboarding offers. Recomposition sits at maintenance; contest
@@ -24,17 +26,17 @@ enum Goal {
 /// Energy stored in a kilogram of body mass change, kcal.
 const double kcalPerKg = 7700;
 
-/// Weekly target changes are capped at ±120 kcal.
-const double maxWeeklyTargetChange = 120;
+/// Weekly target changes are capped at ±120 kcal (the Owner may lower it).
+double get maxWeeklyTargetChange => RemoteConfig.current.maxWeeklyChange;
 
-/// Rate of change is capped at 1% of body weight per week.
-const double maxRatePctPerWeek = 1.0;
+/// Rate of change is capped at 1% of body weight per week (the Owner may lower it).
+double get maxRatePctPerWeek => RemoteConfig.current.maxRatePctWeek;
 
 /// Above this rate the app warns explicitly.
 const double warnRatePctPerWeek = 0.85;
 
 /// Default floor no daily target goes below.
-const double defaultKcalFloor = 1700;
+double get defaultKcalFloor => RemoteConfig.current.calorieFloor;
 
 /// Smallest and largest windows the adaptive estimate uses.
 const int minWindowDays = 14;
@@ -146,8 +148,9 @@ double dailyTarget({
   required double expenditure,
   required double weightKg,
   required double ratePctPerWeek,
-  double floor = defaultKcalFloor,
+  double? floor,
 }) {
+  floor ??= defaultKcalFloor;
   final weeklyKg = weightKg * ratePctPerWeek / 100;
   final dailyDelta = weeklyKg * kcalPerKg / 7;
   return math.max(floor, expenditure + dailyDelta);

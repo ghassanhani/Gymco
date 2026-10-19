@@ -1,3 +1,5 @@
+import 'remote_config.dart';
+
 /// One drink: when, as minutes after midnight, and how much.
 typedef Sip = ({int minute, int ml});
 
@@ -27,6 +29,7 @@ class WaterDay {
 /// A daily water goal: about 35 ml per kg of body weight, with half a
 /// litre more on a training day, rounded to 100 ml and kept to 1.5–5 L.
 int waterGoalMl({required double weightKg, required bool trained}) {
-  final base = (weightKg * 35 / 100).round() * 100;
-  return (base + (trained ? 500 : 0)).clamp(1500, 5000);
+  final c = RemoteConfig.current;
+  final base = (weightKg * c.waterMlPerKg / 100).round() * 100;
+  return (base + (trained ? c.waterTrainingBonusMl : 0)).clamp(c.waterMinMl, c.waterMaxMl);
 }

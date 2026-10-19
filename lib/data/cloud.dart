@@ -64,7 +64,7 @@ class PhotoFood {
 }
 
 /// Why a cloud call did not go through, in terms the screen can say.
-enum CloudFailure { notSetUp, signedOut, offline, dailyCap, refused, busy, badCode, unknown }
+enum CloudFailure { notSetUp, signedOut, offline, dailyCap, refused, busy, paused, badCode, unknown }
 
 class CloudException implements Exception {
   const CloudException(this.failure);
@@ -113,7 +113,19 @@ abstract class Cloud {
 
   /// Names the foods in a JPEG, a written description, or both, with
   /// estimated portions. Returns them with the scans left today.
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''});
+  /// [feature] 'eating_out' marks an eating-out estimate; [bucket] is this
+  /// install's fixed 0–99 slot for model rollouts.
+  Future<(List<PhotoFood>, int)> scanPhoto(
+    Uint8List? jpeg, {
+    required String languageCode,
+    String note = '',
+    String? feature,
+    int? bucket,
+  });
+
+  /// The published remote config for this device, or null when there is
+  /// none to fetch. Works signed out.
+  Future<Map<String, Object?>?> fetchConfig(Map<String, String> device);
 }
 
 /// A build with no project: phone-only.
@@ -139,8 +151,15 @@ class NoCloud implements Cloud {
   @override
   Future<CloudBackup?> download() async => _no();
   @override
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''}) async =>
-      _no();
+  Future<(List<PhotoFood>, int)> scanPhoto(
+    Uint8List? jpeg, {
+    required String languageCode,
+    String note = '',
+    String? feature,
+    int? bucket,
+  }) async => _no();
+  @override
+  Future<Map<String, Object?>?> fetchConfig(Map<String, String> device) async => null;
 }
 
 class SupabaseCloud implements Cloud {
@@ -175,6 +194,7 @@ class SupabaseCloud implements Cloud {
         401 => CloudFailure.signedOut,
         429 => CloudFailure.dailyCap,
         422 => CloudFailure.refused,
+        503 when _isPaused(e.details) => CloudFailure.paused,
         502 || 503 => CloudFailure.busy,
         _ => CloudFailure.unknown,
       });
@@ -231,23 +251,50 @@ class SupabaseCloud implements Cloud {
     );
   });
 
+  static bool _isPaused(Object? details) {
+    final d = details is String
+        ? (() {
+            try {
+              return jsonDecode(details);
+            } catch (_) {
+              return null;
+            }
+          })()
+        : details;
+    return d is Map && d['error'] == 'paused';
+  }
+
   @override
-  Future<(List<PhotoFood>, int)> scanPhoto(Uint8List? jpeg, {required String languageCode, String note = ''}) =>
-      _guard(() async {
-        _uid;
-        final r = await _sb.functions.invoke(
-          'food-photo',
-          body: {
-            'image': ?(jpeg == null ? null : base64Encode(jpeg)),
-            'note': ?(note.trim().isEmpty ? null : note.trim()),
-            'lang': languageCode,
-          },
-        );
-        final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
-        final foods = [
-          for (final f in (data['foods'] as List? ?? const []))
-            if (f is Map) PhotoFood.fromJson(f.cast<String, Object?>()),
-        ].where((f) => f.name.isNotEmpty).toList();
-        return (foods, (data['left'] as num?)?.toInt() ?? 0);
-      });
+  Future<Map<String, Object?>?> fetchConfig(Map<String, String> device) => _guard(() async {
+    final r = await _sb.functions.invoke('app-config', method: HttpMethod.get, queryParameters: device);
+    final data = r.data is String ? jsonDecode(r.data as String) : r.data;
+    return data is Map ? data.cast<String, Object?>() : null;
+  });
+
+  @override
+  Future<(List<PhotoFood>, int)> scanPhoto(
+    Uint8List? jpeg, {
+    required String languageCode,
+    String note = '',
+    String? feature,
+    int? bucket,
+  }) => _guard(() async {
+    _uid;
+    final r = await _sb.functions.invoke(
+      'food-photo',
+      body: {
+        'image': ?(jpeg == null ? null : base64Encode(jpeg)),
+        'note': ?(note.trim().isEmpty ? null : note.trim()),
+        'lang': languageCode,
+        'feature': ?feature,
+        'bucket': ?bucket,
+      },
+    );
+    final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
+    final foods = [
+      for (final f in (data['foods'] as List? ?? const []))
+        if (f is Map) PhotoFood.fromJson(f.cast<String, Object?>()),
+    ].where((f) => f.name.isNotEmpty).toList();
+    return (foods, (data['left'] as num?)?.toInt() ?? 0);
+  });
 }

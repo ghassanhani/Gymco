@@ -10,6 +10,7 @@ import 'state/providers.dart';
 import 'state/health_providers.dart';
 import 'state/reminder_providers.dart';
 import 'theme/volt.dart';
+import 'ui/common/app_gate.dart';
 import 'ui/food/add_food_screen.dart';
 import 'ui/food/meal_screen.dart';
 import 'ui/food/scan_screen.dart';
@@ -219,7 +220,10 @@ class _GymcoAppState extends ConsumerState<GymcoApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
-      builder: (ctx, child) => Theme(data: Volt.theme(Localizations.localeOf(ctx)), child: child!),
+      builder: (ctx, child) => Theme(
+        data: Volt.theme(Localizations.localeOf(ctx)),
+        child: AppGateView(child: child!),
+      ),
       theme: Volt.theme(locale ?? const Locale('en')),
     );
   }

@@ -6,8 +6,10 @@
 /// 23:59 the next day. A broken streak keeps the best run on record.
 library;
 
-const int daysPerFreeze = 7;
-const int maxFreezes = 3;
+import 'remote_config.dart';
+
+int get daysPerFreeze => RemoteConfig.current.freezeEveryDays;
+int get maxFreezes => RemoteConfig.current.freezeMax;
 
 class StreakDay {
   const StreakDay({
@@ -92,7 +94,7 @@ StreakState computeStreak({required List<StreakDay> history, required DateTime s
     }
     if (d == today) {
       marks[d] = DayMark.today;
-    } else if (d == yesterday) {
+    } else if (d == yesterday && RemoteConfig.current.repairNextDay) {
       // Still inside the 23:59 window: the run is held, not broken.
       marks[d] = DayMark.repairable;
     } else if (freezes > 0) {

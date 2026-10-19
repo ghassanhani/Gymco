@@ -3053,7 +3053,31 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get photoCap => 'That is today’s 10 photo scans. They come back tomorrow; write or search in the meantime.';
+  String photoCap(int n) {
+    return 'That is today’s $n photo scans. They come back tomorrow; write or search in the meantime.';
+  }
+
+  @override
+  String get gateUpdateTitle => 'Time to update Gymco';
+
+  @override
+  String get gateUpdateBody =>
+      'This version can no longer sync or back up safely. Update to keep going; everything on your phone stays.';
+
+  @override
+  String get gateUpdateCta => 'Update';
+
+  @override
+  String get gateSuggest => 'A newer Gymco is ready.';
+
+  @override
+  String get gateLater => 'Later';
+
+  @override
+  String get gateRestingTitle => 'Gymco is resting';
+
+  @override
+  String get photoPaused => 'Photo logging is resting until tomorrow. Write or search still work.';
 
   @override
   String get photoRefused => 'That photo could not be read. Try another one.';

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/cloud.dart';
 import '../data/local_db.dart';
 import '../data/photo_picker.dart';
+import '../domain/remote_config.dart';
 import 'providers.dart';
 import 'training_providers.dart';
 
@@ -33,7 +34,8 @@ final lastBackupProvider = Provider<DateTime?>((ref) {
 
 /// Settings that belong to this phone or to the sign-in itself, not to the
 /// person: never backed up, never overwritten by a restore.
-bool _phoneOnly(String key) => key.startsWith('sb-') || key.startsWith('supabase') || key == _lastBackupKey;
+bool _phoneOnly(String key) =>
+    key.startsWith('sb-') || key.startsWith('supabase') || key.startsWith('rc.') || key == _lastBackupKey;
 
 /// Everything the user made, as one document.
 Future<Map<String, Object?>> backupPayload(LocalDb db, SharedPreferences prefs) async => {
@@ -65,27 +67,17 @@ class CloudActions {
     ref.invalidate(lastBackupProvider);
   }
 
-  BackupMeta _meta() {
-    const supported = {'en', 'ar', 'es'};
-    final lang =
-        ref.read(settingsProvider).languageCode ?? WidgetsBinding.instance.platformDispatcher.locale.languageCode;
-    return BackupMeta(
-      platform: switch (defaultTargetPlatform) {
-        TargetPlatform.iOS => 'ios',
-        TargetPlatform.android => 'android',
-        _ => null,
-      },
-      locale: supported.contains(lang) ? lang : 'en',
-      appVersion: ref.read(appVersionProvider),
-    );
-  }
+  BackupMeta _meta() => deviceMeta(ref);
 
   /// Backs up at most every six hours, quietly; a failure waits for next time.
   Future<void> backupIfDue() async {
     final cloud = ref.read(cloudProvider);
     if (!cloud.available || cloud.email == null) return;
     final last = ref.read(lastBackupProvider);
-    if (last != null && ref.read(clockProvider)().difference(last) < const Duration(hours: 6)) return;
+    // 0 in the remote config means the usual: at most every 6 h.
+    final minutes = RemoteConfig.current.backupIntervalMin;
+    final every = minutes == 0 ? const Duration(hours: 6) : Duration(minutes: minutes);
+    if (last != null && ref.read(clockProvider)().difference(last) < every) return;
     try {
       await backupNow();
     } on CloudException {
@@ -126,4 +118,20 @@ class CloudActions {
     ref.invalidate(routinesProvider);
     ref.invalidate(recentWorkoutsProvider);
   }
+}
+
+/// This phone's platform, language and version, as the dashboard counts them.
+BackupMeta deviceMeta(Ref ref) {
+  const supported = {'en', 'ar', 'es'};
+  final lang =
+      ref.read(settingsProvider).languageCode ?? WidgetsBinding.instance.platformDispatcher.locale.languageCode;
+  return BackupMeta(
+    platform: switch (defaultTargetPlatform) {
+      TargetPlatform.iOS => 'ios',
+      TargetPlatform.android => 'android',
+      _ => null,
+    },
+    locale: supported.contains(lang) ? lang : 'en',
+    appVersion: ref.read(appVersionProvider),
+  );
 }
