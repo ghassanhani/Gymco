@@ -1,5 +1,5 @@
 // Renders the Control Center against made-up data and saves screenshots.
-//   NODE_PATH=$(npm root -g) node test/site/cc_shots.mjs <out dir> [filter]
+//   NODE_PATH=$(npm root -g) node --experimental-strip-types test/site/cc_shots.mjs <out dir> [filter]
 // supabase-js and the admin function are stubbed; nothing leaves the machine.
 // Each shot checks the page has no horizontal overflow and shows what it should.
 
@@ -63,6 +63,11 @@ const SHOTS = [
   ["accounts-none", "#/accounts?email=nobody%40example.com", "dark", 1280, { expectText: "No account for" }],
   ["team", "#/team", "dark", 1440, { expect: "table" }],
   ["team-light", "#/team", "light", 1280, { expect: "table" }],
+  ["config", "#/config", "dark", 1440, { expect: ".cfg-row", expectText: "Draft v19" }],
+  ["config-light", "#/config", "light", 1440, { expect: ".cfg-row", expectText: "Today’s spend" }],
+  ["config-phone", "#/config", "dark", 390, { expect: ".cfg-row" }],
+  ["config-empty", "#/config", "light", 1280, { expect: ".cfg-row", empty: true, expectText: "Built-in defaults" }],
+  ["config-editor-review", "#/config", "dark", 1280, { role: "editor", review: true, expectText: "Sent to the Owner" }],
   ["support-role-config", "#/config", "dark", 1280, { role: "support", expectText: "needs the Editor role" }],
 ];
 
@@ -82,7 +87,7 @@ for (const [name, hash, scheme, width, o] of SHOTS) {
     const role = "role" in o ? o.role : "owner";
     if (!role) return r.fulfill({ status: 403, contentType: "application/json", body: JSON.stringify({ error: "not_admin" }) });
     if (o.failing?.includes(body.action)) return r.fulfill({ status: 500, contentType: "application/json", body: "{}" });
-    const [status, json] = fixtures(body, { role, empty: !!o.empty });
+    const [status, json] = fixtures(body, { role, empty: !!o.empty, review: !!o.review });
     return r.fulfill({ status, contentType: "application/json", body: JSON.stringify(json) });
   });
   await page.goto(`http://localhost:8765/admin/${hash}`);

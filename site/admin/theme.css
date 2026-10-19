@@ -310,3 +310,16 @@ tbody tr.clickable:hover td, tbody tr[aria-selected="true"] td { background: var
   .grid.kpis { grid-template-columns: minmax(0, 1fr); }
   .search { order: 3; flex-basis: 100%; }
 }
+
+/* Remote config */
+.strong { color: var(--text-1); font-weight: 600; }
+.cfg-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 10px 0; border-top: 1px solid var(--line); }
+.card-head + .cfg-row { border-top: 0; }
+.field-err { color: var(--critical); font-size: 12px; font-weight: 600; }
+.config-head { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+@media (max-width: 520px) {
+  .cfg-row:not(:has(> .toggle)) { flex-direction: column; align-items: stretch; }
+  .cfg-row > .stack[style] { width: auto !important; }
+}
+.cfg-row .chip { align-self: flex-start; margin-top: 4px; }
+.rule + .cfg-row { border-top: 0; }

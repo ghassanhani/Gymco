@@ -29,7 +29,7 @@ export const SCHEMA: Record<string, Record<string, KeySpec>> = {
     monthly_challenge: { kind: "bool", default: true, label: "Monthly challenge" },
   },
   limits: {
-    ai_scans_per_day: { kind: "int", default: 10, min: 0, max: 100, label: "AI scans per account per day" },
+    ai_scans_per_day: { kind: "int", default: 10, min: 1, max: 100, label: "AI scans per account per day" },
     photo_note_max_chars: { kind: "int", default: 140, min: 20, max: 500, label: "Photo note length" },
     backup_interval_min: { kind: "int", default: 0, min: 0, max: 1440, label: "Minutes between backups", help: "0 = when the app goes to the background, at most every 6 h" },
   },

@@ -56,8 +56,43 @@ const admins = [
   { user_id: "u-help", email: "helper@gymco.test", role: "support", mfa: false, last_sign_in_at: null },
 ];
 
+// The real schema, so the form is drawn exactly as the server describes it.
+const { SCHEMA, defaults } = await import("../../supabase/functions/_shared/config_schema.ts");
+
+function configGet(empty, review) {
+  const base = defaults();
+  if (empty) return { base, published: null, draft: null, diff: [], history: [], schema: SCHEMA, defaults: base };
+  const pub = structuredClone(base);
+  pub.rules = [
+    { key: "features.monthly_challenge", value: true, target: { locale: "ar", percent: 50 } },
+    { key: "features.monthly_challenge", value: true, target: { locale: "es", percent: 50 } },
+  ];
+  pub.app_gate.min_build_ios = 102;
+  pub.app_gate.min_build_android = 102;
+  pub.app_gate.recommended_build = 102;
+  pub.ai.rollout_percent = 20;
+  const draft = structuredClone(pub);
+  draft.limits.ai_scans_per_day = 12;
+  draft.features.cheat_meals = false;
+  draft.water.ml_per_kg = 33;
+  const at = "2026-10-18T09:00:00Z";
+  return {
+    base,
+    published: { version: 18, status: "published", body: pub, created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: at },
+    draft: { version: 19, status: review ? "in_review" : "draft", body: draft, created_by: "editor@gymco.test", submitted_by: review ? "editor@gymco.test" : null },
+    diff: [],
+    history: [
+      { version: 19, status: review ? "in_review" : "draft", created_by: "editor@gymco.test", created_at: "2026-10-19T08:00:00Z", note: "Raise cap for Ramadan" },
+      { version: 18, status: "published", created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: at, note: "Gate below build 102" },
+      { version: 17, status: "archived", created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: "2026-10-10T09:00:00Z", note: null },
+    ],
+    schema: SCHEMA,
+    defaults: base,
+  };
+}
+
 /** [status, body] for one admin request. */
-export function fixtures(body, { role, empty }) {
+export function fixtures(body, { role, empty, review }) {
   switch (body.action) {
     case "me": return [200, { email: "owner@gymco.test", role }];
     case "stats": return [200, stats(empty)];
@@ -65,6 +100,8 @@ export function fixtures(body, { role, empty }) {
     case "audit.export": return [200, { csv: "at,admin\n" }];
     case "team.list": return [200, { admins }];
     case "account.lookup": return body.email === card.email ? [200, card] : [404, { error: "no_account" }];
+    case "config.get": return [200, configGet(empty, review)];
+    case "config.save_draft": return [200, { diff: [] }];
     default: return [400, { error: "unknown_action" }];
   }
 }
