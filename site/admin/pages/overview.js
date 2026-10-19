@@ -19,7 +19,7 @@ export async function render(el, { call, isCurrent }) {
     call("stats", { range: 90 }),
     optional(call("audit.list", { limit: 5 })),
     optional(call("config.get")),
-    optional(call("tickets.list", { status: "open" })),
+    optional(call("tickets.list", { tab: "new" })),
   ]);
   if (!isCurrent()) return;
 
@@ -43,7 +43,7 @@ export async function render(el, { call, isCurrent }) {
     const budget = config?.published?.body?.ai?.daily_budget_eur ?? config?.defaults?.ai?.daily_budget_eur;
     const capNow = config?.published?.body?.limits?.ai_scans_per_day ?? 10;
     const cumulative = s.signups.reduce((acc, d) => (acc.push((acc.at(-1) ?? s.accounts - sum(s.signups)) + d.n), acc), []);
-    const alerts = alertsFor({ stats: s, config: config?.published?.body ?? null, tickets: tickets?.tickets ?? null });
+    const alerts = alertsFor({ stats: s, config: config?.published?.body ?? null, tickets: tickets?.items ?? null });
     const scanDelta = budget ? { text: `${Math.round(((s.cost_today ?? 0) / budget) * 100)}% budget`, tone: (s.cost_today ?? 0) / budget >= 0.8 ? "warn" : "flat" } : delta(s.scans_today, yesterdayScans);
 
     const tiles = [

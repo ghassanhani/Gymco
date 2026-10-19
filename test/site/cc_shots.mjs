@@ -91,6 +91,45 @@ const SHOTS = [
   ["plans-phone", "#/plans", "dark", 390, { expect: ".plan-card" }],
   ["plans-empty", "#/plans", "light", 1280, { empty: true, expectText: "No manual grants" }],
   ["plans-editor", "#/plans", "dark", 1280, { role: "editor", expectText: "Only the Owner can change these" }],
+  ["messaging", "#/messaging", "dark", 1440, { expect: ".phone", expectText: "Voice checklist" }],
+  ["messaging-light", "#/messaging", "light", 1280, { expect: ".phone", expectText: "Monthly challenges are here" }],
+  ["messaging-phone", "#/messaging", "dark", 390, { expect: ".phone" }],
+  ["messaging-voice", "#/messaging", "dark", 1280, { click: "tbody tr:nth-child(2) button", expectText: "Voice check: “burn off”" }],
+  ["messaging-push", "#/messaging?tab=push", "dark", 1440, { expect: "table", expectText: "quiet hours 22:00–08:00" }],
+  ["messaging-push-light", "#/messaging?tab=push", "light", 1280, { expect: "table", expectText: "Eating out estimates" }],
+  ["messaging-push-clash", "#/messaging?tab=push", "dark", 1280, { flags: { week_taken: true }, click: ".btn.publish", expectText: "Schedule for 30 Oct" }],
+  ["messaging-push-off", "#/messaging?tab=push", "dark", 1280, { flags: { push_off: true }, expectText: "Push isn’t set up yet" }],
+  ["messaging-email", "#/messaging?tab=email", "dark", 1280, { expectText: "Deletion confirmed" }],
+  ["messaging-empty", "#/messaging", "light", 1280, { empty: true, expectText: "No announcements yet" }],
+  ["messaging-editor", "#/messaging?tab=push", "dark", 1280, { role: "editor", expectText: "Scheduling needs the Owner" }],
+  ["support", "#/support", "dark", 1440, { expect: "table", expectText: "New · 4" }],
+  ["support-light", "#/support", "light", 1280, { expect: "table", expectText: "Restore failed after new phone" }],
+  ["support-phone", "#/support", "dark", 390, { expect: "table" }],
+  ["support-ticket", "#/support?id=t1", "dark", 1440, { expect: ".deadline", expectText: "days left to complete deletion" }],
+  ["support-ticket-light", "#/support?id=t2", "light", 1280, { expect: ".support-detail", expectText: "Open account" }],
+  ["support-deletion", "#/support?tab=deletion&id=t5", "dark", 1440, { expect: ".deadline.bad", expectText: "days overdue" }],
+  ["support-empty", "#/support", "light", 1280, { empty: true, expectText: "Inbox zero" }],
+  ["support-search", "#/support?q=kettlebell", "dark", 1280, { expectText: "Nothing matches" }],
+  ["support-role", "#/support", "dark", 1280, { role: "support", expect: "table" }],
+  ["support-viewer", "#/support", "dark", 1280, { role: "viewer", expectText: "needs the Support role" }],
+  ["releases", "#/releases", "dark", 1440, { expect: "table", expectText: "A hard block stops 26% of devices" }],
+  ["releases-light", "#/releases", "light", 1280, { expect: "table", expectText: "1.0.3" }],
+  ["releases-phone", "#/releases", "dark", 390, { expect: "table" }],
+  ["releases-no-github", "#/releases", "dark", 1280, { flags: { no_github: true }, expectText: "Add a GITHUB_TOKEN secret to see runs here" }],
+  ["releases-viewer", "#/releases", "light", 1280, { role: "viewer", expectText: "Changing the gate needs the Editor role" }],
+  ["releases-editor", "#/releases", "dark", 1280, { role: "editor", expectText: "Save to Remote config draft" }],
+  ["releases-empty", "#/releases", "dark", 1280, { empty: true, expectText: "No build yet" }],
+  ["website", "#/website?page=privacy", "dark", 1440, { expect: ".md-preview", expectText: "What we never collect" }],
+  ["website-light", "#/website?page=privacy", "light", 1280, { expect: ".md-preview", expectText: "Version history" }],
+  ["website-phone", "#/website", "dark", 390, { expect: ".md-preview" }],
+  ["website-ar", "#/website?page=privacy&lang=ar", "dark", 1280, { expect: ".md-preview[dir=rtl]" }],
+  ["website-empty", "#/website", "light", 1280, { empty: true, expectText: "Nothing drafted yet" }],
+  ["website-editor-review", "#/website?page=privacy", "dark", 1280, { role: "editor", review: true, expectText: "Sent to the Owner" }],
+  ["health", "#/health", "dark", 1440, { expect: ".kpi", expectText: "Crashlytics isn’t connected yet" }],
+  ["health-light", "#/health", "light", 1280, { expect: ".kpi", expectText: "ImprovMX forwarding" }],
+  ["health-phone", "#/health", "dark", 390, { expect: ".kpi" }],
+  ["health-error", "#/health", "dark", 1280, { failing: ["health"], expect: ".banner", expectText: "Couldn’t load the numbers" }],
+  ["health-empty", "#/health", "light", 1280, { empty: true, expectText: "No calls yet" }],
 ];
 
 let failures = 0;
@@ -109,7 +148,7 @@ for (const [name, hash, scheme, width, o] of SHOTS) {
     const role = "role" in o ? o.role : "owner";
     if (!role) return r.fulfill({ status: 403, contentType: "application/json", body: JSON.stringify({ error: "not_admin" }) });
     if (o.failing?.includes(body.action)) return r.fulfill({ status: 500, contentType: "application/json", body: "{}" });
-    const [status, json] = fixtures(body, { role, empty: !!o.empty, review: !!o.review });
+    const [status, json] = fixtures(body, { role, empty: !!o.empty, review: !!o.review, flags: o.flags ?? {} });
     return r.fulfill({ status, contentType: "application/json", body: JSON.stringify(json) });
   });
   await page.goto(`http://localhost:8765/admin/${hash}`);

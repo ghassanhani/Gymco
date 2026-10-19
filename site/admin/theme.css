@@ -369,3 +369,36 @@ tbody tr.clickable:hover td, tbody tr[aria-selected="true"] td { background: var
 .plan-dot { width: 12px; height: 12px; flex: none; border-radius: 999px; background: var(--plan); box-shadow: 0 0 16px var(--plan); }
 .plan-price { font-size: 28px; font-weight: 700; line-height: 1.1; }
 .store-id { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--line); }
+
+/* Messaging: the lock-screen style push preview */
+.phone .ppush { border: 1px solid #2A2E33; }
+.bullets { margin: 0; padding-inline-start: 20px; color: var(--text-2); font-size: 13px; display: flex; flex-direction: column; gap: 4px; }
+
+/* Support inbox: the detail panel and the deletion countdown */
+.support-row > .support-side { flex: 1 1 380px; }
+.support-detail { gap: 14px; }
+.support-detail .from-admin { border-inline-start: 3px solid var(--brand-edge); }
+.deadline { display: flex; align-items: center; gap: 16px; padding: 14px 18px; border-radius: 18px; background: var(--sheet); border: 1px solid var(--line); }
+.deadline .bignum { font-size: 44px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; min-width: 64px; }
+.deadline.warn { border-color: var(--warn); background: var(--warn-wash); }
+.deadline.warn .bignum { color: var(--warn); }
+.deadline.bad { border-color: var(--critical); background: var(--critical-wash); }
+.deadline.bad .bignum { color: var(--critical); }
+
+/* Website: Markdown editor and preview */
+.md-input { min-height: 320px; font-size: 13px; line-height: 1.5; }
+.md-preview { min-height: 320px; display: flex; flex-direction: column; gap: 10px; line-height: 1.55; overflow-wrap: anywhere; }
+.md-preview .md-title { margin: 0; font-size: 26px; line-height: 1.15; }
+.md-preview h2, .md-preview h3, .md-preview h4, .md-preview h5, .md-preview h6 { margin: 8px 0 0; }
+.md-preview .md-h2 { font-size: 17px; }
+.md-preview .md-h3 { font-size: 15px; }
+.md-preview p { margin: 0; color: var(--text-2); }
+.md-preview ul, .md-preview ol { margin: 0; padding-inline-start: 20px; color: var(--text-2); display: flex; flex-direction: column; gap: 4px; }
+.md-preview a { text-decoration: underline; }
+.md-grid { align-items: start; }
+
+/* Releases: the two store cards and versions side by side */
+.grid.stores { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* System health: service rows stay a row on phones (the chip is short) */
+.cfg-row.svc, .cfg-row.svc:not(:has(> .toggle)) { flex-direction: row; align-items: center; }
