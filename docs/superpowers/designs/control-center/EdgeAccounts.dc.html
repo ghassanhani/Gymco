@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edge cases — accounts and support</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button,input,select{font-family:inherit}.num{font-variant-numeric:tabular-nums}</style>
+</helmet>
+<div style="width: 1200px; height: 1100px; box-sizing: border-box; padding: 48px; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">Accounts &amp; <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #D9FF5C">support</span></h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">A · No account for that email · reason missing</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Exact email</span><input value="[user@exampel.com]" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; font-size: 14px"></label>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Reason (logged)</span><select aria-invalid="true" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #FF5C5C; background: #111315; color: #8D948A; font-size: 14px"><option>Pick a reason</option></select><span style="font-size: 12px; color: #FF5C5C; font-weight: 600">Pick a reason before opening an account.</span></label>
+<div style="border: 1px dashed #3A3F45; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 700">No account matches this email</span>
+<span style="color: #8D948A; font-size: 13px">Search is exact, so check spelling. The person may also have deleted their account, or never turned on backup.</span>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">B · Confirm delete · email doesn’t match yet</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 24px">
+<div style="position: absolute; inset: 0; background: rgba(10,11,9,0.7)"></div>
+<div role="dialog" aria-label="Delete account" style="position: relative; width: 400px; background: #1F2226; border: 1px solid #3A3F45; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 20px; font-weight: 700; color: #FF5C5C">Delete account and backup?</div>
+<div style="color: #C9CEC4">This can’t be undone. The diary on their phone stays, but the backup and sign-in are gone.</div>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Type [user@example.com] to confirm</span><input value="user@exa" style="min-height: 44px; padding: 0 16px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; font-size: 14px"></label>
+<div style="display: flex; gap: 8px; justify-content: flex-end">
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Cancel</button>
+<button type="button" disabled style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: #2A2E33; color: #5F665C; font-weight: 700; cursor: not-allowed">Delete forever</button>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">C · Deletion deadline near / overdue</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: rgba(255,210,63,0.08); border: 1px solid rgba(255,210,63,0.4)"><span class="num" style="font-size: 26px; font-weight: 800; color: #FFD23F">3</span><div><div style="font-weight: 700">days left · Please delete my data</div><div style="font-size: 12px; color: #C9CEC4">Shown in yellow from 7 days left</div></div></div>
+<div style="display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: rgba(255,92,92,0.10); border: 1px solid #FF5C5C"><span class="num" style="font-size: 26px; font-weight: 800; color: #FF5C5C">−2</span><div><div style="font-weight: 700">days overdue · Delete account</div><div style="font-size: 12px; color: #C9CEC4">Pinned to the top of the inbox and the Overview alerts</div></div></div>
+<div style="display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: #111315"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #8D948A"></span><div><div style="font-weight: 700">Sender email has no account</div><div style="font-size: 12px; color: #8D948A">Reply with the “nothing stored” template and mark Solved</div></div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">D · Action results</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 12px; justify-content: center">
+<div role="status" style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 999px; background: #1F2226; border: 1px solid #3A3F45"><span aria-hidden="true" style="color: #7CF0B0; font-weight: 800">✓</span><span style="flex: 1">Scan cap reset. 10 scans available today.</span></div>
+<div role="status" style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 999px; background: #1F2226; border: 1px solid #3A3F45"><span aria-hidden="true" style="color: #7CF0B0; font-weight: 800">✓</span><span style="flex: 1">Account deleted. Logged with reason “deletion request”.</span></div>
+<div role="alert" style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 999px; background: rgba(255,92,92,0.10); border: 1px solid #FF5C5C"><span aria-hidden="true" style="color: #FF5C5C; font-weight: 800">!</span><span style="flex: 1">Delete failed: delete-account timed out. Nothing was removed.</span><button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #FF5C5C; background: transparent; color: #FF5C5C; font-weight: 700">Retry</button></div>
+<div role="status" style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 999px; background: #1F2226; border: 1px solid #3A3F45"><span aria-hidden="true" style="color: #FFD23F; font-weight: 800">i</span><span style="flex: 1">No backup yet. Last backup time and size will appear after the first one.</span></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

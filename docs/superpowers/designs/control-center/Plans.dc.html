@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — Plans and pricing</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315"><dc-import name="Sidebar" active="Plans & pricing" hint-size="100%,900px"></dc-import></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px"><button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12">Production</button><button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Staging</button></div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700">GH</button>
+</header>
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">App · Owner only</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700">Plans &amp; <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">pricing</span></h1>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; background: #1A230D; border: 1px solid #4D6B12; border-radius: 24px; padding: 18px 20px">
+<div style="flex: 1 1 300px"><div style="font-weight: 700; color: #D9FF5C">Testing mode is on</div><div style="font-size: 13px; color: #C9CEC4">Every Pro feature is unlocked for everyone. The paywall is off.</div></div>
+<button type="button" role="switch" aria-checked="true" aria-label="Testing mode" style="width: 48px; height: 28px; border-radius: 999px; border: 1px solid #C6F432; background: #C6F432; padding: 3px; display: flex; justify-content: flex-end"><span style="width: 20px; height: 20px; border-radius: 999px; background: #0A0B09"></span></button>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+<sc-for list="{{plans}}" as="p" hint-placeholder-count="3">
+<div style="{{p.card}}">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 20px; font-weight: 800">{{p.name}}</span><span style="{{p.dot}}"></span></div>
+<div class="num" style="font-size: 30px; font-weight: 700">{{p.price}}</div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #8D948A"><span>App Store · <span style="font-family: ui-monospace, Menlo, monospace; color: #C9CEC4">{{p.ios}}</span></span><span>Google Play · <span style="font-family: ui-monospace, Menlo, monospace; color: #C9CEC4">{{p.android}}</span></span></div>
+<span style="font-size: 12px; color: #8D948A">{{p.note}}</span>
+</div>
+</sc-for>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<div style="flex: 1 1 360px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 6px">
+<h2 style="margin: 0 0 8px; font-size: 16px; font-weight: 700">What sits behind Pro</h2>
+<sc-for list="{{features}}" as="f" hint-placeholder-count="6">
+<label style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #2A2E33; cursor: pointer">
+<input type="checkbox" checked="{{f.pro}}" style="width: 20px; height: 20px; accent-color: #C6F432">
+<span style="flex: 1">{{f.name}}</span>
+<span style="font-size: 12px; color: #8D948A">{{f.tier}}</span>
+</label>
+</sc-for>
+</div>
+
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px; overflow-x: auto">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap"><h2 style="margin: 0; font-size: 16px; font-weight: 700">Prices by region</h2><span style="font-size: 12px; color: #8D948A">Mirrored from the stores · read only</span></div>
+<table style="width: 100%; min-width: 420px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="text-align: left; color: #8D948A; font-size: 12px"><th scope="col" style="font-weight: 600; padding: 0 12px 10px 0; border-bottom: 1px solid #2A2E33">Region</th><th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33; text-align: right">Pro / month</th><th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33; text-align: right">Pro / year</th><th scope="col" style="font-weight: 600; padding: 0 0 10px 12px; border-bottom: 1px solid #2A2E33; text-align: right">Lifetime</th></tr></thead>
+<tbody>
+<sc-for list="{{regions}}" as="r" hint-placeholder-count="4">
+<tr><td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #2A2E33; font-weight: 600">{{r.name}}</td><td class="num" style="padding: 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #C9CEC4">{{r.m}}</td><td class="num" style="padding: 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #C9CEC4">{{r.y}}</td><td class="num" style="padding: 12px 0 12px 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #C9CEC4">{{r.l}}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px"><h2 style="margin: 0; font-size: 16px; font-weight: 700">Promo codes</h2><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #C6F432; color: #0A0B09; font-weight: 700; font-size: 13px">New code</button></div>
+<sc-for list="{{codes}}" as="c" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; background: #111315">
+<span style="font-family: ui-monospace, Menlo, monospace; font-weight: 600">{{c.code}}</span>
+<span style="flex: 1; font-size: 12px; color: #8D948A">{{c.what}}</span>
+<span class="num" style="font-size: 12px; color: #C9CEC4">{{c.used}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var card = 'background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px; ';
+    var dot = function (c) { return 'width: 12px; height: 12px; border-radius: 999px; background: ' + c + '; box-shadow: 0 0 16px ' + c + ';'; };
+    return {
+      plans: [
+        { name: 'Free', price: '€0', ios: '—', android: '—', note: 'Diary, training, 10 scans a day', card: card + 'border: 1px solid #2A2E33;', dot: dot('#8D948A') },
+        { name: 'Pro', price: '€[0.99] / mo', ios: 'gymco.pro.monthly', android: 'gymco_pro_monthly', note: 'Intro offer: [7-day trial]', card: card + 'border: 1px solid #4D6B12; box-shadow: 0 0 40px rgba(198,244,50,0.08);', dot: dot('#C6F432') },
+        { name: 'Lifetime', price: '€[00.99]', ios: 'gymco.lifetime', android: 'gymco_lifetime', note: 'One-time purchase', card: card + 'border: 1px solid rgba(124,240,176,0.4); box-shadow: 0 0 40px rgba(124,240,176,0.08);', dot: dot('#7CF0B0') }
+      ],
+      features: [
+        { name: 'AI photo logging', pro: false, tier: 'Free · capped' },
+        { name: 'Eating out estimates', pro: false, tier: 'Free' },
+        { name: 'Account backup', pro: false, tier: 'Free' },
+        { name: 'Custom routine templates', pro: true, tier: 'Pro' },
+        { name: 'Advanced progress charts', pro: true, tier: 'Pro' },
+        { name: 'Extra daily scans', pro: true, tier: 'Pro' }
+      ],
+      regions: [
+        { name: 'Spain (EUR)', m: '[€0.00]', y: '[€00.00]', l: '[€00.00]' },
+        { name: 'Saudi Arabia (SAR)', m: '[SAR 0.00]', y: '[SAR 00.00]', l: '[SAR 00.00]' },
+        { name: 'United States (USD)', m: '[$0.00]', y: '[$00.00]', l: '[$00.00]' },
+        { name: 'UAE (AED)', m: '[AED 0.00]', y: '[AED 00.00]', l: '[AED 00.00]' }
+      ],
+      codes: [
+        { code: 'PRESS2026', what: 'Lifetime · press', used: '[3] / 20' },
+        { code: 'TESTERS', what: 'Pro 3 months · testers', used: '[12] / 50' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

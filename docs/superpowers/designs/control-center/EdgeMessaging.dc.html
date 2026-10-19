@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edge cases — messaging and releases</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button,input,textarea{font-family:inherit}.num{font-variant-numeric:tabular-nums}.mono{font-family:ui-monospace,Menlo,monospace}</style>
+</helmet>
+<div style="width: 1200px; height: 1100px; box-sizing: border-box; padding: 48px; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">Messaging &amp; <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #D9FF5C">releases</span></h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">A · Push limits</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div style="padding: 16px; border-radius: 18px; background: rgba(255,210,63,0.08); border: 1px solid rgba(255,210,63,0.4); display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">One campaign a week is already scheduled</div>
+<div style="font-size: 13px; color: #C9CEC4">“New: Eating out estimates” goes out Thu 23 Oct. The next free slot is Thu 30 Oct.</div>
+<div style="display: flex; gap: 8px; margin-top: 4px"><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #C6F432; color: #0A0B09; font-weight: 700">Schedule for 30 Oct</button><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Save as draft</button></div>
+</div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">23:30 is inside quiet hours</div>
+<div style="font-size: 13px; color: #C9CEC4">Phones in each time zone get it at 08:00 their time instead.</div>
+</div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; border: 1px dashed #3A3F45; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">Push isn’t set up yet</div>
+<div style="font-size: 13px; color: #8D948A">Connect Firebase Cloud Messaging and APNs to send campaigns. In-app announcements still work.</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">B · Announcement form errors</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Starts</span><input value="31 Oct 2026" class="num" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0"></label>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Ends</span><input aria-invalid="true" value="20 Oct 2026" class="num" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #FF5C5C; background: #111315; color: #F5F7F0"></label>
+</div>
+<span style="font-size: 12px; color: #FF5C5C; font-weight: 600; margin-top: -6px">End date is before the start date.</span>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Body (EN)</span><textarea rows="2" style="border-radius: 14px; border: 1px solid #FFD23F; background: #111315; color: #F5F7F0; padding: 10px 14px; resize: none">Burn off the weekend with this challenge!</textarea><span style="font-size: 12px; color: #FFD23F; font-weight: 600">Voice check: “burn off” ties exercise to food. Try “Start the week strong”.</span></label>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span style="font-size: 12px; padding: 4px 12px; border-radius: 999px; background: rgba(255,92,92,0.10); color: #FF5C5C; font-weight: 600">AR missing</span><span style="font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #1F2226; color: #C9CEC4">Overlaps 1 live announcement · only the newest shows</span></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">C · Build failed / store rejected</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div role="alert" style="padding: 16px; border-radius: 18px; background: rgba(255,92,92,0.08); border: 1px solid #FF5C5C; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">Signed release failed · step “Sign iOS”</div>
+<div class="mono" style="font-size: 12px; color: #C9CEC4">error: provisioning profile expired [date]</div>
+<div style="display: flex; gap: 8px; margin-top: 4px"><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #C6F432; color: #0A0B09; font-weight: 700">Re-run</button><a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; color: #F5F7F0; font-weight: 600">View log ↗</a></div>
+</div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; border: 1px solid #FFD23F; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">Google Play: 1.0.3 rejected</div>
+<div style="font-size: 13px; color: #C9CEC4">Policy note: data safety form doesn’t mention account backup. The minimum version stays at 102 until a build is approved.</div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">D · Website publish problems</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div role="alert" style="padding: 16px; border-radius: 18px; background: rgba(255,92,92,0.08); border: 1px solid #FF5C5C; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">GitHub Pages deploy failed</div>
+<div style="font-size: 13px; color: #C9CEC4">The commit to site/ landed, but the live page still shows v4. Retry or open the Actions run.</div>
+<button type="button" style="align-self: flex-start; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #C6F432; color: #0A0B09; font-weight: 700">Retry deploy</button>
+</div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; border: 1px solid #FFD23F; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">Privacy v5 changes what you collect</div>
+<div style="font-size: 13px; color: #C9CEC4">Users will be asked to accept it on next launch. Update the store privacy labels too.</div>
+</div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 700">Unsaved changes</div>
+<div style="font-size: 13px; color: #C9CEC4">Leave this page? Your Markdown edits in AR haven’t been saved as a draft.</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

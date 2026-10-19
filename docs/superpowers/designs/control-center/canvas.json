@@ -1,0 +1,22 @@
+{"v":3,"createdOnFiles":{"v":1,"at":"2026-10-19T12:00:00Z"},"title":"Gymco Control Center","launch":{"view":"canvas"},"pages":[],"boards":{
+"Sidebar.dc.html":{"x":-352,"y":0,"w":232,"h":900,"title":"Sidebar (shared)"},
+"Main.dc.html":{"x":0,"y":0,"w":1440,"h":1560,"title":"01 Overview","expand":"fill","radius":0,"is_interactive":true},
+"Health.dc.html":{"x":1520,"y":0,"w":1440,"h":1400,"title":"02 System health","expand":"fill","radius":0,"is_interactive":true},
+"Accounts.dc.html":{"x":3040,"y":0,"w":1440,"h":1300,"title":"03 Accounts","expand":"fill","radius":0,"is_interactive":true},
+"Support.dc.html":{"x":0,"y":1680,"w":1440,"h":1200,"title":"04 Support inbox","expand":"fill","radius":0,"is_interactive":true},
+"RemoteConfig.dc.html":{"x":1520,"y":1680,"w":1440,"h":1700,"title":"05 Remote config & AI","expand":"fill","radius":0,"is_interactive":true},
+"Content.dc.html":{"x":3040,"y":1680,"w":1440,"h":1300,"title":"06 Content","expand":"fill","radius":0,"is_interactive":true},
+"Plans.dc.html":{"x":0,"y":3500,"w":1440,"h":1400,"title":"07 Plans & pricing","expand":"fill","radius":0,"is_interactive":true},
+"Messaging.dc.html":{"x":1520,"y":3500,"w":1440,"h":1300,"title":"08 Messaging","expand":"fill","radius":0,"is_interactive":true},
+"Releases.dc.html":{"x":3040,"y":3500,"w":1440,"h":1400,"title":"09 Releases","expand":"fill","radius":0,"is_interactive":true},
+"Website.dc.html":{"x":0,"y":5020,"w":1440,"h":1200,"title":"10 Website","expand":"fill","radius":0,"is_interactive":true},
+"Team.dc.html":{"x":1520,"y":5020,"w":1440,"h":1400,"title":"11 Team & audit log","expand":"fill","radius":0,"is_interactive":true},
+"EdgeAccess.dc.html":{"x":0,"y":6900,"w":1200,"h":1100,"title":"Edge · Sign-in & permissions"},
+"EdgeAccounts.dc.html":{"x":1280,"y":6900,"w":1200,"h":1100,"title":"Edge · Accounts & support"},
+"EdgeConfig.dc.html":{"x":2560,"y":6900,"w":1200,"h":1100,"title":"Edge · Config & publishing"},
+"EdgeAI.dc.html":{"x":3840,"y":6900,"w":1200,"h":1100,"title":"Edge · AI budget & app gate"},
+"EdgeContent.dc.html":{"x":0,"y":8120,"w":1200,"h":1100,"title":"Edge · Content validation"},
+"EdgeMessaging.dc.html":{"x":1280,"y":8120,"w":1200,"h":1100,"title":"Edge · Messaging & releases"},
+"EdgeSystem.dc.html":{"x":2560,"y":8120,"w":1200,"h":1100,"title":"Edge · Loading, empty, error"},
+"Phone.dc.html":{"x":3840,"y":8120,"w":390,"h":844,"title":"Edge · Phone width"}
+},"order":["Sidebar.dc.html","Main.dc.html","Health.dc.html","Accounts.dc.html","Support.dc.html","RemoteConfig.dc.html","Content.dc.html","Plans.dc.html","Messaging.dc.html","Releases.dc.html","Website.dc.html","Team.dc.html","EdgeAccess.dc.html","EdgeAccounts.dc.html","EdgeConfig.dc.html","EdgeAI.dc.html","EdgeContent.dc.html","EdgeMessaging.dc.html","EdgeSystem.dc.html","Phone.dc.html"],"notes":{"title":{"x":0,"y":-300,"text":"Gymco Control Center · Volt dark","kind":"title1","maxW":4480},"edges":{"x":0,"y":6600,"text":"Edge cases & states","kind":"title1","maxW":5040}},"designSystems":[]}

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — System health</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315"><dc-import name="Sidebar" active="System health" hint-size="100%,900px"></dc-import></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px"><button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12">Production</button><button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Staging</button></div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700">GH</button>
+</header>
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">Monitor</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700">System <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">health</span></h1>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; color: #F5F7F0; font-weight: 600; font-size: 13px">Supabase ↗</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; color: #F5F7F0; font-weight: 600; font-size: 13px">Firebase ↗</a>
+<a href="#" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; color: #F5F7F0; font-weight: 600; font-size: 13px">GitHub ↗</a>
+</div>
+</div>
+
+<section aria-label="Health numbers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<sc-for list="{{tiles}}" as="k" hint-placeholder-count="4">
+<div style="background: #15171A; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">{{k.label}}</span><span style="{{k.chip}}">{{k.state}}</span></div>
+<div class="num" style="font-size: 30px; font-weight: 700; line-height: 1">{{k.value}}</div>
+<div style="height: 8px; border-radius: 999px; background: #1F2226; overflow: hidden"><div style="{{k.bar}}"></div></div>
+<span style="font-size: 12px; color: #8D948A">{{k.note}}</span>
+</div>
+</sc-for>
+</section>
+
+<section style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap"><h2 style="margin: 0; font-size: 16px; font-weight: 700">Edge functions · last 24 h</h2><span style="font-size: 12px; color: #8D948A">Alert when error rate passes 2%</span></div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 640px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="text-align: left; color: #8D948A; font-size: 12px">
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px 0; border-bottom: 1px solid #2A2E33">Function</th>
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33; text-align: right">Invocations</th>
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33; text-align: right">Error rate</th>
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33; text-align: right">Median latency</th>
+<th scope="col" style="font-weight: 600; padding: 0 0 10px 12px; border-bottom: 1px solid #2A2E33">Status</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{fns}}" as="f" hint-placeholder-count="5">
+<tr>
+<td style="padding: 14px 12px 14px 0; border-bottom: 1px solid #2A2E33; font-family: ui-monospace, Menlo, monospace; font-size: 13px">{{f.name}}</td>
+<td class="num" style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #C9CEC4">{{f.calls}}</td>
+<td class="num" style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #C9CEC4">{{f.err}}</td>
+<td class="num" style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #C9CEC4">{{f.lat}}</td>
+<td style="padding: 14px 0 14px 12px; border-bottom: 1px solid #2A2E33"><span style="{{f.chip}}">{{f.status}}</span></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 380px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Top crashes</h2>
+<div style="border: 1px dashed #3A3F45; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 8px; align-items: flex-start">
+<span style="font-weight: 600">Crashlytics isn’t connected yet</span>
+<span style="color: #8D948A; font-size: 13px">Crash-free sessions and the top crashes appear here once Firebase Crashlytics is configured in the app.</span>
+<a href="#" style="font-weight: 600; font-size: 13px">Set up Crashlytics</a>
+</div>
+</div>
+<div style="flex: 1 1 380px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Services</h2>
+<sc-for list="{{services}}" as="s" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #2A2E33">
+<span aria-hidden="true" style="{{s.dot}}"></span>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600">{{s.name}}</div><div style="font-size: 12px; color: #8D948A">{{s.note}}</div></div>
+<span style="{{s.chip}}">{{s.state}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var c = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; ';
+    var good = c + 'color: #7CF0B0; background: rgba(124,240,176,0.10);';
+    var warn = c + 'color: #FFD23F; background: rgba(255,210,63,0.10);';
+    var bad = c + 'color: #FF5C5C; background: rgba(255,92,92,0.12);';
+    var flat = c + 'color: #C9CEC4; background: #1F2226;';
+    var bar = function (p, col) { return 'width: ' + p + '%; height: 100%; border-radius: 999px; background: ' + col + ';'; };
+    var dot = function (col) { return 'width: 10px; height: 10px; border-radius: 999px; flex: none; background: ' + col + ';'; };
+    return {
+      tiles: [
+        { label: 'Crash-free sessions', value: '—', state: 'Not set up', chip: flat, bar: bar(0, '#C6F432'), note: 'Target 99% or higher' },
+        { label: 'Edge function errors', value: '[0.0]%', state: 'Healthy', chip: good, bar: bar(18, '#C6F432'), note: 'Alert at 2%' },
+        { label: 'Database size', value: '[000] MB', state: '[00]% of plan', chip: flat, bar: bar(34, '#C6F432'), note: 'Supabase plan limit [000] MB' },
+        { label: 'Storage (backups)', value: '[0.0] GB', state: 'Near limit', chip: warn, bar: bar(82, '#FFD23F'), note: 'Plan limit [0] GB' }
+      ],
+      fns: [
+        { name: 'food-photo', calls: '[0,000]', err: '[0.0]%', lat: '[0.0] s', status: 'Healthy', chip: good },
+        { name: 'app-config', calls: '[00,000]', err: '[0.0]%', lat: '[000] ms', status: 'Healthy', chip: good },
+        { name: 'admin-stats', calls: '[00]', err: '[0.0]%', lat: '[000] ms', status: 'Healthy', chip: good },
+        { name: 'delete-account', calls: '[0]', err: '[00.0]%', lat: '[000] ms', status: 'Errors', chip: bad },
+        { name: 'inbound-email', calls: '[00]', err: '[0.0]%', lat: '[000] ms', status: 'Healthy', chip: good }
+      ],
+      services: [
+        { name: 'Auth email delivery', note: '[0] failures in 24 h', state: 'OK', chip: good, dot: dot('#7CF0B0') },
+        { name: 'ImprovMX forwarding', note: 'support@gymcoapp.com → inbox', state: 'OK', chip: good, dot: dot('#7CF0B0') },
+        { name: 'CI · signed release', note: 'Last run failed on iOS signing', state: 'Failed', chip: bad, dot: dot('#FF5C5C') },
+        { name: 'GitHub Pages', note: 'gymcoapp.com deployed', state: 'OK', chip: good, dot: dot('#7CF0B0') }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

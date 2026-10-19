@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — Support inbox</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315"><dc-import name="Sidebar" active="Support inbox" hint-size="100%,900px"></dc-import></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px"><button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12">Production</button><button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Staging</button></div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700">GH</button>
+</header>
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">People</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700">Support <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">inbox</span></h1>
+</div>
+<div role="group" aria-label="Status filter" style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" aria-pressed="true" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #4D6B12; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px">New · [4]</button>
+<button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Waiting · [3]</button>
+<button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Solved</button>
+<button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Deletion requests</button>
+</div>
+</div>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<div style="flex: 3 1 520px; min-width: 0; background: #15171A; border-radius: 24px; padding: 8px 8px 16px; overflow-x: auto">
+<table style="width: 100%; min-width: 620px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="text-align: left; color: #8D948A; font-size: 12px">
+<th scope="col" style="font-weight: 600; padding: 14px 16px; border-bottom: 1px solid #2A2E33">Subject</th>
+<th scope="col" style="font-weight: 600; padding: 14px 12px; border-bottom: 1px solid #2A2E33">Lang</th>
+<th scope="col" style="font-weight: 600; padding: 14px 12px; border-bottom: 1px solid #2A2E33">Version</th>
+<th scope="col" style="font-weight: 600; padding: 14px 12px; border-bottom: 1px solid #2A2E33">Status</th>
+<th scope="col" style="font-weight: 600; padding: 14px 16px; border-bottom: 1px solid #2A2E33; text-align: right">Age</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{tickets}}" as="t" hint-placeholder-count="6">
+<tr style="{{t.row}}">
+<td style="padding: 14px 16px; border-bottom: 1px solid #2A2E33"><div style="font-weight: 600">{{t.subject}}</div><div style="font-size: 12px; color: #8D948A">{{t.email}} · {{t.tag}}</div></td>
+<td style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; color: #C9CEC4">{{t.lang}}</td>
+<td class="num" style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; color: #C9CEC4">{{t.ver}}</td>
+<td style="padding: 14px 12px; border-bottom: 1px solid #2A2E33"><span style="{{t.chip}}">{{t.status}}</span></td>
+<td class="num" style="padding: 14px 16px; border-bottom: 1px solid #2A2E33; text-align: right; {{t.ageStyle}}">{{t.age}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<aside aria-label="Ticket" style="flex: 2 1 380px; min-width: 0; background: #111315; border: 1px solid #2A2E33; border-radius: 30px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start">
+<div><div style="font-weight: 700; font-size: 18px">Please delete my account</div><div style="font-size: 12px; color: #8D948A">[user@example.com] · Arabic · v1.0.2 · via support@gymcoapp.com</div></div>
+<a href="Accounts.dc.html" style="font-size: 13px; font-weight: 600; white-space: nowrap">Open account</a>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; background: rgba(255,92,92,0.08); border: 1px solid rgba(255,92,92,0.4)">
+<span class="num" style="font-size: 24px; font-weight: 800; color: #FF5C5C">27</span>
+<div><div style="font-weight: 600">days left to complete deletion</div><div style="font-size: 12px; color: #C9CEC4">Legal deadline: 30 days from [16 Oct]</div></div>
+</div>
+<div style="padding: 14px 16px; border-radius: 18px; background: #15171A; color: #C9CEC4; font-size: 13px">[Customer message appears here.]</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<span style="font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #1A230D; color: #D9FF5C; box-shadow: inset 0 0 0 1px #4D6B12">deletion</span>
+<button type="button" style="font-size: 12px; padding: 4px 12px; border-radius: 999px; border: 1px dashed #3A3F45; background: transparent; color: #C9CEC4">+ Tag</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<label style="font-size: 12px; font-weight: 600; color: #8D948A" for="tpl">Reply template</label>
+<div role="tablist" aria-label="Language" style="display: flex; gap: 4px; background: #15171A; padding: 4px; border-radius: 999px">
+<button type="button" role="tab" aria-selected="false" style="border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; color: #C9CEC4; font-size: 12px; font-weight: 600">EN</button>
+<button type="button" role="tab" aria-selected="true" style="border: 0; padding: 6px 12px; border-radius: 999px; background: #1F2226; color: #D9FF5C; font-size: 12px; font-weight: 700">AR</button>
+<button type="button" role="tab" aria-selected="false" style="border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; color: #C9CEC4; font-size: 12px; font-weight: 600">ES</button>
+</div>
+</div>
+<select id="tpl" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: #15171A; color: #F5F7F0; font-size: 14px"><option>Deletion confirmed</option><option>Restore help</option><option>Scan cap reset</option></select>
+<textarea rows="4" aria-label="Reply" style="border-radius: 18px; border: 1px solid #3A3F45; background: #15171A; color: #F5F7F0; padding: 12px 14px; font-size: 14px; resize: vertical">[Reply text from the template]</textarea>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" style="flex: 1; min-height: 44px; border: 0; border-radius: 999px; background: #C6F432; color: #0A0B09; font-weight: 700">Send and mark Solved</button>
+<button type="button" style="min-height: 44px; padding: 0 18px; border: 1px solid #3A3F45; border-radius: 999px; background: transparent; color: #F5F7F0; font-weight: 600">Set Waiting</button>
+</div>
+</aside>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var c = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; ';
+    var nw = c + 'color: #D9FF5C; background: #1A230D;';
+    var wait = c + 'color: #FFD23F; background: rgba(255,210,63,0.10);';
+    var done = c + 'color: #7CF0B0; background: rgba(124,240,176,0.10);';
+    var sel = 'background: #1A230D;';
+    var late = 'color: #FF5C5C; font-weight: 700;';
+    var ok = 'color: #8D948A;';
+    return { tickets: [
+      { subject: 'Please delete my account', email: '[user@example.com]', tag: 'deletion', lang: 'AR', ver: '1.0.2', status: 'New', chip: nw, age: '3 d', ageStyle: late, row: sel },
+      { subject: 'Restore didn’t bring back my meals', email: '[user@example.com]', tag: 'bug', lang: 'EN', ver: '1.0.2', status: 'New', chip: nw, age: '26 h', ageStyle: late, row: '' },
+      { subject: 'Photo logging says resting', email: '[user@example.com]', tag: 'bug', lang: 'ES', ver: '1.0.1', status: 'New', chip: nw, age: '5 h', ageStyle: ok, row: '' },
+      { subject: 'Will Pro be a subscription?', email: '[user@example.com]', tag: 'billing', lang: 'EN', ver: '1.0.2', status: 'Waiting', chip: wait, age: '2 d', ageStyle: ok, row: '' },
+      { subject: 'Add kettlebell exercises', email: '[user@example.com]', tag: 'feature idea', lang: 'AR', ver: '1.0.2', status: 'Waiting', chip: wait, age: '4 d', ageStyle: ok, row: '' },
+      { subject: 'Sign-in code not arriving', email: '[user@example.com]', tag: 'bug', lang: 'EN', ver: '1.0.0', status: 'Solved', chip: done, age: '6 d', ageStyle: ok, row: '' }
+    ] };
+  }
+}
+</script>
+</body>
+</html>

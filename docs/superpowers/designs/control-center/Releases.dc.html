@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — Releases</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315"><dc-import name="Sidebar" active="Releases" hint-size="100%,900px"></dc-import></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px"><button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12">Production</button><button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Staging</button></div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700">GH</button>
+</header>
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">Ship · mirror: iFynx/Gymco</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700"><span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">Releases</span></h1>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+<div style="background: #15171A; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 8px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">TestFlight</span><span class="num" style="font-size: 26px; font-weight: 700">1.0.2 (102)</span><span style="font-size: 12px; font-weight: 600; align-self: flex-start; padding: 3px 10px; border-radius: 999px; color: #7CF0B0; background: rgba(124,240,176,0.10)">Ready to test</span></div>
+<div style="background: #15171A; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 8px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Google Play · internal</span><span class="num" style="font-size: 26px; font-weight: 700">1.0.2 (102)</span><span style="font-size: 12px; font-weight: 600; align-self: flex-start; padding: 3px 10px; border-radius: 999px; color: #7CF0B0; background: rgba(124,240,176,0.10)">Live on track</span></div>
+<div style="background: #15171A; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 600; color: #8D948A">Versions in use · share of backups</span>
+<sc-for list="{{versions}}" as="v" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 10px"><span class="num" style="width: 44px; color: #C9CEC4">{{v.name}}</span><div style="flex: 1; height: 8px; border-radius: 999px; background: #1F2226; overflow: hidden"><div style="{{v.bar}}"></div></div><span class="num" style="width: 36px; text-align: right; font-weight: 600">{{v.pct}}</span></div>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px; overflow-x: auto">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap"><h2 style="margin: 0; font-size: 16px; font-weight: 700">GitHub Actions</h2><a href="#" style="font-size: 13px; font-weight: 600">Open in GitHub ↗</a></div>
+<table style="width: 100%; min-width: 600px; border-collapse: collapse; font-size: 13px">
+<thead><tr style="text-align: left; color: #8D948A; font-size: 12px"><th scope="col" style="font-weight: 600; padding: 0 12px 10px 0; border-bottom: 1px solid #2A2E33">Workflow</th><th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33">Commit</th><th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33">Status</th><th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33; text-align: right">When</th><th scope="col" style="padding: 0 0 10px 12px; border-bottom: 1px solid #2A2E33"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Action</span></th></tr></thead>
+<tbody>
+<sc-for list="{{runs}}" as="r" hint-placeholder-count="3">
+<tr><td style="padding: 12px 12px 12px 0; border-bottom: 1px solid #2A2E33; font-weight: 600">{{r.name}}</td><td style="padding: 12px; border-bottom: 1px solid #2A2E33; font-family: ui-monospace, Menlo, monospace; color: #C9CEC4">{{r.sha}}</td><td style="padding: 12px; border-bottom: 1px solid #2A2E33"><span style="{{r.chip}}">{{r.status}}</span></td><td class="num" style="padding: 12px; border-bottom: 1px solid #2A2E33; text-align: right; color: #8D948A">{{r.when}}</td><td style="padding: 12px 0 12px 12px; border-bottom: 1px solid #2A2E33; text-align: right"><button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-size: 12px; font-weight: 600">Re-run</button></td></tr>
+</sc-for>
+</tbody>
+</table>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<div style="flex: 1 1 360px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Version gate</h2>
+<label style="display: flex; justify-content: space-between; align-items: center; gap: 12px"><span>Minimum version</span><input value="102" class="num" style="width: 112px; min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; text-align: right"></label>
+<label style="display: flex; justify-content: space-between; align-items: center; gap: 12px"><span>Recommended version</span><input value="102" class="num" style="width: 112px; min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; text-align: right"></label>
+<div role="radiogroup" aria-label="Below minimum" style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" role="radio" aria-checked="true" style="flex: 1; min-height: 44px; border-radius: 999px; border: 1px solid #4D6B12; background: #1A230D; color: #D9FF5C; font-weight: 700">Soft prompt</button>
+<button type="button" role="radio" aria-checked="false" style="flex: 1; min-height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4">Hard block</button>
+</div>
+<span style="font-size: 12px; color: #8D948A">A hard block stops [00]% of devices still on older builds.</span>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">What’s New · 1.0.3</h2>
+<div role="tablist" aria-label="Language" style="display: flex; gap: 4px; background: #111315; padding: 4px; border-radius: 999px">
+<button type="button" role="tab" aria-selected="true" style="border: 0; padding: 6px 12px; border-radius: 999px; background: #1F2226; color: #D9FF5C; font-size: 12px; font-weight: 700">EN ✓</button>
+<button type="button" role="tab" aria-selected="false" style="border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; color: #FFD23F; font-size: 12px; font-weight: 600">AR · missing</button>
+<button type="button" role="tab" aria-selected="false" style="border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; color: #C9CEC4; font-size: 12px; font-weight: 600">ES ✓</button>
+</div>
+</div>
+<textarea rows="5" aria-label="Release notes" style="border-radius: 18px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; padding: 12px 14px; font-size: 14px; resize: vertical">• Eating out estimates for common restaurant dishes
+• Faster photo logging
+• Fixes for backup restore</textarea>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var c = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; ';
+    var good = c + 'color: #7CF0B0; background: rgba(124,240,176,0.10);';
+    var bad = c + 'color: #FF5C5C; background: rgba(255,92,92,0.12);';
+    var run = c + 'color: #FFD23F; background: rgba(255,210,63,0.10);';
+    var bar = function (p) { return 'width: ' + p + '%; height: 100%; border-radius: 999px; background: #C6F432;'; };
+    return {
+      versions: [ { name: '102', pct: '[00]%', bar: bar(78) }, { name: '101', pct: '[00]%', bar: bar(17) }, { name: '100', pct: '[0]%', bar: bar(5) } ],
+      runs: [
+        { name: 'Signed release', sha: '[a1b2c3d]', status: 'Failed', chip: bad, when: '2 h ago' },
+        { name: 'Android test APK', sha: '[a1b2c3d]', status: 'Passed', chip: good, when: '2 h ago' },
+        { name: 'Unsigned iOS', sha: '[a1b2c3d]', status: 'Running', chip: run, when: 'now' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

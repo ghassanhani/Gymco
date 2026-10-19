@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — Website</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315"><dc-import name="Sidebar" active="Website" hint-size="100%,900px"></dc-import></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px"><button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12">Production</button><button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Staging</button></div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700">GH</button>
+</header>
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">Ship · gymcoapp.com via GitHub Pages</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700"><span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">Website</span> pages</h1>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Save draft</button>
+<button type="button" style="min-height: 44px; padding: 0 24px; border-radius: 999px; border: 0; background: linear-gradient(90deg, #E4FF6A, #B6F02A, #5EE4A0); color: #0A0B09; font-weight: 800">Publish to site/</button>
+</div>
+</div>
+
+<section style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<nav aria-label="Pages" style="flex: 1 1 240px; min-width: 0; background: #15171A; border-radius: 24px; padding: 12px; display: flex; flex-direction: column; gap: 4px">
+<sc-for list="{{pages}}" as="p" hint-placeholder-count="5">
+<a href="#" style="{{p.style}}"><span style="display: block; font-weight: 600">{{p.name}}</span><span style="display: block; font-size: 12px; color: #8D948A">{{p.meta}}</span></a>
+</sc-for>
+</nav>
+
+<div style="flex: 4 1 560px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Privacy policy · v5 draft</h2>
+<div role="tablist" aria-label="Language" style="display: flex; gap: 4px; background: #111315; padding: 4px; border-radius: 999px">
+<button type="button" role="tab" aria-selected="true" style="border: 0; padding: 6px 12px; border-radius: 999px; background: #1F2226; color: #D9FF5C; font-size: 12px; font-weight: 700">EN</button>
+<button type="button" role="tab" aria-selected="false" style="border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; color: #C9CEC4; font-size: 12px; font-weight: 600">AR</button>
+<button type="button" role="tab" aria-selected="false" style="border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; color: #C9CEC4; font-size: 12px; font-weight: 600">ES</button>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px">
+<textarea aria-label="Markdown" rows="14" style="border-radius: 18px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; padding: 14px 16px; font-size: 13px; font-family: ui-monospace, Menlo, monospace; line-height: 1.6; resize: vertical"># Privacy policy
+
+Your diary lives on your phone.
+
+## What we keep
+- Your email, to sign you in
+- An optional encrypted backup
+
+## What we never collect
+- Usage analytics or trackers</textarea>
+<div style="border-radius: 18px; background: #F5F7F0; color: #0A0B09; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 22px; font-weight: 800">Privacy policy</div>
+<p style="margin: 0">Your diary lives on your phone.</p>
+<div style="font-weight: 700; margin-top: 6px">What we keep</div>
+<ul style="margin: 0; padding-left: 18px"><li>Your email, to sign you in</li><li>An optional encrypted backup</li></ul>
+<div style="font-weight: 700; margin-top: 6px">What we never collect</div>
+<ul style="margin: 0; padding-left: 18px"><li>Usage analytics or trackers</li></ul>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 600; color: #8D948A">Version history · the app links to the current version</span>
+<sc-for list="{{history}}" as="h" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 18px; background: #111315">
+<span style="font-weight: 600; width: 32px">{{h.v}}</span><span class="num" style="flex: 1; color: #C9CEC4; font-size: 13px">{{h.date}}</span><span style="{{h.chip}}">{{h.status}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var b = 'display: block; padding: 12px 14px; border-radius: 18px; text-decoration: none; color: #F5F7F0; ';
+    var c = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; ';
+    return {
+      pages: [
+        { name: 'Home', meta: 'EN · AR · ES · [12 Oct]', style: b },
+        { name: 'Support', meta: 'EN · AR · ES · [12 Oct]', style: b },
+        { name: 'Privacy policy', meta: 'v5 draft · v4 live', style: b + 'background: #1A230D; box-shadow: inset 0 0 0 1px #4D6B12;' },
+        { name: 'Terms', meta: 'v3 live', style: b },
+        { name: 'Account deletion', meta: 'EN · AR · ES · [12 Oct]', style: b }
+      ],
+      history: [
+        { v: 'v5', date: 'Draft · edited today', status: 'Draft', chip: c + 'color: #FFD23F; background: rgba(255,210,63,0.10);' },
+        { v: 'v4', date: '[01 Sep 2026]', status: 'Live', chip: c + 'color: #7CF0B0; background: rgba(124,240,176,0.10);' },
+        { v: 'v3', date: '[12 Jun 2026]', status: 'Archived', chip: c + 'color: #C9CEC4; background: #1F2226;' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

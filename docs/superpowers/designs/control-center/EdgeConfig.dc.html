@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edge cases — config and publishing</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button,input{font-family:inherit}.num{font-variant-numeric:tabular-nums}.mono{font-family:ui-monospace,Menlo,monospace}</style>
+</helmet>
+<div style="width: 1200px; height: 1100px; box-sizing: border-box; padding: 48px; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">Config &amp; <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #D9FF5C">publishing</span></h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">A · Value outside its safety bound</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 16px; justify-content: center">
+<label style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 13px">max_rate_pct_week</span><input aria-invalid="true" value="1.5%" class="num" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #FF5C5C; background: #111315; color: #F5F7F0; font-size: 14px"><span style="font-size: 12px; color: #FF5C5C; font-weight: 600">Max is 1% a week. This is set in code and can’t be raised here.</span></label>
+<label style="display: flex; flex-direction: column; gap: 6px"><span class="mono" style="font-size: 13px">ai_scans_per_day</span><input aria-invalid="true" value="0" class="num" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #FF5C5C; background: #111315; color: #F5F7F0; font-size: 14px"><span style="font-size: 12px; color: #FF5C5C; font-weight: 600">Use 1 or more. To stop photo logging, turn off photo_log instead.</span></label>
+<button type="button" disabled style="min-height: 44px; border-radius: 999px; border: 0; background: #2A2E33; color: #5F665C; font-weight: 700; cursor: not-allowed">Publish · fix 2 errors first</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">B · Review the diff before publishing</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 24px">
+<div style="position: absolute; inset: 0; background: rgba(10,11,9,0.7)"></div>
+<div role="dialog" aria-label="Publish remote config" style="position: relative; width: 440px; background: #1F2226; border: 1px solid #3A3F45; border-radius: 30px; padding: 26px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 20px; font-weight: 700">Publish v19 to Production?</div>
+<div class="mono" style="font-size: 12px; display: flex; flex-direction: column; gap: 2px; background: #111315; border-radius: 14px; padding: 10px">
+<div style="padding: 3px 8px; border-radius: 6px; background: rgba(255,92,92,0.10); color: #FF9C9C">− ai_scans_per_day: 10</div>
+<div style="padding: 3px 8px; border-radius: 6px; background: rgba(124,240,176,0.10); color: #7CF0B0">+ ai_scans_per_day: 12</div>
+<div style="padding: 3px 8px; border-radius: 6px; background: rgba(255,92,92,0.10); color: #FF9C9C">− cheat_meals: true</div>
+<div style="padding: 3px 8px; border-radius: 6px; background: rgba(124,240,176,0.10); color: #7CF0B0">+ cheat_meals: false</div>
+</div>
+<div style="font-size: 13px; color: #C9CEC4">Phones pick this up on next launch or within 6 h. v18 stays available for rollback.</div>
+<div style="display: flex; gap: 8px; justify-content: flex-end"><button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Cancel</button><button type="button" style="min-height: 44px; padding: 0 22px; border-radius: 999px; border: 0; background: linear-gradient(90deg, #E4FF6A, #B6F02A, #5EE4A0); color: #0A0B09; font-weight: 800">Publish</button></div>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">C · Editor’s change waiting for Owner review</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px; border-radius: 18px; background: rgba(255,210,63,0.08); border: 1px solid rgba(255,210,63,0.4)">
+<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; color: #FFD23F; background: rgba(255,210,63,0.12)">In review</span>
+<span style="flex: 1 1 200px">Exercises pack v15 from [Editor] · sent 2 h ago</span>
+</div>
+<div style="font-size: 13px; color: #C9CEC4">Editor view: “Sent to the Owner. You can keep editing; a new edit replaces this request.”</div>
+<div style="font-size: 13px; color: #C9CEC4">Owner view:</div>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Note to editor (needed to reject)</span><input value="" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0"></label>
+<div style="display: flex; gap: 8px"><button type="button" style="flex: 1; min-height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Send back</button><button type="button" style="flex: 1; min-height: 44px; border-radius: 999px; border: 0; background: linear-gradient(90deg, #E4FF6A, #B6F02A, #5EE4A0); color: #0A0B09; font-weight: 800">Approve &amp; publish</button></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">D · Conflict and rollback</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 16px; justify-content: center">
+<div role="alert" style="padding: 16px; border-radius: 18px; background: rgba(255,92,92,0.08); border: 1px solid #FF5C5C; display: flex; flex-direction: column; gap: 8px">
+<div style="font-weight: 700">Someone published v19 while you edited</div>
+<div style="font-size: 13px; color: #C9CEC4">Your draft is based on v18. Review their changes, then re-apply yours.</div>
+<div style="display: flex; gap: 8px"><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #C6F432; color: #0A0B09; font-weight: 700">Compare &amp; merge</button><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Discard my draft</button></div>
+</div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 8px">
+<div style="font-weight: 700">Roll back to v18?</div>
+<div style="font-size: 13px; color: #C9CEC4">v19 becomes archived. This is logged and can be undone by rolling forward.</div>
+<div style="display: flex; gap: 8px"><button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #FFD23F; background: transparent; color: #FFD23F; font-weight: 700">Roll back</button></div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

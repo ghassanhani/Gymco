@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edge cases — loading, empty and error</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button{font-family:inherit}.num{font-variant-numeric:tabular-nums}</style>
+</helmet>
+<div style="width: 1200px; height: 1100px; box-sizing: border-box; padding: 48px; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">Loading, empty &amp; <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #D9FF5C">errors</span></h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">A · Loading</span>
+<div aria-busy="true" style="flex: 1; background: #111315; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px">
+<div style="width: 220px; height: 28px; border-radius: 10px; background: #1F2226"></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<sc-for list="{{four}}" as="x" hint-placeholder-count="4">
+<div style="height: 110px; border-radius: 24px; background: #15171A; padding: 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px"><div style="width: 60%; height: 10px; border-radius: 999px; background: #1F2226"></div><div style="width: 40%; height: 24px; border-radius: 8px; background: #1F2226"></div><div style="height: 16px; border-radius: 6px; background: #1F2226"></div></div>
+</sc-for>
+</div>
+<div style="flex: 1; border-radius: 24px; background: #15171A"></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">B · Empty states</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 12px; justify-content: center">
+<div style="padding: 18px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 4px"><div style="font-weight: 700">Inbox zero</div><div style="font-size: 13px; color: #8D948A">No new tickets. Waiting and Solved are one tab away.</div></div>
+<div style="padding: 18px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 4px"><div style="font-weight: 700">Nothing matches “kettlebel”</div><div style="font-size: 13px; color: #8D948A">Search covers names in EN, AR and ES. Try another spelling or clear filters.</div><button type="button" style="align-self: flex-start; margin-top: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600; font-size: 13px">Clear filters</button></div>
+<div style="padding: 18px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 4px"><div style="font-weight: 700">Not enough data yet</div><div style="font-size: 13px; color: #8D948A">Trends show after 7 days of sign-ups. Totals are live now.</div></div>
+<div style="padding: 18px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 4px"><div style="font-weight: 700">No push campaigns</div><div style="font-size: 13px; color: #8D948A">Meal, water and workout reminders stay on the phone and aren’t listed here.</div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">C · Failed to load / offline</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div role="alert" style="padding: 20px; border-radius: 24px; background: #111315; border: 1px solid #FF5C5C; display: flex; flex-direction: column; gap: 8px; align-items: flex-start">
+<div style="font-weight: 700">Couldn’t load the numbers</div>
+<div style="font-size: 13px; color: #C9CEC4">admin-stats returned an error. Showing the last good data from 09:40.</div>
+<button type="button" style="min-height: 40px; padding: 0 16px; border-radius: 999px; border: 0; background: #C6F432; color: #0A0B09; font-weight: 700">Try again</button>
+</div>
+<div role="status" style="display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: 999px; background: #1F2226; border: 1px solid #3A3F45"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #FFD23F"></span><span style="flex: 1">You’re offline. Edits stay in this browser and save when you reconnect.</span></div>
+<div style="padding: 16px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 4px"><div style="font-weight: 700">Partial data</div><div style="font-size: 13px; color: #8D948A">Crashlytics didn’t respond. Other tiles are current.</div></div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">D · Working in Staging</span>
+<div style="flex: 1; background: #111315; border-radius: 30px; overflow: hidden; display: flex; flex-direction: column">
+<div role="status" style="background: #FFD23F; color: #0A0B09; padding: 12px 20px; font-weight: 700; display: flex; justify-content: space-between; gap: 12px"><span>STAGING · test accounts only</span><span style="font-weight: 600">Separate Supabase project</span></div>
+<div style="padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px; align-self: flex-start"><span style="border-radius: 999px; padding: 8px 16px; color: #C9CEC4; font-weight: 500; font-size: 13px">Production</span><span style="border-radius: 999px; padding: 8px 16px; background: rgba(255,210,63,0.12); color: #FFD23F; font-weight: 700; font-size: 13px; box-shadow: inset 0 0 0 1px rgba(255,210,63,0.5)">Staging</span></div>
+<div style="font-size: 13px; color: #C9CEC4">Publishing here never reaches real phones. To ship a tested config, use “Copy to Production”, which opens the normal diff and review.</div>
+<button type="button" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Copy v19 to Production…</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return { four: [1, 2, 3, 4] }; }
+}
+</script>
+</body>
+</html>

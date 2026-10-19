@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edge cases — sign-in and permissions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button,input{font-family:inherit}.num{font-variant-numeric:tabular-nums}</style>
+</helmet>
+<div style="width: 1200px; height: 1100px; box-sizing: border-box; padding: 48px; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">Sign-in &amp; <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #D9FF5C">permissions</span></h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">A · Sign in with email code</span>
+<div style="flex: 1; background: #111315; border-radius: 30px; padding: 32px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<img src="/_blob/adb6e9499123c6b1079286cca0f051c5" alt="Gymco" width="48" height="48" style="width: 48px; height: 48px; border-radius: 14px">
+<div style="font-size: 22px; font-weight: 700">Control Center</div>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Admin email</span><input value="[you@gymcoapp.com]" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: #15171A; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" style="min-height: 44px; border: 0; border-radius: 999px; background: #C6F432; color: #0A0B09; font-weight: 700">Send sign-in code</button>
+<span style="font-size: 12px; color: #8D948A">Only emails in the admins table can sign in here.</span>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">B · Wrong second-factor code</span>
+<div style="flex: 1; background: #111315; border-radius: 30px; padding: 32px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div style="font-size: 22px; font-weight: 700">Enter your authenticator code</div>
+<div style="display: flex; gap: 8px">
+<sc-for list="{{digits}}" as="d" hint-placeholder-count="6"><span class="num" style="width: 48px; height: 56px; border-radius: 14px; border: 1px solid #FF5C5C; background: #15171A; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700">{{d}}</span></sc-for>
+</div>
+<div role="alert" style="display: flex; gap: 8px; align-items: center; color: #FF5C5C; font-weight: 600"><span aria-hidden="true">●</span>That code didn’t match. 2 tries left before a 15-minute lock.</div>
+<button type="button" style="min-height: 44px; border: 0; border-radius: 999px; background: #C6F432; color: #0A0B09; font-weight: 700">Verify</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">C · Session expired (12 h idle)</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; overflow: hidden">
+<div style="position: absolute; inset: 0; background: rgba(10,11,9,0.7)"></div>
+<div role="dialog" aria-label="Session expired" style="position: relative; width: 360px; background: #1F2226; border: 1px solid #3A3F45; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 20px; font-weight: 700">You were signed out</div>
+<div style="color: #C9CEC4">No activity for 12 hours. Your unsaved draft of remote_config v19 is kept on this device.</div>
+<button type="button" style="min-height: 44px; border: 0; border-radius: 999px; background: #C6F432; color: #0A0B09; font-weight: 700">Sign in again</button>
+</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">D · Role can’t open this section</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 32px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; justify-content: center">
+<span style="width: 52px; height: 52px; border-radius: 999px; background: #1F2226; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C9CEC4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></span>
+<div style="font-size: 20px; font-weight: 700">Safety values need the Owner role</div>
+<div style="color: #C9CEC4">You’re signed in as Support. You can read Overview, Health and Releases, and use Accounts and the inbox.</div>
+<div style="display: flex; gap: 8px"><a href="Main.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; color: #F5F7F0; font-weight: 600">Back to Overview</a><button type="button" style="min-height: 44px; padding: 0 18px; border: 0; border-radius: 999px; background: #C6F432; color: #0A0B09; font-weight: 700">Ask the Owner</button></div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return { digits: ['4','8','1','9','0','2'] }; }
+}
+</script>
+</body>
+</html>

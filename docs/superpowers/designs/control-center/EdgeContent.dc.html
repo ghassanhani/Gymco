@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Edge cases — content validation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button,input{font-family:inherit}.num{font-variant-numeric:tabular-nums}.mono{font-family:ui-monospace,Menlo,monospace}</style>
+</helmet>
+<div style="width: 1200px; height: 1100px; box-sizing: border-box; padding: 48px; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-size: 32px; font-weight: 700">Content <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #D9FF5C">validation</span></h1>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; flex: 1">
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">A · Pack can’t publish yet</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 700; font-size: 16px">Exercises pack v15 · 3 checks</div>
+<sc-for list="{{checks}}" as="c" hint-placeholder-count="4">
+<div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 18px; background: #111315">
+<span aria-hidden="true" style="{{c.icon}}">{{c.mark}}</span>
+<div style="flex: 1"><div style="font-weight: 600">{{c.title}}</div><div style="font-size: 12px; color: #8D948A">{{c.note}}</div></div>
+</div>
+</sc-for>
+<button type="button" disabled style="margin-top: auto; min-height: 44px; border-radius: 999px; border: 0; background: #2A2E33; color: #5F665C; font-weight: 700; cursor: not-allowed">Publish pack · 2 blockers</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">B · Award blocked by the rule check</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Award name</span><input aria-invalid="true" value="Lost 5 kg" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #FF5C5C; background: #111315; color: #F5F7F0"></label>
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Threshold</span><input aria-invalid="true" value="weight_change ≤ −5 kg" class="mono" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #FF5C5C; background: #111315; color: #F5F7F0; font-size: 13px"></label>
+<div role="alert" style="padding: 14px 16px; border-radius: 18px; background: rgba(255,92,92,0.08); border: 1px solid #FF5C5C; font-size: 13px"><b>Awards can’t reward weight loss or eating less.</b> Try showing up instead: “Logged 30 days” or “Trained 12 times this month”.</div>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">C · Write parser can’t read a meal</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<label style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">Test box</span><input value="2 scoops whey + medio plátano + كوب حليب" style="min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0"></label>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: #111315"><span>2 × scoop · whey protein</span><span style="color: #7CF0B0; font-weight: 600">Matched</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: #111315"><span>0.5 × banana</span><span style="color: #7CF0B0; font-weight: 600">Matched</span></div>
+<div style="display: flex; justify-content: space-between; padding: 10px 14px; border-radius: 14px; background: #111315; border: 1px solid #FFD23F"><span>“كوب حليب”</span><span style="color: #FFD23F; font-weight: 600">Unit not known: كوب</span></div>
+</div>
+<button type="button" style="align-self: flex-start; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Add “كوب” as cup</button>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 12px; font-weight: 700; color: #8D948A; letter-spacing: 0.06em; text-transform: uppercase">D · Warnings that don’t block</span>
+<div style="flex: 1; background: #15171A; border-radius: 30px; padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center">
+<div style="padding: 14px 16px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 8px">
+<div style="font-weight: 600">PPL template · weekly sets per muscle</div>
+<div style="display: flex; align-items: center; gap: 10px"><span style="width: 70px; color: #C9CEC4">Chest</span><div style="flex: 1; height: 8px; border-radius: 999px; background: #1F2226"><div style="width: 100%; height: 100%; border-radius: 999px; background: #FFD23F"></div></div><span class="num" style="width: 64px; text-align: right; color: #FFD23F; font-weight: 700">24 sets</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><span style="width: 70px; color: #C9CEC4">Back</span><div style="flex: 1; height: 8px; border-radius: 999px; background: #1F2226"><div style="width: 75%; height: 100%; border-radius: 999px; background: #C6F432"></div></div><span class="num" style="width: 64px; text-align: right; font-weight: 700">16 sets</span></div>
+<div style="display: flex; align-items: center; gap: 10px"><span style="width: 70px; color: #C9CEC4">Calves</span><div style="flex: 1; height: 8px; border-radius: 999px; background: #1F2226"><div style="width: 30%; height: 100%; border-radius: 999px; background: #FFD23F"></div></div><span class="num" style="width: 64px; text-align: right; color: #FFD23F; font-weight: 700">6 sets</span></div>
+<span style="font-size: 12px; color: #8D948A">Target 10–20 sets a week</span>
+</div>
+<div style="padding: 14px 16px; border-radius: 18px; background: #111315; border: 1px solid #FFD23F; font-size: 13px"><b>Labneh:</b> macros add up to 212 kcal, but kcal says 160 per 100 g. Check the numbers.</div>
+</div>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var i = 'width: 24px; height: 24px; flex: none; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; ';
+    var bad = i + 'background: rgba(255,92,92,0.15); color: #FF5C5C;';
+    var ok = i + 'background: rgba(124,240,176,0.12); color: #7CF0B0;';
+    return { checks: [
+      { mark: '!', icon: bad, title: '4 items missing Spanish', note: 'Every text needs EN, AR and ES. Open the list.' },
+      { mark: '!', icon: bad, title: 'Removes “Hip thrust”, used in 2 templates', note: 'Glute focus, Lower A. Swap it in those first.' },
+      { mark: '✓', icon: ok, title: 'RTL preview checked', note: 'Arabic names fit the card' },
+      { mark: '✓', icon: ok, title: 'Checksum ready', note: 'Phones verify the pack after download' }
+    ] };
+  }
+}
+</script>
+</body>
+</html>

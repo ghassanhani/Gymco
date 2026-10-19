@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — Overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+
+<!-- Sidebar -->
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315">
+<dc-import name="Sidebar" active="Overview" hint-size="100%,900px"></dc-import>
+</div>
+
+<!-- Content -->
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+<!-- Top bar -->
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33; background: #0A0B09">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px">
+<button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12; cursor: pointer">Production</button>
+<button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px; cursor: pointer">Staging</button>
+</div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Search</span>
+<input type="search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px">
+</label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700; cursor: pointer">GH</button>
+</header>
+
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<!-- Title -->
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">Monitor · Mon 19 Oct</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -0.01em">Today at <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">a glance</span></h1>
+</div>
+<div role="group" aria-label="Range" style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" style="border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; border-radius: 999px; padding: 0 16px; min-height: 40px; font-size: 13px; font-weight: 500; cursor: pointer">7 days</button>
+<button type="button" style="border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; border-radius: 999px; padding: 0 16px; min-height: 40px; font-size: 13px; font-weight: 500; cursor: pointer">30 days</button>
+<button type="button" aria-pressed="true" style="border: 1px solid #4D6B12; background: #1A230D; color: #D9FF5C; border-radius: 999px; padding: 0 16px; min-height: 40px; font-size: 13px; font-weight: 600; cursor: pointer">90 days</button>
+</div>
+</div>
+
+<!-- Alerts -->
+<div role="status" style="display: flex; flex-wrap: wrap; gap: 12px">
+<div style="flex: 1 1 280px; display: flex; align-items: center; gap: 12px; background: #15171A; border: 1px solid #3A3F45; border-radius: 18px; padding: 14px 18px">
+<span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #FFD23F; flex: none"></span>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600">AI spend at 86% of daily budget</div><div style="font-size: 12px; color: #8D948A">Photo logging pauses at €[BUDGET]</div></div>
+<a href="#" style="font-size: 13px; font-weight: 600">Adjust</a>
+</div>
+<div style="flex: 1 1 280px; display: flex; align-items: center; gap: 12px; background: #15171A; border: 1px solid #3A3F45; border-radius: 18px; padding: 14px 18px">
+<span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #FF5C5C; flex: none"></span>
+<div style="flex: 1; min-width: 0"><div style="font-weight: 600">2 tickets waiting over 24 h</div><div style="font-size: 12px; color: #8D948A">1 is a deletion request · 27 days left</div></div>
+<a href="#" style="font-size: 13px; font-weight: 600">Open inbox</a>
+</div>
+</div>
+
+<!-- KPI tiles -->
+<section aria-label="Key numbers" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="8">
+<div style="background: #15171A; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 10px; min-height: 148px; box-sizing: border-box">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<span style="font-size: 12px; font-weight: 600; color: #8D948A">{{k.label}}</span>
+<span class="num" style="{{k.deltaStyle}}">{{k.delta}}</span>
+</div>
+<div class="num" style="font-size: 30px; font-weight: 700; letter-spacing: -0.01em; line-height: 1">{{k.value}}</div>
+<svg aria-hidden="true" viewBox="0 0 120 32" preserveAspectRatio="none" style="width: 100%; height: 32px; margin-top: auto"><path d="{{k.spark}}" fill="none" stroke="{{k.sparkColor}}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path></svg>
+</div>
+</sc-for>
+</section>
+
+<!-- Charts -->
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px">
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Daily sign-ups</h2>
+<span style="font-size: 12px; color: #8D948A">Last 90 days</span>
+</div>
+<svg role="img" aria-label="Daily sign-ups over 90 days, trending up" viewBox="0 0 600 200" preserveAspectRatio="none" style="width: 100%; height: 200px">
+<path d="M0 40H600M0 90H600M0 140H600M0 190H600" stroke="#2A2E33" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+<path d="{{signupArea}}" fill="#C6F432" fill-opacity="0.08"></path>
+<path d="{{signupLine}}" fill="none" stroke="#C6F432" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+</svg>
+<div class="num" style="display: flex; justify-content: space-between; font-size: 12px; color: #8D948A"><span>21 Jul</span><span>20 Aug</span><span>19 Sep</span><span>19 Oct</span></div>
+</div>
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">AI scans &amp; cost</h2>
+<div style="display: flex; gap: 14px; font-size: 12px; color: #C9CEC4">
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 3px; background: #C6F432"></span>Scans</span>
+<span style="display: flex; align-items: center; gap: 6px"><span aria-hidden="true" style="width: 14px; height: 2px; background: #7CF0B0"></span>Cost (EUR)</span>
+</div>
+</div>
+<svg role="img" aria-label="Daily AI scans as bars with cost per day as a line, last 30 days" viewBox="0 0 600 200" preserveAspectRatio="none" style="width: 100%; height: 200px">
+<path d="M0 40H600M0 90H600M0 140H600M0 190H600" stroke="#2A2E33" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+<path d="{{scanBars}}" fill="#C6F432" fill-opacity="0.85"></path>
+<path d="{{costLine}}" fill="none" stroke="#7CF0B0" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+</svg>
+<div class="num" style="display: flex; justify-content: space-between; font-size: 12px; color: #8D948A"><span>20 Sep</span><span>30 Sep</span><span>10 Oct</span><span>19 Oct</span></div>
+</div>
+</section>
+
+<!-- Mix + activity -->
+<section style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 320px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Account mix</h2>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 600; color: #8D948A">App language</span>
+<sc-for list="{{langs}}" as="l" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 64px; color: #C9CEC4">{{l.label}}</span>
+<div style="flex: 1; height: 10px; border-radius: 999px; background: #1F2226; overflow: hidden"><div style="{{l.bar}}"></div></div>
+<span class="num" style="width: 40px; text-align: right; font-weight: 600">{{l.pct}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 600; color: #8D948A">Platform</span>
+<sc-for list="{{platforms}}" as="l" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 64px; color: #C9CEC4">{{l.label}}</span>
+<div style="flex: 1; height: 10px; border-radius: 999px; background: #1F2226; overflow: hidden"><div style="{{l.bar}}"></div></div>
+<span class="num" style="width: 40px; text-align: right; font-weight: 600">{{l.pct}}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 12px; color: #8D948A">From backup metadata only. Gymco sends no usage analytics.</p>
+</div>
+
+<div style="flex: 2 1 560px; min-width: 0; background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Recent changes</h2>
+<a href="#" style="font-size: 13px; font-weight: 600">Audit log</a>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 560px; border-collapse: collapse; font-size: 13px">
+<thead>
+<tr style="text-align: left; color: #8D948A; font-size: 12px">
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px 0; border-bottom: 1px solid #2A2E33">Change</th>
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33">Section</th>
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33">By</th>
+<th scope="col" style="font-weight: 600; padding: 0 12px 10px; border-bottom: 1px solid #2A2E33">Status</th>
+<th scope="col" style="font-weight: 600; padding: 0 0 10px 12px; border-bottom: 1px solid #2A2E33; text-align: right">When</th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{changes}}" as="c" hint-placeholder-count="5">
+<tr>
+<td style="padding: 14px 12px 14px 0; border-bottom: 1px solid #2A2E33; font-weight: 600">{{c.what}}</td>
+<td style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; color: #C9CEC4">{{c.section}}</td>
+<td style="padding: 14px 12px; border-bottom: 1px solid #2A2E33; color: #C9CEC4">{{c.by}}</td>
+<td style="padding: 14px 12px; border-bottom: 1px solid #2A2E33"><span style="{{c.chip}}">{{c.status}}</span></td>
+<td class="num" style="padding: 14px 0 14px 12px; border-bottom: 1px solid #2A2E33; color: #8D948A; text-align: right">{{c.when}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1560}}'>
+class Component extends DCLogic {
+  line(vals, w, h, max) {
+    var step = w / (vals.length - 1);
+    return vals.map(function (v, i) { return (i ? 'L' : 'M') + (i * step).toFixed(1) + ' ' + (h - (v / max) * (h - 10)).toFixed(1); }).join(' ');
+  }
+  renderVals() {
+    var navBase = 'display: block; padding: 10px 12px; border-radius: 999px; font-size: 14px; text-decoration: none; ';
+    var off = navBase + 'color: #C9CEC4; font-weight: 500;';
+    var on = navBase + 'color: #0A0B09; background: #C6F432; font-weight: 700;';
+    var groups = [
+      { name: 'Monitor', items: [{ label: 'Overview', style: on }, { label: 'System health', style: off }] },
+      { name: 'People', items: [{ label: 'Accounts', style: off }, { label: 'Support inbox', style: off }] },
+      { name: 'App', items: [{ label: 'Remote config', style: off }, { label: 'Content', style: off }, { label: 'Plans & pricing', style: off }, { label: 'Messaging', style: off }] },
+      { name: 'Ship', items: [{ label: 'Releases', style: off }, { label: 'Website', style: off }] },
+      { name: 'Admin', items: [{ label: 'Team & audit log', style: off }] }
+    ];
+    var chipBase = 'font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; white-space: nowrap; ';
+    var good = chipBase + 'color: #7CF0B0; background: rgba(124,240,176,0.10);';
+    var warn = chipBase + 'color: #FFD23F; background: rgba(255,210,63,0.10);';
+    var bad = chipBase + 'color: #FF5C5C; background: rgba(255,92,92,0.12);';
+    var flat = chipBase + 'color: #C9CEC4; background: #1F2226;';
+    var self = this;
+    function sp(vals) { var m = Math.max.apply(null, vals) * 1.1; return self.line(vals, 120, 32, m); }
+    var kpis = [
+      { label: 'Total accounts', value: '[0,000]', delta: '+4.2%', deltaStyle: good, spark: sp([20,22,23,25,26,28,29,31,33,34,36,38]), sparkColor: '#C6F432' },
+      { label: 'Sign-ups · 7 d', value: '[000]', delta: '+12%', deltaStyle: good, spark: sp([8,10,9,12,11,14,13,16,15,18,17,20]), sparkColor: '#C6F432' },
+      { label: 'Active · backup 7 d', value: '[0,000]', delta: '+1.8%', deltaStyle: good, spark: sp([30,31,30,32,33,32,34,34,35,36,35,37]), sparkColor: '#C6F432' },
+      { label: 'AI scans today', value: '[0,000]', delta: '86% budget', deltaStyle: warn, spark: sp([10,14,12,18,16,20,19,24,22,27,26,30]), sparkColor: '#FFD23F' },
+      { label: 'Est. AI cost today', value: '€[00.00]', delta: '+9%', deltaStyle: flat, spark: sp([6,7,7,9,8,10,10,12,11,13,13,14]), sparkColor: '#7CF0B0' },
+      { label: 'At scan cap today', value: '[00]', delta: 'cap 10', deltaStyle: flat, spark: sp([3,4,3,5,6,4,5,7,6,8,7,9]), sparkColor: '#C6F432' },
+      { label: 'Deletions · 30 d', value: '[00]', delta: '−3', deltaStyle: good, spark: sp([6,5,6,4,5,4,3,4,3,3,2,3]), sparkColor: '#C6F432' },
+      { label: 'Database size', value: '[000] MB', delta: '[00]% of plan', deltaStyle: flat, spark: sp([20,21,22,23,24,25,26,27,28,29,30,31]), sparkColor: '#C6F432' }
+    ];
+    var su = [12,14,13,16,15,18,17,20,19,22,21,25,24,23,27,29,28,31,30,34,33,36,38,37,41,40,44,46,45,50];
+    var suLine = this.line(su, 600, 190, 56);
+    var bars = [42,48,45,52,50,58,61,55,63,66,60,70,72,68,75,79,74,82,85,80,88,91,86,94,97,92,99,103,98,108];
+    var bw = 12, gap = 600 / bars.length;
+    var barPath = bars.map(function (v, i) { var h = (v / 120) * 150; var x = (i * gap + (gap - bw) / 2).toFixed(1); return 'M' + x + ' 190h' + bw + 'v-' + h.toFixed(1) + 'h-' + bw + 'z'; }).join(' ');
+    var cost = bars.map(function (v, i) { return v * 0.9 + (i % 3) * 4; });
+    var bar = function (pct, c) { return 'width: ' + pct + '%; height: 100%; border-radius: 999px; background: ' + c + ';'; };
+    return {
+      groups: groups,
+      kpis: kpis,
+      signupLine: suLine,
+      signupArea: suLine + ' L600 190 L0 190 Z',
+      scanBars: barPath,
+      costLine: this.line(cost, 600, 190, 135),
+      langs: [
+        { label: 'English', pct: '[00]%', bar: bar(58, '#C6F432') },
+        { label: 'Arabic', pct: '[00]%', bar: bar(31, '#C6F432') },
+        { label: 'Spanish', pct: '[00]%', bar: bar(11, '#C6F432') }
+      ],
+      platforms: [
+        { label: 'iOS', pct: '[00]%', bar: bar(62, '#7CF0B0') },
+        { label: 'Android', pct: '[00]%', bar: bar(38, '#7CF0B0') }
+      ],
+      changes: [
+        { what: 'ai_scans_per_day 10 → 12', section: 'Remote config', by: 'Ghassan', status: 'In review', chip: warn, when: '09:42' },
+        { what: 'Exercises pack v14', section: 'Content', by: 'Ghassan', status: 'Published', chip: good, when: 'Yesterday' },
+        { what: 'October challenge: Train 12×', section: 'Content', by: 'Ghassan', status: 'Draft', chip: flat, when: 'Yesterday' },
+        { what: 'Deleted account + backup', section: 'Accounts', by: 'Ghassan', status: 'Done', chip: bad, when: '17 Oct' },
+        { what: 'min_version_ios → 102', section: 'Releases', by: 'Ghassan', status: 'Published', chip: good, when: '16 Oct' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

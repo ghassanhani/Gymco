@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Overview at phone width</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#0A0B09}a{color:#D9FF5C;text-decoration:none}button{font-family:inherit}.num{font-variant-numeric:tabular-nums}</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; overflow: hidden">
+<header style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #2A2E33; background: #111315">
+<button type="button" aria-label="Open menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F7F0" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<img src="/_blob/adb6e9499123c6b1079286cca0f051c5" alt="Gymco" width="32" height="32" style="width: 32px; height: 32px; border-radius: 9px">
+<span style="flex: 1; font-weight: 700">Overview</span>
+<span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #1A230D; color: #D9FF5C">Prod</span>
+</header>
+<main style="padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 28px; line-height: 1.1; font-weight: 700">Today at <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 32px; color: #D9FF5C">a glance</span></h1>
+<div role="status" style="display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 18px; padding: 12px 14px"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: #FFD23F; flex: none"></span><span style="flex: 1; font-weight: 600; font-size: 13px">AI spend at 86% of budget</span><a href="#" style="font-size: 13px; font-weight: 600">Adjust</a></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{tiles}}" as="k" hint-placeholder-count="4">
+<div style="background: #15171A; border-radius: 24px; padding: 14px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 12px; font-weight: 600; color: #8D948A">{{k.label}}</span><span class="num" style="font-size: 22px; font-weight: 700">{{k.value}}</span><span class="num" style="font-size: 12px; font-weight: 600; color: #7CF0B0">{{k.delta}}</span></div>
+</sc-for>
+</div>
+<div style="background: #15171A; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 700">Daily sign-ups</span>
+<svg role="img" aria-label="Sign-ups trending up" viewBox="0 0 300 100" preserveAspectRatio="none" style="width: 100%; height: 100px"><path d="M0 30H300M0 65H300M0 99H300" stroke="#2A2E33" stroke-width="1" vector-effect="non-scaling-stroke"></path><path d="M0 85 L30 80 L60 82 L90 70 L120 72 L150 60 L180 58 L210 46 L240 44 L270 30 L300 22" fill="none" stroke="#C6F432" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path></svg>
+</div>
+<div style="background: #15171A; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-weight: 700">Wide tables scroll sideways</span>
+<div style="overflow-x: auto; border-radius: 14px; background: #111315; padding: 10px; font-size: 12px; color: #C9CEC4; white-space: nowrap">Change · Section · By · Status · When →</div>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { tiles: [
+      { label: 'Accounts', value: '[0,000]', delta: '+4.2%' },
+      { label: 'Sign-ups · 7 d', value: '[000]', delta: '+12%' },
+      { label: 'AI scans today', value: '[0,000]', delta: '86% budget' },
+      { label: 'Deletions · 30 d', value: '[00]', delta: '−3' }
+    ] };
+  }
+}
+</script>
+</body>
+</html>

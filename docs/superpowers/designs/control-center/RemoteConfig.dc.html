@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gymco Control Center — Remote config</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B09}
+a{color:#D9FF5C;text-decoration:none}a:hover{color:#C6F432;text-decoration:underline}
+button,input,select,textarea{font-family:inherit}
+:focus-visible{outline:2px solid #C6F432;outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0A0B09; color: #F5F7F0; font-family: Urbanist, system-ui, sans-serif; font-size: 14px; line-height: 1.45; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 0 232px; max-width: 100%; display: flex; flex-direction: column; background: #111315"><dc-import name="Sidebar" active="Remote config" hint-size="100%,900px"></dc-import></div>
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px 32px; border-bottom: 1px solid #2A2E33">
+<div role="group" aria-label="Environment" style="display: flex; background: #15171A; border: 1px solid #2A2E33; border-radius: 999px; padding: 4px"><button type="button" aria-pressed="true" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: #1A230D; color: #D9FF5C; font-weight: 600; font-size: 13px; box-shadow: inset 0 0 0 1px #4D6B12">Production</button><button type="button" aria-pressed="false" style="border: 0; border-radius: 999px; padding: 8px 16px; min-height: 36px; background: transparent; color: #C9CEC4; font-weight: 500; font-size: 13px">Staging</button></div>
+<label style="flex: 1 1 260px; display: flex; align-items: center; gap: 10px; background: #15171A; border: 1px solid #3A3F45; border-radius: 999px; padding: 0 16px; min-height: 44px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8D948A" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg><input type="search" aria-label="Search" placeholder="Search an email or content name" style="flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #F5F7F0; font-size: 14px"></label>
+<button type="button" aria-label="Admin menu" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; color: #F5F7F0; font-weight: 700">GH</button>
+</header>
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 24px; max-width: 1280px; width: 100%; box-sizing: border-box">
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #8D948A; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase">App</span>
+<h1 style="margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700">Remote <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: 46px; color: #D9FF5C">config</span></h1>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: #15171A; border: 1px solid #3A3F45; border-radius: 24px; padding: 14px 16px 14px 20px">
+<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; color: #FFD23F; background: rgba(255,210,63,0.10)">Draft v[19]</span>
+<span style="flex: 1 1 240px; color: #C9CEC4; font-size: 13px">3 changes from published v[18] · apps fetch on launch and every 6 h</span>
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">View diff</button>
+<button type="button" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #F5F7F0; font-weight: 600">Save draft</button>
+<button type="button" style="min-height: 44px; padding: 0 24px; border-radius: 999px; border: 0; background: linear-gradient(90deg, #E4FF6A, #B6F02A, #5EE4A0); color: #0A0B09; font-weight: 800">Publish</button>
+</div>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; align-items: start">
+
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0 0 8px; font-size: 16px; font-weight: 700">Features</h2>
+<sc-for list="{{flags}}" as="f" hint-placeholder-count="7">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid #2A2E33">
+<div style="min-width: 0"><div style="font-family: ui-monospace, Menlo, monospace; font-size: 13px">{{f.key}}</div><div style="font-size: 12px; color: #8D948A">{{f.target}}</div></div>
+<button type="button" role="switch" aria-checked="{{f.checked}}" aria-label="{{f.key}}" onClick="{{f.toggle}}" style="{{f.track}}"><span style="{{f.knob}}"></span></button>
+</div>
+</sc-for>
+</div>
+
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><h2 style="margin: 0; font-size: 16px; font-weight: 700">Safety</h2><span style="font-size: 12px; color: #8D948A">Owner only · hard bounds in schema</span></div>
+<sc-for list="{{safety}}" as="s" hint-placeholder-count="5">
+<label style="display: flex; align-items: center; gap: 12px; justify-content: space-between">
+<span style="min-width: 0"><span style="display: block; font-family: ui-monospace, Menlo, monospace; font-size: 13px">{{s.key}}</span><span style="display: block; font-size: 12px; color: #8D948A">{{s.bound}}</span></span>
+<input value="{{s.value}}" class="num" style="width: 112px; min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; font-size: 14px; text-align: right">
+</label>
+</sc-for>
+<div style="padding: 12px 14px; border-radius: 18px; background: rgba(255,210,63,0.08); color: #FFD23F; font-size: 13px">Calorie floors still open: confirm the values the app uses today.</div>
+</div>
+
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Limits, water &amp; streak</h2>
+<sc-for list="{{limits}}" as="s" hint-placeholder-count="8">
+<label style="display: flex; align-items: center; gap: 12px; justify-content: space-between">
+<span style="font-family: ui-monospace, Menlo, monospace; font-size: 13px; min-width: 0">{{s.key}}</span>
+<input value="{{s.value}}" class="num" style="width: 112px; min-height: 40px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; font-size: 14px; text-align: right">
+</label>
+</sc-for>
+</div>
+
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><h2 style="margin: 0; font-size: 16px; font-weight: 700">AI operations</h2><span style="font-size: 12px; color: #8D948A">Photos and text are never stored</span></div>
+<label style="display: flex; align-items: center; gap: 12px; justify-content: space-between"><span><span style="display: block; font-weight: 600">Daily scan cap per account</span><span style="display: block; font-size: 12px; color: #8D948A">ai_scans_per_day</span></span><input value="10" class="num" style="width: 112px; min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; text-align: right"></label>
+<label style="display: flex; align-items: center; gap: 12px; justify-content: space-between"><span><span style="display: block; font-weight: 600">Global daily budget</span><span style="display: block; font-size: 12px; color: #8D948A">Photo logging rests when reached</span></span><input value="€[00]" class="num" style="width: 112px; min-height: 44px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; text-align: right"></label>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #8D948A"><span>Today’s spend</span><span class="num">86%</span></div>
+<div style="height: 8px; border-radius: 999px; background: #1F2226; overflow: hidden"><div style="width: 86%; height: 100%; border-radius: 999px; background: #FFD23F"></div></div>
+</div>
+<div style="padding: 14px 16px; border-radius: 18px; background: #111315; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; gap: 8px"><span style="font-family: ui-monospace, Menlo, monospace; font-size: 13px">food-photo</span><span style="font-size: 12px; color: #8D948A">Claude Haiku · prompt v[7]</span></div>
+<div style="display: flex; justify-content: space-between; font-size: 12px; color: #C9CEC4"><span>Rollout of prompt v[8]</span><span class="num">[20]%</span></div>
+<div style="height: 8px; border-radius: 999px; background: #1F2226; overflow: hidden"><div style="width: 20%; height: 100%; border-radius: 999px; background: #C6F432"></div></div>
+</div>
+<div style="font-size: 12px; color: #8D948A">Kill switches: photo_log, eating_out and dictate in Features.</div>
+</div>
+
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">App gate</h2>
+<sc-for list="{{gate}}" as="s" hint-placeholder-count="3">
+<label style="display: flex; align-items: center; gap: 12px; justify-content: space-between"><span style="font-family: ui-monospace, Menlo, monospace; font-size: 13px">{{s.key}}</span><input value="{{s.value}}" class="num" style="width: 112px; min-height: 40px; padding: 0 14px; border-radius: 14px; border: 1px solid #3A3F45; background: #111315; color: #F5F7F0; text-align: right"></label>
+</sc-for>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 18px; border: 1px solid rgba(255,92,92,0.4)">
+<div><div style="font-weight: 600">Maintenance mode</div><div style="font-size: 12px; color: #8D948A">Shows a resting screen to every device</div></div>
+<button type="button" role="switch" aria-checked="false" aria-label="Maintenance mode" style="width: 48px; height: 28px; border-radius: 999px; border: 1px solid #3A3F45; background: #1F2226; padding: 3px; display: flex; justify-content: flex-start"><span style="width: 20px; height: 20px; border-radius: 999px; background: #8D948A"></span></button>
+</div>
+</div>
+
+<div style="background: #15171A; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 16px; font-weight: 700">Targeting · <span style="font-family: ui-monospace, Menlo, monospace; font-weight: 500; font-size: 14px">monthly_challenge</span></h2>
+<div role="group" aria-label="Target" style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; font-size: 13px">All</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; font-size: 13px">Platform</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #4D6B12; background: #1A230D; color: #D9FF5C; font-size: 13px; font-weight: 600">Language</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #3A3F45; background: transparent; color: #C9CEC4; font-size: 13px">Version range</button>
+<button type="button" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #4D6B12; background: #1A230D; color: #D9FF5C; font-size: 13px; font-weight: 600">Percent</button>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span style="font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #1F2226; color: #C9CEC4">AR</span><span style="font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #1F2226; color: #C9CEC4">ES</span><span class="num" style="font-size: 12px; padding: 4px 12px; border-radius: 999px; background: #1F2226; color: #C9CEC4">50% of installs</span></div>
+<span style="font-size: 12px; color: #8D948A">Percent uses a random install ID that never leaves the device.</span>
+</div>
+
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { off: {} }; }
+  renderVals() {
+    var self = this;
+    var keys = [['photo_log','All'],['eating_out','All'],['dictate','All'],['barcode_contribute','All'],['cheat_meals','All'],['catch_up','All'],['monthly_challenge','AR, ES · 50%']];
+    var flags = keys.map(function (k) {
+      var on = !self.state.off[k[0]];
+      return {
+        key: k[0], target: k[1], checked: on ? 'true' : 'false',
+        toggle: function () { var o = Object.assign({}, self.state.off); o[k[0]] = on; self.setState({ off: o }); },
+        track: 'width: 48px; height: 28px; flex: none; border-radius: 999px; padding: 3px; display: flex; cursor: pointer; ' + (on ? 'background: #C6F432; border: 1px solid #C6F432; justify-content: flex-end;' : 'background: #1F2226; border: 1px solid #3A3F45; justify-content: flex-start;'),
+        knob: 'width: 20px; height: 20px; border-radius: 999px; background: ' + (on ? '#0A0B09' : '#8D948A') + ';'
+      };
+    });
+    return {
+      flags: flags,
+      safety: [
+        { key: 'calorie_floor_female', value: '[open]', bound: 'Cannot go below coded minimum' },
+        { key: 'calorie_floor_male', value: '[open]', bound: 'Cannot go below coded minimum' },
+        { key: 'max_rate_pct_week', value: '1%', bound: 'Max 1% a week' },
+        { key: 'max_weekly_target_change_kcal', value: '120', bound: 'kcal' },
+        { key: 'banked_slice_warn_kcal', value: '300', bound: 'kcal' }
+      ],
+      limits: [
+        { key: 'photo_note_max_chars', value: '140' },
+        { key: 'backup_interval_min', value: '0' },
+        { key: 'ml_per_kg', value: '35' },
+        { key: 'training_day_bonus_l', value: '0.5' },
+        { key: 'min_l / max_l', value: '1.5 / 5' },
+        { key: 'freeze_every_days', value: '7' },
+        { key: 'freeze_max', value: '3' },
+        { key: 'repair_until', value: '23:59 +1d' }
+      ],
+      gate: [
+        { key: 'min_version_ios', value: '102' },
+        { key: 'min_version_android', value: '102' },
+        { key: 'recommended_version', value: '102' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
