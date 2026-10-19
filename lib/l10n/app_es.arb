@@ -1195,5 +1195,20 @@
   "privacyPolicy": "Política de privacidad",
   "privacyPolicySub": "Lo que se queda en tu teléfono",
   "termsOfUse": "Términos de uso",
-  "termsOfUseSub": "Suscripciones y seguridad"
+  "termsOfUseSub": "Suscripciones y seguridad",
+  "tplPackDays": "{n, plural, =1{1 día a la semana} other{{n} días a la semana}}",
+  "tplLevelBeginner": "principiante",
+  "tplLevelIntermediate": "intermedio",
+  "tplLevelExpert": "avanzado",
+  "packFoodLabel": "Lista de alimentos de Gymco",
+  "proGrantedBadge": "En tu cuenta",
+  "proGrantedSub": "activado para tu cuenta",
+  "proGrantedUntil": "activado para tu cuenta hasta el {date}",
+  "proGrantedLabel": "Gymco Pro, activo en tu cuenta",
+  "proGrantedNote": "Pro está activo en tu cuenta. Aún no se vende nada; estos son los precios previstos para el lanzamiento.",
+  "proLockedBadge": "Muy pronto",
+  "proLockedCta": "Pro está en camino",
+  "proLockedSub": "mira lo que añadirá Pro",
+  "proLockedLabel": "Gymco Pro, muy pronto",
+  "proLockedNote": "Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento."
 }

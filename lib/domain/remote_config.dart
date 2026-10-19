@@ -70,6 +70,10 @@ class RemoteConfig {
   int get freezeMax => _i('streak', 'freeze_max', 3, 0, 10);
   bool get repairNextDay => _b('streak', 'repair_next_day', true);
 
+  // Plans
+  /// While Gymco is in testing every Pro feature is on for everyone.
+  bool get testingUnlockAll => _b('plans', 'testing_unlock_all', true);
+
   // App gate
   int minBuild(String platform) =>
       _i('app_gate', platform == 'android' ? 'min_build_android' : 'min_build_ios', 0, 0, 100000);

@@ -9,6 +9,7 @@ import '../../domain/energy.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
+import '../common/copy.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 
@@ -572,7 +573,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 l.obTargetsTitle,
                 style: const TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
-              Muted(l.obTargetsBody, size: 14),
+              Muted(copyText(context, 'obTargetsBody', l.obTargetsBody), size: 14),
             ],
           ),
         ),
@@ -1036,10 +1037,25 @@ class _WelcomeState extends State<_Welcome> {
     final l = AppLocalizations.of(context);
     final safe = MediaQuery.paddingOf(context);
     final pages = [
-      ('assets/brand/welcome.webp', l.welcomeArtAlt, l.welcomeTitleEm, l.welcomeBody),
-      ('assets/onboarding/log.webp', l.welcomeLogAlt, l.welcomeLogTitleEm, l.welcomeLogBody),
-      ('assets/onboarding/train.webp', l.welcomeTrainAlt, l.welcomeTrainTitleEm, l.welcomeTrainBody),
-      ('assets/onboarding/progress.webp', l.welcomeProgressAlt, l.welcomeProgressTitleEm, l.welcomeProgressBody),
+      ('assets/brand/welcome.webp', l.welcomeArtAlt, l.welcomeTitleEm, copyText(context, 'welcomeBody', l.welcomeBody)),
+      (
+        'assets/onboarding/log.webp',
+        l.welcomeLogAlt,
+        l.welcomeLogTitleEm,
+        copyText(context, 'welcomeLogBody', l.welcomeLogBody),
+      ),
+      (
+        'assets/onboarding/train.webp',
+        l.welcomeTrainAlt,
+        l.welcomeTrainTitleEm,
+        copyText(context, 'welcomeTrainBody', l.welcomeTrainBody),
+      ),
+      (
+        'assets/onboarding/progress.webp',
+        l.welcomeProgressAlt,
+        l.welcomeProgressTitleEm,
+        copyText(context, 'welcomeProgressBody', l.welcomeProgressBody),
+      ),
     ].where((p) => _bundled.contains(p.$1)).toList();
     final artHeight = MediaQuery.sizeOf(context).height * 0.61;
     return Scaffold(

@@ -13,6 +13,7 @@ import 'package:gymco/data/food_source.dart';
 import 'package:gymco/data/health_sync.dart';
 import 'package:gymco/data/local_db.dart';
 import 'package:gymco/data/models.dart';
+import 'package:gymco/data/packs.dart';
 import 'package:gymco/data/photo_picker.dart';
 import 'package:gymco/data/photo_store.dart';
 import 'package:gymco/data/reminder_scheduler.dart';
@@ -193,6 +194,22 @@ class FakeCloud implements Cloud {
     return config;
   }
 
+  /// What `app-config?pack=<kind>` serves, by kind, and each kind asked for.
+  Map<String, PackDownload> packs = {};
+  final packFetches = <String>[];
+
+  @override
+  Future<PackDownload?> fetchPack(String kind) async {
+    packFetches.add(kind);
+    return packs[kind];
+  }
+
+  /// The signed-in user's own row in `entitlements`.
+  Entitlement? entitlement;
+
+  @override
+  Future<Entitlement?> fetchEntitlement() async => signedIn == null ? null : entitlement;
+
   @override
   Future<(List<PhotoFood>, int)> scanPhoto(
     Uint8List? jpeg, {
@@ -275,3 +292,31 @@ class FakeReminders implements ReminderScheduler {
   @override
   Future<void> replaceAll(List<ReminderNote> notes) async => scheduled = notes;
 }
+
+Object? _sorted(Object? v) => switch (v) {
+  final Map m => {for (final k in (m.keys.cast<String>().toList()..sort())) k: _sorted(m[k])},
+  final List l => [for (final x in l) _sorted(x)],
+  _ => v,
+};
+
+/// The server's canonical JSON: keys sorted, no whitespace.
+String canonicalJson(Object? body) => jsonEncode(_sorted(body));
+
+/// A published pack as `app-config?pack=` serves it; [checksum] overrides
+/// the real one to fake a damaged download.
+PackDownload servePack(String kind, int version, Object body, {String? checksum}) {
+  final json = canonicalJson(body);
+  return PackDownload(kind: kind, version: version, checksum: checksum ?? packChecksum(json), bodyJson: json);
+}
+
+/// The `packs` listing of an app-config response.
+Map<String, Object?> packListing(Iterable<PackDownload> packs, {Map<String, String> checksums = const {}}) => {
+  for (final p in packs) p.kind: {'version': p.version, 'checksum': checksums[p.kind] ?? p.checksum},
+};
+
+/// `{ en, ar, es }`.
+Map<String, String> t3(String en, [String? ar, String? es]) => {
+  'en': en,
+  'ar': ar ?? '$en (ar)',
+  'es': es ?? '$en (es)',
+};

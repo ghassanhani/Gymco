@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/packs.dart' show PackTemplate;
 import '../../data/templates.dart';
 import '../../data/training.dart';
 import '../../domain/schedule.dart';
 import '../../domain/volume.dart';
 import '../../domain/workout.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/pack_providers.dart';
 import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
@@ -548,6 +550,18 @@ List<(TemplateKind, String, String)> templateChoices(AppLocalizations l) => [
   (TemplateKind.fullBody, l.tplFB, l.tplFBSub),
 ];
 
+/// "3 days a week · beginner" for a template from the pack.
+String packTemplateSub(AppLocalizations l, PackTemplate t) {
+  final days = l.tplPackDays({for (final r in t.routines) r.weekday}.length);
+  final level = switch (t.level) {
+    'beginner' => l.tplLevelBeginner,
+    'intermediate' => l.tplLevelIntermediate,
+    'expert' => l.tplLevelExpert,
+    _ => null,
+  };
+  return level == null ? days : '$days · $level';
+}
+
 /// No routines yet: an empty workout, your own routine, or a template.
 class _FirstRoutine extends ConsumerWidget {
   const _FirstRoutine();
@@ -622,20 +636,26 @@ class TemplateList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    final lang = Localizations.localeOf(context).languageCode;
+    VItem row(String title, String sub, Future<void> Function() apply) => VItem(
+      semantics: title,
+      onTap: () async {
+        await apply();
+        onDone(title);
+      },
+      children: [
+        ItemText(title, sub: sub, weight: FontWeight.w600),
+        const VIcon('fwd', size: 18, color: Volt.t1),
+      ],
+    );
+    final actions = ref.read(routineActionsProvider);
     return VList(
       children: [
         for (final (k, title, sub) in templateChoices(l))
-          VItem(
-            semantics: title,
-            onTap: () async {
-              await ref.read(routineActionsProvider).applyTemplate(k, (r) => templateRoleName(l, r));
-              onDone(title);
-            },
-            children: [
-              ItemText(title, sub: sub, weight: FontWeight.w600),
-              const VIcon('fwd', size: 18, color: Volt.t1),
-            ],
-          ),
+          row(title, sub, () => actions.applyTemplate(k, (r) => templateRoleName(l, r))),
+        // Templates from the content pack come after the built-in three.
+        for (final t in ref.watch(packsProvider).templates)
+          row(t.name.of(lang), packTemplateSub(l, t), () => actions.applyPackTemplate(t, lang)),
       ],
     );
   }

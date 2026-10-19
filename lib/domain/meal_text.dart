@@ -199,8 +199,25 @@ final Set<String> _arabicVocab = {
     if (_isArabic(k)) k,
 };
 
+/// A word the parser already gives a meaning to; a content pack's unit
+/// words never override these.
+bool isBuiltInMealWord(String w) =>
+    _numberWords.containsKey(w) ||
+    _massUnits.containsKey(w) ||
+    _countUnits.containsKey(w) ||
+    _arabicDuals.containsKey(w) ||
+    _articles.contains(w) ||
+    _fillers.contains(w) ||
+    _separators.contains(w);
+
 /// Words in [knownFoodWords] also split on a leading "و": "دجاج ورز".
-List<MealPhrase> parseMealText(String input, {Set<String> knownFoodWords = const {}}) {
+/// [extraUnits] are more unit words (from a content pack), keyed as
+/// [normaliseMealText] writes them; built-in words win.
+List<MealPhrase> parseMealText(
+  String input, {
+  Set<String> knownFoodWords = const {},
+  Map<String, MealUnit> extraUnits = const {},
+}) {
   final s = normaliseMealText(input)
       .replaceAllMapped(_decimalComma, (m) => '${m[1]}.${m[2]}')
       .replaceAllMapped(_digitLetter, (m) => '${m[1]} ${m[2]}')
@@ -226,7 +243,7 @@ List<MealPhrase> parseMealText(String input, {Set<String> knownFoodWords = const
   final phrases = <MealPhrase>[];
   var group = <String>[];
   void close() {
-    final p = _phrase(group);
+    final p = _phrase(group, extraUnits);
     if (p != null) phrases.add(p);
     group = [];
   }
@@ -242,7 +259,7 @@ List<MealPhrase> parseMealText(String input, {Set<String> knownFoodWords = const
   return phrases;
 }
 
-MealPhrase? _phrase(List<String> tokens) {
+MealPhrase? _phrase(List<String> tokens, Map<String, MealUnit> extraUnits) {
   double? grams;
   double? count;
   MealUnit? unit;
@@ -270,7 +287,7 @@ MealPhrase? _phrase(List<String> tokens) {
       pending = null;
       continue;
     }
-    if (_countUnits[t] case final u?) {
+    if (_countUnits[t] ?? (isBuiltInMealWord(t) ? null : extraUnits[t]) case final u?) {
       unit = u;
       count = (count ?? 1) * (pending ?? 1);
       pending = null;

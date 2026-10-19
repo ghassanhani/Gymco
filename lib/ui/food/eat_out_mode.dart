@@ -6,8 +6,10 @@ import '../../data/cloud.dart' show CloudException;
 import '../../data/meal_reader.dart';
 
 import '../../data/models.dart';
+import '../../data/packs.dart' show PackDish;
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
+import '../../state/pack_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
@@ -39,6 +41,16 @@ const _sides = <_Dish>[
 ];
 
 const _portions = [0.7, 1.0, 1.35, 1.7];
+
+/// The built-in dishes of one group with their labels, then the eating-out
+/// pack's: a pack dish with a built-in id takes its place.
+List<(_Dish, String)> _menu(List<_Dish> builtIn, List<String> labels, Iterable<PackDish> pack, String lang) {
+  final byId = {
+    for (final d in pack)
+      d.id: ((id: d.id, name: d.name.en, g: d.g, kcal: d.kcal, p: d.p, c: d.c, f: d.f), d.name.of(lang)),
+  };
+  return [for (final (i, d) in builtIn.indexed) byId.remove(d.id) ?? (d, labels[i]), ...byId.values];
+}
 
 /// The estimate as a food per 100 g, so it logs like any other.
 Food _asFood(_Dish d) => Food(
@@ -93,10 +105,27 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
     super.dispose();
   }
 
+  /// The mains and sides on offer, built-in and from the pack.
+  (List<(_Dish, String)>, List<(_Dish, String)>) get _offer {
+    final l = AppLocalizations.of(context);
+    final lang = Localizations.localeOf(context).languageCode;
+    final pack = ref.read(packsProvider).dishes;
+    return (
+      _menu(
+        _dishes,
+        [l.eoBurger, l.eoPizza, l.eoPasta, l.eoShawarma, l.eoSushi, l.eoCurry, l.eoSalad, l.eoGrill],
+        pack.where((d) => d.main),
+        lang,
+      ),
+      _menu(_sides, [l.eoFries, l.eoGarlic, l.eoBread, l.eoSoda], pack.where((d) => !d.main), lang),
+    );
+  }
+
   List<(Food, double)> get _lines {
     final scale = _portions[_portion];
+    final (mains, sides) = _offer;
     return [
-      if (_dish case final d? when d >= 0) (_asFood(_dishes[d]), _dishes[d].g * scale),
+      if (_dish case final d? when d >= 0 && d < mains.length) (_asFood(mains[d].$1), mains[d].$1.g * scale),
       if (_dish == _other)
         if (_ai.isNotEmpty)
           for (final (f, g) in _ai) (f, g * scale)
@@ -105,7 +134,8 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
             _roughFood(_described.text.trim().isEmpty ? 'Restaurant meal' : _described.text.trim(), _rough * scale),
             400.0,
           ),
-      for (final i in _picked) (_asFood(_sides[i]), _sides[i].g),
+      for (final i in _picked)
+        if (i < sides.length) (_asFood(sides[i].$1), sides[i].$1.g),
     ];
   }
 
@@ -229,8 +259,10 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
     final lines = _lines;
     final kcal = lines.fold<double>(0, (s, x) => s + x.$1.kcal * x.$2 / 100);
     final protein = lines.fold<double>(0, (s, x) => s + x.$1.protein * x.$2 / 100);
-    final dishNames = [l.eoBurger, l.eoPizza, l.eoPasta, l.eoShawarma, l.eoSushi, l.eoCurry, l.eoSalad, l.eoGrill];
-    final sideNames = [l.eoFries, l.eoGarlic, l.eoBread, l.eoSoda];
+    ref.watch(packsProvider);
+    final (mains, sides) = _offer;
+    final dishNames = [for (final (_, n) in mains) n];
+    final sideNames = [for (final (_, n) in sides) n];
     final portionNames = [l.eoSmall, l.eoNormal, l.eoBig, l.eoHuge];
 
     Widget chips(List<String> names, bool Function(int) on, void Function(int) tap) => Wrap(

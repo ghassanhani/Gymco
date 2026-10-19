@@ -2,6 +2,7 @@ import '../domain/meal_text.dart';
 import 'cloud.dart' show PhotoFood;
 import 'local_db.dart';
 import 'models.dart';
+import 'packs.dart';
 
 /// A written food matched to the database, or not, with its weight.
 class WrittenItem {
@@ -26,7 +27,7 @@ class WrittenItem {
 /// trailing words until something does ("chicken breast grilled" → "chicken breast").
 Future<List<WrittenItem>> readWrittenMeal(LocalDb db, String text) async {
   final out = <WrittenItem>[];
-  for (final p in parseMealText(text, knownFoodWords: mealAliasWords)) {
+  for (final p in parseMealText(text, knownFoodWords: mealAliasWords, extraUnits: Packs.current.unitWords)) {
     Food? food;
     if (aliasFoodId(p.food) case final id?) food = await db.foodById(id);
     if (food == null) {

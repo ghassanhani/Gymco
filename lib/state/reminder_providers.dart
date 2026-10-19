@@ -8,6 +8,7 @@ import '../data/reminder_scheduler.dart';
 import '../domain/hydration.dart';
 import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
+import 'pack_providers.dart';
 import 'providers.dart';
 import 'training_providers.dart';
 
@@ -122,6 +123,8 @@ final reminderSyncProvider = FutureProvider<void>((ref) async {
   final l = lookupAppLocalizations(
     Locale(AppLocalizations.supportedLocales.any((x) => x.languageCode == code) ? code : 'en'),
   );
+  final lang = l.localeName;
+  final packs = ref.watch(packsProvider);
   final litres = (goal / 1000).toStringAsFixed(1);
   await scheduler.replaceAll([
     for (final r in plan)
@@ -137,8 +140,8 @@ final reminderSyncProvider = FutureProvider<void>((ref) async {
         },
         body: switch (r.kind) {
           ReminderKind.water => l.remindWaterBody(litres),
-          ReminderKind.workout => l.remindWorkoutBody,
-          _ => l.remindMealBody,
+          ReminderKind.workout => packs.copy('remindWorkoutBody', lang, l.remindWorkoutBody),
+          _ => packs.copy('remindMealBody', lang, l.remindMealBody),
         },
       ),
   ]);

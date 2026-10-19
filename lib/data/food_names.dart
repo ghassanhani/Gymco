@@ -48,12 +48,20 @@ const _names = <String, (String ar, String es)>{
   'eatout:soda': ('مشروب غازي (تقدير)', 'Refresco (estimación)'),
 };
 
+/// Names from the content packs (pack foods and eating-out dishes), by food
+/// id; they win over the built-in ones for the same id.
+var _packNames = const <String, (String ar, String es)>{};
+
+/// Set when the packs load or change.
+void setPackFoodNames(Map<String, (String ar, String es)> names) => _packNames = names;
+
 /// [english] in [languageCode] when the staple has a name there.
-String localFoodName(String id, String english, String languageCode) => switch ((_names[id], languageCode)) {
-  ((final ar, _), 'ar') => ar,
-  ((_, final es), 'es') => es,
-  _ => english,
-};
+String localFoodName(String id, String english, String languageCode) =>
+    switch ((_packNames[id] ?? _names[id], languageCode)) {
+      ((final ar, _), 'ar') => ar,
+      ((_, final es), 'es') => es,
+      _ => english,
+    };
 
 /// Lower case without Spanish accents or Arabic marks, so "platano",
 /// "plátano" and "Plátano" all match.
@@ -74,8 +82,12 @@ String foldForSearch(String s) => s
 List<String> foodIdsNamed(String query) {
   final words = foldForSearch(query).split(RegExp(r'\s+')).where((w) => w.isNotEmpty).toList();
   if (words.isEmpty) return const [];
+  bool hit(String ar, String es) =>
+      words.every((w) => foldForSearch(ar).contains(w)) || words.every((w) => foldForSearch(es).contains(w));
   return [
+    for (final MapEntry(key: id, value: (ar, es)) in _packNames.entries)
+      if (hit(ar, es)) id,
     for (final MapEntry(key: id, value: (ar, es)) in _names.entries)
-      if (words.every((w) => foldForSearch(ar).contains(w)) || words.every((w) => foldForSearch(es).contains(w))) id,
+      if (!_packNames.containsKey(id) && hit(ar, es)) id,
   ];
 }

@@ -20,7 +20,14 @@ import '../../state/config_providers.dart';
 
 // ---------------------------------------------------------------- names
 
-String awardName(AppLocalizations l, Award a, DateTime now, String locale) => switch (a.id) {
+/// A pack award's or challenge's own text in the app's language.
+String? _packText(Map<String, String>? by, String locale) =>
+    by == null ? null : by[locale.split(RegExp('[_-]')).first] ?? by['en'] ?? by.values.firstOrNull;
+
+String awardName(AppLocalizations l, Award a, DateTime now, String locale) =>
+    _packText(a.names, locale) ?? _builtInName(l, a, now, locale);
+
+String _builtInName(AppLocalizations l, Award a, DateTime now, String locale) => switch (a.id) {
   's7' => l.awFirstWeek,
   's14' => l.awTwoWeeks,
   's30' => l.awOneMonth,
@@ -36,7 +43,10 @@ String awardName(AppLocalizations l, Award a, DateTime now, String locale) => sw
   _ => l.awMonth(DateFormat.MMMM(locale).format(now)),
 };
 
-String awardDesc(AppLocalizations l, Award a) => switch (a.id) {
+String awardDesc(AppLocalizations l, Award a, [String locale = 'en']) =>
+    _packText(a.descriptions, locale) ?? _builtInDesc(l, a);
+
+String _builtInDesc(AppLocalizations l, Award a) => switch (a.id) {
   's7' => l.awFirstWeekD,
   's14' => l.awTwoWeeksD,
   's30' => l.awOneMonthD,
@@ -49,7 +59,7 @@ String awardDesc(AppLocalizations l, Award a) => switch (a.id) {
   't1' => l.awFirstWorkoutD,
   't25' => l.awTwentyFiveD,
   'tpr' => l.awTenBestsD,
-  _ => l.awMonthD(monthlyChallenge),
+  _ => l.awMonthD(a.need),
 };
 
 String _medalSmall(AppLocalizations l, String? s) => switch (s) {
@@ -945,7 +955,7 @@ class AwardDetailScreen extends ConsumerWidget {
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 320),
                       child: Text(
-                        awardDesc(l, a),
+                        awardDesc(l, a, loc),
                         textAlign: TextAlign.center,
                         style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2),
                       ),

@@ -199,6 +199,8 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                                 ? l.aiEstimateLabel
                                 : f.source == 'recipe'
                                 ? l.yourRecipe
+                                : f.source == 'pack'
+                                ? l.packFoodLabel
                                 : '${f.brand ?? l.customFood} · ${l.createdByYou}',
                           ),
                         ],

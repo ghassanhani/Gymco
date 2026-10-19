@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/cloud.dart';
 import '../domain/remote_config.dart';
 import 'cloud_providers.dart';
+import 'pack_providers.dart';
 import 'providers.dart';
 
 // Phone-only keys (never backed up): the last config and this install's slot.
@@ -75,15 +76,19 @@ class RemoteConfigNotifier extends Notifier<RemoteConfig> {
     } on CloudException {
       return;
     }
-    final body = data?['config'];
-    if (body is! Map) return;
-    final version = (data!['config_version'] as num?)?.toInt() ?? 0;
-    final c = RemoteConfig.fromJson(body.cast<String, Object?>(), version: version);
-    final prefs = ref.read(prefsProvider);
-    await prefs.setString(_configKey, jsonEncode(c.toJson()));
-    await prefs.setInt(_versionKey, version);
-    RemoteConfig.current = c;
-    state = c;
+    if (data == null) return;
+    final body = data['config'];
+    if (body is Map) {
+      final version = (data['config_version'] as num?)?.toInt() ?? 0;
+      final c = RemoteConfig.fromJson(body.cast<String, Object?>(), version: version);
+      final prefs = ref.read(prefsProvider);
+      await prefs.setString(_configKey, jsonEncode(c.toJson()));
+      await prefs.setInt(_versionKey, version);
+      RemoteConfig.current = c;
+      state = c;
+    }
+    // The content packs listed beside it: download what changed.
+    if (data['packs'] case final Map packs) await ref.read(packsProvider.notifier).sync(packs.cast<String, Object?>());
   }
 }
 

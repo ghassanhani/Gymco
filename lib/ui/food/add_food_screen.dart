@@ -752,7 +752,9 @@ class _FoodItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final g = food.servingGrams ?? 150;
-    final brand = food.brand ?? (food.source == 'usda' ? l.genericUsda : l.customFood);
+    final brand =
+        food.brand ??
+        (food.source == 'usda' ? l.genericUsda : (food.source == 'pack' ? l.packFoodLabel : l.customFood));
     return VItem(
       color: on ? Volt.brandWash : null,
       onTap: onTap,

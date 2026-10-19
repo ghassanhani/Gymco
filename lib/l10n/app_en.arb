@@ -3209,5 +3209,34 @@
   "privacyPolicy": "Privacy policy",
   "privacyPolicySub": "What stays on your phone",
   "termsOfUse": "Terms of use",
-  "termsOfUseSub": "Subscriptions and safety"
+  "termsOfUseSub": "Subscriptions and safety",
+  "tplPackDays": "{n, plural, =1{1 day a week} other{{n} days a week}}",
+  "@tplPackDays": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "tplLevelBeginner": "beginner",
+  "tplLevelIntermediate": "intermediate",
+  "tplLevelExpert": "advanced",
+  "packFoodLabel": "Gymco food list",
+  "proGrantedBadge": "On your account",
+  "proGrantedSub": "unlocked for your account",
+  "proGrantedUntil": "unlocked for your account until {date}",
+  "@proGrantedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "proGrantedLabel": "Gymco Pro, on for your account",
+  "proGrantedNote": "Pro is on for your account. Nothing is for sale yet; these are the planned prices for launch.",
+  "proLockedBadge": "Coming soon",
+  "proLockedCta": "Pro is coming",
+  "proLockedSub": "see what Pro will add",
+  "proLockedLabel": "Gymco Pro, coming soon",
+  "proLockedNote": "Pro is not on sale yet. These are the planned prices for launch."
 }

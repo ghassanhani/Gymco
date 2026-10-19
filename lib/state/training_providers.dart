@@ -5,20 +5,24 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../data/packs.dart';
 import '../data/templates.dart';
 import '../data/training.dart';
 import '../domain/schedule.dart';
 import '../domain/session.dart';
 import '../data/models.dart';
+import 'pack_providers.dart';
 import 'providers.dart';
 
 /// Loaded once from the bundled asset; tests override it.
 final bundledLibraryProvider = FutureProvider<ExerciseLibrary>((_) => ExerciseLibrary.load());
 
-/// The bundled library with the user's own exercises first.
+/// The bundled library with the exercises pack merged in and the user's
+/// own exercises first.
 final exerciseLibraryProvider = FutureProvider<ExerciseLibrary>((ref) async {
+  final pack = ref.watch(packsProvider.select((p) => p.exercises));
   final base = await ref.watch(bundledLibraryProvider.future);
-  return base.withCustom(await ref.watch(dbProvider).customExercises());
+  return base.withPack(pack).withCustom(await ref.watch(dbProvider).customExercises());
 });
 
 /// Off in tests: photos need the phone's file cache.
@@ -133,16 +137,17 @@ class RoutineActions {
 
   /// Add a starter block to the weekly plan. [name] gives each role its
   /// name in the user's language.
-  Future<void> applyTemplate(TemplateKind k, String Function(String role) name) async {
-    for (final t in templateRoutines(k)) {
+  Future<void> applyTemplate(TemplateKind k, String Function(String role) name) =>
+      _addToPlan([for (final t in templateRoutines(k)) (name(t.role), t.weekday, t.items)]);
+
+  /// Add a template from the templates pack, its routines named in [lang].
+  Future<void> applyPackTemplate(PackTemplate t, String lang) =>
+      _addToPlan([for (final r in t.routines) (r.name.of(lang), r.weekday, r.items)]);
+
+  Future<void> _addToPlan(List<(String, int, List<RoutineItem>)> routines) async {
+    for (final (name, weekday, items) in routines) {
       await save(
-        Routine(
-          id: null,
-          name: await freeName(name(t.role)),
-          items: t.items,
-          days: {t.weekday},
-          folder: RoutineFolder.plan,
-        ),
+        Routine(id: null, name: await freeName(name), items: items, days: {weekday}, folder: RoutineFolder.plan),
       );
     }
   }

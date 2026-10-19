@@ -22,6 +22,8 @@ class Award {
     this.small,
     this.icon,
     this.earnedOn,
+    this.names,
+    this.descriptions,
   });
 
   final String id;
@@ -36,6 +38,27 @@ class Award {
   final String? small;
   final String? icon;
   final DateTime? earnedOn;
+
+  /// Its name and description by language code, for awards and challenges
+  /// from a content pack; null for the built-in ones, which are localised.
+  final Map<String, String>? names;
+  final Map<String, String>? descriptions;
+
+  /// The same award with [have] and [earnedOn] changed.
+  Award copyWith({int? have, DateTime? earnedOn}) => Award(
+    id: id,
+    group: group,
+    shape: shape,
+    tone: tone,
+    need: need,
+    have: have ?? this.have,
+    big: big,
+    small: small,
+    icon: icon,
+    earnedOn: earnedOn ?? this.earnedOn,
+    names: names,
+    descriptions: descriptions,
+  );
 
   bool get earned => have >= need;
   int get toGo => (need - have).clamp(0, need);
@@ -69,18 +92,49 @@ class AwardStats {
 }
 
 const streakMilestones = [7, 14, 30, 66, 90];
+
+/// The month's challenge target when no content pack sets one.
 const monthlyChallenge = 12;
+
+/// What an award from a content pack counts.
+enum AwardMetric {
+  /// Full days logged.
+  loggedDays,
+
+  /// Workouts finished.
+  workouts,
+
+  /// The best streak.
+  streakDays,
+}
+
+/// An award from a content pack: earned when [metric] reaches [threshold].
+/// Like every award, it rewards showing up.
+class ExtraAward {
+  const ExtraAward({
+    required this.id,
+    required this.metric,
+    required this.threshold,
+    required this.names,
+    required this.descriptions,
+  });
+  final String id;
+  final AwardMetric metric;
+  final int threshold;
+  final Map<String, String> names;
+  final Map<String, String> descriptions;
+}
 
 /// When each run length was first reached, walking the marks in order.
 /// Frozen and repairable days hold a run; a missed day ends it.
-Map<int, DateTime> milestoneDates(Map<DateTime, DayMark> marks) {
+Map<int, DateTime> milestoneDates(Map<DateTime, DayMark> marks, [List<int> milestones = streakMilestones]) {
   final out = <int, DateTime>{};
   var run = 0;
   for (final d in marks.keys.toList()..sort()) {
     switch (marks[d]!) {
       case DayMark.kept:
         run++;
-        for (final m in streakMilestones) {
+        for (final m in milestones) {
           if (run == m) out.putIfAbsent(m, () => d);
         }
       case DayMark.missed:
@@ -102,7 +156,15 @@ DateTime? comebackDate(Map<DateTime, DayMark> marks) {
   return null;
 }
 
-List<Award> awards(AwardStats s) {
+/// The built-in awards, then [extra] from a content pack. The month's
+/// challenge needs [monthTarget] workouts and is called [monthTitle] when a
+/// pack names it.
+List<Award> awards(
+  AwardStats s, {
+  List<ExtraAward> extra = const [],
+  int monthTarget = monthlyChallenge,
+  Map<String, String>? monthTitle,
+}) {
   final dates = milestoneDates(s.streak.marks);
   final best = s.streak.best;
   return [
@@ -196,10 +258,47 @@ List<Award> awards(AwardStats s) {
       group: AwardGroup.challenge,
       shape: MedalShape.shield,
       tone: MedalTone.blue,
-      need: monthlyChallenge,
+      need: monthTarget,
       have: s.workoutsThisMonth,
+      names: monthTitle,
     ),
+    for (final x in extra) _extra(s, x),
   ];
+}
+
+Award _extra(AwardStats s, ExtraAward x) {
+  final (group, shape, tone, small, have, earnedOn) = switch (x.metric) {
+    AwardMetric.loggedDays => (
+      AwardGroup.food,
+      MedalShape.circle,
+      MedalTone.green,
+      'DAYS',
+      s.fullDays.length,
+      s.fullDays.length >= x.threshold ? s.fullDays[x.threshold - 1] : null,
+    ),
+    AwardMetric.workouts => (AwardGroup.training, MedalShape.circle, MedalTone.orange, 'WORKOUTS', s.workouts, null),
+    AwardMetric.streakDays => (
+      AwardGroup.streak,
+      MedalShape.hex,
+      MedalTone.lime,
+      'DAYS',
+      s.streak.best,
+      milestoneDates(s.streak.marks, [x.threshold])[x.threshold],
+    ),
+  };
+  return Award(
+    id: 'pk_${x.id}',
+    group: group,
+    shape: shape,
+    tone: tone,
+    big: '${x.threshold}',
+    small: small,
+    need: x.threshold,
+    have: have,
+    earnedOn: earnedOn,
+    names: x.names,
+    descriptions: x.descriptions,
+  );
 }
 
 /// The next streak award still ahead, for the "next award" line.

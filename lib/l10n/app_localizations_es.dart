@@ -4309,4 +4309,60 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get termsOfUseSub => 'Suscripciones y seguridad';
+
+  @override
+  String tplPackDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días a la semana',
+      one: '1 día a la semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tplLevelBeginner => 'principiante';
+
+  @override
+  String get tplLevelIntermediate => 'intermedio';
+
+  @override
+  String get tplLevelExpert => 'avanzado';
+
+  @override
+  String get packFoodLabel => 'Lista de alimentos de Gymco';
+
+  @override
+  String get proGrantedBadge => 'En tu cuenta';
+
+  @override
+  String get proGrantedSub => 'activado para tu cuenta';
+
+  @override
+  String proGrantedUntil(String date) {
+    return 'activado para tu cuenta hasta el $date';
+  }
+
+  @override
+  String get proGrantedLabel => 'Gymco Pro, activo en tu cuenta';
+
+  @override
+  String get proGrantedNote =>
+      'Pro está activo en tu cuenta. Aún no se vende nada; estos son los precios previstos para el lanzamiento.';
+
+  @override
+  String get proLockedBadge => 'Muy pronto';
+
+  @override
+  String get proLockedCta => 'Pro está en camino';
+
+  @override
+  String get proLockedSub => 'mira lo que añadirá Pro';
+
+  @override
+  String get proLockedLabel => 'Gymco Pro, muy pronto';
+
+  @override
+  String get proLockedNote => 'Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento.';
 }

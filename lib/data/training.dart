@@ -69,10 +69,30 @@ class Exercise {
   );
 }
 
-class ExerciseLibrary {
-  ExerciseLibrary(List<Exercise> all) : all = List.unmodifiable(all), _byId = {for (final e in all) e.id: e};
+/// A content pack's exercises: added to the library or replacing a bundled
+/// one by id, and the ids it takes out of search and pickers.
+class ExercisePack {
+  const ExercisePack({this.items = const [], this.removed = const {}});
+  final List<Exercise> items;
+  final Set<String> removed;
 
+  static const empty = ExercisePack();
+  bool get isEmpty => items.isEmpty && removed.isEmpty;
+}
+
+class ExerciseLibrary {
+  /// [hidden] ids still resolve by id, so past workouts show them, but are
+  /// left out of [all] and [search].
+  ExerciseLibrary(List<Exercise> all, {Set<String> hidden = const {}})
+    : _every = List.unmodifiable(all),
+      hidden = Set.unmodifiable(hidden),
+      all = List.unmodifiable(all.where((e) => !hidden.contains(e.id))),
+      _byId = {for (final e in all) e.id: e};
+
+  /// What search and the pickers offer.
   final List<Exercise> all;
+  final List<Exercise> _every;
+  final Set<String> hidden;
   final Map<String, Exercise> _byId;
 
   Exercise? operator [](String id) => _byId[id];
@@ -114,7 +134,19 @@ class ExerciseLibrary {
   }
 
   /// The same library with the user's own exercises in it.
-  ExerciseLibrary withCustom(List<Exercise> mine) => mine.isEmpty ? this : ExerciseLibrary([...mine, ...all]);
+  ExerciseLibrary withCustom(List<Exercise> mine) =>
+      mine.isEmpty ? this : ExerciseLibrary([...mine, ..._every], hidden: hidden);
+
+  /// The same library with a content pack merged in: an item with a bundled
+  /// id takes its place, the rest come after; removed ids are hidden.
+  ExerciseLibrary withPack(ExercisePack pack) {
+    if (pack.isEmpty) return this;
+    final byId = {for (final e in pack.items) e.id: e};
+    return ExerciseLibrary(
+      [for (final e in _every) byId.remove(e.id) ?? e, ...byId.values],
+      hidden: {...hidden, ...pack.removed},
+    );
+  }
 
   static Future<ExerciseLibrary> load([AssetBundle? bundle]) async {
     final raw = await (bundle ?? rootBundle).loadString('assets/exercises/exercises.json');

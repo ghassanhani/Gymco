@@ -94,6 +94,42 @@ class BackupMeta {
   final String? appVersion;
 }
 
+/// One published content pack as `app-config?pack=<kind>` serves it.
+/// [bodyJson] is the server's canonical JSON string and [checksum] the
+/// lowercase hex SHA-256 of its UTF-8 bytes; the phone hashes exactly these
+/// bytes before it trusts them.
+class PackDownload {
+  const PackDownload({required this.kind, required this.version, required this.checksum, required this.bodyJson});
+  final String kind;
+  final int version;
+  final String checksum;
+  final String bodyJson;
+
+  /// Null when the response is not a pack.
+  static PackDownload? fromJson(Object? j) => switch (j) {
+    {
+      'kind': final String kind,
+      'version': final num version,
+      'checksum': final String checksum,
+      'body_json': final String body,
+    } =>
+      PackDownload(kind: kind, version: version.toInt(), checksum: checksum, bodyJson: body),
+    _ => null,
+  };
+}
+
+/// The signed-in user's own row in `entitlements`: Pro or Lifetime, granted
+/// by hand or bought, with its end (none for Lifetime or an open grant).
+class Entitlement {
+  const Entitlement({required this.plan, this.expiresAt});
+
+  /// 'pro' or 'lifetime'.
+  final String plan;
+  final DateTime? expiresAt;
+
+  bool activeAt(DateTime now) => expiresAt == null || expiresAt!.isAfter(now);
+}
+
 /// Accounts, backup and the AI photo scan. Everything else works without it.
 abstract class Cloud {
   /// False when this build has no project to talk to.
@@ -126,6 +162,12 @@ abstract class Cloud {
   /// The published remote config for this device, or null when there is
   /// none to fetch. Works signed out.
   Future<Map<String, Object?>?> fetchConfig(Map<String, String> device);
+
+  /// One published content pack, or null when there is none. Works signed out.
+  Future<PackDownload?> fetchPack(String kind);
+
+  /// The signed-in user's entitlement, or null when signed out or there is none.
+  Future<Entitlement?> fetchEntitlement();
 }
 
 /// A build with no project: phone-only.
@@ -160,6 +202,10 @@ class NoCloud implements Cloud {
   }) async => _no();
   @override
   Future<Map<String, Object?>?> fetchConfig(Map<String, String> device) async => null;
+  @override
+  Future<PackDownload?> fetchPack(String kind) async => null;
+  @override
+  Future<Entitlement?> fetchEntitlement() async => null;
 }
 
 class SupabaseCloud implements Cloud {
@@ -269,6 +315,26 @@ class SupabaseCloud implements Cloud {
     final r = await _sb.functions.invoke('app-config', method: HttpMethod.get, queryParameters: device);
     final data = r.data is String ? jsonDecode(r.data as String) : r.data;
     return data is Map ? data.cast<String, Object?>() : null;
+  });
+
+  @override
+  Future<PackDownload?> fetchPack(String kind) => _guard(() async {
+    final r = await _sb.functions.invoke('app-config', method: HttpMethod.get, queryParameters: {'pack': kind});
+    return PackDownload.fromJson(r.data is String ? jsonDecode(r.data as String) : r.data);
+  });
+
+  @override
+  Future<Entitlement?> fetchEntitlement() => _guard(() async {
+    final uid = _sb.auth.currentUser?.id;
+    if (uid == null) return null;
+    // Row level security lets a user read only their own row.
+    final row = await _sb.from('entitlements').select('plan, expires_at').eq('user_id', uid).maybeSingle();
+    if (row == null || row['plan'] is! String) return null;
+    final ends = row['expires_at'];
+    return Entitlement(
+      plan: row['plan'] as String,
+      expiresAt: ends is String ? DateTime.tryParse(ends)?.toLocal() : null,
+    );
   });
 
   @override

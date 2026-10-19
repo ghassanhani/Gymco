@@ -4,6 +4,7 @@ import '../data/models.dart';
 import '../domain/awards.dart';
 import '../domain/streak.dart';
 import 'cloud_providers.dart';
+import 'pack_providers.dart';
 import 'providers.dart';
 import 'training_providers.dart';
 
@@ -128,6 +129,15 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
     workoutsThisMonth: counts.sinceMonth,
   );
 
+  final packs = ref.watch(packsProvider);
+  final challenge = packs.challengeFor(now);
+  final all = awards(
+    stats,
+    extra: packs.awards,
+    monthTarget: challenge?.target ?? monthlyChallenge,
+    monthTitle: challenge?.title.toMap(),
+  );
+
   final todayMeals = totals[dayKey(today)]?.meals ?? const <Meal>{};
   final todayRoutine = routines.where((r) => r.weekday == today.weekday - 1).firstOrNull;
   return StreakInfo(
@@ -137,7 +147,7 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
     trainedToday: trained.contains(dayKey(today)),
     restToday: !planDays.contains(today.weekday - 1),
     plannedToday: todayRoutine?.name,
-    awards: _isTester(ref) ? previewUnlock(awards(stats), today) : awards(stats),
+    awards: _isTester(ref) ? previewUnlock(all, today) : all,
     restKept: {
       for (final h in history)
         if (h.kept && !h.trained) h.date,
@@ -161,16 +171,8 @@ List<Award> previewUnlock(List<Award> all, DateTime today) {
       if (a.earned || (seen[a.group] = (seen[a.group] ?? 0) + 1) > 2)
         a
       else
-        Award(
-          id: a.id,
-          group: a.group,
-          shape: a.shape,
-          tone: a.tone,
-          need: a.need,
+        a.copyWith(
           have: a.need,
-          big: a.big,
-          small: a.small,
-          icon: a.icon,
           earnedOn: today.subtract(Duration(days: i % 9)),
         ),
   ];

@@ -1195,5 +1195,20 @@
   "privacyPolicy": "سياسة الخصوصية",
   "privacyPolicySub": "ما يبقى على هاتفك",
   "termsOfUse": "شروط الاستخدام",
-  "termsOfUseSub": "الاشتراكات والسلامة"
+  "termsOfUseSub": "الاشتراكات والسلامة",
+  "tplPackDays": "{n, plural, =1{يوم واحد في الأسبوع} =2{يومان في الأسبوع} few{{n} أيام في الأسبوع} other{{n} يومًا في الأسبوع}}",
+  "tplLevelBeginner": "مبتدئ",
+  "tplLevelIntermediate": "متوسط",
+  "tplLevelExpert": "متقدم",
+  "packFoodLabel": "قائمة أطعمة جيمكو",
+  "proGrantedBadge": "على حسابك",
+  "proGrantedSub": "مفتوح لحسابك",
+  "proGrantedUntil": "مفتوح لحسابك حتى {date}",
+  "proGrantedLabel": "جيمكو برو، مفعّل لحسابك",
+  "proGrantedNote": "برو مفعّل لحسابك. لا شيء للبيع بعد؛ هذه هي الأسعار المخطط لها عند الإطلاق.",
+  "proLockedBadge": "قريبًا",
+  "proLockedCta": "برو قادم",
+  "proLockedSub": "اطّلع على ما سيضيفه برو",
+  "proLockedLabel": "جيمكو برو، قريبًا",
+  "proLockedNote": "برو غير معروض للبيع بعد. هذه هي الأسعار المخطط لها عند الإطلاق."
 }

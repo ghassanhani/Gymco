@@ -7268,6 +7268,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Subscriptions and safety'**
   String get termsOfUseSub;
+
+  /// No description provided for @tplPackDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 day a week} other{{n} days a week}}'**
+  String tplPackDays(int n);
+
+  /// No description provided for @tplLevelBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'beginner'**
+  String get tplLevelBeginner;
+
+  /// No description provided for @tplLevelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'intermediate'**
+  String get tplLevelIntermediate;
+
+  /// No description provided for @tplLevelExpert.
+  ///
+  /// In en, this message translates to:
+  /// **'advanced'**
+  String get tplLevelExpert;
+
+  /// No description provided for @packFoodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco food list'**
+  String get packFoodLabel;
+
+  /// No description provided for @proGrantedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'On your account'**
+  String get proGrantedBadge;
+
+  /// No description provided for @proGrantedSub.
+  ///
+  /// In en, this message translates to:
+  /// **'unlocked for your account'**
+  String get proGrantedSub;
+
+  /// No description provided for @proGrantedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'unlocked for your account until {date}'**
+  String proGrantedUntil(String date);
+
+  /// No description provided for @proGrantedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco Pro, on for your account'**
+  String get proGrantedLabel;
+
+  /// No description provided for @proGrantedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro is on for your account. Nothing is for sale yet; these are the planned prices for launch.'**
+  String get proGrantedNote;
+
+  /// No description provided for @proLockedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get proLockedBadge;
+
+  /// No description provided for @proLockedCta.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro is coming'**
+  String get proLockedCta;
+
+  /// No description provided for @proLockedSub.
+  ///
+  /// In en, this message translates to:
+  /// **'see what Pro will add'**
+  String get proLockedSub;
+
+  /// No description provided for @proLockedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco Pro, coming soon'**
+  String get proLockedLabel;
+
+  /// No description provided for @proLockedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro is not on sale yet. These are the planned prices for launch.'**
+  String get proLockedNote;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

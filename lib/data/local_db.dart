@@ -369,6 +369,29 @@ class LocalDb {
     await batch.commit(noResult: true);
   }
 
+  /// Makes the phone's pack foods match [foods] from the foods pack: new and
+  /// changed ones are written (keeping when each was last used and whether
+  /// it is a favourite), and ones no longer published go. A pack food a
+  /// saved meal, a recipe or the favourites still point at stays. Diary
+  /// entries keep their own copy of the name and nutrition, so they never
+  /// change.
+  Future<void> syncPackFoods(List<Food> foods) => _db.transaction((tx) async {
+    for (final f in foods) {
+      final row = f.toRow();
+      final n = await tx.update('foods', {...row}..remove('id'), where: 'id = ?', whereArgs: [f.id]);
+      if (n == 0) await tx.insert('foods', row);
+    }
+    final keep = [for (final f in foods) f.id];
+    await tx.delete(
+      'foods',
+      where:
+          "source = 'pack' AND favourite = 0 "
+          'AND id NOT IN (SELECT food_id FROM saved_meal_items) AND id NOT IN (SELECT food_id FROM recipe_items)'
+          '${keep.isEmpty ? '' : ' AND id NOT IN (${List.filled(keep.length, '?').join(',')})'}',
+      whereArgs: keep,
+    );
+  });
+
   // ---- log ----
 
   Future<List<LogEntry>> entriesFor(String day) async {

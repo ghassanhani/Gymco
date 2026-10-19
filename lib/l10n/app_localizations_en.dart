@@ -4300,4 +4300,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get termsOfUseSub => 'Subscriptions and safety';
+
+  @override
+  String tplPackDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n days a week', one: '1 day a week');
+    return '$_temp0';
+  }
+
+  @override
+  String get tplLevelBeginner => 'beginner';
+
+  @override
+  String get tplLevelIntermediate => 'intermediate';
+
+  @override
+  String get tplLevelExpert => 'advanced';
+
+  @override
+  String get packFoodLabel => 'Gymco food list';
+
+  @override
+  String get proGrantedBadge => 'On your account';
+
+  @override
+  String get proGrantedSub => 'unlocked for your account';
+
+  @override
+  String proGrantedUntil(String date) {
+    return 'unlocked for your account until $date';
+  }
+
+  @override
+  String get proGrantedLabel => 'Gymco Pro, on for your account';
+
+  @override
+  String get proGrantedNote =>
+      'Pro is on for your account. Nothing is for sale yet; these are the planned prices for launch.';
+
+  @override
+  String get proLockedBadge => 'Coming soon';
+
+  @override
+  String get proLockedCta => 'Pro is coming';
+
+  @override
+  String get proLockedSub => 'see what Pro will add';
+
+  @override
+  String get proLockedLabel => 'Gymco Pro, coming soon';
+
+  @override
+  String get proLockedNote => 'Pro is not on sale yet. These are the planned prices for launch.';
 }

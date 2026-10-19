@@ -4337,4 +4337,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get termsOfUseSub => 'الاشتراكات والسلامة';
+
+  @override
+  String tplPackDays(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n يومًا في الأسبوع',
+      few: '$n أيام في الأسبوع',
+      two: 'يومان في الأسبوع',
+      one: 'يوم واحد في الأسبوع',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tplLevelBeginner => 'مبتدئ';
+
+  @override
+  String get tplLevelIntermediate => 'متوسط';
+
+  @override
+  String get tplLevelExpert => 'متقدم';
+
+  @override
+  String get packFoodLabel => 'قائمة أطعمة جيمكو';
+
+  @override
+  String get proGrantedBadge => 'على حسابك';
+
+  @override
+  String get proGrantedSub => 'مفتوح لحسابك';
+
+  @override
+  String proGrantedUntil(String date) {
+    return 'مفتوح لحسابك حتى $date';
+  }
+
+  @override
+  String get proGrantedLabel => 'جيمكو برو، مفعّل لحسابك';
+
+  @override
+  String get proGrantedNote => 'برو مفعّل لحسابك. لا شيء للبيع بعد؛ هذه هي الأسعار المخطط لها عند الإطلاق.';
+
+  @override
+  String get proLockedBadge => 'قريبًا';
+
+  @override
+  String get proLockedCta => 'برو قادم';
+
+  @override
+  String get proLockedSub => 'اطّلع على ما سيضيفه برو';
+
+  @override
+  String get proLockedLabel => 'جيمكو برو، قريبًا';
+
+  @override
+  String get proLockedNote => 'برو غير معروض للبيع بعد. هذه هي الأسعار المخطط لها عند الإطلاق.';
 }

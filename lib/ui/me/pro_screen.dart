@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/site.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/pack_providers.dart';
 import '../../theme/volt.dart';
 import '../kit/kit.dart';
 
 /// `.procard`: the lime Gymco Pro card at the top of Me. While Gymco is in
 /// testing there is nothing to buy, so it says Pro is on and opens what Pro
-/// covers.
-class ProCard extends StatelessWidget {
+/// covers; a manual grant says it is on for this account.
+class ProCard extends ConsumerWidget {
   const ProCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    final access = ref.watch(proAccessProvider);
+    final until = ref.watch(entitlementProvider).value?.expiresAt;
+    final (badge, cta, ctaSub, label) = switch (access) {
+      ProAccess.testing => (l.proFreeTesting, l.proCta, l.proCtaSub, l.proCardLabel),
+      ProAccess.granted => (
+        l.proGrantedBadge,
+        l.proCta,
+        until == null
+            ? l.proGrantedSub
+            : l.proGrantedUntil(DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(until)),
+        l.proGrantedLabel,
+      ),
+      ProAccess.locked => (l.proLockedBadge, l.proLockedCta, l.proLockedSub, l.proLockedLabel),
+    };
     const ink = Volt.ink;
     final arabic = Localizations.localeOf(context).languageCode == 'ar';
     final title = l.proTitle;
@@ -32,7 +49,7 @@ class ProCard extends StatelessWidget {
 
     return Semantics(
       button: true,
-      label: l.proCardLabel,
+      label: label,
       excludeSemantics: true,
       child: Pressable(
         onTap: () => context.push('/pro'),
@@ -86,7 +103,7 @@ class ProCard extends StatelessWidget {
                         const _ProBadge(),
                         const SizedBox(width: 8),
                         Text(
-                          l.proFreeTesting,
+                          badge,
                           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xA60A0B09)),
                         ),
                       ],
@@ -147,12 +164,12 @@ class ProCard extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  l.proCta,
+                                  cta,
                                   style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Volt.t1),
                                 ),
                                 const SizedBox(height: 1),
                                 Text(
-                                  l.proCtaSub,
+                                  ctaSub,
                                   style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Volt.t3),
                                 ),
                               ],
@@ -211,14 +228,14 @@ typedef _Plan = ({String name, String sub, String icon, List<Color> glow, Set<in
 /// Free vs Pro as plan cards to swipe through: what each one includes,
 /// with the price for monthly or yearly. Nothing is sold while Gymco is in
 /// testing, so every card says Pro is on.
-class ProScreen extends StatefulWidget {
+class ProScreen extends ConsumerStatefulWidget {
   const ProScreen({super.key});
 
   @override
-  State<ProScreen> createState() => _ProScreenState();
+  ConsumerState<ProScreen> createState() => _ProScreenState();
 }
 
-class _ProScreenState extends State<ProScreen> {
+class _ProScreenState extends ConsumerState<ProScreen> {
   final _pages = PageController(viewportFraction: 0.84, initialPage: 1);
   int _page = 1;
   bool _yearly = true;
@@ -364,7 +381,11 @@ class _ProScreenState extends State<ProScreen> {
                   const SizedBox(height: 18),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 28),
-                    child: Muted(l.proTestingNote, align: TextAlign.center),
+                    child: Muted(switch (ref.watch(proAccessProvider)) {
+                      ProAccess.testing => l.proTestingNote,
+                      ProAccess.granted => l.proGrantedNote,
+                      ProAccess.locked => l.proLockedNote,
+                    }, align: TextAlign.center),
                   ),
                   const SizedBox(height: 10),
                   Row(
