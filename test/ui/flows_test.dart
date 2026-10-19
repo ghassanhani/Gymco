@@ -250,7 +250,7 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text('Water'), 300, scrollable: find.byType(Scrollable).last);
-    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.ensureVisible(find.bySemanticsLabel('Turn Water reminders on or off'));
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Turn Water reminders on or off'));
     await tester.pump();

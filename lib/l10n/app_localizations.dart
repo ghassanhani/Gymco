@@ -7358,6 +7358,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pro is not on sale yet. These are the planned prices for launch.'**
   String get proLockedNote;
+
+  /// No description provided for @announcementDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get announcementDismiss;
+
+  /// No description provided for @helpOnSite.
+  ///
+  /// In en, this message translates to:
+  /// **'Help on the website'**
+  String get helpOnSite;
+
+  /// No description provided for @helpOnSiteSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides and answers'**
+  String get helpOnSiteSub;
+
+  /// No description provided for @helpIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what is going on. We read every message and reply by email.'**
+  String get helpIntro;
+
+  /// No description provided for @helpSubjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get helpSubjectHint;
+
+  /// No description provided for @helpMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened, or what you would like'**
+  String get helpMessageHint;
+
+  /// No description provided for @helpDeleteSwitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account and data'**
+  String get helpDeleteSwitch;
+
+  /// No description provided for @helpDeleteNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletion requests are handled within 30 days. The account, its backup and any messages go with it.'**
+  String get helpDeleteNote;
+
+  /// No description provided for @helpSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get helpSend;
+
+  /// No description provided for @helpSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent. We reply by email.'**
+  String get helpSent;
+
+  /// No description provided for @helpTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many messages today. Try again tomorrow.'**
+  String get helpTooMany;
+
+  /// No description provided for @whatsNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s new in {version}'**
+  String whatsNewTitle(String version);
+
+  /// No description provided for @whatsNewOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get whatsNewOk;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

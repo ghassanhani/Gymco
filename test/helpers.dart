@@ -210,6 +210,34 @@ class FakeCloud implements Cloud {
   @override
   Future<Entitlement?> fetchEntitlement() async => signedIn == null ? null : entitlement;
 
+  /// Every support ticket sent, as the function would receive it.
+  final supportTickets = <Map<String, Object?>>[];
+
+  /// The daily cap for this email is spent: every send fails with 429.
+  bool tooMany = false;
+
+  @override
+  Future<void> sendSupportTicket({
+    required String email,
+    required String subject,
+    required String body,
+    required String locale,
+    String? appVersion,
+    String? platform,
+    String kind = 'general',
+  }) async {
+    if (tooMany) throw const CloudException(CloudFailure.dailyCap);
+    supportTickets.add({
+      'email': email,
+      'subject': subject,
+      'body': body,
+      'locale': locale,
+      'app_version': ?appVersion,
+      'platform': ?platform,
+      'kind': kind,
+    });
+  }
+
   @override
   Future<(List<PhotoFood>, int)> scanPhoto(
     Uint8List? jpeg, {

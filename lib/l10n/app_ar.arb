@@ -1210,5 +1210,25 @@
   "proLockedCta": "برو قادم",
   "proLockedSub": "اطّلع على ما سيضيفه برو",
   "proLockedLabel": "جيمكو برو، قريبًا",
-  "proLockedNote": "برو غير معروض للبيع بعد. هذه هي الأسعار المخطط لها عند الإطلاق."
+  "proLockedNote": "برو غير معروض للبيع بعد. هذه هي الأسعار المخطط لها عند الإطلاق.",
+  "announcementDismiss": "إخفاء",
+  "helpOnSite": "المساعدة على الموقع",
+  "helpOnSiteSub": "أدلة وإجابات",
+  "helpIntro": "أخبرنا بما يحدث. نقرأ كل رسالة ونرد بالبريد الإلكتروني.",
+  "helpSubjectHint": "الموضوع",
+  "helpMessageHint": "ما الذي حدث، أو ما الذي تريده",
+  "helpDeleteSwitch": "احذف حسابي وبياناتي",
+  "helpDeleteNote": "تُعالج طلبات الحذف خلال 30 يومًا. يُحذف الحساب ونسخته الاحتياطية وأي رسائل معه.",
+  "helpSend": "إرسال",
+  "helpSent": "أُرسلت. سنرد بالبريد الإلكتروني.",
+  "helpTooMany": "رسائل كثيرة اليوم. حاول مجددًا غدًا.",
+  "whatsNewTitle": "الجديد في {version}",
+  "@whatsNewTitle": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "whatsNewOk": "حسنًا"
 }

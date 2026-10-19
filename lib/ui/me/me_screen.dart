@@ -198,7 +198,8 @@ class MeScreen extends ConsumerWidget {
                 Eyebrow(l.aboutGymco, padding: const EdgeInsetsDirectional.only(start: 4)),
                 VList(
                   children: [
-                    row('info', l.helpSupport, l.helpSupportSub, () => openSite('support')),
+                    row('info', l.helpSupport, l.helpSupportSub, () => context.push('/help')),
+                    row('wifi', l.helpOnSite, l.helpOnSiteSub, () => openSite('support')),
                     row('shield', l.privacyPolicy, l.privacyPolicySub, () => openSite('privacy')),
                     row('list', l.termsOfUse, l.termsOfUseSub, () => openSite('terms')),
                   ],

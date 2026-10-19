@@ -121,6 +121,12 @@ class CloudActions {
 }
 
 /// This phone's platform, language and version, as the dashboard counts them.
+/// [deviceMeta] for screens, following the language setting.
+final deviceMetaProvider = Provider<BackupMeta>((ref) {
+  ref.watch(settingsProvider);
+  return deviceMeta(ref);
+});
+
 BackupMeta deviceMeta(Ref ref) {
   const supported = {'en', 'ar', 'es'};
   final lang =

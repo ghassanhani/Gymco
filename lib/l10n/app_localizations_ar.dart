@@ -4394,4 +4394,45 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get proLockedNote => 'برو غير معروض للبيع بعد. هذه هي الأسعار المخطط لها عند الإطلاق.';
+
+  @override
+  String get announcementDismiss => 'إخفاء';
+
+  @override
+  String get helpOnSite => 'المساعدة على الموقع';
+
+  @override
+  String get helpOnSiteSub => 'أدلة وإجابات';
+
+  @override
+  String get helpIntro => 'أخبرنا بما يحدث. نقرأ كل رسالة ونرد بالبريد الإلكتروني.';
+
+  @override
+  String get helpSubjectHint => 'الموضوع';
+
+  @override
+  String get helpMessageHint => 'ما الذي حدث، أو ما الذي تريده';
+
+  @override
+  String get helpDeleteSwitch => 'احذف حسابي وبياناتي';
+
+  @override
+  String get helpDeleteNote => 'تُعالج طلبات الحذف خلال 30 يومًا. يُحذف الحساب ونسخته الاحتياطية وأي رسائل معه.';
+
+  @override
+  String get helpSend => 'إرسال';
+
+  @override
+  String get helpSent => 'أُرسلت. سنرد بالبريد الإلكتروني.';
+
+  @override
+  String get helpTooMany => 'رسائل كثيرة اليوم. حاول مجددًا غدًا.';
+
+  @override
+  String whatsNewTitle(String version) {
+    return 'الجديد في $version';
+  }
+
+  @override
+  String get whatsNewOk => 'حسنًا';
 }

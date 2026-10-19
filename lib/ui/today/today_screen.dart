@@ -15,12 +15,14 @@ import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/awards_providers.dart';
 import '../../state/health_providers.dart';
+import '../../state/messaging_providers.dart';
 import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/day_strip.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'announcement_card.dart';
 import 'catchup_screen.dart';
 
 class TodayScreen extends ConsumerWidget {
@@ -53,7 +55,7 @@ class TodayScreen extends ConsumerWidget {
     } else {
       body = _Today(strip: strip, schedule: sched);
     }
-    return VScreen(child: body);
+    return WhatsNewGate(child: VScreen(child: body));
   }
 }
 
@@ -88,6 +90,7 @@ class _Today extends ConsumerWidget {
               _RingCard(totals: totals, targets: profile.targets, kcalTarget: profile.targetKcal),
               if (dayOne && entries.isEmpty) const _FirstRun(),
               if (!dayOne) const CatchupCard(),
+              if (ref.watch(liveAnnouncementProvider) != null) const AnnouncementCard(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
               const _Trend(),
               const _Steps(),

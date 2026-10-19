@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/cloud.dart';
 import '../domain/remote_config.dart';
 import 'cloud_providers.dart';
+import 'messaging_providers.dart';
 import 'pack_providers.dart';
 import 'providers.dart';
 
@@ -87,6 +88,8 @@ class RemoteConfigNotifier extends Notifier<RemoteConfig> {
       RemoteConfig.current = c;
       state = c;
     }
+    // What the server has to say: announcements and the release note.
+    await ref.read(messagingProvider.notifier).store(data);
     // The content packs listed beside it: download what changed.
     if (data['packs'] case final Map packs) await ref.read(packsProvider.notifier).sync(packs.cast<String, Object?>());
   }

@@ -3238,5 +3238,25 @@
   "proLockedCta": "Pro is coming",
   "proLockedSub": "see what Pro will add",
   "proLockedLabel": "Gymco Pro, coming soon",
-  "proLockedNote": "Pro is not on sale yet. These are the planned prices for launch."
+  "proLockedNote": "Pro is not on sale yet. These are the planned prices for launch.",
+  "announcementDismiss": "Dismiss",
+  "helpOnSite": "Help on the website",
+  "helpOnSiteSub": "Guides and answers",
+  "helpIntro": "Tell us what is going on. We read every message and reply by email.",
+  "helpSubjectHint": "Subject",
+  "helpMessageHint": "What happened, or what you would like",
+  "helpDeleteSwitch": "Delete my account and data",
+  "helpDeleteNote": "Deletion requests are handled within 30 days. The account, its backup and any messages go with it.",
+  "helpSend": "Send",
+  "helpSent": "Sent. We reply by email.",
+  "helpTooMany": "Too many messages today. Try again tomorrow.",
+  "whatsNewTitle": "What's new in {version}",
+  "@whatsNewTitle": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "whatsNewOk": "Got it"
 }

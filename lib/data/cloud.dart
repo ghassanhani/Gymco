@@ -168,6 +168,19 @@ abstract class Cloud {
 
   /// The signed-in user's entitlement, or null when signed out or there is none.
   Future<Entitlement?> fetchEntitlement();
+
+  /// Sends a message to support through the public `support-ticket`
+  /// function; works signed out. [kind] is 'general' or 'deletion'. At most
+  /// five a day per email: the sixth fails with [CloudFailure.dailyCap].
+  Future<void> sendSupportTicket({
+    required String email,
+    required String subject,
+    required String body,
+    required String locale,
+    String? appVersion,
+    String? platform,
+    String kind = 'general',
+  });
 }
 
 /// A build with no project: phone-only.
@@ -206,6 +219,16 @@ class NoCloud implements Cloud {
   Future<PackDownload?> fetchPack(String kind) async => null;
   @override
   Future<Entitlement?> fetchEntitlement() async => null;
+  @override
+  Future<void> sendSupportTicket({
+    required String email,
+    required String subject,
+    required String body,
+    required String locale,
+    String? appVersion,
+    String? platform,
+    String kind = 'general',
+  }) async => _no();
 }
 
 class SupabaseCloud implements Cloud {
@@ -336,6 +359,32 @@ class SupabaseCloud implements Cloud {
       expiresAt: ends is String ? DateTime.tryParse(ends)?.toLocal() : null,
     );
   });
+
+  @override
+  Future<void> sendSupportTicket({
+    required String email,
+    required String subject,
+    required String body,
+    required String locale,
+    String? appVersion,
+    String? platform,
+    String kind = 'general',
+  }) => _guard(
+    // Public: no sign-in needed. The client sends the session's JWT when
+    // there is one, which the function ignores.
+    () => _sb.functions.invoke(
+      'support-ticket',
+      body: {
+        'email': email.trim(),
+        'subject': subject.trim(),
+        'body': body.trim(),
+        'locale': locale,
+        'app_version': ?appVersion,
+        'platform': ?platform,
+        'kind': kind,
+      },
+    ),
+  );
 
   @override
   Future<(List<PhotoFood>, int)> scanPhoto(

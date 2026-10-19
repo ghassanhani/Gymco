@@ -1210,5 +1210,25 @@
   "proLockedCta": "Pro está en camino",
   "proLockedSub": "mira lo que añadirá Pro",
   "proLockedLabel": "Gymco Pro, muy pronto",
-  "proLockedNote": "Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento."
+  "proLockedNote": "Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento.",
+  "announcementDismiss": "Descartar",
+  "helpOnSite": "Ayuda en la web",
+  "helpOnSiteSub": "Guías y respuestas",
+  "helpIntro": "Cuéntanos qué pasa. Leemos cada mensaje y respondemos por correo.",
+  "helpSubjectHint": "Asunto",
+  "helpMessageHint": "Qué ha pasado, o qué te gustaría",
+  "helpDeleteSwitch": "Eliminar mi cuenta y mis datos",
+  "helpDeleteNote": "Las solicitudes de eliminación se atienden en un plazo de 30 días. La cuenta, su copia de seguridad y los mensajes se van con ella.",
+  "helpSend": "Enviar",
+  "helpSent": "Enviado. Respondemos por correo.",
+  "helpTooMany": "Demasiados mensajes hoy. Inténtalo mañana.",
+  "whatsNewTitle": "Novedades en {version}",
+  "@whatsNewTitle": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "whatsNewOk": "Entendido"
 }

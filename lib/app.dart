@@ -19,6 +19,7 @@ import 'ui/food/recipe_screen.dart';
 import 'ui/today/catchup_screen.dart';
 import 'ui/food/serving_screen.dart';
 import 'ui/me/health_screen.dart';
+import 'ui/me/help_screen.dart';
 import 'ui/me/pro_screen.dart';
 import 'ui/me/account_screen.dart';
 import 'ui/me/data_screen.dart';
@@ -113,6 +114,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/account', builder: (_, _) => const AccountScreen()),
       GoRoute(path: '/pro', builder: (_, _) => const ProScreen()),
       GoRoute(path: '/health', builder: (_, _) => const HealthScreen()),
+      GoRoute(path: '/help', builder: (_, _) => const HelpScreen()),
       GoRoute(path: '/catchup', builder: (_, _) => const CatchupScreen()),
       GoRoute(path: '/recipe/new', builder: (_, _) => const RecipeScreen()),
       GoRoute(

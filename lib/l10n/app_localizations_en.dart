@@ -4351,4 +4351,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get proLockedNote => 'Pro is not on sale yet. These are the planned prices for launch.';
+
+  @override
+  String get announcementDismiss => 'Dismiss';
+
+  @override
+  String get helpOnSite => 'Help on the website';
+
+  @override
+  String get helpOnSiteSub => 'Guides and answers';
+
+  @override
+  String get helpIntro => 'Tell us what is going on. We read every message and reply by email.';
+
+  @override
+  String get helpSubjectHint => 'Subject';
+
+  @override
+  String get helpMessageHint => 'What happened, or what you would like';
+
+  @override
+  String get helpDeleteSwitch => 'Delete my account and data';
+
+  @override
+  String get helpDeleteNote =>
+      'Deletion requests are handled within 30 days. The account, its backup and any messages go with it.';
+
+  @override
+  String get helpSend => 'Send';
+
+  @override
+  String get helpSent => 'Sent. We reply by email.';
+
+  @override
+  String get helpTooMany => 'Too many messages today. Try again tomorrow.';
+
+  @override
+  String whatsNewTitle(String version) {
+    return 'What\'s new in $version';
+  }
+
+  @override
+  String get whatsNewOk => 'Got it';
 }

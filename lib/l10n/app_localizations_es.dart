@@ -4365,4 +4365,46 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get proLockedNote => 'Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento.';
+
+  @override
+  String get announcementDismiss => 'Descartar';
+
+  @override
+  String get helpOnSite => 'Ayuda en la web';
+
+  @override
+  String get helpOnSiteSub => 'Guías y respuestas';
+
+  @override
+  String get helpIntro => 'Cuéntanos qué pasa. Leemos cada mensaje y respondemos por correo.';
+
+  @override
+  String get helpSubjectHint => 'Asunto';
+
+  @override
+  String get helpMessageHint => 'Qué ha pasado, o qué te gustaría';
+
+  @override
+  String get helpDeleteSwitch => 'Eliminar mi cuenta y mis datos';
+
+  @override
+  String get helpDeleteNote =>
+      'Las solicitudes de eliminación se atienden en un plazo de 30 días. La cuenta, su copia de seguridad y los mensajes se van con ella.';
+
+  @override
+  String get helpSend => 'Enviar';
+
+  @override
+  String get helpSent => 'Enviado. Respondemos por correo.';
+
+  @override
+  String get helpTooMany => 'Demasiados mensajes hoy. Inténtalo mañana.';
+
+  @override
+  String whatsNewTitle(String version) {
+    return 'Novedades en $version';
+  }
+
+  @override
+  String get whatsNewOk => 'Entendido';
 }
