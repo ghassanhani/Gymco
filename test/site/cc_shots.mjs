@@ -69,6 +69,28 @@ const SHOTS = [
   ["config-empty", "#/config", "light", 1280, { expect: ".cfg-row", empty: true, expectText: "Built-in defaults" }],
   ["config-editor-review", "#/config", "dark", 1280, { role: "editor", review: true, expectText: "Sent to the Owner" }],
   ["support-role-config", "#/config", "dark", 1280, { role: "support", expectText: "needs the Editor role" }],
+  ["content-foods", "#/content", "dark", 1440, { expect: ".check", expectText: "macros add up to 212 kcal" }],
+  ["content-exercises", "#/content?kind=exercises", "dark", 1440, { expect: ".phone", expectText: "1 item missing Spanish" }],
+  ["content-exercises-light", "#/content?kind=exercises", "light", 1440, { expect: ".phone", expectText: "used in 2 templates" }],
+  ["content-exercises-phone", "#/content?kind=exercises", "dark", 390, { expect: ".phone" }],
+  ["content-exercise-sheet", "#/content?kind=exercises", "dark", 1440, { click: "tbody tr.clickable:nth-child(4)", expect: ".sheet .langtabs", expectText: "Add the Spanish name" }],
+  ["content-exercise-sheet-phone", "#/content?kind=exercises", "light", 390, { click: "tbody tr.clickable:nth-child(4)", expect: ".sheet .langtabs" }],
+  ["content-vocabulary", "#/content?kind=vocabulary", "dark", 1440, { expectText: "Test box" }],
+  ["content-templates", "#/content?kind=templates", "dark", 1440, { expectText: "sets a week" }],
+  ["content-template-sheet", "#/content?kind=templates", "dark", 1440, { click: "tbody tr.clickable", expect: ".sheet .pack-rows.compact" }],
+  ["content-awards", "#/content?kind=awards", "light", 1440, { expectText: "Awards can’t reward weight loss" }],
+  ["content-challenges", "#/content?kind=challenges", "dark", 1280, { expect: ".phone .ptrack" }],
+  ["content-copy", "#/content?kind=copy", "dark", 1440, { expectText: "Built-in English" }],
+  ["content-copy-phone", "#/content?kind=copy", "light", 390, { expectText: "Built-in English" }],
+  ["content-eating-out", "#/content?kind=eating_out", "dark", 1280, { expect: "table" }],
+  ["content-empty", "#/content", "light", 1280, { empty: true, expectText: "No foods in this pack yet" }],
+  ["content-editor", "#/content?kind=foods", "dark", 1280, { role: "editor", expectText: "Send for review" }],
+  ["content-editor-review", "#/content?kind=challenges", "dark", 1280, { role: "editor", review: true, expectText: "Sent to the Owner" }],
+  ["plans", "#/plans", "dark", 1440, { expect: ".plan-card", expectText: "Testing mode is on" }],
+  ["plans-light", "#/plans", "light", 1440, { expect: ".plan-card", expectText: "tester1@example.com" }],
+  ["plans-phone", "#/plans", "dark", 390, { expect: ".plan-card" }],
+  ["plans-empty", "#/plans", "light", 1280, { empty: true, expectText: "No manual grants" }],
+  ["plans-editor", "#/plans", "dark", 1280, { role: "editor", expectText: "Only the Owner can change these" }],
 ];
 
 let failures = 0;
@@ -97,6 +119,10 @@ for (const [name, hash, scheme, width, o] of SHOTS) {
     await page.click("form button[type=submit]");
     await page.waitForTimeout(200);
   }
+  if (o.click) {
+    await page.click(o.click);
+    await page.waitForTimeout(300);
+  }
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   if (overflow) {
     // Name the widest offenders so a failure says where to look.
@@ -104,6 +130,9 @@ for (const [name, hash, scheme, width, o] of SHOTS) {
       .filter((e) => e.getBoundingClientRect().right > innerWidth + 1 && getComputedStyle(e).position !== "fixed" && !e.closest(".table-wrap"))
       .slice(0, 5).map((e) => `  ${e.tagName.toLowerCase()}.${e.className} → ${Math.round(e.getBoundingClientRect().right)}px`).join("\n")));
   }
+  // A stray null or undefined rendered as text.
+  const stray = await page.evaluate(() => { const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); const out = []; while (w.nextNode()) if (/^(null|undefined|NaN)$/.test(w.currentNode.textContent.trim())) out.push(w.currentNode.textContent.trim()); return out; });
+  if (stray.length) errors.push(`stray text: ${stray.join(", ")}`);
   const found = o.expect ? (await page.$(o.expect)) !== null : true;
   const text = o.expectText ? (await page.textContent("body")).includes(o.expectText) : true;
   await page.screenshot({ path: join(out, `${name}.png`), fullPage: true });

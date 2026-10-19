@@ -323,3 +323,49 @@ tbody tr.clickable:hover td, tbody tr[aria-selected="true"] td { background: var
 }
 .cfg-row .chip { align-self: flex-start; margin-top: 4px; }
 .rule + .cfg-row { border-top: 0; }
+
+/* Content library */
+.pack-pill { display: inline-flex; align-items: center; gap: 8px; }
+.pill-n { font-size: 11px; font-weight: 700; color: var(--text-3); }
+.pill[aria-pressed="true"] .pill-n { color: var(--link); }
+.pill-dot { width: 8px; height: 8px; flex: none; border-radius: 999px; background: var(--text-3); }
+.pill-dot.warn { background: var(--warn); }
+.pill.small { min-height: 32px; padding: 0 12px; font-size: 12px; }
+.pack-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 16px; align-items: start; }
+.pack-form > .full { grid-column: 1 / -1; }
+.pack-rows { display: flex; flex-direction: column; gap: 10px; }
+.pack-rows .well, .pack-rows.compact { background: var(--card); }
+.pack-rows.compact .pack-form { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px 12px; }
+.pack-rows .input { min-height: 40px; padding: 0 12px; }
+.check { display: flex; gap: 12px; align-items: flex-start; }
+.check .mark { width: 24px; height: 24px; flex: none; border-radius: 999px; display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.check .mark.bad { background: var(--critical-wash); color: var(--critical); }
+.check .mark.warn { background: var(--warn-wash); color: var(--warn); }
+.check .mark.good { background: var(--good-wash); color: var(--good); }
+.check .mono { overflow-wrap: anywhere; }
+.chip-x { display: inline-flex; align-items: center; gap: 2px; padding-inline-end: 4px; }
+.chip-x button { border: 0; background: none; color: inherit; padding: 0; min-width: 24px; min-height: 24px; display: grid; place-items: center; cursor: pointer; }
+.chip-x svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.copy-row + .copy-row { border-top: 1px solid var(--line); padding-top: 14px; }
+.card > .seg, .stack > .seg { align-self: flex-start; }
+/* The phone frame is always the app's dark theme, like .phone above. */
+.phone .pline { color: #C9CEC4; font-size: 12px; }
+.phone .pmiss { color: #FFD23F; font-weight: 600; }
+.phone .pphoto { height: 110px; border-radius: 12px; background: #1F2226; display: grid; place-items: center; color: #8D948A; font-size: 12px; }
+.phone .pbtn { align-self: flex-start; background: #C6F432; color: #0A0B09; border-radius: 999px; padding: 6px 16px; font-weight: 700; font-size: 12px; }
+.phone .prow { display: flex; gap: 8px; font-size: 12px; color: #C9CEC4; }
+.phone .pgrow { flex: 1; min-width: 0; color: #F5F7F0; }
+.phone .pmedal { width: 56px; height: 56px; border-radius: 999px; background: linear-gradient(135deg, #E4FF6A, #5EE4A0); color: #0A0B09; display: grid; place-items: center; font-weight: 800; }
+.phone .ptrack { height: 8px; border-radius: 999px; background: #1F2226; overflow: hidden; }
+.phone .ptrack i { display: block; height: 100%; background: #C6F432; }
+
+/* Plans & pricing: each plan's glow colour, per theme */
+:root { --plan-free: #8D948A; --plan-pro: #C6F432; --plan-life: #7CF0B0; }
+:root[data-theme="light"] { --plan-free: #858C82; --plan-pro: #5E7A08; --plan-life: #11875A; }
+.grid.plan-cards { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.plan-card { --plan: var(--plan-free); border: 1px solid var(--line); gap: 12px; }
+.plan-card.plan-pro { --plan: var(--plan-pro); border-color: var(--brand-edge); box-shadow: 0 0 40px color-mix(in srgb, var(--plan) 10%, transparent); }
+.plan-card.plan-lifetime { --plan: var(--plan-life); border-color: color-mix(in srgb, var(--plan) 45%, transparent); box-shadow: 0 0 40px color-mix(in srgb, var(--plan) 10%, transparent); }
+.plan-dot { width: 12px; height: 12px; flex: none; border-radius: 999px; background: var(--plan); box-shadow: 0 0 16px var(--plan); }
+.plan-price { font-size: 28px; font-weight: 700; line-height: 1.1; }
+.store-id { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid var(--line); }
