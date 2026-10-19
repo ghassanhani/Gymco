@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gymco dashboard</title>
+<link rel="icon" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="/admin/"><img src="/icon.png" alt="" width="32" height="32">Gymco <span>Dashboard</span></a>
+    <div class="bar-actions" id="bar-actions" hidden>
+      <span class="muted" id="updated"></span>
+      <button class="btn btn-secondary" id="refresh" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>Refresh
+      </button>
+      <button class="btn btn-tertiary" id="signout" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10"/></svg>Sign out
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <!-- Log in: email, then the 6-digit code. -->
+  <section class="login card" id="login" hidden>
+    <h1>Sign in</h1>
+    <form id="email-form" novalidate>
+      <p class="muted">We'll email you a 6-digit code. Only Gymco admins can see this page.</p>
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="email" required>
+      <button class="btn btn-primary btn-wide" type="submit">Send code</button>
+    </form>
+    <form id="code-form" novalidate hidden>
+      <p class="muted" id="code-sent"></p>
+      <label for="code">Code</label>
+      <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="12" required>
+      <button class="btn btn-primary btn-wide" type="submit">Sign in</button>
+      <button class="btn btn-link" id="other-email" type="button">Use another email</button>
+    </form>
+    <p class="form-error" id="login-error" role="alert"></p>
+  </section>
+
+  <section class="card locked" id="locked" hidden>
+    <h1>This account doesn't have access</h1>
+    <p class="muted">You're signed in as <strong id="locked-email"></strong>, which isn't on the admin list.</p>
+    <button class="btn btn-secondary" id="locked-signout" type="button">Sign out</button>
+  </section>
+
+  <div class="banner" id="error" role="alert" hidden>
+    <span>Couldn't load the numbers. Check your connection and try again.</span>
+    <button class="btn btn-secondary" id="retry" type="button">Retry</button>
+  </div>
+
+  <section id="dash" hidden aria-busy="true">
+    <div class="page-head">
+      <h1>Overview</h1>
+      <p class="muted">Accounts only: people who use Gymco without an account never reach the server. Days are UTC.</p>
+    </div>
+
+    <div class="metrics" id="metrics"></div>
+
+    <div class="grid-2">
+      <article class="card chart-card">
+        <h2>Sign-ups per day</h2>
+        <p class="muted">Last 30 days</p>
+        <div class="chart" id="chart-signups"></div>
+      </article>
+      <article class="card chart-card">
+        <h2>AI scans per day</h2>
+        <p class="muted">Last 30 days</p>
+        <div class="chart" id="chart-scans"></div>
+      </article>
+    </div>
+
+    <div class="grid-2">
+      <article class="card">
+        <h2>Health</h2>
+        <dl class="health" id="health"></dl>
+      </article>
+      <article class="card">
+        <h2>Elsewhere</h2>
+        <p class="muted">Downloads, revenue, exact AI spend and crashes live in their own consoles.</p>
+        <ul class="links">
+          <li><a href="https://appstoreconnect.apple.com" target="_blank" rel="noopener">App Store Connect<small>Downloads, revenue, TestFlight</small></a></li>
+          <li><a href="https://play.google.com/console" target="_blank" rel="noopener">Google Play Console<small>Installs, revenue, ratings</small></a></li>
+          <li><a href="https://supabase.com/dashboard/project/vncadogzpeoawikgafaj" target="_blank" rel="noopener">Supabase<small>Database, auth, function logs</small></a></li>
+          <li><a href="https://console.anthropic.com/usage" target="_blank" rel="noopener">Anthropic usage<small>Exact AI spend</small></a></li>
+          <li><a href="https://console.firebase.google.com" target="_blank" rel="noopener">Firebase Crashlytics<small>Crashes</small></a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="tip" id="tip" role="status" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+<script type="module" src="admin.js"></script>
+</body>
+</html>
