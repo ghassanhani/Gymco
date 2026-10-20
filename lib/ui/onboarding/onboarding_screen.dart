@@ -754,7 +754,7 @@ class _InputState extends State<_Input> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
       constraints: const BoxConstraints(minHeight: 44),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: Volt.card,
         borderRadius: BorderRadius.circular(16),
@@ -773,17 +773,22 @@ class _InputState extends State<_Input> {
               keyboardType: TextInputType.numberWithOptions(decimal: widget.decimal),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(widget.decimal ? r'[0-9.,]' : r'[0-9]'))],
               cursorColor: Volt.lime,
-              style: TextStyle(fontSize: 16, height: 1.5, color: Volt.t1),
+              style: numStyle(26, weight: FontWeight.w800, height: 1.25),
               decoration: const InputDecoration(
                 isCollapsed: true,
                 filled: false,
+                contentPadding: EdgeInsets.zero,
                 border: InputBorder.none,
+                enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
               ),
             ),
           ),
           const SizedBox(width: 8),
-          Text(widget.unit, style: TextStyle(fontSize: 16, color: Volt.t3)),
+          Text(
+            widget.unit,
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t3),
+          ),
         ],
       ),
     );

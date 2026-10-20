@@ -65,10 +65,20 @@ void main() {
       ('workout', '/workout'),
       ('checkin', '/checkin'),
       ('onboarding', '/onboarding'),
+      ('body', '/onboarding#body'),
     ]) {
       testWidgets('$look $name', skip: !run, (tester) async {
         await pumpApp(tester, prefs: {'profile': savedProfile, 'appearance': look}, seed: _seed);
-        if (route != '/today') await go(tester, route);
+        if (route != '/today') await go(tester, route.split('#').first);
+        // The body step: pick a goal, then Continue.
+        if (route.endsWith('#body')) {
+          await tester.tap(find.text('Cut'));
+          await tester.pump(const Duration(milliseconds: 400));
+          await tester.tap(find.text('Continue'));
+          for (var i = 0; i < 6; i++) {
+            await tester.pump(const Duration(milliseconds: 100));
+          }
+        }
         // Let asset images decode before the picture is taken.
         await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
         await tester.pump(const Duration(seconds: 2));
