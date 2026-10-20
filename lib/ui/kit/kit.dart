@@ -693,6 +693,7 @@ class VChip extends StatelessWidget {
     this.onTap,
     this.on = false,
     this.icon,
+    this.iconSize = 13,
     this.flat = false,
     this.height = 36,
     this.color,
@@ -702,6 +703,7 @@ class VChip extends StatelessWidget {
   final VoidCallback? onTap;
   final bool on;
   final String? icon;
+  final double iconSize;
   final bool flat;
   final double height;
   final Color? color;
@@ -723,7 +725,7 @@ class VChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (icon != null) ...[VIcon(icon!, size: 13, color: fg), const SizedBox(width: 6)],
+          if (icon != null) ...[VIcon(icon!, size: iconSize, color: fg), const SizedBox(width: 6)],
           Text(
             label,
             style: TextStyle(fontSize: 13, fontWeight: on ? FontWeight.w600 : FontWeight.w500, color: fg),

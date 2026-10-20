@@ -47,21 +47,21 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
               onTap: () => _view == _View.measure ? addWaist(context, ref) : addWeighIn(context, ref),
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+          // Four equal tiles, icon over word, so every view is in sight.
+          Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            // Chips start at the edge, like the prototype's row.
-            physics: const ClampingScrollPhysics(),
             child: Row(
               children: [
-                for (final (i, (v, label)) in [
-                  (_View.weight, l.weightTab),
-                  (_View.measure, l.measureTab),
-                  (_View.strength, l.strengthTab),
-                  (_View.photos, l.photosTab),
+                for (final (i, (v, label, icon)) in [
+                  (_View.weight, l.weightTab, 'scale'),
+                  (_View.measure, l.measureTab, 'ruler'),
+                  (_View.strength, l.strengthTab, 'dumb'),
+                  (_View.photos, l.photosTab, 'camera'),
                 ].indexed) ...[
                   if (i > 0) const SizedBox(width: 8),
-                  VChip(label: label, on: _view == v, onTap: () => setState(() => _view = v)),
+                  Expanded(
+                    child: _ViewTab(label: label, icon: icon, on: _view == v, onTap: () => setState(() => _view = v)),
+                  ),
                 ],
               ],
             ),
@@ -611,6 +611,57 @@ class _Strength extends ConsumerWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+/// One of the four views at the top of Progress: its icon over its name, lime
+/// edged when it is the one showing.
+class _ViewTab extends StatelessWidget {
+  const _ViewTab({required this.label, required this.icon, required this.on, required this.onTap});
+  final String label;
+  final String icon;
+  final bool on;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final fg = on ? Volt.accentInk : Volt.t2;
+    return Semantics(
+      button: true,
+      selected: on,
+      label: label,
+      excludeSemantics: true,
+      child: Pressable(
+        onTap: onTap,
+        scale: 0.96,
+        radius: 16,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          height: 60,
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          decoration: BoxDecoration(
+            color: on ? Volt.brandWash : Volt.card,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent), width: 1.5),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              VIcon(icon, size: 19, color: fg),
+              const SizedBox(height: 4),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12, fontWeight: on ? FontWeight.w700 : FontWeight.w500, color: fg),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
