@@ -54,7 +54,11 @@ class _AppShellState extends State<AppShell> with SingleTickerProviderStateMixin
             VTabBar(
               current: shell.currentIndex,
               labels: [l.tabToday, l.tabFood, l.tabTrain, l.tabProgress, l.tabMe],
-              onTap: (i) => shell.goBranch(i, initialLocation: i == shell.currentIndex),
+              onTap: (i) {
+                // A tab switch keeps the old tab alive, focus and all: let go of it.
+                FocusManager.instance.primaryFocus?.unfocus();
+                shell.goBranch(i, initialLocation: i == shell.currentIndex);
+              },
             ),
         ],
       ),

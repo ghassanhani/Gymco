@@ -85,7 +85,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     return (kcal: kcal, macros: macroTargets(kcal: kcal, weightKg: w, goal: _goal));
   }
 
-  void _go(_Step s) => setState(() => _step = s);
+  void _go(_Step s) {
+    // The number pad has no Done key: moving on closes it.
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() => _step = s);
+  }
 
   Future<void> _editMacros() async {
     final l = AppLocalizations.of(context);

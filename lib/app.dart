@@ -48,6 +48,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     initialLocation: '/today',
+    observers: [_CloseKeyboard()],
     refreshListenable: hasProfile,
     redirect: (_, state) {
       final loc = state.matchedLocation;
@@ -239,14 +240,20 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
-      builder: (ctx, child) => MediaQuery(
-        // All text a touch larger than the design's sizes, on top of the
-        // phone's own text-size setting.
-        data: MediaQuery.of(ctx).copyWith(textScaler: BoostedTextScaler(MediaQuery.textScalerOf(ctx))),
-        child: PacksScope(
-          child: Theme(
-            data: Volt.theme(Localizations.localeOf(ctx)),
-            child: AppGateView(child: child!),
+      // A tap outside any field closes the keyboard: the iPhone number pad has
+      // no key of its own for that.
+      builder: (ctx, child) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: MediaQuery(
+          // All text a touch larger than the design's sizes, on top of the
+          // phone's own text-size setting.
+          data: MediaQuery.of(ctx).copyWith(textScaler: BoostedTextScaler(MediaQuery.textScalerOf(ctx))),
+          child: PacksScope(
+            child: Theme(
+              data: Volt.theme(Localizations.localeOf(ctx)),
+              child: AppGateView(child: child!),
+            ),
           ),
         ),
       ),
@@ -274,4 +281,16 @@ class BoostedTextScaler extends TextScaler {
 
   @override
   int get hashCode => Object.hash(base, boost);
+}
+
+/// Closes the keyboard whenever a screen opens or closes, so a field left
+/// focused on one screen can't hold the keyboard over the next.
+class _CloseKeyboard extends NavigatorObserver {
+  void _close() => FocusManager.instance.primaryFocus?.unfocus();
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) => _close();
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) => _close();
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) => _close();
 }
