@@ -137,9 +137,13 @@ abstract class Cloud {
   String? get email;
   Stream<String?> get emailChanges;
 
-  /// Emails a sign-in link (and a six-digit code, when the email template
-  /// shows one); there are no passwords.
-  Future<void> sendCode(String email);
+  /// Emails a sign-in link and a six-digit code; there are no passwords.
+  /// [locale] picks the email's language for a new account.
+  Future<void> sendCode(String email, {String locale = 'en'});
+
+  /// Keeps the account's language in step with the app, so the next sign-in
+  /// email (supabase/templates) comes in it. Best effort: never throws.
+  Future<void> rememberLocale(String locale);
   Future<void> verifyCode(String email, String code);
   Future<void> signOut();
   Future<void> deleteAccount();
@@ -194,7 +198,9 @@ class NoCloud implements Cloud {
   Stream<String?> get emailChanges => const Stream.empty();
   Never _no() => throw const CloudException(CloudFailure.notSetUp);
   @override
-  Future<void> sendCode(String email) async => _no();
+  Future<void> sendCode(String email, {String locale = 'en'}) async => _no();
+  @override
+  Future<void> rememberLocale(String locale) async {}
   @override
   Future<void> verifyCode(String email, String code) async => _no();
   @override
@@ -279,9 +285,24 @@ class SupabaseCloud implements Cloud {
   static const signInRedirect = 'app.gymco.gymco://login-callback';
 
   @override
-  Future<void> sendCode(String email) => _guard(
-    () => _sb.auth.signInWithOtp(email: email.trim(), shouldCreateUser: true, emailRedirectTo: signInRedirect),
+  Future<void> sendCode(String email, {String locale = 'en'}) => _guard(
+    () => _sb.auth.signInWithOtp(
+      email: email.trim(),
+      shouldCreateUser: true,
+      emailRedirectTo: signInRedirect,
+      data: {'locale': locale},
+    ),
   );
+
+  @override
+  Future<void> rememberLocale(String locale) async {
+    if (_sb.auth.currentUser == null || _sb.auth.currentUser!.userMetadata?['locale'] == locale) return;
+    try {
+      await _sb.auth.updateUser(UserAttributes(data: {'locale': locale}));
+    } catch (_) {
+      // Only the email's language rides on this; the next sign-in tries again.
+    }
+  }
 
   @override
   Future<void> verifyCode(String email, String code) =>

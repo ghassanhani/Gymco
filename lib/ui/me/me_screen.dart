@@ -1,3 +1,5 @@
+import 'dart:ui' show PlatformDispatcher;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -244,7 +246,13 @@ class LanguageScreen extends ConsumerWidget {
                     children: [
                       for (final (code, name, sub) in options)
                         VItem(
-                          onTap: () => n.setLanguage(code),
+                          onTap: () {
+                            n.setLanguage(code);
+                            // The next sign-in email follows the new language.
+                            ref
+                                .read(cloudProvider)
+                                .rememberLocale(code ?? PlatformDispatcher.instance.locale.languageCode);
+                          },
                           semantics: name,
                           children: [
                             ItemText(name, sub: sub),

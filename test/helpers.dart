@@ -136,6 +136,8 @@ class FakeCloud implements Cloud {
   bool? lastHadImage;
   final _changes = StreamController<String?>.broadcast();
   int uploads = 0;
+  String? sentLocale;
+  String? rememberedLocale;
 
   @override
   bool get available => true;
@@ -144,7 +146,9 @@ class FakeCloud implements Cloud {
   @override
   Stream<String?> get emailChanges => _changes.stream;
   @override
-  Future<void> sendCode(String email) async {}
+  Future<void> sendCode(String email, {String locale = 'en'}) async => sentLocale = locale;
+  @override
+  Future<void> rememberLocale(String locale) async => rememberedLocale = locale;
   @override
   Future<void> verifyCode(String email, String code) async {
     if (code != '123456') throw const CloudException(CloudFailure.badCode);

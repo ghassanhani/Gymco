@@ -102,9 +102,12 @@ class ProCard extends ConsumerWidget {
                       children: [
                         const _ProBadge(),
                         const SizedBox(width: 8),
-                        Text(
-                          badge,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xA60A0B09)),
+                        // Long in Spanish: wraps instead of running off the card.
+                        Expanded(
+                          child: Text(
+                            badge,
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xA60A0B09)),
+                          ),
                         ),
                       ],
                     ),

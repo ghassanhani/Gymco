@@ -37,6 +37,25 @@ Future<void> _openPhoto(WidgetTester tester) async {
 }
 
 void main() {
+  testWidgets('the sign-in email is asked for in the app language, and the account remembers it', (tester) async {
+    final cloud = FakeCloud();
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud, locale: const Locale('es'));
+    await tester.tap(find.bySemanticsLabel('Yo').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Entrar con email'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'sam@example.com');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enviar enlace de acceso'));
+    await tester.pumpAndSettle();
+    expect(cloud.sentLocale, 'es');
+    await tester.enterText(find.byType(TextField), '123456');
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Iniciar sesión'));
+    await tester.pumpAndSettle();
+    expect(cloud.rememberedLocale, 'es');
+  });
+
   testWidgets('signed out, Me leads with a way to sign in that goes away once signed in', (tester) async {
     final cloud = FakeCloud();
     await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);

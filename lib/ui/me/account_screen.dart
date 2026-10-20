@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -70,8 +72,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   }
 
   Future<void> _send() async {
-    if (!_email.text.contains('@')) return;
-    final ok = await _run(() => ref.read(cloudProvider).sendCode(_email.text));
+    if (!looksLikeEmail(_email.text)) return;
+    final locale = Localizations.localeOf(context).languageCode;
+    final ok = await _run(() => ref.read(cloudProvider).sendCode(_email.text, locale: locale));
     if (ok && mounted) setState(() => _codeSent = true);
   }
 
@@ -88,6 +91,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     if (_signedInHere) return;
     _signedInHere = true;
     final cloud = ref.read(cloudProvider);
+    unawaited(cloud.rememberLocale(Localizations.localeOf(context).languageCode));
     _code.clear();
     setState(() => _codeSent = false);
     // A backup already in the account: ask before either side wins.
