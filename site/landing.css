@@ -764,3 +764,9 @@ html[dir="rtl"] .lp.light{background:
 .lp .nav a{position:relative; transition:color .2s ease}
 .lp .nav a.on{color:var(--t1); font-weight:600}
 .lp .nav a.on::after{content:""; position:absolute; inset-inline:0; bottom:-6px; height:2px; border-radius:2px; background:var(--lime)}
+/* On the grey bands the white cards stand out alone; borders only on white. */
+.lp.light .tsec .bx, .lp.light .band .card, .lp.light .band .rule, .lp.light .band .bx, .lp.light .band .medalstage,
+.lp.light .tsec .card, .lp.light .band details, .lp.light .band .tw-stats div{box-shadow:none}
+/* Plans on the light page: Free and Lifetime sit plain, Pro carries a green frame. */
+.lp.light .plan, .lp.light .plan.life{background:transparent; box-shadow:none}
+.lp.light .plan.pro{background:linear-gradient(135deg,#b8ec1e,#6fbf1a); box-shadow:0 30px 70px -34px rgba(130,200,20,.55)}
