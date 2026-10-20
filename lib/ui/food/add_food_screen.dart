@@ -464,22 +464,45 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
             fmtInt(context, (profile.targets.protein - totals.macros.protein).clamp(0, 9999)),
           );
 
-    final header = Container(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Volt.line)),
-      ),
-      child: GapCol(
-        cross: CrossAxisAlignment.stretch,
-        children: [
-          Row(
+    void nextMeal() => setState(() => _meal = Meal.values[(_meal.index + 1) % 4]);
+    // As the Food tab it opens like the other tabs: the big title and its
+    // line, no close button (the tab bar is the way out). Pushed from a meal
+    // it keeps the compact title and a close button.
+    final titleRow = widget.asTab
+        ? Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: GestureDetector(
+              onTap: nextMeal,
+              behavior: HitTestBehavior.opaque,
+              child: Semantics(
+                button: true,
+                label: l.addToMeal(meal),
+                excludeSemantics: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(child: EmTitle(l.addToMeal(meal))),
+                        const SizedBox(width: 6),
+                        const VIcon('down', size: 20, color: Volt.t3),
+                      ],
+                    ),
+                    const SizedBox(height: 3),
+                    Text(left, style: const TextStyle(fontSize: 12.5, color: Volt.t3)),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : Row(
             children: [
               Expanded(
                 child: GapCol(
                   gap: 2,
                   children: [
                     GestureDetector(
-                      onTap: () => setState(() => _meal = Meal.values[(_meal.index + 1) % 4]),
+                      onTap: nextMeal,
                       child: Text(
                         l.addToMeal(meal),
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
@@ -493,10 +516,21 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                 'close',
                 label: MaterialLocalizations.of(context).closeButtonTooltip,
                 iconSize: 18,
-                onTap: () => widget.asTab ? context.go('/today') : context.pop(),
+                onTap: () => context.pop(),
               ),
             ],
-          ),
+          );
+    final header = Container(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+      decoration: widget.asTab
+          ? null
+          : const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Volt.line)),
+            ),
+      child: GapCol(
+        cross: CrossAxisAlignment.stretch,
+        children: [
+          titleRow,
           MethodRow(methods: methods, current: _mode, onPick: _pickMode),
           if (_mode == 'search') ...[
             Container(

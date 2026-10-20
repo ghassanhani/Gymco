@@ -54,6 +54,8 @@ void main() {
     await _type(tester, '100g quinoa');
     expect(find.text('Not in the database yet'), findsOneWidget);
     expect(find.text('IT READ 0 ITEMS'), findsOneWidget);
+    await tester.ensureVisible(find.text('Search').last);
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Search').last);
     await tester.pumpAndSettle();
     expect(find.widgetWithText(TextField, 'quinoa'), findsOneWidget);
@@ -78,6 +80,8 @@ void main() {
     final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
     await _openWrite(tester, 'Write');
     await _type(tester, '3 mini pizzas');
+    await tester.ensureVisible(find.text('Estimate'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Estimate'));
     await tester.pumpAndSettle();
     expect(cloud.lastNote, '3 mini pizzas');
@@ -159,6 +163,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('Burger'));
     await tester.tap(find.text('Big'));
+    await tester.ensureVisible(find.text('Fries'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Fries'));
     await tester.pumpAndSettle();
     expect(find.text('≈ 1,348'), findsOneWidget);
