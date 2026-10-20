@@ -27,17 +27,17 @@ class LogArea extends StatelessWidget {
       maxLines: null,
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.none,
-      style: const TextStyle(fontSize: 15, height: 1.55, color: Volt.t1),
+      style: TextStyle(fontSize: 15, height: 1.55, color: Volt.t1),
       decoration: InputDecoration(
         hintText: hint,
         hintMaxLines: 4,
-        hintStyle: const TextStyle(fontSize: 15, height: 1.55, color: Volt.t4),
+        hintStyle: TextStyle(fontSize: 15, height: 1.55, color: Volt.t4),
         filled: true,
         fillColor: Volt.card,
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         border: edge(Colors.transparent),
         enabledBorder: edge(Colors.transparent),
-        focusedBorder: edge(Volt.brand),
+        focusedBorder: edge(Volt.lime),
       ),
     );
   }
@@ -56,7 +56,7 @@ class WriteEmpty extends StatelessWidget {
         gap: 10,
         cross: CrossAxisAlignment.center,
         children: [
-          const IconBtn('list', label: '', onTap: null, iconSize: 22, color: Volt.t2),
+          IconBtn('list', label: '', onTap: null, iconSize: 22, color: Volt.t2),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 270),
             child: Muted(l.writeEmpty, align: TextAlign.center),
@@ -129,12 +129,12 @@ class WrittenRows extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const VIcon('star', size: 20, color: Volt.brandInk),
+                    VIcon('star', size: 20, color: Volt.brandInk),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         l.aiCanEstimate(missing),
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                       ),
                     ),
                   ],
@@ -155,7 +155,7 @@ class WrittenRows extends StatelessWidget {
               border: Border.all(color: Volt.line2),
               child: Row(
                 children: [
-                  const VIcon('search', size: 17, color: Volt.t3),
+                  VIcon('search', size: 17, color: Volt.t3),
                   const SizedBox(width: 10),
                   Expanded(
                     child: GapCol(
@@ -163,7 +163,7 @@ class WrittenRows extends StatelessWidget {
                       children: [
                         Text(
                           it.phrase.text,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                         ),
                         Muted(l.notInDbYet),
                       ],
@@ -210,7 +210,7 @@ class WrittenRows extends StatelessWidget {
                           children: [
                             Text(
                               foodName(context, it.food!.id, it.food!.name),
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                             ),
                             if (it.food!.source == 'ai') const _AiTag(),
                             if (assumedRow(it)) const _AssumedTag(),
@@ -246,7 +246,7 @@ class WrittenRows extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 1),
                   child: VIcon('warn', size: 17, color: Volt.warn),
                 ),
@@ -276,11 +276,11 @@ class _AiTag extends StatelessWidget {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const VIcon('star', size: 11, color: Volt.brandInk, strokeWidth: 2),
+        VIcon('star', size: 11, color: Volt.brandInk, strokeWidth: 2),
         const SizedBox(width: 4),
         Text(
           AppLocalizations.of(context).aiTag,
-          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 0.6, color: Volt.brandInk),
+          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 0.6, color: Volt.brandInk),
         ),
       ],
     ),
@@ -301,7 +301,7 @@ class _AssumedTag extends StatelessWidget {
     ),
     child: Center(
       widthFactor: 1,
-      child: Text(AppLocalizations.of(context).assumedTag, style: const TextStyle(fontSize: 11, color: Volt.warn)),
+      child: Text(AppLocalizations.of(context).assumedTag, style: TextStyle(fontSize: 11, color: Volt.warn)),
     ),
   );
 }
@@ -334,7 +334,7 @@ class MicButton extends StatelessWidget {
             gradient: Volt.glow,
             boxShadow: [
               BoxShadow(
-                color: Volt.brand.withValues(alpha: listening ? 0.7 : 0.45),
+                color: Volt.lime.withValues(alpha: listening ? 0.7 : 0.45),
                 blurRadius: listening ? 34 : 26,
                 spreadRadius: listening ? 2 : -10,
                 offset: const Offset(0, 10),

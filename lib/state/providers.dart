@@ -27,35 +27,54 @@ final clockProvider = Provider<DateTime Function()>((_) => DateTime.now);
 
 // ---------------- settings ----------------
 
+/// Light or dark, or whatever the phone is set to. Dark is the default.
+enum Appearance { system, light, dark }
+
 class Settings {
-  const Settings({this.languageCode, this.cheatAllowance = CheatAllowance.oncePerWeek});
+  const Settings({
+    this.languageCode,
+    this.cheatAllowance = CheatAllowance.oncePerWeek,
+    this.appearance = Appearance.dark,
+  });
 
   /// Null follows the phone.
   final String? languageCode;
   final CheatAllowance cheatAllowance;
+  final Appearance appearance;
 
   Locale? get locale => languageCode == null ? null : Locale(languageCode!);
 
-  Settings copyWith({String? Function()? languageCode, CheatAllowance? cheatAllowance}) => Settings(
-    languageCode: languageCode == null ? this.languageCode : languageCode(),
-    cheatAllowance: cheatAllowance ?? this.cheatAllowance,
-  );
+  Settings copyWith({String? Function()? languageCode, CheatAllowance? cheatAllowance, Appearance? appearance}) =>
+      Settings(
+        languageCode: languageCode == null ? this.languageCode : languageCode(),
+        cheatAllowance: cheatAllowance ?? this.cheatAllowance,
+        appearance: appearance ?? this.appearance,
+      );
 }
 
 class SettingsNotifier extends Notifier<Settings> {
-  static const _kLang = 'lang', _kCheat = 'cheatAllowance';
+  static const _kLang = 'lang', _kCheat = 'cheatAllowance', _kLook = 'appearance';
 
   SharedPreferences get _p => ref.read(prefsProvider);
 
   @override
   Settings build() {
     final p = ref.watch(prefsProvider);
-    return Settings(languageCode: p.getString(_kLang), cheatAllowance: CheatAllowance.values[p.getInt(_kCheat) ?? 1]);
+    return Settings(
+      languageCode: p.getString(_kLang),
+      cheatAllowance: CheatAllowance.values[p.getInt(_kCheat) ?? 1],
+      appearance: Appearance.values.asNameMap()[p.getString(_kLook)] ?? Appearance.dark,
+    );
   }
 
   Future<void> setLanguage(String? code) async {
     code == null ? await _p.remove(_kLang) : await _p.setString(_kLang, code);
     state = state.copyWith(languageCode: () => code);
+  }
+
+  Future<void> setAppearance(Appearance a) async {
+    await _p.setString(_kLook, a.name);
+    state = state.copyWith(appearance: a);
   }
 
   Future<void> setCheatAllowance(CheatAllowance a) async {

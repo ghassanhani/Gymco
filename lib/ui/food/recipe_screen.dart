@@ -122,7 +122,7 @@ class _RecipeScreenState extends ConsumerState<RecipeScreen> {
                     controller: _name,
                     onChanged: (_) => setState(() {}),
                     textCapitalization: TextCapitalization.sentences,
-                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
                     decoration: InputDecoration(
                       hintText: l.recipeNameHint,
                       filled: true,
@@ -135,7 +135,7 @@ class _RecipeScreenState extends ConsumerState<RecipeScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(l.servingsLabel, style: const TextStyle(fontSize: 14, color: Volt.t1)),
+                          child: Text(l.servingsLabel, style: TextStyle(fontSize: 14, color: Volt.t1)),
                         ),
                         VStepper(
                           label: '$_servings',

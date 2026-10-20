@@ -114,7 +114,7 @@ void _painWhat(BuildContext context, WidgetRef ref, int ex, int set, PainArea ar
       SRow(
         label: l.painAcheLighter,
         sub: l.painAcheLighterSub,
-        lead: const VIcon('down', size: 18, color: Volt.warn),
+        lead: VIcon('down', size: 18, color: Volt.warn),
         onTap: () => flag(ctx, false, () {
           n.update((x, _) => x.lighten(ex, 0.1));
           showVToast(context, l.painLightened);
@@ -123,13 +123,13 @@ void _painWhat(BuildContext context, WidgetRef ref, int ex, int set, PainArea ar
       SRow(
         label: l.painAcheKeep,
         sub: l.painAcheKeepSub,
-        lead: const VIcon('eye', size: 18, color: Volt.t2),
+        lead: VIcon('eye', size: 18, color: Volt.t2),
         onTap: () => flag(ctx, false, () => showVToast(context, l.painFlagged, info: true)),
       ),
       SRow(
         label: l.painSharpStop,
         sub: l.painSharpStopSub,
-        lead: const VIcon('warn', size: 18, color: Volt.warn),
+        lead: VIcon('warn', size: 18, color: Volt.warn),
         tint: Volt.warn,
         onTap: () => flag(ctx, true, () {
           n.update((x, _) => x.stopExercise(ex));
@@ -139,7 +139,7 @@ void _painWhat(BuildContext context, WidgetRef ref, int ex, int set, PainArea ar
       SRow(
         label: l.painSharpSwap,
         sub: l.painSharpSwapSub,
-        lead: const VIcon('repeat', size: 18, color: Volt.warn),
+        lead: VIcon('repeat', size: 18, color: Volt.warn),
         tint: Volt.warn,
         onTap: () => flag(ctx, true, () => swapSheet(context, ref, ex)),
       ),
@@ -171,14 +171,14 @@ class PainReminder extends ConsumerWidget {
       ),
       child: Row(
         children: [
-          const VIcon('warn', size: 15, color: Volt.warn),
+          VIcon('warn', size: 15, color: Volt.warn),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               pain.sharp
                   ? l.painLastSharp(painAreaName(l, pain.area).toLowerCase(), date)
                   : l.painLastAche(painAreaName(l, pain.area).toLowerCase(), date),
-              style: const TextStyle(fontSize: 12.5, color: Volt.t1, height: 1.35),
+              style: TextStyle(fontSize: 12.5, color: Volt.t1, height: 1.35),
             ),
           ),
         ],

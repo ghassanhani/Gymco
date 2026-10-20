@@ -56,8 +56,8 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
         width: 44,
         height: 44,
         alignment: Alignment.center,
-        decoration: const BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
-        child: const VIcon('plus', size: 20, color: Volt.brandInk),
+        decoration: BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
+        child: VIcon('plus', size: 20, color: Volt.brandInk),
       ),
       onTap: _create,
     );
@@ -91,13 +91,13 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
                 decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(13)),
                 child: Row(
                   children: [
-                    const VIcon('search', size: 18, color: Volt.t3),
+                    VIcon('search', size: 18, color: Volt.t3),
                     const SizedBox(width: 10),
                     Expanded(
                       child: TextField(
                         controller: _q,
                         onChanged: (_) => setState(() {}),
-                        style: const TextStyle(fontSize: 15, color: Volt.t1),
+                        style: TextStyle(fontSize: 15, color: Volt.t1),
                         decoration: InputDecoration(
                           isCollapsed: true,
                           filled: false,
@@ -155,7 +155,7 @@ class _ExercisePickerScreenState extends ConsumerState<ExercisePickerScreen> {
                           on: on,
                           lead: ExThumb(e),
                           trail: widget.browse
-                              ? const VIcon('fwd', size: 18, color: Volt.t3)
+                              ? VIcon('fwd', size: 18, color: Volt.t3)
                               : inIt
                               ? Muted(l.inLbl)
                               : Pick(on: on),

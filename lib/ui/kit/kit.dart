@@ -55,15 +55,14 @@ class Muted extends StatelessWidget {
 }
 
 /// Tabular numbers, as `.num` sets them.
-TextStyle numStyle(double size, {FontWeight weight = FontWeight.w600, Color color = Volt.t1, double? height}) =>
-    TextStyle(
-      fontSize: size,
-      fontWeight: weight,
-      color: color,
-      height: height,
-      fontFeatures: _tab,
-      letterSpacing: 0.07,
-    );
+TextStyle numStyle(double size, {FontWeight weight = FontWeight.w600, Color? color, double? height}) => TextStyle(
+  fontSize: size,
+  fontWeight: weight,
+  color: color ?? Volt.t1,
+  height: height,
+  fontFeatures: _tab,
+  letterSpacing: 0.07,
+);
 
 /// A title with one word in the serif italic accent: `Make it <em>count</em>`.
 /// [title] marks the accent with `<em>…</em>`.
@@ -97,7 +96,7 @@ class EmTitle extends StatelessWidget {
       color: Volt.t1,
     );
     final em = arabic
-        ? base.copyWith(color: Volt.brand)
+        ? base.copyWith(color: Volt.accentInk)
         : TextStyle(
             fontFamily: 'InstrumentSerif',
             fontFamilyFallback: const ['IBMPlexSansArabic'],
@@ -105,7 +104,7 @@ class EmTitle extends StatelessWidget {
             fontWeight: FontWeight.w400,
             fontSize: size * emScale,
             letterSpacing: -0.005 * size,
-            color: Volt.brand,
+            color: Volt.accentInk,
             height: height,
           );
     final spans = <TextSpan>[];
@@ -167,7 +166,7 @@ class VScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle.light,
+      value: Volt.isLight ? SystemUiOverlayStyle.dark : SystemUiOverlayStyle.light,
       child: Material(
         color: Volt.bg,
         child: CustomPaint(
@@ -204,16 +203,24 @@ class _GlowPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // radial-gradient(90% 38% at 85% -6%, rgba(198,244,50,.20), transparent 70%)
+    // On the light page the lime needs more strength to show at all.
     _ellipse(
       canvas,
       size,
       Offset(size.width * 0.85, -size.height * 0.06),
       size.width * 0.9,
       size.height * 0.38,
-      const Color(0x33C6F432),
+      Volt.isLight ? const Color(0x66C6F432) : const Color(0x33C6F432),
     );
     // radial-gradient(70% 30% at 0% 0%, rgba(94,228,160,.10), transparent 70%)
-    _ellipse(canvas, size, Offset.zero, size.width * 0.7, size.height * 0.3, const Color(0x1A5EE4A0));
+    _ellipse(
+      canvas,
+      size,
+      Offset.zero,
+      size.width * 0.7,
+      size.height * 0.3,
+      Volt.isLight ? const Color(0x295EE4A0) : const Color(0x1A5EE4A0),
+    );
   }
 
   @override
@@ -277,7 +284,7 @@ class VAppBar extends StatelessWidget {
               EmTitle(title, size: titleSize),
               if (sub != null) ...[
                 const SizedBox(height: 3),
-                Text(sub!, style: const TextStyle(fontSize: 12.5, color: Volt.t3)),
+                Text(sub!, style: TextStyle(fontSize: 12.5, color: Volt.t3)),
               ],
             ],
           ),
@@ -354,11 +361,14 @@ class VLogo extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     label: 'Gymco',
     image: true,
-    child: ShaderMask(
-      blendMode: BlendMode.srcIn,
-      shaderCallback: (r) => Volt.glow.createShader(r),
-      child: Image.asset('assets/brand/logo-mask.png', width: size, height: size),
-    ),
+    // Lime glow on dark; plain ink on light, where the glow washes out.
+    child: Volt.isLight
+        ? Image.asset('assets/brand/logo-mask.png', width: size, height: size, color: Volt.t1)
+        : ShaderMask(
+            blendMode: BlendMode.srcIn,
+            shaderCallback: (r) => Volt.glow.createShader(r),
+            child: Image.asset('assets/brand/logo-mask.png', width: size, height: size),
+          ),
   );
 }
 
@@ -410,7 +420,7 @@ class VList extends StatelessWidget {
       child: Column(
         children: [
           for (var i = 0; i < children.length; i++) ...[
-            if (i > 0) const Divider(height: 1, thickness: 1, color: Volt.line),
+            if (i > 0) Divider(height: 1, thickness: 1, color: Volt.line),
             children[i],
           ],
         ],
@@ -694,7 +704,7 @@ class VChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = textColor ?? (on ? Volt.brand : Volt.t2);
+    final fg = textColor ?? (on ? Volt.accentInk : Volt.t2);
     final chip = Container(
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -702,7 +712,7 @@ class VChip extends StatelessWidget {
         color: color ?? (on ? Colors.transparent : Volt.card),
         borderRadius: BorderRadius.circular(999),
         // Flat surfaces: an unselected chip has no visible edge.
-        border: Border.all(color: on ? Volt.brand : Colors.transparent, width: 1.5),
+        border: Border.all(color: on ? Volt.lime : Colors.transparent, width: 1.5),
         boxShadow: on ? const [BoxShadow(color: Color(0x1AC6F432), spreadRadius: 3)] : null,
       ),
       child: Row(
@@ -791,11 +801,11 @@ class VTag extends StatelessWidget {
 
 /// `.bar`: a 6 px pill track with a coloured fill that grows in.
 class VBar extends StatelessWidget {
-  const VBar({super.key, required this.fraction, required this.color, this.height = 6, this.track = Volt.line});
+  const VBar({super.key, required this.fraction, required this.color, this.height = 6, this.track});
   final double fraction;
   final Color color;
   final double height;
-  final Color track;
+  final Color? track;
 
   @override
   Widget build(BuildContext context) => ClipRRect(
@@ -804,7 +814,7 @@ class VBar extends StatelessWidget {
       height: height,
       child: Stack(
         children: [
-          Positioned.fill(child: ColoredBox(color: track)),
+          Positioned.fill(child: ColoredBox(color: track ?? Volt.line)),
           TweenAnimationBuilder<double>(
             tween: Tween(begin: 0, end: fraction.clamp(0, 1).toDouble()),
             duration: const Duration(milliseconds: 800),
@@ -840,7 +850,7 @@ class Pick extends StatelessWidget {
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       color: on ? Volt.brand : Volt.brand.withValues(alpha: 0),
-      border: Border.all(color: on ? Volt.brand : (color ?? Volt.line2)),
+      border: Border.all(color: on ? Volt.lime : (color ?? Volt.line2)),
     ),
     // The plus turns into a tick.
     child: AnimatedSwitcher(
@@ -970,7 +980,7 @@ class SRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: on ? Volt.brandWash : Volt.card,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: on ? Volt.brand : Colors.transparent),
+        border: Border.all(color: on ? Volt.lime : Colors.transparent),
       ),
       child: Row(
         children: [
@@ -1011,7 +1021,7 @@ class RChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: on ? Volt.brand : Volt.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: on ? Volt.brand : Volt.line),
+        border: Border.all(color: on ? Volt.lime : Volt.line),
       ),
       child: Text(
         label,
@@ -1081,7 +1091,7 @@ Future<T?> showVSheet<T>(
                     Expanded(
                       child: Text(
                         title,
-                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
                       ),
                     ),
                     IconBtn(
@@ -1123,7 +1133,7 @@ class LogBar extends StatelessWidget {
       bottom: (aboveTabs && !keyboard ? 88 : 10) + safe,
       child: _Glass(
         radius: 999,
-        color: const Color(0xDB15171A),
+        color: Volt.isLight ? const Color(0xE6FFFFFF) : const Color(0xDB15171A),
         child: Padding(
           padding: padding ?? const EdgeInsetsDirectional.fromSTEB(16, 8, 8, 8),
           child: Row(children: _gap(children, 12)),
@@ -1147,7 +1157,14 @@ class _Glass extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius),
       boxShadow:
           shadow ??
-          const [BoxShadow(color: Color(0x73000000), blurRadius: 30, offset: Offset(0, 12), spreadRadius: -12)],
+          [
+            BoxShadow(
+              color: Volt.isLight ? const Color(0x2E343A2C) : const Color(0x73000000),
+              blurRadius: 30,
+              offset: const Offset(0, 12),
+              spreadRadius: -12,
+            ),
+          ],
     ),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(radius),
@@ -1157,7 +1174,7 @@ class _Glass extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(radius),
-            border: Border.all(color: const Color(0x0FFFFFFF)),
+            border: Border.all(color: Volt.tint.withValues(alpha: Volt.isLight ? 0.06 : 0.06)),
           ),
           child: child,
         ),
@@ -1188,9 +1205,16 @@ class VTabBar extends StatelessWidget {
         children: [
           _Glass(
             radius: 30,
-            color: const Color(0xEB15171A),
+            color: Volt.isLight ? const Color(0xEBFFFFFF) : const Color(0xEB15171A),
             blur: 22,
-            shadow: const [BoxShadow(color: Colors.black, blurRadius: 44, offset: Offset(0, 22), spreadRadius: -18)],
+            shadow: [
+              BoxShadow(
+                color: Volt.isLight ? const Color(0x33343A2C) : Colors.black,
+                blurRadius: 44,
+                offset: const Offset(0, 22),
+                spreadRadius: -18,
+              ),
+            ],
             child: Padding(
               padding: const EdgeInsets.fromLTRB(6, 8, 6, 6),
               child: Row(
@@ -1230,7 +1254,7 @@ class _Tab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = on ? Volt.brand : Volt.t3;
+    final c = on ? Volt.accentInk : Volt.t3;
     return Semantics(
       selected: on,
       button: true,
@@ -1253,9 +1277,9 @@ class _Tab extends StatelessWidget {
                   width: on ? 18 : 0,
                   height: 3,
                   decoration: BoxDecoration(
-                    color: Volt.brand,
+                    color: Volt.lime,
                     borderRadius: BorderRadius.circular(3),
-                    boxShadow: on ? const [BoxShadow(color: Volt.brand, blurRadius: 12)] : null,
+                    boxShadow: on ? [BoxShadow(color: Volt.lime, blurRadius: 12)] : null,
                   ),
                 ),
               ),
@@ -1311,7 +1335,7 @@ class _CentreTab extends StatelessWidget {
         width: 64,
         height: 64,
         alignment: Alignment.center,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
           gradient: Volt.glow,
           boxShadow: [
@@ -1376,7 +1400,7 @@ void showVToast(BuildContext context, String message, {bool info = false}) {
                     VIcon(info ? 'info' : 'check', size: 17, color: info ? Volt.t3 : Volt.ok),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text(message, style: const TextStyle(fontSize: 13, color: Volt.t1)),
+                      child: Text(message, style: TextStyle(fontSize: 13, color: Volt.t1)),
                     ),
                   ],
                 ),
@@ -1407,7 +1431,7 @@ class Keypad extends StatelessWidget {
     final keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', decimal, '0', 'del'];
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Volt.card,
         border: Border(top: BorderSide(color: Volt.line)),
         borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
@@ -1433,7 +1457,7 @@ class Keypad extends StatelessWidget {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(16)),
                       child: k == 'del'
-                          ? const VIcon('del', size: 22, color: Volt.t2)
+                          ? VIcon('del', size: 22, color: Volt.t2)
                           : Text(
                               k,
                               style: TextStyle(
@@ -1512,10 +1536,10 @@ class _Day extends StatelessWidget {
     final numColor = on || day.today ? Volt.t1 : (future ? Volt.t4 : (planned ? Volt.t3 : Volt.t2));
     final numWeight = day.today ? FontWeight.w700 : (on ? FontWeight.w600 : FontWeight.w500);
     final ring = on
-        ? const _Ring(color: Volt.brand, width: 2)
+        ? _Ring(color: Volt.lime, width: 2)
         : switch (day.look) {
-            DayLook.logged => const _Ring(color: Volt.line2, width: 1.5, dash: 3.2),
-            DayLook.planned => const _Ring(color: Volt.line2, width: 1.5, dash: 1.4),
+            DayLook.logged => _Ring(color: Volt.line2, width: 1.5, dash: 3.2),
+            DayLook.planned => _Ring(color: Volt.line2, width: 1.5, dash: 1.4),
             _ => null,
           };
     return Semantics(
@@ -1540,8 +1564,8 @@ class _Day extends StatelessWidget {
                     height: 4,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: planned ? null : (on ? Volt.brand : Volt.t3),
-                      border: planned ? Border.all(color: on ? Volt.brand : Volt.t4, width: 1.5) : null,
+                      color: planned ? null : (on ? Volt.lime : Volt.t3),
+                      border: planned ? Border.all(color: on ? Volt.lime : Volt.t4, width: 1.5) : null,
                     ),
                   ),
                 ),
@@ -1649,7 +1673,7 @@ class MethodRow extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: m.id == current ? Volt.brandWash : Volt.card,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: m.id == current ? Volt.brand : Volt.line),
+                  border: Border.all(color: m.id == current ? Volt.lime : Volt.line),
                 ),
                 child: Column(
                   children: [
@@ -1758,7 +1782,7 @@ class MacroTile extends StatelessWidget {
                 label,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12, color: Volt.t3),
+                style: TextStyle(fontSize: 12, color: Volt.t3),
               ),
             ),
           ],
@@ -1771,7 +1795,7 @@ class MacroTile extends StatelessWidget {
             sub!,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 12, color: Volt.t3),
+            style: TextStyle(fontSize: 12, color: Volt.t3),
           ),
         ],
       ],

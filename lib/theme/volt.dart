@@ -2,35 +2,150 @@ import 'package:flutter/material.dart';
 
 import 'transitions.dart';
 
-/// Gymco — Volt edition. Dark only: electric lime on near-black, pill
-/// buttons with a lime-to-mint glow, a serif italic accent in titles.
+/// One set of Gymco colours. [VoltPalette.dark] is the original Volt look;
+/// [VoltPalette.light] is the same system on an off-white page.
+class VoltPalette {
+  const VoltPalette({
+    required this.brightness,
+    required this.bg,
+    required this.card,
+    required this.card2,
+    required this.sheet,
+    required this.line,
+    required this.line2,
+    required this.t1,
+    required this.t2,
+    required this.t3,
+    required this.t4,
+    required this.brandInk,
+    required this.brandWash,
+    required this.brandEdge,
+    required this.accent,
+    required this.ok,
+    required this.okWash,
+    required this.warn,
+    required this.warnWash,
+    required this.warnEdge,
+    required this.blue,
+    required this.orange,
+    required this.violet,
+    required this.tint,
+  });
+  final Brightness brightness;
+  final Color bg, card, card2, sheet, line, line2;
+  final Color t1, t2, t3, t4;
+  final Color brandInk, brandWash, brandEdge;
+
+  /// The serif title word and other lime type: lime on dark, a deep olive
+  /// on light where lime text would not read.
+  final Color accent;
+  final Color ok, okWash, warn, warnWash, warnEdge;
+  final Color blue, orange, violet;
+
+  /// What was "a little white" over dark surfaces: white on dark, black on light.
+  final Color tint;
+
+  static const dark = VoltPalette(
+    brightness: Brightness.dark,
+    bg: Color(0xFF0A0B09),
+    card: Color(0xFF15171A),
+    card2: Color(0xFF1F2226),
+    sheet: Color(0xFF111315),
+    line: Color(0xFF2A2E33),
+    line2: Color(0xFF3A3F45),
+    t1: Color(0xFFF5F7F0),
+    t2: Color(0xFFC9CEC4),
+    t3: Color(0xFF8D948A),
+    t4: Color(0xFF5F665C),
+    brandInk: Color(0xFFD9FF5C),
+    brandWash: Color(0xFF1A230D),
+    brandEdge: Color(0xFF4D6B12),
+    accent: Color(0xFFC6F432),
+    ok: Color(0xFF7CF0B0),
+    okWash: Color(0xFF11301F),
+    warn: Color(0xFFFFD23F),
+    warnWash: Color(0xFF2E2508),
+    warnEdge: Color(0xFF6B5410),
+    blue: Color(0xFF4CC9F0),
+    orange: Color(0xFFFF9F43),
+    violet: Color(0xFFC084FC),
+    tint: Color(0xFFFFFFFF),
+  );
+
+  static const light = VoltPalette(
+    brightness: Brightness.light,
+    bg: Color(0xFFF4F5EF),
+    card: Color(0xFFFFFFFF),
+    card2: Color(0xFFEEF0E8),
+    sheet: Color(0xFFFFFFFF),
+    line: Color(0xFFE2E5DC),
+    line2: Color(0xFFCBD0C3),
+    t1: Color(0xFF10120E),
+    t2: Color(0xFF3B4038),
+    t3: Color(0xFF6A7066),
+    t4: Color(0xFF9AA095),
+    brandInk: Color(0xFF4F7400),
+    brandWash: Color(0xFFEAF6CC),
+    brandEdge: Color(0xFFA9D64A),
+    accent: Color(0xFF5F8A00),
+    ok: Color(0xFF16935A),
+    okWash: Color(0xFFE1F3EA),
+    warn: Color(0xFFB26B00),
+    warnWash: Color(0xFFFBF0D6),
+    warnEdge: Color(0xFFE8C770),
+    blue: Color(0xFF1C86C4),
+    orange: Color(0xFFE07A1F),
+    violet: Color(0xFF8B5CF6),
+    tint: Color(0xFF000000),
+  );
+}
+
+/// Gymco — Volt edition: electric lime, pill buttons with a lime-to-mint glow,
+/// a serif italic accent in titles. Dark by default; light from Me →
+/// Appearance. The app sets the palette with [use] and rebuilds everything
+/// when it changes (see GymcoApp), so these read as plain colours.
 abstract final class Volt {
-  static const bg = Color(0xFF0A0B09);
-  static const card = Color(0xFF15171A);
-  static const card2 = Color(0xFF1F2226);
-  static const sheet = Color(0xFF111315);
-  static const line = Color(0xFF2A2E33);
-  static const line2 = Color(0xFF3A3F45);
+  static VoltPalette _p = VoltPalette.dark;
+  static VoltPalette get palette => _p;
+  static bool get isLight => _p.brightness == Brightness.light;
+  static void use(Brightness b) => _p = b == Brightness.light ? VoltPalette.light : VoltPalette.dark;
 
-  static const t1 = Color(0xFFF5F7F0);
-  static const t2 = Color(0xFFC9CEC4);
-  static const t3 = Color(0xFF8D948A);
-  static const t4 = Color(0xFF5F665C);
+  static Color get bg => _p.bg;
+  static Color get card => _p.card;
+  static Color get card2 => _p.card2;
+  static Color get sheet => _p.sheet;
+  static Color get line => _p.line;
+  static Color get line2 => _p.line2;
 
+  static Color get t1 => _p.t1;
+  static Color get t2 => _p.t2;
+  static Color get t3 => _p.t3;
+  static Color get t4 => _p.t4;
+
+  /// The lime fill: buttons, rings, selected chips. The same in both modes,
+  /// always with [ink] on it.
   static const brand = Color(0xFFC6F432);
-  static const brandInk = Color(0xFFD9FF5C);
-  static const brandWash = Color(0xFF1A230D);
-  static const brandEdge = Color(0xFF4D6B12);
+  static Color get brandInk => _p.brandInk;
+  static Color get brandWash => _p.brandWash;
+  static Color get brandEdge => _p.brandEdge;
 
-  static const ok = Color(0xFF7CF0B0);
-  static const okWash = Color(0xFF11301F);
-  static const warn = Color(0xFFFFD23F);
-  static const warnWash = Color(0xFF2E2508);
-  static const warnEdge = Color(0xFF6B5410);
+  /// Lime type and icons on the page (not on a lime fill).
+  static Color get accentInk => _p.accent;
 
-  static const blue = Color(0xFF4CC9F0);
-  static const orange = Color(0xFFFF9F43);
-  static const violet = Color(0xFFC084FC);
+  /// Lime lines on the page: outlines, rings, chart strokes, bars. The fill
+  /// itself on dark; a deeper green that holds up on white in light.
+  static Color get lime => isLight ? const Color(0xFF7DB800) : brand;
+
+  static Color get ok => _p.ok;
+  static Color get okWash => _p.okWash;
+  static Color get warn => _p.warn;
+  static Color get warnWash => _p.warnWash;
+  static Color get warnEdge => _p.warnEdge;
+
+  static Color get blue => _p.blue;
+  static Color get orange => _p.orange;
+  static Color get violet => _p.violet;
+  static Color get tint => _p.tint;
 
   /// Text on lime.
   static const ink = Color(0xFF0A0B09);
@@ -43,9 +158,9 @@ abstract final class Volt {
   );
 
   /// Macro colours: protein, carbs, fat.
-  static const protein = blue;
-  static const carbs = orange;
-  static const fat = violet;
+  static Color get protein => blue;
+  static Color get carbs => orange;
+  static Color get fat => violet;
 
   static const rCard = 24.0;
   static const rRow = 18.0;
@@ -60,7 +175,7 @@ abstract final class Volt {
     fontSize: size * 1.14,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.italic,
-    color: brand,
+    color: accentInk,
     height: 1,
   );
 
@@ -101,7 +216,7 @@ abstract final class Volt {
       labelMedium: flat(g.labelMedium),
       labelSmall: flat(g.labelSmall),
     );
-    final m = ThemeData(brightness: Brightness.dark).textTheme;
+    final m = ThemeData(brightness: _p.brightness).textTheme;
     final base = TextTheme(
       displayLarge: flat(m.displayLarge),
       displayMedium: flat(m.displayMedium),
@@ -136,7 +251,7 @@ abstract final class Volt {
             fontSize: 12,
             fontWeight: FontWeight.w600,
             letterSpacing: 1,
-            color: brandInk,
+            color: accentInk,
           ),
         );
 
@@ -145,9 +260,9 @@ abstract final class Volt {
       typography: Typography.material2021(englishLike: geometry, dense: geometry, tall: geometry),
       fontFamily: family,
       fontFamilyFallback: const ['IBMPlexSansArabic', 'Urbanist'],
-      brightness: Brightness.dark,
+      brightness: _p.brightness,
       scaffoldBackgroundColor: bg,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: ColorScheme.fromSeed(seedColor: brand, brightness: _p.brightness).copyWith(
         primary: brand,
         onPrimary: ink,
         secondary: ok,
@@ -168,7 +283,7 @@ abstract final class Volt {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: card2,
-        hintStyle: const TextStyle(color: t3),
+        hintStyle: TextStyle(color: t3),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
@@ -179,7 +294,7 @@ abstract final class Volt {
       chipTheme: ChipThemeData(
         backgroundColor: card,
         selectedColor: Colors.transparent,
-        side: const BorderSide(color: line, width: 1.5),
+        side: BorderSide(color: line, width: 1.5),
         shape: const StadiumBorder(),
         labelStyle: TextStyle(fontFamily: family, color: t2, fontWeight: FontWeight.w600),
         secondaryLabelStyle: TextStyle(fontFamily: family, color: brand, fontWeight: FontWeight.w600),
@@ -194,11 +309,11 @@ abstract final class Volt {
           TargetPlatform.windows: VoltPageTransitions(),
         },
       ),
-      bottomSheetTheme: const BottomSheetThemeData(
+      bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: sheet,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(rSheet))),
       ),
-      snackBarTheme: const SnackBarThemeData(
+      snackBarTheme: SnackBarThemeData(
         backgroundColor: card2,
         contentTextStyle: TextStyle(color: t1),
         behavior: SnackBarBehavior.floating,

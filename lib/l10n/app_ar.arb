@@ -1234,5 +1234,9 @@
   "meSignInTitle": "سجّل الدخول إلى Gymco",
   "meSignInSub": "احفظ نسخة احتياطية من مذكراتك لاستعادتها على هاتف جديد، واستخدم تسجيل الوجبات بالصور. بريدك فقط، بلا كلمة مرور.",
   "meSignInCta": "تسجيل الدخول بالبريد",
-  "emailIncomplete": "أدخل بريدك كاملًا، مثل name@gmail.com"
+  "emailIncomplete": "أدخل بريدك كاملًا، مثل name@gmail.com",
+  "appearance": "المظهر",
+  "appearanceDark": "داكن",
+  "appearanceLight": "فاتح",
+  "appearanceSystem": "مثل الهاتف"
 }

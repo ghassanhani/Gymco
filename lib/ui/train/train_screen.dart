@@ -156,7 +156,7 @@ class _TrainScreenState extends ConsumerState<TrainScreen> {
     return [
       VCard(
         color: Volt.brandWash,
-        border: Border.all(color: Volt.brand, width: 1.5),
+        border: Border.all(color: Volt.lime, width: 1.5),
         child: GapCol(
           gap: 12,
           cross: CrossAxisAlignment.stretch,
@@ -167,7 +167,7 @@ class _TrainScreenState extends ConsumerState<TrainScreen> {
                 Eyebrow(eyebrow, color: Volt.brandInk),
                 Text(
                   r.name,
-                  style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
               ],
             ),
@@ -209,7 +209,7 @@ class _TrainScreenState extends ConsumerState<TrainScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 1),
                 child: VIcon('info', size: 17, color: Volt.t3),
               ),
@@ -251,13 +251,13 @@ class _TrainScreenState extends ConsumerState<TrainScreen> {
             Container(
               width: 44,
               height: 44,
-              decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
-              child: const Center(child: VIcon('clock', size: 22, color: Volt.t2)),
+              decoration: BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+              child: Center(child: VIcon('clock', size: 22, color: Volt.t2)),
             ),
             const SizedBox(height: 12),
             Text(
               l.restDay,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
             ),
             const SizedBox(height: 4),
             ConstrainedBox(
@@ -309,7 +309,7 @@ class _ClosedDay extends ConsumerWidget {
                   Eyebrow(l.closedLbl),
                   Text(
                     rec.name,
-                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                 ],
               ),
@@ -390,7 +390,7 @@ class _InfoRow extends StatelessWidget {
         Container(
           width: 38,
           height: 38,
-          decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
           child: Center(child: VIcon(icon, size: 18, color: Volt.t2)),
         ),
         const SizedBox(width: 12),
@@ -401,12 +401,12 @@ class _InfoRow extends StatelessWidget {
               Muted(label),
               Text(
                 value,
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
             ],
           ),
         ),
-        if (onTap != null) const VIcon('fwd', size: 18, color: Volt.t3),
+        if (onTap != null) VIcon('fwd', size: 18, color: Volt.t3),
       ],
     ),
   );
@@ -445,7 +445,7 @@ class _InfoRowBig extends StatelessWidget {
         Container(
           width: 38,
           height: 38,
-          decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+          decoration: BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
           child: Center(child: VIcon(icon, size: 18, color: Volt.t2)),
         ),
         const SizedBox(width: 12),
@@ -455,13 +455,13 @@ class _InfoRowBig extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
               Muted(sub),
             ],
           ),
         ),
-        const VIcon('fwd', size: 18, color: Volt.t3),
+        VIcon('fwd', size: 18, color: Volt.t3),
       ],
     ),
   );
@@ -503,7 +503,7 @@ class _WeekCard extends ConsumerWidget {
                 Text.rich(
                   TextSpan(
                     text: l.hardSetsN(g.total),
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                     children: [
                       TextSpan(
                         text: ' · $zone',
@@ -645,7 +645,7 @@ class TemplateList extends ConsumerWidget {
       },
       children: [
         ItemText(title, sub: sub, weight: FontWeight.w600),
-        const VIcon('fwd', size: 18, color: Volt.t1),
+        VIcon('fwd', size: 18, color: Volt.t1),
       ],
     );
     final actions = ref.read(routineActionsProvider);

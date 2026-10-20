@@ -37,12 +37,12 @@ class _PhotosViewState extends ConsumerState<PhotosView> {
       body: (ctx) => [
         SRow(
           label: l.takePhoto,
-          lead: const VIcon('camera', size: 18, color: Volt.brandInk),
+          lead: VIcon('camera', size: 18, color: Volt.brandInk),
           onTap: () => Navigator.pop(ctx, true),
         ),
         SRow(
           label: l.chooseFromLibrary,
-          lead: const VIcon('list', size: 18, color: Volt.t2),
+          lead: VIcon('list', size: 18, color: Volt.t2),
           onTap: () => Navigator.pop(ctx, false),
         ),
         Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.photoTip)),
@@ -108,9 +108,9 @@ class _PhotosViewState extends ConsumerState<PhotosView> {
               Row(
                 children: [
                   Expanded(child: Eyebrow(l.todaysPhotos)),
-                  const VIcon('shield', size: 14, color: Volt.t3),
+                  VIcon('shield', size: 14, color: Volt.t3),
                   const SizedBox(width: 4),
-                  Text(l.onThisPhone, style: const TextStyle(fontSize: 12, color: Volt.t3)),
+                  Text(l.onThisPhone, style: TextStyle(fontSize: 12, color: Volt.t3)),
                 ],
               ),
               Row(
@@ -156,7 +156,7 @@ class _PhotosViewState extends ConsumerState<PhotosView> {
                             _Slot(label: '', photo: p, onTap: () => _open(p)),
                             Text(
                               i == 0 ? _date(context, d) : l.latestOn(_date(context, d)),
-                              style: const TextStyle(fontSize: 12.5, color: Volt.t2),
+                              style: TextStyle(fontSize: 12.5, color: Volt.t2),
                             ),
                           ],
                         ),
@@ -214,11 +214,11 @@ class _Slot extends ConsumerWidget {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const VIcon('camera', size: 22, color: Volt.brandInk),
+                    VIcon('camera', size: 22, color: Volt.brandInk),
                     const SizedBox(height: 6),
                     Text(
                       label,
-                      style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Volt.t2),
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Volt.t2),
                     ),
                   ],
                 )

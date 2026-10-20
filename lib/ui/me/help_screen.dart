@@ -80,7 +80,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    const style = TextStyle(fontSize: 16, color: Volt.t1);
+    final style = TextStyle(fontSize: 16, color: Volt.t1);
     return Scaffold(
       body: VScreen(
         child: Column(
@@ -142,7 +142,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                         if (_error != null)
                           Row(
                             children: [
-                              const VIcon('warn', size: 16, color: Volt.warn),
+                              VIcon('warn', size: 16, color: Volt.warn),
                               const SizedBox(width: 8),
                               Expanded(child: Muted(_error!, color: Volt.warn)),
                             ],

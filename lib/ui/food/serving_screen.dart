@@ -181,13 +181,10 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                               Flexible(
                                 child: Text(
                                   foodName(context, f.id, f.name),
-                                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
                                 ),
                               ),
-                              if (f.verified) ...[
-                                const SizedBox(width: 6),
-                                const VIcon('check', size: 15, color: Volt.blue),
-                              ],
+                              if (f.verified) ...[const SizedBox(width: 6), VIcon('check', size: 15, color: Volt.blue)],
                             ],
                           ),
                           Muted(
@@ -238,15 +235,15 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.only(bottom: 2),
-                                    decoration: const BoxDecoration(
-                                      border: Border(bottom: BorderSide(color: Volt.brand, width: 2)),
+                                    decoration: BoxDecoration(
+                                      border: Border(bottom: BorderSide(color: Volt.lime, width: 2)),
                                     ),
                                     child: Text(_amount, style: numStyle(44, height: 1.05)),
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
                                     _unit == 0 ? l.grams : '×',
-                                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Volt.t2),
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Volt.t2),
                                   ),
                                 ],
                               ),
@@ -255,7 +252,7 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(fmtInt(context, kcal), style: numStyle(24, height: 1.2)),
-                                Text(l.kcal, style: const TextStyle(fontSize: 11, color: Volt.t3)),
+                                Text(l.kcal, style: TextStyle(fontSize: 11, color: Volt.t3)),
                               ],
                             ),
                           ],
@@ -292,7 +289,7 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(l.mealLabel, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                          child: Text(l.mealLabel, style: TextStyle(fontSize: 13, color: Volt.t2)),
                         ),
                         Pressable(
                           onTap: () => setState(() => _meal = Meal.values[(_meal.index + 1) % 4]),
@@ -300,10 +297,10 @@ class _ServingScreenState extends ConsumerState<ServingScreen> {
                             children: [
                               Text(
                                 mealName(l, _meal),
-                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                               ),
                               const SizedBox(width: 6),
-                              const VIcon('down', size: 15, color: Volt.t1),
+                              VIcon('down', size: 15, color: Volt.t1),
                             ],
                           ),
                         ),

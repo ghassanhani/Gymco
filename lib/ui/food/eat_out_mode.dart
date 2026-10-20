@@ -208,10 +208,10 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
       controller: _described,
       onChanged: (_) => setState(() => _ai = const []),
       textCapitalization: TextCapitalization.sentences,
-      style: const TextStyle(fontSize: 15, color: Volt.t1),
+      style: TextStyle(fontSize: 15, color: Volt.t1),
       decoration: InputDecoration(
         hintText: l.eoOtherHint,
-        hintStyle: const TextStyle(color: Volt.t4),
+        hintStyle: TextStyle(color: Volt.t4),
         filled: true,
         fillColor: Volt.card,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),

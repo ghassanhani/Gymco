@@ -76,13 +76,13 @@ class _CatchupScreenState extends ConsumerState<CatchupScreen> {
                     children: [
                       Text(
                         DateFormat('EEEE d MMM', locale).format(d.date),
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
                       ),
                       Muted(what),
                     ],
                   ),
                 ),
-                if (d.trained != null) const VIcon('dumb', size: 18, color: Volt.brandInk),
+                if (d.trained != null) VIcon('dumb', size: 18, color: Volt.brandInk),
               ],
             ),
             Wrap(
@@ -189,13 +189,13 @@ class CatchupCard extends ConsumerWidget {
               children: [
                 Text(
                   l.catchupCard(days.length),
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
                 Muted(l.catchupCardSub),
               ],
             ),
           ),
-          const VIcon('fwd', size: 18, color: Volt.brandInk),
+          VIcon('fwd', size: 18, color: Volt.brandInk),
         ],
       ),
     );

@@ -3262,5 +3262,9 @@
   "meSignInTitle": "Sign in to Gymco",
   "meSignInSub": "Back up your diary to restore on a new phone, and use photo logging. Just your email, no password.",
   "meSignInCta": "Sign in with email",
-  "emailIncomplete": "Enter your full email, like name@gmail.com"
+  "emailIncomplete": "Enter your full email, like name@gmail.com",
+  "appearance": "Appearance",
+  "appearanceDark": "Dark",
+  "appearanceLight": "Light",
+  "appearanceSystem": "Same as phone"
 }

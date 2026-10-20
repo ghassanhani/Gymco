@@ -243,7 +243,7 @@ class _HeroLinks extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             child: Text(
               label,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t2),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t2),
             ),
           ),
         ),
@@ -262,7 +262,7 @@ void _notToday(BuildContext context, WidgetRef ref, String name) {
       SRow(
         label: l.restTodayLabel,
         sub: l.restTodaySub(name),
-        lead: const VIcon('moon', size: 18, color: Volt.brandInk),
+        lead: VIcon('moon', size: 18, color: Volt.brandInk),
         onTap: () {
           Navigator.pop(ctx);
           plan.restToday();
@@ -271,7 +271,7 @@ void _notToday(BuildContext context, WidgetRef ref, String name) {
       SRow(
         label: l.skipTodayLabel,
         sub: l.skipTodaySub(name),
-        lead: const VIcon('fwd', size: 18, color: Volt.t2),
+        lead: VIcon('fwd', size: 18, color: Volt.t2),
         onTap: () {
           Navigator.pop(ctx);
           plan.skipToday();
@@ -297,7 +297,7 @@ void _trainAnyway(BuildContext context, WidgetRef ref) {
         SRow(
           label: r.name,
           sub: l.routineSize(r.items.length, r.totalSets),
-          lead: const VIcon('dumb', size: 18, color: Volt.brandInk),
+          lead: VIcon('dumb', size: 18, color: Volt.brandInk),
           onTap: () async {
             Navigator.pop(ctx);
             if (lib == null) return;
@@ -307,7 +307,7 @@ void _trainAnyway(BuildContext context, WidgetRef ref) {
         ),
       SRow(
         label: l.emptyWorkout,
-        lead: const VIcon('plus', size: 18, color: Volt.t2),
+        lead: VIcon('plus', size: 18, color: Volt.t2),
         onTap: () {
           Navigator.pop(ctx);
           n.startEmpty(l.workoutDefaultName);
@@ -347,7 +347,9 @@ class _HeroShell extends StatelessWidget {
         gradient: LinearGradient(
           begin: const Alignment(-0.42, -1),
           end: const Alignment(0.42, 1),
-          colors: done ? const [Color(0xFF13261B), Volt.card] : const [Color(0xFF1C2410), Volt.card],
+          colors: Volt.isLight
+              ? (done ? [const Color(0xFFDDF2E6), Volt.card] : [const Color(0xFFE7F5C4), Volt.card])
+              : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
           stops: const [0, 0.62],
         ),
         boxShadow: done
@@ -367,7 +369,7 @@ class _HeroShell extends StatelessWidget {
                   gradient: RadialGradient(
                     center: const Alignment(1, -1),
                     radius: 1.2,
-                    colors: [Volt.brand.withValues(alpha: 0.26), Volt.brand.withValues(alpha: 0)],
+                    colors: [Volt.lime.withValues(alpha: 0.26), Volt.lime.withValues(alpha: 0)],
                     stops: const [0, 0.55],
                   ),
                 ),
@@ -405,7 +407,7 @@ class _HeroShell extends StatelessWidget {
                             const SizedBox(height: 1),
                             Text(
                               label,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 11,
                                 color: Volt.t3,
                                 fontWeight: FontWeight.w600,
@@ -426,14 +428,14 @@ class _HeroShell extends StatelessWidget {
                           height: 28,
                           padding: const EdgeInsets.symmetric(horizontal: 11),
                           decoration: BoxDecoration(
-                            color: const Color(0x12FFFFFF),
+                            color: Volt.tint.withValues(alpha: 0.07),
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: Center(
                             widthFactor: 1,
                             child: Text(
                               c,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Volt.t2),
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Volt.t2),
                             ),
                           ),
                         ),
@@ -463,7 +465,7 @@ class _WoTag extends StatelessWidget {
       height: 28,
       padding: const EdgeInsets.symmetric(horizontal: 11),
       decoration: BoxDecoration(
-        color: ghost ? const Color(0x14FFFFFF) : Volt.brand,
+        color: ghost ? Volt.tint.withValues(alpha: 0.08) : Volt.brand,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Row(
@@ -541,7 +543,7 @@ class _RingCard extends StatelessWidget {
               duration: const Duration(milliseconds: 900),
               curve: voltEase,
               builder: (context, f, child) => CustomPaint(
-                painter: _Ring(fraction: f, empty: empty, color: closed ? (over ? Volt.warn : Volt.t3) : Volt.brand),
+                painter: _Ring(fraction: f, empty: empty, color: closed ? (over ? Volt.warn : Volt.t3) : Volt.lime),
                 child: child,
               ),
               child: Center(
@@ -558,7 +560,7 @@ class _RingCard extends StatelessWidget {
                       empty
                           ? l.kcalToLog
                           : (closed ? l.kcalLoggedLabel : (left >= 0 ? l.kcalLeftLabel : l.kcalOverLabel)),
-                      style: const TextStyle(fontSize: 11, color: Volt.t3),
+                      style: TextStyle(fontSize: 11, color: Volt.t3),
                     ),
                   ],
                 ),
@@ -571,7 +573,7 @@ class _RingCard extends StatelessWidget {
                 ? GapCol(
                     gap: 8,
                     children: [
-                      Text(l.ringEmptyBody, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                      Text(l.ringEmptyBody, style: TextStyle(fontSize: 13, color: Volt.t2)),
                       Muted(
                         l.targetsLine(
                           fmtInt(context, targets.protein),
@@ -620,7 +622,7 @@ class _MacroRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Volt.t2),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Volt.t2),
             ),
           ),
           AnimatedNum(have, format: fmtInt, style: numStyle(13)),
@@ -772,7 +774,7 @@ class _FirstRun extends StatelessWidget {
         children: [
           Text(
             l.logFirstMeal,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
           ),
           VBtn(
             label: l.scanABarcode,
@@ -793,7 +795,7 @@ class _FirstRun extends StatelessWidget {
             onTap: () => context.push('/add/${Meal.breakfast.name}'),
             child: Row(
               children: [
-                const VIcon('search', size: 20, color: Volt.t1),
+                VIcon('search', size: 20, color: Volt.t1),
                 const SizedBox(width: 12),
                 Expanded(child: Text(l.searchDatabase)),
               ],
@@ -829,8 +831,8 @@ class _Trend extends ConsumerWidget {
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
-            child: const VIcon('scale', size: 20, color: Volt.brandInk),
+            decoration: BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
+            child: VIcon('scale', size: 20, color: Volt.brandInk),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -841,7 +843,7 @@ class _Trend extends ConsumerWidget {
                 if (!enough) ...[
                   Text(
                     l.weighInsSoFar(w.length),
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                   Muted(l.trendNeedsDays),
                 ] else
@@ -851,7 +853,7 @@ class _Trend extends ConsumerWidget {
                     children: [
                       Text(fmtDec(context, trend.last), style: numStyle(22)),
                       const SizedBox(width: 8),
-                      Text(l.kgLbl, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                      Text(l.kgLbl, style: TextStyle(fontSize: 13, color: Volt.t2)),
                       const SizedBox(width: 8),
                       Text(
                         l.ratePerWeekShort(fmtDec(context, rate!, digits: 2)),
@@ -899,14 +901,14 @@ class _Spark extends CustomPainter {
       ..strokeJoin = StrokeJoin.round
       ..strokeCap = StrokeCap.round;
     canvas.drawPath(line(r), stroke(Volt.line2, 1.5));
-    canvas.drawPath(line(t), stroke(Volt.brand, 2.5));
+    canvas.drawPath(line(t), stroke(Volt.lime, 2.5));
   }
 
   @override
   bool shouldRepaint(_Spark o) => true;
 }
 
-const _waterBlue = Volt.blue;
+final _waterBlue = Volt.blue;
 const _waterWash = Color(0x1F4CC9F0);
 
 /// The day's goal: the one the user set, or one from their weight.
@@ -950,7 +952,7 @@ class _Water extends ConsumerWidget {
             children: [
               Text('+${fmtInt(context, ml.toDouble())}', style: numStyle(14, color: Volt.t1)),
               const SizedBox(height: 1),
-              Text(label, style: const TextStyle(fontSize: 11, color: Volt.t3)),
+              Text(label, style: TextStyle(fontSize: 11, color: Volt.t3)),
             ],
           ),
         ),
@@ -970,7 +972,7 @@ class _Water extends ConsumerWidget {
                 height: 40,
                 alignment: Alignment.center,
                 decoration: const BoxDecoration(color: _waterWash, shape: BoxShape.circle),
-                child: const VIcon('drop', size: 20, color: _waterBlue),
+                child: VIcon('drop', size: 20, color: _waterBlue),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -984,10 +986,7 @@ class _Water extends ConsumerWidget {
                       children: [
                         AnimatedNum(d.ml / 1000, format: (c, v) => fmtDec(c, v, digits: 2), style: numStyle(22)),
                         const SizedBox(width: 6),
-                        Text(
-                          l.ofLitres(fmtDec(context, goal / 1000)),
-                          style: const TextStyle(fontSize: 13, color: Volt.t2),
-                        ),
+                        Text(l.ofLitres(fmtDec(context, goal / 1000)), style: TextStyle(fontSize: 13, color: Volt.t2)),
                       ],
                     ),
                   ],
@@ -1003,11 +1002,11 @@ class _Water extends ConsumerWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const VIcon('check', size: 14, color: _waterBlue),
+                        VIcon('check', size: 14, color: _waterBlue),
                         const SizedBox(width: 4),
                         Text(
                           l.goalMet,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _waterBlue),
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _waterBlue),
                         ),
                       ],
                     ),
@@ -1078,7 +1077,7 @@ Future<void> _waterSheet(BuildContext context, {required String day, required bo
                       for (final (i, x) in d.sips.indexed.toList().reversed)
                         VItem(
                           children: [
-                            const VIcon('drop', size: 18, color: _waterBlue),
+                            VIcon('drop', size: 18, color: _waterBlue),
                             ItemText(
                               l.mlAmount(fmtInt(ctx, x.ml.toDouble())),
                               sub: x.minute == 0 && d.sips.length == 1 ? null : clock(x.minute),
@@ -1102,7 +1101,7 @@ Future<void> _waterSheet(BuildContext context, {required String day, required bo
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(l.otherAmount, style: const TextStyle(fontSize: 14, color: Volt.t1)),
+                        child: Text(l.otherAmount, style: TextStyle(fontSize: 14, color: Volt.t1)),
                       ),
                       VStepper(
                         label: l.mlAmount(fmtInt(ctx, custom.toDouble())),
@@ -1135,7 +1134,7 @@ Future<void> _waterSheet(BuildContext context, {required String day, required bo
                             child: GapCol(
                               gap: 2,
                               children: [
-                                Text(l.dailyGoal, style: const TextStyle(fontSize: 14, color: Volt.t1)),
+                                Text(l.dailyGoal, style: TextStyle(fontSize: 14, color: Volt.t1)),
                                 Muted(set == null ? l.waterGoalAuto : l.waterGoalSet),
                               ],
                             ),
@@ -1201,7 +1200,7 @@ class _PastDay extends ConsumerWidget {
                   children: [
                     Text(
                       DateFormat.EEEE(loc).format(day),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w800,
                         letterSpacing: -0.475,
@@ -1210,7 +1209,7 @@ class _PastDay extends ConsumerWidget {
                     ),
                     Text(
                       l.closedDay(DateFormat.MMMMd(loc).format(day)),
-                      style: const TextStyle(fontSize: 12.5, color: Volt.t3),
+                      style: TextStyle(fontSize: 12.5, color: Volt.t3),
                     ),
                   ],
                 ),
@@ -1229,7 +1228,7 @@ class _PastDay extends ConsumerWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(top: 1),
                       child: VIcon('info', size: 17, color: Volt.t3),
                     ),
@@ -1248,7 +1247,7 @@ class _PastDay extends ConsumerWidget {
                       width: 36,
                       height: 36,
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(shape: BoxShape.circle, color: Volt.card2),
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: Volt.card2),
                       child: VIcon(sd?.done != null ? 'dumb' : 'clock', size: 18, color: Volt.t2),
                     ),
                     const SizedBox(width: 12),
@@ -1259,12 +1258,12 @@ class _PastDay extends ConsumerWidget {
                           Muted(l.training),
                           Text(
                             sd?.done?.name ?? l.restDay,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                           ),
                         ],
                       ),
                     ),
-                    if (sd?.done != null) const VIcon('fwd', size: 18, color: Volt.t3),
+                    if (sd?.done != null) VIcon('fwd', size: 18, color: Volt.t3),
                   ],
                 ),
               ),
@@ -1327,11 +1326,11 @@ class _AwardsButton extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: Volt.ink,
                       borderRadius: BorderRadius.circular(999),
-                      border: Border.all(color: Volt.brand, width: 1.5),
+                      border: Border.all(color: Volt.lime, width: 1.5),
                     ),
                     child: Text(
                       '$earned',
-                      style: numStyle(11, weight: FontWeight.w800, color: Volt.brand),
+                      style: numStyle(11, weight: FontWeight.w800, color: Volt.accentInk),
                     ),
                   ),
                 ),
@@ -1361,7 +1360,7 @@ class _Steps extends ConsumerWidget {
             height: 40,
             alignment: Alignment.center,
             decoration: const BoxDecoration(color: Color(0x1FFF9F43), shape: BoxShape.circle),
-            child: const VIcon('bolt', size: 20, color: Volt.orange),
+            child: VIcon('bolt', size: 20, color: Volt.orange),
           ),
           const SizedBox(width: 12),
           Expanded(

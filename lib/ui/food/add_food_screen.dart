@@ -353,7 +353,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                 context.go('/meal/${_meal.name}');
               },
               children: [
-                const VIcon('star', size: 19, color: Volt.t3),
+                VIcon('star', size: 19, color: Volt.t3),
                 ItemText(m.name, sub: l.savedMealSub(m.items.length, fmtInt(context, m.kcal))),
                 const Pick(),
               ],
@@ -384,7 +384,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                 onTap: () =>
                     context.push('/serving/${Uri.encodeComponent(Recipe.foodId(r.id))}?meal=${_meal.name}&confirm=1'),
                 children: [
-                  const VIcon('food', size: 19, color: Volt.t3),
+                  VIcon('food', size: 19, color: Volt.t3),
                   ItemText(r.name, sub: l.recipeSub(r.servings, fmtInt(context, r.kcalPerServing))),
                   IconBtn(
                     'more',
@@ -485,11 +485,11 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                       children: [
                         Flexible(child: EmTitle(l.addToMeal(meal))),
                         const SizedBox(width: 6),
-                        const VIcon('down', size: 20, color: Volt.t3),
+                        VIcon('down', size: 20, color: Volt.t3),
                       ],
                     ),
                     const SizedBox(height: 3),
-                    Text(left, style: const TextStyle(fontSize: 12.5, color: Volt.t3)),
+                    Text(left, style: TextStyle(fontSize: 12.5, color: Volt.t3)),
                   ],
                 ),
               ),
@@ -505,7 +505,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                       onTap: nextMeal,
                       child: Text(
                         l.addToMeal(meal),
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
                       ),
                     ),
                     Muted(left),
@@ -524,7 +524,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
       decoration: widget.asTab
           ? null
-          : const BoxDecoration(
+          : BoxDecoration(
               border: Border(bottom: BorderSide(color: Volt.line)),
             ),
       child: GapCol(
@@ -539,14 +539,14 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
               decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(13)),
               child: Row(
                 children: [
-                  const VIcon('search', size: 18, color: Volt.t3),
+                  VIcon('search', size: 18, color: Volt.t3),
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextField(
                       controller: _q,
                       onChanged: _onChanged,
                       textInputAction: TextInputAction.search,
-                      style: const TextStyle(fontSize: 15, color: Volt.t1),
+                      style: TextStyle(fontSize: 15, color: Volt.t1),
                       decoration: InputDecoration(
                         isCollapsed: true,
                         filled: false,
@@ -675,7 +675,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
         if (_offline)
           Row(
             children: [
-              const VIcon('wifioff', size: 16, color: Volt.warn),
+              VIcon('wifioff', size: 16, color: Volt.warn),
               const SizedBox(width: 8),
               Expanded(child: Muted(l.offlineSearch, color: Volt.warn)),
             ],
@@ -740,7 +740,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
                   children: [
                     Text(
                       l.itemsSelected(_picks.length),
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                     ),
                     Text(
                       l.kcalAndProtein(fmtInt(context, pickKcal), fmtInt(context, pickP)),
@@ -797,7 +797,7 @@ class _FoodItem extends StatelessWidget {
         ItemText(
           foodName(context, food.id, food.name),
           sub: '$brand · ${fmtInt(context, g)} ${l.grams} · ${fmtInt(context, food.kcal * g / 100)} ${l.kcal}',
-          trailingName: food.verified ? const VIcon('check', size: 14, color: Volt.blue) : null,
+          trailingName: food.verified ? VIcon('check', size: 14, color: Volt.blue) : null,
         ),
         Pick(on: on),
       ],
@@ -812,7 +812,7 @@ class _Shelf extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
-    child: Text(text, style: const TextStyle(fontSize: 14, height: 1.45, color: Volt.t3)),
+    child: Text(text, style: TextStyle(fontSize: 14, height: 1.45, color: Volt.t3)),
   );
 }
 
@@ -837,7 +837,7 @@ class _NoMatch extends StatelessWidget {
                 const SizedBox(width: 60, height: 60, child: CustomPaint(painter: _NoMatchArt())),
                 Text(
                   l.noMatchTitle,
-                  style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
                 Muted(l.noMatchBody, align: TextAlign.center),
               ],
@@ -916,7 +916,7 @@ class BarcodeMissScreen extends StatelessWidget {
                       children: [
                         Text(
                           l.barcodeMiss,
-                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
+                          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600, color: Volt.t1),
                         ),
                         Muted(l.barcodeMissBody),
                       ],

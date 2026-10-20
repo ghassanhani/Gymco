@@ -304,11 +304,11 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                         TextField(
                           controller: _name,
                           maxLength: 40,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
                           decoration: InputDecoration(
                             counterText: '',
                             hintText: l.namePlaceholder,
-                            hintStyle: const TextStyle(color: Volt.t4, fontWeight: FontWeight.w400),
+                            hintStyle: TextStyle(color: Volt.t4, fontWeight: FontWeight.w400),
                             filled: true,
                             fillColor: Volt.card,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
@@ -318,7 +318,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: dupe ? Volt.warn : Volt.brand),
+                              borderSide: BorderSide(color: dupe ? Volt.warn : Volt.lime),
                             ),
                           ),
                         ),
@@ -432,7 +432,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                   children: [
                     Text(
                       name,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                     ),
                     if (e != null) Muted(muscleLine(l, e)),
                   ],

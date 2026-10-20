@@ -110,7 +110,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text(label, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                    child: Text(label, style: TextStyle(fontSize: 14, color: Volt.t2)),
                   ),
                   VStepper(
                     label: '${fmtInt(ctx, v)} ${l.grams}',
@@ -280,7 +280,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
+          style: TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
         ),
         Muted(body, size: 14),
       ],
@@ -314,7 +314,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               decoration: BoxDecoration(
                 color: _goal == g ? Volt.brandWash : Volt.card,
                 borderRadius: BorderRadius.circular(17),
-                border: Border.all(color: _goal == g ? Volt.brand : Volt.line, width: 1.5),
+                border: Border.all(color: _goal == g ? Volt.lime : Volt.line, width: 1.5),
               ),
               child: Row(
                 children: [
@@ -324,7 +324,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                         ),
                         Muted(sub),
                       ],
@@ -346,7 +346,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       EmTitle(l.obBodyTitleEm, size: 30, letterSpacing: -0.03, emScale: 1.12),
       Padding(
         padding: const EdgeInsets.only(top: 0),
-        child: Text(l.obBodyBody, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
+        child: Text(l.obBodyBody, style: TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
       ),
       _Field(
         label: l.sexForEquation,
@@ -403,7 +403,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               decoration: BoxDecoration(
                 color: _activity == a ? Volt.brandWash : Volt.card,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _activity == a ? Volt.brand : Colors.transparent, width: 1.5),
+                border: Border.all(color: _activity == a ? Volt.lime : Colors.transparent, width: 1.5),
               ),
               child: Row(
                 children: [
@@ -411,8 +411,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     width: 40,
                     height: 40,
                     alignment: Alignment.center,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: Volt.card2),
-                    child: VIcon(icon, size: 20, color: Volt.brand),
+                    decoration: BoxDecoration(shape: BoxShape.circle, color: Volt.card2),
+                    child: VIcon(icon, size: 20, color: Volt.accentInk),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -421,9 +421,9 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       children: [
                         Text(
                           title,
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Volt.t1),
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Volt.t1),
                         ),
-                        Text(sub, style: const TextStyle(fontSize: 12, color: Volt.t3)),
+                        Text(sub, style: TextStyle(fontSize: 12, color: Volt.t3)),
                       ],
                     ),
                   ),
@@ -433,10 +433,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                     height: 22,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: _activity == a ? Volt.brand : Volt.line2,
-                        width: _activity == a ? 7 : 2,
-                      ),
+                      border: Border.all(color: _activity == a ? Volt.lime : Volt.line2, width: _activity == a ? 7 : 2),
                     ),
                   ),
                 ],
@@ -465,7 +462,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             children: [
               Text(
                 losing ? l.obRateTitleLose : l.obRateTitleGain,
-                style: const TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
+                style: TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
               Muted(losing ? l.obRateBodyLose : l.obRateBodyGain, size: 14),
             ],
@@ -492,7 +489,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                             l.pctPerWeek,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Volt.t2),
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Volt.t2),
                           ),
                         ),
                       ],
@@ -526,7 +523,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                           in losing
                               ? ['0.25%', '0.5%', '0.75%', l.maxPct('1.0%')]
                               : ['0.1%', '0.25%', l.maxPct('0.5%')])
-                        Text(t, style: const TextStyle(fontSize: 11, color: Volt.t3)),
+                        Text(t, style: TextStyle(fontSize: 11, color: Volt.t3)),
                     ],
                   ),
                 ],
@@ -541,7 +538,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 1),
                 child: VIcon('info', size: 18, color: Volt.t3),
               ),
@@ -571,7 +568,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             children: [
               Text(
                 l.obTargetsTitle,
-                style: const TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
+                style: TextStyle(fontSize: 24, height: 1.3, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
               Muted(copyText(context, 'obTargetsBody', l.obTargetsBody), size: 14),
             ],
@@ -593,7 +590,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                       l.kcalADay,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Volt.t2),
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Volt.t2),
                     ),
                   ),
                 ],
@@ -660,7 +657,7 @@ class _Projection extends StatelessWidget {
                 Muted(l.projectedKg(fmtDec(context, w, digits: w < 100 ? 1 : 0))),
                 Text(
                   l.aroundDate(date),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
               ],
             ),
@@ -691,7 +688,7 @@ class _Dots extends StatelessWidget {
             width: 26,
             height: 4,
             decoration: BoxDecoration(
-              color: i == step ? Volt.brand : (i < step ? Volt.line2 : Volt.line),
+              color: i == step ? Volt.lime : (i < step ? Volt.line2 : Volt.line),
               borderRadius: BorderRadius.circular(999),
             ),
           ),
@@ -714,7 +711,7 @@ class _Field extends StatelessWidget {
     children: [
       Text(
         label,
-        style: const TextStyle(fontSize: 14, height: 20 / 14, fontWeight: FontWeight.w500, color: Volt.t2),
+        style: TextStyle(fontSize: 14, height: 20 / 14, fontWeight: FontWeight.w500, color: Volt.t2),
       ),
       child,
     ],
@@ -758,7 +755,7 @@ class _InputState extends State<_Input> {
       decoration: BoxDecoration(
         color: Volt.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: on ? Volt.brand : Volt.line2),
+        border: Border.all(color: on ? Volt.lime : Volt.line2),
         boxShadow: on
             ? const [BoxShadow(color: Color(0x2EC6F432), spreadRadius: 4)]
             : const [BoxShadow(color: Color(0x0D0A0D12), blurRadius: 2, offset: Offset(0, 1))],
@@ -772,8 +769,8 @@ class _InputState extends State<_Input> {
               onChanged: (_) => widget.onChanged(),
               keyboardType: TextInputType.numberWithOptions(decimal: widget.decimal),
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(widget.decimal ? r'[0-9.,]' : r'[0-9]'))],
-              cursorColor: Volt.brand,
-              style: const TextStyle(fontSize: 16, height: 1.5, color: Volt.t1),
+              cursorColor: Volt.lime,
+              style: TextStyle(fontSize: 16, height: 1.5, color: Volt.t1),
               decoration: const InputDecoration(
                 isCollapsed: true,
                 filled: false,
@@ -783,7 +780,7 @@ class _InputState extends State<_Input> {
             ),
           ),
           const SizedBox(width: 8),
-          Text(widget.unit, style: const TextStyle(fontSize: 16, color: Volt.t3)),
+          Text(widget.unit, style: TextStyle(fontSize: 16, color: Volt.t3)),
         ],
       ),
     );
@@ -892,7 +889,7 @@ class _RateSlider extends StatelessWidget {
                   width: w * (_f(zone.$2) - _f(zone.$1)),
                   top: 10,
                   height: 6,
-                  child: const ColoredBox(color: Volt.okWash),
+                  child: ColoredBox(color: Volt.okWash),
                 ),
                 if (hotFrom != null)
                   Positioned(
@@ -900,7 +897,7 @@ class _RateSlider extends StatelessWidget {
                     right: 0,
                     top: 10,
                     height: 6,
-                    child: const DecoratedBox(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: Volt.warnWash,
                         borderRadius: BorderRadius.horizontal(right: Radius.circular(999)),
@@ -925,7 +922,7 @@ class _RateSlider extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Volt.bg,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Volt.brand, width: 3),
+                      border: Border.all(color: Volt.lime, width: 3),
                     ),
                   ),
                 ),
@@ -992,7 +989,7 @@ class _Check extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 13, height: 1.45, color: Volt.t2)),
+            child: Text(text, style: TextStyle(fontSize: 13, height: 1.45, color: Volt.t2)),
           ),
         ],
       ),
@@ -1068,7 +1065,7 @@ class _WelcomeState extends State<_Welcome> {
                 gradient: RadialGradient(
                   center: const Alignment(0.4, -0.64),
                   radius: 0.9,
-                  colors: [Volt.brand.withValues(alpha: 0.30), Volt.brand.withValues(alpha: 0)],
+                  colors: [Volt.lime.withValues(alpha: 0.30), Volt.lime.withValues(alpha: 0)],
                   stops: const [0, 0.7],
                 ),
               ),
@@ -1087,7 +1084,7 @@ class _WelcomeState extends State<_Welcome> {
                   if (i == 0) ...[const VLogo(size: 44), const SizedBox(height: 16)],
                   EmTitle(title, size: i == 0 ? 40 : 34, letterSpacing: -0.03, emScale: 1.12),
                   const SizedBox(height: 14),
-                  Text(body, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
+                  Text(body, style: TextStyle(fontSize: 14, height: 1.5, color: Volt.t2)),
                 ],
               );
               final textBottom = 30 + safe.bottom + 64 + 20 + 4 + 16;
@@ -1171,7 +1168,7 @@ class _WelcomeState extends State<_Welcome> {
                           width: i == _at ? 34 : 22,
                           height: 4,
                           decoration: BoxDecoration(
-                            color: i == _at ? Volt.brand : Volt.line2,
+                            color: i == _at ? Volt.lime : Volt.line2,
                             borderRadius: BorderRadius.circular(999),
                           ),
                         ),

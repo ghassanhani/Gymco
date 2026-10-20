@@ -32,6 +32,8 @@ void main() {
     final (db, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile}, health: health);
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Health data'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Health data'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Connect Health Connect'));
@@ -58,6 +60,8 @@ void main() {
   testWidgets('a refused permission leaves it off and says so', (tester) async {
     final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile}, health: FakeHealth(allow: false));
     await tester.tap(find.bySemanticsLabel('Me').first);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Health data'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Health data'));
     await tester.pumpAndSettle();

@@ -261,7 +261,7 @@ class StreakRings extends StatelessWidget {
   Widget build(BuildContext context) => CustomPaint(
     size: Size.square(size),
     painter: _RingsPainter([
-      (math.min(1.0, info.kept / info.goal), onLime ? Volt.ink : Volt.brand),
+      (math.min(1.0, info.kept / info.goal), onLime ? Volt.ink : Volt.lime),
       (info.mealsToday / 3, onLime ? const Color(0xFF14532D) : Volt.ok),
       (
         info.trainedToday || (info.restToday && info.mealsToday == 3) ? 1.0 : 0.0,
@@ -392,7 +392,7 @@ class AwardsScreen extends ConsumerWidget {
         ),
         const SizedBox(width: 8),
         Flexible(
-          child: Text(t, style: const TextStyle(fontSize: 12, color: Volt.t2)),
+          child: Text(t, style: TextStyle(fontSize: 12, color: Volt.t2)),
         ),
       ],
     );
@@ -485,7 +485,7 @@ class AwardsScreen extends ConsumerWidget {
                                         children: [
                                           Text('${s.kept}', style: numStyle(30, weight: FontWeight.w700, height: 1.1)),
                                           const SizedBox(width: 6),
-                                          Text(l.ofDays(s.goal), style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                                          Text(l.ofDays(s.goal), style: TextStyle(fontSize: 14, color: Volt.t2)),
                                         ],
                                       ),
                                     ],
@@ -493,7 +493,7 @@ class AwardsScreen extends ConsumerWidget {
                                   GapCol(
                                     gap: 5,
                                     children: [
-                                      legend(Volt.brand, l.legendStreak(math.max(0, s.goal - s.kept))),
+                                      legend(Volt.lime, l.legendStreak(math.max(0, s.goal - s.kept))),
                                       legend(Volt.ok, l.legendFood(s.mealsToday)),
                                       legend(
                                         Volt.orange,
@@ -518,7 +518,7 @@ class AwardsScreen extends ConsumerWidget {
                                 Expanded(
                                   child: Text(
                                     l.thisWeek,
-                                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
+                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                                   ),
                                 ),
                                 Muted(l.restDaysCount),
@@ -537,7 +537,7 @@ class AwardsScreen extends ConsumerWidget {
                               child: _Stat(
                                 label: l.freezesLbl,
                                 value: l.freezesOf(s.state.freezes, maxFreezes),
-                                icon: const VIcon('freeze', size: 16, color: Volt.blue),
+                                icon: VIcon('freeze', size: 16, color: Volt.blue),
                               ),
                             ),
                           ],
@@ -644,7 +644,7 @@ class _Nudge extends StatelessWidget {
         VIcon(icon, size: 18, color: color),
         const SizedBox(width: 10),
         Expanded(
-          child: Text(text, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+          child: Text(text, style: TextStyle(fontSize: 13, color: Volt.t2)),
         ),
         if (action != null)
           VBtn(
@@ -708,24 +708,24 @@ class _Week extends StatelessWidget {
             if (kept && info.restKept.contains(d)) {
               dot = _dot(
                 fill: Volt.brandWash,
-                border: Volt.brand,
-                child: const VIcon('moon', size: 16, color: Volt.brandInk),
+                border: Volt.lime,
+                child: VIcon('moon', size: 16, color: Volt.brandInk),
               );
             } else if (kept) {
               dot = _dot(
-                fill: Volt.brand,
+                fill: Volt.lime,
                 child: const VIcon('check', size: 16, color: Volt.ink, strokeWidth: 2.4),
               );
             } else if (isToday) {
               dot = _dot(
-                border: Volt.brand,
+                border: Volt.lime,
                 dashed: true,
                 child: Text('${d.day}', style: numStyle(12, color: Volt.t1)),
               );
             } else if (mark == DayMark.frozen) {
               dot = _dot(
                 fill: const Color(0x1A4CC9F0),
-                child: const VIcon('freeze', size: 15, color: Volt.blue),
+                child: VIcon('freeze', size: 15, color: Volt.blue),
               );
             } else if (mark == DayMark.repairable) {
               dot = _dot(
@@ -820,7 +820,7 @@ class _Shelf extends ConsumerWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
               ),
               Muted(l.gotOf(got, awards.length)),
@@ -858,7 +858,7 @@ class _Shelf extends ConsumerWidget {
                           Text(
                             awardStatus(l, a, loc),
                             textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 11, height: 1.3, color: Volt.t3),
+                            style: TextStyle(fontSize: 11, height: 1.3, color: Volt.t3),
                           ),
                         ],
                       ),
@@ -921,7 +921,7 @@ class AwardDetailScreen extends ConsumerWidget {
                                 colors: [_tones[a.tone]![1].withValues(alpha: 0.35), Colors.transparent],
                               ),
                             )
-                          : const BoxDecoration(shape: BoxShape.circle, color: Volt.card),
+                          : BoxDecoration(shape: BoxShape.circle, color: Volt.card),
                       alignment: Alignment.center,
                       child: badgeArt.containsKey(a.id)
                           ? Badge3D(
@@ -939,17 +939,17 @@ class AwardDetailScreen extends ConsumerWidget {
                     Text(
                       l.badgeTurnHint,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 12, color: Volt.t3),
+                      style: TextStyle(fontSize: 12, color: Volt.t3),
                     ),
                   Text(
                     name,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
                   ),
                   Text(
                     status,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 13, color: Volt.t3),
+                    style: TextStyle(fontSize: 13, color: Volt.t3),
                   ),
                   Center(
                     child: ConstrainedBox(
@@ -957,7 +957,7 @@ class AwardDetailScreen extends ConsumerWidget {
                       child: Text(
                         awardDesc(l, a, loc),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t2),
+                        style: TextStyle(fontSize: 14, height: 1.5, color: Volt.t2),
                       ),
                     ),
                   ),
@@ -973,7 +973,7 @@ class AwardDetailScreen extends ConsumerWidget {
                               Expanded(
                                 child: Text(
                                   l.progressLbl,
-                                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                                 ),
                               ),
                               Text(
@@ -983,7 +983,7 @@ class AwardDetailScreen extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          VBar(fraction: a.have / a.need, color: Volt.brand, height: 8),
+                          VBar(fraction: a.have / a.need, color: Volt.lime, height: 8),
                         ],
                       ),
                     ),
@@ -1004,11 +1004,7 @@ class AwardDetailScreen extends ConsumerWidget {
                                     Expanded(
                                       child: Text(
                                         l.nextNamed(awardName(l, next, now, loc)),
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: Volt.t1,
-                                        ),
+                                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                                       ),
                                     ),
                                     Text(
@@ -1018,7 +1014,7 @@ class AwardDetailScreen extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
-                                VBar(fraction: next.have / next.need, color: Volt.brand, height: 8),
+                                VBar(fraction: next.have / next.need, color: Volt.lime, height: 8),
                               ],
                             ),
                           ),
@@ -1082,7 +1078,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
           decoration: BoxDecoration(
             color: on ? Volt.brandWash : Volt.card,
             borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: on ? Volt.brand : Volt.line, width: on ? 1.5 : 1),
+            border: Border.all(color: on ? Volt.lime : Volt.line, width: on ? 1.5 : 1),
           ),
           child: GapCol(
             gap: 2,
@@ -1117,7 +1113,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
           Container(
             width: 34,
             height: 34,
-            decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+            decoration: BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
             child: Center(child: VIcon(icon, size: 16, color: c)),
           ),
           const SizedBox(width: 12),
@@ -1127,13 +1123,13 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Volt.t1),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Volt.t1),
                 ),
                 Muted(sub),
               ],
             ),
           ),
-          const VIcon('check', size: 18, color: Volt.brandInk),
+          VIcon('check', size: 18, color: Volt.brandInk),
         ],
       ),
     );
@@ -1158,12 +1154,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
                       children: [
                         Text(
                           l.howLong,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            height: 1.25,
-                            color: Volt.t1,
-                          ),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, height: 1.25, color: Volt.t1),
                         ),
                         Muted(l.howLongSub, size: 13),
                       ],
@@ -1193,7 +1184,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
                           padding: const EdgeInsets.only(bottom: 6),
                           child: Text(
                             l.dayCountsWhen,
-                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                           ),
                         ),
                         rule('food', Volt.ok, l.ruleMeals, l.ruleMealsSub),
@@ -1205,7 +1196,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
                     tight: true,
                     child: Row(
                       children: [
-                        const VIcon('freeze', size: 20, color: Volt.blue),
+                        VIcon('freeze', size: 20, color: Volt.blue),
                         const SizedBox(width: 12),
                         Expanded(child: Muted(l.freezeNote(daysPerFreeze, maxFreezes), color: Volt.t2)),
                       ],
@@ -1235,7 +1226,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
                         ? l.carryOver(kept, DateFormat.MMMEd(loc).format(finish))
                         : l.startsToday(DateFormat.MMMEd(loc).format(finish)),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 12, color: Volt.t3),
+                    style: TextStyle(fontSize: 12, color: Volt.t3),
                   ),
                 ],
               ),
@@ -1266,7 +1257,7 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
                   children: [
                     Text(v.isEmpty ? '—' : v, style: numStyle(44, height: 1.05)),
                     const SizedBox(width: 6),
-                    Text(l.daysWord, style: const TextStyle(fontSize: 18, color: Volt.t2)),
+                    Text(l.daysWord, style: TextStyle(fontSize: 18, color: Volt.t2)),
                   ],
                 ),
                 Muted(l.customRange),
@@ -1356,12 +1347,12 @@ class GoalDoneScreen extends ConsumerWidget {
                   Text(
                     l.goalDoneTitle(s.goal),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
                   ),
                   Text(
                     l.goalDoneSub(DateFormat.MMMd(loc).format(from), DateFormat.MMMEd(loc).format(to), frozen),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 13, color: Volt.t3),
+                    style: TextStyle(fontSize: 13, color: Volt.t3),
                   ),
                   LayoutBuilder(
                     builder: (_, c) => Wrap(
@@ -1396,7 +1387,7 @@ class GoalDoneScreen extends ConsumerWidget {
                   Text(
                     l.goalDoneNote,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 13, height: 1.5, color: Volt.t2),
+                    style: TextStyle(fontSize: 13, height: 1.5, color: Volt.t2),
                   ),
                 ],
               ),
@@ -1480,7 +1471,7 @@ class _PauseRow extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: active ? const Color(0x1A4CC9F0) : const Color(0x0DFFFFFF),
+          color: active ? const Color(0x1A4CC9F0) : Volt.tint.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
@@ -1490,10 +1481,10 @@ class _PauseRow extends ConsumerWidget {
             Expanded(
               child: Text(
                 active ? l.pausedUntil(until) : l.pauseStreak,
-                style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: Volt.t1),
+                style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
             ),
-            Text(active ? l.endPause : l.pauseHint, style: const TextStyle(fontSize: 12.5, color: Volt.t3)),
+            Text(active ? l.endPause : l.pauseHint, style: TextStyle(fontSize: 12.5, color: Volt.t3)),
           ],
         ),
       ),

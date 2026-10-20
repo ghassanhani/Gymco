@@ -110,8 +110,8 @@ class ExLine extends StatelessWidget {
               child: Container(
                 width: 30,
                 height: 30,
-                decoration: const BoxDecoration(color: Volt.okWash, shape: BoxShape.circle),
-                child: const Center(child: VIcon('check', size: 14, color: Volt.ok)),
+                decoration: BoxDecoration(color: Volt.okWash, shape: BoxShape.circle),
+                child: Center(child: VIcon('check', size: 14, color: Volt.ok)),
               ),
             ),
           ] else if (onStart != null) ...[
@@ -127,7 +127,7 @@ class ExLine extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: Volt.brandEdge),
                 ),
-                child: const Center(child: VIcon('play', size: 14, color: Volt.brandInk)),
+                child: Center(child: VIcon('play', size: 14, color: Volt.brandInk)),
               ),
             ),
           ],
@@ -224,7 +224,7 @@ class _VolumeRow extends StatelessWidget {
             Expanded(
               child: Text(
                 groupName(l, g.group),
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Volt.t2),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Volt.t2),
               ),
             ),
             Text('${g.total}', style: numStyle(13)),
@@ -301,8 +301,8 @@ class ResumeBar extends ConsumerWidget {
             Container(
               width: 9,
               height: 9,
-              decoration: const BoxDecoration(
-                color: Volt.brand,
+              decoration: BoxDecoration(
+                color: Volt.lime,
                 shape: BoxShape.circle,
                 boxShadow: [BoxShadow(color: Volt.brandWash, spreadRadius: 4)],
               ),
@@ -316,7 +316,7 @@ class ResumeBar extends ConsumerWidget {
                     l.inProgressName(s.name),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                   Text(
                     l.resumeSub(fmtClock(s.elapsed(now)), s.setsDone, s.setsPlanned),

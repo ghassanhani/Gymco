@@ -55,7 +55,7 @@ class _AppGateViewState extends ConsumerState<AppGateView> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(l.gateSuggest, style: const TextStyle(color: Volt.t1, fontSize: 14)),
+                        child: Text(l.gateSuggest, style: TextStyle(color: Volt.t1, fontSize: 14)),
                       ),
                       VBtn(
                         label: l.gateLater,
@@ -98,11 +98,11 @@ class _Blocker extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const VIcon('shield', size: 32, color: Volt.brand),
+            VIcon('shield', size: 32, color: Volt.accentInk),
             const SizedBox(height: 20),
             Text(
               title,
-              style: const TextStyle(color: Volt.t1, fontSize: 28, fontWeight: FontWeight.w700),
+              style: TextStyle(color: Volt.t1, fontSize: 28, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 12),
             Muted(body, size: 15, color: Volt.t2),

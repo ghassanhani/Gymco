@@ -35,7 +35,7 @@ class AnnouncementCard extends ConsumerWidget {
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     a.titleIn(lang),
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                 ),
                 if (body.isNotEmpty) Muted(body, color: Volt.t2),
@@ -105,13 +105,13 @@ class WhatsNewGate extends ConsumerWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(top: 7),
                       child: VIcon('check', size: 14, color: Volt.brandInk),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text(b, style: const TextStyle(fontSize: 15, color: Volt.t1, height: 1.35)),
+                      child: Text(b, style: TextStyle(fontSize: 15, color: Volt.t1, height: 1.35)),
                     ),
                   ],
                 ),

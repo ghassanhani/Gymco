@@ -101,7 +101,7 @@ class ExerciseScreen extends ConsumerWidget {
                                         style: numStyle(28),
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(l.kgLbl, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                                      Text(l.kgLbl, style: TextStyle(fontSize: 13, color: Volt.t2)),
                                       if (delta != null && delta.abs() >= 0.5) ...[
                                         const SizedBox(width: 8),
                                         Flexible(
@@ -234,12 +234,12 @@ class ExerciseScreen extends ConsumerWidget {
                                   width: 24,
                                   height: 24,
                                   alignment: Alignment.center,
-                                  decoration: const BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
+                                  decoration: BoxDecoration(color: Volt.card2, shape: BoxShape.circle),
                                   child: Text('${i + 1}', style: numStyle(11, color: Volt.t2)),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
-                                  child: Text(step, style: const TextStyle(fontSize: 14, height: 1.5, color: Volt.t1)),
+                                  child: Text(step, style: TextStyle(fontSize: 14, height: 1.5, color: Volt.t1)),
                                 ),
                               ],
                             ),
@@ -319,13 +319,13 @@ class _RmChart extends CustomPainter {
     canvas.drawPath(
       path,
       Paint()
-        ..color = Volt.brand
+        ..color = Volt.lime
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2.5
         ..strokeJoin = StrokeJoin.round
         ..strokeCap = StrokeCap.round,
     );
-    canvas.drawCircle(at(points.last), 5, Paint()..color = Volt.brand);
+    canvas.drawCircle(at(points.last), 5, Paint()..color = Volt.lime);
   }
 
   @override

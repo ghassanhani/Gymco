@@ -29,9 +29,9 @@ class SignInCard extends ConsumerWidget {
               Container(
                 width: 44,
                 height: 44,
-                decoration: const BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
+                decoration: BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
                 alignment: Alignment.center,
-                child: const VIcon('user', size: 21, color: Volt.brandInk),
+                child: VIcon('user', size: 21, color: Volt.brandInk),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -40,7 +40,7 @@ class SignInCard extends ConsumerWidget {
                   children: [
                     Text(
                       l.meSignInTitle,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Volt.t1),
+                      style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Volt.t1),
                     ),
                     Muted(l.meSignInSub, size: 13),
                   ],

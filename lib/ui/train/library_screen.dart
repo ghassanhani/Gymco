@@ -49,7 +49,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                     turns: open ? 0 : -0.25,
                     duration: const Duration(milliseconds: 280),
                     curve: const Cubic(0.32, 0.72, 0, 1),
-                    child: const VIcon('down', size: 18, color: Volt.t3),
+                    child: VIcon('down', size: 18, color: Volt.t3),
                   ),
                   const SizedBox(width: 8),
                   Expanded(child: Eyebrow('$title (${rows.length})', color: Volt.t2)),
@@ -66,10 +66,10 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                 child: DottedBox(
                   child: Row(
                     children: [
-                      const VIcon('plus', size: 17, color: Volt.t3),
+                      VIcon('plus', size: 17, color: Volt.t3),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Text(l.addToFolder, style: const TextStyle(fontSize: 14, color: Volt.t3)),
+                        child: Text(l.addToFolder, style: TextStyle(fontSize: 14, color: Volt.t3)),
                       ),
                     ],
                   ),
@@ -112,7 +112,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                         onTap: () => context.push('/exercises/browse'),
                         children: [
                           ItemText(l.myExercises, sub: l.myExercisesSub(lib?.all.length ?? 0), weight: FontWeight.w600),
-                          const VIcon('fwd', size: 18, color: Volt.t1),
+                          VIcon('fwd', size: 18, color: Volt.t1),
                         ],
                       ),
                       VItem(
@@ -131,7 +131,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                         ),
                         children: [
                           ItemText(l.exploreRoutines, sub: l.exploreSub, weight: FontWeight.w600),
-                          const VIcon('fwd', size: 18, color: Volt.t1),
+                          VIcon('fwd', size: 18, color: Volt.t1),
                         ],
                       ),
                     ],
@@ -171,7 +171,7 @@ class _RoutineCard extends ConsumerWidget {
                   label: r.name,
                   child: Text(
                     r.name,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                 ),
               ),

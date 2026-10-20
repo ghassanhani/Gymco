@@ -119,8 +119,8 @@ Future<void> showNumberSheet(
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 2),
-                    decoration: const BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Volt.brand, width: 2)),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Volt.lime, width: 2)),
                     ),
                     child: Text(
                       v.isEmpty ? '—' : v,
@@ -131,7 +131,7 @@ Future<void> showNumberSheet(
                   const SizedBox(width: 6),
                   Text(
                     unit,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Volt.t2),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Volt.t2),
                   ),
                 ],
               ),
@@ -249,7 +249,7 @@ class _TrendCard extends ConsumerWidget {
                         children: [
                           Text(ws.current == null ? '—' : fmtDec(context, ws.current!), style: numStyle(30)),
                           const SizedBox(width: 8),
-                          Text(l.kgLbl, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                          Text(l.kgLbl, style: TextStyle(fontSize: 14, color: Volt.t2)),
                         ],
                       ),
                     ),
@@ -294,7 +294,7 @@ class _TrendCard extends ConsumerWidget {
                   l.todayLbl.toLowerCase(),
                   DateFormat.MMMd(loc).format(ahead),
                 ])
-                  Text(t, style: const TextStyle(fontSize: 11, color: Volt.t3)),
+                  Text(t, style: TextStyle(fontSize: 11, color: Volt.t3)),
               ],
             ),
         ],
@@ -363,7 +363,7 @@ class _TrendChart extends CustomPainter {
     canvas.drawPath(
       line,
       Paint()
-        ..color = Volt.brand
+        ..color = Volt.lime
         ..style = PaintingStyle.stroke
         ..strokeWidth = 3
         ..strokeJoin = StrokeJoin.round
@@ -371,7 +371,7 @@ class _TrendChart extends CustomPainter {
     );
     final from = at(xOf(points.last.$1), last), to = at(1, projected);
     final proj = Paint()
-      ..color = Volt.brand
+      ..color = Volt.lime
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
     final len = (to - from).distance;
@@ -379,7 +379,7 @@ class _TrendChart extends CustomPainter {
       final a = from + (to - from) * (d / len), b = from + (to - from) * (math.min(d + 5, len) / len);
       canvas.drawLine(a, b, proj);
     }
-    canvas.drawCircle(from, 5, Paint()..color = Volt.brand);
+    canvas.drawCircle(from, 5, Paint()..color = Volt.lime);
   }
 
   @override
@@ -447,7 +447,7 @@ class _WeekSets extends ConsumerWidget {
               Expanded(
                 child: Text(
                   l.weeklyHardSets,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
               ),
               Muted(l.indirectHalf),
@@ -459,7 +459,7 @@ class _WeekSets extends ConsumerWidget {
               children: [
                 SizedBox(
                   width: 62,
-                  child: Text(groupName(l, e.key), style: const TextStyle(fontSize: 12, color: Volt.t2)),
+                  child: Text(groupName(l, e.key), style: TextStyle(fontSize: 12, color: Volt.t2)),
                 ),
                 Expanded(
                   child: VolumeBar(
@@ -510,7 +510,7 @@ class _Waist extends ConsumerWidget {
                 children: [
                   Text(all.isEmpty ? '—' : fmtDec(context, all.last.$2), style: numStyle(30)),
                   const SizedBox(width: 8),
-                  Text(l.cm, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                  Text(l.cm, style: TextStyle(fontSize: 14, color: Volt.t2)),
                   const Spacer(),
                   if (all.length >= 2)
                     Text(

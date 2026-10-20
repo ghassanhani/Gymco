@@ -179,7 +179,7 @@ class _WorkoutScreenState extends ConsumerState<WorkoutScreen> {
                           s.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
                         ),
                         Text(clock, style: numStyle(12.5, color: Volt.brandInk)),
                       ],
@@ -401,7 +401,7 @@ class _ExerciseCard extends ConsumerWidget {
                         label: name,
                         child: Text(
                           name,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.brandInk),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.brandInk),
                         ),
                       ),
                       if (ex != null) Muted(muscleLine(l, ex)),
@@ -435,7 +435,7 @@ class _ExerciseCard extends ConsumerWidget {
                     child: Text(
                       l.restTimer,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 13, color: Volt.t2),
+                      style: TextStyle(fontSize: 13, color: Volt.t2),
                     ),
                   ),
                   Text(
@@ -443,7 +443,7 @@ class _ExerciseCard extends ConsumerWidget {
                     style: numStyle(13, color: e.restSeconds == 0 ? Volt.t4 : Volt.t1),
                   ),
                   const SizedBox(width: 6),
-                  const VIcon('fwd', size: 15, color: Volt.t2),
+                  VIcon('fwd', size: 15, color: Volt.t2),
                 ],
               ),
             ),
@@ -474,11 +474,11 @@ class _ExerciseCard extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const VIcon('plus', size: 16, color: Volt.t2),
+                  VIcon('plus', size: 16, color: Volt.t2),
                   const SizedBox(width: 6),
                   Text(
                     l.addSet,
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t2),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Volt.t2),
                   ),
                 ],
               ),
@@ -593,7 +593,7 @@ class _SetRow extends ConsumerWidget {
                       child: Container(
                         width: 7,
                         height: 7,
-                        decoration: const BoxDecoration(color: Volt.warn, shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: Volt.warn, shape: BoxShape.circle),
                       ),
                     ),
                 ],
@@ -643,7 +643,7 @@ class _SetRow extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: set.done ? Volt.brand : Volt.card2,
                   shape: BoxShape.circle,
-                  border: Border.all(color: set.done ? Volt.brand : Volt.line2),
+                  border: Border.all(color: set.done ? Volt.lime : Volt.line2),
                   boxShadow: set.done
                       ? const [
                           BoxShadow(color: Color(0xB3C6F432), blurRadius: 14, offset: Offset(0, 6), spreadRadius: -6),
@@ -692,7 +692,7 @@ class _SetRow extends ConsumerWidget {
                 ),
               ),
             ),
-            trail: set.type == t ? const VIcon('check', size: 18, color: Volt.brandInk) : null,
+            trail: set.type == t ? VIcon('check', size: 18, color: Volt.brandInk) : null,
             onTap: () {
               Navigator.pop(ctx);
               n.update((x, _) => x.updateSet(index, setIndex, (s) => s.copyWith(type: t)));
@@ -805,7 +805,7 @@ Future<void> editSet(BuildContext context, WidgetRef ref, int ex, int i, {requir
                 decoration: BoxDecoration(
                   color: Volt.card,
                   borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: field == f ? Volt.brand : Volt.line, width: field == f ? 1.5 : 1),
+                  border: Border.all(color: field == f ? Volt.lime : Volt.line, width: field == f ? 1.5 : 1),
                 ),
                 child: GapCol(
                   gap: 2,
@@ -873,12 +873,12 @@ class _NoteState extends ConsumerState<_Note> {
       padding: const EdgeInsets.symmetric(horizontal: 6),
       child: TextField(
         controller: _c,
-        style: const TextStyle(fontSize: 13, color: Volt.t1),
+        style: TextStyle(fontSize: 13, color: Volt.t1),
         onChanged: (v) => ref.read(activeWorkoutProvider.notifier).update((x, _) => x.setNote(widget.index, v)),
         decoration: InputDecoration(
           isDense: true,
           hintText: l.notePlaceholder,
-          hintStyle: const TextStyle(fontSize: 13, color: Volt.t4),
+          hintStyle: TextStyle(fontSize: 13, color: Volt.t4),
           filled: true,
           fillColor: Volt.card2,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -888,7 +888,7 @@ class _NoteState extends ConsumerState<_Note> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Volt.line2),
+            borderSide: BorderSide(color: Volt.line2),
           ),
         ),
       ),

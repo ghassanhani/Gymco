@@ -182,7 +182,7 @@ class GymcoApp extends ConsumerStatefulWidget {
   ConsumerState<GymcoApp> createState() => _GymcoAppState();
 }
 
-class _GymcoAppState extends ConsumerState<GymcoApp> {
+class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver {
   // Leaving the app is the moment to back up: nothing is being typed.
   // Coming back is the moment to bring reminders up to date with the day.
   late final _lifecycle = AppLifecycleListener(
@@ -198,20 +198,36 @@ class _GymcoAppState extends ConsumerState<GymcoApp> {
   void initState() {
     super.initState();
     _lifecycle;
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _lifecycle.dispose();
     super.dispose();
   }
 
+  // "System" appearance follows the phone switching between light and dark.
+  @override
+  void didChangePlatformBrightness() => setState(() {});
+
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(settingsProvider.select((s) => s.locale));
+    final appearance = ref.watch(settingsProvider.select((s) => s.appearance));
+    final brightness = switch (appearance) {
+      Appearance.light => Brightness.light,
+      Appearance.dark => Brightness.dark,
+      Appearance.system => WidgetsBinding.instance.platformDispatcher.platformBrightness,
+    };
+    // Every colour reads the palette while building, and plenty of widgets
+    // are const, so a change of palette rebuilds the whole app from here.
+    Volt.use(brightness);
     ref.watch(reminderSyncProvider);
     ref.watch(healthImportProvider);
     return MaterialApp.router(
+      key: ValueKey(brightness),
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appName,
       debugShowCheckedModeBanner: false,
       locale: locale,

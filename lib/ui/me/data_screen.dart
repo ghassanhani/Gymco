@@ -98,7 +98,7 @@ class DataScreen extends ConsumerWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
               ),
               Muted(sub),
             ],
@@ -162,7 +162,7 @@ class DataScreen extends ConsumerWidget {
                       children: [
                         Text(
                           l.whatYouAgreed,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                         ),
                         consentRow(l.consentHealthRow, consent != null, consent),
                         consentRow(l.consentAnalyticsRow, false, null),
@@ -189,7 +189,7 @@ class DataScreen extends ConsumerWidget {
                             ),
                             child: Text(
                               l.deleteAllData,
-                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.brandInk),
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.brandInk),
                             ),
                           ),
                         ),

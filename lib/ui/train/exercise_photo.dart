@@ -32,7 +32,7 @@ class ExThumb extends ConsumerWidget {
           ? VIcon('dumb', size: size * 0.4, color: Volt.t3)
           : Text(
               e.badge,
-              style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.22, color: Volt.t3),
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 0.22, color: Volt.t3),
             ),
     );
     final px = (size * MediaQuery.devicePixelRatioOf(context)).round();
@@ -114,7 +114,7 @@ class _PhotoViewerState extends ConsumerState<_PhotoViewer> {
                       e.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Volt.t1),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -141,9 +141,9 @@ class _PhotoViewerState extends ConsumerState<_PhotoViewer> {
                             fit: BoxFit.contain,
                             frameBuilder: (_, child, frame, sync) => sync || frame != null
                                 ? child
-                                : const SizedBox.square(
+                                : SizedBox.square(
                                     dimension: 28,
-                                    child: CircularProgressIndicator(strokeWidth: 2, color: Volt.brand),
+                                    child: CircularProgressIndicator(strokeWidth: 2, color: Volt.lime),
                                   ),
                             errorBuilder: (_, _, _) => Muted(l.photoUnavailable),
                           ),
@@ -167,7 +167,7 @@ class _PhotoViewerState extends ConsumerState<_PhotoViewer> {
                         width: i == _at ? 22 : 7,
                         height: 7,
                         decoration: BoxDecoration(
-                          color: i == _at ? Volt.brand : Volt.line2,
+                          color: i == _at ? Volt.lime : Volt.line2,
                           borderRadius: BorderRadius.circular(999),
                         ),
                       ),

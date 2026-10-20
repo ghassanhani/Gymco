@@ -152,7 +152,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
     if (mounted) widget.onDone(rows.length);
   }
 
-  Widget _card(String icon, String text, {Color color = Volt.t3, Color? edge}) => VCard(
+  Widget _card(String icon, String text, {Color? color, Color? edge}) => VCard(
     tight: true,
     border: Border.all(color: edge ?? Volt.line2),
     child: Row(
@@ -160,7 +160,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 1),
-          child: VIcon(icon, size: 17, color: color),
+          child: VIcon(icon, size: 17, color: color ?? Volt.t3),
         ),
         const SizedBox(width: 10),
         Expanded(child: Muted(text)),
@@ -198,7 +198,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
           maxLines: 4,
           maxLength: ref.watch(remoteConfigProvider).photoNoteMaxChars,
           onChanged: (_) => setState(() {}),
-          style: const TextStyle(fontSize: 15, height: 1.45, color: Volt.t1),
+          style: TextStyle(fontSize: 15, height: 1.45, color: Volt.t1),
           decoration: InputDecoration(
             hintText: l.photoNoteHint,
             hintMaxLines: 3,
@@ -209,7 +209,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: Volt.brand),
+              borderSide: BorderSide(color: Volt.lime),
             ),
           ),
         ),
@@ -251,7 +251,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
                     child: Image.memory(
                       _shot!,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => const ColoredBox(color: Volt.card),
+                      errorBuilder: (_, _, _) => ColoredBox(color: Volt.card),
                     ),
                   ),
                   if (_reading) const Positioned.fill(child: _Reading()),
@@ -290,7 +290,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
                                 if (r.food!.source == 'ai') l.aiEstimateShort else if (!r.guess.sure) l.notSureCheck,
                               ].join(' · '),
                       ),
-                      if (r.added) const VIcon('check', size: 20, color: Volt.brand) else const Pick(),
+                      if (r.added) VIcon('check', size: 20, color: Volt.accentInk) else const Pick(),
                     ],
                   ),
               ],
@@ -327,7 +327,7 @@ class _Reading extends StatelessWidget {
         gap: 12,
         cross: CrossAxisAlignment.center,
         children: [
-          const SizedBox.square(dimension: 22, child: CircularProgressIndicator(strokeWidth: 2, color: Volt.brand)),
+          SizedBox.square(dimension: 22, child: CircularProgressIndicator(strokeWidth: 2, color: Volt.lime)),
           Muted(AppLocalizations.of(context).readingPlate, color: Volt.t1),
         ],
       ),
@@ -363,7 +363,7 @@ class _Capture extends StatelessWidget {
                   gap: 12,
                   cross: CrossAxisAlignment.center,
                   children: [
-                    const IconBtn('camera', label: '', onTap: null, iconSize: 22, color: Volt.t2),
+                    IconBtn('camera', label: '', onTap: null, iconSize: 22, color: Volt.t2),
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 250),
                       child: Muted(text, align: TextAlign.center),

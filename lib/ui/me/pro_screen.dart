@@ -168,12 +168,20 @@ class ProCard extends ConsumerWidget {
                               children: [
                                 Text(
                                   cta,
-                                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Volt.t1),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                    color: VoltPalette.dark.t1,
+                                  ),
                                 ),
                                 const SizedBox(height: 1),
                                 Text(
                                   ctaSub,
-                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Volt.t3),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: VoltPalette.dark.t3,
+                                  ),
                                 ),
                               ],
                             ),
@@ -267,7 +275,9 @@ class _ProScreenState extends ConsumerState<ProScreen> {
         name: l.planFree,
         sub: l.planFreeSub,
         icon: 'user',
-        glow: const [Color(0xFF3A3F46), Color(0xFF22262B)],
+        glow: Volt.isLight
+            ? const [Color(0xFFE6E9E0), Color(0xFFCBD0C3)]
+            : const [Color(0xFF3A3F46), Color(0xFF22262B)],
         has: {0, 1, 2},
         pro: false,
       ),
@@ -316,7 +326,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                             ('chart', l.featIconCoach),
                             ('dumb', l.featIconStrength),
                           ].indexed) ...[
-                            if (i > 0) const VerticalDivider(width: 1, color: Volt.line2, indent: 6, endIndent: 6),
+                            if (i > 0) VerticalDivider(width: 1, color: Volt.line2, indent: 6, endIndent: 6),
                             Expanded(
                               child: Column(
                                 children: [
@@ -335,7 +345,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                                   Text(
                                     label,
                                     textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 12.5, color: Volt.t2),
+                                    style: TextStyle(fontSize: 12.5, color: Volt.t2),
                                   ),
                                 ],
                               ),
@@ -376,7 +386,7 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                           width: i == _page ? 22 : 7,
                           height: 7,
                           decoration: BoxDecoration(
-                            color: i == _page ? Volt.brand : Volt.line2,
+                            color: i == _page ? Volt.lime : Volt.line2,
                             borderRadius: BorderRadius.circular(9),
                           ),
                         ),
@@ -426,11 +436,11 @@ class _Pill extends StatelessWidget {
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const VIcon('star', size: 13, color: Volt.brandInk),
+        VIcon('star', size: 13, color: Volt.brandInk),
         const SizedBox(width: 6),
         Text(
           label,
-          style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Volt.t1),
+          style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: Volt.t1),
         ),
       ],
     ),
@@ -553,12 +563,7 @@ class _PlanCard extends StatelessWidget {
                       child: Text(
                         plan.name,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: 'InstrumentSerif',
-                          fontSize: 32,
-                          height: 1.05,
-                          color: Volt.t1,
-                        ),
+                        style: TextStyle(fontFamily: 'InstrumentSerif', fontSize: 32, height: 1.05, color: Volt.t1),
                       ),
                     ),
                     if (popular) ...[const SizedBox(width: 8), VTag(l.mostPopular)],
@@ -576,7 +581,7 @@ class _PlanCard extends StatelessWidget {
                     if (price.$2.isNotEmpty) ...[
                       const SizedBox(width: 6),
                       Flexible(
-                        child: Text(price.$2, style: const TextStyle(fontSize: 13, color: Volt.t3)),
+                        child: Text(price.$2, style: TextStyle(fontSize: 13, color: Volt.t3)),
                       ),
                     ],
                   ],
@@ -605,7 +610,7 @@ class _PlanCard extends StatelessWidget {
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: plan.has.contains(i) ? Volt.brand : Volt.line,
+                            color: plan.has.contains(i) ? Volt.lime : Volt.line,
                           ),
                           child: VIcon(
                             plan.has.contains(i) ? 'check' : 'close',
@@ -655,7 +660,7 @@ class _Link extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             color: Volt.t2,
             decoration: TextDecoration.underline,

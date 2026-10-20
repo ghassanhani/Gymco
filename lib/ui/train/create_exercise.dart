@@ -80,7 +80,7 @@ class _CreateBodyState extends ConsumerState<_CreateBody> {
           autofocus: widget.initial.isEmpty,
           onChanged: (_) => setState(() {}),
           textCapitalization: TextCapitalization.words,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
           decoration: InputDecoration(
             hintText: l.exerciseNameHint,
             filled: true,

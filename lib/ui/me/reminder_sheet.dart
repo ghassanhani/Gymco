@@ -101,7 +101,7 @@ class _ReminderBody extends ConsumerWidget {
         for (final (label, t, k, i) in slots)
           SRow(
             label: label,
-            lead: const VIcon('clock', size: 18, color: Volt.brandInk),
+            lead: VIcon('clock', size: 18, color: Volt.brandInk),
             trail: Text(fmtClockTime(context, t), style: numStyle(17)),
             onTap: () => pick(label, t, k, i),
           ),

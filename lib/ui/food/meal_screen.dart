@@ -141,7 +141,7 @@ class MealScreen extends ConsumerWidget {
                                   children: [
                                     Text(fmtInt(context, t.kcal), style: numStyle(34, height: 1.1)),
                                     const SizedBox(width: 8),
-                                    Text(l.kcal, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                                    Text(l.kcal, style: TextStyle(fontSize: 14, color: Volt.t2)),
                                   ],
                                 ),
                               ),
@@ -169,7 +169,7 @@ class MealScreen extends ConsumerWidget {
                         Container(
                           constraints: const BoxConstraints(minHeight: 56),
                           alignment: Alignment.center,
-                          child: Text(l.nothingInMeal, style: const TextStyle(fontSize: 13, color: Volt.t3)),
+                          child: Text(l.nothingInMeal, style: TextStyle(fontSize: 13, color: Volt.t3)),
                         ),
                       for (final e in rows)
                         VItem(
@@ -212,11 +212,11 @@ class MealScreen extends ConsumerWidget {
                       VItem(
                         onTap: () => context.push('/add/${meal.name}'),
                         children: [
-                          const Pick(color: Volt.brandInk),
+                          Pick(color: Volt.brandInk),
                           Expanded(
                             child: Text(
                               l.addFoodToMeal,
-                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.brandInk),
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.brandInk),
                             ),
                           ),
                         ],

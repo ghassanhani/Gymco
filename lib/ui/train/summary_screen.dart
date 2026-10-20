@@ -101,7 +101,7 @@ class SummaryScreen extends ConsumerWidget {
                   children: [
                     Text(
                       l.doneTitle(s.name),
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Volt.t1),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Volt.t1),
                     ),
                     Muted('$date · $time'),
                   ],

@@ -142,7 +142,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
     context.pop();
   }
 
-  Widget _tile(String k, String v, String sub, {Color subColor = Volt.t3}) => Expanded(
+  Widget _tile(String k, String v, String sub, {Color? subColor}) => Expanded(
     child: VCard(
       tight: true,
       child: GapCol(
@@ -150,7 +150,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
         children: [
           Muted(k),
           Text(v, textDirection: TextDirection.ltr, style: numStyle(16)),
-          Text(sub, style: TextStyle(fontSize: 11, color: subColor)),
+          Text(sub, style: TextStyle(fontSize: 11, color: subColor ?? Volt.t3)),
         ],
       ),
     ),
@@ -189,10 +189,10 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
             Muted(l.measuredExpenditure),
             Text(
               l.notMeasuredYet,
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Volt.t1),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600, color: Volt.t1),
             ),
             Muted(l.notEnoughBody(c.daysToMeasure), color: Volt.t2),
-            VBar(fraction: math.min(1, c.usableDays / minWindowDays), color: Volt.brand),
+            VBar(fraction: math.min(1, c.usableDays / minWindowDays), color: Volt.lime),
           ],
         ),
       ),
@@ -231,7 +231,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                         children: [
                           Text(_n(e), style: numStyle(28)),
                           const SizedBox(width: 8),
-                          Text(l.kcal, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                          Text(l.kcal, style: TextStyle(fontSize: 13, color: Volt.t2)),
                         ],
                       ),
                     ],
@@ -272,7 +272,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
               Expanded(
                 child: Text(
                   l.nextWeekTargets,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
               ),
               Muted(c.change == 0 ? l.noChange : l.kcalChange(_signed(c.change))),
@@ -292,12 +292,12 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                   ).copyWith(decoration: TextDecoration.lineThrough),
                 ),
                 const SizedBox(width: 10),
-                const VIcon('fwd', size: 15, color: Volt.t3),
+                VIcon('fwd', size: 15, color: Volt.t3),
                 const SizedBox(width: 10),
               ],
               Text(_n(c.nextKcal), style: numStyle(26)),
               const SizedBox(width: 8),
-              Text(l.kcal, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+              Text(l.kcal, style: TextStyle(fontSize: 13, color: Volt.t2)),
             ],
           ),
           Row(
@@ -316,7 +316,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                     child: Text.rich(
                       TextSpan(
                         text: '$k ',
-                        style: const TextStyle(fontSize: 12, color: Volt.t2),
+                        style: TextStyle(fontSize: 12, color: Volt.t2),
                         children: [
                           TextSpan(
                             text: '${_n(v)} ${l.grams}',
@@ -348,7 +348,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
         decoration: BoxDecoration(
           color: on ? Volt.brandWash : Volt.card,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: on ? Volt.brand : Volt.line, width: 1.5),
+          border: Border.all(color: on ? Volt.lime : Volt.line, width: 1.5),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,7 +359,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
                   ),
                   Muted(sub),
                 ],
@@ -379,7 +379,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(top: 1),
             child: VIcon('info', size: 17, color: Volt.t3),
           ),
@@ -406,15 +406,15 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                 Container(
                   width: 40,
                   height: 40,
-                  decoration: const BoxDecoration(color: Volt.warnEdge, shape: BoxShape.circle),
-                  child: const Center(child: VIcon('warn', size: 20, color: Volt.warn)),
+                  decoration: BoxDecoration(color: Volt.warnEdge, shape: BoxShape.circle),
+                  child: Center(child: VIcon('warn', size: 20, color: Volt.warn)),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: GapCol(
                     gap: 3,
                     children: [
-                      Text(l.fasterThanPlanned, style: const TextStyle(fontSize: 12, color: Volt.warn)),
+                      Text(l.fasterThanPlanned, style: TextStyle(fontSize: 12, color: Volt.warn)),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
@@ -426,7 +426,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                           ),
                           const SizedBox(width: 8),
                           Flexible(
-                            child: Text(l.perWeekLbl, style: const TextStyle(fontSize: 13, color: Volt.t2)),
+                            child: Text(l.perWeekLbl, style: TextStyle(fontSize: 13, color: Volt.t2)),
                           ),
                         ],
                       ),
@@ -437,7 +437,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
             ),
             Text(
               l.fastBody(fmtDec(context, c.goalRatePct.abs(), digits: 1)),
-              style: const TextStyle(fontSize: 13, height: 1.5, color: Volt.t2),
+              style: TextStyle(fontSize: 13, height: 1.5, color: Volt.t2),
             ),
           ],
         ),
@@ -456,7 +456,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
           children: [
             Text(
               l.whatToDo,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
             ),
             _option(
               _Choice.recommended,
@@ -478,7 +478,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
     final weeks = ref.read(clockProvider)().difference(p.startedOn).inDays ~/ 7;
     return [
       VCard(
-        child: Text(l.stallBody(weeks), style: const TextStyle(fontSize: 13, height: 1.5, color: Volt.t2)),
+        child: Text(l.stallBody(weeks), style: TextStyle(fontSize: 13, height: 1.5, color: Volt.t2)),
       ),
       VCard(
         child: GapCol(
@@ -487,7 +487,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
           children: [
             Text(
               l.threeOptions,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
             ),
             _option(_Choice.recommended, l.twoWeeksMaintenance, l.maintenanceSub(_n(c.expenditure!))),
             _option(_Choice.alternative, l.checkLogging, l.checkLoggingSub),
@@ -500,7 +500,7 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 1),
               child: VIcon('info', size: 17, color: Volt.t3),
             ),
@@ -537,7 +537,7 @@ class _DietMeetsTraining extends ConsumerWidget {
           Eyebrow(l.dietMeetsTraining, color: Volt.brandInk),
           Text(
             holding ? l.strengthHolding : l.strengthSlipping,
-            style: const TextStyle(fontSize: 13, height: 1.55, color: Volt.t1),
+            style: TextStyle(fontSize: 13, height: 1.55, color: Volt.t1),
           ),
           Row(
             children: [
@@ -551,7 +551,7 @@ class _DietMeetsTraining extends ConsumerWidget {
                     child: Text.rich(
                       TextSpan(
                         text: '${t.exercise.shortName.split(' ').last} ',
-                        style: const TextStyle(fontSize: 12, color: Volt.t2),
+                        style: TextStyle(fontSize: 12, color: Volt.t2),
                         children: [
                           TextSpan(
                             text: '${t.changePct! >= 0 ? '+' : '−'}${fmtDec(context, t.changePct!.abs())}%',

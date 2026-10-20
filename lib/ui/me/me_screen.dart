@@ -42,7 +42,7 @@ class MeScreen extends ConsumerWidget {
       children: [
         VIcon(icon, size: 19, color: Volt.t3),
         ItemText(title, sub: sub),
-        right ?? const VIcon('fwd', size: 18, color: Volt.t1),
+        right ?? VIcon('fwd', size: 18, color: Volt.t1),
       ],
     );
 
@@ -50,6 +50,12 @@ class MeScreen extends ConsumerWidget {
       CheatAllowance.off => l.cheatOff,
       CheatAllowance.oncePerWeek => l.cheatOnce,
       CheatAllowance.twicePerWeek => l.cheatTwice,
+    };
+
+    String lookLabel(Appearance a) => switch (a) {
+      Appearance.dark => l.appearanceDark,
+      Appearance.light => l.appearanceLight,
+      Appearance.system => l.appearanceSystem,
     };
 
     final cloud = ref.watch(cloudProvider);
@@ -75,6 +81,27 @@ class MeScreen extends ConsumerWidget {
                         () => context.push('/onboarding'),
                       ),
                     row('list', l.unitsLanguage, langLabel, () => context.push('/language')),
+                    row(
+                      'sun',
+                      l.appearance,
+                      lookLabel(s.appearance),
+                      () => showVSheet<void>(
+                        context,
+                        title: l.appearance,
+                        body: (ctx) => [
+                          for (final a in [Appearance.dark, Appearance.light, Appearance.system])
+                            SRow(
+                              label: lookLabel(a),
+                              on: a == s.appearance,
+                              trail: a == s.appearance ? VIcon('check', size: 18, color: Volt.brandInk) : null,
+                              onTap: () {
+                                Navigator.pop(ctx);
+                                notifier.setAppearance(a);
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
                     row(
                       'user',
                       l.accountTitle,
@@ -110,9 +137,7 @@ class MeScreen extends ConsumerWidget {
                               SRow(
                                 label: cheatLabel(a),
                                 on: a == s.cheatAllowance,
-                                trail: a == s.cheatAllowance
-                                    ? const VIcon('check', size: 18, color: Volt.brandInk)
-                                    : null,
+                                trail: a == s.cheatAllowance ? VIcon('check', size: 18, color: Volt.brandInk) : null,
                                 onTap: () {
                                   notifier.setCheatAllowance(a);
                                   Navigator.pop(ctx);
@@ -256,7 +281,7 @@ class LanguageScreen extends ConsumerWidget {
                           semantics: name,
                           children: [
                             ItemText(name, sub: sub),
-                            if (s.languageCode == code) const VIcon('check', size: 18, color: Volt.brand),
+                            if (s.languageCode == code) VIcon('check', size: 18, color: Volt.accentInk),
                           ],
                         ),
                     ],
@@ -267,13 +292,13 @@ class LanguageScreen extends ConsumerWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(top: 1),
                           child: VIcon('info', size: 18, color: Volt.t2),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text(l.rtlNote, style: const TextStyle(fontSize: 13, height: 1.45, color: Volt.t2)),
+                          child: Text(l.rtlNote, style: TextStyle(fontSize: 13, height: 1.45, color: Volt.t2)),
                         ),
                       ],
                     ),

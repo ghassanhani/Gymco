@@ -186,7 +186,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
         : Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const VIcon('warn', size: 16, color: Volt.warn),
+              VIcon('warn', size: 16, color: Volt.warn),
               const SizedBox(width: 8),
               Expanded(child: Muted(_error!, color: Volt.warn)),
             ],
@@ -199,7 +199,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const VIcon('info', size: 18, color: Volt.t3),
+              VIcon('info', size: 18, color: Volt.t3),
               const SizedBox(width: 10),
               Expanded(child: Muted(l.cloudNotSetUp, color: Volt.t2)),
             ],
@@ -222,7 +222,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _send(),
                   onChanged: (_) => setState(() {}),
-                  style: const TextStyle(fontSize: 16, color: Volt.t1),
+                  style: TextStyle(fontSize: 16, color: Volt.t1),
                   decoration: InputDecoration(hintText: l.emailHint),
                 ),
                 // Say why the button is off once something is typed.
@@ -297,7 +297,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
               onTap: () => _run(() => ref.read(cloudProvider).signOut()),
               semantics: l.signOut,
               children: [
-                const VIcon('back', size: 19, color: Volt.t3),
+                VIcon('back', size: 19, color: Volt.t3),
                 ItemText(l.signOut, sub: l.signOutNote),
               ],
             ),
@@ -321,7 +321,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                   ),
                   child: Text(
                     l.deleteAccountConfirm,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.brandInk),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.brandInk),
                   ),
                 ),
               ),
@@ -369,7 +369,7 @@ class _Head extends StatelessWidget {
             Text(
               title,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
             ),
             Muted(sub),
           ],

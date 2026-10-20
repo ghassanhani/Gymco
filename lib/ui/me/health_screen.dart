@@ -50,7 +50,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
               gap: 4,
               children: [
                 Eyebrow(l.healthPhoneSaid),
-                SelectableText(error, style: const TextStyle(fontSize: 12.5, color: Volt.t3, height: 1.4)),
+                SelectableText(error, style: TextStyle(fontSize: 12.5, color: Volt.t3, height: 1.4)),
               ],
             ),
           ),
@@ -83,7 +83,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
       children: [
         VIcon(icon, size: 19, color: on ? Volt.brandInk : Volt.t3),
         ItemText(title, sub: sub),
-        if (on) const VIcon('check', size: 16, color: Volt.ok),
+        if (on) VIcon('check', size: 16, color: Volt.ok),
       ],
     );
 
@@ -107,12 +107,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                           children: [
                             Text(
                               l.healthHeadline,
-                              style: const TextStyle(
-                                fontSize: 21,
-                                fontWeight: FontWeight.w600,
-                                height: 1.3,
-                                color: Volt.t1,
-                              ),
+                              style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600, height: 1.3, color: Volt.t1),
                             ),
                             Muted(l.healthBody),
                           ],
@@ -144,7 +139,7 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                               onTap: _busy ? null : () => _toggle(!on),
                               semantics: l.connectStore(store),
                               children: [
-                                const VIcon('shield', size: 19, color: Volt.t3),
+                                VIcon('shield', size: 19, color: Volt.t3),
                                 ItemText(l.connectStore(store), sub: on ? l.healthOn : l.healthOff),
                                 VToggle(on: on),
                               ],
