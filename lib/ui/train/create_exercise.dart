@@ -84,7 +84,7 @@ class _CreateBodyState extends ConsumerState<_CreateBody> {
           decoration: InputDecoration(
             hintText: l.exerciseNameHint,
             filled: true,
-            fillColor: Volt.card,
+            fillColor: Volt.field,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
           ),
         ),

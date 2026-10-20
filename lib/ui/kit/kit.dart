@@ -210,7 +210,7 @@ class _GlowPainter extends CustomPainter {
       Offset(size.width * 0.85, -size.height * 0.06),
       size.width * 0.9,
       size.height * 0.38,
-      Volt.isLight ? const Color(0x66C6F432) : const Color(0x33C6F432),
+      Volt.isLight ? const Color(0x2EC6F432) : const Color(0x33C6F432),
     );
     // radial-gradient(70% 30% at 0% 0%, rgba(94,228,160,.10), transparent 70%)
     _ellipse(
@@ -219,7 +219,7 @@ class _GlowPainter extends CustomPainter {
       Offset.zero,
       size.width * 0.7,
       size.height * 0.3,
-      Volt.isLight ? const Color(0x295EE4A0) : const Color(0x1A5EE4A0),
+      Volt.isLight ? const Color(0x145EE4A0) : const Color(0x1A5EE4A0),
     );
   }
 
@@ -399,7 +399,11 @@ class VCard extends StatelessWidget {
     final p = padding ?? (tight ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14) : const EdgeInsets.all(16));
     final body = Container(
       padding: p,
-      decoration: BoxDecoration(color: color ?? Volt.card, borderRadius: BorderRadius.circular(radius), border: border),
+      decoration: BoxDecoration(
+        color: color ?? Volt.card,
+        borderRadius: BorderRadius.circular(radius),
+        border: border ?? Volt.edge,
+      ),
       child: child,
     );
     if (onTap == null) return body;
@@ -413,10 +417,11 @@ class VList extends StatelessWidget {
   final List<Widget> children;
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
-    borderRadius: BorderRadius.circular(24),
-    child: ColoredBox(
-      color: Volt.card,
+  Widget build(BuildContext context) => Container(
+    clipBehavior: Clip.antiAlias,
+    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(24), border: Volt.edge),
+    child: Material(
+      type: MaterialType.transparency,
       child: Column(
         children: [
           for (var i = 0; i < children.length; i++) ...[
@@ -712,7 +717,7 @@ class VChip extends StatelessWidget {
         color: color ?? (on ? Colors.transparent : Volt.card),
         borderRadius: BorderRadius.circular(999),
         // Flat surfaces: an unselected chip has no visible edge.
-        border: Border.all(color: on ? Volt.lime : Colors.transparent, width: 1.5),
+        border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent), width: 1.5),
         boxShadow: on ? const [BoxShadow(color: Color(0x1AC6F432), spreadRadius: 3)] : null,
       ),
       child: Row(
@@ -980,7 +985,7 @@ class SRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: on ? Volt.brandWash : Volt.card,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: on ? Volt.lime : Colors.transparent),
+        border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent)),
       ),
       child: Row(
         children: [

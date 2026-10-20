@@ -213,7 +213,7 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
         hintText: l.eoOtherHint,
         hintStyle: TextStyle(color: Volt.t4),
         filled: true,
-        fillColor: Volt.card,
+        fillColor: Volt.field,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
       ),
     ),

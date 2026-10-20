@@ -74,7 +74,7 @@ class VoltPalette {
 
   static const light = VoltPalette(
     brightness: Brightness.light,
-    bg: Color(0xFFF4F5EF),
+    bg: Color(0xFFFFFFFF),
     card: Color(0xFFFFFFFF),
     card2: Color(0xFFEEF0E8),
     sheet: Color(0xFFFFFFFF),
@@ -116,6 +116,13 @@ abstract final class Volt {
   static Color get sheet => _p.sheet;
   static Color get line => _p.line;
   static Color get line2 => _p.line2;
+
+  /// The card outline: none on dark, where cards stand off the page by
+  /// colour; a hairline on light, where cards and page are both white.
+  static Border? get edge => isLight ? Border.all(color: _p.line) : null;
+
+  /// Text field fill: the card colour on dark, a soft grey on white.
+  static Color get field => isLight ? _p.card2 : _p.card;
 
   static Color get t1 => _p.t1;
   static Color get t2 => _p.t2;

@@ -204,7 +204,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
             hintMaxLines: 3,
             counterText: '',
             filled: true,
-            fillColor: Volt.card,
+            fillColor: Volt.field,
             contentPadding: const EdgeInsetsDirectional.fromSTEB(14, 13, 52, 13),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
             focusedBorder: OutlineInputBorder(
@@ -358,7 +358,7 @@ class _Capture extends StatelessWidget {
               foregroundPainter: _Dashed(),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 34),
-                decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(24)),
+                decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(24), border: Volt.edge),
                 child: GapCol(
                   gap: 12,
                   cross: CrossAxisAlignment.center,

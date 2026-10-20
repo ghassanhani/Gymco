@@ -33,7 +33,7 @@ class LogArea extends StatelessWidget {
         hintMaxLines: 4,
         hintStyle: TextStyle(fontSize: 15, height: 1.55, color: Volt.t4),
         filled: true,
-        fillColor: Volt.card,
+        fillColor: Volt.field,
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         border: edge(Colors.transparent),
         enabledBorder: edge(Colors.transparent),

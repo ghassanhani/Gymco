@@ -343,26 +343,30 @@ class _HeroShell extends StatelessWidget {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(24),
         gradient: LinearGradient(
           begin: const Alignment(-0.42, -1),
           end: const Alignment(0.42, 1),
+          // Light: a plain bordered card, no tint or glow.
           colors: Volt.isLight
-              ? (done ? [const Color(0xFFDDF2E6), Volt.card] : [const Color(0xFFE7F5C4), Volt.card])
+              ? [Volt.card, Volt.card]
               : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
           stops: const [0, 0.62],
         ),
-        boxShadow: done
+        boxShadow: done || Volt.isLight
             ? null
             : const [BoxShadow(color: Color(0x99B6F02A), blurRadius: 40, offset: Offset(0, 24), spreadRadius: -28)],
+        border: Volt.edge,
       ),
-      foregroundDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
-      ),
+      foregroundDecoration: Volt.isLight
+          ? null
+          : BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
+            ),
       child: Stack(
         children: [
-          if (!done)
+          if (!done && !Volt.isLight)
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -377,21 +381,25 @@ class _HeroShell extends StatelessWidget {
             ),
           // .wo-art: a big dumbbell, tilted, behind everything
           PositionedDirectional(
-            end: -34,
-            top: -26,
+            end: -28,
+            top: -22,
             child: Transform.rotate(
               angle: -28 * math.pi / 180,
-              child: const Opacity(opacity: 0.14, child: VIcon('dumb', size: 180, color: Volt.brand, strokeWidth: 1.2)),
+              child: Opacity(
+                opacity: Volt.isLight ? 0.10 : 0.14,
+                child: VIcon('dumb', size: 140, color: Volt.lime, strokeWidth: 1.2),
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(18),
+            padding: const EdgeInsets.all(16),
             child: GapCol(
+              gap: 10,
               children: [
                 Wrap(spacing: 8, runSpacing: 8, children: tags),
                 Padding(
                   padding: const EdgeInsets.only(top: 2),
-                  child: EmTitle(title, size: 36, letterSpacing: -0.035, height: 1, emScale: 1.12),
+                  child: EmTitle(title, size: 29, letterSpacing: -0.035, height: 1, emScale: 1.12),
                 ),
                 ?body,
                 if (stats != null)
@@ -499,15 +507,15 @@ class _HeroCta extends StatelessWidget {
     label: label,
     onTap: onTap,
     kind: ghost ? BtnKind.ghost : BtnKind.primary,
-    minHeight: 58,
-    padding: const EdgeInsetsDirectional.fromSTEB(22, 0, 6, 0),
-    fontSize: 16,
+    minHeight: 52,
+    padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 5, 0),
+    fontSize: 15,
     child: Row(
       children: [
         Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
         Container(
-          width: 46,
-          height: 46,
+          width: 42,
+          height: 42,
           alignment: Alignment.center,
           decoration: BoxDecoration(shape: BoxShape.circle, color: ghost ? Volt.card : Volt.ink),
           child: VIcon(icon, size: icon == 'play' ? 18 : 20, color: ghost ? Volt.t1 : Volt.brand),

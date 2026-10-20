@@ -403,7 +403,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               decoration: BoxDecoration(
                 color: _activity == a ? Volt.brandWash : Volt.card,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _activity == a ? Volt.lime : Colors.transparent, width: 1.5),
+                border: Border.all(
+                  color: _activity == a ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent),
+                  width: 1.5,
+                ),
               ),
               child: Row(
                 children: [
@@ -797,7 +800,7 @@ class _Seg extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(4),
-    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(999)),
+    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(999), border: Volt.edge),
     child: Row(
       children: [
         for (var i = 0; i < options.length; i++) ...[

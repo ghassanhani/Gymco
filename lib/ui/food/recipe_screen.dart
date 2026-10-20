@@ -126,7 +126,7 @@ class _RecipeScreenState extends ConsumerState<RecipeScreen> {
                     decoration: InputDecoration(
                       hintText: l.recipeNameHint,
                       filled: true,
-                      fillColor: Volt.card,
+                      fillColor: Volt.field,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
                     ),
                   ),

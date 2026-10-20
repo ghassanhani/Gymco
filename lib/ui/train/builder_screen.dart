@@ -310,7 +310,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                             hintText: l.namePlaceholder,
                             hintStyle: TextStyle(color: Volt.t4, fontWeight: FontWeight.w400),
                             filled: true,
-                            fillColor: Volt.card,
+                            fillColor: Volt.field,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),

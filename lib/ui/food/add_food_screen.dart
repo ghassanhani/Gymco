@@ -536,7 +536,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
             Container(
               height: 48,
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(13)),
+              decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(13), border: Volt.edge),
               child: Row(
                 children: [
                   VIcon('search', size: 18, color: Volt.t3),
