@@ -135,7 +135,7 @@ class _PhotoViewerState extends ConsumerState<_PhotoViewer> {
                       child: Hero(
                         tag: 'exphoto:${e.id}:$i',
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(18),
                           child: Image(
                             image: ref.watch(exerciseImageProvider)(e.imageUrl(i)),
                             fit: BoxFit.contain,

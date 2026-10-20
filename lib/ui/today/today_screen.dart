@@ -343,25 +343,24 @@ class _HeroShell extends StatelessWidget {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(
           begin: const Alignment(-0.42, -1),
           end: const Alignment(0.42, 1),
-          // Light: a plain bordered card, no tint or glow.
+          // Light: a plain light grey card, no border, tint or glow.
           colors: Volt.isLight
-              ? [Volt.card, Volt.card]
+              ? [Volt.soft, Volt.soft]
               : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
           stops: const [0, 0.62],
         ),
         boxShadow: done || Volt.isLight
             ? null
             : const [BoxShadow(color: Color(0x99B6F02A), blurRadius: 40, offset: Offset(0, 24), spreadRadius: -28)],
-        border: Volt.edge,
       ),
       foregroundDecoration: Volt.isLight
           ? null
           : BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
             ),
       child: Stack(

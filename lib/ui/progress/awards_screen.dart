@@ -323,7 +323,7 @@ class StreakCard extends ConsumerWidget {
       label: l.awardsTitle,
       child: Container(
         padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(24)),
+        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(18)),
         child: Row(
           children: [
             StreakRings(info: s, size: 60, onLime: true),
@@ -554,7 +554,7 @@ class AwardsScreen extends ConsumerWidget {
                       label: awardName(l, month, now, loc),
                       child: Container(
                         padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(24)),
+                        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(18)),
                         child: Row(
                           children: [
                             // The challenge under way shows in colour, done or not.

@@ -242,7 +242,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
         ] else ...[
           if (_shot != null)
             ClipRRect(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(18),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -358,7 +358,7 @@ class _Capture extends StatelessWidget {
               foregroundPainter: _Dashed(),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 34),
-                decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(24), border: Volt.edge),
+                decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18), border: Volt.edge),
                 child: GapCol(
                   gap: 12,
                   cross: CrossAxisAlignment.center,
@@ -384,7 +384,7 @@ class _Capture extends StatelessWidget {
 class _Dashed extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(24)).deflate(0.5);
+    final rect = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(18)).deflate(0.5);
     final path = Path()..addRRect(rect);
     final paint = Paint()
       ..color = Volt.line2

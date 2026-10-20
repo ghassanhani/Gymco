@@ -187,7 +187,7 @@ class ExerciseScreen extends ConsumerWidget {
                   ),
                   if (e.images.isNotEmpty && ref.watch(showExercisePhotosProvider))
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(18),
                       child: AspectRatio(
                         aspectRatio: 4 / 3,
                         child: PageView(

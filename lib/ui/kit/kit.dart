@@ -384,7 +384,7 @@ class VCard extends StatelessWidget {
     this.onTap,
     this.color,
     this.border,
-    this.radius = 24,
+    this.radius = 18,
   });
   final Widget child;
   final bool tight;
@@ -419,7 +419,7 @@ class VList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     clipBehavior: Clip.antiAlias,
-    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(24), border: Volt.edge),
+    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18), border: Volt.edge),
     child: Material(
       type: MaterialType.transparency,
       child: Column(

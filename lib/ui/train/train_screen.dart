@@ -570,32 +570,39 @@ class _FirstRoutine extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
 
-    Widget bigBtn(String title, String sub, VoidCallback onTap, {bool ghost = false}) => VBtn(
+    // A card per way in: the icon says which is the main one (lime).
+    Widget choice(String icon, String title, String sub, VoidCallback onTap, {bool main = false}) => Semantics(
+      button: true,
       label: title,
-      kind: ghost ? BtnKind.ghost : BtnKind.primary,
-      expand: true,
-      onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: [
-          Expanded(
-            child: GapCol(
-              gap: 2,
-              children: [
-                Text(title),
-                Text(
-                  sub,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: ghost ? Volt.t3 : Volt.ink.withValues(alpha: 0.85),
-                  ),
-                ),
-              ],
+      excludeSemantics: true,
+      child: VCard(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: main ? Volt.brand : Volt.brandWash),
+              child: VIcon(icon, size: 20, color: main ? Volt.ink : Volt.brandInk),
             ),
-          ),
-          const VIcon('plus', size: 18),
-        ],
+            const SizedBox(width: 14),
+            Expanded(
+              child: GapCol(
+                gap: 2,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Volt.t1),
+                  ),
+                  Muted(sub, size: 12.5),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            VIcon('fwd', size: 18, color: Volt.t3),
+          ],
+        ),
       ),
     );
 
@@ -616,11 +623,11 @@ class _FirstRoutine extends ConsumerWidget {
             ],
           ),
         ),
-        bigBtn(l.startEmptyWorkout, l.startEmptySub, () {
+        choice('play', l.startEmptyWorkout, l.startEmptySub, main: true, () {
           ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
           context.push('/workout');
         }),
-        bigBtn(l.buildOwn, l.buildOwnSub, () => context.push('/routine/new'), ghost: true),
+        choice('plus', l.buildOwn, l.buildOwnSub, () => context.push('/routine/new')),
         Eyebrow(l.orTemplate, padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 4, 0)),
         TemplateList(onDone: (title) => showVToast(context, l.templateAdded(title))),
       ],

@@ -291,7 +291,7 @@ class DottedBox extends StatelessWidget {
 class _DashedRRect extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final rr = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(24));
+    final rr = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(18));
     final path = Path()..addRRect(rr.deflate(0.5));
     final paint = Paint()
       ..color = Volt.line2

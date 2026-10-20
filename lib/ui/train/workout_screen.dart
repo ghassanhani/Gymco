@@ -275,7 +275,7 @@ class _Superset extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
         color: Color.alphaBlend(Volt.violet.withValues(alpha: 0.08), Volt.bg),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Volt.line2, width: 1.5),
       ),
       child: GapCol(

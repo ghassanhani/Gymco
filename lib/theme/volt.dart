@@ -121,6 +121,10 @@ abstract final class Volt {
   /// colour; a hairline on light, where cards and page are both white.
   static Border? get edge => isLight ? Border.all(color: _p.line) : null;
 
+  /// A feature card's ground: the card colour on dark; on light a pale grey
+  /// with no border, for the cards that lead a screen.
+  static Color get soft => isLight ? const Color(0xFFF2F3EE) : _p.card;
+
   /// Text field fill: the card colour on dark, a soft grey on white.
   static Color get field => isLight ? _p.card2 : _p.card;
 
@@ -169,7 +173,7 @@ abstract final class Volt {
   static Color get carbs => orange;
   static Color get fat => violet;
 
-  static const rCard = 24.0;
+  static const rCard = 18.0;
   static const rRow = 18.0;
   static const rSheet = 30.0;
 
