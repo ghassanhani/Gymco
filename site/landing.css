@@ -739,14 +739,21 @@ html[lang="es"] .lp .hero2 h1{max-width:11em}
 
 /* Light: a white page, a big lime glow lighting the hero from its top corner,
    and cards drawn with a border now that they sit on white. */
-.lp.light .hero2{background:
-  radial-gradient(60% 75% at 0% 0%, rgba(198,244,50,.42), rgba(198,244,50,.14) 45%, transparent 72%),
-  radial-gradient(45% 55% at 100% 8%, rgba(94,228,160,.16), transparent 70%),
-  var(--page)}
-.lp.light[dir="rtl"] .hero2, html[dir="rtl"] .lp.light .hero2{background:
-  radial-gradient(60% 75% at 100% 0%, rgba(198,244,50,.42), rgba(198,244,50,.14) 45%, transparent 72%),
-  radial-gradient(45% 55% at 0% 8%, rgba(94,228,160,.16), transparent 70%),
-  var(--page)}
+.lp.light{background:
+  radial-gradient(1100px 820px at 0 0, rgba(198,244,50,.42), rgba(198,244,50,.14) 45%, transparent 72%),
+  radial-gradient(800px 640px at 100% 60px, rgba(94,228,160,.16), transparent 70%),
+  var(--page) no-repeat}
+html[dir="rtl"] .lp.light{background:
+  radial-gradient(1100px 820px at 100% 0, rgba(198,244,50,.42), rgba(198,244,50,.14) 45%, transparent 72%),
+  radial-gradient(800px 640px at 0 60px, rgba(94,228,160,.16), transparent 70%),
+  var(--page) no-repeat}
+/* the glow runs up behind the header; the header fills in once the page scrolls */
+.lp.light .hero2{background:transparent}
+.lp.light .hdr{background:transparent; border-bottom-color:transparent; -webkit-backdrop-filter:none; backdrop-filter:none; transition:background-color .25s ease, border-color .25s ease}
+.lp.light .hdr.scrolled{-webkit-backdrop-filter:blur(18px) saturate(140%); backdrop-filter:blur(18px) saturate(140%)}
+.lp.light .hdr.scrolled{background:rgba(255,255,255,.8); border-bottom-color:var(--line)}
+.lp.light .logo .vl{background:#10120e}
+.lp.light .prow{background:#f7f8f4}
 .lp.light .card, .lp.light .mode, .lp.light .parse, .lp.light .rule, .lp.light details, .lp.light .bx,
 .lp.light .imgcard, .lp.light .medalstage, .lp.light .tw-stats div, .lp.light .typed{box-shadow:inset 0 0 0 1px var(--line)}
 .lp.light .mode.hot{box-shadow:inset 0 0 0 1.5px var(--lime)}

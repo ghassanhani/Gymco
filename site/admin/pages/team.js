@@ -11,7 +11,7 @@ const SECTIONS = [["", "All sections"], ["accounts", "Accounts"], ["team", "Team
 export async function render(el, { call, toast, me }) {
   const team = h("div", { class: "card" });
   const log = h("div", { class: "card" });
-  el.append(pageHead("Admin", "& audit log", "Team"), team, log);
+  el.append(pageHead("Admin", "& audit log", "Team", null, { emFirst: true }), team, log);
 
   async function drawTeam() {
     const { admins } = await call("team.list");

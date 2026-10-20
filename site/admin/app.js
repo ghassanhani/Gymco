@@ -87,6 +87,9 @@ async function route() {
     const mod = await import(`./pages/${id}.js`);
     if (ticket !== mounted) return;
     clear(el);
+    // Only arriving at a section animates; re-renders inside it stay still.
+    el.classList.add("entering");
+    setTimeout(() => ticket === mounted && el.classList.remove("entering"), 700);
     await mod.render(el, { me, call, params, toast, isCurrent: () => ticket === mounted });
   } catch (e) {
     if (ticket !== mounted) return;

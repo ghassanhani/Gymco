@@ -276,6 +276,10 @@ function wire() {
   $("#notify").addEventListener("submit", onNotify);
   $("#lp-email").addEventListener("input", (e) => e.target.removeAttribute("aria-invalid"));
   watchSections();
+  const hdr = $(".hdr");
+  const onScroll = () => hdr?.classList.toggle("scrolled", scrollY > 8);
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 }
 
 wire();

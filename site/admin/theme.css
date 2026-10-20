@@ -3,6 +3,7 @@
    test/site/cc_theme.test.mjs. */
 
 :root {
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23A9B0A6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --page: #0A0B09;
   --sheet: #111315;
   --card: #15171A;
@@ -36,6 +37,7 @@
 }
 
 :root[data-theme="light"] {
+  --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%235C6359' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --page: #F4F5F0;
   --sheet: #FFFFFF;
   --card: #FFFFFF;
@@ -198,6 +200,15 @@ h3 { margin: 0; font-size: 14px; font-weight: 700; }
   min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--border-strong); background: var(--sheet);
   color: var(--text-1); font-size: 14px; width: 100%;
 }
+/* Our own chevron: the browser's sits on the pill's curve and off centre. */
+select.input, select {
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+  background-image: var(--chevron); background-repeat: no-repeat; background-size: 12px 8px;
+  background-position: right 18px center; padding-inline-end: 44px;
+}
+[dir="rtl"] select.input, [dir="rtl"] select { background-position: left 18px center; }
+select.input:disabled, select:disabled { cursor: not-allowed; opacity: 0.6; }
+select::-ms-expand { display: none; }
 textarea.input { border-radius: 18px; padding: 12px 14px; min-height: 72px; resize: vertical; }
 .input.code { letter-spacing: 0.4em; font-size: 22px; text-align: center; font-variant-numeric: tabular-nums; }
 .form { display: flex; flex-direction: row; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
@@ -436,4 +447,44 @@ em.accent { font-family: "Instrument Serif", Georgia, serif; font-style: italic;
 @media (max-width: 600px) {
   .copy-grid { grid-template-columns: 1fr; }
   .copy-grid > .copy-row + .copy-row { border-top: 1px solid var(--line); padding-top: 14px; }
+}
+
+/* Motion: short, eased, and only on what changes. Turned down for reduced motion. */
+:root { --ease-out: cubic-bezier(0.22, 1, 0.36, 1); --t-fast: 0.16s; --t-med: 0.28s; }
+.btn, .pill, .icon-btn, .nav, .chip, .langtabs button, .toggle, .toggle span {
+  transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease, color var(--t-fast) ease,
+    box-shadow var(--t-fast) ease, transform var(--t-fast) var(--ease-out), opacity var(--t-fast) ease;
+}
+.input, select, textarea { transition: border-color var(--t-fast) ease, box-shadow var(--t-fast) ease, background-color var(--t-fast) ease; }
+.input:focus-visible, select:focus-visible, textarea:focus-visible { box-shadow: 0 0 0 4px var(--brand-wash); }
+.btn:not(:disabled):active, .pill:active, .icon-btn:active, .nav:active { transform: scale(0.97); }
+.btn.primary:not(:disabled):hover, .btn.publish:not(:disabled):hover { transform: translateY(-1px); }
+/* the switch's knob slides instead of jumping */
+.toggle, .toggle[aria-checked="true"] { justify-content: flex-start; }
+.toggle[aria-checked="true"] span { transform: translateX(20px); }
+[dir="rtl"] .toggle[aria-checked="true"] span { transform: translateX(-20px); }
+tbody tr td { transition: background-color var(--t-fast) ease; }
+.card { transition: box-shadow var(--t-med) ease, transform var(--t-med) var(--ease-out), background-color var(--t-med) ease; }
+/* a section settles in, its blocks a beat apart */
+@keyframes rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+#page.entering > * { animation: rise-in var(--t-med) var(--ease-out) both; }
+#page.entering > *:nth-child(2) { animation-delay: 0.04s; }
+#page.entering > *:nth-child(3) { animation-delay: 0.08s; }
+#page.entering > *:nth-child(4) { animation-delay: 0.12s; }
+#page.entering > *:nth-child(n + 5) { animation-delay: 0.16s; }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes sheet-in { from { transform: translateX(32px); opacity: 0; } }
+@keyframes dialog-in { from { opacity: 0; transform: translate(-50%, -48%) scale(0.98); } }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 12px); } }
+.scrim { animation: fade-in var(--t-med) ease both; }
+.sheet { animation: sheet-in 0.32s var(--ease-out) both; }
+[dir="rtl"] .sheet { animation-name: sheet-in-rtl; }
+@keyframes sheet-in-rtl { from { transform: translateX(-32px); opacity: 0; } }
+.dialog { animation: dialog-in var(--t-med) var(--ease-out) both; }
+.toast { animation: toast-in var(--t-med) var(--ease-out) both; }
+.banner { animation: fade-in var(--t-med) ease both; }
+@media (prefers-reduced-motion: reduce) {
+  #page.entering > *, .scrim, .sheet, .dialog, .toast, .banner { animation: none; }
+  .btn, .pill, .icon-btn, .nav, .toggle span, .card { transition-duration: 0.01s; }
+  .btn:active, .pill:active, .icon-btn:active, .nav:active, .btn.primary:hover, .btn.publish:hover { transform: none; }
 }
