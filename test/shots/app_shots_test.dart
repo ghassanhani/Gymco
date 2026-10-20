@@ -56,6 +56,7 @@ void main() {
   for (final look in ['light', 'dark']) {
     for (final (name, route) in [
       ('today', '/today'),
+      ('today-first', '/today#first'),
       ('food', '/food'),
       ('train', '/train'),
       ('progress', '/progress'),
@@ -70,8 +71,15 @@ void main() {
       ('body', '/onboarding#body'),
     ]) {
       testWidgets('$look $name', skip: !run, (tester) async {
-        await pumpApp(tester, prefs: {'profile': savedProfile, 'appearance': look}, seed: _seed);
-        if (route != '/today') await go(tester, route.split('#').first);
+        await pumpApp(
+          tester,
+          prefs: {
+            'profile': route.endsWith('#first') ? savedProfile.replaceFirst('2026-09-20', '2026-09-26') : savedProfile,
+            'appearance': look,
+          },
+          seed: route.endsWith('#first') ? null : _seed,
+        );
+        if (!route.startsWith('/today')) await go(tester, route.split('#').first);
         // The body step: pick a goal, then Continue.
         if (route.endsWith('#body')) {
           await tester.tap(find.text('Cut'));

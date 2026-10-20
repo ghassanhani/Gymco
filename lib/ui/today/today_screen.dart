@@ -14,6 +14,7 @@ import '../../domain/schedule.dart';
 import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/awards_providers.dart';
+import '../../state/config_providers.dart';
 import '../../state/health_providers.dart';
 import '../../state/messaging_providers.dart';
 import '../../state/providers.dart';
@@ -21,6 +22,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/day_strip.dart';
 import '../common/format.dart';
+import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
 import 'announcement_card.dart';
 import 'catchup_screen.dart';
@@ -769,12 +771,60 @@ class _MealItem extends ConsumerWidget {
 
 // ---------------------------------------------------------------- the rest
 
-class _FirstRun extends StatelessWidget {
+class _FirstRun extends ConsumerWidget {
   const _FirstRun();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
+    final rc = ref.watch(remoteConfigProvider);
+    final meal = mealForHour(ref.watch(clockProvider)().hour);
+    // Every way to log, one tap each; the ones the Control Center switches
+    // off are left out, as on Add food.
+    final methods = [
+      ('search', l.mSearch, 'search'),
+      ('barcode', l.mBarcode, 'scan'),
+      ('write', l.mWrite, 'list'),
+      if (rc.dictate) ('voice', l.mVoice, 'mic'),
+      if (rc.photoLog) ('camera', l.mPhoto, 'camera'),
+      if (rc.eatingOut) ('eatout', l.mEatOut, 'food'),
+    ];
+    Widget tile((String, String, String) m) => Semantics(
+      button: true,
+      label: m.$2,
+      excludeSemantics: true,
+      child: Pressable(
+        onTap: () => context.push('/add/${meal.name}?mode=${m.$1}'),
+        scale: 0.95,
+        radius: 16,
+        child: Container(
+          height: 74,
+          decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(16)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
+                child: VIcon(m.$3, size: 18, color: Volt.brandInk),
+              ),
+              const SizedBox(height: 6),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  m.$2,
+                  maxLines: 1,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Volt.t1),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    final rows = [for (var i = 0; i < methods.length; i += 3) methods.sublist(i, math.min(i + 3, methods.length))];
     return VCard(
       child: GapCol(
         cross: CrossAxisAlignment.stretch,
@@ -783,31 +833,15 @@ class _FirstRun extends StatelessWidget {
             l.logFirstMeal,
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
           ),
-          VBtn(
-            label: l.scanABarcode,
-            onTap: () => context.push('/add/${Meal.breakfast.name}?mode=barcode'),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
+          for (final row in rows)
+            Row(
               children: [
-                const VIcon('scan', size: 20, color: Volt.ink),
-                const SizedBox(width: 12),
-                Expanded(child: Text(l.scanABarcode)),
-                Opacity(opacity: 0.85, child: Text(l.freeAlways, style: const TextStyle(fontSize: 12))),
+                for (var i = 0; i < 3; i++) ...[
+                  if (i > 0) const SizedBox(width: 8),
+                  Expanded(child: i < row.length ? tile(row[i]) : const SizedBox.shrink()),
+                ],
               ],
             ),
-          ),
-          VBtn(
-            label: l.searchDatabase,
-            kind: BtnKind.ghost,
-            onTap: () => context.push('/add/${Meal.breakfast.name}'),
-            child: Row(
-              children: [
-                VIcon('search', size: 20, color: Volt.t1),
-                const SizedBox(width: 12),
-                Expanded(child: Text(l.searchDatabase)),
-              ],
-            ),
-          ),
           Muted(l.firstRunTip),
         ],
       ),
