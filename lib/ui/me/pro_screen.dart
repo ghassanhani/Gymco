@@ -360,19 +360,39 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                     child: _Period(yearly: _yearly, onChanged: (v) => setState(() => _yearly = v)),
                   ),
                   const SizedBox(height: 16),
-                  SizedBox(
-                    // Grows with the text so the longest plan card still fits.
-                    height: 760 * MediaQuery.textScalerOf(context).scale(100) / 100,
-                    child: PageView.builder(
-                      controller: _pages,
-                      itemCount: plans.length,
-                      onPageChanged: (i) => setState(() => _page = i),
-                      itemBuilder: (_, i) => AnimatedScale(
-                        scale: i == _page ? 1 : 0.94,
-                        duration: const Duration(milliseconds: 260),
-                        curve: voltEase,
-                        child: _PlanCard(plan: plans[i], price: prices[i], features: features, popular: i == 1),
-                      ),
+                  // As tall as the tallest card's content, no more: every card is
+                  // laid out unseen at a page's width, and the pager takes that height.
+                  LayoutBuilder(
+                    builder: (context, box) => Stack(
+                      children: [
+                        for (var i = 0; i < plans.length; i++)
+                          Visibility.maintain(
+                            visible: false,
+                            child: SizedBox(
+                              width: box.maxWidth * _pages.viewportFraction,
+                              child: _PlanCard(
+                                plan: plans[i],
+                                price: prices[i],
+                                features: features,
+                                popular: i == 1,
+                                fill: false,
+                              ),
+                            ),
+                          ),
+                        Positioned.fill(
+                          child: PageView.builder(
+                            controller: _pages,
+                            itemCount: plans.length,
+                            onPageChanged: (i) => setState(() => _page = i),
+                            itemBuilder: (_, i) => AnimatedScale(
+                              scale: i == _page ? 1 : 0.94,
+                              duration: const Duration(milliseconds: 260),
+                              curve: voltEase,
+                              child: _PlanCard(plan: plans[i], price: prices[i], features: features, popular: i == 1),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -507,11 +527,21 @@ class _Period extends StatelessWidget {
 }
 
 class _PlanCard extends StatelessWidget {
-  const _PlanCard({required this.plan, required this.price, required this.features, required this.popular});
+  const _PlanCard({
+    required this.plan,
+    required this.price,
+    required this.features,
+    required this.popular,
+    this.fill = true,
+  });
   final _Plan plan;
   final (String, String) price;
   final List<String> features;
   final bool popular;
+
+  /// In the pager the button sits at the bottom of the shared height; when
+  /// measuring, the card is only as tall as its content.
+  final bool fill;
 
   @override
   Widget build(BuildContext context) {
@@ -629,7 +659,7 @@ class _PlanCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                const Spacer(),
+                if (fill) const Spacer() else const SizedBox(height: 16),
                 VBtn(
                   label: plan.pro ? l.proIsOnTesting : l.freeAlwaysBtn,
                   kind: plan.pro ? BtnKind.primary : BtnKind.ghost,

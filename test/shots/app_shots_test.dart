@@ -9,6 +9,7 @@ library;
 
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -62,6 +63,7 @@ void main() {
       ('awards', '/progress/awards'),
       ('account', '/account'),
       ('pro', '/pro'),
+      ('pro-end', '/pro#end'),
       ('workout', '/workout'),
       ('checkin', '/checkin'),
       ('onboarding', '/onboarding'),
@@ -78,6 +80,10 @@ void main() {
           for (var i = 0; i < 6; i++) {
             await tester.pump(const Duration(milliseconds: 100));
           }
+        }
+        if (route.endsWith('#end')) {
+          await tester.drag(find.byType(Scrollable).first, const Offset(0, -600));
+          await tester.pump(const Duration(seconds: 1));
         }
         // Let asset images decode before the picture is taken.
         await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
