@@ -10,6 +10,10 @@ import '../../state/cloud_providers.dart';
 import '../../theme/volt.dart';
 import '../kit/kit.dart';
 
+/// An address with a name, an @ and a domain with a dot: enough to catch
+/// typos like a missing @ before asking the server.
+bool looksLikeEmail(String text) => RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(text.trim());
+
 /// What to tell the user when a cloud call fails.
 String cloudMessage(AppLocalizations l, CloudFailure f) => switch (f) {
   CloudFailure.notSetUp => l.cloudNotSetUp,
@@ -217,7 +221,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                   style: const TextStyle(fontSize: 16, color: Volt.t1),
                   decoration: InputDecoration(hintText: l.emailHint),
                 ),
-                VBtn(label: l.sendCode, expand: true, onTap: _busy || !_email.text.contains('@') ? null : _send),
+                // Say why the button is off once something is typed.
+                if (_email.text.trim().isNotEmpty && !looksLikeEmail(_email.text)) Muted(l.emailIncomplete, size: 13),
+                VBtn(label: l.sendCode, expand: true, onTap: _busy || !looksLikeEmail(_email.text) ? null : _send),
               ] else ...[
                 Muted(l.codeSentTo(_email.text.trim()), color: Volt.t2),
                 TextField(

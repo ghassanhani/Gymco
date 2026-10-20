@@ -15,6 +15,7 @@ import '../common/format.dart';
 import '../kit/kit.dart';
 import 'reminder_sheet.dart';
 import '../today/today_screen.dart' show goalShort;
+import 'account_card.dart';
 import 'pro_screen.dart';
 import '../../state/config_providers.dart';
 
@@ -60,6 +61,7 @@ class MeScreen extends ConsumerWidget {
           Expanded(
             child: Pad(
               children: [
+                const SignInCard(),
                 const ProCard(),
                 VList(
                   children: [

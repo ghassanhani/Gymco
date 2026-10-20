@@ -1230,5 +1230,9 @@
       }
     }
   },
-  "whatsNewOk": "Entendido"
+  "whatsNewOk": "Entendido",
+  "meSignInTitle": "Inicia sesión en Gymco",
+  "meSignInSub": "Haz copia de tu diario para recuperarlo en otro teléfono y usa el registro por foto. Solo tu email, sin contraseña.",
+  "meSignInCta": "Entrar con email",
+  "emailIncomplete": "Escribe tu email completo, como nombre@gmail.com"
 }

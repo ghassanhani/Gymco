@@ -12,6 +12,8 @@ import '../helpers.dart';
 Future<void> _openAccount(WidgetTester tester) async {
   await tester.tap(find.bySemanticsLabel('Me').first);
   await tester.pumpAndSettle();
+  await tester.ensureVisible(find.text('Account'));
+  await tester.pumpAndSettle();
   await tester.tap(find.text('Account'));
   await tester.pumpAndSettle();
 }
@@ -35,6 +37,37 @@ Future<void> _openPhoto(WidgetTester tester) async {
 }
 
 void main() {
+  testWidgets('signed out, Me leads with a way to sign in that goes away once signed in', (tester) async {
+    final cloud = FakeCloud();
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await tester.tap(find.bySemanticsLabel('Me').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Sign in to Gymco'), findsOneWidget);
+    await tester.tap(find.text('Sign in with email'));
+    await tester.pumpAndSettle();
+    expect(find.text('Back up to an account'), findsOneWidget);
+    await _signIn(tester);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.text('Sign in to Gymco'), findsNothing);
+    expect(find.text('Signed in · sam@example.com'), findsOneWidget);
+  });
+
+  testWidgets('an email without an @ keeps the button off and says why', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: FakeCloud());
+    await _openAccount(tester);
+    expect(find.textContaining('Enter your full email'), findsNothing);
+    await tester.enterText(find.byType(TextField), 'ghassanhan0gmail.com');
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Enter your full email'), findsOneWidget);
+    await tester.tap(find.text('Send sign-in link'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Open it on this phone'), findsNothing);
+    await tester.enterText(find.byType(TextField), 'ghassanhani0@gmail.com');
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Enter your full email'), findsNothing);
+  });
+
   testWidgets('a build without a project says the phone is enough', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile});
     await _openAccount(tester);
