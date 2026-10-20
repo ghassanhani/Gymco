@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Gymco's launch screen: the app's ink background while Flutter starts. -->
+<!-- Gymco's launch screen: the glowing G on ink, as the app's first frame draws it. -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <color android:color="#0A0B09" />
+    </item>
+    <item>
+        <bitmap android:gravity="center" android:src="@drawable/splash_logo" />
     </item>
 </layer-list>
