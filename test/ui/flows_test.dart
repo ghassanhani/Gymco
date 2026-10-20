@@ -168,15 +168,17 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Gymco Pro, free while testing'));
     await tester.pumpAndSettle();
     expect(find.text('Plans'), findsOneWidget);
+    // The cards are also laid out unseen to size the pager: look in the pager.
+    Finder inPager(String t) => find.descendant(of: find.byType(PageView), matching: find.text(t));
     // Opens on Pro; yearly first, monthly on the switch.
-    expect(find.text('€39.99'), findsOneWidget);
+    expect(inPager('€39.99'), findsOneWidget);
     await tester.tap(find.text('Monthly'));
     await tester.pumpAndSettle();
-    expect(find.text('€4.99'), findsOneWidget);
+    expect(inPager('€4.99'), findsOneWidget);
     final top = tester.getTopLeft(find.byType(PageView)) + const Offset(200, 60);
     await tester.dragFrom(top, const Offset(300, 0));
     await tester.pumpAndSettle();
-    expect(find.text('Free, always'), findsOneWidget);
+    expect(inPager('Free, always'), findsOneWidget);
     await tester.tap(find.bySemanticsLabel('Back').first);
     await tester.pumpAndSettle();
     expect(find.text('Goal and targets'), findsOneWidget);
