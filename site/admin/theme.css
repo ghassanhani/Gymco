@@ -3,6 +3,7 @@
    test/site/cc_theme.test.mjs. */
 
 :root {
+  --skel-shine: #2B2F33;
   --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23A9B0A6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --page: #0A0B09;
   --sheet: #111315;
@@ -37,6 +38,7 @@
 }
 
 :root[data-theme="light"] {
+  --skel-shine: #F7F8F3;
   --chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%235C6359' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   --page: #F4F5F0;
   --sheet: #FFFFFF;
@@ -297,8 +299,21 @@ tbody tr.clickable:hover td, tbody tr[aria-selected="true"] td { background: var
 .phone .ptitle { font-weight: 700; font-size: 15px; }
 
 /* Skeleton, empty */
-.skel { background: var(--raised); border-radius: 12px; animation: pulse 1.4s ease-in-out infinite; }
-@keyframes pulse { 50% { opacity: 0.55; } }
+/* Loading stand-ins: soft blocks with a light sweeping across them. */
+.skel {
+  border-radius: 10px; flex: none; max-width: 100%;
+  background: linear-gradient(90deg, var(--raised) 0%, var(--raised) 40%, var(--skel-shine) 50%, var(--raised) 60%, var(--raised) 100%);
+  background-size: 300% 100%; animation: skel-sweep 1.5s ease-in-out infinite;
+}
+@keyframes skel-sweep { from { background-position: 100% 0; } to { background-position: 0 0; } }
+.skeleton { gap: 24px; }
+.skel-head { display: flex; flex-direction: column; gap: 12px; }
+.skel-card { gap: 18px; }
+.skel-row { display: flex; align-items: center; gap: 24px; padding-block: 6px; }
+.skel-row > :first-child { flex: 0 1 auto; margin-inline-end: auto; }
+.skel-row.head { justify-content: space-between; }
+.skel-field { display: flex; align-items: center; gap: 16px; padding-block: 8px; border-top: 1px solid var(--line); }
+.skel-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 @media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
 .empty { text-align: center; padding: 32px 16px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
 .empty b { font-size: 16px; }
@@ -488,3 +503,7 @@ tbody tr td { transition: background-color var(--t-fast) ease; }
   .btn, .pill, .icon-btn, .nav, .toggle span, .card { transition-duration: 0.01s; }
   .btn:active, .pill:active, .icon-btn:active, .nav:active, .btn.primary:hover, .btn.publish:hover { transform: none; }
 }
+/* While a section loads, what it has built so far waits out of sight (still
+   laid out at full width, so charts measure right) behind the skeleton. */
+#page { position: relative; }
+#page:has(> [data-skeleton]) > :not([data-skeleton]) { position: absolute; inset-inline: 0; top: 0; visibility: hidden; pointer-events: none; }

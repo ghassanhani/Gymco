@@ -57,11 +57,27 @@ export const errorBanner = (title, sub, retry) =>
   h("div", { class: "banner", role: "alert" }, h("div", {}, h("b", {}, title), h("div", { class: "small muted" }, sub)),
     retry ? h("button", { type: "button", class: "btn small", on: { click: retry } }, "Try again") : null);
 
-export function skeleton(blocks = 4) {
-  return h("div", { "aria-busy": "true", class: "stack" },
-    h("div", { class: "skel", style: { height: "44px", width: "40%" } }),
-    h("div", { class: "grid kpis" }, Array.from({ length: blocks }, () => h("div", { class: "skel", style: { height: "148px", borderRadius: "24px" } }))),
-    h("div", { class: "skel", style: { height: "260px", borderRadius: "24px" } }));
+const bar = (width, height = 12) => h("div", { class: "skel", style: { width, height: `${height}px` } });
+
+/**
+ * A stand-in shaped like the section on its way: KPI tiles and a chart,
+ * a table of rows, or a form of labelled fields.
+ */
+export function skeleton(kind = "kpis") {
+  const head = h("div", { class: "skel-head" }, bar("72px", 10), bar("min(320px, 60%)", 34));
+  const card = (...kids) => h("div", { class: "card skel-card" }, kids);
+  const rows = (n) => Array.from({ length: n }, (_, i) => h("div", { class: "skel-row" },
+    bar(`${[34, 28, 40, 30, 36][i % 5]}%`), bar("18%"), bar("12%"), bar("64px", 24)));
+  const fields = (n) => Array.from({ length: n }, (_, i) => h("div", { class: "skel-field" },
+    h("div", { class: "stack", style: { gap: "8px", flex: "1" } }, bar(`${[38, 30, 44][i % 3]}%`, 14), bar("22%", 10)), bar("48px", 28)));
+  const body = kind === "table"
+    ? [card(h("div", { class: "skel-row head" }, bar("90px"), bar("120px", 36)), ...rows(6))]
+    : kind === "form"
+    ? [card(h("div", { class: "skel-row head" }, bar("140px", 16), h("div", { class: "row" }, bar("96px", 40), bar("110px", 40)))),
+      h("div", { class: "grid skel-cols" }, card(bar("120px", 16), ...fields(4)), card(bar("100px", 16), ...fields(4)))]
+    : [h("div", { class: "grid kpis" }, Array.from({ length: 4 }, () => card(bar("50%"), bar("40%", 30), bar("100%", 28)))),
+      card(bar("180px", 16), h("div", { class: "skel", style: { height: "200px", borderRadius: "16px" } }))];
+  return h("div", { class: "stack skeleton", "aria-busy": "true", "aria-label": "Loading", "data-skeleton": "" }, head, ...body);
 }
 
 let toastTimer;

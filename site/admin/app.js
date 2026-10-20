@@ -82,15 +82,19 @@ async function route() {
   const el = document.getElementById("page");
   const ticket = ++mounted;
   if (!can(me.role, page.cap)) return clear(el).append(needsRole(page));
-  clear(el).append(skeleton());
+  el.classList.remove("entering");
+  clear(el).append(skeleton(page.skel));
   try {
     const mod = await import(`./pages/${id}.js`);
     if (ticket !== mounted) return;
-    clear(el);
+    // The skeleton stays until the section has its data: a page that redraws
+    // itself replaces it, one that appends has it taken away once it's done.
+    await mod.render(el, { me, call, params, toast, isCurrent: () => ticket === mounted });
+    if (ticket !== mounted) return;
+    el.querySelector(":scope > [data-skeleton]")?.remove();
     // Only arriving at a section animates; re-renders inside it stay still.
     el.classList.add("entering");
     setTimeout(() => ticket === mounted && el.classList.remove("entering"), 700);
-    await mod.render(el, { me, call, params, toast, isCurrent: () => ticket === mounted });
   } catch (e) {
     if (ticket !== mounted) return;
     if (e instanceof ApiError && e.status === 401) return;
