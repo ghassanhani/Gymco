@@ -521,9 +521,9 @@ class _PlanCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 6),
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: Volt.soft,
+        color: Volt.card,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: popular ? Volt.brandEdge : (Volt.isLight ? Volt.soft : Volt.line2)),
+        border: Border.all(color: popular ? Volt.brandEdge : Volt.line2),
       ),
       child: Stack(
         children: [
