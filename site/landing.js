@@ -25,7 +25,6 @@ const state = {
   lang: pickLang({
     query: location.search,
     saved: storage.get(LANG_KEY),
-    languages: navigator.languages?.length ? navigator.languages : [navigator.language],
   }),
   settings: BUILT_IN,
   yearly: false,
@@ -147,7 +146,7 @@ function paintTheme(c = copyFor(COPY, state.lang, state.settings)) {
   const t = $("#theme");
   t.setAttribute("aria-label", label);
   t.setAttribute("title", label);
-  $('meta[name="theme-color"]')?.setAttribute("content", state.light ? "#f5f6f1" : "#0a0b09");
+  $('meta[name="theme-color"]')?.setAttribute("content", state.light ? "#ffffff" : "#0a0b09");
 }
 
 /** Render from state; if the published settings break anything, fall back to the built-in page. */
@@ -212,6 +211,7 @@ async function onNotify(ev) {
   input.removeAttribute("aria-invalid");
   const c = copyFor(COPY, state.lang, state.settings);
   button.disabled = true;
+  button.classList.add("is-busy");
   setText(button, c["join.sending"]);
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 10000);
@@ -234,8 +234,30 @@ async function onNotify(ev) {
   } finally {
     clearTimeout(timer);
     button.disabled = false;
+    button.classList.remove("is-busy");
     setText(button, copyFor(COPY, state.lang, state.settings)["join.notify"]);
   }
+}
+
+// Sections without a menu entry of their own light up the entry they belong to.
+const NAV_FOR = { food: "food", coaching: "food", streak: "food", train: "train", privacy: "privacy", plans: "plans", faq: "faq" };
+
+/** Mark the menu link for the section crossing the upper third of the screen. */
+function watchSections() {
+  if (!("IntersectionObserver" in window)) return;
+  const links = new Map($$(".nav a[href^='#']").map((a) => [a.getAttribute("href").slice(1), a]));
+  const mark = (id) => {
+    for (const [k, a] of links) {
+      const on = k === NAV_FOR[id];
+      a.classList.toggle("on", on);
+      if (on) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    }
+  };
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) mark(e.target.id);
+  }, { rootMargin: "-30% 0px -65% 0px" });
+  for (const sec of $$("section[id]")) io.observe(sec);
 }
 
 function wire() {
@@ -253,6 +275,7 @@ function wire() {
   $("#bill-year").addEventListener("click", bill(true));
   $("#notify").addEventListener("submit", onNotify);
   $("#lp-email").addEventListener("input", (e) => e.target.removeAttribute("aria-invalid"));
+  watchSections();
 }
 
 wire();

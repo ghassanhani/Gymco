@@ -6,7 +6,7 @@
 import { checkT3, type T3 } from "./announcements.ts";
 
 export const LANDING_KEYS = [
-  "hero.tag", "hero.title", "hero.lede", "hero.cta", "hero.cta2",
+  "hero.title", "hero.lede", "hero.cta", "hero.cta2",
   "food.eyebrow", "food.title", "food.sub",
   "train.title", "train.sub", "train.cta",
   "coaching.eyebrow", "coaching.title", "coaching.sub",
@@ -21,7 +21,6 @@ export type LandingKey = typeof LANDING_KEYS[number];
 
 /** The design's English, shown as hints in the dashboard. In titles *word* is the italic accent. */
 export const LANDING_DEFAULTS: Record<LandingKey, string> = {
-  "hero.tag": "Beta · free while in testing",
   "hero.title": "Diet and training for *lifters*",
   "hero.lede": "Log food in seconds, train with a plan, and keep a streak worth protecting.",
   "hero.cta": "Join the beta",

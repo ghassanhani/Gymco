@@ -5,7 +5,7 @@ import {
 } from "../../site/admin/lib/landing_form.js";
 
 const T = (en, ar, es) => ({ en, ar, es });
-const KEYS = ["hero.tag", "hero.title", "hero.lede", "food.title", "join.title", "footer.tagline"];
+const KEYS = ["hero.cta", "hero.title", "hero.lede", "food.title", "join.title", "footer.tagline"];
 const defaults = {
   sections: Object.fromEntries(SECTIONS.map(([k]) => [k, true])),
   beta: true,
@@ -28,7 +28,7 @@ test("the working body starts from the draft, then published, then defaults with
   assert.equal(fresh.prices.pro_month, "€4.99");
   assert.equal(fresh.sections.coaching, true);
 
-  const pub = { sections: { coaching: false }, copy: { "hero.tag": T("a", "b", "c") } };
+  const pub = { sections: { coaching: false }, copy: { "hero.cta": T("a", "b", "c") } };
   const fromPub = startBody({ defaults, published: { body: pub }, draft: null });
   assert.equal(fromPub.sections.coaching, false);
   assert.equal(fromPub.sections.food, true, "missing sections keep the built-in value");
@@ -54,12 +54,12 @@ test("titles take 80 characters, other copy 300", () => {
   assert.equal(maxFor("hero.title"), 80);
   assert.equal(maxFor("join.title"), 80);
   assert.equal(maxFor("hero.lede"), 300);
-  assert.equal(maxFor("hero.tag"), 300);
+  assert.equal(maxFor("hero.cta"), 300);
 });
 
 test("keys are grouped by section prefix in their given order", () => {
   assert.deepEqual(groupKeys(KEYS), [
-    { prefix: "hero", keys: ["hero.tag", "hero.title", "hero.lede"] },
+    { prefix: "hero", keys: ["hero.cta", "hero.title", "hero.lede"] },
     { prefix: "food", keys: ["food.title"] },
     { prefix: "join", keys: ["join.title"] },
     { prefix: "footer", keys: ["footer.tagline"] },
@@ -129,7 +129,7 @@ test("each FAQ item needs a question and an answer in all three languages", () =
 });
 
 test("errors for a field gather its languages, naming each one", () => {
-  const errs = [{ key: "copy.hero.title.ar", message: "Needed" }, { key: "copy.hero.title.es", message: "Needed" }, { key: "copy.hero.tag.en", message: "Too long" }, { key: "prices.pro_month", message: "At most 12" }];
+  const errs = [{ key: "copy.hero.title.ar", message: "Needed" }, { key: "copy.hero.title.es", message: "Needed" }, { key: "copy.hero.cta.en", message: "Too long" }, { key: "prices.pro_month", message: "At most 12" }];
   assert.deepEqual(errorsFor(errs, "copy.hero.title"), ["AR, ES · Needed"]);
   assert.deepEqual(errorsFor([...errs, { key: "copy.hero.title.en", message: "Too long" }], "copy.hero.title"), ["AR, ES · Needed", "EN · Too long"]);
   assert.deepEqual(errorsFor(errs, "prices.pro_month"), ["At most 12"]);
@@ -142,23 +142,23 @@ test("setting copy adds an override, clearing every language removes it", () => 
   assert.deepEqual(b.copy["hero.title"], T("New *title*", "", ""));
   b = setCopy(b, "hero.title", T("", " ", ""));
   assert.equal("hero.title" in b.copy, false);
-  b = setCopy(b, "hero.tag", T("a", "b", "c"));
+  b = setCopy(b, "hero.cta", T("a", "b", "c"));
   const before = b;
-  b = resetCopy(b, "hero.tag");
-  assert.equal("hero.tag" in b.copy, false);
-  assert.ok("hero.tag" in before.copy, "returns a copy");
+  b = resetCopy(b, "hero.cta");
+  assert.equal("hero.cta" in b.copy, false);
+  assert.ok("hero.cta" in before.copy, "returns a copy");
 });
 
 test("cleaning trims text and drops empty overrides before saving", () => {
   const b = startBody({ defaults });
-  b.copy["hero.tag"] = T(" Beta ", " تجريبي", "Beta ");
+  b.copy["hero.cta"] = T(" Beta ", " تجريبي", "Beta ");
   b.copy["hero.lede"] = T("", "", "");
   b.prices.pro_month = " €5 ";
   b.prices.lifetime = "";
   b.stores.ios_url = " https://apps.apple.com/x ";
   b.faq = [{ q: T(" Q ", "س", "P"), a: T("A", "ج", "R ") }];
   const c = cleanBody(b);
-  assert.deepEqual(c.copy, { "hero.tag": T("Beta", "تجريبي", "Beta") });
+  assert.deepEqual(c.copy, { "hero.cta": T("Beta", "تجريبي", "Beta") });
   assert.equal(c.prices.pro_month, "€5");
   assert.equal("lifetime" in c.prices, false, "an empty price keeps the built-in one");
   assert.equal(c.stores.ios_url, "https://apps.apple.com/x");

@@ -509,7 +509,7 @@
 
 /* ───────── light mode ───────── */
 .lp.light{
-  --page:#f5f6f1; --band:#ecede6; --card:#ffffff; --raised:#eef0e8; --line:#e0e3d9; --line-2:#cbd0c3;
+  --page:#ffffff; --band:#f5f6f1; --card:#ffffff; --raised:#eef0e8; --line:#e2e5dc; --line-2:#cbd0c3;
   --t1:#10120e; --t2:#3b4038; --t3:#6a7066; --lime:#6f9a00; --lime-ink:#4f6f00; --good:#16935a;
   background:var(--page); color:var(--t1)}
 .lp.light em, .lp.light .acc{color:#5f8600}
@@ -517,7 +517,7 @@
 .lp.light .btn .ar{background:#0a0b09; color:#c6f432}
 .lp.light .btn-line{background:#fff}
 .lp.light .btn-dark{background:#fff; color:var(--t1); box-shadow:inset 0 0 0 1px var(--line-2), 0 10px 30px -16px rgba(0,0,0,.25)}
-.lp.light .hdr{background:rgba(245,246,241,.75)}
+.lp.light .hdr{background:rgba(255,255,255,.78)}
 /* hero */
 .lp.light .hero2{background:var(--page)}
 .lp.light .hero2 .tag{background:#fff; box-shadow:inset 0 0 0 1px var(--line)}
@@ -646,7 +646,7 @@
 html{color-scheme:dark; -webkit-text-size-adjust:100%}
 html[data-theme="light"]{color-scheme:light}
 body{margin:0; background:#0a0b09}
-html[data-theme="light"] body{background:#f5f6f1}
+html[data-theme="light"] body{background:#ffffff}
 /* the design clipped with overflow:hidden, which stops the header from sticking; clip keeps it sticky */
 .lp{overflow:hidden; overflow:clip}
 .lp [hidden]{display:none !important}
@@ -730,3 +730,30 @@ html[lang="ar"] .lp .eyebrow{text-transform:none; font-size:14px}
   .lp .tw-stats b{font-size:18px; white-space:nowrap}
 }
 html[lang="es"] .lp .hero2 h1{max-width:11em}
+
+/* Sending a sign-up: a spinner ahead of "Sending…". */
+.lp .btn.is-busy{cursor:progress}
+.lp .btn.is-busy::before{content:""; width:14px; height:14px; border-radius:50%; border:2px solid currentColor; border-right-color:transparent; animation:lp-spin .7s linear infinite; flex:none}
+@keyframes lp-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.lp .btn.is-busy::before{animation-duration:1.6s}}
+
+/* Light: a white page, a big lime glow lighting the hero from its top corner,
+   and cards drawn with a border now that they sit on white. */
+.lp.light .hero2{background:
+  radial-gradient(60% 75% at 0% 0%, rgba(198,244,50,.42), rgba(198,244,50,.14) 45%, transparent 72%),
+  radial-gradient(45% 55% at 100% 8%, rgba(94,228,160,.16), transparent 70%),
+  var(--page)}
+.lp.light[dir="rtl"] .hero2, html[dir="rtl"] .lp.light .hero2{background:
+  radial-gradient(60% 75% at 100% 0%, rgba(198,244,50,.42), rgba(198,244,50,.14) 45%, transparent 72%),
+  radial-gradient(45% 55% at 0% 8%, rgba(94,228,160,.16), transparent 70%),
+  var(--page)}
+.lp.light .card, .lp.light .mode, .lp.light .parse, .lp.light .rule, .lp.light details, .lp.light .bx,
+.lp.light .imgcard, .lp.light .medalstage, .lp.light .tw-stats div, .lp.light .typed{box-shadow:inset 0 0 0 1px var(--line)}
+.lp.light .mode.hot{box-shadow:inset 0 0 0 1.5px var(--lime)}
+.lp.light details[open]{box-shadow:inset 0 0 0 1px var(--line-2)}
+.lp.light .mode:hover{background:#fafbf7}
+
+/* The menu marks the section on screen. */
+.lp .nav a{position:relative; transition:color .2s ease}
+.lp .nav a.on{color:var(--t1); font-weight:600}
+.lp .nav a.on::after{content:""; position:absolute; inset-inline:0; bottom:-6px; height:2px; border-radius:2px; background:var(--lime)}

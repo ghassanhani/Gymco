@@ -3,6 +3,7 @@
 
 import { ApiError, call, onAuthLost, sb } from "./lib/api.js";
 import { gate, idleTooLong, markActive } from "./lib/auth.js";
+import { installBusy } from "./lib/busy.js";
 import { clear, h, icon } from "./lib/dom.js";
 import { errorText } from "./lib/errors.js";
 import { can, ROLE_LABEL } from "./lib/roles.js";
@@ -11,6 +12,7 @@ import { initTheme, themeToggle } from "./lib/theme.js";
 import { empty, errorBanner, skeleton, toast } from "./lib/ui.js";
 
 initTheme();
+installBusy();
 const root = document.getElementById("app");
 let me = null;
 let mounted = 0;

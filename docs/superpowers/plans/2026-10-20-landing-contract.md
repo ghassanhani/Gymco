@@ -41,7 +41,7 @@ time; formats here don't change.
 
 ### LANDING_KEYS (copy the page can take from the Control Center)
 
-`hero.tag`, `hero.title`, `hero.lede`, `hero.cta`, `hero.cta2`,
+`hero.title`, `hero.lede`, `hero.cta`, `hero.cta2`,
 `food.eyebrow`, `food.title`, `food.sub`,
 `train.title`, `train.sub`, `train.cta`,
 `coaching.eyebrow`, `coaching.title`, `coaching.sub`,

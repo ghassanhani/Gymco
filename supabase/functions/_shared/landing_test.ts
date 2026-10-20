@@ -6,7 +6,7 @@ const keys = (r: { errors: { key: string }[] }) => r.errors.map((e) => e.key);
 
 Deno.test("landing: the editable keys are the contract's, each with built-in English", () => {
   assertEquals([...LANDING_KEYS], [
-    "hero.tag", "hero.title", "hero.lede", "hero.cta", "hero.cta2",
+    "hero.title", "hero.lede", "hero.cta", "hero.cta2",
     "food.eyebrow", "food.title", "food.sub",
     "train.title", "train.sub", "train.cta",
     "coaching.eyebrow", "coaching.title", "coaching.sub",
@@ -78,7 +78,7 @@ Deno.test("landing: copy keys are whitelisted and every language is needed", () 
 Deno.test("landing: copy is at most 300 characters, titles at most 80", () => {
   const ok = validateLanding({ copy: { "hero.lede": t3("a".repeat(300)), "hero.title": t3("a".repeat(80)) } });
   assertEquals(ok.errors, []);
-  const bad = validateLanding({ copy: { "hero.lede": t3("a".repeat(301)), "join.title": t3("a".repeat(81)), "hero.tag": t3("a".repeat(81)) } });
+  const bad = validateLanding({ copy: { "hero.lede": t3("a".repeat(301)), "join.title": t3("a".repeat(81)), "hero.cta": t3("a".repeat(81)) } });
   assertEquals(keys(bad), ["copy.hero.lede.en", "copy.join.title.en"]);
 });
 

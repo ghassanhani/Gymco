@@ -18,8 +18,6 @@ export const COPY = {
     "theme.toDark": "Switch to dark mode",
     "cta.join": "Join the beta",
     "cta.download": "Download",
-
-    "hero.tag": "Beta · free while in testing",
     "hero.title": "Diet and training for *lifters*",
     "hero.lede": "Log food in seconds, train with a plan, and keep a streak worth protecting.",
     "hero.cta": "Join the beta",
@@ -222,8 +220,6 @@ export const COPY = {
     "theme.toDark": "التبديل إلى الوضع الداكن",
     "cta.join": "انضم إلى التجربة",
     "cta.download": "حمّل التطبيق",
-
-    "hero.tag": "نسخة تجريبية · مجانية طوال فترة الاختبار",
     "hero.title": "التغذية والتمرين *لرافعي الأثقال*",
     "hero.lede": "سجّل طعامك في ثوانٍ، وتمرّن وفق خطة، وحافظ على سلسلة أيام تستحق الحماية.",
     "hero.cta": "انضم إلى التجربة",
@@ -426,8 +422,6 @@ export const COPY = {
     "theme.toDark": "Cambiar a modo oscuro",
     "cta.join": "Únete a la beta",
     "cta.download": "Descargar",
-
-    "hero.tag": "Beta · gratis mientras está en pruebas",
     "hero.title": "Dieta y entrenamiento *de fuerza*",
     "hero.lede": "Registra la comida en segundos, entrena con un plan y mantén una racha que merece la pena cuidar.",
     "hero.cta": "Únete a la beta",

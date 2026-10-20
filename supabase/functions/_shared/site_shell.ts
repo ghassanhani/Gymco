@@ -69,7 +69,7 @@ export function renderPage(page: Page, lang: Lang, body: PageBody): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} · Gymco</title>
-<link rel="icon" href="/favicon.png">
+<link rel="icon" href="/favicon.png?v=2">
 <link rel="apple-touch-icon" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Urbanist:wght@400;600;700&display=swap">

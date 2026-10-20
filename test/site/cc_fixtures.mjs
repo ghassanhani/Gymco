@@ -327,7 +327,7 @@ function websiteGet(page, empty, review) {
 
 // The landing page: built-in English from the design, a published v3 and a draft v4.
 const LANDING_EN = {
-  "hero.tag": "Beta · free while in testing", "hero.title": "Diet and training for *lifters*", "hero.lede": "Log food in seconds, train with a plan, and keep a streak worth protecting.", "hero.cta": "Join the beta", "hero.cta2": "See how it works",
+  "hero.title": "Diet and training for *lifters*", "hero.lede": "Log food in seconds, train with a plan, and keep a streak worth protecting.", "hero.cta": "Join the beta", "hero.cta2": "See how it works",
   "food.eyebrow": "Food", "food.title": "Log food *your way*", "food.sub": "Six ways in, so a meal never goes unlogged. You confirm every entry before it counts.",
   "train.title": "Train with a *plan*", "train.sub": "Pick a split or build your own. Miss a day and the week moves with you, and last time's numbers sit on every set.", "train.cta": "Choose a routine",
   "coaching.eyebrow": "Coaching", "coaching.title": "Measured, *not guessed*", "coaching.sub": "Your targets come from what you ate and how your trend weight moved. Not from a formula pretending to know you.",

@@ -50,7 +50,6 @@ const checks = {
     const h1 = document.querySelector("h1").textContent;
     if (h1 !== "Diet and training for lifters") return `hero title "${h1}"`;
     if (document.getElementById("coaching").hidden) return "coaching hidden";
-    if (document.querySelector(".hero2 .tag").hidden) return "beta tag hidden";
     if (document.querySelectorAll("#faq-list details").length !== 7) return "faq count";
     if (document.getElementById("notify").hidden) return "notify hidden";
     if (document.querySelector('[data-store="ios_url"]').getAttribute("href") !== "#join") return "store href";
@@ -77,7 +76,7 @@ const checks = {
     const co = document.getElementById("coaching");
     if (!co.hidden || co.offsetHeight !== 0) return "coaching still shown";
     if (document.querySelector('.ftr a[href="#coaching"]')?.closest("li")?.hidden !== true) return "footer coaching link shown";
-    if (!document.querySelector(".hero2 .tag").hidden || !document.querySelector("#plans .banner").hidden || !document.querySelector(".plan .badge").hidden) return "beta bits shown";
+    if (!document.querySelector("#plans .banner").hidden || !document.querySelector(".plan .badge").hidden) return "beta bits shown";
     if (document.querySelector(".hdr .btn").textContent !== "Download") return "header cta not Download";
     if (document.querySelector('[data-store="ios_url"]').href !== "https://apps.apple.com/app/gymco/id6700000000") return "ios href";
     if (!document.querySelector('[data-store="android_url"]').href.startsWith("https://play.google.com/")) return "android href";
@@ -101,7 +100,9 @@ const SHOTS = [
   ["ar-phone", "/?lang=ar", "dark", 390, { check: "rtl" }],
   ["ar-phone-light", "/?lang=ar", "light", 390, { check: "rtl", light: true }],
   ["es-phone", "/?lang=es", "dark", 390, { check: "es" }],
-  ["es-desktop", "/", "light", 1440, { check: "es", locale: "es-ES", light: true }],
+  ["es-desktop", "/?lang=es", "light", 1440, { check: "es", locale: "es-ES", light: true }],
+  // English unless asked: a Spanish browser and a light system still get English and dark.
+  ["browser-es", "/", "light", 1440, { check: "builtIn", locale: "es-ES", light: false }],
   ["published", "/", "dark", 1440, { config: "published", check: "published" }],
   ["published-phone-ar", "/?lang=ar", "dark", 390, { config: "published", check: "rtl", expectH1: "كُل جيدًا وارفع بثقل" }],
   ["failure", "/", "dark", 1440, { config: "fail", check: "builtIn" }],
@@ -114,6 +115,8 @@ for (const [name, path, scheme, width, o] of SHOTS) {
   if (only && !name.includes(only)) continue;
   const ctx = await browser.newContext({ viewport: { width, height: 900 }, colorScheme: scheme, reducedMotion: "reduce", locale: o.locale ?? "en-GB" });
   const page = await ctx.newPage();
+  // Light is a choice the visitor saves; dark is the default.
+  if (o.light) await page.addInitScript(() => localStorage.setItem("gymco-site-theme", "light"));
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   page.on("console", (m) => { if (m.type() === "error" && !/Failed to load resource/.test(m.text())) errors.push(m.text()); });

@@ -173,6 +173,20 @@ h3 { margin: 0; font-size: 14px; font-weight: 700; }
 .btn.small { min-height: 36px; padding: 0 14px; font-size: 13px; }
 .btn.link { border: 0; background: none; color: var(--link); padding: 0; min-height: 32px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Waiting on the server: the label stays for its width, a spinner sits over it. */
+.btn.is-busy, .icon-btn.is-busy { position: relative; color: transparent !important; pointer-events: none; cursor: progress; }
+.btn.is-busy > *, .icon-btn.is-busy > * { visibility: hidden; }
+.btn.is-busy::after, .icon-btn.is-busy::after {
+  content: ""; position: absolute; inset: 0; margin: auto; width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid currentColor; border-color: var(--busy-ink, var(--text-1)); border-right-color: transparent;
+  animation: btn-spin 0.7s linear infinite;
+}
+.btn.primary.is-busy, .btn.publish.is-busy { --busy-ink: var(--on-brand); }
+.btn.danger.solid.is-busy { --busy-ink: var(--on-critical); }
+.btn.link.is-busy { --busy-ink: var(--link); }
+.btn.danger.is-busy:not(.solid) { --busy-ink: var(--critical); }
+@keyframes btn-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .btn.is-busy::after, .icon-btn.is-busy::after { animation-duration: 1.6s; } }
 .pills { display: flex; gap: 8px; flex-wrap: wrap; }
 .pill { border: 1px solid var(--line-2); background: transparent; color: var(--text-2); border-radius: 999px; padding: 0 16px; min-height: 40px; font-size: 13px; font-weight: 500; cursor: pointer; }
 .pill[aria-pressed="true"] { border-color: var(--brand-edge); background: var(--brand-wash); color: var(--link); font-weight: 600; }

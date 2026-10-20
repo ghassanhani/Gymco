@@ -17,7 +17,7 @@ const contractKeys = (() => {
 const t3 = (en, ar = "ع", es = "e") => ({ en, ar, es });
 
 test("LANDING_KEYS are exactly the contract's", () => {
-  assert.equal(contractKeys.length, 29);
+  assert.equal(contractKeys.length, 28);
   assert.deepEqual([...LANDING_KEYS], contractKeys);
 });
 
@@ -55,15 +55,13 @@ test("the built-in FAQ has seven questions in each language", () => {
   assert.equal(faqFor(COPY, "en", sanitizeLanding(null))[0].q, "Do I need an account?");
 });
 
-test("pickLang: URL first, then saved, then the browser, else English", () => {
+test("pickLang: URL first, then saved, else English whatever the browser says", () => {
   assert.equal(pickLang({ query: "?lang=ar", saved: "es", languages: ["en"] }), "ar");
   assert.equal(pickLang({ query: "?x=1&lang=es", saved: "ar" }), "es");
   assert.equal(pickLang({ query: "?lang=fr", saved: "ar" }), "ar");
   assert.equal(pickLang({ query: "", saved: "es", languages: ["ar-EG"] }), "es");
-  assert.equal(pickLang({ query: "", saved: "xx", languages: ["ar-EG", "en"] }), "ar");
-  assert.equal(pickLang({ query: "", saved: null, languages: ["es-ES"] }), "es");
-  assert.equal(pickLang({ query: "", saved: null, languages: ["fr-FR", "es"] }), "es");
-  assert.equal(pickLang({ query: "", saved: null, languages: ["fr-FR", "de"] }), "en");
+  assert.equal(pickLang({ query: "", saved: "xx", languages: ["ar-EG", "en"] }), "en");
+  assert.equal(pickLang({ query: "", saved: null, languages: ["es-ES"] }), "en");
   assert.equal(pickLang({}), "en");
   assert.equal(pickLang({ query: "?lang=AR" }), "ar");
 });

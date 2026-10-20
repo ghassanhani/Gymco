@@ -4,7 +4,7 @@
 
 /** The copy the Control Center may change (the contract's LANDING_KEYS). */
 export const LANDING_KEYS = [
-  "hero.tag", "hero.title", "hero.lede", "hero.cta", "hero.cta2",
+  "hero.title", "hero.lede", "hero.cta", "hero.cta2",
   "food.eyebrow", "food.title", "food.sub",
   "train.title", "train.sub", "train.cta",
   "coaching.eyebrow", "coaching.title", "coaching.sub",
@@ -26,18 +26,13 @@ const lang2 = (v) => (typeof v === "string" ? v.trim().toLowerCase().slice(0, 2)
 const known = (l) => (LANGS.includes(l) ? l : null);
 
 /** ?lang= in the URL, else the saved choice, else the browser's ar/es, else English. */
-export function pickLang({ query = "", saved = null, languages = [] } = {}) {
+export function pickLang({ query = "", saved = null } = {}) {
   let fromUrl = null;
   try { fromUrl = new URLSearchParams(query || "").get("lang"); } catch { /* bad query */ }
   const a = known(lang2(fromUrl));
   if (a) return a;
-  const b = known(lang2(saved));
-  if (b) return b;
-  for (const l of Array.isArray(languages) ? languages : []) {
-    const c = lang2(l);
-    if (c === "ar" || c === "es") return c;
-  }
-  return "en";
+  // English unless the visitor picked a language: the browser's doesn't count.
+  return known(lang2(saved)) ?? "en";
 }
 
 /** "Log food *your way*" → [{text:"Log food ",em:false},{text:"your way",em:true}]. Nothing else is markup. */
