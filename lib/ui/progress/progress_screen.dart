@@ -240,14 +240,18 @@ class _TrendCard extends ConsumerWidget {
                   gap: 3,
                   children: [
                     Muted(l.trendWeight),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Text(ws.current == null ? '—' : fmtDec(context, ws.current!), style: numStyle(30)),
-                        const SizedBox(width: 8),
-                        Text(l.kgLbl, style: const TextStyle(fontSize: 14, color: Volt.t2)),
-                      ],
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(ws.current == null ? '—' : fmtDec(context, ws.current!), style: numStyle(30)),
+                          const SizedBox(width: 8),
+                          Text(l.kgLbl, style: const TextStyle(fontSize: 14, color: Volt.t2)),
+                        ],
+                      ),
                     ),
                   ],
                 ),

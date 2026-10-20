@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/models.dart';
 
@@ -24,6 +25,11 @@ void main() {
           await db.addEntry(LogEntry.of(food, day: daysAgo(n), meal: Meal.lunch, grams: 2000));
         }
       },
+    );
+    await tester.scrollUntilVisible(
+      find.text('2 days without food logs'),
+      200,
+      scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('2 days without food logs'), findsOneWidget);
     await tester.ensureVisible(find.text('2 days without food logs'));

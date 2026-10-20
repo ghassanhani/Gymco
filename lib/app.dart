@@ -223,13 +223,39 @@ class _GymcoAppState extends ConsumerState<GymcoApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: ref.watch(routerProvider),
-      builder: (ctx, child) => PacksScope(
-        child: Theme(
-          data: Volt.theme(Localizations.localeOf(ctx)),
-          child: AppGateView(child: child!),
+      builder: (ctx, child) => MediaQuery(
+        // All text a touch larger than the design's sizes, on top of the
+        // phone's own text-size setting.
+        data: MediaQuery.of(ctx).copyWith(textScaler: BoostedTextScaler(MediaQuery.textScalerOf(ctx))),
+        child: PacksScope(
+          child: Theme(
+            data: Volt.theme(Localizations.localeOf(ctx)),
+            child: AppGateView(child: child!),
+          ),
         ),
       ),
       theme: Volt.theme(locale ?? const Locale('en')),
     );
   }
+}
+
+/// The phone's text scale times [boost]. Wraps rather than replaces the
+/// phone's scaler, so non-linear system scaling (Android 14) still applies.
+class BoostedTextScaler extends TextScaler {
+  const BoostedTextScaler(this.base, {this.boost = 1.08});
+  final TextScaler base;
+  final double boost;
+
+  @override
+  double scale(double fontSize) => base.scale(fontSize * boost);
+
+  @override
+  // ignore: deprecated_member_use
+  double get textScaleFactor => base.textScaleFactor * boost;
+
+  @override
+  bool operator ==(Object other) => other is BoostedTextScaler && other.base == base && other.boost == boost;
+
+  @override
+  int get hashCode => Object.hash(base, boost);
 }

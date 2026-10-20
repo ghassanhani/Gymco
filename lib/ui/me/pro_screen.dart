@@ -351,7 +351,8 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
-                    height: 700,
+                    // Grows with the text so the longest plan card still fits.
+                    height: 760 * MediaQuery.textScalerOf(context).scale(100) / 100,
                     child: PageView.builder(
                       controller: _pages,
                       itemCount: plans.length,
@@ -548,9 +549,17 @@ class _PlanCard extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      plan.name,
-                      style: const TextStyle(fontFamily: 'InstrumentSerif', fontSize: 32, height: 1.05, color: Volt.t1),
+                    Flexible(
+                      child: Text(
+                        plan.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: 'InstrumentSerif',
+                          fontSize: 32,
+                          height: 1.05,
+                          color: Volt.t1,
+                        ),
+                      ),
                     ),
                     if (popular) ...[const SizedBox(width: 8), VTag(l.mostPopular)],
                   ],
@@ -566,7 +575,9 @@ class _PlanCard extends StatelessWidget {
                     Text(price.$1, style: numStyle(30, weight: FontWeight.w800)),
                     if (price.$2.isNotEmpty) ...[
                       const SizedBox(width: 6),
-                      Text(price.$2, style: const TextStyle(fontSize: 13, color: Volt.t3)),
+                      Flexible(
+                        child: Text(price.$2, style: const TextStyle(fontSize: 13, color: Volt.t3)),
+                      ),
                     ],
                   ],
                 ),

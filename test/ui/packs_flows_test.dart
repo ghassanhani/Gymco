@@ -146,6 +146,8 @@ void main() {
       tester.getTopLeft(find.text('Glute focus, 2 days')).dy,
       greaterThan(tester.getTopLeft(find.text('Full body, 3 days')).dy),
     );
+    await tester.ensureVisible(find.text('Glute focus, 2 days'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Glute focus, 2 days'));
     await tester.pumpAndSettle();
     final all = await db.routines();

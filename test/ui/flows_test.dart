@@ -44,6 +44,8 @@ void main() {
     await tester.tap(find.text('Agree to continue'));
     await tester.pumpAndSettle();
     expect(find.text('Start logging'), findsNothing);
+    await tester.ensureVisible(find.textContaining('I agree to Gymco'));
+    await tester.pumpAndSettle();
     await tester.tap(find.textContaining('I agree to Gymco'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Start logging'));
@@ -115,7 +117,7 @@ void main() {
         await db.addEntry(LogEntry.of(f, day: dayKey(testNow), meal: Meal.breakfast, grams: 80));
       },
     );
-    await tester.ensureVisible(find.text('Breakfast'));
+    await tester.scrollUntilVisible(find.text('Breakfast'), 200, scrollable: find.byType(Scrollable).first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Breakfast'));
     await tester.pumpAndSettle();

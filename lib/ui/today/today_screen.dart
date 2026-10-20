@@ -470,9 +470,13 @@ class _WoTag extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[VIcon(icon!, size: 14, color: fg, strokeWidth: 2), const SizedBox(width: 6)],
-          Text(
-            label,
-            style: TextStyle(fontSize: 12, fontWeight: ghost ? FontWeight.w600 : FontWeight.w800, color: fg),
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 12, fontWeight: ghost ? FontWeight.w600 : FontWeight.w800, color: fg),
+            ),
           ),
         ],
       ),
