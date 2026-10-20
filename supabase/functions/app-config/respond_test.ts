@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "jsr:@std/assert@1.0.13";
-import { deviceOf, packReply, respond } from "./respond.ts";
+import { deviceOf, landingReply, packReply, respond, siteOf } from "./respond.ts";
 import { checksum } from "../_shared/packs.ts";
 
 const now = new Date("2026-10-20T12:00:00Z");
@@ -72,4 +72,16 @@ Deno.test("a pack is served as the canonical string its checksum was computed ov
   const hash = [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(r.body_json)))].map((b) => b.toString(16).padStart(2, "0")).join("");
   assertEquals(hash, r.checksum);
   assertEquals(JSON.parse(r.body_json), body);
+});
+
+Deno.test("the landing page gets the published landing version and body, or version 0 and null", () => {
+  const body = { beta: false, prices: { pro_month: "€5.99" } };
+  assertEquals(landingReply({ version: 4, body }), { version: 4, body });
+  assertEquals(landingReply(null), { version: 0, body: null });
+});
+
+Deno.test("?site= is read only for the sites app-config serves", () => {
+  assertEquals(siteOf(new URL("https://x/app-config?site=landing")), "landing");
+  assertEquals(siteOf(new URL("https://x/app-config?site=admin")), "unknown");
+  assertEquals(siteOf(new URL("https://x/app-config?platform=ios")), null);
 });

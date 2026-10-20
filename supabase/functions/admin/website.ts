@@ -10,7 +10,7 @@ import type { VersionRow } from "./store.ts";
 import { versionedRoutes } from "./versioned.ts";
 
 const today = () => new Date().toISOString().slice(0, 10);
-const NAMES: Record<Page, string> = { home: "Home", support: "Support", privacy: "Privacy", terms: "Terms", "delete-account": "Delete account" };
+const NAMES: Record<Page, string> = { support: "Support", privacy: "Privacy", terms: "Terms", "delete-account": "Delete account" };
 
 export const basePage = (page?: string): PageBody => ({
   title: { en: NAMES[page as Page] ?? String(page), ar: "", es: "" },
@@ -28,10 +28,9 @@ export function validatePage(input: unknown): { ok: boolean; body: PageBody; err
   return { ok: errors.length === 0, body: { title: title.value, markdown: markdown.value, updated: updated ?? today() }, errors };
 }
 
-const liveUrls = (page: Page) => {
-  const dir = page === "home" ? "" : `${page}/`;
-  return { en_url: `https://gymcoapp.com/${dir}`, ar_url: `https://gymcoapp.com/${dir}ar/`, es_url: `https://gymcoapp.com/${dir}es/` };
-};
+const liveUrls = (page: Page) => ({
+  en_url: `https://gymcoapp.com/${page}/`, ar_url: `https://gymcoapp.com/${page}/ar/`, es_url: `https://gymcoapp.com/${page}/es/`,
+});
 const editing = (r: VersionRow) => r.status === "draft" || r.status === "in_review";
 
 export function websiteRoutes(s: Services): Record<string, Route> {

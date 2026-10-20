@@ -27,17 +27,19 @@ Deno.test("website.get: base, live urls and a summary of every page", async () =
   assert(/^\d{4}-\d{2}-\d{2}$/.test(b.base.updated));
   assertEquals([b.published, b.draft, b.history], [null, null, []]);
   assertEquals(b.live, { en_url: "https://gymcoapp.com/support/", ar_url: "https://gymcoapp.com/support/ar/", es_url: "https://gymcoapp.com/support/es/" });
-  assertEquals(b.summary.map((s: any) => s.page), ["home", "support", "privacy", "terms", "delete-account"]);
-  assertEquals(b.summary[1], { page: "support", published_version: null, draft_status: null, updated: null });
-  const home = (await run({ action: "website.get", page: "home" })).body as any;
-  assertEquals(home.live.ar_url, "https://gymcoapp.com/ar/");
+  assertEquals(b.summary.map((s: any) => s.page), ["support", "privacy", "terms", "delete-account"]);
+  assertEquals(b.summary[0], { page: "support", published_version: null, draft_status: null, updated: null });
+  const del = (await run({ action: "website.get", page: "delete-account" })).body as any;
+  assertEquals(del.live.es_url, "https://gymcoapp.com/delete-account/es/");
 });
 
 Deno.test("website: a bad page is 400 bad_kind on every action", async () => {
   const { run } = setup("owner");
   for (const action of ["website.get", "website.save_draft", "website.submit", "website.discard", "website.publish", "website.rollback"]) {
-    const r = await run({ action, page: "../admin", body, version: 1, to_version: 1 });
-    assertEquals([r.status, (r.body as any).error], [400, "bad_kind"], action);
+    for (const page of ["../admin", "home"]) {
+      const r = await run({ action, page, body, version: 1, to_version: 1 });
+      assertEquals([r.status, (r.body as any).error], [400, "bad_kind"], `${action} ${page}`);
+    }
   }
   assertEquals((await run({ action: "website.get", kind: "support" })).status, 400);
 });
@@ -54,7 +56,7 @@ Deno.test("website: save a draft under its page, publish without a token: commit
   assertEquals((pub.body as any).version, 1);
   assertEquals(store.pages[0].status, "published");
   assertEquals(store.audit.at(-1)?.section, "website");
-  assertEquals(((await run({ action: "website.get", page: "support" })).body as any).summary[1], { page: "support", published_version: 1, draft_status: null, updated: "2026-10-20" });
+  assertEquals(((await run({ action: "website.get", page: "support" })).body as any).summary[0], { page: "support", published_version: 1, draft_status: null, updated: "2026-10-20" });
 });
 
 Deno.test("website: publishing with GitHub writes the three pages with the commit message", async () => {
@@ -64,19 +66,21 @@ Deno.test("website: publishing with GitHub writes the three pages with the commi
     return Promise.resolve();
   } };
   const { run } = setup("owner", { github: () => gh });
-  await run({ action: "website.save_draft", page: "home", body });
-  const pub = await run({ action: "website.publish", page: "home", version: 1 });
+  await run({ action: "website.save_draft", page: "support", body });
+  const pub = await run({ action: "website.publish", page: "support", version: 1 });
   assertEquals((pub.body as any).committed, true);
-  assertEquals(puts.map((p) => p.path), ["site/index.html", "site/ar/index.html", "site/es/index.html"]);
-  assert(puts.every((p) => p.message === "Website: home v1"));
+  assertEquals(puts.map((p) => p.path), ["site/support/index.html", "site/support/ar/index.html", "site/support/es/index.html"]);
+  assert(puts.every((p) => p.message === "Website: support v1"));
   assertStringIncludes(puts[1].content, '<html lang="ar" dir="rtl">');
   assertStringIncludes(puts[0].content, "<h1>Help</h1>");
   // Rollback publishes a copy and commits it too.
-  await run({ action: "website.save_draft", page: "home", body: { ...body, markdown: t3("# Changed") } });
-  await run({ action: "website.publish", page: "home", version: 2 });
-  const back = await run({ action: "website.rollback", page: "home", to_version: 1 });
+  await run({ action: "website.save_draft", page: "support", body: { ...body, markdown: t3("# Changed") } });
+  await run({ action: "website.publish", page: "support", version: 2 });
+  const back = await run({ action: "website.rollback", page: "support", to_version: 1 });
   assertEquals([(back.body as any).version, (back.body as any).committed], [3, true]);
-  assertEquals(puts.at(-1)?.message, "Website: home v3");
+  assertEquals(puts.at(-1)?.message, "Website: support v3");
+  // Nothing ever writes the landing page at the root.
+  assert(puts.every((p) => p.path.startsWith("site/support/")));
   assertStringIncludes(puts.at(-3)!.content, "<h1>Help</h1>");
 });
 

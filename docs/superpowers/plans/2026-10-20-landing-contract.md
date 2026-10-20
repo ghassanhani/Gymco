@@ -78,7 +78,7 @@ hints); a node test checks the two lists match.
   to test addresses); `400 { error: "invalid" }`; `429 { error: "too_many" }`
   past 500 sign-ups a UTC day in total. CORS `*`, `verify_jwt` off,
   counted with `note_fn_call('waitlist', ok)`.
-- Table `waitlist (email text primary key check (length(email) <= 320),
+- Table `landing_waitlist (email text primary key check (length(email) <= 320),
   locale text check (locale in ('en','ar','es')), created_at timestamptz
   default now())`, RLS on, no grants to anon/authenticated.
 - The page shows "You're on the list. One email at launch." (in the page's

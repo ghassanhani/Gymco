@@ -5,6 +5,7 @@ import { aalOf, can, type Capability, type Role } from "./access.ts";
 import type { AdminRow, AuditEntry, Store } from "./store.ts";
 import { configRoutes } from "./config.ts";
 import { healthRoutes } from "./health.ts";
+import { landingRoutes } from "./landing.ts";
 import { messagingRoutes } from "./messaging.ts";
 import { packRoutes } from "./packs.ts";
 import { peopleRoutes } from "./people.ts";
@@ -54,6 +55,7 @@ export const buildRoutes = (s: Services): Record<string, Route> => ({
   ...supportRoutes(s),
   ...releaseRoutes(s),
   ...websiteRoutes(s),
+  ...landingRoutes,
   ...healthRoutes(s),
 });
 

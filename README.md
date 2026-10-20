@@ -80,10 +80,10 @@ It is deployed to project `vncadogzpeoawikgafaj` (eu-west-1), and the app builds
 For another project: `supabase link --project-ref <ref>`, `supabase db push`, then
 
 ```sh
-supabase functions deploy admin app-config food-photo support-ticket push-register delete-account
+supabase functions deploy admin app-config food-photo support-ticket push-register delete-account waitlist
 ```
 
-`admin`, `app-config`, `support-ticket` and `push-register` are deployed with `--no-verify-jwt`. `admin` checks the JWT itself, so the dashboard's CORS preflight gets through; the other three take requests without a sign-in by design. Then build with
+`admin`, `app-config`, `support-ticket`, `push-register` and `waitlist` are deployed with `--no-verify-jwt`. `admin` checks the JWT itself, so the dashboard's CORS preflight gets through; the other four take requests without a sign-in by design (`waitlist` is the landing page's "Notify me"). Then build with
 `--dart-define=SUPABASE_URL=https://<ref>.supabase.co --dart-define=SUPABASE_PUBLISHABLE_KEY=sb_publishable_...` (empty values build a phone-only app).
 
 Optional secrets, under **Edge Functions → Secrets**; without one, that part of the Control Center says it isn't set up:

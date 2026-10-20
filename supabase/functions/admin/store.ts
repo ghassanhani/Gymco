@@ -58,7 +58,7 @@ export interface ManualGrant {
   granted_by: string | null;
 }
 
-export type VersionedTable = "remote_config" | "content_packs" | "website_pages";
+export type VersionedTable = "remote_config" | "content_packs" | "website_pages" | "site_landing";
 
 /** The column a table's kind lives in. */
 export const kindColumn = (table: VersionedTable) => (table === "website_pages" ? "page" : "kind");
@@ -135,6 +135,13 @@ export interface TicketCounts {
 
 export type TicketTab = "new" | "waiting" | "solved" | "deletion";
 
+/** One "Notify me" sign-up from the landing page. */
+export interface WaitlistRow {
+  email: string;
+  locale: "en" | "ar" | "es";
+  created_at: string;
+}
+
 export interface Store {
   versions(table: VersionedTable, kind?: string): Promise<VersionRow[]>;
   insertVersion(table: VersionedTable, row: VersionRow): Promise<void>;
@@ -184,6 +191,9 @@ export interface Store {
   publishReleaseNote(build: number): Promise<boolean>;
   fnCalls24h(): Promise<{ fn: string; calls: number; errors: number }[]>;
   pushTokenCount(): Promise<number>;
+  waitlistStats(): Promise<{ count: number; last_7d: number }>;
+  /** Every sign-up, newest first. */
+  waitlistRows(): Promise<WaitlistRow[]>;
 }
 
 function must<T>(r: { data: T; error: unknown }): T {
@@ -212,6 +222,8 @@ export class SupabaseStore implements Store {
       ? this.db.rpc("publish_config", { v: version, by_email: by })
       : table === "website_pages"
       ? this.db.rpc("publish_page", { page_name: kind, v: version, by_email: by })
+      : table === "site_landing"
+      ? this.db.rpc("publish_landing", { v: version, by_email: by })
       : this.db.rpc("publish_pack", { pack_kind: kind, v: version, by_email: by })));
   }
 
@@ -381,5 +393,19 @@ export class SupabaseStore implements Store {
   }
   async pushTokenCount() {
     return must(await this.db.rpc("push_token_count")) as number;
+  }
+  async waitlistStats() {
+    return must(await this.db.rpc("waitlist_stats")) as { count: number; last_7d: number };
+  }
+  async waitlistRows() {
+    // PostgREST hands back at most 1000 rows a request, so read in pages.
+    const out: WaitlistRow[] = [];
+    for (let from = 0; from < 200_000; from += 1000) {
+      const page = must(await this.db.from("landing_waitlist").select("email, locale, created_at")
+        .order("created_at", { ascending: false }).order("email").range(from, from + 999)) as WaitlistRow[];
+      out.push(...page);
+      if (page.length < 1000) break;
+    }
+    return out;
   }
 }

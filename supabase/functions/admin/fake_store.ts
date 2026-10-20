@@ -4,7 +4,7 @@
 import type { Role } from "./access.ts";
 import type {
   AdminRow, AnnouncementRow, AuditEntry, AuditQuery, CampaignRow, ManualGrant, MessageRow, ReleaseNoteRow, Store,
-  TicketCounts, TicketRow, TicketTab, VersionedTable, VersionRow,
+  TicketCounts, TicketRow, TicketTab, VersionedTable, VersionRow, WaitlistRow,
 } from "./store.ts";
 import { kindColumn } from "./store.ts";
 
@@ -27,6 +27,8 @@ export class FakeStore implements Store {
   configs: VersionRow[] = [];
   packs: VersionRow[] = [];
   pages: VersionRow[] = [];
+  landing: VersionRow[] = [];
+  waitlist: WaitlistRow[] = [];
   announcementRows: AnnouncementRow[] = [];
   campaignRows: CampaignRow[] = [];
   ticketRows: TicketRow[] = [];
@@ -37,7 +39,7 @@ export class FakeStore implements Store {
   now = () => new Date();
 
   private rows(table: VersionedTable) {
-    return table === "remote_config" ? this.configs : table === "website_pages" ? this.pages : this.packs;
+    return table === "remote_config" ? this.configs : table === "website_pages" ? this.pages : table === "site_landing" ? this.landing : this.packs;
   }
   private kindOf(table: VersionedTable, r: VersionRow) {
     return r[kindColumn(table)];
@@ -253,5 +255,12 @@ export class FakeStore implements Store {
   }
   pushTokenCount() {
     return Promise.resolve(this.tokens);
+  }
+  waitlistStats() {
+    const since = this.now().getTime() - 7 * 86_400_000;
+    return Promise.resolve({ count: this.waitlist.length, last_7d: this.waitlist.filter((w) => Date.parse(w.created_at) >= since).length });
+  }
+  waitlistRows() {
+    return Promise.resolve([...this.waitlist].sort((a, b) => b.created_at.localeCompare(a.created_at)).map((w) => ({ ...w })));
   }
 }

@@ -6,9 +6,11 @@
 // -> 200 { config_version, config, packs: { kind: { version, checksum } }, announcements, whats_new, generated_at }
 // GET ?pack=<kind>
 // -> 200 { kind, version, checksum, body_json } | 404 { error: "no_pack" }
+// GET ?site=landing (gymcoapp.com/, cached a minute)
+// -> 200 { version, body } | 200 { version: 0, body: null } when nothing is published
 
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
-import { deviceOf, packReply, respond } from "./respond.ts";
+import { deviceOf, landingReply, packReply, respond, siteOf } from "./respond.ts";
 
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
@@ -23,6 +25,13 @@ const json = (status: number, body: unknown, maxAge = 300) =>
   });
 
 async function serve(url: URL): Promise<Response> {
+  const site = siteOf(url);
+  if (site === "landing") {
+    const { data, error } = await db.from("site_landing").select("version, body").eq("status", "published").maybeSingle();
+    if (error) throw error;
+    return json(200, landingReply(data), 60);
+  }
+  if (site) return json(404, { error: "no_site" });
   const pack = url.searchParams.get("pack");
   if (pack) {
     const { data, error } = await db.from("content_packs").select("kind, version, checksum, body")

@@ -4,7 +4,9 @@
 
 import { marked, Renderer } from "npm:marked@15.0.12";
 
-export const PAGES = ["home", "support", "privacy", "terms", "delete-account"] as const;
+// gymcoapp.com/ itself is the landing page (site/index.html, edited through
+// landing.* and site_landing), so it is not a page here and is never written.
+export const PAGES = ["support", "privacy", "terms", "delete-account"] as const;
 export type Page = typeof PAGES[number];
 export type Lang = "en" | "ar" | "es";
 export const LANGS: readonly Lang[] = ["en", "ar", "es"];
@@ -41,10 +43,9 @@ export function renderMarkdown(md: string): string {
   return marked.parse(md, { renderer, async: false, gfm: true }) as string;
 }
 
-/** Where a page's HTML lives in the repo: EN at the page's folder, AR and ES below it; home at the root. */
+/** Where a page's HTML lives in the repo: EN at the page's folder, AR and ES below it. */
 export function pagePath(page: Page, lang: Lang): string {
-  const dir = page === "home" ? "" : `${page}/`;
-  return `site/${dir}${lang === "en" ? "" : `${lang}/`}index.html`;
+  return `site/${page}/${lang === "en" ? "" : `${lang}/`}index.html`;
 }
 
 const UPDATED: Record<Lang, string> = { en: "Updated", ar: "آخر تحديث", es: "Actualizado" };

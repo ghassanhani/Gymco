@@ -7,10 +7,10 @@ const body = {
   updated: "2026-10-20",
 };
 
-Deno.test("site: pages map to their folders, home at the root", () => {
-  assertEquals([...PAGES], ["home", "support", "privacy", "terms", "delete-account"]);
-  assertEquals(pagePath("home", "en"), "site/index.html");
-  assertEquals(pagePath("home", "ar"), "site/ar/index.html");
+Deno.test("site: pages map to their folders; the root is the landing page, never written here", () => {
+  assertEquals([...PAGES], ["support", "privacy", "terms", "delete-account"]);
+  assert(!(PAGES as readonly string[]).includes("home"));
+  assertEquals(pagePath("support", "ar"), "site/support/ar/index.html");
   assertEquals(pagePath("support", "en"), "site/support/index.html");
   assertEquals(pagePath("privacy", "es"), "site/privacy/es/index.html");
 });
@@ -39,7 +39,7 @@ Deno.test("site: Arabic pages are rtl and titles are escaped", () => {
 });
 
 Deno.test("site: a publish writes three files", () => {
-  const files = siteFiles("home", body);
-  assertEquals(files.map((f) => f.path), ["site/index.html", "site/ar/index.html", "site/es/index.html"]);
+  const files = siteFiles("terms", body);
+  assertEquals(files.map((f) => f.path), ["site/terms/index.html", "site/terms/ar/index.html", "site/terms/es/index.html"]);
   assertStringIncludes(files[2].content, '<html lang="es">');
 });

@@ -77,3 +77,14 @@ function whatsNew(notes: ReleaseNote[], build: number | undefined) {
 export function packReply(row: { kind: string; version: number; checksum: string; body: unknown }) {
   return { kind: row.kind, version: row.version, checksum: row.checksum, body_json: canonicalJson(row.body) };
 }
+
+/** Which website document a request asks for: "landing", "unknown" for any other ?site=, or null without one. */
+export function siteOf(url: URL): "landing" | "unknown" | null {
+  const site = url.searchParams.get("site");
+  return site == null ? null : site === "landing" ? "landing" : "unknown";
+}
+
+/** The published landing document for gymcoapp.com/, or version 0 with no body when none is published. */
+export function landingReply(row: { version: number; body: unknown } | null) {
+  return row ? { version: row.version, body: row.body } : { version: 0, body: null };
+}
