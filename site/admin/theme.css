@@ -402,3 +402,24 @@ tbody tr.clickable:hover td, tbody tr[aria-selected="true"] td { background: var
 
 /* System health: service rows stay a row on phones (the chip is short) */
 .cfg-row.svc, .cfg-row.svc:not(:has(> .toggle)) { flex-direction: row; align-items: center; }
+
+/* Website · Landing page: copy groups, the italic accent, prices and the waitlist */
+.copy-group { border-top: 1px solid var(--line); padding-top: 12px; }
+.copy-group > summary { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; cursor: pointer; min-height: 32px; list-style: none; }
+.copy-group > summary::-webkit-details-marker { display: none; }
+.copy-group > summary::before { content: "▸"; color: var(--text-3); font-size: 12px; transition: transform 0.15s; }
+[dir="rtl"] .copy-group > summary::before { content: "◂"; }
+.copy-group[open] > summary::before { transform: rotate(90deg); }
+.copy-group[open] > summary { margin-bottom: 12px; }
+.copy-grid { gap: 14px 24px; align-items: start; }
+.copy-grid > .copy-row + .copy-row { border-top: 0; padding-top: 0; }
+em.accent { font-family: "Instrument Serif", Georgia, serif; font-style: italic; color: var(--link); font-size: 1.1em; }
+.landing-prices { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* No override yet: an empty language is the built-in text, not a gap. */
+.copy-row.builtin .langtabs button.missing { border-color: var(--line-2); color: var(--text-2); }
+.faq-item { background: var(--sheet); border: 1px solid var(--line); }
+.waitlist-row .plan-price { line-height: 1; }
+@media (max-width: 600px) {
+  .copy-grid { grid-template-columns: 1fr; }
+  .copy-grid > .copy-row + .copy-row { border-top: 1px solid var(--line); padding-top: 14px; }
+}

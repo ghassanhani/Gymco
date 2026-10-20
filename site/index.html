@@ -1,33 +1,302 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gymco — diet and training for lifters</title>
-<meta name="description" content="Track food and training in one place. Your diary stays on your phone.">
+<title>Gymco — Diet and training for lifters</title>
+<meta name="description" content="Gymco is a diet and training app for lifters. Log food in seconds, train with a plan and keep a streak. No ads, no trackers, and your diary stays on your phone.">
+<meta name="theme-color" content="#0a0b09">
+<link rel="canonical" href="https://gymcoapp.com/">
+<link rel="alternate" hreflang="en" href="https://gymcoapp.com/">
+<link rel="alternate" hreflang="ar" href="https://gymcoapp.com/?lang=ar">
+<link rel="alternate" hreflang="es" href="https://gymcoapp.com/?lang=es">
+<link rel="alternate" hreflang="x-default" href="https://gymcoapp.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Gymco">
+<meta property="og:url" content="https://gymcoapp.com/">
+<meta property="og:title" content="Gymco — Diet and training for lifters">
+<meta property="og:description" content="Log food in seconds, train with a plan, and keep a streak worth protecting. No ads, no trackers, and your diary stays on your phone.">
+<meta property="og:image" content="https://gymcoapp.com/img/landing/screen-today.jpg">
+<meta property="og:image:width" content="660">
+<meta property="og:image:height" content="1434">
+<meta property="og:image:alt" content="The Gymco Today screen">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="/favicon.png">
 <link rel="apple-touch-icon" href="/icon.png">
+<script>
+  // Theme and language before the first paint. No storage = dark, the browser's language and no flash guard.
+  (function () {
+    var d = document.documentElement, t = null, l = null;
+    try { t = localStorage.getItem("gymco-site-theme"); l = localStorage.getItem("gymco-site-lang"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    d.setAttribute("data-theme", t);
+    var q = /[?&]lang=(ar|es|en)\b/i.exec(location.search);
+    l = q ? q[1].toLowerCase() : l || ((navigator.languages && navigator.languages[0]) || navigator.language || "").slice(0, 2).toLowerCase();
+    if (l === "ar" || l === "es") d.className += " lp-pending";
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Urbanist:wght@400;600;700&display=swap">
-<link rel="stylesheet" href="/style.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="/landing.css">
+<script type="module" src="/landing.js"></script>
 </head>
 <body>
-<header><div class="wrap"><a class="brand" href="/"><img src="/icon.png" alt="">Gymco</a>
-<nav><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></div></header>
-<main><div class="wrap">
-<section class="hero">
-<img src="/icon.png" alt="Gymco icon">
-<h1>Eat, lift, <em>repeat.</em></h1>
-<p>Gymco tracks your food and your training in one place, sets your targets, and adjusts them as you go. Your diary stays on your phone.</p>
-<a class="btn" href="/support/">Get help</a>
+<div class="lp">
+<script>if (document.documentElement.getAttribute("data-theme") === "light") document.currentScript.parentElement.classList.add("light");</script>
+
+<header class="hdr">
+  <div class="wrap">
+    <a href="#top" class="logo"><span class="vl"></span>Gymco</a>
+    <nav class="nav" aria-label="Sections" data-k-aria="nav.label">
+      <a href="#food" data-k="nav.features">Features</a>
+      <a href="#train" data-k="nav.train">Train</a>
+      <a href="#privacy" data-k="nav.privacy">Privacy</a>
+      <a href="#plans" data-k="nav.plans">Plans</a>
+      <a href="#faq" data-k="nav.faq">FAQ</a>
+    </nav>
+    <button type="button" class="theme" id="theme" aria-label="Switch to light mode" title="Switch to light mode"><svg class="ic-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"></path></svg><svg class="ic-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></button>
+    <div class="lang" role="group" aria-label="Language" data-k-aria="lang.label"><button type="button" data-lang="en" lang="en" class="on" aria-pressed="true">EN</button><button type="button" data-lang="ar" lang="ar" aria-pressed="false">العربية</button><button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button></div>
+    <a href="#join" class="btn btn-glow btn-sm" data-k="cta.join">Join the beta</a>
+  </div>
+</header>
+
+<main>
+<section class="hero2" id="top">
+  <div class="wrap h2c">
+    <span class="tag" data-beta><i></i><span data-k="hero.tag">Beta · free while in testing</span></span>
+    <h1 data-k="hero.title" data-rich>Diet and training for <em>lifters</em></h1>
+    <p class="lede" data-k="hero.lede">Log food in seconds, train with a plan, and keep a streak worth protecting.</p>
+    <div class="cta-row">
+      <a href="#join" class="btn btn-glow"><span data-k="hero.cta">Join the beta</span> <span class="ar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
+      <a href="#food" class="btn btn-dark"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"></path></svg><span data-k="hero.cta2">See how it works</span></a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="fan" role="img" aria-label="Five Gymco screens: the Today screen in front, with Add food, the First week award, Train and a live workout behind it" data-k-aria="hero.fan">
+      <div class="fr f-l2"><img src="/img/landing/screen-l2.jpg" alt="" width="660" height="1434" decoding="async"></div>
+      <div class="fr f-l1"><img src="/img/landing/screen-l1.jpg" alt="" width="660" height="1434" decoding="async"></div>
+      <div class="fr f-r2"><img src="/img/landing/screen-r2.jpg" alt="" width="660" height="1434" decoding="async"></div>
+      <div class="fr f-r1"><img src="/img/landing/screen-r1.jpg" alt="" width="660" height="1434" decoding="async"></div>
+      <div class="fr f-c"><img src="/img/landing/screen-today.jpg" alt="" width="660" height="1434" fetchpriority="high"></div>
+    </div>
+  </div>
 </section>
-<div class="grid">
-<div class="card"><b>Food in seconds</b>Barcode, search, write it in plain words, or snap a photo.</div>
-<div class="card"><b>Training that adapts</b>Routines, rest timers, PRs, swaps when a machine is taken.</div>
-<div class="card"><b>Private by default</b>No account needed. No ads. Nothing sold.</div>
+
+<section class="proof" id="proof" aria-label="Gymco in numbers" data-k-aria="proof.label">
+  <div class="wrap">
+    <div class="f"><b>6</b><span data-k="proof.1">ways to log food</span></div>
+    <div class="f"><b><bdi dir="ltr">870<em>+</em></bdi></b><span data-k="proof.2">exercises with how-tos</span></div>
+    <div class="f"><b>3</b><span data-k="proof.3">languages, Arabic fully right-to-left</span></div>
+    <div class="f"><b>0</b><span data-k="proof.4">ads, trackers or data sold</span></div>
+  </div>
+</section>
+
+<section class="sec" id="food">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-k="food.eyebrow">Food</span><h2 data-k="food.title" data-rich>Log food <em>your way</em></h2><p class="sub" data-k="food.sub">Six ways in, so a meal never goes unlogged. You confirm every entry before it counts.</p></div>
+    <div class="split">
+      <div class="modes">
+        <div class="mode"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></span><b data-k="food.search.t">Search</b><span data-k="food.search.d">USDA and Open Food Facts, in three languages</span></div>
+        <div class="mode"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 5v14M8 5v10M12 5v10M16 5v10M20 5v14"></path></svg></span><b data-k="food.barcode.t">Barcode</b><span data-k="food.barcode.d">Packaged food, straight to the label</span></div>
+        <div class="mode hot"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h9"></path></svg></span><b data-k="food.write.t">Write</b><span data-k="food.write.d">Type it like you'd say it. Works offline.</span></div>
+        <div class="mode"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="8" y="3" width="8" height="12" rx="4"></rect><path d="M5 11a7 7 0 0014 0M12 18v3"></path></svg></span><b data-k="food.dictate.t">Dictate</b><span data-k="food.dictate.d">Say it, check the transcript, log it</span></div>
+        <div class="mode"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span><b data-k="food.photo.t">Photo</b><span data-k="food.photo.d">AI suggests foods, you set the amounts</span></div>
+        <div class="mode"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 004 0V3M7 11v10M17 3c-2 2-2.5 4.5-2.5 7h5c0-2.5-.5-5-2.5-7zM17 10v11"></path></svg></span><b data-k="food.out.t">Eating out</b><span data-k="food.out.d">A quick, honest estimate for restaurant meals</span></div>
+      </div>
+      <div class="parse">
+        <div class="muted"><span data-k="food.parse.write">Write</span> · <span lang="en">English</span>, <span lang="ar">العربية</span>, <span lang="es">Español</span></div>
+        <div class="typed"><span data-k="food.parse.typed">200g chicken, 150g rice and 10g olive oil</span><span class="caret"></span></div>
+        <div class="prow"><span class="dot" style="background:#4cc9f0"></span><span data-k="food.parse.r1">Chicken breast</span><span class="g"><b class="num"><bdi dir="ltr">220 kcal</bdi></b><span data-k="food.parse.r1d">200 g · 46 g protein</span></span></div>
+        <div class="prow"><span class="dot" style="background:#ff9f43"></span><span data-k="food.parse.r2">Basmati rice, cooked</span><span class="g"><b class="num"><bdi dir="ltr">195 kcal</bdi></b><span data-k="food.parse.r2d">150 g · 42 g carbs</span></span></div>
+        <div class="prow"><span class="dot" style="background:#c084fc"></span><span data-k="food.parse.r3">Olive oil</span><span class="g"><b class="num"><bdi dir="ltr">88 kcal</bdi></b><span data-k="food.parse.r3d">10 g · 10 g fat</span></span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px"><span class="ai" data-k="ai.tag">AI</span><span class="muted" data-k="food.parse.note">AI rows are tagged. Nothing is logged until you confirm it.</span></div>
+        <a href="#join" class="btn btn-glow" style="margin-top:6px" data-k="food.parse.cta">Add 3 to lunch · 503 kcal</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec tsec" id="train">
+  <div class="wrap tgrid">
+    <div class="tcopy">
+      <span class="tbadge"><span class="vl"></span></span>
+      <h2 data-k="train.title" data-rich>Train with a <em>plan</em></h2>
+      <p class="sub" data-k="train.sub">Pick a split or build your own. Miss a day and the week moves with you, and last time's numbers sit on every set.</p>
+      <a href="#join" class="btn btn-glow"><span data-k="train.cta">Choose a routine</span> <span class="ar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
+    </div>
+    <div class="bento">
+      <div class="bx wide">
+        <div class="bx-top"><div><span class="bl" data-k="train.best">Bench press · best set</span><div class="bbig num"><span class="dot"></span><span dir="ltr">102.5 kg × 8</span></div></div><div class="rng"><span data-k="train.rng.4w">4W</span><span class="on" data-k="train.rng.3m">3M</span><span data-k="train.rng.6m">6M</span><span data-k="train.rng.1y">1Y</span></div></div>
+        <div class="tip"><span class="vl"></span><b data-k="train.newBest">New best</b><small dir="ltr">+2.5 kg</small></div>
+        <svg class="tchart" viewBox="0 0 560 190" preserveAspectRatio="none" aria-hidden="true"><line x1="20" x2="540" y1="30" y2="30" stroke="#1d2024"></line><line x1="20" x2="540" y1="70" y2="70" stroke="#1d2024"></line><line x1="20" x2="540" y1="110" y2="110" stroke="#1d2024"></line><line x1="20" x2="540" y1="150" y2="150" stroke="#1d2024"></line><rect x="14.0" y="162" width="9" height="14" rx="2" fill="#22262a"></rect><rect x="36.2" y="156" width="9" height="20" rx="2" fill="#22262a"></rect><rect x="58.3" y="166" width="9" height="10" rx="2" fill="#22262a"></rect><rect x="80.5" y="152" width="9" height="24" rx="2" fill="#22262a"></rect><rect x="102.7" y="158" width="9" height="18" rx="2" fill="#22262a"></rect><rect x="124.8" y="168" width="9" height="8" rx="2" fill="#22262a"></rect><rect x="147.0" y="154" width="9" height="22" rx="2" fill="#22262a"></rect><rect x="169.2" y="150" width="9" height="26" rx="2" fill="#22262a"></rect><rect x="191.3" y="164" width="9" height="12" rx="2" fill="#22262a"></rect><rect x="235.7" y="156" width="9" height="20" rx="2" fill="#22262a"></rect><rect x="257.8" y="148" width="9" height="28" rx="2" fill="#22262a"></rect><rect x="280.0" y="160" width="9" height="16" rx="2" fill="#22262a"></rect><rect x="302.2" y="154" width="9" height="22" rx="2" fill="#22262a"></rect><rect x="324.3" y="166" width="9" height="10" rx="2" fill="#22262a"></rect><rect x="346.5" y="146" width="9" height="30" rx="2" fill="#22262a"></rect><rect x="368.7" y="152" width="9" height="24" rx="2" fill="#22262a"></rect><rect x="413.0" y="158" width="9" height="18" rx="2" fill="#22262a"></rect><rect x="435.2" y="150" width="9" height="26" rx="2" fill="#22262a"></rect><rect x="457.3" y="156" width="9" height="20" rx="2" fill="#22262a"></rect><rect x="479.5" y="162" width="9" height="14" rx="2" fill="#22262a"></rect><rect x="501.7" y="142" width="9" height="34" rx="2" fill="#c6f432"></rect><rect x="546.0" y="164" width="9" height="12" rx="2" fill="#22262a"></rect>
+<path d="M20.0 140.9 L67.3 128.4 L114.5 147.1 L161.8 109.8 L209.1 122.2 L256.4 103.6 L303.6 112.9 L350.9 94.2 L398.2 106.7 L445.5 84.9 L492.7 97.3 L540.0 78.7" fill="none" stroke="#5b6168" stroke-width="1.6"></path>
+<path d="M20.0 140.9 L67.3 133.1 L114.5 129.2 L161.8 117.6 L209.1 125.3 L256.4 109.8 L303.6 98.1 L350.9 102.0 L398.2 86.4 L445.5 78.7 L492.7 70.9 L540.0 59.2" fill="none" stroke="#c6f432" stroke-width="2.2" stroke-linejoin="round"></path>
+<circle cx="540.0" cy="59.2" r="5" fill="#c6f432"></circle><circle cx="540.0" cy="59.2" r="11" fill="#c6f432" opacity=".18"></circle></svg>
+      </div>
+      <div class="bx">
+        <span class="bl" data-k="train.today">Today's workout</span>
+        <div class="bbig" data-k="train.push" data-rich>Push <em>day</em></div>
+        <div class="actbar"><span data-k="train.start">Start ▸</span><span data-k="train.swap">Swap ⇄</span><span data-k="train.skip">Skip</span></div>
+        <div class="lift"><div><b data-k="train.lift1">Bench press</b><small class="num" data-k="train.lift1.last">last 100 × 8</small></div><svg width="84" height="30" viewBox="0 0 84 30" aria-hidden="true"><path d="M2 24 L12 22 L22 23 L32 18 L42 19 L52 14 L62 12 L72 9 L82 5" fill="none" stroke="#c6f432" stroke-width="1.6"></path></svg><div class="r"><b class="num" dir="ltr">102.5 × 8</b><small class="up num" dir="ltr">+2.5 kg</small></div></div>
+        <div class="lift"><div><b data-k="train.lift2">Incline DB</b><small class="num" data-k="train.lift2.last">last 30 × 10</small></div><svg width="84" height="30" viewBox="0 0 84 30" aria-hidden="true"><path d="M2 20 L12 21 L22 17 L32 19 L42 15 L52 16 L62 12 L72 13 L82 9" fill="none" stroke="#8b7cf6" stroke-width="1.6"></path></svg><div class="r"><b class="num" dir="ltr">32 × 10</b><small class="up num" dir="ltr">+2 kg</small></div></div>
+      </div>
+      <div class="bx">
+        <div class="stat"><div class="snum num"><span class="dot"></span><span data-k="train.days">4 days</span></div><span class="chip" data-k="train.split">Upper / Lower</span><small data-k="train.splitAlt">Also 3-day Full body or 6-day Push / Pull / Legs</small></div>
+        <div class="ticks" role="img" aria-label="Week 5 of 8" data-k-aria="train.week"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="stat"><div class="snum num"><span class="dot"></span><span data-k="train.lost">0 lost</span></div><span class="chip" data-k="train.moved">Missed Wed → Thu</span><small data-k="train.movedNote">A missed session moves to the next day</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="coaching">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-k="coaching.eyebrow">Coaching</span><h2 data-k="coaching.title" data-rich>Measured, <em>not guessed</em></h2><p class="sub" data-k="coaching.sub">Your targets come from what you ate and how your trend weight moved. Not from a formula pretending to know you.</p></div>
+    <div class="split">
+      <div class="chart">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px"><div><div class="muted" data-k="coaching.trend">Trend weight</div><div style="font-size:40px;font-weight:800;letter-spacing:-.04em" class="num" dir="ltr">81.4 <span style="font-size:18px;color:#8d948a">kg</span></div></div><div style="text-align:end"><div class="muted" data-k="coaching.rate">Rate</div><div style="color:#7cf0b0;font-weight:800" class="num" dir="ltr">−0.62 %/wk</div></div></div>
+        <svg width="100%" height="220" viewBox="0 0 520 220" preserveAspectRatio="none" aria-label="Trend weight falling smoothly while daily weigh-ins scatter around it" data-k-aria="coaching.chart" role="img">
+          <defs><linearGradient id="lpfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c6f432" stop-opacity=".28"></stop><stop offset="1" stop-color="#c6f432" stop-opacity="0"></stop></linearGradient></defs>
+          <line x1="0" y1="60" x2="520" y2="60" stroke="#2a2e33"></line><line x1="0" y1="120" x2="520" y2="120" stroke="#2a2e33"></line><line x1="0" y1="180" x2="520" y2="180" stroke="#2a2e33"></line>
+          <path d="M10 48 C 90 58, 150 70, 220 88 S 360 122, 510 150 L510 220 L10 220 Z" fill="url(#lpfill)"></path>
+          <g fill="#8d948a"><circle cx="20" cy="38" r="4"></circle><circle cx="58" cy="64" r="4"></circle><circle cx="96" cy="50" r="4"></circle><circle cx="134" cy="78" r="4"></circle><circle cx="172" cy="70" r="4"></circle><circle cx="210" cy="96" r="4"></circle><circle cx="248" cy="84" r="4"></circle><circle cx="286" cy="110" r="4"></circle><circle cx="324" cy="98" r="4"></circle><circle cx="362" cy="126" r="4"></circle><circle cx="400" cy="118" r="4"></circle><circle cx="438" cy="140" r="4"></circle><circle cx="476" cy="134" r="4"></circle></g>
+          <path d="M10 48 C 90 58, 150 70, 220 88 S 360 122, 510 150" fill="none" stroke="#c6f432" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="510" cy="150" r="8" fill="#c6f432"></circle><circle cx="510" cy="150" r="16" fill="none" stroke="#c6f432" stroke-opacity=".35" stroke-width="2"></circle>
+        </svg>
+        <div style="display:flex;justify-content:space-between" class="muted"><span data-k="coaching.d1">23 Aug</span><span data-k="coaching.d2">9 Sep</span><span data-k="coaching.d3">Today</span></div>
+        <div class="tw-stats"><div><b class="num"><bdi dir="ltr">−2.1 kg</bdi></b><small data-k="coaching.s1">since 23 Aug</small></div><div><b class="num">26</b><small data-k="coaching.s2">weigh-ins</small></div><div><b class="num"><bdi dir="ltr">78.0 kg</bdi></b><small data-k="coaching.s3">goal · about 6 weeks</small></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card checkin">
+          <div class="eyebrow" style="font-size:11px" data-k="coaching.checkin">Weekly check-in</div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin:10px 0 6px"><span class="num" style="font-size:18px;color:#8d948a;text-decoration:line-through">2,610</span><span style="color:#c6f432" class="flip">→</span><span class="num" style="font-size:44px;font-weight:800;letter-spacing:-.04em">2,680</span><span class="muted">kcal</span></div>
+          <p data-k="coaching.checkinText">You averaged 2,548 kcal and the trend fell 0.52 kg. That only balances if you burn about 2,930. Protein and fat stay put; the extra goes to carbs.</p>
+        </div>
+        <div class="rules">
+          <div class="rule"><span class="n num" dir="ltr">±120</span><div><b data-k="coaching.rule1.b">kcal a week, at most</b><span data-k="coaching.rule1.s">One odd week never swings your diet.</span></div></div>
+          <div class="rule"><span class="n num">1%</span><div><b data-k="coaching.rule2.b">a week, rate cap</b><span data-k="coaching.rule2.s">Faster than that and you start paying in muscle.</span></div></div>
+          <div class="rule"><span class="n num">1,700</span><div><b data-k="coaching.rule3.b">a safe floor</b><span data-k="coaching.rule3.s">Targets never go under it.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec band" id="streak">
+  <div class="wrap">
+    <div class="split" style="align-items:center">
+      <div>
+        <span class="eyebrow" data-k="streak.eyebrow">Streaks and awards</span><h2 data-k="streak.title" data-rich>A streak worth <em>protecting</em></h2>
+        <p class="sub" data-k="streak.sub">A day counts when your meals are logged and you train or rest as planned. Rest days count too.</p>
+        <div class="streak-lines" style="margin-top:26px">
+          <div class="rule"><span class="n" style="min-width:auto;font-size:24px" aria-hidden="true">❄</span><div><b data-k="streak.freeze.b">Freezes</b><span data-k="streak.freeze.s">Earn one every 7 kept days, hold up to 3, for sick days and travel.</span></div></div>
+          <div class="rule"><span class="n" style="min-width:auto;font-size:24px" aria-hidden="true">↺</span><div><b data-k="streak.repair.b">Repair</b><span data-k="streak.repair.s">Forgot to log? Fix the day until 23:59 the next day.</span></div></div>
+          <div class="rule"><span class="n" style="min-width:auto;font-size:24px" aria-hidden="true">✓</span><div><b data-k="streak.noaward.b">No award for eating less</b><span data-k="streak.noaward.s">Logging and showing up are what count. Never weight lost.</span></div></div>
+        </div>
+      </div>
+      <div class="imgcard medalstage" style="min-height:440px">
+        <div class="medals" style="position:absolute;inset:0" aria-hidden="true">
+          <svg class="medal" width="120" height="120" viewBox="0 0 88 88"><defs><linearGradient id="lm1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4ffd0"></stop><stop offset=".5" stop-color="#b6f02a"></stop><stop offset="1" stop-color="#3f6212"></stop></linearGradient></defs><polygon points="44,3 80,23.5 80,64.5 44,85 8,64.5 8,23.5" fill="url(#lm1)"></polygon><polygon points="44,12 72,28 72,60 44,76 16,60 16,28" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"></polygon><text x="44" y="50" text-anchor="middle" font-size="26" font-weight="800" fill="#0a0b09" style="font-family:inherit">30</text><text x="44" y="63" text-anchor="middle" font-size="7.5" font-weight="700" letter-spacing="1" fill="#0a0b09" style="font-family:inherit" data-k="streak.days">DAYS</text></svg>
+          <svg class="medal" width="150" height="150" viewBox="0 0 88 88"><defs><linearGradient id="lm2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fef3c7"></stop><stop offset=".5" stop-color="#f59e0b"></stop><stop offset="1" stop-color="#78350f"></stop></linearGradient></defs><polygon points="44,3 80,23.5 80,64.5 44,85 8,64.5 8,23.5" fill="url(#lm2)"></polygon><polygon points="44,12 72,28 72,60 44,76 16,60 16,28" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"></polygon><text x="44" y="50" text-anchor="middle" font-size="26" font-weight="800" fill="#fff" style="font-family:inherit">90</text><text x="44" y="63" text-anchor="middle" font-size="7.5" font-weight="700" letter-spacing="1" fill="#fff" style="font-family:inherit" data-k="streak.days">DAYS</text></svg>
+          <svg class="medal" width="120" height="120" viewBox="0 0 88 88"><defs><linearGradient id="lm3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bbf7d0"></stop><stop offset=".5" stop-color="#22c55e"></stop><stop offset="1" stop-color="#14532d"></stop></linearGradient></defs><circle cx="44" cy="44" r="40" fill="url(#lm3)"></circle><circle cx="44" cy="44" r="32" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"></circle><text x="44" y="50" text-anchor="middle" font-size="22" font-weight="800" fill="#fff" style="font-family:inherit">100</text><text x="44" y="63" text-anchor="middle" font-size="7.5" font-weight="700" letter-spacing="1" fill="#fff" style="font-family:inherit" data-k="streak.meals">MEALS</text></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="privacy">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-k="privacy.eyebrow">Privacy</span><h2 data-k="privacy.title" data-rich>Your data stays <em>yours</em></h2><p class="sub" data-k="privacy.sub">No account needed. The diary lives on your phone. Progress photos never leave it.</p></div>
+    <div class="priv">
+      <div class="card">
+        <h3 data-k="privacy.phone.h">Stays on your phone</h3>
+        <ul class="plist">
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.phone.1">Your food diary, workouts and weigh-ins</span></li>
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.phone.2">Progress photos, always</span></li>
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.phone.3">Measurements, notes and streaks</span></li>
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.phone.4">Everything works with no account at all</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 data-k="privacy.account.h">With an account, only</h3>
+        <ul class="plist">
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.account.1">Your email</span></li>
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.account.2">One backup, without photos</span></li>
+          <li><span class="ck" aria-hidden="true">✓</span><span data-k="privacy.account.3">A daily counter for photo scans</span></li>
+          <li><span class="ck" style="background:rgba(192,132,252,.16);color:#c084fc" data-k="ai.tag">AI</span><span data-k="privacy.account.4">A photo or text you scan goes to Anthropic for the estimate, and is not kept</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="never" role="group" aria-label="What Gymco never does" data-k-aria="privacy.never.label"><span class="nl" data-k="privacy.never">Gymco never</span><span data-k="privacy.never.1">Shows ads</span><span data-k="privacy.never.2">Tracks you with analytics</span><span data-k="privacy.never.3">Sells your data</span></div>
+  </div>
+</section>
+
+<section class="sec band" id="plans">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-k="plans.eyebrow">Plans</span><h2 data-k="plans.title" data-rich>Free while we <em>test</em></h2></div>
+    <div class="banner" data-beta><i></i><span data-k="plans.banner">Gymco is in testing. Nothing is for sale yet, and every Pro feature is unlocked.</span></div>
+    <div class="toggle" role="group" aria-label="Billing period" data-k-aria="plans.period">
+      <button type="button" class="on" id="bill-month" aria-pressed="true" data-k="plans.monthly">Monthly</button>
+      <button type="button" id="bill-year" aria-pressed="false"><span data-k="plans.yearly">Yearly</span> <span class="save" id="year-save" dir="ltr">−33%</span></button>
+    </div>
+    <div class="plans">
+      <div class="plan"><div class="in"><div class="nm" data-k="plans.free">Free</div><div class="pr">€0</div><ul><li data-k="plans.free.1">Everything to log and train</li><li data-k="plans.free.2">All six ways to log food</li><li data-k="plans.free.3">Routines, timer and history</li><li data-k="plans.free.4">Streaks and awards</li></ul><a href="#join" class="btn btn-line" data-k="cta.join">Join the beta</a></div></div>
+      <div class="plan pro"><div class="in"><div class="nm"><span data-k="plans.pro">Pro</span> <span class="badge" data-beta data-k="plans.pro.badge">Unlocked in beta</span></div><div class="pr num"><span id="pro-price" dir="ltr">€4.99</span> <small id="pro-per">/ month</small></div><ul><li data-k="plans.pro.1">Adaptive targets and the weekly check-in</li><li data-k="plans.pro.2">Strength tracked against your deficit</li><li data-k="plans.pro.3">Volume per muscle</li><li data-k="plans.pro.4">Full history</li></ul><a href="#join" class="btn btn-glow" data-k="cta.join">Join the beta</a></div></div>
+      <div class="plan life"><div class="in"><div class="nm" data-k="plans.life">Lifetime</div><div class="pr"><span id="life-price" dir="ltr">€89</span> <small data-k="plans.life.once">once</small></div><ul><li data-k="plans.life.1">All of Pro, paid once</li><li data-k="plans.life.2">Every future Pro feature</li></ul><a href="#join" class="btn btn-line" data-k="cta.join">Join the beta</a></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="head"><span class="eyebrow" data-k="faq.eyebrow">FAQ</span><h2 data-k="faq.title" data-rich>Questions, <em>answered</em></h2></div>
+    <div class="faq" id="faq-list">
+      <details open><summary>Do I need an account?</summary><p>No. Everything works on your phone without one. An account only adds a backup and the daily photo-scan counter.</p></details>
+      <details><summary>Does it work offline?</summary><p>Yes. Search needs a connection, but Write works offline in all three languages and every log syncs to your diary straight away.</p></details>
+      <details><summary>What does the AI see?</summary><p>Only the photo or text you choose to scan. It goes to Anthropic for the estimate and is not kept. Every AI row is tagged, and you confirm it before it counts.</p></details>
+      <details><summary>Does it read Apple Health or Health Connect?</summary><p>If you allow it: weight and steps in, workouts and nutrition out. Each switch is separate, and turning one off never blocks the app.</p></details>
+      <details><summary>Is Arabic fully right-to-left?</summary><p>Yes. Layout, arrows, swipes and the week strip all mirror, set in IBM Plex Sans Arabic.</p></details>
+      <details><summary>What will Pro cost?</summary><p>€4.99 a month, €39.99 a year, or €89 once. Nothing is for sale during testing, and every Pro feature is unlocked.</p></details>
+      <details><summary>How do I delete my data?</summary><p>Delete the app to remove everything on your phone. With an account, delete it from Settings and the backup goes within 24 hours.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="join">
+  <span class="aura"></span>
+  <div class="wrap">
+    <span class="vl big"></span>
+    <h2 style="margin-top:18px" data-k="join.title" data-rich>Start your <em>streak</em></h2>
+    <p class="sub" style="margin:0 auto" data-k="join.sub">Join the beta today. It's free while we test, and you keep every Pro feature until launch.</p>
+    <div class="stores">
+      <a href="#join" class="badge" data-store="ios_url" aria-label="Download on the App Store" data-k-aria="store.ios"><img class="b-on-dark" src="/img/landing/app-store-dark.png" alt="" width="160" height="60"><img class="b-on-light" src="/img/landing/app-store-light.png" alt="" width="157" height="56"></a>
+      <a href="#join" class="badge" data-store="android_url" aria-label="Get it on Google Play" data-k-aria="store.android"><img class="b-on-dark" src="/img/landing/google-play-dark.png" alt="" width="160" height="60"><img class="b-on-light" src="/img/landing/google-play-light.png" alt="" width="157" height="56"></a>
+    </div>
+    <form class="email" id="notify" novalidate hidden>
+      <label for="lp-email" class="sr" data-k="join.emailLabel">Email for launch news</label>
+      <input id="lp-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="320" required placeholder="you@email.com" data-k-ph="join.placeholder">
+      <button type="submit" class="btn btn-glow btn-sm" data-k="join.notify">Notify me</button>
+    </form>
+    <p class="notify-msg" id="notify-msg" role="status" aria-live="polite"></p>
+    <p class="consent" id="consent" hidden><span data-k="join.consent">One email at launch, with an unsubscribe link. We store your email and language only.</span> <a href="/privacy/" data-k="join.privacy">Privacy policy</a></p>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div><a href="#top" class="logo"><span class="vl"></span>Gymco</a><p class="muted" style="margin-top:12px;max-width:36ch" data-k="footer.tagline">Diet and training for lifters. Built in Barcelona, private by default.</p></div>
+      <div><h4 data-k="footer.product">Product</h4><ul><li><a href="#food" data-k="footer.food">Food</a></li><li><a href="#train" data-k="footer.train">Train</a></li><li><a href="#coaching" data-k="footer.coaching">Coaching</a></li><li><a href="#plans" data-k="footer.plans">Plans</a></li></ul></div>
+      <div><h4 data-k="footer.legal">Legal</h4><ul><li><a href="/privacy/" data-k="footer.privacy">Privacy</a></li><li><a href="/terms/" data-k="footer.terms">Terms</a></li><li><a href="/delete-account/" data-k="footer.deletion">Account deletion</a></li></ul></div>
+      <div><h4 data-k="footer.support">Support</h4><ul><li><a href="/support/" data-k="footer.help">Help</a></li><li><a href="mailto:support@gymcoapp.com" dir="ltr">support@gymcoapp.com</a></li><li><span class="flang" role="group" aria-label="Language" data-k-aria="lang.label"><button type="button" data-lang="en" lang="en" class="on" aria-pressed="true">EN</button><i aria-hidden="true">·</i><button type="button" data-lang="ar" lang="ar" aria-pressed="false">العربية</button><i aria-hidden="true">·</i><button type="button" data-lang="es" lang="es" aria-pressed="false">ES</button></span></li></ul></div>
+    </div>
+    <div class="legal"><span data-k="legal.copy">© 2026 Gymco</span><span data-k="legal.note">No cookies. No trackers. Nothing to accept.</span></div>
+  </div>
+</footer>
+
 </div>
-<p class="muted" style="text-align:center;margin-top:28px">English · العربية · Español — on iPhone and Android.</p>
-</div></main>
-<footer><div class="wrap"><span>© 2026 Gymco</span><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/support/">Support</a><a href="/delete-account/">Delete account</a></div></footer>
 </body>
 </html>

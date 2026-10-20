@@ -1,7 +1,8 @@
-// 11 Website: gymcoapp.com pages as Markdown per language, drafted,
-// reviewed and published like Remote config. Publishing commits to site/
-// when the server has a GitHub token; otherwise the version is published
-// here and the note says so.
+// 11 Website: the landing page at gymcoapp.com/ (its own editor, in
+// landing.js) and the other gymcoapp.com pages as Markdown per language,
+// drafted, reviewed and published like Remote config. Publishing a Markdown
+// page commits to site/ when the server has a GitHub token; otherwise the
+// version is published here and the note says so.
 
 import { ApiError } from "../lib/api.js";
 import { h, icon } from "../lib/dom.js";
@@ -9,36 +10,40 @@ import { relTime } from "../lib/format.js";
 import { countChanges } from "../lib/config_form.js";
 import { renderMarkdown } from "../lib/markdown.js";
 import { can } from "../lib/roles.js";
+import { renderLanding } from "./landing.js";
 import { chip, confirmDialog, diffView, empty, LANGS, langField, pageHead, sheet, statusChip, table } from "../lib/ui.js";
 
 const put = (el, ...kids) => el.replaceChildren(...kids.flat().filter((k) => k != null && k !== false));
-const PAGES = [["home", "Home"], ["support", "Support"], ["privacy", "Privacy policy"], ["terms", "Terms"], ["delete-account", "Account deletion"]];
+const PAGES = [["landing", "Landing page"], ["support", "Support"], ["privacy", "Privacy policy"], ["terms", "Terms"], ["delete-account", "Account deletion"]];
 const pageName = (id) => PAGES.find(([k]) => k === id)?.[1] ?? id;
 const ext = (href, label) => h("a", { href, target: "_blank", rel: "noopener", class: "small", style: { fontWeight: "600", display: "inline-flex", gap: "4px", alignItems: "center" } }, label, icon("ext", 14));
 
 export async function render(el, { call, toast, me, params, isCurrent }) {
   const publisher = can(me.role, "publish");
-  const page = PAGES.some(([k]) => k === params.page) ? params.page : "home";
+  const page = PAGES.some(([k]) => k === params.page) ? params.page : "landing";
   let data;
   let work;
   let lang = params.lang && ["en", "ar", "es"].includes(params.lang) ? params.lang : "en";
   let errs = [];
   let committedNote = null;
+  let landing = null;
+  let landingMeta = null;
 
   const pills = h("div", { class: "pills", role: "group", "aria-label": "Pages" });
   const head = h("div", { class: "card config-head" });
   const editor = h("section", { class: "card" });
   const historyCard = h("section", { class: "card" });
-  el.append(pageHead("Ship · gymcoapp.com via GitHub Pages", "Website", "pages"), pills, head, editor, historyCard);
+  el.append(pageHead("Ship · gymcoapp.com via GitHub Pages", "Website", "pages"), pills);
 
   const live = () => data.published?.body ?? data.base;
   const unsaved = () => countChanges(data.draft?.body ?? live(), work) > 0;
   const changes = () => countChanges(live(), work);
-  const summaryOf = (k) => (Array.isArray(data.summary) ? data.summary.find((s) => s.page === k) : data.summary?.[k]) ?? null;
+  const summaryOf = (k) => (k === "landing" ? landingMeta : (Array.isArray(data?.summary) ? data.summary.find((s) => s.page === k) : data?.summary?.[k]) ?? null);
+  const dirty = () => (page === "landing" ? !!landing?.unsaved() : !!work && unsaved());
 
   // The leave guard: the browser asks before a reload or close while edits are unsaved.
   const guard = (e) => {
-    if (work && unsaved()) {
+    if (dirty()) {
       e.preventDefault();
       e.returnValue = "";
     }
@@ -71,7 +76,7 @@ export async function render(el, { call, toast, me, params, isCurrent }) {
 
   async function go(k) {
     if (k === page) return;
-    if (unsaved() && !(await confirmDialog({ title: "Leave this page?", body: `Your Markdown edits to ${pageName(page)} aren’t saved as a draft yet.`, confirm: "Leave", danger: true }))) return;
+    if (dirty() && !(await confirmDialog({ title: "Leave this page?", body: `Your ${page === "landing" ? "" : "Markdown "}edits to ${pageName(page)} aren’t saved as a draft yet.`, confirm: "Leave", danger: true }))) return;
     location.hash = `#/website?page=${k}`;
   }
 
@@ -246,5 +251,13 @@ export async function render(el, { call, toast, me, params, isCurrent }) {
     await load();
   }
 
+  if (page === "landing") {
+    const host = h("div", { class: "stack", style: { gap: "16px" } });
+    el.append(host);
+    drawPills();
+    landing = await renderLanding(host, { call, toast, me, isCurrent, onMeta: (m) => { landingMeta = m; drawPills(); } });
+    return;
+  }
+  el.append(head, editor, historyCard);
   await load();
 }

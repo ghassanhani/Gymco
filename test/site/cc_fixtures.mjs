@@ -298,9 +298,9 @@ const releasesGet = (empty, github) => ({
   mirror: "iFynx/Gymco",
 });
 
-const WEB_PAGES = { home: "Home", support: "Support", privacy: "Privacy policy", terms: "Terms", "delete-account": "Account deletion" };
+const WEB_PAGES = { support: "Support", privacy: "Privacy policy", terms: "Terms", "delete-account": "Account deletion" };
 const webBody = (page, v) => ({
-  title: T(WEB_PAGES[page], { home: "الرئيسية", support: "الدعم", privacy: "سياسة الخصوصية", terms: "الشروط", "delete-account": "حذف الحساب" }[page], { home: "Inicio", support: "Soporte", privacy: "Política de privacidad", terms: "Términos", "delete-account": "Eliminar la cuenta" }[page]),
+  title: T(WEB_PAGES[page], { support: "الدعم", privacy: "سياسة الخصوصية", terms: "الشروط", "delete-account": "حذف الحساب" }[page], { support: "Soporte", privacy: "Política de privacidad", terms: "Términos", "delete-account": "Eliminar la cuenta" }[page]),
   markdown: T(`# ${WEB_PAGES[page]}\n\nYour diary lives on your phone.\n\n## What we keep\n- Your email, to sign you in\n- An optional encrypted backup\n\n## What we never collect\n- Usage analytics or trackers${v > 4 ? "\n- Photos: they are scanned and discarded" : ""}\n\nQuestions? Write to [support@gymcoapp.com](mailto:support@gymcoapp.com).`,
     `# ${WEB_PAGES[page] === "Privacy policy" ? "سياسة الخصوصية" : WEB_PAGES[page]}\n\nيومياتك تبقى على هاتفك.\n\n## ما نحتفظ به\n- بريدك الإلكتروني لتسجيل الدخول\n- نسخة احتياطية مشفّرة اختيارية`,
     v > 4 ? "" : `# ${WEB_PAGES[page]}\n\nTu diario vive en tu teléfono.\n\n## Lo que guardamos\n- Tu correo, para iniciar sesión\n- Una copia cifrada opcional`),
@@ -308,7 +308,7 @@ const webBody = (page, v) => ({
 });
 function websiteGet(page, empty, review) {
   const summary = Object.keys(WEB_PAGES).map((p, i) => ({ page: p, published_version: empty ? null : 2 + i, draft_status: empty ? null : p === page ? (review ? "in_review" : "draft") : p === "terms" ? "draft" : null }));
-  const live = { en_url: `https://gymcoapp.com/${page === "home" ? "" : `${page}/`}`, ar_url: `https://gymcoapp.com/${page === "home" ? "" : `${page}/`}ar/`, es_url: `https://gymcoapp.com/${page === "home" ? "" : `${page}/`}es/` };
+  const live = { en_url: `https://gymcoapp.com/${page}/`, ar_url: `https://gymcoapp.com/${page}/ar/`, es_url: `https://gymcoapp.com/${page}/es/` };
   const base = { title: { en: WEB_PAGES[page], ar: "", es: "" }, markdown: { en: "", ar: "", es: "" }, updated: "2026-10-19" };
   if (empty) return { base, published: null, draft: null, diff: [], history: [], live, summary };
   const v = summary.find((s) => s.page === page).published_version;
@@ -324,6 +324,60 @@ function websiteGet(page, empty, review) {
     ],
   };
 }
+
+// The landing page: built-in English from the design, a published v3 and a draft v4.
+const LANDING_EN = {
+  "hero.tag": "Beta · free while in testing", "hero.title": "Diet and training for *lifters*", "hero.lede": "Log food in seconds, train with a plan, and keep a streak worth protecting.", "hero.cta": "Join the beta", "hero.cta2": "See how it works",
+  "food.eyebrow": "Food", "food.title": "Log food *your way*", "food.sub": "Six ways in, so a meal never goes unlogged. You confirm every entry before it counts.",
+  "train.title": "Train with a *plan*", "train.sub": "Pick a split or build your own. Miss a day and the week moves with you, and last time's numbers sit on every set.", "train.cta": "Choose a routine",
+  "coaching.eyebrow": "Coaching", "coaching.title": "Measured, *not guessed*", "coaching.sub": "Your targets come from what you ate and how your trend weight moved. Not from a formula pretending to know you.",
+  "streak.eyebrow": "Streaks and awards", "streak.title": "A streak worth *protecting*", "streak.sub": "A day counts when your meals are logged and you train or rest as planned. Rest days count too.",
+  "privacy.eyebrow": "Privacy", "privacy.title": "Your data stays *yours*", "privacy.sub": "No account needed. The diary lives on your phone. Progress photos never leave it.",
+  "plans.eyebrow": "Plans", "plans.title": "Free while we *test*", "plans.banner": "Gymco is in testing. Nothing is for sale yet, and every Pro feature is unlocked.",
+  "faq.eyebrow": "FAQ", "faq.title": "Questions, *answered*",
+  "join.title": "Start your *streak*", "join.sub": "Join the beta today. It's free while we test, and you keep every Pro feature until launch.", "join.consent": "One email at launch, with an unsubscribe link. We store your email and language only.",
+  "footer.tagline": "Diet and training for lifters. Built in Barcelona, private by default.",
+};
+const LANDING_KEYS = Object.keys(LANDING_EN);
+const landingDefaults = () => ({
+  sections: { proof: true, food: true, train: true, coaching: true, streak: true, privacy: true, plans: true, faq: true, join: true },
+  beta: true,
+  copy: Object.fromEntries(LANDING_KEYS.map((k) => [k, { en: LANDING_EN[k] }])),
+  prices: { pro_month: "€4.99", pro_year: "€39.99", lifetime: "€89", year_save: "−33%" },
+  stores: { ios_url: "", android_url: "" },
+  faq: [],
+  notify: true,
+});
+function landingGet(empty, review) {
+  const defaults = landingDefaults();
+  const waitlist = empty ? { count: 0, last_7d: 0 } : { count: 214, last_7d: 37 };
+  if (empty) return { base: {}, published: null, draft: null, diff: [], history: [], defaults, keys: LANDING_KEYS, waitlist };
+  const pub = {
+    sections: { ...defaults.sections }, beta: true, notify: true,
+    copy: { "join.sub": T("Join the beta today. It's free while we test.", "انضم إلى النسخة التجريبية اليوم. إنها مجانية أثناء الاختبار.", "Únete a la beta hoy. Es gratis mientras probamos.") },
+    prices: { ...defaults.prices }, stores: { ios_url: "https://apps.apple.com/app/gymco/id6740000000", android_url: "" }, faq: [],
+  };
+  const draft = structuredClone(pub);
+  draft.copy["hero.title"] = T("Eat right, lift *heavier*", "كُل جيدًا وارفع *أثقل*", "Come bien, levanta *más*");
+  draft.sections.coaching = false;
+  return {
+    base: {}, defaults, keys: LANDING_KEYS, waitlist,
+    published: { version: 3, status: "published", body: pub, created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: "2026-10-12T09:00:00Z", note: "Store link" },
+    draft: { version: 4, status: review ? "in_review" : "draft", body: draft, created_by: "editor@gymco.test", submitted_by: review ? "editor@gymco.test" : null, note: "New hero, coaching hidden for now" },
+    diff: [{ key: "copy.hero.title", before: null, after: draft.copy["hero.title"] }, { key: "sections.coaching", before: true, after: false }],
+    history: [
+      { version: 4, status: review ? "in_review" : "draft", created_by: "editor@gymco.test", created_at: "2026-10-19T08:00:00Z", note: "New hero, coaching hidden for now" },
+      { version: 3, status: "published", created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: "2026-10-12T09:00:00Z", note: "Store link" },
+      { version: 2, status: "archived", created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: "2026-10-05T09:00:00Z", note: "Shorter Join line" },
+      { version: 1, status: "archived", created_by: "owner@gymco.test", published_by: "owner@gymco.test", published_at: "2026-10-01T09:00:00Z", note: "First version" },
+    ],
+  };
+}
+// What the server says about a body the dashboard let through (flags.landing_invalid).
+const landingInvalid = [
+  { key: "copy.hero.title.ar", message: "Arabic title needs the *accent* marks in pairs" },
+  { key: "stores.ios_url", message: "That App Store link doesn’t open an app page" },
+];
 
 const health = (empty) => ({
   functions: empty ? [] : [
@@ -378,10 +432,15 @@ export function fixtures(body, { role, empty, review, flags = {} }) {
     case "releases.get": return [200, releasesGet(empty, !flags.no_github)];
     case "releases.rerun": return flags.no_github ? [503, { error: "not_configured" }] : [200, { ok: true }];
     case "releases.notes_save": case "releases.notes_publish": return [200, { ok: true }];
-    case "website.get": return [200, websiteGet(body.page ?? "home", empty, review)];
+    case "website.get": return [200, websiteGet(body.page ?? "support", empty, review)];
     case "website.save_draft": return [200, { diff: [] }];
     case "website.submit": case "website.discard": return [200, {}];
     case "website.publish": case "website.rollback": return [200, { version: 6, diff: [], committed: !!flags.github_token }];
+    case "landing.get": return [200, landingGet(empty, review)];
+    case "landing.save_draft": return flags.landing_invalid ? [400, { error: "invalid", errors: landingInvalid }] : [200, { diff: [] }];
+    case "landing.submit": case "landing.discard": return [200, {}];
+    case "landing.publish": case "landing.rollback": return flags.landing_invalid ? [400, { error: "invalid", errors: landingInvalid }] : [200, { version: 5, diff: [] }];
+    case "waitlist.export": return role === "owner" ? [200, { csv: "email,locale,created_at\nsample@example.com,en,2026-10-19T08:00:00Z\n" }] : [403, { error: "forbidden" }];
     case "health": return [200, health(empty)];
     default: return [400, { error: "unknown_action" }];
   }
