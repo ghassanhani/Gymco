@@ -29,8 +29,21 @@ jobs:
           channel: stable
       - name: Upload key
         if: env.HAS_KEY == 'true'
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          SP: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KA: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/upload.jks
+          # Spaces and line breaks from a paste are dropped; anything else wrong
+          # stops here with a message instead of a vague signing failure.
+          if ! printf '%s' "$KS" | tr -d ' \r\n\t' | base64 -d > android/upload.jks 2>/dev/null; then
+            echo "::error::ANDROID_KEYSTORE_BASE64 is not the key. On the Mac run: base64 -i upload.jks | pbcopy, then paste it into that secret."
+            exit 1
+          fi
+          if ! keytool -list -keystore android/upload.jks -storepass "$SP" -alias "$KA" > /dev/null 2>&1; then
+            echo "::error::The key file decoded, but ANDROID_KEYSTORE_PASSWORD or ANDROID_KEY_ALIAS does not open it."
+            exit 1
+          fi
           cat > android/key.properties <<PROPS
           storeFile=upload.jks
           storePassword=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
