@@ -194,6 +194,8 @@ export interface Store {
   waitlistStats(): Promise<{ count: number; last_7d: number }>;
   /** Every sign-up, newest first. */
   waitlistRows(): Promise<WaitlistRow[]>;
+  /** Puts a file in the public "site" bucket and returns its public URL. */
+  uploadSiteImage(path: string, bytes: Uint8Array, contentType: string): Promise<string>;
 }
 
 function must<T>(r: { data: T; error: unknown }): T {
@@ -407,5 +409,11 @@ export class SupabaseStore implements Store {
       if (page.length < 1000) break;
     }
     return out;
+  }
+  async uploadSiteImage(path: string, bytes: Uint8Array, contentType: string) {
+    const bucket = this.db.storage.from("site");
+    const { error } = await bucket.upload(path, bytes, { contentType, upsert: true, cacheControl: "31536000" });
+    if (error) throw error;
+    return bucket.getPublicUrl(path).data.publicUrl;
   }
 }

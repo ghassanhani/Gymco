@@ -507,3 +507,8 @@ tbody tr td { transition: background-color var(--t-fast) ease; }
    laid out at full width, so charts measure right) behind the skeleton. */
 #page { position: relative; }
 #page:has(> [data-skeleton]) > :not([data-skeleton]) { position: absolute; inset-inline: 0; top: 0; visibility: hidden; pointer-events: none; }
+
+/* Landing editor · the hero's five phones */
+.screen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 16px; }
+.screen-slot { min-width: 0; }
+.screen-thumb { display: block; width: 100%; max-width: 180px; height: auto; aspect-ratio: 660 / 1434; object-fit: cover; border-radius: 16px; background: var(--raised); border: 1px solid var(--line); }

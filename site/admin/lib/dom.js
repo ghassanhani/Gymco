@@ -58,6 +58,7 @@ const PATHS = {
   user: ["M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z", "M4 21a8 8 0 0 1 16 0"],
   undo: ["M9 14 4 9l5-5", "M4 9h11a5 5 0 0 1 0 10h-3"],
   download: ["M12 4v11M7 10l5 5 5-5M5 20h14"],
+  upload: ["M12 15V4M7 9l5-5 5 5M5 20h14"],
 };
 
 export function icon(name, size = 18) {

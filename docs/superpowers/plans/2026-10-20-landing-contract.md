@@ -120,3 +120,18 @@ hints); a node test checks the two lists match.
   the hint), FAQ editor (add, remove, reorder), "Open gymcoapp.com ↗", the
   waitlist count with an Owner-only CSV export, and the usual draft →
   review → publish with a diff and version history with rollback.
+
+## Hero screenshots (added 2026-10-21)
+
+- Body field `screens: { today?, l1?, l2?, r1?, r2? }`: the five hero phones.
+  A missing slot keeps the page's own `/img/landing/screen-<slot>.jpg`.
+- A value must be a picture the Control Center uploaded:
+  `https://<project>.supabase.co/storage/v1/object/public/site/landing/<sha256>.(jpg|png|webp)`.
+  The page accepts only Gymco's own project prefix.
+- `landing.upload_screen { slot, type, data }` (cap `draft`): `data` is
+  base64, `type` JPEG, PNG or WebP (checked against the file's first bytes),
+  at most 2 MB. Stored in the public `site` bucket under its SHA-256 and
+  audited. Returns `{ url }`. It goes live only when a draft that names it is
+  published.
+- The dashboard crops each picture from the middle to 660 × 1434 and sends a
+  JPEG.

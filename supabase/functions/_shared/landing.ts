@@ -56,6 +56,12 @@ export const PRICE_KEYS = ["pro_month", "pro_year", "lifetime", "year_save"] as 
 export const STORE_PREFIX = { ios_url: "https://apps.apple.com/", android_url: "https://play.google.com/" } as const;
 export const FAQ_MAX = 20;
 
+/** The five phones in the hero fan: the centre one and two either side. */
+export const SCREENS = ["today", "l1", "l2", "r1", "r2"] as const;
+export type Screen = typeof SCREENS[number];
+/** A replacement is an image the Control Center uploaded: public, named by its SHA-256. */
+export const SCREEN_URL = /^https:\/\/[a-z0-9]{20}\.supabase\.co\/storage\/v1\/object\/public\/site\/landing\/[0-9a-f]{64}\.(jpg|png|webp)$/;
+
 export interface LandingBody {
   sections: Record<typeof SECTIONS[number], boolean>;
   beta: boolean;
@@ -64,6 +70,8 @@ export interface LandingBody {
   stores: Record<keyof typeof STORE_PREFIX, string>;
   faq: { q: T3; a: T3 }[];
   notify: boolean;
+  /** Missing = the page's own picture. */
+  screens: Partial<Record<Screen, string>>;
 }
 
 export interface LandingError {
@@ -80,6 +88,7 @@ export function defaultLanding(): LandingBody {
     stores: { ios_url: "", android_url: "" },
     faq: [],
     notify: true,
+    screens: {},
   };
 }
 
@@ -145,6 +154,14 @@ export function validateLanding(input: unknown): { ok: boolean; body: LandingBod
         errors.push(...q.errors, ...a.errors);
         return { q: q.value, a: a.value };
       });
+    }
+  }
+
+  if (isObj(src.screens)) {
+    for (const [k, v] of Object.entries(src.screens)) {
+      if (!(SCREENS as readonly string[]).includes(k)) errors.push({ key: `screens.${k}`, message: "Not a screen on the page" });
+      else if (typeof v === "string" && SCREEN_URL.test(v)) body.screens[k as Screen] = v;
+      else errors.push({ key: `screens.${k}`, message: "Upload the picture from the Control Center" });
     }
   }
 

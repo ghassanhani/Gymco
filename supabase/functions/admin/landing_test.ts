@@ -105,3 +105,45 @@ Deno.test("waitlist.export: owner only, as CSV, and audited", async () => {
   const a = store.audit.at(-1)!;
   assertEquals([a.section, a.action, a.after], ["website", "waitlist_export", { rows: 2 }]);
 });
+
+const b64 = (bytes: number[]) => {
+  let s = "";
+  for (const b of bytes) s += String.fromCharCode(b);
+  return btoa(s);
+};
+const JPEG = [0xff, 0xd8, 0xff, 0xe0, 1, 2, 3];
+
+Deno.test("landing.upload_screen: an editor's picture lands under its hash and is audited", async () => {
+  const { run, store } = setup("editor");
+  const r = await run({ action: "landing.upload_screen", slot: "today", type: "image/jpeg", data: b64(JPEG) });
+  assertEquals(r.status, 200);
+  const url = (r.body as any).url as string;
+  assert(/\/storage\/v1\/object\/public\/site\/landing\/[0-9a-f]{64}\.jpg$/.test(url), url);
+  const [path] = [...store.siteFiles.keys()];
+  assertEquals([store.siteFiles.get(path)!.contentType, store.siteFiles.get(path)!.bytes.length], ["image/jpeg", JPEG.length]);
+  const a = store.audit.at(-1)!;
+  assertEquals([a.section, a.action, (a.after as any).slot], ["website", "landing_upload_screen", "today"]);
+  // The same picture again gives the same address.
+  const again = await run({ action: "landing.upload_screen", slot: "r1", type: "image/jpeg", data: b64(JPEG) });
+  assertEquals((again.body as any).url, url);
+  // And a draft can name it.
+  assertEquals((await run({ action: "landing.save_draft", body: { screens: { today: url } } })).status, 200);
+});
+
+Deno.test("landing.upload_screen: refuses viewers, unknown phones, other files and big ones", async () => {
+  assertEquals((await setup("viewer").run({ action: "landing.upload_screen", slot: "today", type: "image/jpeg", data: b64(JPEG) })).status, 403);
+  const { run, store } = setup("editor");
+  const cases: Record<string, unknown>[] = [
+    { slot: "side", type: "image/jpeg", data: b64(JPEG) },
+    { slot: "l1", type: "image/gif", data: b64(JPEG) },
+    { slot: "l1", type: "image/png", data: b64(JPEG) },
+    { slot: "l1", type: "image/jpeg", data: "%%%" },
+    { slot: "l1", type: "image/jpeg", data: "" },
+    { slot: "l1", type: "image/jpeg", data: b64([...JPEG, ...new Array(2_000_001).fill(0)].slice(0, 2_000_001)) },
+  ];
+  for (const c of cases) {
+    const r = await run({ action: "landing.upload_screen", ...c });
+    assertEquals([r.status, (r.body as any).error], [400, "invalid"], JSON.stringify(c).slice(0, 60));
+  }
+  assertEquals(store.siteFiles.size, 0);
+});

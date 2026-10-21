@@ -185,3 +185,29 @@ test("a copy text counts as one change, whatever languages changed", () => {
   assert.equal(fieldChanges(a, b), 3);
   assert.equal(fieldChanges(a, a), 0);
 });
+
+test("hero pictures: trimmed from the middle to the phone's shape", async () => {
+  const { coverCrop, SCREENS: SHOTS, SCREEN_W, SCREEN_H, builtInScreen } = await import("../../site/admin/lib/landing_form.js");
+  assert.deepEqual(SHOTS.map(([k]) => k).sort(), ["l1", "l2", "r1", "r2", "today"]);
+  assert.equal(builtInScreen("today"), "/img/landing/screen-today.jpg");
+  // The same shape fills exactly.
+  assert.deepEqual(coverCrop(SCREEN_W, SCREEN_H), { x: 0, y: 0, w: SCREEN_W, h: SCREEN_H });
+  // Wider: the sides go.
+  const wide = coverCrop(2000, 1434);
+  assert.equal(wide.h, 1434);
+  assert.equal(wide.w, 660);
+  assert.equal(wide.x, 670);
+  // Taller: top and bottom go evenly.
+  const tall = coverCrop(660, 2000);
+  assert.deepEqual([tall.x, tall.w, tall.h, tall.y], [0, 660, 1434, 283]);
+  assert.deepEqual(coverCrop(0, 10), { x: 0, y: 0, w: 0, h: 0 });
+});
+
+test("hero pictures: kept through the working body and dropped when empty", () => {
+  const url = "https://x.supabase.co/storage/v1/object/public/site/landing/a.jpg";
+  const b = startBody({ defaults, published: { body: { screens: { today: url } } }, draft: null });
+  assert.deepEqual(b.screens, { today: url });
+  assert.deepEqual(startBody({ defaults }).screens, {});
+  assert.deepEqual(cleanBody({ ...b, screens: { today: url, l1: "" } }).screens, { today: url });
+  assert.deepEqual(comparable({ screens: { r1: url } }, defaults).screens, { r1: url });
+});

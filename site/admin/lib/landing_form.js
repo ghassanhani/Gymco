@@ -16,6 +16,31 @@ export const SECTIONS = [
 
 export const PRICES = [["pro_month", "Pro · monthly"], ["pro_year", "Pro · yearly"], ["lifetime", "Lifetime"], ["year_save", "Yearly saving"]];
 export const STORES = [["ios_url", "App Store link", "https://apps.apple.com/"], ["android_url", "Google Play link", "https://play.google.com/"]];
+/** The hero's five phones, in the order the card shows them: [slot, name, where]. */
+export const SCREENS = [
+  ["today", "Centre", "The phone in front, usually Today"],
+  ["l1", "Left, near", "Just left of centre"],
+  ["r1", "Right, near", "Just right of centre"],
+  ["l2", "Left, far", "The outer phone on the left"],
+  ["r2", "Right, far", "The outer phone on the right"],
+];
+/** Every hero picture is drawn at this size (a phone screen, 660 × 1434). */
+export const SCREEN_W = 660;
+export const SCREEN_H = 1434;
+export const builtInScreen = (slot) => `/img/landing/screen-${slot}.jpg`;
+
+/** The part of a [sw]×[sh] picture that fills [tw]×[th] without stretching: centred, the long side trimmed. */
+export function coverCrop(sw, sh, tw = SCREEN_W, th = SCREEN_H) {
+  if (!(sw > 0 && sh > 0)) return { x: 0, y: 0, w: 0, h: 0 };
+  const want = tw / th;
+  if (sw / sh > want) {
+    const w = Math.round(sh * want);
+    return { x: Math.round((sw - w) / 2), y: 0, w, h: sh };
+  }
+  const h = Math.round(sw / want);
+  return { x: 0, y: Math.round((sh - h) / 2), w: sw, h };
+}
+
 export const PRICE_MAX = 12;
 export const TITLE_MAX = 80;
 export const TEXT_MAX = 300;
@@ -41,6 +66,7 @@ export function startBody(data) {
     stores: { ios_url: "", android_url: "", ...d.stores, ...b.stores },
     faq: Array.isArray(b.faq) ? b.faq : [],
     notify: typeof b.notify === "boolean" ? b.notify : d.notify ?? true,
+    screens: b.screens && typeof b.screens === "object" ? b.screens : {},
   };
 }
 
@@ -56,6 +82,7 @@ export function comparable(body, defaults) {
     stores: { ios_url: "", android_url: "", ...d.stores, ...b.stores },
     faq: b.faq ?? [],
     notify: b.notify ?? d.notify ?? true,
+    screens: b.screens ?? {},
   };
 }
 
@@ -157,6 +184,7 @@ export function cleanBody(body) {
   out.prices = Object.fromEntries(Object.entries(out.prices ?? {}).map(([k, v]) => [k, typeof v === "string" ? v.trim() : v]).filter(([, v]) => v !== ""));
   out.stores = Object.fromEntries(Object.entries(out.stores ?? {}).map(([k, v]) => [k, str(v).trim()]));
   out.faq = (out.faq ?? []).map((it) => ({ q: trim3(it?.q), a: trim3(it?.a) }));
+  out.screens = Object.fromEntries(Object.entries(out.screens ?? {}).filter(([, v]) => typeof v === "string" && v));
   return out;
 }
 

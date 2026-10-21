@@ -21,6 +21,18 @@ export const DEFAULT_PRICES = { pro_month: "€4.99", pro_year: "€39.99", life
 export const STORE_PREFIX = { ios_url: "https://apps.apple.com/", android_url: "https://play.google.com/" };
 const FAQ_MAX = 20;
 
+/** The five hero phones: the centre one and two either side. */
+export const SCREENS = ["today", "l1", "l2", "r1", "r2"];
+/** Replacements come only from the Control Center's uploads: Gymco's public bucket, named by SHA-256. */
+export const SCREEN_PREFIX = "https://vncadogzpeoawikgafaj.supabase.co/storage/v1/object/public/site/landing/";
+const SCREEN_FILE = /^[0-9a-f]{64}\.(jpg|png|webp)$/;
+
+/** The picture for a hero phone: the published replacement if it is one of ours, else the page's own. */
+export function screenSrc(slot, url) {
+  if (typeof url === "string" && url.startsWith(SCREEN_PREFIX) && SCREEN_FILE.test(url.slice(SCREEN_PREFIX.length))) return url;
+  return `/img/landing/screen-${slot}.jpg`;
+}
+
 const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 const lang2 = (v) => (typeof v === "string" ? v.trim().toLowerCase().slice(0, 2) : "");
 const known = (l) => (LANGS.includes(l) ? l : null);
@@ -89,6 +101,7 @@ export function sanitizeLanding(raw) {
     stores: { ios_url: "", android_url: "" },
     copy: {},
     faq: [],
+    screens: {},
   };
   if (isObj(src.sections)) for (const k of SECTIONS) if (typeof src.sections[k] === "boolean") s.sections[k] = src.sections[k];
   if (typeof src.beta === "boolean") s.beta = src.beta;
@@ -110,6 +123,9 @@ export function sanitizeLanding(raw) {
       const v = t3(src.copy[k], k.endsWith(".title") ? 80 : 300);
       if (Object.keys(v).length) s.copy[k] = v;
     }
+  }
+  if (isObj(src.screens)) {
+    for (const k of SCREENS) if (screenSrc(k, src.screens[k]) === src.screens[k]) s.screens[k] = src.screens[k];
   }
   if (Array.isArray(src.faq)) {
     for (const item of src.faq.slice(0, FAQ_MAX)) {

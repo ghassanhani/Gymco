@@ -4,7 +4,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
-  LANDING_KEYS, SECTIONS, DEFAULT_PRICES, pickLang, splitAccent, sanitizeLanding,
+  LANDING_KEYS, SECTIONS, DEFAULT_PRICES, SCREENS, SCREEN_PREFIX, pickLang, splitAccent, sanitizeLanding, screenSrc,
   readConfigResponse, copyFor, faqFor, storeHref, interpolate, isEmail,
 } from "../../site/landing-lib.js";
 import { COPY } from "../../site/landing-copy.js";
@@ -195,4 +195,22 @@ test("the page script never writes HTML", () => {
     const src = readFileSync(new URL(`../../site/${f}`, import.meta.url), "utf8");
     assert.ok(!/innerHTML|outerHTML|insertAdjacentHTML|document\.write/.test(src), f);
   }
+});
+
+test("hero phones: only Gymco's uploaded pictures replace the page's own", () => {
+  const ours = `${SCREEN_PREFIX}${"b".repeat(64)}.jpg`;
+  assert.deepEqual(SCREENS, ["today", "l1", "l2", "r1", "r2"]);
+  assert.equal(screenSrc("today", ours), ours);
+  assert.equal(screenSrc("today", undefined), "/img/landing/screen-today.jpg");
+  for (const bad of ["https://evil.example/x.jpg", `${SCREEN_PREFIX}../x.jpg`, `${SCREEN_PREFIX}${"b".repeat(64)}.svg`, `${SCREEN_PREFIX}${"b".repeat(64)}.jpg?x=1`, 3]) {
+    assert.equal(screenSrc("l1", bad), "/img/landing/screen-l1.jpg", String(bad));
+  }
+  const s = sanitizeLanding({ screens: { today: ours, l1: "https://evil.example/x.jpg", side: ours } });
+  assert.deepEqual(s.screens, { today: ours });
+  assert.deepEqual(sanitizeLanding(null).screens, {});
+});
+
+test("index.html: each hero phone is marked with its screen", () => {
+  const html = readFileSync(new URL("../../site/index.html", import.meta.url), "utf8");
+  for (const k of SCREENS) assert.match(html, new RegExp(`data-screen="${k}" src="/img/landing/screen-${k}\\.jpg"`));
 });

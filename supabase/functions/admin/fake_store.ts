@@ -263,4 +263,10 @@ export class FakeStore implements Store {
   waitlistRows() {
     return Promise.resolve([...this.waitlist].sort((a, b) => b.created_at.localeCompare(a.created_at)).map((w) => ({ ...w })));
   }
+  /** Files put in the "site" bucket, by path. */
+  siteFiles = new Map<string, { bytes: Uint8Array; contentType: string }>();
+  uploadSiteImage(path: string, bytes: Uint8Array, contentType: string) {
+    this.siteFiles.set(path, { bytes, contentType });
+    return Promise.resolve(`https://vncadogzpeoawikgafaj.supabase.co/storage/v1/object/public/site/${path}`);
+  }
 }

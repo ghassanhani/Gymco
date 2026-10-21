@@ -9,7 +9,7 @@ import { errorText } from "../lib/errors.js";
 import { fmtInt, relTime } from "../lib/format.js";
 import { can } from "../lib/roles.js";
 import {
-  accentParts, checkLanding, cleanBody, comparable, errorsFor, fieldChanges, groupKeys, maxFor, moveItem, PRICE_MAX, PRICES, resetCopy, SECTIONS, setCopy, startBody, STORES,
+  accentParts, builtInScreen, checkLanding, cleanBody, comparable, coverCrop, errorsFor, fieldChanges, groupKeys, maxFor, moveItem, PRICE_MAX, PRICES, resetCopy, SCREEN_H, SCREEN_W, SCREENS, SECTIONS, setCopy, startBody, STORES,
 } from "../lib/landing_form.js";
 import { chip, confirmDialog, diffView, empty, langField, sheet, statusChip, table, toggleSwitch } from "../lib/ui.js";
 
@@ -153,6 +153,82 @@ export async function renderLanding(el, { call, toast, me, isCurrent = () => tru
           textInput(`stores.${k}`, work.stores[k], { type: "url", placeholder: `${prefix}…`, aria: name, hint: `Starts with ${prefix} · empty links the badge to the sign-up (#join)`, onInput: (v) => (work.stores[k] = v) }))));
   }
 
+  /** A picked file as the page draws it: 660 × 1434, trimmed from the middle if its shape differs, as JPEG. */
+  async function toScreen(file) {
+    const bmp = await createImageBitmap(file);
+    const c = coverCrop(bmp.width, bmp.height);
+    const canvas = h("canvas", { width: SCREEN_W, height: SCREEN_H });
+    const g = canvas.getContext("2d");
+    g.imageSmoothingQuality = "high";
+    g.drawImage(bmp, c.x, c.y, c.w, c.h, 0, 0, SCREEN_W, SCREEN_H);
+    bmp.close?.();
+    const blob = await new Promise((done) => canvas.toBlob(done, "image/jpeg", 0.86));
+    if (!blob) throw new Error("encode");
+    const url = await new Promise((done, failed) => {
+      const r = new FileReader();
+      r.onload = () => done(String(r.result));
+      r.onerror = failed;
+      r.readAsDataURL(blob);
+    });
+    return { data: url.slice(url.indexOf(",") + 1), type: "image/jpeg", preview: URL.createObjectURL(blob) };
+  }
+
+  function screensCard() {
+    const slot = (key, name, where) => {
+      const has = () => !!work.screens[key];
+      const img = h("img", { class: "screen-thumb", alt: `${name} phone`, width: SCREEN_W, height: SCREEN_H, src: work.screens[key] ?? builtInScreen(key), decoding: "async" });
+      const state = h("span", {});
+      const file = h("input", { type: "file", accept: "image/png,image/jpeg,image/webp", hidden: true });
+      const pick = h("button", { type: "button", class: "btn small", on: { click: () => file.click() } }, icon("upload", 14), "Replace");
+      const reset = h("button", { type: "button", class: "btn small link", on: { click: () => {
+        delete work.screens[key];
+        img.src = builtInScreen(key);
+        mark();
+        changed(`screens.${key}`);
+      } } }, icon("undo", 14), "Use built-in");
+      const mark = () => {
+        put(state, has() ? chip("Changed", "brand") : chip("Built-in", "flat"));
+        reset.disabled = !has();
+      };
+      file.addEventListener("change", async () => {
+        const f = file.files?.[0];
+        file.value = "";
+        if (!f) return;
+        if (!/^image\/(png|jpeg|webp)$/.test(f.type)) return toast("Pick a PNG, JPEG or WebP picture", "bad");
+        pick.disabled = true;
+        pick.classList.add("is-busy");
+        put(pick, "Uploading…");
+        try {
+          const shot = await toScreen(f);
+          const { url } = await call("landing.upload_screen", { slot: key, data: shot.data, type: shot.type });
+          work.screens[key] = url;
+          img.src = shot.preview;
+          mark();
+          changed(`screens.${key}`);
+          toast(`${name} picture ready · save the draft and publish to put it live`);
+        } catch (e) {
+          if (e instanceof ApiError && e.code === "invalid") toast(e.body?.errors?.[0]?.message ?? "That picture can’t be used", "bad");
+          else toast(errorText(e, "Couldn’t upload the picture"), "bad");
+        } finally {
+          pick.disabled = false;
+          pick.classList.remove("is-busy");
+          put(pick, icon("upload", 14), "Replace");
+        }
+      });
+      mark();
+      return h("div", { class: "screen-slot stack", style: { gap: "8px" } },
+        img,
+        h("div", { class: "stack", style: { gap: "2px" } }, h("span", { class: "strong" }, name), h("span", { class: "small muted" }, where)),
+        state,
+        h("div", { class: "row", style: { gap: "6px", flexWrap: "wrap" } }, pick, reset),
+        file,
+        errLine(`screens.${key}`));
+    };
+    return card("Screenshots", `The five phones in the hero · drawn at ${SCREEN_W} × ${SCREEN_H}`,
+      h("span", { class: "small muted" }, "Phone screenshots fit as they are; other shapes are trimmed from the middle. A new picture goes live when the draft is published, in both light and dark."),
+      h("div", { class: "screen-grid" }, SCREENS.map(([k, name, where]) => slot(k, name, where))));
+  }
+
   function copyRow(key) {
     const hint = defaults().copy?.[key]?.en ?? "";
     const has = () => !!work.copy[key];
@@ -245,6 +321,7 @@ export async function renderLanding(el, { call, toast, me, isCurrent = () => tru
     put(body,
       h("div", { class: "grid two" }, sectionsCard(), betaCard()),
       h("div", { class: "grid two" }, pricesCard(), storesCard()),
+      screensCard(),
       copyCard(),
       faqCard(),
       historyCard());

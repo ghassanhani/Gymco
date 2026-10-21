@@ -3,7 +3,7 @@
 // only; the pure logic lives in landing-lib.js.
 import { COPY } from "./landing-copy.js";
 import {
-  LANGS, SECTIONS, pickLang, splitAccent, sanitizeLanding, readConfigResponse, copyFor, faqFor, storeHref, isEmail,
+  LANGS, SECTIONS, SCREENS, pickLang, splitAccent, sanitizeLanding, readConfigResponse, copyFor, faqFor, storeHref, screenSrc, isEmail,
 } from "./landing-lib.js";
 
 const FN = "https://vncadogzpeoawikgafaj.supabase.co/functions/v1";
@@ -90,6 +90,13 @@ function paint(s) {
   for (const el of $$("[data-beta]")) el.hidden = !s.beta;
 
   paintPrices(c, s);
+
+  // Hero phones: a published picture replaces the page's own; set only on a change so nothing reloads.
+  for (const k of SCREENS) {
+    const img = $(`[data-screen="${k}"]`);
+    const src = screenSrc(k, s.screens?.[k]);
+    if (img && img.getAttribute("src") !== src) img.setAttribute("src", src);
+  }
 
   for (const a of $$("[data-store]")) {
     const href = storeHref(a.dataset.store, s.stores[a.dataset.store]);

@@ -107,3 +107,23 @@ Deno.test("landing: the FAQ is at most 20 questions, each in every language", ()
   assertEquals(keys(bad), ["faq.2.q.en", "faq.2.a.es", "faq.3.q.en", "faq.3.q.ar", "faq.3.q.es", "faq.3.a.en", "faq.3.a.ar", "faq.3.a.es"]);
   assertEquals(keys(validateLanding({ faq: [{ q: t3("Q"), a: t3("a".repeat(1001)) }] })), ["faq.0.a.en"]);
 });
+
+Deno.test("landing: screens take only pictures the Control Center uploaded, per known phone", () => {
+  const url = `https://vncadogzpeoawikgafaj.supabase.co/storage/v1/object/public/site/landing/${"a".repeat(64)}.jpg`;
+  const r = validateLanding({ screens: { today: url, r2: url } });
+  assertEquals(r.errors, []);
+  assertEquals(r.body.screens, { today: url, r2: url });
+  assertEquals(defaultLanding().screens, {});
+
+  const bad = validateLanding({
+    screens: {
+      l1: "https://evil.example/x.jpg",
+      l2: url.replace(".jpg", ".gif"),
+      r1: `https://vncadogzpeoawikgafaj.supabase.co/storage/v1/object/public/other/landing/${"a".repeat(64)}.jpg`,
+      side: url,
+      today: 3,
+    },
+  });
+  assertEquals(keys(bad).sort(), ["screens.l1", "screens.l2", "screens.r1", "screens.side", "screens.today"]);
+  assertEquals(bad.body.screens, {});
+});
