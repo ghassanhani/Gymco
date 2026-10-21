@@ -779,16 +779,18 @@ class _FirstRun extends ConsumerWidget {
     final l = AppLocalizations.of(context);
     final rc = ref.watch(remoteConfigProvider);
     final meal = mealForHour(ref.watch(clockProvider)().hour);
-    // Every way to log, one tap each; the ones the Control Center switches
-    // off are left out, as on Add food.
+    // The four main ways to log, one tap each. Voice and photo drop out when
+    // the Control Center switches them off, and write or eat out take their
+    // place, so there are always four.
     final methods = [
       ('search', l.mSearch, 'search'),
       ('barcode', l.mBarcode, 'scan'),
-      ('write', l.mWrite, 'list'),
-      if (rc.dictate) ('voice', l.mVoice, 'mic'),
       if (rc.photoLog) ('camera', l.mPhoto, 'camera'),
+      if (rc.dictate) ('voice', l.mVoice, 'mic'),
+      ('write', l.mWrite, 'list'),
       if (rc.eatingOut) ('eatout', l.mEatOut, 'food'),
-    ];
+    ].take(4).toList();
+    final light = Volt.isLight;
     Widget tile((String, String, String) m) => Semantics(
       button: true,
       label: m.$2,
@@ -796,27 +798,27 @@ class _FirstRun extends ConsumerWidget {
       child: Pressable(
         onTap: () => context.push('/add/${meal.name}?mode=${m.$1}'),
         scale: 0.95,
-        radius: 16,
+        radius: 14,
         child: Container(
-          height: 74,
-          decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(16)),
+          height: 62,
+          decoration: BoxDecoration(color: light ? Volt.soft : Volt.card2, borderRadius: BorderRadius.circular(14)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 34,
-                height: 34,
+                width: 28,
+                height: 28,
                 alignment: Alignment.center,
-                decoration: BoxDecoration(color: Volt.brandWash, shape: BoxShape.circle),
-                child: VIcon(m.$3, size: 18, color: Volt.brandInk),
+                decoration: BoxDecoration(color: light ? Colors.white : Volt.brandWash, shape: BoxShape.circle),
+                child: VIcon(m.$3, size: 15, color: light ? Volt.t1 : Volt.brandInk),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 5),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
                   m.$2,
                   maxLines: 1,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Volt.t1),
+                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Volt.t1),
                 ),
               ),
             ],
@@ -824,25 +826,24 @@ class _FirstRun extends ConsumerWidget {
         ),
       ),
     );
-    final rows = [for (var i = 0; i < methods.length; i += 3) methods.sublist(i, math.min(i + 3, methods.length))];
     return VCard(
+      padding: const EdgeInsets.all(14),
       child: GapCol(
+        gap: 10,
         cross: CrossAxisAlignment.stretch,
         children: [
           Text(
             l.logFirstMeal,
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
           ),
-          for (final row in rows)
-            Row(
-              children: [
-                for (var i = 0; i < 3; i++) ...[
-                  if (i > 0) const SizedBox(width: 8),
-                  Expanded(child: i < row.length ? tile(row[i]) : const SizedBox.shrink()),
-                ],
+          Row(
+            children: [
+              for (var i = 0; i < methods.length; i++) ...[
+                if (i > 0) const SizedBox(width: 8),
+                Expanded(child: tile(methods[i])),
               ],
-            ),
-          Muted(l.firstRunTip),
+            ],
+          ),
         ],
       ),
     );
