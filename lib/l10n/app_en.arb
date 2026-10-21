@@ -929,7 +929,7 @@
     }
   },
   "trainTitleEm": "Train <em>hard</em>",
-  "trainSub": "{days} days a week · week {week}",
+  "trainSub": "{days, plural, =1{1 day a week} other{{days} days a week}} · week {week}",
   "@trainSub": {
     "placeholders": {
       "days": {

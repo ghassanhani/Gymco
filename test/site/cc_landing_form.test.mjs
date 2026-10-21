@@ -190,6 +190,7 @@ test("hero pictures: trimmed from the middle to the phone's shape", async () => 
   const { coverCrop, SCREENS: SHOTS, SCREEN_W, SCREEN_H, builtInScreen } = await import("../../site/admin/lib/landing_form.js");
   assert.deepEqual(SHOTS.map(([k]) => k).sort(), ["l1", "l2", "r1", "r2", "today"]);
   assert.equal(builtInScreen("today"), "/img/landing/screen-today.jpg");
+  assert.equal(builtInScreen("l2_light"), "/img/landing/screen-l2-light.jpg");
   // The same shape fills exactly.
   assert.deepEqual(coverCrop(SCREEN_W, SCREEN_H), { x: 0, y: 0, w: SCREEN_W, h: SCREEN_H });
   // Wider: the sides go.

@@ -57,7 +57,11 @@ export const STORE_PREFIX = { ios_url: "https://apps.apple.com/", android_url: "
 export const FAQ_MAX = 20;
 
 /** The five phones in the hero fan: the centre one and two either side. */
-export const SCREENS = ["today", "l1", "l2", "r1", "r2"] as const;
+export const SCREENS = [
+  "today", "l1", "l2", "r1", "r2",
+  // The same phones on the light page.
+  "today_light", "l1_light", "l2_light", "r1_light", "r2_light",
+] as const;
 export type Screen = typeof SCREENS[number];
 /** A replacement is an image the Control Center uploaded: public, named by its SHA-256. */
 export const SCREEN_URL = /^https:\/\/[a-z0-9]{20}\.supabase\.co\/storage\/v1\/object\/public\/site\/landing\/[0-9a-f]{64}\.(jpg|png|webp)$/;

@@ -91,13 +91,6 @@ function paint(s) {
 
   paintPrices(c, s);
 
-  // Hero phones: a published picture replaces the page's own; set only on a change so nothing reloads.
-  for (const k of SCREENS) {
-    const img = $(`[data-screen="${k}"]`);
-    const src = screenSrc(k, s.screens?.[k]);
-    if (img && img.getAttribute("src") !== src) img.setAttribute("src", src);
-  }
-
   for (const a of $$("[data-store]")) {
     const href = storeHref(a.dataset.store, s.stores[a.dataset.store]);
     a.setAttribute("href", href);
@@ -146,6 +139,16 @@ function paintPrices(c, s) {
   }
 }
 
+/** Hero phones in the page's look: a published picture replaces the page's own; set only on a change so nothing reloads. */
+function paintScreens() {
+  const shots = state.settings?.screens ?? {};
+  for (const k of SCREENS) {
+    const img = $(`[data-screen="${k}"]`);
+    const src = screenSrc(k, shots[state.light ? `${k}_light` : k], state.light);
+    if (img && img.getAttribute("src") !== src) img.setAttribute("src", src);
+  }
+}
+
 function paintTheme(c = copyFor(COPY, state.lang, state.settings)) {
   root.classList.toggle("light", state.light);
   document.documentElement.setAttribute("data-theme", state.light ? "light" : "dark");
@@ -154,6 +157,7 @@ function paintTheme(c = copyFor(COPY, state.lang, state.settings)) {
   t.setAttribute("aria-label", label);
   t.setAttribute("title", label);
   $('meta[name="theme-color"]')?.setAttribute("content", state.light ? "#ffffff" : "#0a0b09");
+  paintScreens();
 }
 
 /** Render from state; if the published settings break anything, fall back to the built-in page. */

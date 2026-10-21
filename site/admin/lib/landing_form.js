@@ -27,7 +27,10 @@ export const SCREENS = [
 /** Every hero picture is drawn at this size (a phone screen, 660 × 1434). */
 export const SCREEN_W = 660;
 export const SCREEN_H = 1434;
-export const builtInScreen = (slot) => `/img/landing/screen-${slot}.jpg`;
+/** The page's own picture for a slot: "today" on the dark page, "today_light" on the light one. */
+export const builtInScreen = (key) => `/img/landing/screen-${key.replace(/_light$/, "")}${key.endsWith("_light") ? "-light" : ""}.jpg`;
+/** The two pages the phones are shown on, and the suffix their slots carry. */
+export const LOOKS = [["", "Dark page"], ["_light", "Light page"]];
 
 /** The part of a [sw]×[sh] picture that fills [tw]×[th] without stretching: centred, the long side trimmed. */
 export function coverCrop(sw, sh, tw = SCREEN_W, th = SCREEN_H) {

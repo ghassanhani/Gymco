@@ -9,7 +9,7 @@ import { errorText } from "../lib/errors.js";
 import { fmtInt, relTime } from "../lib/format.js";
 import { can } from "../lib/roles.js";
 import {
-  accentParts, builtInScreen, checkLanding, cleanBody, comparable, coverCrop, errorsFor, fieldChanges, groupKeys, maxFor, moveItem, PRICE_MAX, PRICES, resetCopy, SCREEN_H, SCREEN_W, SCREENS, SECTIONS, setCopy, startBody, STORES,
+  accentParts, builtInScreen, checkLanding, cleanBody, comparable, coverCrop, errorsFor, LOOKS, fieldChanges, groupKeys, maxFor, moveItem, PRICE_MAX, PRICES, resetCopy, SCREEN_H, SCREEN_W, SCREENS, SECTIONS, setCopy, startBody, STORES,
 } from "../lib/landing_form.js";
 import { chip, confirmDialog, diffView, empty, langField, sheet, statusChip, table, toggleSwitch } from "../lib/ui.js";
 
@@ -176,7 +176,7 @@ export async function renderLanding(el, { call, toast, me, isCurrent = () => tru
   function screensCard() {
     const slot = (key, name, where) => {
       const has = () => !!work.screens[key];
-      const img = h("img", { class: "screen-thumb", alt: `${name} phone`, width: SCREEN_W, height: SCREEN_H, src: work.screens[key] ?? builtInScreen(key), decoding: "async" });
+      const img = h("img", { class: "screen-thumb", alt: `${name} phone, ${key.endsWith("_light") ? "light" : "dark"} page`, width: SCREEN_W, height: SCREEN_H, src: work.screens[key] ?? builtInScreen(key), decoding: "async" });
       const state = h("span", {});
       const file = h("input", { type: "file", accept: "image/png,image/jpeg,image/webp", hidden: true });
       const pick = h("button", { type: "button", class: "btn small", on: { click: () => file.click() } }, icon("upload", 14), "Replace");
@@ -205,7 +205,7 @@ export async function renderLanding(el, { call, toast, me, isCurrent = () => tru
           img.src = shot.preview;
           mark();
           changed(`screens.${key}`);
-          toast(`${name} picture ready · save the draft and publish to put it live`);
+          toast(`${name}, ${key.endsWith("_light") ? "light" : "dark"} page: picture ready · save the draft and publish to put it live`);
         } catch (e) {
           if (e instanceof ApiError && e.code === "invalid") toast(e.body?.errors?.[0]?.message ?? "That picture can’t be used", "bad");
           else toast(errorText(e, "Couldn’t upload the picture"), "bad");
@@ -225,8 +225,10 @@ export async function renderLanding(el, { call, toast, me, isCurrent = () => tru
         errLine(`screens.${key}`));
     };
     return card("Screenshots", `The five phones in the hero · drawn at ${SCREEN_W} × ${SCREEN_H}`,
-      h("span", { class: "small muted" }, "Phone screenshots fit as they are; other shapes are trimmed from the middle. A new picture goes live when the draft is published, in both light and dark."),
-      h("div", { class: "screen-grid" }, SCREENS.map(([k, name, where]) => slot(k, name, where))));
+      h("span", { class: "small muted" }, "Each phone has a picture for the dark page and one for the light page: take them with the app in the same look. Phone screenshots fit as they are; other shapes are trimmed from the middle. A new picture goes live when the draft is published."),
+      LOOKS.map(([suffix, look]) => h("div", { class: "stack", style: { gap: "10px" } },
+        h("span", { class: "small muted strong" }, look),
+        h("div", { class: "screen-grid" }, SCREENS.map(([k, name, where]) => slot(`${k}${suffix}`, name, where))))));
   }
 
   function copyRow(key) {

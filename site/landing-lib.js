@@ -23,14 +23,19 @@ const FAQ_MAX = 20;
 
 /** The five hero phones: the centre one and two either side. */
 export const SCREENS = ["today", "l1", "l2", "r1", "r2"];
+/** Each phone has a picture for the dark page and one for the light page ("<slot>_light"). */
+export const SCREEN_KEYS = [...SCREENS, ...SCREENS.map((s) => `${s}_light`)];
 /** Replacements come only from the Control Center's uploads: Gymco's public bucket, named by SHA-256. */
 export const SCREEN_PREFIX = "https://vncadogzpeoawikgafaj.supabase.co/storage/v1/object/public/site/landing/";
 const SCREEN_FILE = /^[0-9a-f]{64}\.(jpg|png|webp)$/;
 
-/** The picture for a hero phone: the published replacement if it is one of ours, else the page's own. */
-export function screenSrc(slot, url) {
-  if (typeof url === "string" && url.startsWith(SCREEN_PREFIX) && SCREEN_FILE.test(url.slice(SCREEN_PREFIX.length))) return url;
-  return `/img/landing/screen-${slot}.jpg`;
+/** True for a picture the Control Center uploaded to Gymco's bucket. */
+export const isScreenUrl = (url) => typeof url === "string" && url.startsWith(SCREEN_PREFIX) && SCREEN_FILE.test(url.slice(SCREEN_PREFIX.length));
+
+/** The picture for a hero phone in a look: the published replacement if it is one of ours, else the page's own. */
+export function screenSrc(slot, url, light = false) {
+  if (isScreenUrl(url)) return url;
+  return `/img/landing/screen-${slot}${light ? "-light" : ""}.jpg`;
 }
 
 const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
@@ -125,7 +130,7 @@ export function sanitizeLanding(raw) {
     }
   }
   if (isObj(src.screens)) {
-    for (const k of SCREENS) if (screenSrc(k, src.screens[k]) === src.screens[k]) s.screens[k] = src.screens[k];
+    for (const k of SCREEN_KEYS) if (isScreenUrl(src.screens[k])) s.screens[k] = src.screens[k];
   }
   if (Array.isArray(src.faq)) {
     for (const item of src.faq.slice(0, FAQ_MAX)) {

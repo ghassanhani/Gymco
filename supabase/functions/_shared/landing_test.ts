@@ -110,9 +110,9 @@ Deno.test("landing: the FAQ is at most 20 questions, each in every language", ()
 
 Deno.test("landing: screens take only pictures the Control Center uploaded, per known phone", () => {
   const url = `https://vncadogzpeoawikgafaj.supabase.co/storage/v1/object/public/site/landing/${"a".repeat(64)}.jpg`;
-  const r = validateLanding({ screens: { today: url, r2: url } });
+  const r = validateLanding({ screens: { today: url, r2: url, l1_light: url } });
   assertEquals(r.errors, []);
-  assertEquals(r.body.screens, { today: url, r2: url });
+  assertEquals(r.body.screens, { today: url, r2: url, l1_light: url });
   assertEquals(defaultLanding().screens, {});
 
   const bad = validateLanding({

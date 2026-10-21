@@ -4,7 +4,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import {
-  LANDING_KEYS, SECTIONS, DEFAULT_PRICES, SCREENS, SCREEN_PREFIX, pickLang, splitAccent, sanitizeLanding, screenSrc,
+  LANDING_KEYS, SECTIONS, DEFAULT_PRICES, SCREENS, SCREEN_KEYS, SCREEN_PREFIX, pickLang, splitAccent, sanitizeLanding, screenSrc,
   readConfigResponse, copyFor, faqFor, storeHref, interpolate, isEmail,
 } from "../../site/landing-lib.js";
 import { COPY } from "../../site/landing-copy.js";
@@ -205,12 +205,28 @@ test("hero phones: only Gymco's uploaded pictures replace the page's own", () =>
   for (const bad of ["https://evil.example/x.jpg", `${SCREEN_PREFIX}../x.jpg`, `${SCREEN_PREFIX}${"b".repeat(64)}.svg`, `${SCREEN_PREFIX}${"b".repeat(64)}.jpg?x=1`, 3]) {
     assert.equal(screenSrc("l1", bad), "/img/landing/screen-l1.jpg", String(bad));
   }
-  const s = sanitizeLanding({ screens: { today: ours, l1: "https://evil.example/x.jpg", side: ours } });
-  assert.deepEqual(s.screens, { today: ours });
+  assert.equal(screenSrc("r2", undefined, true), "/img/landing/screen-r2-light.jpg");
+  assert.equal(screenSrc("r2", ours, true), ours);
+  assert.equal(SCREEN_KEYS.length, 10);
+  const s = sanitizeLanding({ screens: { today: ours, l1_light: ours, l1: "https://evil.example/x.jpg", side: ours } });
+  assert.deepEqual(s.screens, { today: ours, l1_light: ours });
   assert.deepEqual(sanitizeLanding(null).screens, {});
 });
 
 test("index.html: each hero phone is marked with its screen", () => {
   const html = readFileSync(new URL("../../site/index.html", import.meta.url), "utf8");
   for (const k of SCREENS) assert.match(html, new RegExp(`data-screen="${k}" src="/img/landing/screen-${k}\\.jpg"`));
+});
+
+test("every hero phone has a built-in picture for both looks, at the size the page draws", async () => {
+  const { statSync } = await import("node:fs");
+  for (const k of SCREENS) for (const suf of ["", "-light"]) {
+    const f = new URL(`../../site/img/landing/screen-${k}${suf}.jpg`, import.meta.url);
+    assert.ok(statSync(f).size > 10_000, `${k}${suf}`);
+  }
+});
+
+test("landing.css: hero pictures keep their shape", () => {
+  const css = readFileSync(new URL("../../site/landing.css", import.meta.url), "utf8");
+  assert.match(css, /\.lp \.fan \.fr img\{[^}]*height:auto/);
 });

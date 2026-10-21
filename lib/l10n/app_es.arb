@@ -383,7 +383,7 @@
   "moreOf": "Más {what}",
   "lessOf": "Menos {what}",
   "trainTitleEm": "Entrena <em>duro</em>",
-  "trainSub": "{days} días a la semana · semana {week}",
+  "trainSub": "{days, plural, =1{1 día a la semana} other{{days} días a la semana}} · semana {week}",
   "noWeeklyPlan": "Aún sin plan semanal",
   "dayAhead": "{date} · próximo",
   "dayClosed": "{date} · cerrado",

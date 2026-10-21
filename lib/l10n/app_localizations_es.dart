@@ -82,7 +82,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String itemsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count alimentos', one: '1 alimento');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count alimentos',
+      one: '1 alimento',
+    );
     return '$_temp0';
   }
 
@@ -90,7 +95,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get emptyDayTitle => 'Un día nuevo';
 
   @override
-  String get emptyDayBody => 'Empieza por lo primero que comiste. Una comida ya es un buen comienzo.';
+  String get emptyDayBody =>
+      'Empieza por lo primero que comiste. Una comida ya es un buen comienzo.';
 
   @override
   String get addFood => 'Añadir alimento';
@@ -115,13 +121,15 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get noResultsBody => 'Prueba una palabra más corta o escanea el envase.';
+  String get noResultsBody =>
+      'Prueba una palabra más corta o escanea el envase.';
 
   @override
   String get barcodeMiss => 'Aún no conocemos este producto';
 
   @override
-  String get barcodeMissBody => 'Añádelo a Open Food Facts en unos 30 segundos y estará para todos la próxima vez.';
+  String get barcodeMissBody =>
+      'Añádelo a Open Food Facts en unos 30 segundos y estará para todos la próxima vez.';
 
   @override
   String get contributeOff => 'Añadir a Open Food Facts';
@@ -130,7 +138,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchingOnline => 'Buscando en línea…';
 
   @override
-  String get offlineSearch => 'Sin conexión — alimentos guardados en este teléfono';
+  String get offlineSearch =>
+      'Sin conexión — alimentos guardados en este teléfono';
 
   @override
   String get amount => 'Cantidad';
@@ -164,7 +173,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get obWelcomeAccent => 'juntos';
 
   @override
-  String get obWelcomeBody => 'Objetivos que se adaptan a lo que de verdad comes y pesas. Sin adivinar, sin castigos.';
+  String get obWelcomeBody =>
+      'Objetivos que se adaptan a lo que de verdad comes y pesas. Sin adivinar, sin castigos.';
 
   @override
   String get getStarted => 'Empezar';
@@ -182,19 +192,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get goalMaintain => 'Mantener';
 
   @override
-  String get goalMaintainSub => 'Mantén el peso y sigue registrando con honestidad';
+  String get goalMaintainSub =>
+      'Mantén el peso y sigue registrando con honestidad';
 
   @override
   String get goalBulk => 'Volumen limpio';
 
   @override
-  String get goalBulkSub => 'Gana tamaño al 0,25–0,5% del peso corporal por semana';
+  String get goalBulkSub =>
+      'Gana tamaño al 0,25–0,5% del peso corporal por semana';
 
   @override
   String get obBodyTitle => 'Sobre ti';
 
   @override
-  String get obBodyBody => 'Solo para arrancar la primera semana. A los 14 días manda tu gasto real.';
+  String get obBodyBody =>
+      'Solo para arrancar la primera semana. A los 14 días manda tu gasto real.';
 
   @override
   String get sexMale => 'Hombre';
@@ -302,7 +315,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get progressTitle => 'Progreso';
 
   @override
-  String get nextBuild => 'Esta parte de Gymco está diseñada y se construye a continuación.';
+  String get nextBuild =>
+      'Esta parte de Gymco está diseñada y se construye a continuación.';
 
   @override
   String get repeatYesterday => 'Repetir ayer';
@@ -345,7 +359,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noRoutinesTitle => 'Aún no hay rutinas';
 
   @override
-  String get noRoutinesBody => 'Crea una, o empieza un entreno vacío y añade ejercicios sobre la marcha.';
+  String get noRoutinesBody =>
+      'Crea una, o empieza un entreno vacío y añade ejercicios sobre la marcha.';
 
   @override
   String get history => 'Historial';
@@ -355,13 +370,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String setsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count series', one: '1 serie');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count series',
+      one: '1 serie',
+    );
     return '$_temp0';
   }
 
   @override
   String exercisesCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count ejercicios', one: '1 ejercicio');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ejercicios',
+      one: '1 ejercicio',
+    );
     return '$_temp0';
   }
 
@@ -709,7 +734,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get goalRecomp => 'Recomposición';
 
   @override
-  String get goalRecompSub => 'Quédate cerca del mantenimiento; mira la cintura, no la báscula';
+  String get goalRecompSub =>
+      'Quédate cerca del mantenimiento; mira la cintura, no la báscula';
 
   @override
   String get goalPrep => 'Preparación de competición';
@@ -736,7 +762,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get heightLbl => 'Altura';
 
   @override
-  String get heroDoneBody => 'Registrado y guardado. La recuperación lo convierte en el siguiente.';
+  String get heroDoneBody =>
+      'Registrado y guardado. La recuperación lo convierte en el siguiente.';
 
   @override
   String get heroExercises => 'ejercicios';
@@ -748,7 +775,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get heroMuscles => 'músculos';
 
   @override
-  String get heroRestBody => 'Nada programado hoy. La recuperación convierte la última sesión en la siguiente.';
+  String get heroRestBody =>
+      'Nada programado hoy. La recuperación convierte la última sesión en la siguiente.';
 
   @override
   String get heroRestTitle => 'Día de <em>descanso</em>';
@@ -757,7 +785,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get heroSets => 'series';
 
   @override
-  String get heroSetupBody => 'Elige una rutina o crea la tuya. Gymco la programa y sigue cada serie.';
+  String get heroSetupBody =>
+      'Elige una rutina o crea la tuya. Gymco la programa y sigue cada serie.';
 
   @override
   String get heroSetupTitle => 'Prepara tu <em>entreno</em>';
@@ -817,7 +846,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mWrite => 'Escribir';
 
   @override
-  String get mealDetailTip => 'Toca un alimento para cambiar la ración. Lo que quites sale de hoy al momento.';
+  String get mealDetailTip =>
+      'Toca un alimento para cambiar la ración. Lo que quites sale de hoy al momento.';
 
   @override
   String get mealLabel => 'Comida';
@@ -826,7 +856,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get myMeals => 'Mis comidas';
 
   @override
-  String get noMatchBody => 'La cocina casera rara vez lo está. Escanea el envase o prueba otra palabra.';
+  String get noMatchBody =>
+      'La cocina casera rara vez lo está. Escanea el envase o prueba otra palabra.';
 
   @override
   String get noMatchTitle => 'Sin coincidencias en la base de datos';
@@ -865,7 +896,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get obRateTitleLose => '¿A qué ritmo quieres perder?';
 
   @override
-  String get pastNoteWithin => 'A menos de cien del objetivo. Días así son los que mueven la tendencia.';
+  String get pastNoteWithin =>
+      'A menos de cien del objetivo. Días así son los que mueven la tendencia.';
 
   @override
   String get pctPerWeek => '% / semana';
@@ -878,7 +910,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get rateOkGain => 'Lo bastante lento para que casi todo sea músculo.';
 
   @override
-  String get rateOkLose => 'En el rango que Helms et al. (2014) recomiendan para conservar músculo en déficit.';
+  String get rateOkLose =>
+      'En el rango que Helms et al. (2014) recomiendan para conservar músculo en déficit.';
 
   @override
   String get recipes => 'Recetas';
@@ -887,10 +920,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get restDay => 'Día de descanso';
 
   @override
-  String get ringEmptyBody => 'Aún no hay nada. Tus objetivos están listos — el anillo se llena según avanzas.';
+  String get ringEmptyBody =>
+      'Aún no hay nada. Tus objetivos están listos — el anillo se llena según avanzas.';
 
   @override
-  String get rtlNote => 'El árabe pone toda la app de derecha a izquierda, incluida la tira de la semana y los gestos.';
+  String get rtlNote =>
+      'El árabe pone toda la app de derecha a izquierda, incluida la tira de la semana y los gestos.';
 
   @override
   String get safeguards => 'Salvaguardas';
@@ -902,7 +937,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scanABarcode => 'Escanear un código';
 
   @override
-  String get scanBarcodeSub => 'Lo envasado va directo a los números del envase';
+  String get scanBarcodeSub =>
+      'Lo envasado va directo a los números del envase';
 
   @override
   String get searchDatabase => 'Buscar en la base de datos';
@@ -939,7 +975,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get training => 'Entreno';
 
   @override
-  String get trainingCountedSeparately => 'El entreno se cuenta aparte. No incluyas el gimnasio aquí.';
+  String get trainingCountedSeparately =>
+      'El entreno se cuenta aparte. No incluyas el gimnasio aquí.';
 
   @override
   String get trendNeedsDays => 'Una tendencia necesita unos siete días';
@@ -960,7 +997,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeArtAlt => 'Una mujer en pleno swing con kettlebell';
 
   @override
-  String get welcomeBody => 'Registra comida en segundos, entrena con un plan y mantén una racha que valga la pena.';
+  String get welcomeBody =>
+      'Registra comida en segundos, entrena con un plan y mantén una racha que valga la pena.';
 
   @override
   String get welcomeTitleEm => 'Empieza hoy tu camino <em>fitness</em>';
@@ -1110,7 +1148,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String resultsCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$count resultados', one: '1 resultado');
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count resultados',
+      one: '1 resultado',
+    );
     return '$_temp0';
   }
 
@@ -1215,7 +1258,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get noSavedMeals => 'Aún no hay comidas guardadas. Abre una comida que repitas y pulsa Guardar como comida.';
+  String get noSavedMeals =>
+      'Aún no hay comidas guardadas. Abre una comida que repitas y pulsa Guardar como comida.';
 
   @override
   String get noCustomFoods =>
@@ -1348,7 +1392,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String trainSub(int days, int week) {
-    return '$days días a la semana · semana $week';
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days días a la semana',
+      one: '1 día a la semana',
+    );
+    return '$_temp0 · semana $week';
   }
 
   @override
@@ -1431,7 +1481,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String allRoutinesSub(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n rutinas', one: '1 rutina');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n rutinas',
+      one: '1 rutina',
+    );
     return '$_temp0 · tu biblioteca de ejercicios';
   }
 
@@ -1442,7 +1497,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String hardSetsN(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n series efectivas', one: '1 serie efectiva');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n series efectivas',
+      one: '1 serie efectiva',
+    );
     return '$_temp0';
   }
 
@@ -1479,13 +1539,15 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get trainEmptyBody => 'Aún no hay nada. Empieza con una plantilla probada o crea exactamente lo que ya haces.';
+  String get trainEmptyBody =>
+      'Aún no hay nada. Empieza con una plantilla probada o crea exactamente lo que ya haces.';
 
   @override
   String get startEmptyWorkout => 'Empezar un entreno vacío';
 
   @override
-  String get startEmptySub => 'Añade ejercicios sobre la marcha; luego se convierte en rutina';
+  String get startEmptySub =>
+      'Añade ejercicios sobre la marcha; luego se convierte en rutina';
 
   @override
   String get buildOwn => 'Crear mi propia rutina';
@@ -1576,7 +1638,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String routinesSubLib(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n rutinas', one: '1 rutina');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n rutinas',
+      one: '1 rutina',
+    );
     return '$_temp0 · una por día, o cualquier día';
   }
 
@@ -1617,7 +1684,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get exploreRoutines => 'Explorar rutinas';
 
   @override
-  String get exploreSub => 'Plantillas con el volumen de series ya dentro del rango que respalda la evidencia';
+  String get exploreSub =>
+      'Plantillas con el volumen de series ya dentro del rango que respalda la evidencia';
 
   @override
   String optionsFor(String name) {
@@ -1628,7 +1696,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get startRoutineFull => 'Empezar rutina';
 
   @override
-  String get editRoutineSub => 'Ejercicios, número de series, rangos de repeticiones';
+  String get editRoutineSub =>
+      'Ejercicios, número de series, rangos de repeticiones';
 
   @override
   String get duplicate => 'Duplicar';
@@ -1744,10 +1813,12 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get anyDayNote => 'Hazla cuando quieras: queda fuera de la rotación semanal.';
+  String get anyDayNote =>
+      'Hazla cuando quieras: queda fuera de la rotación semanal.';
 
   @override
-  String get dayNote => 'Si la saltas, pasa a tu siguiente día de entreno y el bloque mantiene su orden.';
+  String get dayNote =>
+      'Si la saltas, pasa a tu siguiente día de entreno y el bloque mantiene su orden.';
 
   @override
   String get builderEmpty =>
@@ -1845,7 +1916,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get offLbl => 'No';
 
   @override
-  String get notePlaceholder => 'Añade una nota: una pista, el ajuste de la máquina, cómo fue';
+  String get notePlaceholder =>
+      'Añade una nota: una pista, el ajuste de la máquina, cómo fue';
 
   @override
   String get setH => 'Serie';
@@ -1874,7 +1946,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'El temporizador solo empieza al terminar la pareja. Ambas cuentan como series completas para sus músculos.';
 
   @override
-  String get emptyWorkoutBody => 'Entreno vacío. El reloj ya corre: añade el primer ejercicio cuando quieras.';
+  String get emptyWorkoutBody =>
+      'Entreno vacío. El reloj ya corre: añade el primer ejercicio cuando quieras.';
 
   @override
   String restAfterEachTitle(String name) {
@@ -1914,7 +1987,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nothingAfter => 'No hay nada después con lo que emparejarlo';
 
   @override
-  String get supersetted => 'Superserie hecha: el temporizador espera a los dos';
+  String get supersetted =>
+      'Superserie hecha: el temporizador espera a los dos';
 
   @override
   String exAdded(String name) {
@@ -2028,7 +2102,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get months6 => '6 meses';
 
   @override
-  String get chartNeedsTwo => 'Dos entrenos con este ejercicio y empieza la línea de tendencia.';
+  String get chartNeedsTwo =>
+      'Dos entrenos con este ejercicio y empieza la línea de tendencia.';
 
   @override
   String get best5 => 'Mejor de 5 reps';
@@ -2051,7 +2126,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Por debajo de hace ocho semanas. Revisa el sueño y el tamaño del déficit antes de culpar al programa.';
 
   @override
-  String get exNoHistory => 'Aún sin historial. Regístralo una vez y su tendencia de 1RM empieza aquí.';
+  String get exNoHistory =>
+      'Aún sin historial. Regístralo una vez y su tendencia de 1RM empieza aquí.';
 
   @override
   String get historyLbl => 'Historial';
@@ -2066,7 +2142,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get searchLibrary => 'Buscar en la biblioteca de ejercicios';
 
   @override
-  String get noExerciseMatch => 'Nada coincide. Prueba una palabra más corta u otro músculo.';
+  String get noExerciseMatch =>
+      'Nada coincide. Prueba una palabra más corta u otro músculo.';
 
   @override
   String get inLbl => 'dentro';
@@ -2125,7 +2202,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get trendNeedsTwo => 'Dos pesajes con unos días de diferencia y empieza la tendencia.';
+  String get trendNeedsTwo =>
+      'Dos pesajes con unos días de diferencia y empieza la tendencia.';
 
   @override
   String get sinceStart => 'Desde el inicio';
@@ -2146,7 +2224,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noSetsThisWeek => 'Aún no hay series esta semana.';
 
   @override
-  String get allInRange => 'Cada músculo que más entrenaste está en 10 series o más esta semana.';
+  String get allInRange =>
+      'Cada músculo que más entrenaste está en 10 series o más esta semana.';
 
   @override
   String underTen(String group) {
@@ -2161,10 +2240,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addMeasurement => 'Añadir una medida';
 
   @override
-  String get strengthEmpty => 'Aún no hay ejercicios. Termina un entreno y aquí verás tus 1RM estimados.';
+  String get strengthEmpty =>
+      'Aún no hay ejercicios. Termina un entreno y aquí verás tus 1RM estimados.';
 
   @override
-  String get strengthNote => '1RM estimado ahora y el cambio en ocho semanas. En déficit, mantener es ganar.';
+  String get strengthNote =>
+      '1RM estimado ahora y el cambio en ocho semanas. En déficit, mantener es ganar.';
 
   @override
   String e1rmLine(String kg) {
@@ -2211,10 +2292,12 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get askedNextWeek => 'Anotado: lo volvemos a preguntar la semana que viene';
+  String get askedNextWeek =>
+      'Anotado: lo volvemos a preguntar la semana que viene';
 
   @override
-  String get needsTwoWeighIns => 'hacen falta pesajes con una semana de diferencia';
+  String get needsTwoWeighIns =>
+      'hacen falta pesajes con una semana de diferencia';
 
   @override
   String get onPlan => 'según el plan';
@@ -2253,7 +2336,8 @@ class AppLocalizationsEs extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       n,
       locale: localeName,
-      other: '$n días más registrados completos y Gymco podrá medir lo que gastas de verdad.',
+      other:
+          '$n días más registrados completos y Gymco podrá medir lo que gastas de verdad.',
       one: 'Un día más registrado completo y Gymco podrá medir lo que gastas de verdad.',
     );
     return '$_temp0 Hasta entonces, tus objetivos iniciales se mantienen.';
@@ -2290,7 +2374,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'La proteína y la grasa se quedan; el cambio va a los carbohidratos, donde ayuda a tus sesiones. Los cambios semanales tienen un tope de 120 kcal para que una semana rara no altere tu dieta.';
 
   @override
-  String get targetsHoldNote => 'Nada cambia hasta medir el gasto. Sigue registrando días completos y pesándote.';
+  String get targetsHoldNote =>
+      'Nada cambia hasta medir el gasto. Sigue registrando días completos y pesándote.';
 
   @override
   String get dietMeetsTraining => 'Dieta y entreno';
@@ -2342,7 +2427,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get twoWeeksMaintenance => 'Dos semanas en mantenimiento';
 
   @override
-  String get maintenanceThenResume => 'Un descanso y luego volver al ritmo planeado';
+  String get maintenanceThenResume =>
+      'Un descanso y luego volver al ritmo planeado';
 
   @override
   String get keepGoingAsIAm => 'Seguir como voy';
@@ -2372,13 +2458,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get checkLogging => 'Revisar primero el registro';
 
   @override
-  String get checkLoggingSub => 'Los fines de semana y los picoteos suelen ser donde empiezan las semanas planas.';
+  String get checkLoggingSub =>
+      'Los fines de semana y los picoteos suelen ser donde empiezan las semanas planas.';
 
   @override
   String get cut150 => 'Recortar 150 más al día';
 
   @override
-  String get cut150Sub => 'Funciona, pero a estas alturas es la opción que más músculo cuesta.';
+  String get cut150Sub =>
+      'Funciona, pero a estas alturas es la opción que más músculo cuesta.';
 
   @override
   String get dietBreakEvidence =>
@@ -2405,7 +2493,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String nextAwardIn(String name, int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n días', one: '1 día');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días',
+      one: '1 día',
+    );
     return 'Próximo premio: $name en $_temp0';
   }
 
@@ -2478,7 +2571,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String nDays(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n días', one: '1 día');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días',
+      one: '1 día',
+    );
     return '$_temp0';
   }
 
@@ -2497,7 +2595,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String challengeLeft(int n, int days) {
-    String _temp0 = intl.Intl.pluralLogic(days, locale: localeName, other: 'quedan $days días', one: 'queda 1 día');
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'quedan $days días',
+      one: 'queda 1 día',
+    );
     return 'Entrena $n veces este mes · $_temp0';
   }
 
@@ -2516,7 +2619,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get awardsNote => 'Ningún premio es por comer menos o perder peso. Lo que cuenta es registrar y aparecer.';
+  String get awardsNote =>
+      'Ningún premio es por comer menos o perder peso. Lo que cuenta es registrar y aparecer.';
 
   @override
   String get earnedLbl => 'Conseguido';
@@ -2585,7 +2689,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get awTwoWeeks => 'Dos semanas';
 
   @override
-  String get awTwoWeeksD => 'Catorce días seguidos cumplidos. La primera semana es novedad; la segunda, elección.';
+  String get awTwoWeeksD =>
+      'Catorce días seguidos cumplidos. La primera semana es novedad; la segunda, elección.';
 
   @override
   String get awOneMonth => 'Un mes firme';
@@ -2598,25 +2703,29 @@ class AppLocalizationsEs extends AppLocalizations {
   String get awHabit => 'Hábito formado';
 
   @override
-  String get awHabitD => 'Sesenta y seis días, lo que de media tarda un hábito nuevo en ir solo.';
+  String get awHabitD =>
+      'Sesenta y seis días, lo que de media tarda un hábito nuevo en ir solo.';
 
   @override
   String get awFull => 'Compromiso total';
 
   @override
-  String get awFullD => 'Noventa días cumplidos. Tres meses apareciendo, días de descanso incluidos.';
+  String get awFullD =>
+      'Noventa días cumplidos. Tres meses apareciendo, días de descanso incluidos.';
 
   @override
   String get awComeback => 'La vuelta';
 
   @override
-  String get awComebackD => 'Empieza una racha nueva tras perder una. Volver es lo que cuenta.';
+  String get awComebackD =>
+      'Empieza una racha nueva tras perder una. Volver es lo que cuenta.';
 
   @override
   String get awFirstFullDay => 'Primer día completo';
 
   @override
-  String get awFirstFullDayD => 'Desayuno, comida y cena registrados en un día.';
+  String get awFirstFullDayD =>
+      'Desayuno, comida y cena registrados en un día.';
 
   @override
   String get awHundredMeals => '100 comidas registradas';
@@ -2642,7 +2751,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get awTwentyFive => '25 entrenos';
 
   @override
-  String get awTwentyFiveD => 'Veinticinco sesiones registradas, serie a serie.';
+  String get awTwentyFiveD =>
+      'Veinticinco sesiones registradas, serie a serie.';
 
   @override
   String get awTenBests => '10 récords personales';
@@ -2668,7 +2778,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get howLong => '¿Para cuánto te apuntas?';
 
   @override
-  String get howLongSub => 'Elige una racha de días. Cada día cumplido llena el anillo exterior.';
+  String get howLongSub =>
+      'Elige una racha de días. Cada día cumplido llena el anillo exterior.';
 
   @override
   String get daysWord => 'días';
@@ -2769,7 +2880,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get personalBests => 'Récords personales';
 
   @override
-  String get goalDoneNote => 'Aparecer, días de descanso incluidos. Así es un hábito.';
+  String get goalDoneNote =>
+      'Aparecer, días de descanso incluidos. Así es un hábito.';
 
   @override
   String shareMyDays(int n) {
@@ -2850,13 +2962,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gramsNote => 'En gramos, tal como se comió.';
 
   @override
-  String get voiceHold => 'Mantén pulsado y di lo que comiste. Pasa por el mismo lector que la escritura.';
+  String get voiceHold =>
+      'Mantén pulsado y di lo que comiste. Pasa por el mismo lector que la escritura.';
 
   @override
   String get voiceListening => 'Escuchando… suelta cuando acabes.';
 
   @override
-  String get voiceHeard => 'Entendido. Revisa la transcripción antes de añadirla.';
+  String get voiceHeard =>
+      'Entendido. Revisa la transcripción antes de añadirla.';
 
   @override
   String get transcriptLbl => 'Transcripción · edítala si oyó mal';
@@ -2913,7 +3027,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tu diario se queda en este móvil en cualquier caso. La cuenta añade una copia que puedes recuperar en un móvil nuevo y el registro con fotos: 10 fotos al día, gratis.';
 
   @override
-  String get cloudNotSetUp => 'Las cuentas no están activadas en esta versión. Todo lo demás funciona en el móvil.';
+  String get cloudNotSetUp =>
+      'Las cuentas no están activadas en esta versión. Todo lo demás funciona en el móvil.';
 
   @override
   String get signedInAs => 'Sesión iniciada';
@@ -2930,7 +3045,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notBackedUp => 'Aún sin copia';
 
   @override
-  String get backupAuto => 'Se copia sola al salir de la app, como mucho cada seis horas.';
+  String get backupAuto =>
+      'Se copia sola al salir de la app, como mucho cada seis horas.';
 
   @override
   String get backupNow => 'Copiar ahora';
@@ -2998,13 +3114,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get errBadCode => 'Ese código no ha funcionado. Revísalo o pide otro.';
 
   @override
-  String get errBusy => 'Demasiados intentos. Espera un minuto y vuelve a probar.';
+  String get errBusy =>
+      'Demasiados intentos. Espera un minuto y vuelve a probar.';
 
   @override
   String get errGeneric => 'Algo ha fallado. Inténtalo de nuevo.';
 
   @override
-  String get photoPrompt => 'Fotografía el plato. Gymco sugiere lo que ve; tú dices cuánto.';
+  String get photoPrompt =>
+      'Fotografía el plato. Gymco sugiere lo que ve; tú dices cuánto.';
 
   @override
   String get takePhoto => 'Hacer una foto';
@@ -3045,7 +3163,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'El registro con fotos usa una cuenta: la foto se lee en nuestro servidor, 10 al día, gratis. Escribir y buscar funcionan sin ella.';
 
   @override
-  String get photoNotSetUp => 'El registro con fotos no está activado en esta versión. Escribe o busca.';
+  String get photoNotSetUp =>
+      'El registro con fotos no está activado en esta versión. Escribe o busca.';
 
   @override
   String scansLeft(int n) {
@@ -3084,7 +3203,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gateRestingTitle => 'Gymco está descansando';
 
   @override
-  String get photoPaused => 'El registro por foto descansa hasta mañana. Escribir o buscar siguen funcionando.';
+  String get photoPaused =>
+      'El registro por foto descansa hasta mañana. Escribir o buscar siguen funcionando.';
 
   @override
   String get photoRefused => 'No se ha podido leer esa foto. Prueba con otra.';
@@ -3104,7 +3224,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get photoNoteHint => 'Añade detalles (opcional): cuántos, qué lleva. «4 minipizzas con carne y cheddar»';
+  String get photoNoteHint =>
+      'Añade detalles (opcional): cuántos, qué lleva. «4 minipizzas con carne y cheddar»';
 
   @override
   String get dictateNote => 'Di los detalles';
@@ -3170,7 +3291,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get proCta => 'Pro está activo';
 
   @override
-  String get proCtaSub => 'todas las funciones Pro están abiertas para quienes prueban';
+  String get proCtaSub =>
+      'todas las funciones Pro están abiertas para quienes prueban';
 
   @override
   String get proCardLabel => 'Gymco Pro, gratis durante las pruebas';
@@ -3231,10 +3353,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get proAdds2 => '— lo que ninguna otra app te muestra';
 
   @override
-  String get proAdds3 => 'Tipos de día, ciclado de calorías, descansos de dieta';
+  String get proAdds3 =>
+      'Tipos de día, ciclado de calorías, descansos de dieta';
 
   @override
-  String get proAdds4 => 'Volumen por músculo, historial completo, comparar fotos';
+  String get proAdds4 =>
+      'Volumen por músculo, historial completo, comparar fotos';
 
   @override
   String get planMonthly => 'Mensual';
@@ -3297,7 +3421,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'Rutinas para tu semana, más de 870 ejercicios con fotos, temporizador de descanso y tus números anteriores en cada serie.';
 
   @override
-  String get welcomeTrainAlt => 'Una mujer levantando mancuernas sobre la cabeza';
+  String get welcomeTrainAlt =>
+      'Una mujer levantando mancuernas sobre la cabeza';
 
   @override
   String get welcomeProgressTitleEm => 'Mira cómo <em>suma</em>';
@@ -3389,7 +3514,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get remindDinnerTitle => '¿Has registrado la cena?';
 
   @override
-  String get remindMealBody => 'Escríbela, dila o hazle una foto: son unos segundos.';
+  String get remindMealBody =>
+      'Escríbela, dila o hazle una foto: son unos segundos.';
 
   @override
   String get remindWaterTitle => 'Hora de beber agua';
@@ -3435,7 +3561,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get remindersOff => 'Las notificaciones de Gymco están desactivadas. Actívalas en los ajustes del móvil.';
+  String get remindersOff =>
+      'Las notificaciones de Gymco están desactivadas. Actívalas en los ajustes del móvil.';
 
   @override
   String get newRecipe => 'Nueva receta';
@@ -3494,13 +3621,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String servingsOf(int n, String g) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n raciones de $g g', one: '1 ración de $g g');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n raciones de $g g',
+      one: '1 ración de $g g',
+    );
     return '$_temp0';
   }
 
   @override
   String recipeSub(int n, String kcal) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n raciones', one: '1 ración');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n raciones',
+      one: '1 ración',
+    );
     return '$_temp0 · $kcal kcal por ración';
   }
 
@@ -3542,13 +3679,15 @@ class AppLocalizationsEs extends AppLocalizations {
       'Entran tu báscula y tus pasos; salen tus entrenos, agua y pesajes. Eliges cada uno en la pantalla de permisos del móvil.';
 
   @override
-  String get healthConnectMissing => 'Health Connect no está en este móvil. Instálalo desde Google Play para conectar.';
+  String get healthConnectMissing =>
+      'Health Connect no está en este móvil. Instálalo desde Google Play para conectar.';
 
   @override
   String get installHealthConnect => 'Instalar Health Connect';
 
   @override
-  String get healthRefused => 'No se compartió nada. Puedes permitirlo en los ajustes de salud del móvil.';
+  String get healthRefused =>
+      'No se compartió nada. Puedes permitirlo en los ajustes de salud del móvil.';
 
   @override
   String get readsFromHealth => 'Lee';
@@ -3560,7 +3699,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get healthWeight => 'Peso corporal';
 
   @override
-  String get healthWeightSub => 'Los pesajes de tu báscula alimentan la tendencia';
+  String get healthWeightSub =>
+      'Los pesajes de tu báscula alimentan la tendencia';
 
   @override
   String get healthSteps => 'Pasos';
@@ -3597,7 +3737,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get eatOutTitleEm => 'Comer <em>fuera</em>';
 
   @override
-  String get eatOutSub => 'Sin etiqueta, sin problema. Una estimación honesta es mejor que un día en blanco.';
+  String get eatOutSub =>
+      'Sin etiqueta, sin problema. Una estimación honesta es mejor que un día en blanco.';
 
   @override
   String get eoWhat => 'Qué tomaste';
@@ -3615,7 +3756,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get eoRange => 'margen';
 
   @override
-  String get eoNote => 'Se marca como estimación y sigue contando para tu racha.';
+  String get eoNote =>
+      'Se marca como estimación y sigue contando para tu racha.';
 
   @override
   String eoLogTo(String meal) {
@@ -3718,23 +3860,36 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get catchupRoughNote => 'La proteína sigue tu proporción habitual del día.';
+  String get catchupRoughNote =>
+      'La proteína sigue tu proporción habitual del día.';
 
   @override
-  String get catchupLeaveNote => 'Queda fuera de tu media de gasto. El día sigue abierto para tu racha.';
+  String get catchupLeaveNote =>
+      'Queda fuera de tu media de gasto. El día sigue abierto para tu racha.';
 
   @override
-  String get catchupFooter => 'Los días rellenados se marcan como estimaciones.';
+  String get catchupFooter =>
+      'Los días rellenados se marcan como estimaciones.';
 
   @override
   String catchupSave(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: 'Guardar $n días', one: 'Guardar 1 día');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Guardar $n días',
+      one: 'Guardar 1 día',
+    );
     return '$_temp0';
   }
 
   @override
   String catchupSaved(int n) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n días al día', one: 'Día al día');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n días al día',
+      one: 'Día al día',
+    );
     return '$_temp0';
   }
 
@@ -3767,7 +3922,8 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get swapSub => 'Mismos músculos, otro movimiento. Las series que ya hiciste se quedan donde están.';
+  String get swapSub =>
+      'Mismos músculos, otro movimiento. Las series que ya hiciste se quedan donde están.';
 
   @override
   String get swapNone => 'No hay una alternativa cercana en la biblioteca.';
@@ -3790,7 +3946,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get painWhere => '¿Dónde duele?';
 
   @override
-  String get painNote => 'El ardor muscular es normal. El dolor en una articulación, o un dolor agudo, no.';
+  String get painNote =>
+      'El ardor muscular es normal. El dolor en una articulación, o un dolor agudo, no.';
 
   @override
   String get painShoulder => 'Hombro';
@@ -3822,7 +3979,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get painAcheLighter => 'Molestia: baja un 10%';
 
   @override
-  String get painAcheLighterSub => 'Las series restantes bajan un 10%. Para si empeora.';
+  String get painAcheLighterSub =>
+      'Las series restantes bajan un 10%. Para si empeora.';
 
   @override
   String get painAcheKeep => 'Molestia: sigue';
@@ -3834,7 +3992,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get painSharpStop => 'Agudo: para este ejercicio';
 
   @override
-  String get painSharpStopSub => 'El dolor agudo es una señal de parar. Las series restantes se quitan.';
+  String get painSharpStopSub =>
+      'El dolor agudo es una señal de parar. Las series restantes se quitan.';
 
   @override
   String get painSharpSwap => 'Agudo: cámbialo';
@@ -3849,7 +4008,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get painFlagged => 'Dolor marcado';
 
   @override
-  String get painStopped => 'Paras aquí. Descansa y consulta a alguien si continúa.';
+  String get painStopped =>
+      'Paras aquí. Descansa y consulta a alguien si continúa.';
 
   @override
   String painFlaggedOn(String area) {
@@ -3917,7 +4077,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get trainAnyway => 'Entrenar igualmente';
 
   @override
-  String get trainAnywaySub => 'Elige una rutina, o empieza vacío y añade sobre la marcha.';
+  String get trainAnywaySub =>
+      'Elige una rutina, o empieza vacío y añade sobre la marcha.';
 
   @override
   String get undoChange => 'Deshacer';
@@ -3945,11 +4106,17 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get notTodayNote => 'En ambos casos tu racha está a salvo: un descanso planificado nunca la rompe.';
+  String get notTodayNote =>
+      'En ambos casos tu racha está a salvo: un descanso planificado nunca la rompe.';
 
   @override
   String routineSize(int n, int sets) {
-    String _temp0 = intl.Intl.pluralLogic(n, locale: localeName, other: '$n ejercicios', one: '1 ejercicio');
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n ejercicios',
+      one: '1 ejercicio',
+    );
     return '$_temp0 · $sets series';
   }
 
@@ -3979,7 +4146,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get chooseFromLibrary => 'Elegir de la galería';
 
   @override
-  String get photoTip => 'Mismo sitio, misma luz, misma hora: por la mañana, antes de comer, es lo mejor.';
+  String get photoTip =>
+      'Mismo sitio, misma luz, misma hora: por la mañana, antes de comer, es lo mejor.';
 
   @override
   String get deletePhoto => 'Borrar foto';
@@ -3991,7 +4159,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get onThisPhone => 'Solo en este móvil';
 
   @override
-  String get photosNote => 'Las fotos no salen de tu móvil: sin subidas ni copias. Cada dos a cuatro semanas basta.';
+  String get photosNote =>
+      'Las fotos no salen de tu móvil: sin subidas ni copias. Cada dos a cuatro semanas basta.';
 
   @override
   String get compareLbl => 'Comparar';
@@ -4081,7 +4250,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aiThinking => 'Estimando…';
 
   @override
-  String get aiNeedsAccount => 'Inicia sesión para usar la IA: es gratis durante las pruebas.';
+  String get aiNeedsAccount =>
+      'Inicia sesión para usar la IA: es gratis durante las pruebas.';
 
   @override
   String aiCouldNot(int n) {
@@ -4126,13 +4296,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get remindWorkoutAt => 'Hora';
 
   @override
-  String get remindMealsNote => 'Cada aviso solo suena si esa comida sigue vacía.';
+  String get remindMealsNote =>
+      'Cada aviso solo suena si esa comida sigue vacía.';
 
   @override
-  String get remindWaterNote => 'Cada aviso solo suena si vas por detrás con el agua a esa hora.';
+  String get remindWaterNote =>
+      'Cada aviso solo suena si vas por detrás con el agua a esa hora.';
 
   @override
-  String get remindWorkoutNote => 'Solo los días con sesión en tu plan, y no si ya la hiciste.';
+  String get remindWorkoutNote =>
+      'Solo los días con sesión en tu plan, y no si ya la hiciste.';
 
   @override
   String toggleReminder(String name) {
@@ -4213,7 +4386,8 @@ class AppLocalizationsEs extends AppLocalizations {
       'El iPhone solo se salta su pantalla de permisos cuando la app no puede usar Apple Health en absoluto. En una instalación de prueba firmada con un Apple ID gratuito, el permiso de HealthKit puede perderse al firmar. Si dijiste que no antes, activa Gymco en Salud → perfil → Apps → Gymco.';
 
   @override
-  String get healthWhyAndroid => 'Comprueba que Health Connect está instalado y actualizado, y permite Gymco en él.';
+  String get healthWhyAndroid =>
+      'Comprueba que Health Connect está instalado y actualizado, y permite Gymco en él.';
 
   @override
   String get healthPhoneSaid => 'Lo que dijo el teléfono';
@@ -4249,10 +4423,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get equipmentLbl => 'Equipo';
 
   @override
-  String get pickMuscleFirst => 'Elige el músculo principal para que cuente en tus series semanales.';
+  String get pickMuscleFirst =>
+      'Elige el músculo principal para que cuente en tus series semanales.';
 
   @override
-  String get customExerciseNote => 'Se guarda en este móvil con el resto de tus datos y en tu copia.';
+  String get customExerciseNote =>
+      'Se guarda en este móvil con el resto de tus datos y en tu copia.';
 
   @override
   String get createAndAdd => 'Crear ejercicio';
@@ -4364,7 +4540,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get proLockedLabel => 'Gymco Pro, muy pronto';
 
   @override
-  String get proLockedNote => 'Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento.';
+  String get proLockedNote =>
+      'Pro aún no está a la venta. Estos son los precios previstos para el lanzamiento.';
 
   @override
   String get announcementDismiss => 'Descartar';
@@ -4376,7 +4553,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get helpOnSiteSub => 'Guías y respuestas';
 
   @override
-  String get helpIntro => 'Cuéntanos qué pasa. Leemos cada mensaje y respondemos por correo.';
+  String get helpIntro =>
+      'Cuéntanos qué pasa. Leemos cada mensaje y respondemos por correo.';
 
   @override
   String get helpSubjectHint => 'Asunto';
@@ -4419,7 +4597,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get meSignInCta => 'Entrar con email';
 
   @override
-  String get emailIncomplete => 'Escribe tu email completo, como nombre@gmail.com';
+  String get emailIncomplete =>
+      'Escribe tu email completo, como nombre@gmail.com';
 
   @override
   String get appearance => 'Apariencia';

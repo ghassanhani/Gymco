@@ -123,8 +123,12 @@ hints); a node test checks the two lists match.
 
 ## Hero screenshots (added 2026-10-21)
 
-- Body field `screens: { today?, l1?, l2?, r1?, r2? }`: the five hero phones.
-  A missing slot keeps the page's own `/img/landing/screen-<slot>.jpg`.
+- Body field `screens: { today?, l1?, l2?, r1?, r2?, today_light?, … r2_light? }`:
+  the five hero phones on the dark page, and the same five on the light page.
+  A missing slot keeps the page's own `/img/landing/screen-<slot>.jpg`
+  (`screen-<slot>-light.jpg` for the light page). The built-in pictures come
+  from the app: `test/shots/landing_shots_test.dart`, then
+  `tool/landing_screens.py`.
 - A value must be a picture the Control Center uploaded:
   `https://<project>.supabase.co/storage/v1/object/public/site/landing/<sha256>.(jpg|png|webp)`.
   The page accepts only Gymco's own project prefix.

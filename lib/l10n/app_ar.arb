@@ -383,7 +383,7 @@
   "moreOf": "زد {what}",
   "lessOf": "قلّل {what}",
   "trainTitleEm": "تمرّن <em>بقوة</em>",
-  "trainSub": "{days} أيام في الأسبوع · الأسبوع {week}",
+  "trainSub": "{days, plural, =1{يوم واحد في الأسبوع} =2{يومان في الأسبوع} few{{days} أيام في الأسبوع} other{{days} يومًا في الأسبوع}} · الأسبوع {week}",
   "noWeeklyPlan": "لا خطة أسبوعية بعد",
   "dayAhead": "{date} · قادم",
   "dayClosed": "{date} · مُغلق",
