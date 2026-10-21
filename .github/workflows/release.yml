@@ -40,7 +40,8 @@ jobs:
             echo "::error::ANDROID_KEYSTORE_BASE64 is not the key. On the Mac run: base64 -i upload.jks | pbcopy, then paste it into that secret."
             exit 1
           fi
-          if ! keytool -list -keystore android/upload.jks -storepass "$SP" -alias "$KA" > /dev/null 2>&1; then
+          if ! out=$(keytool -list -keystore android/upload.jks -storepass "$SP" -alias "$KA" 2>&1); then
+            echo "$out" | grep -i 'error' || true
             echo "::error::The key file decoded, but ANDROID_KEYSTORE_PASSWORD or ANDROID_KEY_ALIAS does not open it."
             exit 1
           fi
