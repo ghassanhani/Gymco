@@ -17,9 +17,14 @@ export function pageHead(eyebrow, title, em, right, { emFirst = false } = {}) {
   return h("div", { class: "head" }, h("div", {}, h("div", { class: "eyebrow" }, eyebrow), h("h1", {}, t)), right ?? null);
 }
 
-export function kpi({ label, value, delta, tone = "flat", spark, sparkTone = "chart-1" }) {
+/** The tile's icon in its rounded square, the way the Overview and System health tiles open. */
+export const kpiIcon = (name) => h("span", { class: "kpi-ic", "aria-hidden": "true" }, icon(name, 18));
+
+export function kpi({ label, value, delta, tone = "flat", spark, sparkTone = "chart-1", ic }) {
   return h("div", { class: "card tight kpi" },
-    h("div", { class: "top-line" }, h("span", { class: "label" }, label), delta ? chip(delta, tone) : null),
+    ic
+      ? [h("div", { class: "top-line" }, kpiIcon(ic), delta ? chip(delta, tone) : null), h("span", { class: "label" }, label)]
+      : h("div", { class: "top-line" }, h("span", { class: "label" }, label), delta ? chip(delta, tone) : null),
     h("div", { class: "value num" }, value),
     spark?.length > 1
       ? s("svg", { viewBox: "0 0 120 32", preserveAspectRatio: "none", "aria-hidden": "true" },

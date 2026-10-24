@@ -5,7 +5,7 @@
 import { ApiError } from "../lib/api.js";
 import { h, icon } from "../lib/dom.js";
 import { fmtBytes, fmtInt, relTime } from "../lib/format.js";
-import { chip, empty, errorBanner, pageHead, table } from "../lib/ui.js";
+import { chip, empty, errorBanner, kpiIcon, pageHead, table } from "../lib/ui.js";
 
 const put = (el, ...kids) => el.replaceChildren(...kids.flat().filter((k) => k != null && k !== false));
 const FREE_DB = 500_000_000;
@@ -46,9 +46,10 @@ export async function render(el, { call, isCurrent }) {
   }
 
   /** A tile with a bar: label, value, note, share of the limit. */
-  function tile({ label, value, note, share, tone = "", state }) {
+  function tile({ ic, label, value, note, share, tone = "", state }) {
     return h("div", { class: "card tight kpi" },
-      h("div", { class: "top-line" }, h("span", { class: "label" }, label), state ? chip(state[0], state[1]) : null),
+      h("div", { class: "top-line" }, kpiIcon(ic), state ? chip(state[0], state[1]) : null),
+      h("span", { class: "label" }, label),
       h("div", { class: "value num" }, value),
       h("span", { class: "small muted" }, note),
       share != null ? h("div", { class: `track ${tone}`, role: "img", "aria-label": `${share}% of the limit` }, h("i", { style: { width: `${share}%` } })) : null);
@@ -62,11 +63,11 @@ export async function render(el, { call, isCurrent }) {
     const db = d ? pct(d.db_bytes, FREE_DB) : null;
     const st = d ? pct(d.backups?.bytes, FREE_STORAGE) : null;
     put(tiles,
-      tile({ label: "Crash-free sessions", value: "Not set up", note: "Crashlytics isn’t connected yet", state: ["Unknown", "flat"] }),
-      tile({ label: "Edge function errors · 24 h", value: d ? `${(rate * 100).toFixed(rate && rate < 0.01 ? 2 : 1)}%` : "—", note: d ? `${fmtInt(errors)} of ${fmtInt(calls)} calls · Alert at 2%` : "Alert at 2%",
+      tile({ ic: "k-crash", label: "Crash-free sessions", value: "Not set up", note: "Crashlytics isn’t connected yet", state: ["Unknown", "flat"] }),
+      tile({ ic: "k-errors", label: "Edge function errors · 24 h", value: d ? `${(rate * 100).toFixed(rate && rate < 0.01 ? 2 : 1)}%` : "—", note: d ? `${fmtInt(errors)} of ${fmtInt(calls)} calls · Alert at 2%` : "Alert at 2%",
         share: d ? Math.min(100, Math.round((rate / ALERT_RATE) * 100)) : null, tone: rate > ALERT_RATE ? "bad" : rate > ALERT_RATE / 2 ? "warn" : "", state: d ? (rate > ALERT_RATE ? ["Errors", "bad"] : ["Healthy", "good"]) : null }),
-      tile({ label: "Database size", value: d ? fmtBytes(d.db_bytes) : "—", note: d ? `${db}% of the 500 MB free plan` : "500 MB free plan", share: db, tone: db > 80 ? "warn" : "", state: d ? (db > 80 ? ["Near limit", "warn"] : ["OK", "good"]) : null }),
-      tile({ label: "Storage · backups", value: d ? fmtBytes(d.backups?.bytes) : "—", note: d ? `${fmtInt(d.backups?.count)} backups · ${st}% of the 1 GB free plan` : "1 GB free plan", share: st, tone: st > 80 ? "warn" : "", state: d ? (st > 80 ? ["Near limit", "warn"] : ["OK", "good"]) : null }));
+      tile({ ic: "k-db", label: "Database size", value: d ? fmtBytes(d.db_bytes) : "—", note: d ? `${db}% of the 500 MB free plan` : "500 MB free plan", share: db, tone: db > 80 ? "warn" : "", state: d ? (db > 80 ? ["Near limit", "warn"] : ["OK", "good"]) : null }),
+      tile({ ic: "k-storage", label: "Storage · backups", value: d ? fmtBytes(d.backups?.bytes) : "—", note: d ? `${fmtInt(d.backups?.count)} backups · ${st}% of the 1 GB free plan` : "1 GB free plan", share: st, tone: st > 80 ? "warn" : "", state: d ? (st > 80 ? ["Near limit", "warn"] : ["OK", "good"]) : null }));
   }
 
   function drawFunctions(d) {

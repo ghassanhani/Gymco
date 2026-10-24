@@ -33,7 +33,7 @@ function shell() {
   const navLinks = NAV.map((g) =>
     h("div", { class: "navgroup" }, h("h2", {}, g.name),
       g.items.map((i) => h("a", { class: "nav", href: `#/${i.id}`, "data-id": i.id },
-        h("span", {}, i.label), can(me.role, i.cap) ? null : h("span", { "aria-label": "Needs another role" }, icon("lock", 14))))));
+        h("span", { class: "nav-l" }, icon(i.id, 20), h("span", {}, i.label)), can(me.role, i.cap) ? null : h("span", { "aria-label": "Needs another role" }, icon("lock", 14))))));
   const initials = me.email.slice(0, 2).toUpperCase();
   const app = h("div", { class: "app" },
     h("nav", { class: "side", "aria-label": "Main" },

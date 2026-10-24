@@ -2,6 +2,8 @@
 // child becomes a text node, so nothing a user or the server sends is ever
 // parsed as HTML.
 
+import { ICONS } from "./icons.js";
+
 export function h(tag, props = {}, ...kids) {
   const el = document.createElement(tag);
   apply(el, props);
@@ -61,7 +63,10 @@ const PATHS = {
   upload: ["M12 15V4M7 9l5-5 5 5M5 20h14"],
 };
 
+/** A library icon (icons.js) when there is one, else one of the line icons above. */
 export function icon(name, size = 18) {
+  const lib = ICONS[name];
+  if (lib) return s("svg", { viewBox: "0 0 24 24", width: size, height: size, fill: "none", class: "ic", "aria-hidden": "true" }, lib.map(([tag, a]) => s(tag, a)));
   return s("svg", { viewBox: "0 0 24 24", width: size, height: size, "aria-hidden": "true" },
     (PATHS[name] ?? []).map((d) => s("path", { d })));
 }
