@@ -47,14 +47,14 @@ export async function render(el, { call, isCurrent }) {
     const scanDelta = budget ? { text: `${Math.round(((s.cost_today ?? 0) / budget) * 100)}% budget`, tone: (s.cost_today ?? 0) / budget >= 0.8 ? "warn" : "flat" } : delta(s.scans_today, yesterdayScans);
 
     const tiles = [
-      { label: "Total accounts", value: fmtInt(s.accounts), delta: `+${fmtInt(s.signups_30d)} in 30 d`, tone: s.signups_30d ? "good" : "flat", spark: cumulative.slice(-30) },
-      { label: "Sign-ups · 7 d", value: fmtInt(last7), ...pick(delta(last7, prev7)), spark: s.signups.slice(-14).map((d) => d.n) },
-      { label: "Active · backup 7 d", value: fmtInt(s.active_7d), delta: `${fmtInt(s.active_30d)} in 30 d`, tone: "flat" },
-      { label: "AI scans today", value: fmtInt(s.scans_today), ...pick(scanDelta), spark: s.scans.slice(-14).map((d) => d.n), sparkTone: scanDelta.tone === "warn" ? "warn" : "chart-1" },
-      { label: "Est. AI cost today", value: fmtEur(s.cost_today), delta: `${fmtEur(s.cost_month)} this month`, tone: "flat", spark: s.scans.slice(-14).map((d) => d.cost), sparkTone: "chart-2" },
-      { label: "At scan cap today", value: fmtInt(s.at_cap_today), delta: `cap ${capNow}`, tone: "flat" },
-      { label: "Deletions · 30 d", value: fmtInt(s.deletions_30d), ...pick(delta(sum(s.deletions.slice(-30)), sum(s.deletions.slice(-60, -30)), { lowerIsBetter: true })), spark: s.deletions.slice(-14).map((d) => d.n) },
-      { label: "Database size", value: fmtBytes(s.db_bytes), delta: `${Math.round((s.db_bytes / FREE_DB) * 100)}% of plan`, tone: s.db_bytes / FREE_DB > 0.8 ? "warn" : "flat" },
+      { ic: "k-accounts", label: "Total accounts", value: fmtInt(s.accounts), delta: `+${fmtInt(s.signups_30d)} in 30 d`, tone: s.signups_30d ? "good" : "flat", spark: cumulative.slice(-30) },
+      { ic: "k-signups", label: "Sign-ups · 7 d", value: fmtInt(last7), ...pick(delta(last7, prev7)), spark: s.signups.slice(-14).map((d) => d.n) },
+      { ic: "k-active", label: "Active · backup 7 d", value: fmtInt(s.active_7d), delta: `${fmtInt(s.active_30d)} in 30 d`, tone: "flat" },
+      { ic: "k-scans", label: "AI scans today", value: fmtInt(s.scans_today), ...pick(scanDelta), spark: s.scans.slice(-14).map((d) => d.n), sparkTone: scanDelta.tone === "warn" ? "warn" : "chart-1" },
+      { ic: "k-cost", label: "Est. AI cost today", value: fmtEur(s.cost_today), delta: `${fmtEur(s.cost_month)} this month`, tone: "flat", spark: s.scans.slice(-14).map((d) => d.cost), sparkTone: "chart-2" },
+      { ic: "k-cap", label: "At scan cap today", value: fmtInt(s.at_cap_today), delta: `cap ${capNow}`, tone: "flat" },
+      { ic: "k-deletions", label: "Deletions · 30 d", value: fmtInt(s.deletions_30d), ...pick(delta(sum(s.deletions.slice(-30)), sum(s.deletions.slice(-60, -30)), { lowerIsBetter: true })), spark: s.deletions.slice(-14).map((d) => d.n) },
+      { ic: "k-db", label: "Database size", value: fmtBytes(s.db_bytes), delta: `${Math.round((s.db_bytes / FREE_DB) * 100)}% of plan`, tone: s.db_bytes / FREE_DB > 0.8 ? "warn" : "flat" },
     ];
 
     const trendNote = s.accounts < 1 || s.signups.filter((d) => d.n).length < 2
