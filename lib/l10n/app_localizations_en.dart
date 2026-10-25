@@ -5226,4 +5226,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironAskEx3 => 'Bad knee, no jumping';
+
+  @override
+  String get ironTermsLine =>
+      'Iron is a coach, not a doctor. Turning it on means you accept the Terms, including training at your own risk.';
+
+  @override
+  String get readTerms => 'Read the Terms';
 }

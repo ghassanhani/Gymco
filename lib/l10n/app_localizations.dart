@@ -8583,6 +8583,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bad knee, no jumping'**
   String get ironAskEx3;
+
+  /// No description provided for @ironTermsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron is a coach, not a doctor. Turning it on means you accept the Terms, including training at your own risk.'**
+  String get ironTermsLine;
+
+  /// No description provided for @readTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the Terms'**
+  String get readTerms;
 }
 
 class _AppLocalizationsDelegate

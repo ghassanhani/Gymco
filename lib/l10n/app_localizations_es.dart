@@ -5244,4 +5244,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ironAskEx3 => 'Rodilla mal, sin saltos';
+
+  @override
+  String get ironTermsLine =>
+      'Iron es un entrenador, no un médico. Activarlo significa aceptar los Términos, incluido entrenar bajo tu propio riesgo.';
+
+  @override
+  String get readTerms => 'Leer los Términos';
 }

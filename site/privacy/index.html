@@ -16,14 +16,15 @@
 <nav><a href="/support/">Support</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></div></header>
 <main><div class="wrap">
 <h1>Privacy policy</h1>
-<p class="muted">Last updated 19 October 2026</p>
+<p class="muted">Last updated 25 October 2026</p>
 <p>Gymco is built so that your diary lives on your phone. This page explains, in plain words, what stays there, what leaves it, and why.</p>
 
 <h2>What stays on your phone</h2>
 <ul>
 <li>Your food log, workouts, routines, weigh-ins, measurements, targets and settings. They are stored in the app's own storage on your device.</li>
 <li>Progress photos. They are never uploaded, never included in a backup, and never seen by us.</li>
-<li>Data read from Apple Health or Health Connect.</li>
+<li>Data read from Apple Health or Health Connect, except the summary you choose to share with Iron (see below).</li>
+<li>Your health profile (injuries, conditions, medication, pregnancy and health questions), unless you choose to share it with Iron.</li>
 </ul>
 <p>You can use Gymco fully without an account. In that case, nothing you log leaves your phone.</p>
 
@@ -38,11 +39,21 @@
 <h2>AI food estimates</h2>
 <p>When you take a photo of a meal or ask for an estimate of something you wrote, that photo or text is sent through our server to Anthropic, which returns an estimate of the food and its nutrition. We do not keep the photo or the text after the estimate is returned. Anthropic processes it only to provide the estimate and does not use it to train its models. This feature needs an account and only runs when you ask for it.</p>
 
+<h2>Iron, the AI coach (optional)</h2>
+<p>Iron is off until you turn it on, and it needs an account. While it is on, when Iron writes your daily tip, a program or a weekly review, the app sends our server a summary of your numbers, which passes it to Anthropic to write the answer:</p>
+<ul>
+<li><b>Always, while Iron is on:</b> your goal, activity level, targets, age, sex, height and weight trend; your planned routines; daily totals of calories, protein and water; training days, sets and streak; and, if Health access is on, steps, sleep, resting heart rate and heart rate variability. It also includes the warning signs the app's own rules found.</li>
+<li><b>Only if you turn on "Food details":</b> what you ate in the last three days, and when.</li>
+<li><b>Only if you turn on "Health profile":</b> your injuries, conditions, whether you take medication, pregnancy, your answers to the health questions, and your note.</li>
+<li><b>Never:</b> progress photos, workout notes, your email, or anything else not listed here.</li>
+</ul>
+<p>You can change these choices any time in Iron settings, or turn Iron off. We keep a counter of how many AI requests you used each day, and a record of cost and timing without the content. We do not keep the summary after the answer is returned. Anthropic processes it only to provide the answer and does not use it to train its models. Warning signs are worked out on your phone and need no AI.</p>
+
 <h2>Barcode and food search</h2>
 <p>When you scan a barcode or search for a packaged food, the barcode or search words are sent to Open Food Facts, a public food database. Nothing that identifies you is sent with it.</p>
 
 <h2>Apple Health and Health Connect</h2>
-<p>With your permission, Gymco reads and writes body weight, nutrition and workouts in Apple Health (iPhone) or Health Connect (Android). This data is used only to show your progress and calculate your targets. It is never used for advertising, never sold, and never shared with third parties.</p>
+<p>With your permission, Gymco reads and writes body weight, nutrition and workouts, and reads steps, sleep and heart rate, in Apple Health (iPhone) or Health Connect (Android). This data is used only to show your progress, calculate your targets, spot warning signs and, if you turn Iron on, to coach you as described above. It is never used for advertising or marketing, never sold, and never shared with anyone except the processor that writes Iron's answers, and only when you have turned Iron on.</p>
 
 <h2>Crash reports</h2>
 <p>If the app crashes, it sends a crash report to Google Firebase Crashlytics: the error, where in the code it happened, the app version, and the phone model and system version. Crash reports never contain anything you logged.</p>

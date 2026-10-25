@@ -3609,5 +3609,7 @@
   "ironAskEstimate": "Ask Iron to estimate it",
   "ironAskEx1": "I only have 45 minutes",
   "ironAskEx2": "Home workouts, dumbbells only",
-  "ironAskEx3": "Bad knee, no jumping"
+  "ironAskEx3": "Bad knee, no jumping",
+  "ironTermsLine": "Iron is a coach, not a doctor. Turning it on means you accept the Terms, including training at your own risk.",
+  "readTerms": "Read the Terms"
 }

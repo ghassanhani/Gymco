@@ -5201,4 +5201,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironAskEx3 => 'ركبتي مصابة، بلا قفز';
+
+  @override
+  String get ironTermsLine =>
+      'آيرون مدرب وليس طبيبًا. تشغيله يعني قبولك للشروط، ومنها أن تمارين على مسؤوليتك.';
+
+  @override
+  String get readTerms => 'اقرأ الشروط';
 }

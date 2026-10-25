@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../data/site.dart';
 import '../../domain/coach.dart';
 import '../../domain/iron_rules.dart';
 import '../../domain/session.dart';
@@ -50,6 +51,26 @@ class IronCard extends ConsumerWidget {
           ),
           Muted(l.ironMeetBody, size: 13, color: Volt.t2),
           Muted(l.ironPrivacy, size: 11.5),
+          Semantics(
+            link: true,
+            label: '${l.ironTermsLine} ${l.readTerms}',
+            excludeSemantics: true,
+            child: GestureDetector(
+              onTap: () => openSite('terms'),
+              child: Text.rich(
+                TextSpan(
+                  text: '${l.ironTermsLine} ',
+                  children: [
+                    TextSpan(
+                      text: l.readTerms,
+                      style: TextStyle(color: ironGradient[1], fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                style: TextStyle(fontSize: 11.5, height: 1.4, color: Volt.t3),
+              ),
+            ),
+          ),
           AiBtn(
             colors: ironGradient,
             foreground: Colors.white,

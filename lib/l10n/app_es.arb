@@ -1420,5 +1420,7 @@
   "ironAskEstimate": "Pide a Iron que lo estime",
   "ironAskEx1": "Solo tengo 45 minutos",
   "ironAskEx2": "Entreno en casa, solo mancuernas",
-  "ironAskEx3": "Rodilla mal, sin saltos"
+  "ironAskEx3": "Rodilla mal, sin saltos",
+  "ironTermsLine": "Iron es un entrenador, no un médico. Activarlo significa aceptar los Términos, incluido entrenar bajo tu propio riesgo.",
+  "readTerms": "Leer los Términos"
 }
