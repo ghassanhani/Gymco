@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gymco/app.dart';
+import 'package:gymco/data/models.dart';
 import 'package:gymco/domain/session.dart';
 import 'package:gymco/state/training_providers.dart';
 import 'package:gymco/ui/today/recovery_card.dart';
@@ -53,25 +54,31 @@ void main() {
             'healthOn': true,
             'healthWatchReads': screen != 'ask',
           },
-          seed: screen == 'full' || screen == 'top' || screen == 'today'
-              ? (db) => db.saveRoutineFixture('Push A', weekday: 5)
-              : null,
+          seed: switch (screen) {
+            'full' => (db) async {
+              await db.saveRoutineFixture('Push A', weekday: 5);
+              final oats = (await db.searchFoods('oats')).first;
+              await db.addEntry(LogEntry.of(oats, day: dayKey(testNow), meal: Meal.breakfast, grams: 80));
+            },
+            'top' || 'today' => (db) => db.saveRoutineFixture('Push A', weekday: 5),
+            _ => null,
+          },
           health: screen == 'easy' ? FakeWatch(lastNight: 318, restingToday: 63, hrvToday: 47) : FakeWatch(),
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
         // The whole of Today in one tall frame.
         if (screen == 'full') {
-          tester.view.physicalSize = const Size(1170, 5700);
-          await tester.binding.setSurfaceSize(const Size(390, 1900));
+          tester.view.physicalSize = const Size(1170, 5250);
+          await tester.binding.setSurfaceSize(const Size(390, 1750));
         }
         await _frames(tester);
         final ctx = tester.element(find.byType(Scaffold).first);
         switch (screen) {
           case 'today' || 'easy' || 'ask':
-            await tester.drag(find.byType(Scrollable).last, const Offset(0, -190));
+            await tester.drag(pageScroll, const Offset(0, -190));
           case 'activity':
-            await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: find.byType(Scrollable).last);
-            await tester.drag(find.byType(Scrollable).last, const Offset(0, -60));
+            await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: pageScroll);
+            await tester.drag(pageScroll, const Offset(0, -60));
           case 'summary':
             GoRouter.of(ctx).push(
               '/summary',

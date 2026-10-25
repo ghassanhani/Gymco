@@ -8,7 +8,6 @@ library;
 
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
@@ -69,9 +68,9 @@ void main() {
         await tester.pump(const Duration(milliseconds: 100));
       }
       if (c == 'phone') {
-        await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: find.byType(Scrollable).last);
-        await tester.drag(find.byType(Scrollable).last, const Offset(0, 500));
-        await tester.drag(find.byType(Scrollable).last, const Offset(0, -560));
+        await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: pageScroll);
+        await tester.drag(pageScroll, const Offset(0, 500));
+        await tester.drag(pageScroll, const Offset(0, -560));
       }
       for (var i = 0; i < 20; i++) {
         await tester.pump(const Duration(milliseconds: 100));

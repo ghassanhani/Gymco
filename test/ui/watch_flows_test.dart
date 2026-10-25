@@ -16,7 +16,7 @@ void main() {
 
   testWidgets('Today shows last night against the usual, and the morning run', (tester) async {
     await pumpApp(tester, prefs: on, health: FakeWatch());
-    await tester.scrollUntilVisible(find.byType(RecoveryCard), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.byType(RecoveryCard), 300, scrollable: pageScroll);
     await tester.pumpAndSettle();
     expect(find.text('READY'), findsOneWidget);
     expect(find.textContaining('7h 22m', findRichText: true), findsOneWidget);
@@ -25,7 +25,7 @@ void main() {
     await tester.scrollUntilVisible(
       find.text('Run · 34 min · Apple Watch'),
       300,
-      scrollable: find.byType(Scrollable).last,
+      scrollable: pageScroll,
     );
     expect(find.text('Active energy'), findsOneWidget);
     expect(find.textContaining('486', findRichText: true), findsOneWidget);
@@ -33,7 +33,7 @@ void main() {
 
   testWidgets('a short night and a tired heart say go easy', (tester) async {
     await pumpApp(tester, prefs: on, health: FakeWatch(lastNight: 300, restingToday: 63, hrvToday: 44));
-    await tester.scrollUntilVisible(find.byType(RecoveryCard), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.byType(RecoveryCard), 300, scrollable: pageScroll);
     await tester.pumpAndSettle();
     expect(find.text('GO EASY'), findsOneWidget);
     expect(find.textContaining('5h 0m', findRichText: true), findsOneWidget);
@@ -54,7 +54,7 @@ void main() {
   testWidgets('someone connected before asks once for the watch reads', (tester) async {
     final watch = FakeWatch();
     final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile, 'healthOn': true}, health: watch);
-    await tester.scrollUntilVisible(find.text('Bring in your watch'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('Bring in your watch'), 300, scrollable: pageScroll);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Allow'));
     await tester.pumpAndSettle();

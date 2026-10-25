@@ -623,8 +623,19 @@ class _Meals extends ConsumerWidget {
             ],
           ),
         ),
-        VList(
-          children: [for (final m in Meal.values) _MealItem(meal: m, entries: totals.inMeal(m), readOnly: readOnly)],
+        // A row to swipe along, running to the screen's edges.
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          clipBehavior: Clip.none,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (final m in Meal.values) ...[
+                if (m.index > 0) const SizedBox(width: 10),
+                _MealItem(meal: m, entries: totals.inMeal(m), readOnly: readOnly),
+              ],
+            ],
+          ),
         ),
       ],
     );
@@ -643,22 +654,69 @@ class _MealItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
     final kcal = entries.fold<double>(0, (s, e) => s + e.kcal);
-    final sub = entries.isEmpty
+    final names = entries.isEmpty
         ? l.nothingLogged
-        : '${entries.take(3).map((e) => foodName(context, e.foodId, e.foodName).split(',').first).join(', ')} · ${l.itemsCount(entries.length)}';
-    return VItem(
-      semantics: mealName(l, meal),
-      onTap: readOnly
-          ? null
-          : () => entries.isEmpty ? context.push('/add/${meal.name}') : context.push('/meal/${meal.name}'),
-      children: [
-        MealIco(meal: meal.index, on: entries.isNotEmpty),
-        ItemText(mealName(l, meal), sub: sub),
-        if (entries.isNotEmpty)
-          Text(fmtInt(context, kcal), style: numStyle(14, color: Volt.t2))
-        else if (!readOnly)
-          const Pick(),
-      ],
+        : entries.take(3).map((e) => foodName(context, e.foodId, e.foodName).split(',').first).join(', ');
+    return Semantics(
+      button: !readOnly,
+      label: mealName(l, meal),
+      child: SizedBox(
+        width: 150,
+        height: 138,
+        child: VCard(
+          padding: const EdgeInsets.all(12),
+          onTap: readOnly
+              ? null
+              : () => entries.isEmpty ? context.push('/add/${meal.name}') : context.push('/meal/${meal.name}'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  MealIco(meal: meal.index, on: entries.isNotEmpty, size: 34),
+                  const SizedBox(width: 8),
+                  if (entries.isNotEmpty)
+                    Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(text: fmtInt(context, kcal), style: numStyle(15)),
+                              TextSpan(
+                                text: ' ${l.kcal}',
+                                style: TextStyle(fontSize: 10, color: Volt.t3),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  else if (!readOnly) ...[
+                    const Spacer(),
+                    const Pick(),
+                  ],
+                ],
+              ),
+              const Spacer(),
+              Text(
+                mealName(l, meal),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                entries.isEmpty ? names : '$names · ${l.itemsCount(entries.length)}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 12, height: 1.3, color: Volt.t3),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

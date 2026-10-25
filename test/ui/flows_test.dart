@@ -186,8 +186,8 @@ void main() {
 
   testWidgets('water counts toward a goal from body weight, with undo and a day log', (tester) async {
     final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile});
-    await tester.scrollUntilVisible(find.text('+500'), 300, scrollable: find.byType(Scrollable).last);
-    await tester.drag(find.byType(Scrollable).last, const Offset(0, -200));
+    await tester.scrollUntilVisible(find.text('+500'), 300, scrollable: pageScroll);
+    await tester.drag(pageScroll, const Offset(0, -200));
     await tester.pumpAndSettle();
     expect(find.text('of 2.8 L'), findsOneWidget);
     await tester.tap(find.text('+500'));
@@ -210,7 +210,7 @@ void main() {
     final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile}, reminders: reminders);
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: pageScroll);
     await tester.ensureVisible(find.bySemanticsLabel('Turn Meals reminders on or off'));
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Turn Meals reminders on or off'));
@@ -236,7 +236,7 @@ void main() {
     );
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: pageScroll);
     expect(find.text('If a meal isn’t logged by 08:00, 14:15 or 21:00'), findsOneWidget);
     expect(reminders.scheduled.first.at, DateTime(2026, 9, 26, 14, 15));
     await tester.ensureVisible(find.text('Meals'));
@@ -253,7 +253,7 @@ void main() {
     final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile}, reminders: FakeReminders(allow: false));
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Water'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('Water'), 300, scrollable: pageScroll);
     await tester.ensureVisible(find.bySemanticsLabel('Turn Water reminders on or off'));
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Turn Water reminders on or off'));
@@ -271,12 +271,12 @@ void main() {
     );
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Your data'), 200, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('Your data'), 200, scrollable: pageScroll);
     await tester.ensureVisible(find.text('Your data'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Your data'));
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('Delete all data'), 200, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('Delete all data'), 200, scrollable: pageScroll);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Delete all data'));
     await tester.pumpAndSettle();

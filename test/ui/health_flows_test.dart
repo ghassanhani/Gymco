@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/health_sync.dart';
 import 'package:gymco/data/models.dart';
@@ -51,9 +50,9 @@ void main() {
     await tester.scrollUntilVisible(
       find.textContaining('8,410', findRichText: true),
       300,
-      scrollable: find.byType(Scrollable).last,
+      scrollable: pageScroll,
     );
-    await tester.scrollUntilVisible(find.text('+250'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('+250'), 300, scrollable: pageScroll);
     await tester.ensureVisible(find.text('+250'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('+250'));

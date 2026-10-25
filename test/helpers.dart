@@ -355,3 +355,6 @@ Map<String, String> t3(String en, [String? ar, String? es]) => {
   'ar': ar ?? '$en (ar)',
   'es': es ?? '$en (es)',
 };
+
+/// The screen's own vertical scroll, not a sideways row inside it.
+final pageScroll = find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down).last;
