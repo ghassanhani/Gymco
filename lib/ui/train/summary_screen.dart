@@ -16,6 +16,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import '../today/recovery_card.dart' show heartRed;
 import 'train_kit.dart';
 
 /// What a finished workout did: time, volume, hard sets, the best set of
@@ -231,8 +232,8 @@ class _Heart extends ConsumerWidget {
                 width: 36,
                 height: 36,
                 alignment: Alignment.center,
-                decoration: BoxDecoration(color: Volt.warn.withValues(alpha: 0.12), shape: BoxShape.circle),
-                child: VIcon('pulse', size: 18, color: Volt.warn),
+                decoration: BoxDecoration(color: heartRed.withValues(alpha: 0.12), shape: BoxShape.circle),
+                child: VIcon('pulse', size: 18, color: heartRed),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -273,7 +274,7 @@ class _Heart extends ConsumerWidget {
                 ),
             ],
           ),
-          SizedBox(height: 56, child: CustomPaint(painter: _HeartBars(h, Volt.warn, Volt.soft))),
+          SizedBox(height: 56, child: CustomPaint(painter: _HeartBars(h, heartRed, Volt.soft))),
         ],
       ),
     );

@@ -15,7 +15,6 @@ import '../../domain/volume.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/awards_providers.dart';
 import '../../state/config_providers.dart';
-import '../../state/health_providers.dart';
 import '../../state/messaging_providers.dart';
 import '../../state/providers.dart';
 import '../../state/training_providers.dart';
@@ -27,6 +26,7 @@ import '../kit/kit.dart';
 import 'announcement_card.dart';
 import 'catchup_screen.dart';
 import 'recovery_card.dart';
+import 'week_bars.dart';
 
 class TodayScreen extends ConsumerWidget {
   const TodayScreen({super.key});
@@ -96,8 +96,8 @@ class _Today extends ConsumerWidget {
               if (!dayOne) const CatchupCard(),
               if (ref.watch(liveAnnouncementProvider) != null) const AnnouncementCard(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
+              const ActivityTiles(),
               const _Trend(),
-              const _Steps(),
               _Water(day: key, trained: schedule.where((d) => d.today).firstOrNull?.done != null),
             ],
           ),
@@ -875,6 +875,15 @@ class _Water extends ConsumerWidget {
     final goal = _goalFor(ref, trained: trained);
     final done = d.ml >= goal;
     final auto = ref.watch(waterGoalProvider) == null;
+    final date = DateTime.parse(day);
+    final week = <double?>[
+      for (var i = 6; i >= 1; i--)
+        switch (ref.watch(waterProvider(dayKey(date.subtract(Duration(days: i))))).ml) {
+          0 => null,
+          final ml => ml.toDouble(),
+        },
+      d.ml.toDouble(),
+    ];
 
     Widget quick(int ml, String label) => Expanded(
       child: Pressable(
@@ -916,48 +925,32 @@ class _Water extends ConsumerWidget {
                 child: GapCol(
                   gap: 1,
                   children: [
-                    Muted(l.hydration),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        AnimatedNum(d.ml / 1000, format: (c, v) => fmtDec(c, v, digits: 2), style: numStyle(22)),
-                        const SizedBox(width: 6),
-                        Text(l.ofLitres(fmtDec(context, goal / 1000)), style: TextStyle(fontSize: 13, color: Volt.t2)),
-                      ],
+                    Muted(done ? '${l.hydration} · ${l.goalMet}' : l.hydration, color: done ? _waterBlue : null),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          AnimatedNum(d.ml / 1000, format: (c, v) => fmtDec(c, v, digits: 2), style: numStyle(22)),
+                          const SizedBox(width: 6),
+                          Text(
+                            l.ofLitres(fmtDec(context, goal / 1000)),
+                            style: TextStyle(fontSize: 13, color: Volt.t2),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              if (done)
-                Pop(
-                  trigger: done,
-                  child: Container(
-                    height: 28,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: _waterWash, borderRadius: BorderRadius.circular(999)),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        VIcon('check', size: 14, color: _waterBlue),
-                        const SizedBox(width: 4),
-                        Text(
-                          l.goalMet,
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _waterBlue),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              else
-                AnimatedNum(
-                  (d.ml * 100 / goal).clamp(0, 100).toDouble(),
-                  format: (_, v) => '${v.round()}%',
-                  style: numStyle(14, color: _waterBlue),
-                ),
+              SizedBox(
+                width: 124,
+                child: WeekBars(values: week, color: _waterBlue, today: date, max: goal.toDouble(), height: 34),
+              ),
             ],
           ),
-          VBar(fraction: d.ml / goal, color: _waterBlue, height: 8, track: Volt.card2),
           Row(
             children: [
               quick(250, l.waterGlass),
@@ -1274,42 +1267,6 @@ class _AwardsButton extends ConsumerWidget {
               ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Today's steps from the health store; only there once it is connected.
-class _Steps extends ConsumerWidget {
-  const _Steps();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final steps = ref.watch(stepsTodayProvider).value;
-    if (steps == null) return const SizedBox.shrink();
-    final l = AppLocalizations.of(context);
-    return VCard(
-      tight: true,
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(color: Color(0x1FFF9F43), shape: BoxShape.circle),
-            child: VIcon('bolt', size: 20, color: Volt.orange),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: GapCol(
-              gap: 1,
-              children: [
-                Muted(l.healthSteps),
-                AnimatedNum(steps.toDouble(), format: fmtInt, style: numStyle(22)),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

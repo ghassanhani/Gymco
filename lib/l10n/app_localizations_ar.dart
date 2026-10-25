@@ -4751,4 +4751,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get moreLbl => 'خيارات أخرى';
+
+  @override
+  String avgShort(String n) {
+    return 'المتوسط $n';
+  }
+
+  @override
+  String get stepsUnit => 'خطوة';
+
+  @override
+  String get activityTitle => 'النشاط';
 }

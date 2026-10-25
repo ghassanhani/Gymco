@@ -51,7 +51,13 @@ class FakeWatch extends NoHealth {
           day(b, b == 0 ? hrvToday : 58 + (b * 7) % 8);
         }
       case Metric.activeKcal:
-        out.add(Sample(from, to, 486, source: 'Apple Watch'));
+        for (var b = 0; b < 7; b++) {
+          day(b, b == 0 ? 486 : 380 + (b * 53) % 260);
+        }
+      case Metric.steps:
+        for (var b = 1; b < 7; b++) {
+          day(b, 5200 + (b * 1730) % 6400);
+        }
       case Metric.heartRate:
         final span = to.difference(from).inMinutes;
         for (var m = 0; m <= span; m++) {

@@ -48,7 +48,11 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Today').first);
     await tester.pumpAndSettle();
-    await tester.scrollUntilVisible(find.text('8,410'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(
+      find.textContaining('8,410', findRichText: true),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
     await tester.scrollUntilVisible(find.text('+250'), 300, scrollable: find.byType(Scrollable).last);
     await tester.ensureVisible(find.text('+250'));
     await tester.pumpAndSettle();

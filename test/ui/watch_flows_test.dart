@@ -19,9 +19,14 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Ready'), findsOneWidget);
     expect(find.textContaining('7h 22m', findRichText: true), findsOneWidget);
-    expect(find.text('Run · 34 min · Apple Watch'), findsOneWidget);
-    expect(find.text('486 active kcal today'), findsOneWidget);
     expect(find.text('You slept well and your heart is rested. A good day to push.'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Run · 34 min · Apple Watch'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(find.text('Active energy'), findsOneWidget);
+    expect(find.textContaining('486', findRichText: true), findsOneWidget);
   });
 
   testWidgets('a short night and a tired heart say go easy', (tester) async {

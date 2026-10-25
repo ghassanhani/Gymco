@@ -70,6 +70,7 @@ Future<void> askWatchReads(WidgetRef ref) async {
 void refreshHealth(WidgetRef ref) {
   ref.invalidate(healthImportProvider);
   ref.invalidate(stepsTodayProvider);
+  ref.invalidate(stepsWeekProvider);
   ref.invalidate(recoveryProvider);
   ref.invalidate(watchWorkoutDaysProvider);
   ref.invalidate(workoutHeartProvider);
@@ -88,7 +89,7 @@ final recoveryProvider = FutureProvider<Recovery?>((ref) async {
     h.samples(Metric.sleep, from.subtract(const Duration(hours: 6)), now),
     h.samples(Metric.restingHr, from, now),
     h.samples(Metric.hrv, from, now),
-    h.samples(Metric.activeKcal, today, now),
+    h.samples(Metric.activeKcal, today.subtract(const Duration(days: 6)), now),
   ]);
   return recoveryFrom(
     now: now,
@@ -122,4 +123,19 @@ final workoutHeartProvider = FutureProvider.family<HeartSummary?, (DateTime, Dat
   if (!ref.watch(healthOnProvider)) return null;
   final (start, end) = span;
   return HeartSummary.of(await ref.read(healthSyncProvider).samples(Metric.heartRate, start, end), start, end);
+});
+
+/// Steps for each of the last seven days, oldest first; today's is the
+/// store's own total, as on the Steps tile. Null when not connected.
+final stepsWeekProvider = FutureProvider<List<double?>?>((ref) async {
+  if (!ref.watch(healthOnProvider)) return null;
+  final now = ref.read(clockProvider)();
+  final today = DateTime(now.year, now.month, now.day);
+  final h = ref.read(healthSyncProvider);
+  final week = lastWeek(
+    perDay(await h.samples(Metric.steps, today.subtract(const Duration(days: 6)), now), sum: true),
+    now,
+  );
+  final steps = await ref.watch(stepsTodayProvider.future);
+  return [...week.take(6), steps?.toDouble() ?? week.last];
 });

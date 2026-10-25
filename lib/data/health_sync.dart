@@ -173,6 +173,7 @@ class DeviceHealth implements HealthSync {
       Metric.hrv => [_hrv],
       Metric.activeKcal => const [HealthDataType.ACTIVE_ENERGY_BURNED],
       Metric.sleep => _sleep,
+      Metric.steps => const [HealthDataType.STEPS],
     };
     await _init();
     try {

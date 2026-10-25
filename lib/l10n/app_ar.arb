@@ -1289,5 +1289,8 @@
   "healthWatchWorkouts": "تمارين ساعتك",
   "healthWatchWorkoutsSub": "الجري والدراجة والحصص تحافظ على سلسلتك",
   "minutesOnly": "{m}د",
-  "moreLbl": "خيارات أخرى"
+  "moreLbl": "خيارات أخرى",
+  "avgShort": "المتوسط {n}",
+  "stepsUnit": "خطوة",
+  "activityTitle": "النشاط"
 }

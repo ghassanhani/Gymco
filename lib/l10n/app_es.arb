@@ -1289,5 +1289,8 @@
   "healthWatchWorkouts": "Entrenos de tu reloj",
   "healthWatchWorkoutsSub": "Carreras, bici y clases mantienen tu racha",
   "minutesOnly": "{m} min",
-  "moreLbl": "Más opciones"
+  "moreLbl": "Más opciones",
+  "avgShort": "media {n}",
+  "stepsUnit": "pasos",
+  "activityTitle": "Actividad"
 }

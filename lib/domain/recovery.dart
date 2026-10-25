@@ -41,6 +41,10 @@ class Recovery {
     this.hrvBase,
     this.activeKcal,
     this.workouts = const [],
+    this.sleepWeek = const [],
+    this.restingWeek = const [],
+    this.hrvWeek = const [],
+    this.kcalWeek = const [],
   });
 
   final int? sleepMin;
@@ -53,6 +57,13 @@ class Recovery {
 
   /// Today's, from a watch or another app; Gymco's own are left out.
   final List<WatchWorkout> workouts;
+
+  /// The last seven days for each, oldest first and today last; null where
+  /// nothing was read. Sleep in minutes.
+  final List<double?> sleepWeek;
+  final List<double?> restingWeek;
+  final List<double?> hrvWeek;
+  final List<double?> kcalWeek;
 
   bool get hasBody => sleepMin != null || restingHr != null || hrv != null;
   bool get isEmpty => !hasBody && activeKcal == null && workouts.isEmpty;
@@ -92,7 +103,7 @@ double? baseline(Iterable<double> daily) {
 }
 
 /// What Gymco reads from the health store besides weight and steps.
-enum Metric { heartRate, restingHr, hrv, sleep, activeKcal }
+enum Metric { heartRate, restingHr, hrv, sleep, activeKcal, steps }
 
 /// One reading. Sleep is in minutes asleep, energy in kcal.
 class Sample {
@@ -129,6 +140,11 @@ Map<String, double> perDay(Iterable<Sample> samples, {required bool sum}) {
   return (today, baseline(byDay.values));
 }
 
+/// The seven days up to [now] from a day-by-day map, oldest first.
+List<double?> lastWeek(Map<String, double> byDay, DateTime now) => [
+  for (var i = 6; i >= 0; i--) byDay[dayKey(DateTime(now.year, now.month, now.day - i))],
+];
+
 /// Builds today's card from 15 days of readings and today's workouts.
 Recovery recoveryFrom({
   required DateTime now,
@@ -141,8 +157,13 @@ Recovery recoveryFrom({
   final (s, sb) = todayAndBase(sleep, now, sum: true);
   final (r, rb) = todayAndBase(restingHr, now);
   final (h, hb) = todayAndBase(hrv, now);
-  final kcal = perDay(activeKcal, sum: true)[dayKey(now)];
+  final kcalByDay = perDay(activeKcal, sum: true);
+  final kcal = kcalByDay[dayKey(now)];
   return Recovery(
+    sleepWeek: lastWeek(perDay(sleep, sum: true), now),
+    restingWeek: lastWeek(perDay(restingHr, sum: false), now),
+    hrvWeek: lastWeek(perDay(hrv, sum: false), now),
+    kcalWeek: lastWeek(kcalByDay, now),
     sleepMin: s?.round(),
     sleepBase: sb,
     restingHr: r,

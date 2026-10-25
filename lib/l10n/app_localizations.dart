@@ -7797,6 +7797,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More options'**
   String get moreLbl;
+
+  /// No description provided for @avgShort.
+  ///
+  /// In en, this message translates to:
+  /// **'avg {n}'**
+  String avgShort(String n);
+
+  /// No description provided for @stepsUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'steps'**
+  String get stepsUnit;
+
+  /// No description provided for @activityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activityTitle;
 }
 
 class _AppLocalizationsDelegate

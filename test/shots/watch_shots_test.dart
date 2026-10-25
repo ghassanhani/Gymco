@@ -43,7 +43,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['top', 'today', 'easy', 'ask', 'summary', 'health']) {
+    for (final screen in ['top', 'today', 'easy', 'ask', 'activity', 'summary', 'health']) {
       testWidgets('watch $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -53,7 +53,7 @@ void main() {
             'healthOn': true,
             'healthWatchReads': screen != 'ask',
           },
-          seed: screen == 'top' ? (db) => db.saveRoutineFixture('Push A', weekday: 5) : null,
+          seed: screen == 'top' || screen == 'today' ? (db) => db.saveRoutineFixture('Push A', weekday: 5) : null,
           health: screen == 'easy' ? FakeWatch(lastNight: 318, restingToday: 63, hrvToday: 47) : FakeWatch(),
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
@@ -61,9 +61,10 @@ void main() {
         final ctx = tester.element(find.byType(Scaffold).first);
         switch (screen) {
           case 'today' || 'easy' || 'ask':
-            final card = find.byType(RecoveryCard);
-            await tester.scrollUntilVisible(card, 200, scrollable: find.byType(Scrollable).last);
-            await tester.drag(find.byType(Scrollable).last, const Offset(0, -120));
+            await tester.drag(find.byType(Scrollable).last, const Offset(0, -330));
+          case 'activity':
+            await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: find.byType(Scrollable).last);
+            await tester.drag(find.byType(Scrollable).last, const Offset(0, -60));
           case 'summary':
             GoRouter.of(ctx).push(
               '/summary',

@@ -4785,4 +4785,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get moreLbl => 'Más opciones';
+
+  @override
+  String avgShort(String n) {
+    return 'media $n';
+  }
+
+  @override
+  String get stepsUnit => 'pasos';
+
+  @override
+  String get activityTitle => 'Actividad';
 }

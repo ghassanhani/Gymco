@@ -10,6 +10,7 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'week_bars.dart';
 
 String workoutKindName(AppLocalizations l, WorkoutKind k) => switch (k) {
   WorkoutKind.run => l.kindRun,
@@ -22,9 +23,13 @@ String workoutKindName(AppLocalizations l, WorkoutKind k) => switch (k) {
   WorkoutKind.other => l.kindOther,
 };
 
+/// The heart's own colour, the same in both looks.
+const heartRed = Color(0xFFFF5C7A);
+const _hrvTeal = Color(0xFF2EC4B6);
+
 /// Last night's sleep, resting heart rate and HRV against the person's own
-/// normal, with one line on how hard to go today. Until the watch reads are
-/// allowed it asks for them once instead.
+/// normal, as three tiles with the week behind each, and one line on how
+/// hard to go today. Until the watch reads are allowed it asks once instead.
 class RecoveryCard extends ConsumerWidget {
   const RecoveryCard({super.key});
 
@@ -32,13 +37,14 @@ class RecoveryCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(watchReadsAskedProvider)) return const _Ask();
     final r = ref.watch(recoveryProvider).value;
-    if (r == null || r.isEmpty) return const SizedBox.shrink();
+    if (r == null || !r.hasBody) return const SizedBox.shrink();
     final l = AppLocalizations.of(context);
+    final now = ref.watch(clockProvider)();
 
     final (word, tone) = switch (r.readiness) {
       Readiness.ready => (l.readyReady, Volt.ok),
       Readiness.steady => (l.readySteady, Volt.orange),
-      Readiness.easy => (l.readyEasy, Volt.warn),
+      Readiness.easy => (l.readyEasy, heartRed),
       Readiness.learning => (l.readyLearning, Volt.t3),
     };
     final advice = switch (r.readiness) {
@@ -49,85 +55,90 @@ class RecoveryCard extends ConsumerWidget {
     };
 
     String hm(int min) => min < 60 ? l.minutesOnly(min) : l.hoursMinutes(min ~/ 60, min % 60);
-    final stats = [
+    String signed(double d, String Function(double) show) => '${d > 0 ? '+' : '−'}${show(d)}';
+    final tiles = [
       if (r.sleepMin case final s?)
-        _Stat(
-          l.recoverySleep,
-          hm(s),
-          null,
-          _delta(l, s.toDouble(), r.sleepBase, near: 15, higherIsBetter: true, show: (d) => hm(d.abs().round())),
+        MetricTile(
+          icon: 'moon',
+          color: Volt.violet,
+          label: l.recoverySleep,
+          value: hm(s),
+          sub: _delta(
+            l,
+            s.toDouble(),
+            r.sleepBase,
+            near: 15,
+            higherIsBetter: true,
+            show: (d) => signed(d, (d) => hm(d.abs().round())),
+          ),
+          week: r.sleepWeek,
+          relative: true,
+          today: now,
         ),
       if (r.restingHr case final h?)
-        _Stat(
-          l.recoveryRestingHr,
-          '${h.round()}',
-          l.bpmUnit,
-          _delta(l, h, r.restingBase, near: 2, higherIsBetter: false, show: (d) => '${d.abs().round()}'),
+        MetricTile(
+          icon: 'pulse',
+          color: heartRed,
+          label: l.recoveryRestingHr,
+          value: '${h.round()}',
+          unit: l.bpmUnit,
+          sub: _delta(
+            l,
+            h,
+            r.restingBase,
+            near: 2,
+            higherIsBetter: false,
+            show: (d) => signed(d, (d) => '${d.abs().round()}'),
+          ),
+          week: r.restingWeek,
+          relative: true,
+          today: now,
         ),
       if (r.hrv case final v?)
-        _Stat(
-          l.recoveryHrv,
-          '${v.round()}',
-          l.msUnit,
-          _delta(
+        MetricTile(
+          icon: 'heart',
+          color: _hrvTeal,
+          label: l.recoveryHrv,
+          value: '${v.round()}',
+          unit: l.msUnit,
+          sub: _delta(
             l,
             v,
             r.hrvBase,
             near: (r.hrvBase ?? 0) * 0.05,
             higherIsBetter: true,
-            show: (d) => '${d.abs().round()}',
+            show: (d) => signed(d, (d) => '${d.abs().round()}'),
           ),
+          week: r.hrvWeek,
+          relative: true,
+          today: now,
         ),
     ];
 
-    return VCard(
-      child: GapCol(
-        gap: 14,
-        cross: CrossAxisAlignment.stretch,
-        children: [
-          Row(
+    return GapCol(
+      gap: 10,
+      cross: CrossAxisAlignment.stretch,
+      children: [
+        _SectionHead(
+          title: l.recoveryTitle,
+          trailing: VTag(word, background: tone.withValues(alpha: 0.14), color: tone, bold: true),
+        ),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _Dot(icon: 'heart', color: Volt.violet),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  l.recoveryTitle,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Volt.t1),
-                ),
-              ),
-              VTag(word, background: tone.withValues(alpha: 0.14), color: tone, bold: true),
+              for (var i = 0; i < tiles.length; i++) ...[
+                if (i > 0) const SizedBox(width: 8),
+                Expanded(child: tiles[i]),
+              ],
             ],
           ),
-          if (stats.isNotEmpty)
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [for (final s in stats) Expanded(child: s)],
-            ),
-          if (r.hasBody) Muted(advice, color: Volt.t2),
-          if (r.activeKcal != null || r.workouts.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.only(top: 12),
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: Volt.line)),
-              ),
-              child: GapCol(
-                gap: 10,
-                cross: CrossAxisAlignment.stretch,
-                children: [
-                  if (r.activeKcal case final k?)
-                    _Line(icon: 'bolt', color: Volt.orange, text: l.activeKcalToday(fmtInt(context, k))),
-                  for (final w in r.workouts)
-                    _Line(
-                      icon: 'watch',
-                      color: Volt.ok,
-                      text: l.watchWorkoutLine(workoutKindName(l, w.kind), w.length.inMinutes, w.source),
-                      sub: l.watchCountsStreak,
-                    ),
-                ],
-              ),
-            ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Muted(advice, color: Volt.t2),
+        ),
+      ],
     );
   }
 
@@ -145,36 +156,197 @@ class RecoveryCard extends ConsumerWidget {
     final d = now - base;
     if (d.abs() <= near) return (l.asUsual, Volt.t3);
     final good = (d > 0) == higherIsBetter;
-    return (l.vsUsual('${d > 0 ? '+' : '−'}${show(d)}'), good ? Volt.ok : Volt.warn);
+    return (l.vsUsual(show(d)), good ? Volt.ok : heartRed);
   }
 }
 
-class _Stat extends StatelessWidget {
-  const _Stat(this.label, this.value, this.unit, this.delta);
+/// Steps and active energy side by side, each with its week, and any
+/// workout a watch recorded today. Only there once health is connected.
+class ActivityTiles extends ConsumerWidget {
+  const ActivityTiles({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final steps = ref.watch(stepsWeekProvider).value;
+    final r = ref.watch(recoveryProvider).value;
+    final now = ref.watch(clockProvider)();
+    final l = AppLocalizations.of(context);
+    String? avg(List<double?> week) {
+      final past = week.take(week.length - 1).whereType<double>();
+      return past.isEmpty ? null : l.avgShort(fmtInt(context, past.reduce((a, b) => a + b) / past.length));
+    }
+
+    final tiles = [
+      if (steps != null && steps.last != null)
+        MetricTile(
+          icon: 'shoe',
+          color: Volt.orange,
+          label: l.healthSteps,
+          value: fmtInt(context, steps.last!),
+          unit: l.stepsUnit,
+          sub: switch (avg(steps)) {
+            final a? => (a, Volt.t3),
+            null => null,
+          },
+          week: steps,
+          today: now,
+          big: true,
+        ),
+      if (r?.activeKcal case final k?)
+        MetricTile(
+          icon: 'flame',
+          color: heartRed,
+          label: l.healthActive,
+          value: fmtInt(context, k),
+          unit: l.kcal,
+          sub: switch (avg(r!.kcalWeek)) {
+            final a? => (a, Volt.t3),
+            null => null,
+          },
+          week: r.kcalWeek,
+          today: now,
+          big: true,
+        ),
+    ];
+    final workouts = r?.workouts ?? const <WatchWorkout>[];
+    if (tiles.isEmpty && workouts.isEmpty) return const SizedBox.shrink();
+    return GapCol(
+      gap: 10,
+      cross: CrossAxisAlignment.stretch,
+      children: [
+        _SectionHead(title: l.activityTitle),
+        if (tiles.isNotEmpty)
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var i = 0; i < tiles.length; i++) ...[
+                  if (i > 0) const SizedBox(width: 10),
+                  Expanded(child: tiles[i]),
+                ],
+              ],
+            ),
+          ),
+        for (final w in workouts)
+          VCard(
+            tight: true,
+            child: _Line(
+              icon: 'watch',
+              color: Volt.ok,
+              text: l.watchWorkoutLine(workoutKindName(l, w.kind), w.length.inMinutes, w.source),
+              sub: l.watchCountsStreak,
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _SectionHead extends StatelessWidget {
+  const _SectionHead({required this.title, this.trailing});
+  final String title;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(left: 4, right: 4, top: 4),
+    child: Row(
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Volt.t1),
+          ),
+        ),
+        ?trailing,
+      ],
+    ),
+  );
+}
+
+/// One number with its icon, how it compares, and the last seven days.
+class MetricTile extends StatelessWidget {
+  const MetricTile({
+    super.key,
+    required this.icon,
+    required this.color,
+    required this.label,
+    required this.value,
+    required this.week,
+    required this.today,
+    this.unit,
+    this.sub,
+    this.big = false,
+    this.relative = false,
+  });
+  final String icon;
+  final Color color;
   final String label;
   final String value;
   final String? unit;
-  final (String, Color)? delta;
+  final (String, Color)? sub;
+  final List<double?> week;
+  final DateTime today;
+
+  /// Two to a row rather than three: a larger number and wider bars.
+  final bool big;
+  final bool relative;
 
   @override
-  Widget build(BuildContext context) => GapCol(
-    gap: 3,
-    children: [
-      Eyebrow(label),
-      Text.rich(
-        TextSpan(
+  Widget build(BuildContext context) => VCard(
+    padding: EdgeInsets.all(big ? 14 : 12),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
           children: [
-            TextSpan(text: ltr(value), style: numStyle(19)),
-            if (unit != null)
-              TextSpan(
-                text: ' $unit',
-                style: TextStyle(fontSize: 11, color: Volt.t3),
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Volt.t2),
               ),
+            ),
+            _Dot(icon: icon, color: color, size: big ? 30 : 26),
           ],
         ),
-      ),
-      if (delta case (final text, final color)) Muted(text, size: 11, color: color),
-    ],
+        SizedBox(height: big ? 10 : 8),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(text: ltr(value), style: numStyle(big ? 24 : 20)),
+                if (unit != null)
+                  TextSpan(
+                    text: ' $unit',
+                    style: TextStyle(fontSize: 11, color: Volt.t3),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 2),
+        if (sub case (final text, final c))
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: AlignmentDirectional.centerStart,
+            child: Text(text, style: TextStyle(fontSize: 11, color: c)),
+          ),
+        const Spacer(),
+        SizedBox(height: big ? 12 : 10),
+        WeekBars(
+          values: week,
+          color: color,
+          today: today,
+          height: big ? 34 : 26,
+          barWidth: big ? 8 : 6,
+          relative: relative,
+        ),
+      ],
+    ),
   );
 }
 
@@ -189,7 +361,7 @@ class _Dot extends StatelessWidget {
     width: size,
     height: size,
     alignment: Alignment.center,
-    decoration: BoxDecoration(color: color.withValues(alpha: 0.12), shape: BoxShape.circle),
+    decoration: BoxDecoration(color: color.withValues(alpha: 0.14), shape: BoxShape.circle),
     child: VIcon(icon, size: size / 2, color: color),
   );
 }
@@ -204,15 +376,15 @@ class _Line extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
     children: [
-      _Dot(icon: icon, color: color, size: 30),
-      const SizedBox(width: 10),
+      _Dot(icon: icon, color: color, size: 34),
+      const SizedBox(width: 12),
       Expanded(
         child: GapCol(
           gap: 1,
           children: [
             Text(
               text,
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: Volt.t1),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
             ),
             if (sub != null) Muted(sub!, size: 11, color: Volt.ok),
           ],
