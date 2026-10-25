@@ -92,7 +92,6 @@ flutter:
     - assets/awards/
     - assets/sounds/
     - assets/animations/
-    - assets/iron/
     - assets/exercises/exercises.json
 
   fonts:

@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/coach.dart';
+import '../../domain/recovery.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
 import '../../state/coach_providers.dart';
+import '../../state/health_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/iron_avatar.dart';
@@ -59,7 +61,13 @@ class IronCard extends ConsumerWidget {
 
     final tip = ref.watch(ironTipProvider);
     return _Frame(
-      mood: tip.value != null ? IronMood.happy : IronMood.idle,
+      mood: tip.isLoading
+          ? IronMood.thinking
+          : tip.value == null
+          ? IronMood.idle
+          : tip.value!.action == IronAction.rest || ref.watch(recoveryProvider).value?.readiness == Readiness.easy
+          ? IronMood.sleepy
+          : IronMood.happy,
       children: [
         if (tip.isLoading)
           Row(

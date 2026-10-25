@@ -127,7 +127,11 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      IronAvatar(mood: p == null ? IronMood.idle : IronMood.cheer, size: 60),
+                      IronAvatar(
+                        mood: _busy ? IronMood.thinking : (p == null ? IronMood.idle : IronMood.cheer),
+                        size: 60,
+                        announce: true,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: GapCol(

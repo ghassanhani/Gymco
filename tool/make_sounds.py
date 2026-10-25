@@ -4,6 +4,9 @@
 
 award.wav: a rising four-note bell arpeggio with a soft shimmer, for an
 award unlocked. day.wav: two quick bright notes, for a day kept.
+iron_cheer.wav: Iron's quick bouncing climb, for a program ready or a big
+win. iron_alert.wav: two calm falling notes, for a warning sign: it should
+catch the ear without alarming.
 Mono, 44.1 kHz, 16-bit, gentle fades so nothing clicks.
 """
 
@@ -69,6 +72,9 @@ def main():
     c5, e5, g5, c6, e6 = 523.25, 659.25, 783.99, 1046.5, 1318.5
     save("award.wav", render([(0.00, c5, 0.9, 0.9), (0.11, e5, 0.9, 0.85), (0.22, g5, 1.0, 0.85), (0.36, c6, 1.4, 1.0), (0.36, e6, 1.2, 0.35)], 1.9, shimmer=0.12))
     save("day.wav", render([(0.00, g5, 0.45, 0.9), (0.09, c6, 0.7, 1.0)], 0.9, gain=0.26))
+    g6 = 1567.98
+    save("iron_cheer.wav", render([(0.00, g5, 0.25, 0.8), (0.07, c6, 0.25, 0.85), (0.14, e6, 0.3, 0.9), (0.21, g6, 0.7, 1.0)], 1.1, shimmer=0.06, gain=0.26))
+    save("iron_alert.wav", render([(0.00, e5, 0.6, 1.0), (0.22, c5, 0.9, 0.95)], 1.2, gain=0.24))
 
 
 if __name__ == "__main__":
