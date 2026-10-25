@@ -5,8 +5,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:lottie/lottie.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../app.dart' show routerProvider;
@@ -158,70 +158,128 @@ abstract final class CelebrationSound {
 
 // ---------------------------------------------------------------- the flame
 
-const _flamePath =
-    'M10.646 1.30307C10.8636 1.21656 11.1091 1.23663 11.3097 1.35734C15.5756 3.92373 19.5162 8.30625 20.807 12.5308C21.4578 14.6607 21.4555 16.8298 20.371 18.6902C19.2874 20.5493 17.2111 21.9488 14.0352 22.7284C13.7169 22.8065 13.3847 22.6689 13.2149 22.3885C13.0451 22.1082 13.077 21.75 13.2938 21.5041C14.5927 20.0302 15.7405 18.3078 15.9078 16.4936C16.0352 15.1126 15.6022 13.5477 13.9395 11.8829C13.9516 13.6546 13.2692 15.13 12.5818 15.9737C12.3984 16.1988 12.1016 16.2978 11.8198 16.2279C11.538 16.158 11.3219 15.9318 11.2649 15.6471C10.9901 14.2731 10.2095 13.6679 9.3781 13.2418C9.32173 14.4125 8.81109 15.2552 8.43945 15.8684C8.33448 16.0417 8.2406 16.1966 8.17118 16.3354C7.06544 18.5469 8.40425 20.1519 9.33056 21.2624C9.40669 21.3537 9.48002 21.4416 9.54898 21.5263C9.76275 21.7886 9.77434 22.1616 9.57727 22.4367C9.3802 22.7119 9.0233 22.8209 8.70611 22.703C5.84221 21.6379 3.81665 19.6428 3.06665 17.2085C2.31202 14.7593 2.89055 12 4.97052 9.51824C5.63777 8.72212 6.22077 8.06174 6.73411 7.48027C8.53991 5.43481 9.48374 4.36573 10.2007 1.79827C10.2637 1.57275 10.4284 1.38958 10.646 1.30307Z';
-
 const flameOrange = Color(0xFFFF8A00);
 
-String _flameSvg(String fill, [String defs = '']) =>
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">$defs<path d="$_flamePath" fill="$fill"/></svg>';
-
-final _litSvg = _flameSvg(
-  'url(#g)',
-  '<defs><linearGradient id="g" x1="0" y1="1" x2="0" y2="0">'
-      '<stop offset="0" stop-color="#FF5A00"/><stop offset="0.55" stop-color="#FF9F0A"/><stop offset="1" stop-color="#FFD84A"/>'
-      '</linearGradient></defs>',
-);
-
-/// The streak flame: grey, filling from the bottom with [fill] (0 to 1) in
-/// fire colours, fully lit when the day is kept.
-class StreakFlame extends StatelessWidget {
-  const StreakFlame({super.key, required this.fill, required this.size, this.glow = false});
+/// The streak flame, from assets/animations/fire.json (a looping Lottie):
+/// grey, filling from the bottom with [fill] (0 to 1) in its own colours,
+/// fully lit and glowing when the day is kept. [animate] off holds its first
+/// frame, for the small flames in the week.
+class StreakFlame extends StatefulWidget {
+  const StreakFlame({super.key, required this.fill, required this.size, this.glow = false, this.animate = true});
   final double fill;
   final double size;
   final bool glow;
+  final bool animate;
+
+  // Read once for every flame on screen.
+  static final _composition = AssetLottie('assets/animations/fire.json').load();
+
+  @override
+  State<StreakFlame> createState() => _StreakFlameState();
+}
+
+class _StreakFlameState extends State<StreakFlame> with SingleTickerProviderStateMixin {
+  // The grey and the lit layers share one clock, so their outlines match.
+  late final _clock = AnimationController(vsync: this);
+
+  // The flame takes the middle third of the animation's square canvas.
+  static const _zoom = 2.7;
+
+  @override
+  void initState() {
+    super.initState();
+    StreakFlame._composition.then((c) {
+      if (!mounted) return;
+      _clock.duration = c.duration;
+      if (widget.animate && !(WidgetsBinding.instance.platformDispatcher.accessibilityFeatures.disableAnimations)) {
+        _clock.repeat();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _clock.dispose();
+    super.dispose();
+  }
+
+  Widget _fire(LottieComposition c) {
+    final size = widget.size;
+    return ClipRect(
+      child: SizedBox.square(
+        dimension: size,
+        child: OverflowBox(
+          maxWidth: size * _zoom,
+          maxHeight: size * _zoom,
+          alignment: const Alignment(0, 0.1),
+          child: Lottie(composition: c, controller: _clock, width: size * _zoom, height: size * _zoom),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final base = Volt.isLight ? '#E2E5DC' : '#2A2E33';
+    final size = widget.size;
+    final f = widget.fill.clamp(0.0, 1.0);
     return SizedBox.square(
       dimension: size,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        clipBehavior: Clip.none,
-        children: [
-          if (glow)
-            Positioned(
-              left: -size * 0.45,
-              right: -size * 0.45,
-              top: -size * 0.3,
-              bottom: -size * 0.3,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [
-                      flameOrange.withValues(alpha: Volt.isLight ? 0.22 : 0.3),
-                      flameOrange.withValues(alpha: 0),
-                    ],
-                    stops: const [0.15, 0.7],
+      child: FutureBuilder<LottieComposition>(
+        future: StreakFlame._composition,
+        builder: (context, snap) {
+          final c = snap.data;
+          if (c == null) return const SizedBox.shrink();
+          return Stack(
+            alignment: Alignment.bottomCenter,
+            clipBehavior: Clip.none,
+            children: [
+              if (widget.glow)
+                Positioned(
+                  left: -size * 0.45,
+                  right: -size * 0.45,
+                  top: -size * 0.3,
+                  bottom: -size * 0.3,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          flameOrange.withValues(alpha: Volt.isLight ? 0.22 : 0.3),
+                          flameOrange.withValues(alpha: 0),
+                        ],
+                        stops: const [0.15, 0.7],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          SvgPicture.string(_flameSvg(base), width: size, height: size),
-          // The flame's own bounds run from 1.2 to 22.8 of the 24 grid.
-          ClipRect(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              heightFactor: fill <= 0 ? 0 : (0.05 + fill.clamp(0, 1) * 0.9).clamp(0, 1).toDouble(),
-              child: SvgPicture.string(_litSvg, width: size, height: size),
-            ),
-          ),
-        ],
+              // Unlit: the same flame in grey.
+              if (f < 1)
+                Opacity(
+                  opacity: Volt.isLight ? 0.35 : 0.3,
+                  child: ColorFiltered(colorFilter: _grey, child: _fire(c)),
+                ),
+              if (f > 0)
+                ClipRect(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    // The flame runs from about 8% to 92% of the box, bottom up.
+                    heightFactor: f >= 1 ? 1 : 0.08 + f * 0.84,
+                    child: _fire(c),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
 }
+
+const _grey = ColorFilter.matrix(<double>[
+  0.2126, 0.7152, 0.0722, 0, 0, //
+  0.2126, 0.7152, 0.0722, 0, 0,
+  0.2126, 0.7152, 0.0722, 0, 0,
+  0, 0, 0, 1, 0,
+]);
 
 // ---------------------------------------------------------------- the day sheet
 
@@ -432,7 +490,7 @@ class _FlameWeek extends StatelessWidget {
                         dimension: 28,
                         child: Center(child: VIcon('freeze', size: 18, color: Volt.blue)),
                       )
-                    : StreakFlame(fill: fill, size: 28),
+                    : StreakFlame(fill: fill, size: 28, animate: false),
               ],
             );
           }(),
