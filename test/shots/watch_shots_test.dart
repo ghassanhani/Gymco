@@ -43,7 +43,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['top', 'today', 'easy', 'ask', 'activity', 'summary', 'health']) {
+    for (final screen in ['full', 'top', 'today', 'easy', 'ask', 'activity', 'summary', 'health']) {
       testWidgets('watch $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -53,10 +53,17 @@ void main() {
             'healthOn': true,
             'healthWatchReads': screen != 'ask',
           },
-          seed: screen == 'top' || screen == 'today' ? (db) => db.saveRoutineFixture('Push A', weekday: 5) : null,
+          seed: screen == 'full' || screen == 'top' || screen == 'today'
+              ? (db) => db.saveRoutineFixture('Push A', weekday: 5)
+              : null,
           health: screen == 'easy' ? FakeWatch(lastNight: 318, restingToday: 63, hrvToday: 47) : FakeWatch(),
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
+        // The whole of Today in one tall frame.
+        if (screen == 'full') {
+          tester.view.physicalSize = const Size(1170, 5400);
+          await tester.binding.setSurfaceSize(const Size(390, 1800));
+        }
         await _frames(tester);
         final ctx = tester.element(find.byType(Scaffold).first);
         switch (screen) {
