@@ -4748,4 +4748,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String minutesOnly(int m) {
     return '$mد';
   }
+
+  @override
+  String get moreLbl => 'خيارات أخرى';
 }

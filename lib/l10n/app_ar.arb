@@ -1288,5 +1288,6 @@
   "healthActiveSub": "ما تقول ساعتك إنك حرقته اليوم",
   "healthWatchWorkouts": "تمارين ساعتك",
   "healthWatchWorkoutsSub": "الجري والدراجة والحصص تحافظ على سلسلتك",
-  "minutesOnly": "{m}د"
+  "minutesOnly": "{m}د",
+  "moreLbl": "خيارات أخرى"
 }

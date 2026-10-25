@@ -43,7 +43,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['today', 'easy', 'ask', 'summary', 'health']) {
+    for (final screen in ['top', 'today', 'easy', 'ask', 'summary', 'health']) {
       testWidgets('watch $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -53,6 +53,7 @@ void main() {
             'healthOn': true,
             'healthWatchReads': screen != 'ask',
           },
+          seed: screen == 'top' ? (db) => db.saveRoutineFixture('Push A', weekday: 5) : null,
           health: screen == 'easy' ? FakeWatch(lastNight: 318, restingToday: 63, hrvToday: 47) : FakeWatch(),
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);

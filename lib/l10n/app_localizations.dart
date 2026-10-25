@@ -7791,6 +7791,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{m}m'**
   String minutesOnly(int m);
+
+  /// No description provided for @moreLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'More options'**
+  String get moreLbl;
 }
 
 class _AppLocalizationsDelegate

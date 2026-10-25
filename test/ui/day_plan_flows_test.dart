@@ -31,9 +31,8 @@ void main() {
       prefs: {'profile': savedProfile, 'activeWorkout': jsonEncode(s.toJson())},
       seed: (db) => db.saveRoutineFixture('Push A', weekday: 5),
     );
-    expect(find.text('Left open'), findsOneWidget);
-    expect(find.textContaining('1 set done, last touched yesterday'), findsOneWidget);
-    await tester.tap(find.text('Save as done'));
+    expect(find.textContaining('Left open'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('Save as done'));
     await settle(tester);
     final w = (await db.recentWorkouts()).single;
     expect(w.name, 'Legs');
@@ -43,19 +42,23 @@ void main() {
 
   testWidgets('not today: rest now and the session waits for tomorrow, undo puts it back', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, seed: (db) => db.saveRoutineFixture('Push A', weekday: 5));
+    await tester.tap(find.bySemanticsLabel('More options'));
+    await settle(tester);
     await tester.tap(find.text('Not today'));
     await settle(tester);
     await tester.tap(find.text('Rest today, train tomorrow'));
     await settle(tester);
-    expect(find.textContaining('Push A moves to tomorrow'), findsOneWidget);
+    expect(find.bySemanticsLabel('Train anyway'), findsOneWidget);
+    await tester.tap(find.bySemanticsLabel('More options'));
+    await settle(tester);
     await tester.tap(find.text('Undo'));
     await settle(tester);
-    expect(find.text('Not today'), findsOneWidget);
+    expect(find.bySemanticsLabel('Start workout'), findsOneWidget);
   });
 
   testWidgets('a rest day can still be trained', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, seed: (db) => db.saveRoutineFixture('Pull A', weekday: 0));
-    await tester.tap(find.text('Train anyway'));
+    await tester.tap(find.bySemanticsLabel('Train anyway'));
     await settle(tester);
     await tester.tap(find.text('Pull A'));
     await settle(tester);

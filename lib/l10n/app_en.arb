@@ -3390,5 +3390,6 @@
         "type": "int"
       }
     }
-  }
+  },
+  "moreLbl": "More options"
 }

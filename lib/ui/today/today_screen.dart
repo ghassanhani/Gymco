@@ -91,13 +91,13 @@ class _Today extends ConsumerWidget {
             children: [
               _Hero(schedule: schedule, week: week),
               _RingCard(totals: totals, targets: profile.targets, kcalTarget: profile.targetKcal),
+              const RecoveryCard(),
               if (dayOne && entries.isEmpty) const _FirstRun(),
               if (!dayOne) const CatchupCard(),
               if (ref.watch(liveAnnouncementProvider) != null) const AnnouncementCard(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
               const _Trend(),
               const _Steps(),
-              const RecoveryCard(),
               _Water(day: key, trained: schedule.where((d) => d.today).firstOrNull?.done != null),
             ],
           ),
@@ -130,7 +130,6 @@ class _Hero extends ConsumerWidget {
       return _HeroShell(
         tags: [_WoTag(l.noSessionPlanned, icon: 'dumb', ghost: true)],
         title: l.heroSetupTitle,
-        body: Muted(l.heroSetupBody, color: Volt.t2),
         cta: _HeroCta(label: l.chooseRoutine, onTap: () => context.go('/train')),
       );
     }
@@ -144,16 +143,18 @@ class _Hero extends ConsumerWidget {
       }
 
       return _HeroShell(
-        tags: [_WoTag(l.heroTagLeftOpen, icon: 'warn')],
+        tags: [
+          _WoTag(l.heroTagLeftOpen, icon: 'warn'),
+          _WoTag(day, ghost: true),
+        ],
         title: l.heroLeftOpenEm(active.name),
-        body: Muted(l.heroLeftOpenBody(active.setsDone, day), color: Volt.t2),
         cta: active.isEmpty
             ? _HeroCta(label: l.resumeWorkout, icon: 'play', onTap: () => context.push('/workout'))
             : _HeroCta(label: l.saveAsDone, icon: 'check', onTap: save),
-        extra: _HeroLinks([
+        links: [
           if (!active.isEmpty) (l.resumeWorkout, () => context.push('/workout')),
           (l.discardShort, () => ref.read(activeWorkoutProvider.notifier).discard()),
-        ]),
+        ],
       );
     }
     if (!live && !done && (today?.restTaken != null || today?.skipped != null)) {
@@ -161,33 +162,23 @@ class _Hero extends ConsumerWidget {
       return _HeroShell(
         tags: [_WoTag(rested ? l.restDay : l.heroTagSkipped, icon: 'clock', ghost: true)],
         title: rested ? l.heroRestChosenTitle : l.heroSkippedTitle,
-        body: Muted(
-          rested ? l.heroRestChosenBody(today.restTaken!.name) : l.heroSkippedBody(today.skipped!.name),
-          color: Volt.t2,
-        ),
         cta: _HeroCta(label: l.trainAnyway, ghost: true, onTap: () => _trainAnyway(context, ref)),
-        extra: _HeroLinks([(l.undoChange, plan.undoToday)]),
+        links: [(l.undoChange, plan.undoToday)],
       );
     }
     if (r == null && !live) {
       return _HeroShell(
         tags: [_WoTag(done ? l.heroTagDone : l.restDay, icon: done ? 'check' : 'clock', ghost: !done)],
         title: done ? l.heroDoneTitle(today!.done!.name) : l.heroRestTitle,
-        body: Muted(done ? l.heroDoneBody : l.heroRestBody, color: Volt.t2),
         cta: done
             ? _HeroCta(label: l.savedSeeTrain, ghost: true, onTap: () => context.go('/train'))
             : _HeroCta(label: l.trainAnyway, ghost: true, onTap: () => _trainAnyway(context, ref)),
-        extra: done ? null : _HeroLinks([(l.seeTheWeek, () => context.go('/train'))]),
+        links: done ? null : [(l.seeTheWeek, () => context.go('/train'))],
         done: done,
       );
     }
 
     final items = r?.items ?? const <RoutineItem>[];
-    final names = [for (final i in items) lib?[i.exerciseId]?.shortName ?? i.exerciseId];
-    final muscles = {
-      for (final i in items)
-        if (lib?[i.exerciseId]?.primary.firstOrNull case final m?) groupOf(m),
-    }.whereType<MuscleGroup>().length;
     final mins = planMinutes([for (final i in items) (i.sets, i.restSeconds)]);
     final title = live ? active.name : r!.name;
     final parts = title.split(' ');
@@ -200,15 +191,7 @@ class _Hero extends ConsumerWidget {
         _WoTag(l.heroWeekTag(week), ghost: true),
       ],
       title: em,
-      stats: live
-          ? null
-          : [
-              (fmtInt(context, mins), l.heroMin),
-              (fmtInt(context, r!.totalSets), l.heroSets),
-              (fmtInt(context, items.length), l.heroExercises),
-              (fmtInt(context, muscles), l.heroMuscles),
-            ],
-      chips: live ? null : [...names.take(4), if (names.length > 4) l.moreCount(names.length - 4)],
+      sub: live ? null : '${fmtInt(context, mins)} ${l.heroMin} · ${l.routineSize(items.length, r!.totalSets)}',
       cta: done
           ? _HeroCta(label: l.savedSeeTrain, ghost: true, onTap: () => context.go('/train'))
           : live
@@ -225,34 +208,9 @@ class _Hero extends ConsumerWidget {
                 if (context.mounted) context.push('/workout');
               },
             ),
-      extra: done || live ? null : _HeroLinks([(l.notToday, () => _notToday(context, ref, r!.name))]),
+      links: done || live ? null : [(l.notToday, () => _notToday(context, ref, r!.name))],
     );
   }
-}
-
-/// Small text links under the hero's button.
-class _HeroLinks extends StatelessWidget {
-  const _HeroLinks(this.links);
-  final List<(String, VoidCallback)> links;
-
-  @override
-  Widget build(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      for (final (label, onTap) in links)
-        Pressable(
-          onTap: onTap,
-          label: label,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            child: Text(
-              label,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t2),
-            ),
-          ),
-        ),
-    ],
-  );
 }
 
 /// Today's session is not happening: rest now and do it tomorrow, or drop it.
@@ -322,210 +280,145 @@ void _trainAnyway(BuildContext context, WidgetRef ref) {
   );
 }
 
+/// Today's training in two lines: what it is, the one thing to do about it
+/// (tap anywhere, or the arrow), and the rest under "more".
 class _HeroShell extends StatelessWidget {
   const _HeroShell({
     required this.tags,
     required this.title,
     required this.cta,
-    this.body,
-    this.stats,
-    this.chips,
+    this.sub,
     this.done = false,
-    this.extra,
+    this.links,
   });
-  final Widget? extra;
-  final List<Widget> tags;
+  final List<_WoTag> tags;
   final String title;
-  final Widget cta;
-  final Widget? body;
-  final List<(String, String)>? stats;
-  final List<String>? chips;
+  final _HeroCta cta;
+
+  /// The second line; the tags when there is none.
+  final String? sub;
   final bool done;
+  final List<(String, VoidCallback)>? links;
+
+  void _more(BuildContext context) => showVSheet<void>(
+    context,
+    title: title.replaceAll(RegExp('</?em>'), ''),
+    body: (ctx) => [
+      SRow(
+        label: cta.label,
+        lead: VIcon(cta.icon, size: 18, color: Volt.brandInk),
+        onTap: () {
+          Navigator.pop(ctx);
+          cta.onTap();
+        },
+      ),
+      for (final (label, onTap) in links!)
+        SRow(
+          label: label,
+          onTap: () {
+            Navigator.pop(ctx);
+            onTap();
+          },
+        ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(
-          begin: const Alignment(-0.42, -1),
-          end: const Alignment(0.42, 1),
-          // Light: a plain light grey card, no border, tint or glow.
-          colors: Volt.isLight
-              ? [Volt.soft, Volt.soft]
-              : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
-          stops: const [0, 0.62],
+    final tag = tags.first;
+    final line = sub ?? [for (final t in tags) t.label].join(' · ');
+    final accent = !tag.ghost;
+    return Pressable(
+      onTap: cta.onTap,
+      scale: 0.98,
+      radius: 20,
+      child: Container(
+        padding: const EdgeInsetsDirectional.fromSTEB(14, 14, 12, 14),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            begin: const Alignment(-0.42, -1),
+            end: const Alignment(0.42, 1),
+            // Light: a plain light grey card, no border, tint or glow.
+            colors: Volt.isLight
+                ? [Volt.soft, Volt.soft]
+                : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
+            stops: const [0, 0.8],
+          ),
+          border: Volt.isLight ? null : Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
         ),
-        boxShadow: done || Volt.isLight
-            ? null
-            : const [BoxShadow(color: Color(0x99B6F02A), blurRadius: 40, offset: Offset(0, 24), spreadRadius: -28)],
-      ),
-      foregroundDecoration: Volt.isLight
-          ? null
-          : BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: accent ? Volt.brand : Volt.tint.withValues(alpha: 0.08),
+              ),
+              child: VIcon(tag.icon ?? 'dumb', size: 20, color: accent ? Volt.ink : Volt.t2, strokeWidth: 2),
             ),
-      child: Stack(
-        children: [
-          if (!done && !Volt.isLight)
-            Positioned.fill(
-              child: DecoratedBox(
+            const SizedBox(width: 12),
+            Expanded(
+              child: GapCol(
+                gap: 3,
+                children: [
+                  EmTitle(title, size: 18, letterSpacing: -0.02, height: 1.15, emScale: 1.12),
+                  Text(
+                    line,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 13, color: Volt.t2),
+                  ),
+                ],
+              ),
+            ),
+            if (links != null && links!.isNotEmpty)
+              Pressable(
+                onTap: () => _more(context),
+                label: AppLocalizations.of(context).moreLbl,
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: VIcon('more', size: 20, color: Volt.t2),
+                ),
+              ),
+            const SizedBox(width: 4),
+            Pressable(
+              onTap: cta.onTap,
+              label: cta.label,
+              child: Container(
+                width: 40,
+                height: 40,
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: const Alignment(1, -1),
-                    radius: 1.2,
-                    colors: [Volt.lime.withValues(alpha: 0.26), Volt.lime.withValues(alpha: 0)],
-                    stops: const [0, 0.55],
-                  ),
+                  shape: BoxShape.circle,
+                  color: cta.ghost ? Volt.tint.withValues(alpha: 0.08) : Volt.ink,
                 ),
+                child: VIcon(cta.icon, size: cta.icon == 'play' ? 16 : 18, color: cta.ghost ? Volt.t1 : Volt.brand),
               ),
             ),
-          // .wo-art: a big dumbbell, tilted, behind everything
-          PositionedDirectional(
-            end: -28,
-            top: -22,
-            child: Transform.rotate(
-              angle: -28 * math.pi / 180,
-              child: Opacity(
-                opacity: Volt.isLight ? 0.10 : 0.14,
-                child: VIcon('dumb', size: 140, color: Volt.lime, strokeWidth: 1.2),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: GapCol(
-              gap: 10,
-              children: [
-                Wrap(spacing: 8, runSpacing: 8, children: tags),
-                Padding(
-                  padding: const EdgeInsets.only(top: 2),
-                  child: EmTitle(title, size: 29, letterSpacing: -0.035, height: 1, emScale: 1.12),
-                ),
-                ?body,
-                if (stats != null)
-                  Wrap(
-                    spacing: 20,
-                    runSpacing: 8,
-                    children: [
-                      for (final (v, label) in stats!)
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(v, style: numStyle(22, weight: FontWeight.w800, height: 1.1)),
-                            const SizedBox(height: 1),
-                            Text(
-                              label,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Volt.t3,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.22,
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                if (chips != null && chips!.isNotEmpty)
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 6,
-                    children: [
-                      for (final c in chips!)
-                        Container(
-                          height: 28,
-                          padding: const EdgeInsets.symmetric(horizontal: 11),
-                          decoration: BoxDecoration(
-                            color: Volt.tint.withValues(alpha: 0.07),
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: Center(
-                            widthFactor: 1,
-                            child: Text(
-                              c,
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Volt.t2),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                Padding(padding: const EdgeInsets.only(top: 2), child: cta),
-                ?extra,
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-class _WoTag extends StatelessWidget {
+class _WoTag {
   const _WoTag(this.label, {this.icon, this.ghost = false});
   final String label;
   final String? icon;
   final bool ghost;
-
-  @override
-  Widget build(BuildContext context) {
-    final fg = ghost ? Volt.t2 : Volt.ink;
-    return Container(
-      height: 28,
-      padding: const EdgeInsets.symmetric(horizontal: 11),
-      decoration: BoxDecoration(
-        color: ghost ? Volt.tint.withValues(alpha: 0.08) : Volt.brand,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) ...[VIcon(icon!, size: 14, color: fg, strokeWidth: 2), const SizedBox(width: 6)],
-          Flexible(
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 12, fontWeight: ghost ? FontWeight.w600 : FontWeight.w800, color: fg),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
-/// `.wo-cta`: the big pill with the round dark arrow at its end.
-class _HeroCta extends StatelessWidget {
+/// The card's one action: a tap on it, or on its arrow.
+class _HeroCta {
   const _HeroCta({required this.label, required this.onTap, this.ghost = false, this.icon = 'fwd'});
   final String label;
   final VoidCallback onTap;
   final bool ghost;
   final String icon;
-
-  @override
-  Widget build(BuildContext context) => VBtn(
-    label: label,
-    onTap: onTap,
-    kind: ghost ? BtnKind.ghost : BtnKind.primary,
-    minHeight: 52,
-    padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 5, 0),
-    fontSize: 15,
-    child: Row(
-      children: [
-        Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis)),
-        Container(
-          width: 42,
-          height: 42,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: ghost ? Volt.card : Volt.ink),
-          child: VIcon(icon, size: icon == 'play' ? 18 : 20, color: ghost ? Volt.t1 : Volt.brand),
-        ),
-      ],
-    ),
-  );
 }
 
 // ---------------------------------------------------------------- ring

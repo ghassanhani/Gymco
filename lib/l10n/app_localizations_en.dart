@@ -4764,4 +4764,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String minutesOnly(int m) {
     return '${m}m';
   }
+
+  @override
+  String get moreLbl => 'More options';
 }
