@@ -6,6 +6,9 @@ import 'kit.dart';
 /// The AI's own colours, the same in both looks: violet into teal into lime.
 const aiGradient = [Color(0xFF8B7CF6), Color(0xFF2EC4B6), Color(0xFFC6F432)];
 
+/// Iron's colours: hot pink-red into coral into orange, with white on top.
+const ironGradient = [Color(0xFFFF3D71), Color(0xFFFF5E62), Color(0xFFFF8A4C)];
+
 /// The button for anything the AI does: a pill in the AI gradient with
 /// sparkles and a light sweeping across it, so AI actions read as one family
 /// and apart from the app's own buttons. [busy] shows a spinner in place of
@@ -19,6 +22,8 @@ class AiBtn extends StatefulWidget {
     this.expand = true,
     this.small = false,
     this.compact = false,
+    this.colors = aiGradient,
+    this.foreground = const Color(0xFF0B0F14),
   });
   final String label;
   final VoidCallback? onTap;
@@ -28,6 +33,10 @@ class AiBtn extends StatefulWidget {
 
   /// Inline in a row, beside other small buttons.
   final bool compact;
+
+  /// Iron passes its own: [ironGradient] with white.
+  final List<Color> colors;
+  final Color foreground;
 
   @override
   State<AiBtn> createState() => _AiBtnState();
@@ -46,7 +55,7 @@ class _AiBtnState extends State<AiBtn> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final enabled = widget.onTap != null && !widget.busy;
-    const fg = Color(0xFF0B0F14);
+    final fg = widget.foreground;
     final h = widget.compact ? 34.0 : (widget.small ? 44.0 : 54.0);
     return Pressable(
       onTap: enabled ? widget.onTap : null,
@@ -59,9 +68,16 @@ class _AiBtnState extends State<AiBtn> with SingleTickerProviderStateMixin {
           padding: EdgeInsets.symmetric(horizontal: widget.compact ? 12 : (widget.small ? 18 : 22)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(999),
-            gradient: const LinearGradient(colors: aiGradient),
+            gradient: LinearGradient(colors: widget.colors),
             boxShadow: enabled
-                ? const [BoxShadow(color: Color(0x668B7CF6), blurRadius: 24, offset: Offset(0, 10), spreadRadius: -10)]
+                ? [
+                    BoxShadow(
+                      color: widget.colors.first.withValues(alpha: 0.4),
+                      blurRadius: 24,
+                      offset: const Offset(0, 10),
+                      spreadRadius: -10,
+                    ),
+                  ]
                 : null,
           ),
           child: Stack(
@@ -92,7 +108,7 @@ class _AiBtnState extends State<AiBtn> with SingleTickerProviderStateMixin {
                   if (widget.busy)
                     SizedBox.square(
                       dimension: widget.compact ? 12 : 16,
-                      child: const CircularProgressIndicator(strokeWidth: 2, color: fg),
+                      child: CircularProgressIndicator(strokeWidth: 2, color: fg),
                     )
                   else
                     VIcon('sparkles', size: widget.compact ? 14 : 18, color: fg, strokeWidth: 1.8),
@@ -141,14 +157,15 @@ class AiMark extends StatelessWidget {
 
 /// Text in the AI gradient, for a feature's name.
 class AiText extends StatelessWidget {
-  const AiText(this.text, {super.key, this.style});
+  const AiText(this.text, {super.key, this.style, this.colors = aiGradient});
   final String text;
   final TextStyle? style;
+  final List<Color> colors;
 
   @override
   Widget build(BuildContext context) => ShaderMask(
     blendMode: BlendMode.srcIn,
-    shaderCallback: (r) => const LinearGradient(colors: aiGradient).createShader(r),
+    shaderCallback: (r) => LinearGradient(colors: colors).createShader(r),
     child: Text(text, style: (style ?? const TextStyle()).copyWith(color: Volt.t1)),
   );
 }

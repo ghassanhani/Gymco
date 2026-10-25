@@ -89,7 +89,8 @@ class _IronScreenState extends ConsumerState<IronScreen> {
     final profile = ref.watch(profileProvider);
     final p = _program;
 
-    Widget head(String text) => Eyebrow(text, padding: const EdgeInsetsDirectional.only(start: 4, top: 4));
+    Widget head(String text) =>
+        Eyebrow(text, color: ironGradient[1], padding: const EdgeInsetsDirectional.only(start: 4, top: 4));
 
     return Scaffold(
       body: VScreen(
@@ -100,7 +101,13 @@ class _IronScreenState extends ConsumerState<IronScreen> {
               padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
               children: [
                 Expanded(
-                  child: VBtn(label: l.ironUse, expand: true, onTap: _saving ? null : () => _use(p)),
+                  child: AiBtn(
+                    label: l.ironUse,
+                    busy: _saving,
+                    colors: ironGradient,
+                    foreground: Colors.white,
+                    onTap: () => _use(p),
+                  ),
                 ),
               ],
             ),
@@ -125,16 +132,20 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                         alignment: Alignment.center,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          gradient: LinearGradient(colors: aiGradient),
+                          gradient: LinearGradient(colors: ironGradient),
                         ),
-                        child: const VIcon('dumb', size: 22, color: Color(0xFF0B0F14), strokeWidth: 1.8),
+                        child: const VIcon('dumb', size: 22, color: Colors.white, strokeWidth: 1.8),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: GapCol(
                           gap: 4,
                           children: [
-                            AiText(l.ironName, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+                            AiText(
+                              l.ironName,
+                              colors: ironGradient,
+                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                            ),
                             Muted(l.ironProgramIntro, size: 13, color: Volt.t2),
                           ],
                         ),
@@ -160,6 +171,8 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                     ),
                   ),
                   AiBtn(
+                    colors: ironGradient,
+                    foreground: Colors.white,
                     label: _busy ? l.ironBuilding : (p == null ? l.ironBuild : l.aiRoutineAgain),
                     busy: _busy,
                     onTap: lib == null ? null : _build,
@@ -168,8 +181,8 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                   if (p != null && !p.isEmpty) ...[
                     if (p.summary.isNotEmpty)
                       VCard(
-                        color: Volt.brandWash,
-                        border: Border.all(color: Volt.brandEdge),
+                        color: ironGradient[1].withValues(alpha: 0.1),
+                        border: Border.all(color: ironGradient[1].withValues(alpha: 0.35)),
                         child: Muted(p.summary, size: 13.5, color: Volt.t1),
                       ),
                     if (p.kcal > 0) ...[

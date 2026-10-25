@@ -44,6 +44,8 @@ class IronCard extends ConsumerWidget {
           Muted(l.ironMeetBody, size: 13, color: Volt.t2),
           Muted(l.ironPrivacy, size: 11.5),
           AiBtn(
+            colors: ironGradient,
+            foreground: Colors.white,
             label: signedIn ? l.ironTurnOn : l.ironSignIn,
             onTap: () async {
               await ref.read(ironOnProvider.notifier).set(true);
@@ -89,7 +91,13 @@ class IronCard extends ConsumerWidget {
               const SizedBox(width: 8),
             ],
             Expanded(
-              child: AiBtn(label: l.ironGetProgram, small: true, onTap: () => context.push('/iron')),
+              child: AiBtn(
+                label: l.ironGetProgram,
+                small: true,
+                colors: ironGradient,
+                foreground: Colors.white,
+                onTap: () => context.push('/iron'),
+              ),
             ),
           ],
         ),
@@ -134,7 +142,7 @@ class _Frame extends StatelessWidget {
       padding: const EdgeInsets.all(1.5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(colors: [for (final c in aiGradient) c.withValues(alpha: 0.85)]),
+        gradient: LinearGradient(colors: [for (final c in ironGradient) c.withValues(alpha: 0.9)]),
       ),
       child: Container(
         padding: const EdgeInsets.all(14),
@@ -151,16 +159,20 @@ class _Frame extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: LinearGradient(colors: aiGradient),
+                    gradient: LinearGradient(colors: ironGradient),
                   ),
-                  child: const VIcon('dumb', size: 20, color: Color(0xFF0B0F14), strokeWidth: 1.8),
+                  child: const VIcon('dumb', size: 20, color: Colors.white, strokeWidth: 1.8),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
                   child: GapCol(
                     gap: 0,
                     children: [
-                      AiText(l.ironName, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                      AiText(
+                        l.ironName,
+                        colors: ironGradient,
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                      ),
                       Muted(l.ironRole, size: 11.5),
                     ],
                   ),
