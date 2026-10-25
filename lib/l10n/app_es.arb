@@ -1439,5 +1439,6 @@
   "ironCanDo": "Lo que Iron puede hacer",
   "ironShortRoutine": "Crear una rutina",
   "ironHistory": "Lo que Iron hizo para ti",
-  "histWeekOf": "Semana del {date}"
+  "histWeekOf": "Semana del {date}",
+  "ironOffTopic": "Solo creo programas: cuéntame sobre tu entrenamiento, tu alimentación o tu salud y planificaré a partir de ahí. Esa petición no se ha contado."
 }

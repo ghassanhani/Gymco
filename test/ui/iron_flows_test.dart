@@ -197,4 +197,29 @@ void main() {
     expect(find.text('Walk after dinner'), findsOneWidget);
     expect(cloud.ironCalls, 1);
   });
+
+  testWidgets('a message that is not about the program gets a kind no, and nothing is kept', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')
+      ..ironTip = tip
+      ..ironProgram = {'off_topic': true};
+    final (_, prefs) = await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'ironOn': true,
+        'ironTip': jsonEncode({...tip, 'day': dayKey(testNow)}),
+      },
+      cloud: cloud,
+    );
+    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
+    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.widgetWithText(TextField, 'Ask Iron for a program…'), 'Write me a poem about cats');
+    await tester.pump();
+    await tester.tap(find.byTooltip('My program'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('I only build programs'), findsOneWidget);
+    expect(find.text('Use this program'), findsNothing);
+    expect(prefs.getString('ironHistory'), isNull);
+  });
 }

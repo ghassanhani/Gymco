@@ -55,6 +55,7 @@ class IronProgram {
     required this.why,
     required this.plan,
     required this.habits,
+    this.offTopic = false,
   });
   final String summary;
   final double kcal;
@@ -63,7 +64,10 @@ class IronProgram {
   final AiPlan plan;
   final List<String> habits;
 
-  bool get isEmpty => kcal <= 0 && plan.isEmpty;
+  /// The user's note wasn't about their program, so Iron built nothing.
+  final bool offTopic;
+
+  bool get isEmpty => offTopic || (kcal <= 0 && plan.isEmpty);
 }
 
 double _num(Object? v) => v is num && v.isFinite ? v.toDouble() : 0;
@@ -80,6 +84,7 @@ IronProgram programFrom(Map<String, Object?> data, ExerciseLibrary lib) => IronP
     for (final h in (data['habits'] as List? ?? const []))
       if ('$h'.trim().isNotEmpty) '$h'.trim(),
   ].take(3).toList(),
+  offTopic: data['off_topic'] == true,
 );
 
 /// Iron's targets held to the same rules as the weekly check-in: never under

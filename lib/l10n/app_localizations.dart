@@ -8697,6 +8697,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Week of {date}'**
   String histWeekOf(String date);
+
+  /// No description provided for @ironOffTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'I only build programs: tell me about your training, your eating or your health, and I\'ll plan around it. That one didn\'t use up a request.'**
+  String get ironOffTopic;
 }
 
 class _AppLocalizationsDelegate

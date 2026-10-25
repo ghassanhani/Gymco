@@ -5289,4 +5289,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String histWeekOf(String date) {
     return 'Week of $date';
   }
+
+  @override
+  String get ironOffTopic =>
+      'I only build programs: tell me about your training, your eating or your health, and I\'ll plan around it. That one didn\'t use up a request.';
 }

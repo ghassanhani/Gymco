@@ -192,7 +192,9 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                       typing: _busy,
                       mood: p == null || p.isEmpty ? IronMood.happy : IronMood.cheer,
                       child: IronBubble(
-                        p == null || p.isEmpty
+                        p != null && p.offTopic
+                            ? l.ironOffTopic
+                            : p == null || p.isEmpty
                             ? l.aiRoutineNone
                             : p.summary.isNotEmpty
                             ? p.summary
