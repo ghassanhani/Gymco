@@ -252,24 +252,26 @@ class _IronComposerState extends State<IronComposer> {
       curve: Curves.easeOut,
       padding: const EdgeInsets.all(1.5),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
+        // One line is 59 tall: a radius of half that makes true round ends.
+        borderRadius: BorderRadius.circular(29.5),
         gradient: focused ? LinearGradient(colors: ironGradient) : LinearGradient(colors: [Volt.line2, Volt.line2]),
         boxShadow: [
           BoxShadow(
             color: focused
                 ? red.withValues(alpha: Volt.isLight ? 0.18 : 0.28)
                 : Colors.black.withValues(alpha: Volt.isLight ? 0.035 : 0.25),
-            blurRadius: focused ? 28 : 18,
-            offset: const Offset(0, 8),
+            blurRadius: focused ? 26 : 22,
+            spreadRadius: -6,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Container(
         decoration: BoxDecoration(
           color: Volt.isLight ? Colors.white : Volt.card,
-          borderRadius: BorderRadius.circular(26.5),
+          borderRadius: BorderRadius.circular(28),
         ),
-        padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 6, 6),
+        padding: const EdgeInsets.all(6),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -295,7 +297,8 @@ class _IronComposerState extends State<IronComposer> {
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
-                  contentPadding: const EdgeInsets.fromLTRB(14, 12, 8, 10),
+                  // 22.5 of text plus this is 44, the send button's height.
+                  contentPadding: const EdgeInsetsDirectional.fromSTEB(14, 10.75, 8, 10.75),
                 ),
               ),
             ),
@@ -330,8 +333,8 @@ class _Send extends StatelessWidget {
           onTap: onTap,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 180),
-            width: 42,
-            height: 42,
+            width: 44,
+            height: 44,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
