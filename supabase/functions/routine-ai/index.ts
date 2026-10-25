@@ -16,10 +16,9 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.131.0";
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
 import { costEur, gate, pickModel } from "../_shared/ai_gate.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
+import { exerciseNames, exerciseSystem, PLAN_RULES, routinesSchema } from "../_shared/routine_schema.ts";
 
 const MAX_TEXT_CHARS = 600;
-const MAX_EXERCISES = 1500;
-const MAX_NAME_CHARS = 80;
 const LANGS: Record<string, string> = { en: "English", ar: "Arabic", es: "Spanish" };
 
 const json = (status: number, body: unknown) =>
@@ -32,38 +31,7 @@ const reportRoutines: Anthropic.Tool = {
   input_schema: {
     type: "object",
     properties: {
-      routines: {
-        type: "array",
-        description: "One routine per training day type, in the order they run. Empty if the request is not about training.",
-        items: {
-          type: "object",
-          properties: {
-            name: { type: "string", description: "Short name in the user's language, e.g. 'Push', 'Upper A', 'Full body'." },
-            days: {
-              type: "array",
-              description: "Weekdays it runs on, 0 = Monday to 6 = Sunday. Empty when the user wants it for any time.",
-              items: { type: "integer" },
-            },
-            items: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  exercise: { type: "string", description: "Exactly one name copied from the exercise list." },
-                  sets: { type: "integer" },
-                  rep_low: { type: "integer" },
-                  rep_high: { type: "integer" },
-                  rest_seconds: { type: "integer" },
-                },
-                required: ["exercise", "sets", "rep_low", "rep_high", "rest_seconds"],
-                additionalProperties: false,
-              },
-            },
-          },
-          required: ["name", "days", "items"],
-          additionalProperties: false,
-        },
-      },
+      routines: routinesSchema,
       summary: { type: "string", description: "One or two sentences in the user's language on how the plan works." },
     },
     required: ["routines", "summary"],
@@ -93,10 +61,7 @@ Deno.serve(async (req) => {
   }
   const text = typeof body.text === "string" ? body.text.trim().slice(0, MAX_TEXT_CHARS) : "";
   if (!text) return json(400, { error: "empty" });
-  const names = Array.isArray(body.exercises)
-    ? [...new Set(body.exercises.filter((n): n is string => typeof n === "string" && n.length <= MAX_NAME_CHARS))]
-      .slice(0, MAX_EXERCISES)
-    : [];
+  const names = exerciseNames(body.exercises);
   if (names.length === 0) return json(400, { error: "exercises" });
   const language = LANGS[typeof body.lang === "string" ? body.lang : "en"] ?? "English";
 
@@ -128,15 +93,7 @@ Deno.serve(async (req) => {
       output_config: { effort: "low" },
       tools: [reportRoutines],
       tool_choice: { type: "tool", name: "report_routines" },
-      system: [
-        {
-          type: "text",
-          // The list is the same for every user of a build, so it caches.
-          text: "You plan strength training for a lifting app. Use only exercises from this list, " +
-            "copying each name exactly:\n<exercises>\n" + names.join("\n") + "\n</exercises>",
-          cache_control: { type: "ephemeral" },
-        },
-      ],
+      system: [exerciseSystem("You plan strength training for a lifting app.", names)],
       messages: [
         {
           role: "user",
@@ -144,10 +101,7 @@ Deno.serve(async (req) => {
             `The user reads ${language} and asks for: <request>${text}</request>\n` +
             "Build the plan they describe. Follow what they say about days, goal, time, equipment and level; " +
             "where they say nothing, plan for muscle growth for a lifter with some experience. " +
-            "If they give a number of days but not which, spread them out (3 days: Monday, Wednesday, Friday). " +
-            "Fit each session in the time they give, counting about 2.5 minutes per set with rest. " +
-            "Use 4 to 7 exercises a session, compound lifts first, 2 to 4 sets each, " +
-            "rep ranges such as 5-8, 8-12 or 12-15, and 60 to 180 seconds of rest. " +
+            PLAN_RULES + " " +
             "Name the routines and write the summary in the user's language. " +
             "If the request is not about training, report no routines.",
         },

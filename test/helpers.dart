@@ -136,6 +136,12 @@ class FakeCloud implements Cloud {
   /// What routine-ai answers, as the function's JSON body.
   Map<String, Object?> plan;
   String? lastPlanText;
+
+  /// What iron answers for a tip and for a program.
+  Map<String, Object?> ironTip = const {};
+  Map<String, Object?> ironProgram = const {};
+  Map<String, Object?>? lastIronNumbers;
+  int ironCalls = 0;
   List<String> lastPlanNames = const [];
   CloudBackup? backup;
   List<PhotoFood> photoFoods;
@@ -278,6 +284,22 @@ class FakeCloud implements Cloud {
     if (paused) throw const CloudException(CloudFailure.paused);
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
     return (plan, --scansLeft);
+  }
+
+  @override
+  Future<(Map<String, Object?>, int)> askIron({
+    required String mode,
+    required Map<String, Object?> numbers,
+    required String languageCode,
+    List<String> exercises = const [],
+    String ask = '',
+    int? bucket,
+  }) async {
+    ironCalls++;
+    lastIronNumbers = numbers;
+    if (paused) throw const CloudException(CloudFailure.paused);
+    if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
+    return (mode == 'tip' ? ironTip : ironProgram, --scansLeft);
   }
 }
 

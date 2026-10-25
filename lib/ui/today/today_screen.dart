@@ -25,6 +25,7 @@ import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
 import 'announcement_card.dart';
 import 'catchup_screen.dart';
+import 'iron_card.dart';
 import 'recovery_card.dart';
 
 class TodayScreen extends ConsumerWidget {
@@ -91,6 +92,7 @@ class _Today extends ConsumerWidget {
               _Hero(schedule: schedule, week: week),
               _RingCard(totals: totals, targets: profile.targets, kcalTarget: profile.targetKcal),
               const RecoveryCard(),
+              const IronCard(),
               _QuickLog(first: dayOne && entries.isEmpty),
               if (!dayOne) const CatchupCard(),
               if (ref.watch(liveAnnouncementProvider) != null) const AnnouncementCard(),

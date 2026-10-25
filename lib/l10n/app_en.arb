@@ -3444,5 +3444,59 @@
   "aiRoutineOff": "The routine builder is resting. Try again later.",
   "aiRoutineCheck": "Check it before you train: the AI can get things wrong.",
   "describeIt": "Describe it with AI",
-  "describeItSub": "Type what you want, Gymco builds it"
+  "describeItSub": "Type what you want, Gymco builds it",
+  "ironName": "Iron",
+  "ironRole": "Your coach",
+  "ironMeetTitle": "Meet Iron, your coach",
+  "ironMeetBody": "Iron reads your numbers each day (targets, meals, training, weight, sleep) and tells you the one thing that helps most. It can also build your whole program, like a personal trainer.",
+  "ironPrivacy": "Only numbers are sent to the AI, never your food diary, notes or photos.",
+  "ironTurnOn": "Turn on Iron",
+  "ironSignIn": "Sign in to meet Iron",
+  "ironThinking": "Iron is reading your numbers…",
+  "ironNoTip": "Iron will have a tip for you once you log a little more.",
+  "ironGetProgram": "My program",
+  "ironProgramTitle": "Your program from Iron",
+  "ironProgramSub": "Eating and training, built from your numbers",
+  "ironProgramIntro": "Iron reads your goal, targets, the last two weeks of meals and training, your weight trend and recovery, and builds a program around them.",
+  "ironAskHint": "Anything Iron should know? For example: knee injury, only 3 days, no barbell.",
+  "ironBuild": "Build my program",
+  "ironBuilding": "Iron is building your program…",
+  "ironEatHeader": "Eating",
+  "ironTrainHeader": "Training",
+  "ironHabitsHeader": "Daily habits",
+  "ironKcalDay": "{kcal} kcal a day",
+  "@ironKcalDay": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "ironNowVs": "now {kcal}",
+  "@ironNowVs": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "ironUse": "Use this program",
+  "ironUsed": "Program in place. Your old plan is in My routines.",
+  "ironHeld": "For safety, targets move at most {kcal} kcal at a time: the weekly check-in takes you the rest of the way.",
+  "@ironHeld": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "ironOff": "Iron is resting. Try again later.",
+  "ironTurnOff": "Turn off Iron",
+  "actLogFood": "Log food",
+  "actStartWorkout": "Start workout",
+  "actDrinkWater": "Add water",
+  "actWeighIn": "Weigh in",
+  "actRest": "Rest today",
+  "actWalk": "See steps",
+  "ironHide": "Hide Iron"
 }

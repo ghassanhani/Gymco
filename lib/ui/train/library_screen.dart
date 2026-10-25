@@ -110,7 +110,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                         semantics: l.describeIt,
                         onTap: () => context.push('/routine/ai'),
                         children: [
-                          VIcon('star', size: 19, color: Volt.brandInk),
+                          const AiMark(size: 32),
                           ItemText(l.describeIt, sub: l.describeItSub, weight: FontWeight.w600),
                           VIcon('fwd', size: 18, color: Volt.t3),
                         ],

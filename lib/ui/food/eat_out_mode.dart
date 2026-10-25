@@ -217,11 +217,10 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
       ),
     ),
-    VBtn(
+    AiBtn(
       label: _asking ? l.aiThinking : l.eoAskAi,
-      icon: _asking ? null : 'star',
-      expand: true,
-      onTap: _asking || _described.text.trim().isEmpty ? null : _askAi,
+      busy: _asking,
+      onTap: _described.text.trim().isEmpty ? null : _askAi,
     ),
     if (_ai.isNotEmpty)
       VList(

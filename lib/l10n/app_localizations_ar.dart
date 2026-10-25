@@ -4846,4 +4846,114 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get describeItSub => 'اكتب ما تريد، ويبنيه Gymco';
+
+  @override
+  String get ironName => 'آيرون';
+
+  @override
+  String get ironRole => 'مدربك';
+
+  @override
+  String get ironMeetTitle => 'تعرّف على آيرون، مدربك';
+
+  @override
+  String get ironMeetBody =>
+      'يقرأ آيرون أرقامك كل يوم (الأهداف والوجبات والتمرين والوزن والنوم) ويخبرك بأهم شيء يساعدك. ويستطيع أيضًا بناء برنامجك كاملًا مثل مدرب شخصي.';
+
+  @override
+  String get ironPrivacy =>
+      'تُرسل الأرقام فقط إلى الذكاء الاصطناعي، وليس مذكرات طعامك أو ملاحظاتك أو صورك.';
+
+  @override
+  String get ironTurnOn => 'شغّل آيرون';
+
+  @override
+  String get ironSignIn => 'سجّل الدخول لتتعرّف على آيرون';
+
+  @override
+  String get ironThinking => 'آيرون يقرأ أرقامك…';
+
+  @override
+  String get ironNoTip =>
+      'سيكون لدى آيرون نصيحة لك بعد أن تسجّل المزيد قليلًا.';
+
+  @override
+  String get ironGetProgram => 'برنامجي';
+
+  @override
+  String get ironProgramTitle => 'برنامجك من آيرون';
+
+  @override
+  String get ironProgramSub => 'الأكل والتمرين، مبنيان على أرقامك';
+
+  @override
+  String get ironProgramIntro =>
+      'يقرأ آيرون هدفك وأهدافك وآخر أسبوعين من الوجبات والتمرين واتجاه وزنك وتعافيك، ويبني برنامجًا حولها.';
+
+  @override
+  String get ironAskHint =>
+      'هل هناك ما يجب أن يعرفه آيرون؟ مثلًا: إصابة في الركبة، ٣ أيام فقط، بلا بار.';
+
+  @override
+  String get ironBuild => 'ابنِ برنامجي';
+
+  @override
+  String get ironBuilding => 'آيرون يبني برنامجك…';
+
+  @override
+  String get ironEatHeader => 'الأكل';
+
+  @override
+  String get ironTrainHeader => 'التمرين';
+
+  @override
+  String get ironHabitsHeader => 'عادات يومية';
+
+  @override
+  String ironKcalDay(String kcal) {
+    return '$kcal سعرة في اليوم';
+  }
+
+  @override
+  String ironNowVs(String kcal) {
+    return 'الآن $kcal';
+  }
+
+  @override
+  String get ironUse => 'استخدم هذا البرنامج';
+
+  @override
+  String get ironUsed => 'البرنامج جاهز. خطتك القديمة في روتيناتي.';
+
+  @override
+  String ironHeld(String kcal) {
+    return 'للسلامة تتغير الأهداف $kcal سعرة على الأكثر في كل مرة: والمراجعة الأسبوعية تكمل الباقي.';
+  }
+
+  @override
+  String get ironOff => 'آيرون في استراحة. حاول لاحقًا.';
+
+  @override
+  String get ironTurnOff => 'أوقف آيرون';
+
+  @override
+  String get actLogFood => 'سجّل طعامًا';
+
+  @override
+  String get actStartWorkout => 'ابدأ التمرين';
+
+  @override
+  String get actDrinkWater => 'أضف ماء';
+
+  @override
+  String get actWeighIn => 'سجّل وزنك';
+
+  @override
+  String get actRest => 'استرح اليوم';
+
+  @override
+  String get actWalk => 'شاهد الخطوات';
+
+  @override
+  String get ironHide => 'أخفِ آيرون';
 }

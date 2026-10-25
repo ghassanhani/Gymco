@@ -579,13 +579,16 @@ class _FirstRoutine extends ConsumerWidget {
         onTap: onTap,
         child: Row(
           children: [
-            Container(
-              width: 44,
-              height: 44,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: main ? Volt.brand : Volt.brandWash),
-              child: VIcon(icon, size: 20, color: main ? Volt.ink : Volt.brandInk),
-            ),
+            if (icon == 'sparkles')
+              const AiMark(size: 44)
+            else
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: main ? Volt.brand : Volt.brandWash),
+                child: VIcon(icon, size: 20, color: main ? Volt.ink : Volt.brandInk),
+              ),
             const SizedBox(width: 14),
             Expanded(
               child: GapCol(
@@ -627,7 +630,7 @@ class _FirstRoutine extends ConsumerWidget {
           ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
           context.push('/workout');
         }),
-        choice('star', l.describeIt, l.describeItSub, () => context.push('/routine/ai')),
+        choice('sparkles', l.describeIt, l.describeItSub, () => context.push('/routine/ai')),
         choice('plus', l.buildOwn, l.buildOwnSub, () => context.push('/routine/new')),
         Eyebrow(l.orTemplate, padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 4, 0)),
         TemplateList(onDone: (title) => showVToast(context, l.templateAdded(title))),

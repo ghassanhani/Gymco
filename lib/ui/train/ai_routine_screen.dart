@@ -155,12 +155,10 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
                           ),
                       ],
                     ),
-                  VBtn(
+                  AiBtn(
                     label: _busy ? l.aiRoutineBuilding : (plan == null ? l.aiRoutineBuild : l.aiRoutineAgain),
-                    icon: _busy ? null : (plan == null ? 'star' : 'repeat'),
-                    kind: plan == null ? BtnKind.primary : BtnKind.ghost,
-                    expand: true,
-                    onTap: _busy || _text.text.trim().isEmpty || lib == null ? null : _build,
+                    busy: _busy,
+                    onTap: _text.text.trim().isEmpty || lib == null ? null : _build,
                   ),
                   if (plan != null && !plan.isEmpty) ...[
                     if (plan.summary.isNotEmpty)
@@ -176,7 +174,7 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
                           ],
                         ),
                       ),
-                    for (final r in plan.routines) _PlannedRoutine(routine: r, lib: lib!),
+                    for (final r in plan.routines) PlannedRoutineCard(routine: r, lib: lib!),
                     if (plan.missing.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -196,8 +194,8 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
 
 /// One routine the AI made: its name, when it runs, and each exercise with
 /// its sets and reps.
-class _PlannedRoutine extends StatelessWidget {
-  const _PlannedRoutine({required this.routine, required this.lib});
+class PlannedRoutineCard extends StatelessWidget {
+  const PlannedRoutineCard({super.key, required this.routine, required this.lib});
   final Routine routine;
   final ExerciseLibrary lib;
 

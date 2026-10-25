@@ -7947,6 +7947,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Type what you want, Gymco builds it'**
   String get describeItSub;
+
+  /// No description provided for @ironName.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron'**
+  String get ironName;
+
+  /// No description provided for @ironRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Your coach'**
+  String get ironRole;
+
+  /// No description provided for @ironMeetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet Iron, your coach'**
+  String get ironMeetTitle;
+
+  /// No description provided for @ironMeetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron reads your numbers each day (targets, meals, training, weight, sleep) and tells you the one thing that helps most. It can also build your whole program, like a personal trainer.'**
+  String get ironMeetBody;
+
+  /// No description provided for @ironPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Only numbers are sent to the AI, never your food diary, notes or photos.'**
+  String get ironPrivacy;
+
+  /// No description provided for @ironTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Iron'**
+  String get ironTurnOn;
+
+  /// No description provided for @ironSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to meet Iron'**
+  String get ironSignIn;
+
+  /// No description provided for @ironThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron is reading your numbers…'**
+  String get ironThinking;
+
+  /// No description provided for @ironNoTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron will have a tip for you once you log a little more.'**
+  String get ironNoTip;
+
+  /// No description provided for @ironGetProgram.
+  ///
+  /// In en, this message translates to:
+  /// **'My program'**
+  String get ironGetProgram;
+
+  /// No description provided for @ironProgramTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your program from Iron'**
+  String get ironProgramTitle;
+
+  /// No description provided for @ironProgramSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Eating and training, built from your numbers'**
+  String get ironProgramSub;
+
+  /// No description provided for @ironProgramIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron reads your goal, targets, the last two weeks of meals and training, your weight trend and recovery, and builds a program around them.'**
+  String get ironProgramIntro;
+
+  /// No description provided for @ironAskHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything Iron should know? For example: knee injury, only 3 days, no barbell.'**
+  String get ironAskHint;
+
+  /// No description provided for @ironBuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Build my program'**
+  String get ironBuild;
+
+  /// No description provided for @ironBuilding.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron is building your program…'**
+  String get ironBuilding;
+
+  /// No description provided for @ironEatHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Eating'**
+  String get ironEatHeader;
+
+  /// No description provided for @ironTrainHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Training'**
+  String get ironTrainHeader;
+
+  /// No description provided for @ironHabitsHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily habits'**
+  String get ironHabitsHeader;
+
+  /// No description provided for @ironKcalDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{kcal} kcal a day'**
+  String ironKcalDay(String kcal);
+
+  /// No description provided for @ironNowVs.
+  ///
+  /// In en, this message translates to:
+  /// **'now {kcal}'**
+  String ironNowVs(String kcal);
+
+  /// No description provided for @ironUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this program'**
+  String get ironUse;
+
+  /// No description provided for @ironUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Program in place. Your old plan is in My routines.'**
+  String get ironUsed;
+
+  /// No description provided for @ironHeld.
+  ///
+  /// In en, this message translates to:
+  /// **'For safety, targets move at most {kcal} kcal at a time: the weekly check-in takes you the rest of the way.'**
+  String ironHeld(String kcal);
+
+  /// No description provided for @ironOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron is resting. Try again later.'**
+  String get ironOff;
+
+  /// No description provided for @ironTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off Iron'**
+  String get ironTurnOff;
+
+  /// No description provided for @actLogFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Log food'**
+  String get actLogFood;
+
+  /// No description provided for @actStartWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start workout'**
+  String get actStartWorkout;
+
+  /// No description provided for @actDrinkWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Add water'**
+  String get actDrinkWater;
+
+  /// No description provided for @actWeighIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh in'**
+  String get actWeighIn;
+
+  /// No description provided for @actRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest today'**
+  String get actRest;
+
+  /// No description provided for @actWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'See steps'**
+  String get actWalk;
+
+  /// No description provided for @ironHide.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Iron'**
+  String get ironHide;
 }
 
 class _AppLocalizationsDelegate

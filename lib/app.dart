@@ -38,6 +38,7 @@ import 'ui/train/ai_routine_screen.dart';
 import 'ui/train/builder_screen.dart';
 import 'ui/train/exercise_picker_screen.dart';
 import 'ui/train/exercise_screen.dart';
+import 'ui/train/iron_screen.dart';
 import 'ui/train/library_screen.dart';
 import 'ui/train/routine_screen.dart';
 import 'ui/train/summary_screen.dart';
@@ -74,6 +75,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, s) => SummaryScreen(done: s.extra! as FinishedWorkout),
       ),
       GoRoute(path: '/routine/ai', builder: (_, _) => const AiRoutineScreen()),
+      GoRoute(path: '/iron', builder: (_, _) => const IronScreen()),
       GoRoute(
         path: '/routine/new',
         builder: (_, s) => BuilderScreen(seed: s.extra is Routine ? s.extra! as Routine : null),

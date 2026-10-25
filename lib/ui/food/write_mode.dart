@@ -171,14 +171,7 @@ class WrittenRows extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   if (onEstimate != null) ...[
-                    VBtn(
-                      label: l.estimateAction,
-                      small: true,
-                      minHeight: 34,
-                      fontSize: 13,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      onTap: () => onEstimate!(i),
-                    ),
+                    AiBtn(label: l.estimateAction, compact: true, onTap: () => onEstimate!(i)),
                     const SizedBox(width: 6),
                   ],
                   VBtn(

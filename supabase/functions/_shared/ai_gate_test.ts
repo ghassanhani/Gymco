@@ -71,3 +71,10 @@ Deno.test("the routine builder has its own switch", () => {
   c.ai.routine = false;
   assertEquals(gate(c, "routine", 0), { ok: false, reason: "feature_off" });
 });
+
+Deno.test("Iron has its own switch", () => {
+  const c = defaults();
+  assertEquals(gate(c, "coach", 0), { ok: true });
+  c.ai.coach = false;
+  assertEquals(gate(c, "coach", 0), { ok: false, reason: "feature_off" });
+});

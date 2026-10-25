@@ -15,6 +15,7 @@ import '../../theme/volt.dart';
 import 'icon_paths.dart';
 import 'motion.dart';
 
+export 'ai.dart';
 export 'motion.dart';
 
 const _tab = [FontFeature.tabularFigures()];

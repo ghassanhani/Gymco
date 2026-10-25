@@ -173,6 +173,18 @@ abstract class Cloud {
     int? bucket,
   });
 
+  /// Iron, the coach: [mode] 'tip' for today's tip, 'program' for a full
+  /// program. [numbers] is the summary of the user's numbers (no diary text,
+  /// photos or notes); [exercises] and [ask] are for a program.
+  Future<(Map<String, Object?>, int)> askIron({
+    required String mode,
+    required Map<String, Object?> numbers,
+    required String languageCode,
+    List<String> exercises = const [],
+    String ask = '',
+    int? bucket,
+  });
+
   /// The published remote config for this device, or null when there is
   /// none to fetch. Works signed out.
   Future<Map<String, Object?>?> fetchConfig(Map<String, String> device);
@@ -234,6 +246,15 @@ class NoCloud implements Cloud {
     String text, {
     required List<String> exercises,
     required String languageCode,
+    int? bucket,
+  }) async => _no();
+  @override
+  Future<(Map<String, Object?>, int)> askIron({
+    required String mode,
+    required Map<String, Object?> numbers,
+    required String languageCode,
+    List<String> exercises = const [],
+    String ask = '',
     int? bucket,
   }) async => _no();
   @override
@@ -462,6 +483,31 @@ class SupabaseCloud implements Cloud {
     final r = await _sb.functions.invoke(
       'routine-ai',
       body: {'text': text.trim(), 'exercises': exercises, 'lang': languageCode, 'bucket': ?bucket},
+    );
+    final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
+    return (data, (data['left'] as num?)?.toInt() ?? 0);
+  });
+
+  @override
+  Future<(Map<String, Object?>, int)> askIron({
+    required String mode,
+    required Map<String, Object?> numbers,
+    required String languageCode,
+    List<String> exercises = const [],
+    String ask = '',
+    int? bucket,
+  }) => _guard(() async {
+    _uid;
+    final r = await _sb.functions.invoke(
+      'iron',
+      body: {
+        'mode': mode,
+        'numbers': numbers,
+        'lang': languageCode,
+        if (exercises.isNotEmpty) 'exercises': exercises,
+        if (ask.trim().isNotEmpty) 'ask': ask.trim(),
+        'bucket': ?bucket,
+      },
     );
     final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
     return (data, (data['left'] as num?)?.toInt() ?? 0);

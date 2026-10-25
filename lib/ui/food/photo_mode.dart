@@ -237,8 +237,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
         if (_shot == null && rows == null && !_reading) ...[
           _Capture(onCamera: () => _take(camera: true), onLibrary: () => _take(camera: false), text: l.photoPrompt),
           noteBox,
-          if (_note.text.trim().isNotEmpty)
-            VBtn(label: l.estimateFromNote, kind: BtnKind.ghost, icon: 'list', expand: true, onTap: () => _scan(null)),
+          if (_note.text.trim().isNotEmpty) AiBtn(label: l.estimateFromNote, onTap: () => _scan(null)),
         ] else ...[
           if (_shot != null)
             ClipRRect(
@@ -352,6 +351,7 @@ class _Capture extends StatelessWidget {
         Semantics(
           button: true,
           label: l.takePhoto,
+          excludeSemantics: true,
           child: GestureDetector(
             onTap: onCamera,
             child: CustomPaint(
@@ -363,7 +363,17 @@ class _Capture extends StatelessWidget {
                   gap: 12,
                   cross: CrossAxisAlignment.center,
                   children: [
-                    IconBtn('camera', label: '', onTap: null, iconSize: 22, color: Volt.t2),
+                    // The AI reads the photo: its mark, with the camera in it.
+                    Container(
+                      width: 56,
+                      height: 56,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(colors: aiGradient),
+                      ),
+                      child: const VIcon('camera', size: 24, color: Color(0xFF0B0F14), strokeWidth: 1.8),
+                    ),
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 250),
                       child: Muted(text, align: TextAlign.center),

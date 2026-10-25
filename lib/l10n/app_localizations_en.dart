@@ -4865,4 +4865,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get describeItSub => 'Type what you want, Gymco builds it';
+
+  @override
+  String get ironName => 'Iron';
+
+  @override
+  String get ironRole => 'Your coach';
+
+  @override
+  String get ironMeetTitle => 'Meet Iron, your coach';
+
+  @override
+  String get ironMeetBody =>
+      'Iron reads your numbers each day (targets, meals, training, weight, sleep) and tells you the one thing that helps most. It can also build your whole program, like a personal trainer.';
+
+  @override
+  String get ironPrivacy =>
+      'Only numbers are sent to the AI, never your food diary, notes or photos.';
+
+  @override
+  String get ironTurnOn => 'Turn on Iron';
+
+  @override
+  String get ironSignIn => 'Sign in to meet Iron';
+
+  @override
+  String get ironThinking => 'Iron is reading your numbers…';
+
+  @override
+  String get ironNoTip =>
+      'Iron will have a tip for you once you log a little more.';
+
+  @override
+  String get ironGetProgram => 'My program';
+
+  @override
+  String get ironProgramTitle => 'Your program from Iron';
+
+  @override
+  String get ironProgramSub => 'Eating and training, built from your numbers';
+
+  @override
+  String get ironProgramIntro =>
+      'Iron reads your goal, targets, the last two weeks of meals and training, your weight trend and recovery, and builds a program around them.';
+
+  @override
+  String get ironAskHint =>
+      'Anything Iron should know? For example: knee injury, only 3 days, no barbell.';
+
+  @override
+  String get ironBuild => 'Build my program';
+
+  @override
+  String get ironBuilding => 'Iron is building your program…';
+
+  @override
+  String get ironEatHeader => 'Eating';
+
+  @override
+  String get ironTrainHeader => 'Training';
+
+  @override
+  String get ironHabitsHeader => 'Daily habits';
+
+  @override
+  String ironKcalDay(String kcal) {
+    return '$kcal kcal a day';
+  }
+
+  @override
+  String ironNowVs(String kcal) {
+    return 'now $kcal';
+  }
+
+  @override
+  String get ironUse => 'Use this program';
+
+  @override
+  String get ironUsed => 'Program in place. Your old plan is in My routines.';
+
+  @override
+  String ironHeld(String kcal) {
+    return 'For safety, targets move at most $kcal kcal at a time: the weekly check-in takes you the rest of the way.';
+  }
+
+  @override
+  String get ironOff => 'Iron is resting. Try again later.';
+
+  @override
+  String get ironTurnOff => 'Turn off Iron';
+
+  @override
+  String get actLogFood => 'Log food';
+
+  @override
+  String get actStartWorkout => 'Start workout';
+
+  @override
+  String get actDrinkWater => 'Add water';
+
+  @override
+  String get actWeighIn => 'Weigh in';
+
+  @override
+  String get actRest => 'Rest today';
+
+  @override
+  String get actWalk => 'See steps';
+
+  @override
+  String get ironHide => 'Hide Iron';
 }
