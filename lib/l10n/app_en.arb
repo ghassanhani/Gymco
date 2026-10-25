@@ -3498,5 +3498,103 @@
   "actWeighIn": "Weigh in",
   "actRest": "Rest today",
   "actWalk": "See steps",
-  "ironHide": "Hide Iron"
+  "ironHide": "Hide Iron",
+  "warnRhrTitle": "Your heart is working harder than usual",
+  "warnRhrBody": "Resting heart rate has been around {now} bpm, up from your usual {usual}, for three days. Rest today. If it stays high or you feel unwell, see a doctor.",
+  "@warnRhrBody": {
+    "placeholders": {
+      "now": {
+        "type": "int"
+      },
+      "usual": {
+        "type": "int"
+      }
+    }
+  },
+  "warnFastLossTitle": "Weight is dropping fast",
+  "warnFastLossBody": "You're losing about {pct}% a week, faster than is safe to keep up. Eat a little more, and see a doctor if you didn't mean to lose this fast.",
+  "@warnFastLossBody": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "warnUnderTitle": "You're eating too little",
+  "warnUnderBody": "Three of the last four days were well under your calorie floor. Your body needs more to train and recover. If eating is hard right now, talk to a doctor.",
+  "warnSharpTitle": "Sharp pain: stop that movement",
+  "warnSharpBody": "You flagged sharp pain in your {area}. Skip exercises that load it, and see a doctor or physio if it doesn't settle in a few days.",
+  "@warnSharpBody": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "warnRepeatTitle": "Your {area} keeps hurting",
+  "@warnRepeatTitle": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "warnRepeatBody": "Pain in the same place on two exercises. Iron will plan around it; have it checked by a physio or doctor.",
+  "warnClearTitle": "Check with your doctor first",
+  "warnClearBody": "One of your health answers says to get a doctor's OK before hard training. Light activity is fine meanwhile.",
+  "warnCleared": "My doctor cleared me",
+  "warnGotIt": "Got it",
+  "ironNotDoctor": "Iron is a coach, not a doctor.",
+  "ironSettings": "Iron settings",
+  "ironReads": "What Iron reads",
+  "ironReadsNumbers": "Your numbers",
+  "ironReadsNumbersSub": "Targets, totals, training, weight, streak, sleep and heart rate. Always on while Iron is on.",
+  "ironReadsFood": "Food details",
+  "ironReadsFoodSub": "What you ate and when, for the last three days, so Iron can suggest food you already eat.",
+  "ironReadsHealth": "Health profile",
+  "ironReadsHealthSub": "Injuries, conditions, medication and pregnancy, so plans stay safe for you.",
+  "ironPhotosNever": "Progress photos are never sent.",
+  "ironEditHealth": "Fill in your health profile",
+  "ironEditHealthSub": "Stays on your phone. Warning signs use it without the AI.",
+  "ironWeekReview": "This week with Iron",
+  "ironWeekReviewSub": "Wins, slips and next week's changes",
+  "ironReadsLine": "Iron reads: {what}",
+  "@ironReadsLine": {
+    "placeholders": {
+      "what": {
+        "type": "String"
+      }
+    }
+  },
+  "healthProfileTitle": "Health profile",
+  "healthProfileSub": "For Iron to keep you safe",
+  "healthInjuries": "Injuries or pain",
+  "healthConditions": "Conditions a doctor has told you about",
+  "condBloodPressure": "High blood pressure",
+  "condHeart": "Heart condition",
+  "condDiabetes": "Diabetes",
+  "condAsthma": "Asthma",
+  "condJoints": "Arthritis or joint problems",
+  "condOther": "Something else",
+  "healthMeds": "I take medication that affects heart rate or blood sugar",
+  "healthPregnant": "I'm pregnant or had a baby in the last 6 months",
+  "healthParqTitle": "Before you train hard",
+  "healthParqSub": "The seven PAR-Q+ questions. A yes isn't bad news: it means checking with a doctor first.",
+  "parq1": "Has a doctor ever said you have a heart condition or high blood pressure?",
+  "parq2": "Do you feel pain in your chest at rest, in daily life, or when you exercise?",
+  "parq3": "In the last 12 months, have you lost balance from dizziness, or lost consciousness?",
+  "parq4": "Have you been diagnosed with another chronic condition?",
+  "parq5": "Do you take prescribed medication for a chronic condition?",
+  "parq6": "In the last 12 months, have you had a bone, joint or soft-tissue problem that activity could make worse?",
+  "parq7": "Has a doctor ever said you should only exercise under medical supervision?",
+  "healthCleared": "A doctor has cleared me to exercise",
+  "ironHealthNote": "Anything else Iron should know",
+  "ironHealthNoteHint": "For example: old ACL repair, avoid overhead pressing",
+  "healthSaved": "Health profile saved",
+  "yesLbl": "Yes",
+  "noLbl": "No",
+  "reviewWins": "Wins",
+  "reviewSlips": "What slipped",
+  "reviewNext": "Next week",
+  "reviewLoading": "Iron is looking back at your week…"
 }

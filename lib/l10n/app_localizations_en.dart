@@ -4975,4 +4975,211 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironHide => 'Hide Iron';
+
+  @override
+  String get warnRhrTitle => 'Your heart is working harder than usual';
+
+  @override
+  String warnRhrBody(int now, int usual) {
+    return 'Resting heart rate has been around $now bpm, up from your usual $usual, for three days. Rest today. If it stays high or you feel unwell, see a doctor.';
+  }
+
+  @override
+  String get warnFastLossTitle => 'Weight is dropping fast';
+
+  @override
+  String warnFastLossBody(String pct) {
+    return 'You\'re losing about $pct% a week, faster than is safe to keep up. Eat a little more, and see a doctor if you didn\'t mean to lose this fast.';
+  }
+
+  @override
+  String get warnUnderTitle => 'You\'re eating too little';
+
+  @override
+  String get warnUnderBody =>
+      'Three of the last four days were well under your calorie floor. Your body needs more to train and recover. If eating is hard right now, talk to a doctor.';
+
+  @override
+  String get warnSharpTitle => 'Sharp pain: stop that movement';
+
+  @override
+  String warnSharpBody(String area) {
+    return 'You flagged sharp pain in your $area. Skip exercises that load it, and see a doctor or physio if it doesn\'t settle in a few days.';
+  }
+
+  @override
+  String warnRepeatTitle(String area) {
+    return 'Your $area keeps hurting';
+  }
+
+  @override
+  String get warnRepeatBody =>
+      'Pain in the same place on two exercises. Iron will plan around it; have it checked by a physio or doctor.';
+
+  @override
+  String get warnClearTitle => 'Check with your doctor first';
+
+  @override
+  String get warnClearBody =>
+      'One of your health answers says to get a doctor\'s OK before hard training. Light activity is fine meanwhile.';
+
+  @override
+  String get warnCleared => 'My doctor cleared me';
+
+  @override
+  String get warnGotIt => 'Got it';
+
+  @override
+  String get ironNotDoctor => 'Iron is a coach, not a doctor.';
+
+  @override
+  String get ironSettings => 'Iron settings';
+
+  @override
+  String get ironReads => 'What Iron reads';
+
+  @override
+  String get ironReadsNumbers => 'Your numbers';
+
+  @override
+  String get ironReadsNumbersSub =>
+      'Targets, totals, training, weight, streak, sleep and heart rate. Always on while Iron is on.';
+
+  @override
+  String get ironReadsFood => 'Food details';
+
+  @override
+  String get ironReadsFoodSub =>
+      'What you ate and when, for the last three days, so Iron can suggest food you already eat.';
+
+  @override
+  String get ironReadsHealth => 'Health profile';
+
+  @override
+  String get ironReadsHealthSub =>
+      'Injuries, conditions, medication and pregnancy, so plans stay safe for you.';
+
+  @override
+  String get ironPhotosNever => 'Progress photos are never sent.';
+
+  @override
+  String get ironEditHealth => 'Fill in your health profile';
+
+  @override
+  String get ironEditHealthSub =>
+      'Stays on your phone. Warning signs use it without the AI.';
+
+  @override
+  String get ironWeekReview => 'This week with Iron';
+
+  @override
+  String get ironWeekReviewSub => 'Wins, slips and next week\'s changes';
+
+  @override
+  String ironReadsLine(String what) {
+    return 'Iron reads: $what';
+  }
+
+  @override
+  String get healthProfileTitle => 'Health profile';
+
+  @override
+  String get healthProfileSub => 'For Iron to keep you safe';
+
+  @override
+  String get healthInjuries => 'Injuries or pain';
+
+  @override
+  String get healthConditions => 'Conditions a doctor has told you about';
+
+  @override
+  String get condBloodPressure => 'High blood pressure';
+
+  @override
+  String get condHeart => 'Heart condition';
+
+  @override
+  String get condDiabetes => 'Diabetes';
+
+  @override
+  String get condAsthma => 'Asthma';
+
+  @override
+  String get condJoints => 'Arthritis or joint problems';
+
+  @override
+  String get condOther => 'Something else';
+
+  @override
+  String get healthMeds =>
+      'I take medication that affects heart rate or blood sugar';
+
+  @override
+  String get healthPregnant =>
+      'I\'m pregnant or had a baby in the last 6 months';
+
+  @override
+  String get healthParqTitle => 'Before you train hard';
+
+  @override
+  String get healthParqSub =>
+      'The seven PAR-Q+ questions. A yes isn\'t bad news: it means checking with a doctor first.';
+
+  @override
+  String get parq1 =>
+      'Has a doctor ever said you have a heart condition or high blood pressure?';
+
+  @override
+  String get parq2 =>
+      'Do you feel pain in your chest at rest, in daily life, or when you exercise?';
+
+  @override
+  String get parq3 =>
+      'In the last 12 months, have you lost balance from dizziness, or lost consciousness?';
+
+  @override
+  String get parq4 => 'Have you been diagnosed with another chronic condition?';
+
+  @override
+  String get parq5 =>
+      'Do you take prescribed medication for a chronic condition?';
+
+  @override
+  String get parq6 =>
+      'In the last 12 months, have you had a bone, joint or soft-tissue problem that activity could make worse?';
+
+  @override
+  String get parq7 =>
+      'Has a doctor ever said you should only exercise under medical supervision?';
+
+  @override
+  String get healthCleared => 'A doctor has cleared me to exercise';
+
+  @override
+  String get ironHealthNote => 'Anything else Iron should know';
+
+  @override
+  String get ironHealthNoteHint =>
+      'For example: old ACL repair, avoid overhead pressing';
+
+  @override
+  String get healthSaved => 'Health profile saved';
+
+  @override
+  String get yesLbl => 'Yes';
+
+  @override
+  String get noLbl => 'No';
+
+  @override
+  String get reviewWins => 'Wins';
+
+  @override
+  String get reviewSlips => 'What slipped';
+
+  @override
+  String get reviewNext => 'Next week';
+
+  @override
+  String get reviewLoading => 'Iron is looking back at your week…';
 }

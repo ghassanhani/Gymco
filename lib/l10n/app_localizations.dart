@@ -8145,6 +8145,366 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide Iron'**
   String get ironHide;
+
+  /// No description provided for @warnRhrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your heart is working harder than usual'**
+  String get warnRhrTitle;
+
+  /// No description provided for @warnRhrBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting heart rate has been around {now} bpm, up from your usual {usual}, for three days. Rest today. If it stays high or you feel unwell, see a doctor.'**
+  String warnRhrBody(int now, int usual);
+
+  /// No description provided for @warnFastLossTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight is dropping fast'**
+  String get warnFastLossTitle;
+
+  /// No description provided for @warnFastLossBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re losing about {pct}% a week, faster than is safe to keep up. Eat a little more, and see a doctor if you didn\'t mean to lose this fast.'**
+  String warnFastLossBody(String pct);
+
+  /// No description provided for @warnUnderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re eating too little'**
+  String get warnUnderTitle;
+
+  /// No description provided for @warnUnderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Three of the last four days were well under your calorie floor. Your body needs more to train and recover. If eating is hard right now, talk to a doctor.'**
+  String get warnUnderBody;
+
+  /// No description provided for @warnSharpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp pain: stop that movement'**
+  String get warnSharpTitle;
+
+  /// No description provided for @warnSharpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You flagged sharp pain in your {area}. Skip exercises that load it, and see a doctor or physio if it doesn\'t settle in a few days.'**
+  String warnSharpBody(String area);
+
+  /// No description provided for @warnRepeatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {area} keeps hurting'**
+  String warnRepeatTitle(String area);
+
+  /// No description provided for @warnRepeatBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain in the same place on two exercises. Iron will plan around it; have it checked by a physio or doctor.'**
+  String get warnRepeatBody;
+
+  /// No description provided for @warnClearTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check with your doctor first'**
+  String get warnClearTitle;
+
+  /// No description provided for @warnClearBody.
+  ///
+  /// In en, this message translates to:
+  /// **'One of your health answers says to get a doctor\'s OK before hard training. Light activity is fine meanwhile.'**
+  String get warnClearBody;
+
+  /// No description provided for @warnCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'My doctor cleared me'**
+  String get warnCleared;
+
+  /// No description provided for @warnGotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get warnGotIt;
+
+  /// No description provided for @ironNotDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron is a coach, not a doctor.'**
+  String get ironNotDoctor;
+
+  /// No description provided for @ironSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron settings'**
+  String get ironSettings;
+
+  /// No description provided for @ironReads.
+  ///
+  /// In en, this message translates to:
+  /// **'What Iron reads'**
+  String get ironReads;
+
+  /// No description provided for @ironReadsNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Your numbers'**
+  String get ironReadsNumbers;
+
+  /// No description provided for @ironReadsNumbersSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets, totals, training, weight, streak, sleep and heart rate. Always on while Iron is on.'**
+  String get ironReadsNumbersSub;
+
+  /// No description provided for @ironReadsFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food details'**
+  String get ironReadsFood;
+
+  /// No description provided for @ironReadsFoodSub.
+  ///
+  /// In en, this message translates to:
+  /// **'What you ate and when, for the last three days, so Iron can suggest food you already eat.'**
+  String get ironReadsFoodSub;
+
+  /// No description provided for @ironReadsHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health profile'**
+  String get ironReadsHealth;
+
+  /// No description provided for @ironReadsHealthSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Injuries, conditions, medication and pregnancy, so plans stay safe for you.'**
+  String get ironReadsHealthSub;
+
+  /// No description provided for @ironPhotosNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress photos are never sent.'**
+  String get ironPhotosNever;
+
+  /// No description provided for @ironEditHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in your health profile'**
+  String get ironEditHealth;
+
+  /// No description provided for @ironEditHealthSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Stays on your phone. Warning signs use it without the AI.'**
+  String get ironEditHealthSub;
+
+  /// No description provided for @ironWeekReview.
+  ///
+  /// In en, this message translates to:
+  /// **'This week with Iron'**
+  String get ironWeekReview;
+
+  /// No description provided for @ironWeekReviewSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Wins, slips and next week\'s changes'**
+  String get ironWeekReviewSub;
+
+  /// No description provided for @ironReadsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron reads: {what}'**
+  String ironReadsLine(String what);
+
+  /// No description provided for @healthProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health profile'**
+  String get healthProfileTitle;
+
+  /// No description provided for @healthProfileSub.
+  ///
+  /// In en, this message translates to:
+  /// **'For Iron to keep you safe'**
+  String get healthProfileSub;
+
+  /// No description provided for @healthInjuries.
+  ///
+  /// In en, this message translates to:
+  /// **'Injuries or pain'**
+  String get healthInjuries;
+
+  /// No description provided for @healthConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Conditions a doctor has told you about'**
+  String get healthConditions;
+
+  /// No description provided for @condBloodPressure.
+  ///
+  /// In en, this message translates to:
+  /// **'High blood pressure'**
+  String get condBloodPressure;
+
+  /// No description provided for @condHeart.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart condition'**
+  String get condHeart;
+
+  /// No description provided for @condDiabetes.
+  ///
+  /// In en, this message translates to:
+  /// **'Diabetes'**
+  String get condDiabetes;
+
+  /// No description provided for @condAsthma.
+  ///
+  /// In en, this message translates to:
+  /// **'Asthma'**
+  String get condAsthma;
+
+  /// No description provided for @condJoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Arthritis or joint problems'**
+  String get condJoints;
+
+  /// No description provided for @condOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get condOther;
+
+  /// No description provided for @healthMeds.
+  ///
+  /// In en, this message translates to:
+  /// **'I take medication that affects heart rate or blood sugar'**
+  String get healthMeds;
+
+  /// No description provided for @healthPregnant.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m pregnant or had a baby in the last 6 months'**
+  String get healthPregnant;
+
+  /// No description provided for @healthParqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you train hard'**
+  String get healthParqTitle;
+
+  /// No description provided for @healthParqSub.
+  ///
+  /// In en, this message translates to:
+  /// **'The seven PAR-Q+ questions. A yes isn\'t bad news: it means checking with a doctor first.'**
+  String get healthParqSub;
+
+  /// No description provided for @parq1.
+  ///
+  /// In en, this message translates to:
+  /// **'Has a doctor ever said you have a heart condition or high blood pressure?'**
+  String get parq1;
+
+  /// No description provided for @parq2.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you feel pain in your chest at rest, in daily life, or when you exercise?'**
+  String get parq2;
+
+  /// No description provided for @parq3.
+  ///
+  /// In en, this message translates to:
+  /// **'In the last 12 months, have you lost balance from dizziness, or lost consciousness?'**
+  String get parq3;
+
+  /// No description provided for @parq4.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you been diagnosed with another chronic condition?'**
+  String get parq4;
+
+  /// No description provided for @parq5.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you take prescribed medication for a chronic condition?'**
+  String get parq5;
+
+  /// No description provided for @parq6.
+  ///
+  /// In en, this message translates to:
+  /// **'In the last 12 months, have you had a bone, joint or soft-tissue problem that activity could make worse?'**
+  String get parq6;
+
+  /// No description provided for @parq7.
+  ///
+  /// In en, this message translates to:
+  /// **'Has a doctor ever said you should only exercise under medical supervision?'**
+  String get parq7;
+
+  /// No description provided for @healthCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'A doctor has cleared me to exercise'**
+  String get healthCleared;
+
+  /// No description provided for @ironHealthNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything else Iron should know'**
+  String get ironHealthNote;
+
+  /// No description provided for @ironHealthNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: old ACL repair, avoid overhead pressing'**
+  String get ironHealthNoteHint;
+
+  /// No description provided for @healthSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Health profile saved'**
+  String get healthSaved;
+
+  /// No description provided for @yesLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yesLbl;
+
+  /// No description provided for @noLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get noLbl;
+
+  /// No description provided for @reviewWins.
+  ///
+  /// In en, this message translates to:
+  /// **'Wins'**
+  String get reviewWins;
+
+  /// No description provided for @reviewSlips.
+  ///
+  /// In en, this message translates to:
+  /// **'What slipped'**
+  String get reviewSlips;
+
+  /// No description provided for @reviewNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get reviewNext;
+
+  /// No description provided for @reviewLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron is looking back at your week…'**
+  String get reviewLoading;
 }
 
 class _AppLocalizationsDelegate

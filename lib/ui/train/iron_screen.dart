@@ -17,6 +17,7 @@ import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'ai_routine_screen.dart' show PlannedRoutineCard;
+import 'iron_settings_screen.dart' show ironReadsLine;
 
 /// Iron builds a whole program from the user's numbers, like a personal
 /// trainer: daily eating targets, a week of training and three habits.
@@ -173,7 +174,7 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                     busy: _busy,
                     onTap: lib == null ? null : _build,
                   ),
-                  Muted(l.ironPrivacy, size: 11.5, align: TextAlign.center),
+                  Muted('${ironReadsLine(l, ref)}. ${l.ironPhotosNever}', size: 11.5, align: TextAlign.center),
                   if (p != null && !p.isEmpty) ...[
                     if (p.summary.isNotEmpty)
                       VCard(

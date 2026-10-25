@@ -4956,4 +4956,207 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironHide => 'أخفِ آيرون';
+
+  @override
+  String get warnRhrTitle => 'قلبك يعمل أكثر من المعتاد';
+
+  @override
+  String warnRhrBody(int now, int usual) {
+    return 'نبض الراحة حوالي $now نبضة بدل معدلك $usual منذ ثلاثة أيام. استرح اليوم، وإذا بقي مرتفعًا أو شعرت بتوعك فراجع طبيبًا.';
+  }
+
+  @override
+  String get warnFastLossTitle => 'وزنك ينخفض بسرعة';
+
+  @override
+  String warnFastLossBody(String pct) {
+    return 'تخسر حوالي $pct% أسبوعيًا، وهذا أسرع من الآمن. كُل أكثر قليلًا، وراجع طبيبًا إن لم تقصد هذه السرعة.';
+  }
+
+  @override
+  String get warnUnderTitle => 'أنت تأكل أقل من اللازم';
+
+  @override
+  String get warnUnderBody =>
+      'ثلاثة من آخر أربعة أيام كانت أقل بكثير من حدك الأدنى للسعرات. جسمك يحتاج أكثر ليتمرن ويتعافى. وإن كان الأكل صعبًا الآن فتحدث مع طبيب.';
+
+  @override
+  String get warnSharpTitle => 'ألم حاد: أوقف هذه الحركة';
+
+  @override
+  String warnSharpBody(String area) {
+    return 'سجّلت ألمًا حادًا في $area. تجنب التمارين التي تضغط عليه، وراجع طبيبًا أو أخصائي علاج طبيعي إن لم يهدأ خلال أيام.';
+  }
+
+  @override
+  String warnRepeatTitle(String area) {
+    return '$area ما زال يؤلمك';
+  }
+
+  @override
+  String get warnRepeatBody =>
+      'ألم في المكان نفسه في تمرينين. سيخطط آيرون حوله، لكن افحصه لدى أخصائي علاج طبيعي أو طبيب.';
+
+  @override
+  String get warnClearTitle => 'راجع طبيبك أولًا';
+
+  @override
+  String get warnClearBody =>
+      'إحدى إجاباتك الصحية تعني أن تحصل على موافقة طبيب قبل التمرين الشاق. النشاط الخفيف لا بأس به حتى ذلك الحين.';
+
+  @override
+  String get warnCleared => 'وافق طبيبي';
+
+  @override
+  String get warnGotIt => 'فهمت';
+
+  @override
+  String get ironNotDoctor => 'آيرون مدرب وليس طبيبًا.';
+
+  @override
+  String get ironSettings => 'إعدادات آيرون';
+
+  @override
+  String get ironReads => 'ما يقرأه آيرون';
+
+  @override
+  String get ironReadsNumbers => 'أرقامك';
+
+  @override
+  String get ironReadsNumbersSub =>
+      'الأهداف والمجاميع والتمرين والوزن والسلسلة والنوم والنبض. مفعّلة دائمًا ما دام آيرون يعمل.';
+
+  @override
+  String get ironReadsFood => 'تفاصيل الطعام';
+
+  @override
+  String get ironReadsFoodSub =>
+      'ما أكلته ومتى، لآخر ثلاثة أيام، ليقترح آيرون طعامًا تأكله أصلًا.';
+
+  @override
+  String get ironReadsHealth => 'الملف الصحي';
+
+  @override
+  String get ironReadsHealthSub =>
+      'الإصابات والحالات والأدوية والحمل، لتبقى الخطط آمنة لك.';
+
+  @override
+  String get ironPhotosNever => 'صور التقدم لا تُرسل أبدًا.';
+
+  @override
+  String get ironEditHealth => 'املأ ملفك الصحي';
+
+  @override
+  String get ironEditHealthSub =>
+      'يبقى على هاتفك. وتستخدمه علامات التحذير دون الذكاء الاصطناعي.';
+
+  @override
+  String get ironWeekReview => 'أسبوعك مع آيرون';
+
+  @override
+  String get ironWeekReviewSub => 'الإنجازات والتعثرات وتغييرات الأسبوع القادم';
+
+  @override
+  String ironReadsLine(String what) {
+    return 'يقرأ آيرون: $what';
+  }
+
+  @override
+  String get healthProfileTitle => 'الملف الصحي';
+
+  @override
+  String get healthProfileSub => 'ليحافظ آيرون على سلامتك';
+
+  @override
+  String get healthInjuries => 'إصابات أو آلام';
+
+  @override
+  String get healthConditions => 'حالات أخبرك بها طبيب';
+
+  @override
+  String get condBloodPressure => 'ضغط دم مرتفع';
+
+  @override
+  String get condHeart => 'حالة في القلب';
+
+  @override
+  String get condDiabetes => 'السكري';
+
+  @override
+  String get condAsthma => 'الربو';
+
+  @override
+  String get condJoints => 'التهاب أو مشاكل المفاصل';
+
+  @override
+  String get condOther => 'شيء آخر';
+
+  @override
+  String get healthMeds => 'أتناول دواءً يؤثر على النبض أو سكر الدم';
+
+  @override
+  String get healthPregnant => 'أنا حامل أو أنجبت في آخر ٦ أشهر';
+
+  @override
+  String get healthParqTitle => 'قبل أن تتمرن بقوة';
+
+  @override
+  String get healthParqSub =>
+      'أسئلة PAR-Q+ السبعة. الإجابة بنعم ليست خبرًا سيئًا: تعني مراجعة طبيب أولًا.';
+
+  @override
+  String get parq1 =>
+      'هل قال لك طبيب يومًا إن لديك مشكلة في القلب أو ضغط دم مرتفع؟';
+
+  @override
+  String get parq2 =>
+      'هل تشعر بألم في صدرك أثناء الراحة أو الحياة اليومية أو التمرين؟';
+
+  @override
+  String get parq3 =>
+      'هل فقدت توازنك بسبب الدوار أو فقدت الوعي في آخر ١٢ شهرًا؟';
+
+  @override
+  String get parq4 => 'هل شُخّصت بحالة مزمنة أخرى؟';
+
+  @override
+  String get parq5 => 'هل تتناول دواءً موصوفًا لحالة مزمنة؟';
+
+  @override
+  String get parq6 =>
+      'هل كانت لديك في آخر ١٢ شهرًا مشكلة في العظام أو المفاصل أو الأنسجة قد يزيدها النشاط سوءًا؟';
+
+  @override
+  String get parq7 => 'هل قال لك طبيب إنه يجب أن تتمرن تحت إشراف طبي فقط؟';
+
+  @override
+  String get healthCleared => 'سمح لي طبيب بالتمرين';
+
+  @override
+  String get ironHealthNote => 'أي شيء آخر يجب أن يعرفه آيرون';
+
+  @override
+  String get ironHealthNoteHint =>
+      'مثلًا: عملية رباط صليبي قديمة، تجنب الضغط فوق الرأس';
+
+  @override
+  String get healthSaved => 'حُفظ الملف الصحي';
+
+  @override
+  String get yesLbl => 'نعم';
+
+  @override
+  String get noLbl => 'لا';
+
+  @override
+  String get reviewWins => 'الإنجازات';
+
+  @override
+  String get reviewSlips => 'ما تعثّر';
+
+  @override
+  String get reviewNext => 'الأسبوع القادم';
+
+  @override
+  String get reviewLoading => 'آيرون يراجع أسبوعك…';
 }

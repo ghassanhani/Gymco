@@ -140,6 +140,7 @@ class FakeCloud implements Cloud {
   /// What iron answers for a tip and for a program.
   Map<String, Object?> ironTip = const {};
   Map<String, Object?> ironProgram = const {};
+  Map<String, Object?> ironReview = const {};
   Map<String, Object?>? lastIronNumbers;
   int ironCalls = 0;
   List<String> lastPlanNames = const [];
@@ -299,7 +300,14 @@ class FakeCloud implements Cloud {
     lastIronNumbers = numbers;
     if (paused) throw const CloudException(CloudFailure.paused);
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
-    return (mode == 'tip' ? ironTip : ironProgram, --scansLeft);
+    return (
+      switch (mode) {
+        'tip' => ironTip,
+        'review' => ironReview,
+        _ => ironProgram,
+      },
+      --scansLeft,
+    );
   }
 }
 

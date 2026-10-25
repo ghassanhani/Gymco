@@ -100,3 +100,44 @@ IronProgram programFrom(Map<String, Object?> data, ExerciseLibrary lib) => IronP
   final carbs = math.max(0, (kcal - protein * 4 - fat * 9) / 4).roundToDouble();
   return (kcal, Macros(protein: protein, carbs: carbs, fat: fat), (kcal - p.kcal).abs() >= 1);
 }
+
+/// Iron's look back at a week, kept for that week.
+class IronReview {
+  const IronReview({
+    required this.week,
+    required this.headline,
+    this.wins = const [],
+    this.slips = const [],
+    this.next = const [],
+  });
+  final String week;
+  final String headline;
+  final List<String> wins;
+  final List<String> slips;
+  final List<String> next;
+
+  static List<String> _list(Object? v) => [
+    for (final x in (v as List? ?? const []))
+      if ('$x'.trim().isNotEmpty) '$x'.trim(),
+  ];
+
+  static IronReview? fromJson(Map<String, Object?> j, String week) {
+    final headline = '${j['headline'] ?? ''}'.trim();
+    if (headline.isEmpty) return null;
+    return IronReview(
+      week: week,
+      headline: headline,
+      wins: _list(j['wins']),
+      slips: _list(j['slips']),
+      next: _list(j['next']),
+    );
+  }
+
+  Map<String, Object?> toJson() => {'week': week, 'headline': headline, 'wins': wins, 'slips': slips, 'next': next};
+}
+
+/// The Monday that starts [d]'s week, as a day key: the week a review is for.
+String weekKey(DateTime d) {
+  final monday = DateTime(d.year, d.month, d.day - (d.weekday - 1));
+  return '${monday.year}-${monday.month.toString().padLeft(2, '0')}-${monday.day.toString().padLeft(2, '0')}';
+}

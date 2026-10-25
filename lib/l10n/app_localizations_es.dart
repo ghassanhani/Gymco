@@ -4995,4 +4995,210 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ironHide => 'Ocultar Iron';
+
+  @override
+  String get warnRhrTitle => 'Tu corazón trabaja más de lo normal';
+
+  @override
+  String warnRhrBody(int now, int usual) {
+    return 'Tu frecuencia en reposo ronda $now lpm, por encima de tu habitual $usual, desde hace tres días. Descansa hoy. Si sigue alta o no te encuentras bien, consulta a un médico.';
+  }
+
+  @override
+  String get warnFastLossTitle => 'Tu peso baja muy rápido';
+
+  @override
+  String warnFastLossBody(String pct) {
+    return 'Pierdes cerca de un $pct% por semana, más rápido de lo seguro. Come un poco más y consulta a un médico si no buscabas bajar tan rápido.';
+  }
+
+  @override
+  String get warnUnderTitle => 'Estás comiendo demasiado poco';
+
+  @override
+  String get warnUnderBody =>
+      'Tres de los últimos cuatro días quedaron muy por debajo de tu mínimo de calorías. Tu cuerpo necesita más para entrenar y recuperarse. Si comer te cuesta ahora, habla con un médico.';
+
+  @override
+  String get warnSharpTitle => 'Dolor agudo: para ese movimiento';
+
+  @override
+  String warnSharpBody(String area) {
+    return 'Marcaste dolor agudo en $area. Evita los ejercicios que lo cargan y ve a un médico o fisio si no mejora en unos días.';
+  }
+
+  @override
+  String warnRepeatTitle(String area) {
+    return 'Te sigue doliendo $area';
+  }
+
+  @override
+  String get warnRepeatBody =>
+      'Dolor en el mismo sitio en dos ejercicios. Iron planificará alrededor; que lo revise un fisio o un médico.';
+
+  @override
+  String get warnClearTitle => 'Consulta antes con tu médico';
+
+  @override
+  String get warnClearBody =>
+      'Una de tus respuestas de salud indica pedir el visto bueno de un médico antes de entrenar fuerte. Mientras tanto, la actividad suave está bien.';
+
+  @override
+  String get warnCleared => 'Mi médico me dio el visto bueno';
+
+  @override
+  String get warnGotIt => 'Entendido';
+
+  @override
+  String get ironNotDoctor => 'Iron es un entrenador, no un médico.';
+
+  @override
+  String get ironSettings => 'Ajustes de Iron';
+
+  @override
+  String get ironReads => 'Lo que lee Iron';
+
+  @override
+  String get ironReadsNumbers => 'Tus números';
+
+  @override
+  String get ironReadsNumbersSub =>
+      'Objetivos, totales, entreno, peso, racha, sueño y pulso. Siempre activos con Iron.';
+
+  @override
+  String get ironReadsFood => 'Detalles de comida';
+
+  @override
+  String get ironReadsFoodSub =>
+      'Qué comiste y cuándo, de los últimos tres días, para que Iron sugiera comida que ya comes.';
+
+  @override
+  String get ironReadsHealth => 'Perfil de salud';
+
+  @override
+  String get ironReadsHealthSub =>
+      'Lesiones, condiciones, medicación y embarazo, para que los planes sean seguros para ti.';
+
+  @override
+  String get ironPhotosNever => 'Las fotos de progreso nunca se envían.';
+
+  @override
+  String get ironEditHealth => 'Completa tu perfil de salud';
+
+  @override
+  String get ironEditHealthSub =>
+      'Se queda en tu teléfono. Las señales de alerta lo usan sin la IA.';
+
+  @override
+  String get ironWeekReview => 'Tu semana con Iron';
+
+  @override
+  String get ironWeekReviewSub =>
+      'Logros, tropiezos y cambios para la próxima semana';
+
+  @override
+  String ironReadsLine(String what) {
+    return 'Iron lee: $what';
+  }
+
+  @override
+  String get healthProfileTitle => 'Perfil de salud';
+
+  @override
+  String get healthProfileSub => 'Para que Iron te cuide';
+
+  @override
+  String get healthInjuries => 'Lesiones o dolor';
+
+  @override
+  String get healthConditions => 'Condiciones que te ha dicho un médico';
+
+  @override
+  String get condBloodPressure => 'Presión alta';
+
+  @override
+  String get condHeart => 'Problema cardiaco';
+
+  @override
+  String get condDiabetes => 'Diabetes';
+
+  @override
+  String get condAsthma => 'Asma';
+
+  @override
+  String get condJoints => 'Artritis o problemas articulares';
+
+  @override
+  String get condOther => 'Otra';
+
+  @override
+  String get healthMeds => 'Tomo medicación que afecta al pulso o al azúcar';
+
+  @override
+  String get healthPregnant =>
+      'Estoy embarazada o di a luz en los últimos 6 meses';
+
+  @override
+  String get healthParqTitle => 'Antes de entrenar fuerte';
+
+  @override
+  String get healthParqSub =>
+      'Las siete preguntas del PAR-Q+. Un sí no es mala noticia: significa consultar antes a un médico.';
+
+  @override
+  String get parq1 =>
+      '¿Algún médico te ha dicho que tienes un problema cardiaco o presión alta?';
+
+  @override
+  String get parq2 =>
+      '¿Sientes dolor en el pecho en reposo, en tu día a día o al hacer ejercicio?';
+
+  @override
+  String get parq3 =>
+      'En los últimos 12 meses, ¿has perdido el equilibrio por mareo o el conocimiento?';
+
+  @override
+  String get parq4 => '¿Te han diagnosticado otra enfermedad crónica?';
+
+  @override
+  String get parq5 => '¿Tomas medicación recetada para una enfermedad crónica?';
+
+  @override
+  String get parq6 =>
+      'En los últimos 12 meses, ¿has tenido un problema de huesos, articulaciones o tejidos que la actividad pueda empeorar?';
+
+  @override
+  String get parq7 =>
+      '¿Algún médico te ha dicho que solo hagas ejercicio con supervisión médica?';
+
+  @override
+  String get healthCleared => 'Un médico me ha autorizado a hacer ejercicio';
+
+  @override
+  String get ironHealthNote => 'Algo más que Iron deba saber';
+
+  @override
+  String get ironHealthNoteHint =>
+      'Por ejemplo: operación antigua de LCA, evitar press por encima de la cabeza';
+
+  @override
+  String get healthSaved => 'Perfil de salud guardado';
+
+  @override
+  String get yesLbl => 'Sí';
+
+  @override
+  String get noLbl => 'No';
+
+  @override
+  String get reviewWins => 'Logros';
+
+  @override
+  String get reviewSlips => 'Lo que falló';
+
+  @override
+  String get reviewNext => 'La próxima semana';
+
+  @override
+  String get reviewLoading => 'Iron está repasando tu semana…';
 }

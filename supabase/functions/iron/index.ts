@@ -1,12 +1,15 @@
-// Iron, the coach inside Gymco. It reads a summary of the user's numbers
-// (never the diary itself, photos or notes) and either gives today's tip or
-// builds a full program: daily targets for eating and a week of training.
+// Iron, the coach inside Gymco. It reads the user's case file: a summary of
+// their numbers, the signals the phone's rules found (warning signs among
+// them), and, only when the user allows it, what they ate and when and their
+// health profile. Never photos. It gives today's tip, builds a full program,
+// or reviews the week. Warning signs are decided on the phone, not here.
 //
-// POST { mode: "tip" | "program", numbers: {...summary...}, lang: "en" | "ar" | "es",
+// POST { mode: "tip" | "program" | "review", numbers: {...case file...}, lang: "en" | "ar" | "es",
 //        exercises?: [names] (program only), ask?: "what the user wants" (program only), bucket?: 0-99 }
 // with the signed-in user's Authorization header.
 // -> 200 tip:     { title, tip, action, left }
 //        program: { summary, kcal, protein, carbs, fat, why, routines, habits, left }
+//        review:  { headline, wins, slips, next, left }
 // -> 429 { error: "daily_cap", left: 0 }
 // -> 503 { error: "paused", reason: "feature_off" | "budget" | "maintenance" }
 //
@@ -18,7 +21,7 @@ import { costEur, gate, pickModel } from "../_shared/ai_gate.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
 import { exerciseNames, exerciseSystem, PLAN_RULES, routinesSchema } from "../_shared/routine_schema.ts";
 
-const MAX_NUMBERS_CHARS = 6000;
+const MAX_NUMBERS_CHARS = 14000;
 const MAX_ASK_CHARS = 400;
 const LANGS: Record<string, string> = { en: "English", ar: "Arabic", es: "Spanish" };
 const ACTIONS = ["log_food", "start_workout", "drink_water", "weigh_in", "rest", "walk", "none"] as const;
@@ -27,10 +30,14 @@ const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 
 const PERSONA =
-  "You are Iron, the coach inside the Gymco diet and training app. You talk like a good personal trainer: " +
-  "direct, warm and short, with no emojis and no hype. Use only the numbers you are given and never invent any. " +
-  "You are not a doctor: give no medical advice, and if the numbers look risky (eating far below target, losing " +
-  "weight faster than 1% a week, training through pain) tell the user to ease off.";
+  "You are Iron, the coach inside the Gymco diet and training app: a personal trainer who knows sports " +
+  "medicine and nutrition. You talk directly, warmly and briefly, with no emojis and no hype. Use only the " +
+  "facts you are given and never invent any. You are not a doctor and never diagnose, name a condition, or " +
+  "change medication. The case file's signals come from fixed rules on the phone; a signal with level \"red\" " +
+  "is a warning sign: lead with it, tell the user to ease off, and say plainly to see a doctor (or a physio for " +
+  "pain). Never push training or a deficit while a red signal stands. Respect the health profile when there is " +
+  "one: work around injured areas, keep intensity moderate with heart or blood-pressure conditions, avoid " +
+  "dieting and heavy loading in pregnancy, and remind them to follow their doctor's advice.\n\n";
 
 const reportTip: Anthropic.Tool = {
   name: "report_tip",
@@ -76,6 +83,23 @@ const reportProgram: Anthropic.Tool = {
   },
 };
 
+const reportReview: Anthropic.Tool = {
+  name: "report_review",
+  description: "The user's week in review.",
+  strict: true,
+  input_schema: {
+    type: "object",
+    properties: {
+      headline: { type: "string", description: "Four to eight words on how the week went." },
+      wins: { type: "array", description: "Two or three real wins from the numbers.", items: { type: "string" } },
+      slips: { type: "array", description: "One or two things that slipped, kindly put.", items: { type: "string" } },
+      next: { type: "array", description: "Three concrete changes for next week.", items: { type: "string" } },
+    },
+    required: ["headline", "wins", "slips", "next"],
+    additionalProperties: false,
+  },
+};
+
 const workspace = Deno.env.get("ANTHROPIC_WORKSPACE_ID");
 const anthropic = new Anthropic(workspace ? { defaultHeaders: { "anthropic-workspace-id": workspace } } : {});
 const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
@@ -96,7 +120,7 @@ Deno.serve(async (req) => {
   } catch {
     return json(400, { error: "body" });
   }
-  const mode = body.mode === "program" ? "program" : body.mode === "tip" ? "tip" : null;
+  const mode = body.mode === "program" || body.mode === "tip" || body.mode === "review" ? body.mode : null;
   if (!mode) return json(400, { error: "mode" });
   const numbers = body.numbers && typeof body.numbers === "object" ? JSON.stringify(body.numbers) : "";
   if (!numbers || numbers.length > MAX_NUMBERS_CHARS) return json(400, { error: "numbers" });
@@ -125,11 +149,16 @@ Deno.serve(async (req) => {
   if (creditError) return json(500, { error: "credit" });
   if (left < 0) return json(429, { error: "daily_cap", left: 0 });
 
-  const facts = `The user reads ${language}. Their numbers from the app: <numbers>${numbers}</numbers>\n`;
+  const facts = `The user reads ${language}. Their case file from the app: <case>${numbers}</case>\n`;
   const prompt = mode === "tip"
     ? facts +
-      "Give today's tip: the one thing that would help most today, judging by what they have and haven't done yet " +
-      "and how the last two weeks went. Praise a real win when there is one. Write it in the user's language."
+      "Give today's brief: the one thing that would help most today, judging by the signals, what they have and " +
+      "haven't done yet, and how the last two weeks went. If they shared their meals, suggest food from what they " +
+      "already eat. Praise a real win when there is one. Write it in the user's language."
+    : mode === "review"
+    ? facts +
+      "Review their last week as their coach: real wins, what slipped, and three concrete changes for next week, " +
+      "each tied to a number. Lead with any red signal. Write it in the user's language."
     : facts +
       (ask ? `They add: <ask>${ask}</ask>\n` : "") +
       "Build their program, as a personal trainer would after reading these numbers. Set daily calories and macros " +
@@ -142,13 +171,13 @@ Deno.serve(async (req) => {
   try {
     const response = await anthropic.messages.create({
       model,
-      max_tokens: mode === "tip" ? 512 : 4096,
+      max_tokens: mode === "program" ? 4096 : 1024,
       output_config: { effort: "low" },
-      tools: [mode === "tip" ? reportTip : reportProgram],
-      tool_choice: { type: "tool", name: mode === "tip" ? "report_tip" : "report_program" },
-      system: mode === "tip"
-        ? PERSONA
-        : [{ type: "text", text: PERSONA }, exerciseSystem("When you plan training:", names)],
+      tools: [mode === "tip" ? reportTip : mode === "review" ? reportReview : reportProgram],
+      tool_choice: { type: "tool", name: mode === "tip" ? "report_tip" : mode === "review" ? "report_review" : "report_program" },
+      system: mode === "program"
+        ? [{ type: "text", text: PERSONA }, exerciseSystem("When you plan training:", names)]
+        : PERSONA,
       messages: [{ role: "user", content: prompt }],
     });
 

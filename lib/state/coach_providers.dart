@@ -7,9 +7,12 @@ import '../data/training.dart';
 import '../domain/coach.dart';
 import '../domain/energy.dart';
 import '../domain/hydration.dart';
+import '../domain/iron_rules.dart';
+import '../domain/recovery.dart';
 import '../domain/remote_config.dart';
 import '../domain/routine_ai.dart';
 import '../domain/volume.dart';
+import '../domain/session.dart';
 import '../domain/workout.dart';
 import 'awards_providers.dart';
 import 'cloud_providers.dart';
@@ -30,6 +33,102 @@ class IronOn extends Notifier<bool> {
     state = on;
   }
 }
+
+/// A yes/no the user sets once, kept in preferences.
+class PrefFlag extends Notifier<bool> {
+  PrefFlag(this.key);
+  final String key;
+
+  @override
+  bool build() => ref.watch(prefsProvider).getBool(key) ?? false;
+
+  Future<void> set(bool on) async {
+    await ref.read(prefsProvider).setBool(key, on);
+    state = on;
+  }
+}
+
+/// Iron may read what was eaten and when, not only the totals.
+final ironShareFoodProvider = NotifierProvider<PrefFlag, bool>(() => PrefFlag('ironShareFood'));
+
+/// Iron may read the health profile.
+final ironShareHealthProvider = NotifierProvider<PrefFlag, bool>(() => PrefFlag('ironShareHealth'));
+
+/// What the user told Iron about their health; null until they fill it in.
+final healthProfileProvider = NotifierProvider<HealthProfileNotifier, HealthProfile?>(HealthProfileNotifier.new);
+
+class HealthProfileNotifier extends Notifier<HealthProfile?> {
+  static const _k = 'ironHealth';
+
+  @override
+  HealthProfile? build() {
+    final raw = ref.watch(prefsProvider).getString(_k);
+    return raw == null ? null : HealthProfile.fromJson(jsonDecode(raw) as Map<String, Object?>);
+  }
+
+  Future<void> save(HealthProfile h) async {
+    await ref.read(prefsProvider).setString(_k, jsonEncode(h.toJson()));
+    state = h;
+  }
+}
+
+/// What the rules read, from the app's own data. The health profile is read
+/// on the phone whether or not it is shared with the AI: warning signs never
+/// need the AI.
+final ironFactsProvider = FutureProvider<IronFacts?>((ref) async {
+  final p = ref.watch(profileProvider);
+  if (p == null) return null;
+  final db = ref.watch(dbProvider);
+  final now = ref.watch(clockProvider)();
+  final today = DateTime(now.year, now.month, now.day);
+  ref.watch(loggedDaysProvider);
+  final totals = await db.dayTotals(dayKey(today.subtract(const Duration(days: 6))), dayKey(today));
+  final weighIns = await ref.watch(weighInsProvider.future);
+  final trend = trendWeights([for (final w in weighIns) w.$2]);
+
+  var resting = <String, double>{}, sleep = <String, double>{};
+  if (ref.watch(healthOnProvider)) {
+    final h = ref.read(healthSyncProvider);
+    resting = perDay(await h.samples(Metric.restingHr, today.subtract(const Duration(days: 18)), now), sum: false);
+    sleep = perDay(await h.samples(Metric.sleep, today.subtract(const Duration(days: 4)), now), sum: true);
+  }
+  ref.watch(recentWorkoutsProvider);
+  final pain = <String, ({PainArea area, bool sharp, String day})>{};
+  for (final MapEntry(:key, :value) in painMemory(ref.read(prefsProvider)).entries) {
+    if (value is! Map) continue;
+    final area = PainArea.values.where((a) => a.name == value['a']).firstOrNull;
+    if (area != null && value['day'] is String) {
+      pain[key] = (area: area, sharp: value['s'] == true, day: value['day']! as String);
+    }
+  }
+  final routines = await ref.watch(routinesProvider.future);
+  final monday = today.subtract(Duration(days: today.weekday - 1));
+  final workouts = await db.workoutsBetween(monday, today.add(const Duration(days: 1)));
+  final water = ref.watch(waterProvider(dayKey(today))).ml;
+  return IronFacts(
+    now: now,
+    profile: p,
+    calorieFloor: ref.watch(remoteConfigProvider).calorieFloor,
+    restingByDay: resting,
+    sleepByDay: sleep,
+    dayKcal: {for (final e in totals.entries) e.key: (kcal: e.value.kcal, meals: e.value.meals.length)},
+    trend: trend,
+    pain: pain,
+    health: ref.watch(healthProfileProvider),
+    proteinToday: totals[dayKey(today)]?.protein ?? 0,
+    waterToday: water,
+    waterGoal: ref.watch(waterGoalProvider) ?? waterGoalMl(weightKg: p.weightKg, trained: false),
+    planDaysThisWeek: {for (final r in routines) ...r.days},
+    trainedDaysThisWeek: {for (final w in workouts) w.startedAt.weekday - 1},
+    mealsToday: totals[dayKey(today)]?.meals.length ?? 0,
+  );
+});
+
+/// What the rules see today.
+final ironSignalsProvider = FutureProvider<List<IronSignal>>((ref) async {
+  final f = await ref.watch(ironFactsProvider.future);
+  return f == null ? const [] : ironSignals(f);
+});
 
 /// A summary of the user's numbers for Iron: targets, the last two weeks of
 /// eating and training, today so far, streak, weight trend and, when a watch
@@ -133,8 +232,53 @@ final coachNumbersProvider = FutureProvider<Map<String, Object?>?>((ref) async {
         'hrv_ms': ?recovery.hrv?.round(),
       },
     if (steps != null && steps.last != null) 'steps': {'today': steps.last!.round()},
+    'signals': [for (final x in await ref.watch(ironSignalsProvider.future)) x.toJson()],
+    if (ref.watch(ironShareFoodProvider)) 'meals_3d': await _recentMeals(ref, today),
+    if (ref.watch(ironShareHealthProvider) && ref.watch(healthProfileProvider) != null)
+      'health': ref.watch(healthProfileProvider)!.toJson(),
   };
 });
+
+/// The last three days of eating, meal by meal: when, what, how much. Only
+/// when the user lets Iron read food details.
+Future<List<Map<String, Object?>>> _recentMeals(Ref ref, DateTime today) async {
+  final db = ref.read(dbProvider);
+  final out = <Map<String, Object?>>[];
+  for (var d = 0; d < 3; d++) {
+    final day = dayKey(today.subtract(Duration(days: d)));
+    final byMeal = <Meal, List<LogEntry>>{};
+    for (final e in await db.entriesFor(day)) {
+      (byMeal[e.meal] ??= []).add(e);
+    }
+    for (final MapEntry(key: meal, value: items) in byMeal.entries) {
+      final at = items
+          .map((e) => e.loggedAt)
+          .whereType<DateTime>()
+          .fold<DateTime?>(null, (a, b) => a == null || b.isBefore(a) ? b : a);
+      out.add({
+        'days_ago': d,
+        'meal': meal.name,
+        if (at != null) 'time': '${at.hour.toString().padLeft(2, '0')}:${at.minute.toString().padLeft(2, '0')}',
+        'foods': [for (final e in items.take(8)) e.foodName],
+        'kcal': items.fold<double>(0, (s, e) => s + e.kcal).round(),
+        'protein': items.fold<double>(0, (s, e) => s + e.protein).round(),
+      });
+    }
+  }
+  return out;
+}
+
+/// The numbers, held open while Iron waits for them: an unwatched provider
+/// pauses, so one that rebuilds mid-way (a new warning sign, a logged meal)
+/// would otherwise never finish.
+Future<Map<String, Object?>?> _numbers(Ref ref) async {
+  final sub = ref.listen(coachNumbersProvider, (_, _) {});
+  try {
+    return await ref.read(coachNumbersProvider.future);
+  } finally {
+    sub.close();
+  }
+}
 
 bool _ready(Ref ref) =>
     ref.read(ironOnProvider) &&
@@ -154,7 +298,7 @@ final ironTipProvider = FutureProvider<IronTip?>((ref) async {
     if (t != null && t.day == day) return t;
   }
   if (!_ready(ref)) return null;
-  final numbers = await ref.read(coachNumbersProvider.future);
+  final numbers = await _numbers(ref);
   if (numbers == null) return null;
   try {
     final (data, _) = await ref
@@ -180,7 +324,7 @@ class IronActions {
   /// Asks Iron for a program; [ask] is anything the user wants it to know.
   Future<IronProgram> program({required String languageCode, String ask = ''}) async {
     final lib = await ref.read(exerciseLibraryProvider.future);
-    final numbers = await ref.read(coachNumbersProvider.future);
+    final numbers = await _numbers(ref);
     final (data, _) = await ref
         .read(cloudProvider)
         .askIron(
@@ -243,3 +387,66 @@ class IronHidden extends Notifier<bool> {
     state = true;
   }
 }
+
+/// This week's review from Iron: asked when first opened, then kept for the
+/// week. Errors come through so the screen can say what went wrong.
+final ironReviewProvider = FutureProvider<IronReview?>((ref) async {
+  final now = ref.watch(clockProvider)();
+  final week = weekKey(now);
+  final prefs = ref.read(prefsProvider);
+  final kept = prefs.getString('ironReview');
+  if (kept != null) {
+    final j = jsonDecode(kept) as Map<String, Object?>;
+    if (j['week'] == week) return IronReview.fromJson(j, week);
+  }
+  final numbers = await _numbers(ref);
+  if (numbers == null) return null;
+  final (data, _) = await ref
+      .read(cloudProvider)
+      .askIron(
+        mode: 'review',
+        numbers: numbers,
+        languageCode: prefs.getString('lang') ?? 'en',
+        bucket: ref.read(installBucketProvider),
+      );
+  final review = IronReview.fromJson(data, week);
+  if (review != null) await prefs.setString('ironReview', jsonEncode(review.toJson()));
+  return review;
+});
+
+/// Warning signs the user has read and put away, by id, with the day: they
+/// come back after three days if the rule still holds.
+final ironDismissedProvider = NotifierProvider<IronDismissed, Map<String, String>>(IronDismissed.new);
+
+class IronDismissed extends Notifier<Map<String, String>> {
+  @override
+  Map<String, String> build() {
+    try {
+      return (jsonDecode(ref.watch(prefsProvider).getString('ironDismissed') ?? '{}') as Map).cast<String, String>();
+    } on Object {
+      return {};
+    }
+  }
+
+  Future<void> dismiss(String id) async {
+    final next = {...state, id: dayKey(ref.read(clockProvider)())};
+    await ref.read(prefsProvider).setString('ironDismissed', jsonEncode(next));
+    state = next;
+  }
+
+  bool hides(String id, DateTime now) {
+    final d = state[id];
+    return d != null && now.difference(DateTime.parse(d)).inDays < 3;
+  }
+}
+
+/// The warning signs to show now: red, and not put away in the last three days.
+final ironWarningsProvider = Provider<List<IronSignal>>((ref) {
+  final now = ref.watch(clockProvider)();
+  ref.watch(ironDismissedProvider);
+  final dismissed = ref.read(ironDismissedProvider.notifier);
+  return [
+    for (final s in ref.watch(ironSignalsProvider).value ?? const <IronSignal>[])
+      if (s.level == SignalLevel.red && !dismissed.hides(s.id, now)) s,
+  ];
+});
