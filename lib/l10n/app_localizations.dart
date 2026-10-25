@@ -3028,18 +3028,6 @@ abstract class AppLocalizations {
   /// **'Push A, Legs heavy, Tuesday…'**
   String get namePlaceholder;
 
-  /// No description provided for @folderLbl.
-  ///
-  /// In en, this message translates to:
-  /// **'Folder'**
-  String get folderLbl;
-
-  /// No description provided for @dayLbl.
-  ///
-  /// In en, this message translates to:
-  /// **'Day'**
-  String get dayLbl;
-
   /// No description provided for @dayTakenBy.
   ///
   /// In en, this message translates to:
@@ -3051,12 +3039,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} is already on {day}. Saving this takes that day from it.'**
   String dayTaken(String name, String day);
-
-  /// No description provided for @anyDayNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Run it whenever — it stays out of the weekly rotation.'**
-  String get anyDayNote;
 
   /// No description provided for @dayNote.
   ///
@@ -7117,7 +7099,7 @@ abstract class AppLocalizations {
   /// No description provided for @dayNoteMulti.
   ///
   /// In en, this message translates to:
-  /// **'Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.'**
+  /// **'Miss a day and it moves to your next training day.'**
   String get dayNoteMulti;
 
   /// No description provided for @createExercise.
@@ -7845,6 +7827,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Getting to know you'**
   String get headLearning;
+
+  /// No description provided for @whichDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Which days?'**
+  String get whichDays;
+
+  /// No description provided for @noDayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'No day picked: it stays in My routines, ready any time.'**
+  String get noDayNote;
 }
 
 class _AppLocalizationsDelegate

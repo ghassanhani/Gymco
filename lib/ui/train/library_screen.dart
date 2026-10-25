@@ -61,7 +61,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
             for (final r in rows) _RoutineCard(routine: r, lib: lib),
             if (f == RoutineFolder.mine)
               Pressable(
-                onTap: () => context.push('/routine/new?folder=mine'),
+                onTap: () => context.push('/routine/new'),
                 label: l.addToFolder,
                 child: DottedBox(
                   child: Row(
@@ -97,7 +97,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                 icon: 'plus',
                 minHeight: 40,
                 padding: const EdgeInsets.symmetric(horizontal: 14),
-                onTap: () => context.push('/routine/new?folder=plan'),
+                onTap: () => context.push('/routine/new'),
               ),
             ),
             Expanded(

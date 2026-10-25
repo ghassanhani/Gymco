@@ -1801,12 +1801,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get namePlaceholder => 'دفع أ، أرجل ثقيلة، الثلاثاء…';
 
   @override
-  String get folderLbl => 'المجلد';
-
-  @override
-  String get dayLbl => 'اليوم';
-
-  @override
   String dayTakenBy(String day, String name) {
     return '$day، يشغله $name';
   }
@@ -1815,9 +1809,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String dayTaken(String name, String day) {
     return '$name موجود بالفعل يوم $day. الحفظ سيأخذ هذا اليوم منه.';
   }
-
-  @override
-  String get anyDayNote => 'نفّذه متى شئت — يبقى خارج الدورة الأسبوعية.';
 
   @override
   String get dayNote =>
@@ -4366,8 +4357,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openHealthApp => 'افتح تطبيق Health';
 
   @override
-  String get dayNoteMulti =>
-      'اختر كل يوم يُنفَّذ فيه. إذا فاتك يوم ينتقل إلى يوم التمرين التالي مع الحفاظ على الترتيب.';
+  String get dayNoteMulti => 'إذا فاتك يوم ينتقل إلى يوم تمرينك التالي.';
 
   @override
   String get createExercise => 'أنشئ تمرينًا';
@@ -4776,4 +4766,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get headLearning => 'نتعرّف عليك';
+
+  @override
+  String get whichDays => 'أي أيام؟';
+
+  @override
+  String get noDayNote => 'لم تختر يومًا: يبقى في روتيناتي، جاهزًا في أي وقت.';
 }

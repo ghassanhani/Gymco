@@ -74,10 +74,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/routine/new',
-        builder: (_, s) => BuilderScreen(
-          folder: s.uri.queryParameters['folder'] == 'mine' ? RoutineFolder.mine : RoutineFolder.plan,
-          seed: s.extra is Routine ? s.extra! as Routine : null,
-        ),
+        builder: (_, s) => BuilderScreen(seed: s.extra is Routine ? s.extra! as Routine : null),
       ),
       GoRoute(
         path: '/routine/:id/view',

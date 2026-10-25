@@ -1286,8 +1286,6 @@
   "nothingYet": "Nothing in it yet",
   "nameLbl": "Name",
   "namePlaceholder": "Push A, Legs heavy, Tuesday…",
-  "folderLbl": "Folder",
-  "dayLbl": "Day",
   "dayTakenBy": "{day}, taken by {name}",
   "@dayTakenBy": {
     "placeholders": {
@@ -1310,7 +1308,6 @@
       }
     }
   },
-  "anyDayNote": "Run it whenever — it stays out of the weekly rotation.",
   "dayNote": "Miss it and it moves to your next training day, keeping the block in order.",
   "builderEmpty": "No exercises yet. Add the first one and Gymco will show what it does to your weekly set count as you go.",
   "repsChip": "{reps} reps",
@@ -3175,7 +3172,7 @@
   "healthPhoneSaid": "What the phone said",
   "tryAgain": "Try again",
   "openHealthApp": "Open the Health app",
-  "dayNoteMulti": "Tap every day it runs on. Miss one and it moves to your next training day, keeping the block in order.",
+  "dayNoteMulti": "Miss a day and it moves to your next training day.",
   "createExercise": "Create an exercise",
   "createNamed": "Create “{name}”",
   "@createNamed": {
@@ -3406,5 +3403,7 @@
   "headReady": "Push it today",
   "headSteady": "Train as planned",
   "headEasy": "Recover today, come back stronger",
-  "headLearning": "Getting to know you"
+  "headLearning": "Getting to know you",
+  "whichDays": "Which days?",
+  "noDayNote": "No day picked: it stays in My routines, ready any time."
 }

@@ -1797,12 +1797,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get namePlaceholder => 'Empuje A, Pierna pesada, martes…';
 
   @override
-  String get folderLbl => 'Carpeta';
-
-  @override
-  String get dayLbl => 'Día';
-
-  @override
   String dayTakenBy(String day, String name) {
     return '$day, ocupado por $name';
   }
@@ -1811,10 +1805,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String dayTaken(String name, String day) {
     return '$name ya está el $day. Al guardar, ese día pasa a esta rutina.';
   }
-
-  @override
-  String get anyDayNote =>
-      'Hazla cuando quieras: queda fuera de la rotación semanal.';
 
   @override
   String get dayNote =>
@@ -4400,7 +4390,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dayNoteMulti =>
-      'Toca cada día que toca. Si fallas uno, pasa a tu siguiente día de entreno, manteniendo el orden.';
+      'Si te saltas un día, pasa a tu siguiente día de entreno.';
 
   @override
   String get createExercise => 'Crear un ejercicio';
@@ -4811,4 +4801,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get headLearning => 'Conociéndote';
+
+  @override
+  String get whichDays => '¿Qué días?';
+
+  @override
+  String get noDayNote =>
+      'Sin día elegido: queda en Mis rutinas, listo cuando quieras.';
 }

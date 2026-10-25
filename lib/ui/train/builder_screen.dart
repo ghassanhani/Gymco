@@ -19,9 +19,8 @@ const builderRests = [45, 60, 90, 120, 150, 180, 210, 240];
 /// New routine when [routineId] is null, else edit that one. [seed] starts a
 /// new one from a finished workout.
 class BuilderScreen extends ConsumerStatefulWidget {
-  const BuilderScreen({super.key, this.routineId, this.folder = RoutineFolder.plan, this.seed});
+  const BuilderScreen({super.key, this.routineId, this.seed});
   final int? routineId;
-  final RoutineFolder folder;
   final Routine? seed;
 
   @override
@@ -30,7 +29,6 @@ class BuilderScreen extends ConsumerStatefulWidget {
 
 class _BuilderScreenState extends ConsumerState<BuilderScreen> {
   final _name = TextEditingController();
-  late RoutineFolder _folder = widget.seed?.folder ?? widget.folder;
   Set<int> _days = {};
   List<RoutineItem> _items = [];
   Routine? _editing;
@@ -65,7 +63,6 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
     _name.text = r.name;
     _items = [...r.items];
     _days = {...r.days};
-    _folder = r.folder;
     _dirty = false;
   }
 
@@ -90,7 +87,16 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
     try {
       await ref
           .read(routineActionsProvider)
-          .save(Routine(id: _editing?.id, name: _name.text.trim(), items: _items, days: _days, folder: _folder));
+          .save(
+            Routine(
+              id: _editing?.id,
+              name: _name.text.trim(),
+              items: _items,
+              days: _days,
+              // A routine with days is part of the weekly plan; one without is kept to run any time.
+              folder: _days.isEmpty ? RoutineFolder.mine : RoutineFolder.plan,
+            ),
+          );
       if (!mounted) return;
       showVToast(context, l.routineSaved(_name.text.trim()));
       context.pop();
@@ -284,13 +290,6 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                 icon: 'close',
                 backLabel: MaterialLocalizations.of(context).closeButtonTooltip,
                 onBack: _leave,
-                right: VBtn(
-                  label: l.save,
-                  small: true,
-                  minHeight: 40,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  onTap: ok ? _save : null,
-                ),
               ),
               Expanded(
                 child: Pad(
@@ -332,28 +331,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                     GapCol(
                       gap: 8,
                       children: [
-                        Eyebrow(l.folderLbl, padding: const EdgeInsetsDirectional.only(start: 4)),
-                        Wrap(
-                          spacing: 8,
-                          children: [
-                            VChip(
-                              label: l.folderPlan,
-                              on: _folder == RoutineFolder.plan,
-                              onTap: () => _edit(() => _folder = RoutineFolder.plan),
-                            ),
-                            VChip(
-                              label: l.folderMine,
-                              on: _folder == RoutineFolder.mine,
-                              onTap: () => _edit(() => _folder = RoutineFolder.mine),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    GapCol(
-                      gap: 8,
-                      children: [
-                        Eyebrow(l.dayLbl, padding: const EdgeInsetsDirectional.only(start: 4)),
+                        Eyebrow(l.whichDays, padding: const EdgeInsetsDirectional.only(start: 4)),
                         Wrap(
                           spacing: 6,
                           runSpacing: 6,
@@ -370,7 +348,6 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                                   onTap: () => _edit(() => _days.contains(w) ? _days.remove(w) : _days.add(w)),
                                 ),
                               ),
-                            VChip(label: l.anyDay, on: _days.isEmpty, onTap: () => _edit(() => _days = {})),
                           ],
                         ),
                         Padding(
@@ -378,7 +355,7 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                           child: Muted(
                             clash != null
                                 ? l.dayTaken(clash.$2.name, weekdayName(context, clash.$1))
-                                : (_days.isEmpty ? l.anyDayNote : l.dayNoteMulti),
+                                : (_days.isEmpty ? l.noDayNote : l.dayNoteMulti),
                           ),
                         ),
                       ],

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:gymco/data/training.dart';
 import 'package:gymco/domain/session.dart';
 import 'package:gymco/ui/kit/kit.dart';
 
@@ -53,6 +54,8 @@ void main() {
     final r = (await db.routines()).single;
     expect(r.items.map((i) => i.exerciseId), ['bench', 'lat']);
     expect(r.weekday, 5);
+    // A routine with a day belongs to the weekly plan.
+    expect(r.folder, RoutineFolder.plan);
     // Saturday is today, so Train now shows it as today's session.
     expect(find.text('Start all'), findsOneWidget);
   });
@@ -92,6 +95,31 @@ void main() {
     expect(r.days, {0, 3});
     expect(r.items.single.exerciseId, startsWith('custom:towel-row'));
     expect((await db.customExercises()).single.primary, ['lats']);
+  });
+
+  testWidgets('a routine with no day is kept in My routines', (tester) async {
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await openTrain(tester);
+    await tester.tap(find.text('Build my own routine'));
+    await settle(tester);
+    expect(find.text('WHICH DAYS?'), findsOneWidget);
+    expect(find.text('No day picked: it stays in My routines, ready any time.'), findsOneWidget);
+    await tester.enterText(find.byType(TextField), 'Arms');
+    await tester.pump();
+    await tester.drag(find.byType(ListView).first, const Offset(0, -400));
+    await settle(tester);
+    await tester.tap(find.text('Add exercise'));
+    await settle(tester);
+    await tester.tap(find.text('Barbell Bench Press'));
+    await tester.pump();
+    await tester.tap(find.text('Add 1 exercise'));
+    await settle(tester);
+    expect(find.text('Save routine'), findsOneWidget);
+    await tester.tap(find.text('Save routine'));
+    await settle(tester);
+    final r = (await db.routines()).single;
+    expect(r.days, isEmpty);
+    expect(r.folder, RoutineFolder.mine);
   });
 
   testWidgets('a duplicate routine name is refused', (tester) async {

@@ -488,11 +488,8 @@
   "nothingYet": "Aún vacía",
   "nameLbl": "Nombre",
   "namePlaceholder": "Empuje A, Pierna pesada, martes…",
-  "folderLbl": "Carpeta",
-  "dayLbl": "Día",
   "dayTakenBy": "{day}, ocupado por {name}",
   "dayTaken": "{name} ya está el {day}. Al guardar, ese día pasa a esta rutina.",
-  "anyDayNote": "Hazla cuando quieras: queda fuera de la rotación semanal.",
   "dayNote": "Si la saltas, pasa a tu siguiente día de entreno y el bloque mantiene su orden.",
   "builderEmpty": "Aún no hay ejercicios. Añade el primero y Gymco te mostrará lo que hace a tus series semanales.",
   "repsChip": "{reps} reps",
@@ -1169,7 +1166,7 @@
   "healthPhoneSaid": "Lo que dijo el teléfono",
   "tryAgain": "Intentar de nuevo",
   "openHealthApp": "Abrir la app Salud",
-  "dayNoteMulti": "Toca cada día que toca. Si fallas uno, pasa a tu siguiente día de entreno, manteniendo el orden.",
+  "dayNoteMulti": "Si te saltas un día, pasa a tu siguiente día de entreno.",
   "createExercise": "Crear un ejercicio",
   "createNamed": "Crear «{name}»",
   "createExerciseSub": "¿No está en la biblioteca? Crea el tuyo.",
@@ -1297,5 +1294,7 @@
   "headReady": "Hoy toca darlo todo",
   "headSteady": "Entrena según el plan",
   "headEasy": "Recupera hoy, vuelve más fuerte",
-  "headLearning": "Conociéndote"
+  "headLearning": "Conociéndote",
+  "whichDays": "¿Qué días?",
+  "noDayNote": "Sin día elegido: queda en Mis rutinas, listo cuando quieras."
 }
