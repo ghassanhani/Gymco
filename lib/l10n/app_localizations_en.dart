@@ -3663,7 +3663,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get healthBody =>
-      'Your scale and your steps come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.';
+      'Your scale, your steps and what your watch records come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.';
 
   @override
   String get healthConnectMissing =>
@@ -4618,4 +4618,150 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seeYourAwards => 'See your awards';
+
+  @override
+  String get recoveryTitle => 'Recovery';
+
+  @override
+  String get recoverySleep => 'Sleep';
+
+  @override
+  String get recoveryRestingHr => 'Resting HR';
+
+  @override
+  String get recoveryHrv => 'HRV';
+
+  @override
+  String get bpmUnit => 'bpm';
+
+  @override
+  String get msUnit => 'ms';
+
+  @override
+  String hoursMinutes(int h, int m) {
+    return '${h}h ${m}m';
+  }
+
+  @override
+  String vsUsual(String delta) {
+    return '$delta vs usual';
+  }
+
+  @override
+  String get asUsual => 'As usual';
+
+  @override
+  String get readyReady => 'Ready';
+
+  @override
+  String get readySteady => 'Steady';
+
+  @override
+  String get readyEasy => 'Go easy';
+
+  @override
+  String get readyLearning => 'Learning';
+
+  @override
+  String get adviceReady =>
+      'You slept well and your heart is rested. A good day to push.';
+
+  @override
+  String get adviceSteady =>
+      'One sign is off. Train as planned, but don’t chase a record today.';
+
+  @override
+  String get adviceEasy =>
+      'Short sleep and a tired heart. Go lighter, or make it a rest day.';
+
+  @override
+  String get adviceLearning =>
+      'Wear your watch a few more nights and Gymco will learn your normal.';
+
+  @override
+  String activeKcalToday(String n) {
+    return '$n active kcal today';
+  }
+
+  @override
+  String watchWorkoutLine(String kind, int minutes, String source) {
+    return '$kind · $minutes min · $source';
+  }
+
+  @override
+  String get watchCountsStreak => 'Counts as today’s workout for your streak';
+
+  @override
+  String get recoveryConnectTitle => 'Bring in your watch';
+
+  @override
+  String recoveryConnectBody(String store) {
+    return 'Sleep, heart rate and workouts from Apple Watch, Whoop, Garmin, Amazfit and others, through $store.';
+  }
+
+  @override
+  String get allowBtn => 'Allow';
+
+  @override
+  String get heartRateTitle => 'Heart rate';
+
+  @override
+  String get avgLbl => 'Average';
+
+  @override
+  String get peakLbl => 'Peak';
+
+  @override
+  String get heartFromWatch => 'From your watch, while you trained';
+
+  @override
+  String get kindRun => 'Run';
+
+  @override
+  String get kindWalk => 'Walk';
+
+  @override
+  String get kindRide => 'Ride';
+
+  @override
+  String get kindSwim => 'Swim';
+
+  @override
+  String get kindStrength => 'Strength';
+
+  @override
+  String get kindHiit => 'HIIT';
+
+  @override
+  String get kindYoga => 'Yoga';
+
+  @override
+  String get kindOther => 'Workout';
+
+  @override
+  String get healthSleepSub => 'Last night, on the Recovery card';
+
+  @override
+  String get healthHeart => 'Heart rate and HRV';
+
+  @override
+  String get healthHeartSub => 'Resting, overnight, and during your workouts';
+
+  @override
+  String get healthActive => 'Active energy';
+
+  @override
+  String get healthActiveSub => 'What your watch says you burned today';
+
+  @override
+  String get healthWatchWorkouts => 'Workouts from your watch';
+
+  @override
+  String get healthWatchWorkoutsSub =>
+      'Runs, rides and classes keep your streak';
+
+  @override
+  String minutesOnly(int m) {
+    return '${m}m';
+  }
 }

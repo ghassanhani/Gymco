@@ -5983,7 +5983,7 @@ abstract class AppLocalizations {
   /// No description provided for @healthBody.
   ///
   /// In en, this message translates to:
-  /// **'Your scale and your steps come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.'**
+  /// **'Your scale, your steps and what your watch records come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.'**
   String get healthBody;
 
   /// No description provided for @healthConnectMissing.
@@ -7533,6 +7533,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See your awards'**
   String get seeYourAwards;
+
+  /// No description provided for @recoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery'**
+  String get recoveryTitle;
+
+  /// No description provided for @recoverySleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get recoverySleep;
+
+  /// No description provided for @recoveryRestingHr.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting HR'**
+  String get recoveryRestingHr;
+
+  /// No description provided for @recoveryHrv.
+  ///
+  /// In en, this message translates to:
+  /// **'HRV'**
+  String get recoveryHrv;
+
+  /// No description provided for @bpmUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'bpm'**
+  String get bpmUnit;
+
+  /// No description provided for @msUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'ms'**
+  String get msUnit;
+
+  /// No description provided for @hoursMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{h}h {m}m'**
+  String hoursMinutes(int h, int m);
+
+  /// No description provided for @vsUsual.
+  ///
+  /// In en, this message translates to:
+  /// **'{delta} vs usual'**
+  String vsUsual(String delta);
+
+  /// No description provided for @asUsual.
+  ///
+  /// In en, this message translates to:
+  /// **'As usual'**
+  String get asUsual;
+
+  /// No description provided for @readyReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get readyReady;
+
+  /// No description provided for @readySteady.
+  ///
+  /// In en, this message translates to:
+  /// **'Steady'**
+  String get readySteady;
+
+  /// No description provided for @readyEasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Go easy'**
+  String get readyEasy;
+
+  /// No description provided for @readyLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning'**
+  String get readyLearning;
+
+  /// No description provided for @adviceReady.
+  ///
+  /// In en, this message translates to:
+  /// **'You slept well and your heart is rested. A good day to push.'**
+  String get adviceReady;
+
+  /// No description provided for @adviceSteady.
+  ///
+  /// In en, this message translates to:
+  /// **'One sign is off. Train as planned, but don’t chase a record today.'**
+  String get adviceSteady;
+
+  /// No description provided for @adviceEasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Short sleep and a tired heart. Go lighter, or make it a rest day.'**
+  String get adviceEasy;
+
+  /// No description provided for @adviceLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'Wear your watch a few more nights and Gymco will learn your normal.'**
+  String get adviceLearning;
+
+  /// No description provided for @activeKcalToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} active kcal today'**
+  String activeKcalToday(String n);
+
+  /// No description provided for @watchWorkoutLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind} · {minutes} min · {source}'**
+  String watchWorkoutLine(String kind, int minutes, String source);
+
+  /// No description provided for @watchCountsStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Counts as today’s workout for your streak'**
+  String get watchCountsStreak;
+
+  /// No description provided for @recoveryConnectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring in your watch'**
+  String get recoveryConnectTitle;
+
+  /// No description provided for @recoveryConnectBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep, heart rate and workouts from Apple Watch, Whoop, Garmin, Amazfit and others, through {store}.'**
+  String recoveryConnectBody(String store);
+
+  /// No description provided for @allowBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get allowBtn;
+
+  /// No description provided for @heartRateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart rate'**
+  String get heartRateTitle;
+
+  /// No description provided for @avgLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Average'**
+  String get avgLbl;
+
+  /// No description provided for @peakLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Peak'**
+  String get peakLbl;
+
+  /// No description provided for @heartFromWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'From your watch, while you trained'**
+  String get heartFromWatch;
+
+  /// No description provided for @kindRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run'**
+  String get kindRun;
+
+  /// No description provided for @kindWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk'**
+  String get kindWalk;
+
+  /// No description provided for @kindRide.
+  ///
+  /// In en, this message translates to:
+  /// **'Ride'**
+  String get kindRide;
+
+  /// No description provided for @kindSwim.
+  ///
+  /// In en, this message translates to:
+  /// **'Swim'**
+  String get kindSwim;
+
+  /// No description provided for @kindStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength'**
+  String get kindStrength;
+
+  /// No description provided for @kindHiit.
+  ///
+  /// In en, this message translates to:
+  /// **'HIIT'**
+  String get kindHiit;
+
+  /// No description provided for @kindYoga.
+  ///
+  /// In en, this message translates to:
+  /// **'Yoga'**
+  String get kindYoga;
+
+  /// No description provided for @kindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get kindOther;
+
+  /// No description provided for @healthSleepSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Last night, on the Recovery card'**
+  String get healthSleepSub;
+
+  /// No description provided for @healthHeart.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart rate and HRV'**
+  String get healthHeart;
+
+  /// No description provided for @healthHeartSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting, overnight, and during your workouts'**
+  String get healthHeartSub;
+
+  /// No description provided for @healthActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active energy'**
+  String get healthActive;
+
+  /// No description provided for @healthActiveSub.
+  ///
+  /// In en, this message translates to:
+  /// **'What your watch says you burned today'**
+  String get healthActiveSub;
+
+  /// No description provided for @healthWatchWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts from your watch'**
+  String get healthWatchWorkouts;
+
+  /// No description provided for @healthWatchWorkoutsSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Runs, rides and classes keep your streak'**
+  String get healthWatchWorkoutsSub;
+
+  /// No description provided for @minutesOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'{m}m'**
+  String minutesOnly(int m);
 }
 
 class _AppLocalizationsDelegate

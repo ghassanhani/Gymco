@@ -26,6 +26,7 @@ import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
 import 'announcement_card.dart';
 import 'catchup_screen.dart';
+import 'recovery_card.dart';
 
 class TodayScreen extends ConsumerWidget {
   const TodayScreen({super.key});
@@ -96,6 +97,7 @@ class _Today extends ConsumerWidget {
               _Meals(totals: totals, dayKey: key, canRepeat: true),
               const _Trend(),
               const _Steps(),
+              const RecoveryCard(),
               _Water(day: key, trained: schedule.where((d) => d.today).firstOrNull?.done != null),
             ],
           ),

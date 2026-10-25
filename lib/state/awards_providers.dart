@@ -4,6 +4,7 @@ import '../data/models.dart';
 import '../domain/awards.dart';
 import '../domain/streak.dart';
 import 'cloud_providers.dart';
+import 'health_providers.dart';
 import 'pack_providers.dart';
 import 'providers.dart';
 import 'training_providers.dart';
@@ -91,7 +92,8 @@ final streakProvider = FutureProvider<StreakInfo?>((ref) async {
 
   final totals = await db.dayTotals(dayKey(start), dayKey(today));
   final workouts = await db.workoutsBetween(start, DateTime(today.year, today.month, today.day + 1));
-  final trained = {for (final w in workouts) dayKey(w.startedAt)};
+  // A run or a ride the watch recorded keeps the day too.
+  final trained = {for (final w in workouts) dayKey(w.startedAt), ...await ref.watch(watchWorkoutDaysProvider.future)};
 
   final history = <StreakDay>[];
   for (var d = start; !d.isAfter(today); d = DateTime(d.year, d.month, d.day + 1)) {

@@ -7,7 +7,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Gymco reads a meal photo you choose so it can suggest the foods on the plate.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Gymco reads your weigh-ins and steps so your trend weight and day stay up to date.</string>
+	<string>Gymco reads your weigh-ins and steps, and the sleep, heart rate, active energy and workouts your watch records, so your trend weight, streak and recovery stay up to date.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Gymco saves your workouts, water and weigh-ins to Apple Health.</string>
 	<key>NSMicrophoneUsageDescription</key>

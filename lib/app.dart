@@ -192,8 +192,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
     onPause: () => ref.read(cloudActionsProvider).backupIfDue(),
     onResume: () {
       ref.invalidate(reminderSyncProvider);
-      ref.invalidate(healthImportProvider);
-      ref.invalidate(stepsTodayProvider);
+      refreshHealth(ref);
     },
   );
 

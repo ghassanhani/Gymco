@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:health/health.dart';
 
+import '../domain/recovery.dart';
+
 /// Apple Health on iPhone, Health Connect on Android: what Gymco reads
-/// (weigh-ins, steps) and writes back (workouts, water, weigh-ins).
+/// (weigh-ins, steps, and what a watch or strap records: sleep, heart rate,
+/// active energy, workouts) and writes back (workouts, water, weigh-ins).
 abstract class HealthSync {
   /// False when the phone has no health store, or Health Connect is not
   /// installed.
@@ -20,6 +23,13 @@ abstract class HealthSync {
 
   Future<List<(DateTime, double)>> weights(DateTime since);
   Future<int?> stepsToday(DateTime now);
+
+  /// Readings between [from] and [to]; empty when there are none or the
+  /// person did not allow that kind.
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to);
+
+  /// Workouts other apps and watches recorded; Gymco's own are left out.
+  Future<List<WatchWorkout>> workouts(DateTime from, DateTime to);
 
   Future<void> writeWater(int ml, DateTime at);
   Future<void> writeWeight(double kg, DateTime at);
@@ -42,6 +52,10 @@ class NoHealth implements HealthSync {
   @override
   Future<int?> stepsToday(DateTime now) async => null;
   @override
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async => const [];
+  @override
+  Future<List<WatchWorkout>> workouts(DateTime from, DateTime to) async => const [];
+  @override
   Future<void> writeWater(int ml, DateTime at) async {}
   @override
   Future<void> writeWeight(double kg, DateTime at) async {}
@@ -54,13 +68,44 @@ class DeviceHealth implements HealthSync {
   Future<void>? _ready;
   Future<void> _init() => _ready ??= _h.configure();
 
-  static const _types = [HealthDataType.WEIGHT, HealthDataType.STEPS, HealthDataType.WATER, HealthDataType.WORKOUT];
-  static const _access = [
+  // The two stores name some of these differently: HRV is SDNN on iPhone and
+  // RMSSD on Android, and Apple Watch splits sleep into stages where Health
+  // Connect keeps one session. Each is only compared with its own normal.
+  static final _sleep = Platform.isIOS
+      ? const [
+          HealthDataType.SLEEP_ASLEEP,
+          HealthDataType.SLEEP_LIGHT,
+          HealthDataType.SLEEP_DEEP,
+          HealthDataType.SLEEP_REM,
+        ]
+      : const [HealthDataType.SLEEP_SESSION];
+  static final _hrv = Platform.isIOS
+      ? HealthDataType.HEART_RATE_VARIABILITY_SDNN
+      : HealthDataType.HEART_RATE_VARIABILITY_RMSSD;
+  static final _reads = [
+    HealthDataType.HEART_RATE,
+    HealthDataType.RESTING_HEART_RATE,
+    _hrv,
+    HealthDataType.ACTIVE_ENERGY_BURNED,
+    ..._sleep,
+  ];
+  static final _types = [
+    HealthDataType.WEIGHT,
+    HealthDataType.STEPS,
+    HealthDataType.WATER,
+    HealthDataType.WORKOUT,
+    ..._reads,
+  ];
+  static final _access = [
     HealthDataAccess.READ_WRITE,
     HealthDataAccess.READ,
     HealthDataAccess.WRITE,
-    HealthDataAccess.WRITE,
+    HealthDataAccess.READ_WRITE,
+    for (final _ in _reads) HealthDataAccess.READ,
   ];
+
+  /// Gymco's own app id, as the store records the source of what it wrote.
+  static const _self = 'app.gymco.gymco';
 
   @override
   Future<bool> available() async {
@@ -118,6 +163,72 @@ class DeviceHealth implements HealthSync {
     } catch (_) {
       return null;
     }
+  }
+
+  @override
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async {
+    final types = switch (metric) {
+      Metric.heartRate => const [HealthDataType.HEART_RATE],
+      Metric.restingHr => const [HealthDataType.RESTING_HEART_RATE],
+      Metric.hrv => [_hrv],
+      Metric.activeKcal => const [HealthDataType.ACTIVE_ENERGY_BURNED],
+      Metric.sleep => _sleep,
+    };
+    await _init();
+    try {
+      final points = await _h.getHealthDataFromTypes(types: types, startTime: from, endTime: to);
+      return [
+        for (final p in points)
+          if (p.value case NumericHealthValue(:final numericValue))
+            Sample(
+              p.dateFrom,
+              p.dateTo,
+              // A sleep stage's length is what counts, whatever its value says.
+              metric == Metric.sleep ? p.dateTo.difference(p.dateFrom).inSeconds / 60 : numericValue.toDouble(),
+              source: p.sourceId,
+            ),
+      ];
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  @override
+  Future<List<WatchWorkout>> workouts(DateTime from, DateTime to) async {
+    await _init();
+    try {
+      final points = await _h.getHealthDataFromTypes(
+        types: const [HealthDataType.WORKOUT],
+        startTime: from,
+        endTime: to,
+      );
+      return [
+        for (final p in points)
+          if (p.value case WorkoutHealthValue(:final workoutActivityType, :final totalEnergyBurned)
+              when !p.sourceId.startsWith(_self))
+            WatchWorkout(
+              start: p.dateFrom,
+              end: p.dateTo,
+              kind: _kind(workoutActivityType),
+              source: p.sourceName,
+              kcal: totalEnergyBurned,
+            ),
+      ];
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  static WorkoutKind _kind(HealthWorkoutActivityType t) {
+    final n = t.name;
+    if (n.contains('RUNNING')) return WorkoutKind.run;
+    if (n.contains('WALKING') || n == 'HIKING') return WorkoutKind.walk;
+    if (n.contains('BIKING') || n.contains('CYCLING')) return WorkoutKind.ride;
+    if (n.contains('SWIMMING')) return WorkoutKind.swim;
+    if (n.contains('STRENGTH') || n == 'WEIGHTLIFTING' || n == 'CROSS_TRAINING') return WorkoutKind.strength;
+    if (n.contains('INTERVAL') || n == 'HIGH_INTENSITY_INTERVAL_TRAINING') return WorkoutKind.hiit;
+    if (n.contains('YOGA') || n == 'PILATES') return WorkoutKind.yoga;
+    return WorkoutKind.other;
   }
 
   // Writes are best effort: a refused or missing store never stops logging.

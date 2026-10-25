@@ -2397,7 +2397,13 @@
   "gateLater": "Later",
   "gateRestingTitle": "Gymco is resting",
   "photoPaused": "Photo logging is resting until tomorrow. Write or search still work.",
-  "@photoCap": {"placeholders": {"n": {"type": "int"}}},
+  "@photoCap": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "photoRefused": "That photo could not be read. Try another one.",
   "photoAgain": "Take another",
   "notInDbSearch": "Not on the phone — search for it",
@@ -2678,7 +2684,7 @@
     }
   },
   "healthHeadline": "What Gymco reads, and what it writes",
-  "healthBody": "Your scale and your steps come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.",
+  "healthBody": "Your scale, your steps and what your watch records come in; your workouts, water and weigh-ins go out. You choose each one on your phone’s permission screen.",
   "healthConnectMissing": "Health Connect isn’t on this phone. Install it from Google Play to connect.",
   "installHealthConnect": "Install Health Connect",
   "healthRefused": "Nothing was shared. You can allow it in your phone’s health settings.",
@@ -3269,11 +3275,120 @@
   "appearanceSystem": "Same as phone",
   "streakDaysLabel": "day streak",
   "dayKeptCheer": "Day {n} kept!",
-  "@dayKeptCheer": {"placeholders": {"n": {"type": "int"}}},
+  "@dayKeptCheer": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
   "doneOfToday": "{done} of {total} done today",
-  "@doneOfToday": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "@doneOfToday": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "keepBurning": "See you tomorrow to keep the flame going.",
   "workoutTask": "Workout",
   "awardUnlockedEyebrow": "Award unlocked",
-  "seeYourAwards": "See your awards"
+  "seeYourAwards": "See your awards",
+  "recoveryTitle": "Recovery",
+  "recoverySleep": "Sleep",
+  "recoveryRestingHr": "Resting HR",
+  "recoveryHrv": "HRV",
+  "bpmUnit": "bpm",
+  "msUnit": "ms",
+  "hoursMinutes": "{h}h {m}m",
+  "@hoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "vsUsual": "{delta} vs usual",
+  "@vsUsual": {
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "asUsual": "As usual",
+  "readyReady": "Ready",
+  "readySteady": "Steady",
+  "readyEasy": "Go easy",
+  "readyLearning": "Learning",
+  "adviceReady": "You slept well and your heart is rested. A good day to push.",
+  "adviceSteady": "One sign is off. Train as planned, but don’t chase a record today.",
+  "adviceEasy": "Short sleep and a tired heart. Go lighter, or make it a rest day.",
+  "adviceLearning": "Wear your watch a few more nights and Gymco will learn your normal.",
+  "activeKcalToday": "{n} active kcal today",
+  "@activeKcalToday": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "watchWorkoutLine": "{kind} · {minutes} min · {source}",
+  "@watchWorkoutLine": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      },
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "watchCountsStreak": "Counts as today’s workout for your streak",
+  "recoveryConnectTitle": "Bring in your watch",
+  "recoveryConnectBody": "Sleep, heart rate and workouts from Apple Watch, Whoop, Garmin, Amazfit and others, through {store}.",
+  "@recoveryConnectBody": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "allowBtn": "Allow",
+  "heartRateTitle": "Heart rate",
+  "avgLbl": "Average",
+  "peakLbl": "Peak",
+  "heartFromWatch": "From your watch, while you trained",
+  "kindRun": "Run",
+  "kindWalk": "Walk",
+  "kindRide": "Ride",
+  "kindSwim": "Swim",
+  "kindStrength": "Strength",
+  "kindHiit": "HIIT",
+  "kindYoga": "Yoga",
+  "kindOther": "Workout",
+  "healthSleepSub": "Last night, on the Recovery card",
+  "healthHeart": "Heart rate and HRV",
+  "healthHeartSub": "Resting, overnight, and during your workouts",
+  "healthActive": "Active energy",
+  "healthActiveSub": "What your watch says you burned today",
+  "healthWatchWorkouts": "Workouts from your watch",
+  "healthWatchWorkoutsSub": "Runs, rides and classes keep your streak",
+  "minutesOnly": "{m}m",
+  "@minutesOnly": {
+    "placeholders": {
+      "m": {
+        "type": "int"
+      }
+    }
+  }
 }

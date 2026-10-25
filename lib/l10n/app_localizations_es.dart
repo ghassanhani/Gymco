@@ -3676,7 +3676,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get healthBody =>
-      'Entran tu báscula y tus pasos; salen tus entrenos, agua y pesajes. Eliges cada uno en la pantalla de permisos del móvil.';
+      'Entran tu báscula, tus pasos y lo que registra tu reloj; salen tus entrenos, el agua y tus pesajes. Eliges cada uno en la pantalla de permisos del teléfono.';
 
   @override
   String get healthConnectMissing =>
@@ -4636,4 +4636,150 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get seeYourAwards => 'Ver tus logros';
+
+  @override
+  String get recoveryTitle => 'Recuperación';
+
+  @override
+  String get recoverySleep => 'Sueño';
+
+  @override
+  String get recoveryRestingHr => 'FC en reposo';
+
+  @override
+  String get recoveryHrv => 'VFC';
+
+  @override
+  String get bpmUnit => 'lpm';
+
+  @override
+  String get msUnit => 'ms';
+
+  @override
+  String hoursMinutes(int h, int m) {
+    return '$h h $m min';
+  }
+
+  @override
+  String vsUsual(String delta) {
+    return '$delta vs. lo habitual';
+  }
+
+  @override
+  String get asUsual => 'Como siempre';
+
+  @override
+  String get readyReady => 'Listo';
+
+  @override
+  String get readySteady => 'Con calma';
+
+  @override
+  String get readyEasy => 'Suave hoy';
+
+  @override
+  String get readyLearning => 'Aprendiendo';
+
+  @override
+  String get adviceReady =>
+      'Dormiste bien y tu corazón está descansado. Buen día para apretar.';
+
+  @override
+  String get adviceSteady =>
+      'Una señal no está bien. Entrena como tenías previsto, pero hoy no busques un récord.';
+
+  @override
+  String get adviceEasy =>
+      'Poco sueño y el corazón cansado. Baja el peso o tómalo como día de descanso.';
+
+  @override
+  String get adviceLearning =>
+      'Usa tu reloj unas noches más y Gymco aprenderá lo que es normal para ti.';
+
+  @override
+  String activeKcalToday(String n) {
+    return '$n kcal activas hoy';
+  }
+
+  @override
+  String watchWorkoutLine(String kind, int minutes, String source) {
+    return '$kind · $minutes min · $source';
+  }
+
+  @override
+  String get watchCountsStreak => 'Cuenta como el entreno de hoy para tu racha';
+
+  @override
+  String get recoveryConnectTitle => 'Conecta tu reloj';
+
+  @override
+  String recoveryConnectBody(String store) {
+    return 'Sueño, frecuencia cardiaca y entrenos de Apple Watch, Whoop, Garmin, Amazfit y otros, a través de $store.';
+  }
+
+  @override
+  String get allowBtn => 'Permitir';
+
+  @override
+  String get heartRateTitle => 'Frecuencia cardiaca';
+
+  @override
+  String get avgLbl => 'Media';
+
+  @override
+  String get peakLbl => 'Máxima';
+
+  @override
+  String get heartFromWatch => 'De tu reloj, mientras entrenabas';
+
+  @override
+  String get kindRun => 'Carrera';
+
+  @override
+  String get kindWalk => 'Caminata';
+
+  @override
+  String get kindRide => 'Bici';
+
+  @override
+  String get kindSwim => 'Natación';
+
+  @override
+  String get kindStrength => 'Fuerza';
+
+  @override
+  String get kindHiit => 'HIIT';
+
+  @override
+  String get kindYoga => 'Yoga';
+
+  @override
+  String get kindOther => 'Entreno';
+
+  @override
+  String get healthSleepSub => 'Anoche, en la tarjeta de Recuperación';
+
+  @override
+  String get healthHeart => 'Frecuencia cardiaca y VFC';
+
+  @override
+  String get healthHeartSub => 'En reposo, por la noche y durante tus entrenos';
+
+  @override
+  String get healthActive => 'Energía activa';
+
+  @override
+  String get healthActiveSub => 'Lo que tu reloj dice que quemaste hoy';
+
+  @override
+  String get healthWatchWorkouts => 'Entrenos de tu reloj';
+
+  @override
+  String get healthWatchWorkoutsSub =>
+      'Carreras, bici y clases mantienen tu racha';
+
+  @override
+  String minutesOnly(int m) {
+    return '$m min';
+  }
 }

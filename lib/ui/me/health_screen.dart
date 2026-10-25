@@ -151,6 +151,10 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                         children: [
                           line('scale', l.healthWeight, l.healthWeightSub),
                           line('bolt', l.healthSteps, l.healthStepsSub),
+                          line('watch', l.healthWatchWorkouts, l.healthWatchWorkoutsSub),
+                          line('moon', l.recoverySleep, l.healthSleepSub),
+                          line('pulse', l.healthHeart, l.healthHeartSub),
+                          line('bolt', l.healthActive, l.healthActiveSub),
                         ],
                       ),
                       Eyebrow(l.writesToHealth, padding: const EdgeInsetsDirectional.only(start: 4)),

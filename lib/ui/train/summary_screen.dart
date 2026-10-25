@@ -7,9 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../data/training.dart';
+import '../../domain/recovery.dart';
 import '../../domain/volume.dart';
 import '../../domain/workout.dart';
 import '../../l10n/app_localizations.dart';
+import '../../state/health_providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
@@ -137,6 +139,7 @@ class SummaryScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  _Heart(start: s.startedAt, end: done.endedAt),
                   if (best.isNotEmpty) ...[
                     Eyebrow(l.bestSetEach, padding: const EdgeInsetsDirectional.only(start: 4)),
                     VList(
@@ -203,4 +206,105 @@ class SummaryScreen extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// The watch's heart rate while the session ran: average, peak, and how it
+/// moved. Only there when a watch sent enough readings.
+class _Heart extends ConsumerWidget {
+  const _Heart({required this.start, required this.end});
+  final DateTime start;
+  final DateTime end;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final h = ref.watch(workoutHeartProvider((start, end))).value;
+    if (h == null) return const SizedBox.shrink();
+    final l = AppLocalizations.of(context);
+    return VCard(
+      child: GapCol(
+        gap: 12,
+        cross: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(color: Volt.warn.withValues(alpha: 0.12), shape: BoxShape.circle),
+                child: VIcon('pulse', size: 18, color: Volt.warn),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: GapCol(
+                  gap: 1,
+                  children: [
+                    Text(
+                      l.heartRateTitle,
+                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Volt.t1),
+                    ),
+                    Muted(l.heartFromWatch, size: 11),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              for (final (k, v) in [(l.avgLbl, h.avg), (l.peakLbl, h.peak)])
+                Expanded(
+                  child: GapCol(
+                    gap: 3,
+                    children: [
+                      Eyebrow(k),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(text: '$v', style: numStyle(19)),
+                            TextSpan(
+                              text: ' ${l.bpmUnit}',
+                              style: TextStyle(fontSize: 11, color: Volt.t3),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(height: 56, child: CustomPaint(painter: _HeartBars(h, Volt.warn, Volt.soft))),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeartBars extends CustomPainter {
+  _HeartBars(this.h, this.color, this.empty);
+  final HeartSummary h;
+  final Color color;
+  final Color empty;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final known = h.bars.whereType<double>();
+    final lo = known.reduce(math.min) - 8, hi = known.reduce(math.max);
+    final n = h.bars.length, gap = 3.0;
+    final w = (size.width - gap * (n - 1)) / n;
+    for (var i = 0; i < n; i++) {
+      final v = h.bars[i];
+      final f = v == null ? 0.08 : ((v - lo) / math.max(1, hi - lo)).clamp(0.12, 1.0);
+      final top = size.height * (1 - f);
+      // Hotter toward the peak.
+      final paint = Paint()..color = v == null ? empty : color.withValues(alpha: 0.35 + 0.65 * f);
+      canvas.drawRRect(
+        RRect.fromLTRBR(i * (w + gap), top, i * (w + gap) + w, size.height, const Radius.circular(3)),
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_HeartBars old) => old.h != h || old.color != color;
 }

@@ -3635,7 +3635,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get healthBody =>
-      'يدخل وزن ميزانك وخطواتك، ويخرج تمرينك وماؤك وأوزانك. تختار كل واحد من شاشة أذونات هاتفك.';
+      'يدخل وزن ميزانك وخطواتك وما تسجّله ساعتك؛ وتخرج تمارينك والماء وأوزانك. تختار كل واحد منها من شاشة الأذونات في هاتفك.';
 
   @override
   String get healthConnectMissing =>
@@ -4604,4 +4604,148 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get seeYourAwards => 'شاهد أوسمتك';
+
+  @override
+  String get recoveryTitle => 'التعافي';
+
+  @override
+  String get recoverySleep => 'النوم';
+
+  @override
+  String get recoveryRestingHr => 'نبض الراحة';
+
+  @override
+  String get recoveryHrv => 'تقلب النبض';
+
+  @override
+  String get bpmUnit => 'ن/د';
+
+  @override
+  String get msUnit => 'مللي ث';
+
+  @override
+  String hoursMinutes(int h, int m) {
+    return '$hس $mد';
+  }
+
+  @override
+  String vsUsual(String delta) {
+    return '$delta عن المعتاد';
+  }
+
+  @override
+  String get asUsual => 'كالمعتاد';
+
+  @override
+  String get readyReady => 'جاهز';
+
+  @override
+  String get readySteady => 'معتدل';
+
+  @override
+  String get readyEasy => 'خفّف اليوم';
+
+  @override
+  String get readyLearning => 'يتعلّم';
+
+  @override
+  String get adviceReady => 'نمت جيدًا وقلبك مرتاح. يوم مناسب لتضغط أكثر.';
+
+  @override
+  String get adviceSteady =>
+      'مؤشر واحد ليس على ما يرام. تمرّن كما خططت، لكن لا تطارد رقمًا قياسيًا اليوم.';
+
+  @override
+  String get adviceEasy =>
+      'نوم قليل وقلب متعب. خفّف الأوزان، أو اجعله يوم راحة.';
+
+  @override
+  String get adviceLearning =>
+      'ارتدِ ساعتك بضع ليالٍ أخرى وسيتعرّف Gymco على معدّلك الطبيعي.';
+
+  @override
+  String activeKcalToday(String n) {
+    return '$n سعرة نشطة اليوم';
+  }
+
+  @override
+  String watchWorkoutLine(String kind, int minutes, String source) {
+    return '$kind · $minutes د · $source';
+  }
+
+  @override
+  String get watchCountsStreak => 'يُحتسب تمرين اليوم في سلسلتك';
+
+  @override
+  String get recoveryConnectTitle => 'اربط ساعتك';
+
+  @override
+  String recoveryConnectBody(String store) {
+    return 'النوم والنبض والتمارين من Apple Watch وWhoop وGarmin وAmazfit وغيرها، عبر $store.';
+  }
+
+  @override
+  String get allowBtn => 'اسمح';
+
+  @override
+  String get heartRateTitle => 'نبض القلب';
+
+  @override
+  String get avgLbl => 'المتوسط';
+
+  @override
+  String get peakLbl => 'الأعلى';
+
+  @override
+  String get heartFromWatch => 'من ساعتك، أثناء تمرينك';
+
+  @override
+  String get kindRun => 'جري';
+
+  @override
+  String get kindWalk => 'مشي';
+
+  @override
+  String get kindRide => 'دراجة';
+
+  @override
+  String get kindSwim => 'سباحة';
+
+  @override
+  String get kindStrength => 'قوة';
+
+  @override
+  String get kindHiit => 'تمارين متقطعة';
+
+  @override
+  String get kindYoga => 'يوغا';
+
+  @override
+  String get kindOther => 'تمرين';
+
+  @override
+  String get healthSleepSub => 'الليلة الماضية، في بطاقة التعافي';
+
+  @override
+  String get healthHeart => 'النبض وتقلّبه';
+
+  @override
+  String get healthHeartSub => 'أثناء الراحة والنوم وأثناء تمارينك';
+
+  @override
+  String get healthActive => 'الطاقة النشطة';
+
+  @override
+  String get healthActiveSub => 'ما تقول ساعتك إنك حرقته اليوم';
+
+  @override
+  String get healthWatchWorkouts => 'تمارين ساعتك';
+
+  @override
+  String get healthWatchWorkoutsSub => 'الجري والدراجة والحصص تحافظ على سلسلتك';
+
+  @override
+  String minutesOnly(int m) {
+    return '$mد';
+  }
 }
