@@ -97,9 +97,11 @@ void main() {
       };
     final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile, 'ironOn': true}, cloud: cloud);
     await toIron(tester, 'Protein first today');
-    await Scrollable.ensureVisible(tester.element(find.byTooltip('Iron settings')), alignment: 0.5);
+    await Scrollable.ensureVisible(tester.element(find.byTooltip('Iron Center')), alignment: 0.5);
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Iron settings'));
+    await tester.tap(find.byTooltip('Iron Center'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('This week with Iron'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('This week with Iron'));
     await tester.pumpAndSettle();
@@ -108,6 +110,8 @@ void main() {
     final calls = cloud.ironCalls;
     expect((jsonDecode(prefs.getString('ironReview')!) as Map)['week'], weekKey(testNow));
     await tester.tap(find.byTooltip('Back'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('This week with Iron'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('This week with Iron'));
     await tester.pumpAndSettle();

@@ -86,13 +86,14 @@ class IronCard extends ConsumerWidget {
     }
 
     final warnings = ref.watch(ironWarningsProvider);
+    // Everything else Iron does lives in the Iron Center.
     final gear = IconBtn(
-      'gear',
-      label: l.ironSettings,
+      'fwd',
+      label: l.ironCenter,
       size: 30,
       iconSize: 15,
       color: Volt.t3,
-      onTap: () => context.push('/iron/settings'),
+      onTap: () => context.push('/iron/home'),
     );
     if (warnings.isNotEmpty) {
       // The alert sounds once a day for a given set of warnings, not on
@@ -105,7 +106,8 @@ class IronCard extends ConsumerWidget {
         mood: IronMood.alert,
         announce: announce,
         trailing: gear,
-        children: [for (final w in warnings) _Warning(w)],
+        onOpen: () => context.push('/iron/home'),
+        children: [for (final w in warnings) IronWarningCard(w)],
       );
     }
 
@@ -113,6 +115,7 @@ class IronCard extends ConsumerWidget {
     final weekday = ref.watch(clockProvider)().weekday;
     return _Frame(
       trailing: gear,
+      onOpen: () => context.push('/iron/home'),
       mood: tip.isLoading
           ? IronMood.thinking
           : tip.value == null
@@ -188,8 +191,8 @@ class IronCard extends ConsumerWidget {
 
 /// One warning sign: what the rule saw, what to do, and a doctor when it
 /// matters. Iron stops pushing while one is showing.
-class _Warning extends ConsumerWidget {
-  const _Warning(this.signal);
+class IronWarningCard extends ConsumerWidget {
+  const IronWarningCard(this.signal, {super.key});
   final IronSignal signal;
 
   @override
@@ -309,8 +312,11 @@ class _HomeAskState extends State<_HomeAsk> {
 
 /// The card itself: a thin AI-gradient edge, Iron's mark and name on top.
 class _Frame extends StatelessWidget {
-  const _Frame({required this.children, this.trailing, this.mood = IronMood.idle, this.announce = false});
+  const _Frame({required this.children, this.trailing, this.mood = IronMood.idle, this.announce = false, this.onOpen});
   final List<Widget> children;
+
+  /// Tapping Iron's face or name opens the Iron Center, once Iron is on.
+  final VoidCallback? onOpen;
   final Widget? trailing;
   final IronMood mood;
   final bool announce;
@@ -335,19 +341,29 @@ class _Frame extends StatelessWidget {
           children: [
             Row(
               children: [
-                IronAvatar(mood: mood, size: 44, announce: announce),
-                const SizedBox(width: 10),
                 Expanded(
-                  child: GapCol(
-                    gap: 0,
-                    children: [
-                      AiText(
-                        l.ironName,
-                        colors: ironGradient,
-                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-                      ),
-                      Muted(l.ironRole, size: 11.5),
-                    ],
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: onOpen,
+                    child: Row(
+                      children: [
+                        IronAvatar(mood: mood, size: 44, announce: announce),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: GapCol(
+                            gap: 0,
+                            children: [
+                              AiText(
+                                l.ironName,
+                                colors: ironGradient,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                              ),
+                              Muted(l.ironRole, size: 11.5),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 ?trailing,

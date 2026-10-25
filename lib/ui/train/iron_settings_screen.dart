@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../data/cloud.dart';
 import '../../domain/session.dart' show PainArea;
+import '../../domain/coach.dart';
 import '../../domain/energy.dart';
 import '../../domain/iron_rules.dart';
 import '../../l10n/app_localizations.dart';
@@ -318,12 +319,16 @@ class _HealthProfileScreenState extends ConsumerState<HealthProfileScreen> {
 
 /// Iron looks back at the week: what went well, what slipped, what changes.
 class IronReviewScreen extends ConsumerWidget {
-  const IronReviewScreen({super.key});
+  const IronReviewScreen({super.key, this.past});
+
+  /// A review from an earlier week, opened from the Iron Center.
+  final IronHistoryEntry? past;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final review = ref.watch(ironReviewProvider);
+    final kept = past == null ? null : IronReview.fromJson(past!.data, past!.day);
+    final review = kept != null ? AsyncValue.data(kept) : ref.watch(ironReviewProvider);
 
     Widget section(String head, List<String> items, String icon, Color color) => GapCol(
       gap: 8,

@@ -23,10 +23,13 @@ import 'iron_settings_screen.dart' show ironReadsLine;
 /// Iron builds a whole program from the user's numbers, like a personal
 /// trainer: daily eating targets, a week of training and three habits.
 class IronScreen extends ConsumerStatefulWidget {
-  const IronScreen({super.key, this.message});
+  const IronScreen({super.key, this.message, this.past});
 
   /// A message sent from Iron's card on Today: sent on arrival.
   final String? message;
+
+  /// A program Iron made before, opened from the Iron Center.
+  final IronHistoryEntry? past;
 
   @override
   ConsumerState<IronScreen> createState() => _IronScreenState();
@@ -42,9 +45,16 @@ class _IronScreenState extends ConsumerState<IronScreen> {
   /// send, when Iron's greeting shows instead of the conversation.
   List<String>? _asked;
 
+  /// What [IronScreen.past] came back as, shown until the user asks again.
+  Map<String, Object?>? _pastData;
+
   @override
   void initState() {
     super.initState();
+    if (widget.past case final e?) {
+      _asked = e.ask.isEmpty ? [''] : e.ask.split('\n');
+      _pastData = e.data;
+    }
     if (widget.message case final m? when m.trim().isNotEmpty) {
       _ask.text = m;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -78,6 +88,7 @@ class _IronScreenState extends ConsumerState<IronScreen> {
     setState(() {
       _busy = true;
       _program = null;
+      _pastData = null;
       _asked = asked;
       _ask.clear();
     });
@@ -120,7 +131,7 @@ class _IronScreenState extends ConsumerState<IronScreen> {
     final l = AppLocalizations.of(context);
     final lib = ref.watch(exerciseLibraryProvider).value;
     final profile = ref.watch(profileProvider);
-    final p = _program;
+    final p = _program ?? (_pastData != null && lib != null ? programFrom(_pastData!, lib) : null);
 
     Widget head(String text) =>
         Eyebrow(text, color: ironGradient[1], padding: const EdgeInsetsDirectional.only(start: 4, top: 4));

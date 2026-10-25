@@ -141,3 +141,37 @@ String weekKey(DateTime d) {
   final monday = DateTime(d.year, d.month, d.day - (d.weekday - 1));
   return '${monday.year}-${monday.month.toString().padLeft(2, '0')}-${monday.day.toString().padLeft(2, '0')}';
 }
+
+/// Something Iron made: a program or a weekly review, kept so the user can
+/// open it again. [data] is what the AI sent back, [ask] what the user said.
+class IronHistoryEntry {
+  const IronHistoryEntry({
+    required this.kind,
+    required this.day,
+    required this.title,
+    this.data = const {},
+    this.ask = '',
+  });
+  final String kind;
+  final String day;
+  final String title;
+  final Map<String, Object?> data;
+  final String ask;
+
+  static const program = 'program', review = 'review';
+
+  Map<String, Object?> toJson() => {'kind': kind, 'day': day, 'title': title, 'data': data, 'ask': ask};
+
+  static IronHistoryEntry? fromJson(Object? j) {
+    if (j is! Map) return null;
+    final kind = j['kind'], day = j['day'], title = j['title'];
+    if (kind is! String || day is! String || title is! String) return null;
+    return IronHistoryEntry(
+      kind: kind,
+      day: day,
+      title: title,
+      data: j['data'] is Map ? (j['data'] as Map).cast<String, Object?>() : const {},
+      ask: '${j['ask'] ?? ''}',
+    );
+  }
+}

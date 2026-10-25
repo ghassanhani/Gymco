@@ -49,7 +49,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['warning', 'settings', 'health', 'review', 'ask', 'routine', 'food']) {
+    for (final screen in ['warning', 'settings', 'health', 'review', 'ask', 'routine', 'food', 'center']) {
       testWidgets('iron2 $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -58,6 +58,22 @@ void main() {
             'appearance': look,
             'ironOn': true,
             'ironShareFood': true,
+            'ironHistory': jsonEncode([
+              {
+                'kind': 'program',
+                'day': '2026-09-24',
+                'title': 'Hold the cut and train four days so you keep muscle while it comes off.',
+                'data': <String, Object?>{},
+                'ask': '',
+              },
+              {
+                'kind': 'review',
+                'day': '2026-09-14',
+                'title': 'Four sessions and protein on target.',
+                'data': _review,
+                'ask': '',
+              },
+            ]),
             'ironTip': jsonEncode({..._tip, 'day': dayKey(testNow)}),
             'ironHealth': jsonEncode({
               'injuries': ['knee'],
@@ -73,7 +89,7 @@ void main() {
             ..ironReview = _review,
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
-        if (screen == 'health') {
+        if (screen == 'health' || screen == 'center') {
           tester.view.physicalSize = const Size(1170, 6600);
           await tester.binding.setSurfaceSize(const Size(390, 2200));
         }
@@ -85,6 +101,7 @@ void main() {
         } else {
           final path = switch (screen) {
             'ask' => '/iron',
+            'center' => '/iron/home',
             'routine' => '/routine/ai',
             'food' => '/add/lunch',
             _ => '/iron/$screen',

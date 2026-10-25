@@ -5259,4 +5259,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironHomeHint => 'Ask Iron for a program…';
+
+  @override
+  String get ironCenter => 'Iron Center';
+
+  @override
+  String get ironCenterSub => 'Everything Iron does for you';
+
+  @override
+  String get ironCenterQ =>
+      'Ask for a program or a routine, or tell me how today is going.';
+
+  @override
+  String get ironNeedsAttention => 'Needs your attention';
+
+  @override
+  String get ironTodayTip => 'Today\'s tip';
+
+  @override
+  String get ironCanDo => 'What Iron can do';
+
+  @override
+  String get ironShortRoutine => 'Build a routine';
+
+  @override
+  String get ironHistory => 'What Iron made for you';
+
+  @override
+  String histWeekOf(String date) {
+    return 'Week of $date';
+  }
 }

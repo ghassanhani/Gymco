@@ -3619,5 +3619,21 @@
   "ironRoutineReady": "Here's what I'd do. Add it if it looks right.",
   "ironRefineHint": "Change something, e.g. one day fewer",
   "askIronHint": "Message Iron…",
-  "ironHomeHint": "Ask Iron for a program…"
+  "ironHomeHint": "Ask Iron for a program…",
+  "ironCenter": "Iron Center",
+  "ironCenterSub": "Everything Iron does for you",
+  "ironCenterQ": "Ask for a program or a routine, or tell me how today is going.",
+  "ironNeedsAttention": "Needs your attention",
+  "ironTodayTip": "Today's tip",
+  "ironCanDo": "What Iron can do",
+  "ironShortRoutine": "Build a routine",
+  "ironHistory": "What Iron made for you",
+  "histWeekOf": "Week of {date}",
+  "@histWeekOf": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
 }

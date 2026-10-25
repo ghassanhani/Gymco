@@ -39,6 +39,8 @@ import 'ui/train/builder_screen.dart';
 import 'ui/train/exercise_picker_screen.dart';
 import 'ui/train/exercise_screen.dart';
 import 'ui/train/iron_screen.dart';
+import 'domain/coach.dart';
+import 'ui/train/iron_center_screen.dart';
 import 'ui/train/iron_settings_screen.dart';
 import 'ui/train/library_screen.dart';
 import 'ui/train/routine_screen.dart';
@@ -78,11 +80,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/routine/ai', builder: (_, _) => const AiRoutineScreen()),
       GoRoute(
         path: '/iron',
-        builder: (_, s) => IronScreen(message: s.extra is String ? s.extra! as String : null),
+        builder: (_, s) => IronScreen(
+          message: s.extra is String ? s.extra! as String : null,
+          past: s.extra is IronHistoryEntry ? s.extra! as IronHistoryEntry : null,
+        ),
       ),
+      GoRoute(path: '/iron/home', builder: (_, _) => const IronCenterScreen()),
       GoRoute(path: '/iron/settings', builder: (_, _) => const IronSettingsScreen()),
       GoRoute(path: '/iron/health', builder: (_, _) => const HealthProfileScreen()),
-      GoRoute(path: '/iron/review', builder: (_, _) => const IronReviewScreen()),
+      GoRoute(
+        path: '/iron/review',
+        builder: (_, s) => IronReviewScreen(past: s.extra is IronHistoryEntry ? s.extra! as IronHistoryEntry : null),
+      ),
       GoRoute(
         path: '/routine/new',
         builder: (_, s) => BuilderScreen(seed: s.extra is Routine ? s.extra! as Routine : null),

@@ -5276,4 +5276,34 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ironHomeHint => 'Pide a Iron un programa…';
+
+  @override
+  String get ironCenter => 'Centro Iron';
+
+  @override
+  String get ironCenterSub => 'Todo lo que Iron hace por ti';
+
+  @override
+  String get ironCenterQ =>
+      'Pide un programa o una rutina, o cuéntame cómo va tu día.';
+
+  @override
+  String get ironNeedsAttention => 'Necesita tu atención';
+
+  @override
+  String get ironTodayTip => 'Consejo de hoy';
+
+  @override
+  String get ironCanDo => 'Lo que Iron puede hacer';
+
+  @override
+  String get ironShortRoutine => 'Crear una rutina';
+
+  @override
+  String get ironHistory => 'Lo que Iron hizo para ti';
+
+  @override
+  String histWeekOf(String date) {
+    return 'Semana del $date';
+  }
 }

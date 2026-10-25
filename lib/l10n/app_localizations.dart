@@ -8643,6 +8643,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask Iron for a program…'**
   String get ironHomeHint;
+
+  /// No description provided for @ironCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron Center'**
+  String get ironCenter;
+
+  /// No description provided for @ironCenterSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything Iron does for you'**
+  String get ironCenterSub;
+
+  /// No description provided for @ironCenterQ.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a program or a routine, or tell me how today is going.'**
+  String get ironCenterQ;
+
+  /// No description provided for @ironNeedsAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs your attention'**
+  String get ironNeedsAttention;
+
+  /// No description provided for @ironTodayTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s tip'**
+  String get ironTodayTip;
+
+  /// No description provided for @ironCanDo.
+  ///
+  /// In en, this message translates to:
+  /// **'What Iron can do'**
+  String get ironCanDo;
+
+  /// No description provided for @ironShortRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Build a routine'**
+  String get ironShortRoutine;
+
+  /// No description provided for @ironHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'What Iron made for you'**
+  String get ironHistory;
+
+  /// No description provided for @histWeekOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Week of {date}'**
+  String histWeekOf(String date);
 }
 
 class _AppLocalizationsDelegate

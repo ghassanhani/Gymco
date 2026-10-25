@@ -5232,4 +5232,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironHomeHint => 'اطلب من آيرون برنامجًا…';
+
+  @override
+  String get ironCenter => 'مركز آيرون';
+
+  @override
+  String get ironCenterSub => 'كل ما يفعله آيرون لك';
+
+  @override
+  String get ironCenterQ =>
+      'اطلب برنامجًا أو روتينًا، أو أخبرني كيف يسير يومك.';
+
+  @override
+  String get ironNeedsAttention => 'يحتاج انتباهك';
+
+  @override
+  String get ironTodayTip => 'نصيحة اليوم';
+
+  @override
+  String get ironCanDo => 'ما يستطيع آيرون فعله';
+
+  @override
+  String get ironShortRoutine => 'ابنِ روتينًا';
+
+  @override
+  String get ironHistory => 'ما صنعه آيرون لك';
+
+  @override
+  String histWeekOf(String date) {
+    return 'أسبوع $date';
+  }
 }

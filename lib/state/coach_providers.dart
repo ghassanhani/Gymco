@@ -335,7 +335,21 @@ class IronActions {
           ask: ask,
           bucket: ref.read(installBucketProvider),
         );
-    return programFrom(data, lib);
+    final p = programFrom(data, lib);
+    if (!p.isEmpty) {
+      await ref
+          .read(ironHistoryProvider.notifier)
+          .add(
+            IronHistoryEntry(
+              kind: IronHistoryEntry.program,
+              day: dayKey(ref.read(clockProvider)()),
+              title: p.summary,
+              data: data,
+              ask: ask,
+            ),
+          );
+    }
+    return p;
   }
 
   /// Puts the program in place: the new targets, held to the check-in's
@@ -410,7 +424,12 @@ final ironReviewProvider = FutureProvider<IronReview?>((ref) async {
         bucket: ref.read(installBucketProvider),
       );
   final review = IronReview.fromJson(data, week);
-  if (review != null) await prefs.setString('ironReview', jsonEncode(review.toJson()));
+  if (review != null) {
+    await prefs.setString('ironReview', jsonEncode(review.toJson()));
+    await ref
+        .read(ironHistoryProvider.notifier)
+        .add(IronHistoryEntry(kind: IronHistoryEntry.review, day: week, title: review.headline, data: review.toJson()));
+  }
   return review;
 });
 
@@ -450,3 +469,29 @@ final ironWarningsProvider = Provider<List<IronSignal>>((ref) {
       if (s.level == SignalLevel.red && !dismissed.hides(s.id, now)) s,
   ];
 });
+
+/// What Iron made, newest first, the last 20.
+final ironHistoryProvider = NotifierProvider<IronHistory, List<IronHistoryEntry>>(IronHistory.new);
+
+class IronHistory extends Notifier<List<IronHistoryEntry>> {
+  static const _k = 'ironHistory';
+  static const _max = 20;
+
+  @override
+  List<IronHistoryEntry> build() {
+    try {
+      return [
+        for (final j in (jsonDecode(ref.watch(prefsProvider).getString(_k) ?? '[]') as List))
+          ?IronHistoryEntry.fromJson(j),
+      ];
+    } on Object {
+      return const [];
+    }
+  }
+
+  Future<void> add(IronHistoryEntry e) async {
+    final next = [e, ...state].take(_max).toList();
+    await ref.read(prefsProvider).setString(_k, jsonEncode([for (final x in next) x.toJson()]));
+    state = next;
+  }
+}

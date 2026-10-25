@@ -1430,5 +1430,14 @@
   "ironRoutineReady": "هذا ما أقترحه. أضفه إن بدا مناسبًا.",
   "ironRefineHint": "غيّر شيئًا، مثلًا يوم أقل",
   "askIronHint": "اكتب لآيرون…",
-  "ironHomeHint": "اطلب من آيرون برنامجًا…"
+  "ironHomeHint": "اطلب من آيرون برنامجًا…",
+  "ironCenter": "مركز آيرون",
+  "ironCenterSub": "كل ما يفعله آيرون لك",
+  "ironCenterQ": "اطلب برنامجًا أو روتينًا، أو أخبرني كيف يسير يومك.",
+  "ironNeedsAttention": "يحتاج انتباهك",
+  "ironTodayTip": "نصيحة اليوم",
+  "ironCanDo": "ما يستطيع آيرون فعله",
+  "ironShortRoutine": "ابنِ روتينًا",
+  "ironHistory": "ما صنعه آيرون لك",
+  "histWeekOf": "أسبوع {date}"
 }

@@ -144,4 +144,57 @@ void main() {
     expect(find.text('Three short sessions a week.'), findsOneWidget);
     expect(cloud.ironCalls, 1);
   });
+
+  testWidgets('the Iron Center keeps what Iron made, and opens it again without asking twice', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')
+      ..ironTip = tip
+      ..ironProgram = {
+        'summary': 'Three short sessions a week.',
+        'kcal': 2200,
+        'protein': 170,
+        'carbs': 220,
+        'fat': 70,
+        'why': '',
+        'routines': [],
+        'habits': ['Walk after dinner'],
+      };
+    final (_, prefs) = await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'ironOn': true,
+        'ironTip': jsonEncode({...tip, 'day': dayKey(testNow)}),
+      },
+      cloud: cloud,
+    );
+    await tester.scrollUntilVisible(find.byTooltip('Iron Center'), 300, scrollable: pageScroll);
+    await Scrollable.ensureVisible(tester.element(find.byTooltip('Iron Center')), alignment: 0.5);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Iron Center'));
+    await tester.pumpAndSettle();
+    expect(find.text('Iron Center'), findsOneWidget);
+    expect(find.text('Build a routine'), findsOneWidget);
+    // Ask from the Center: Iron's screen opens with the program.
+    await tester.tap(find.byTooltip('My program').last);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Build my program'));
+    await tester.pumpAndSettle();
+    expect(find.text('Three short sessions a week.'), findsOneWidget);
+    expect(cloud.ironCalls, 1);
+    expect(prefs.getString('ironHistory'), contains('Three short sessions a week.'));
+    await tester.tap(find.byTooltip('Back').last);
+    await tester.pumpAndSettle();
+    // It is in the history now; opening it again costs nothing.
+    final centerList = find
+        .descendant(
+          of: find.byType(Scaffold).last,
+          matching: find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down),
+        )
+        .first;
+    await tester.scrollUntilVisible(find.text('Three short sessions a week.'), 300, scrollable: centerList);
+    await tester.tap(find.text('Three short sessions a week.'));
+    await tester.pumpAndSettle();
+    expect(find.text('Walk after dinner'), findsOneWidget);
+    expect(cloud.ironCalls, 1);
+  });
 }

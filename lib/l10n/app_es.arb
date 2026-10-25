@@ -1430,5 +1430,14 @@
   "ironRoutineReady": "Esto es lo que haría. Añádelo si te convence.",
   "ironRefineHint": "Cambia algo, p. ej. un día menos",
   "askIronHint": "Escribe a Iron…",
-  "ironHomeHint": "Pide a Iron un programa…"
+  "ironHomeHint": "Pide a Iron un programa…",
+  "ironCenter": "Centro Iron",
+  "ironCenterSub": "Todo lo que Iron hace por ti",
+  "ironCenterQ": "Pide un programa o una rutina, o cuéntame cómo va tu día.",
+  "ironNeedsAttention": "Necesita tu atención",
+  "ironTodayTip": "Consejo de hoy",
+  "ironCanDo": "Lo que Iron puede hacer",
+  "ironShortRoutine": "Crear una rutina",
+  "ironHistory": "Lo que Iron hizo para ti",
+  "histWeekOf": "Semana del {date}"
 }
