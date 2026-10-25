@@ -163,6 +163,16 @@ abstract class Cloud {
     int? bucket,
   });
 
+  /// Training routines built from the user's own words, picked from
+  /// [exercises] (the names the phone's library has). Returns the raw answer
+  /// for [planFrom] with the AI credits left today.
+  Future<(Map<String, Object?>, int)> planRoutines(
+    String text, {
+    required List<String> exercises,
+    required String languageCode,
+    int? bucket,
+  });
+
   /// The published remote config for this device, or null when there is
   /// none to fetch. Works signed out.
   Future<Map<String, Object?>?> fetchConfig(Map<String, String> device);
@@ -217,6 +227,13 @@ class NoCloud implements Cloud {
     required String languageCode,
     String note = '',
     String? feature,
+    int? bucket,
+  }) async => _no();
+  @override
+  Future<(Map<String, Object?>, int)> planRoutines(
+    String text, {
+    required List<String> exercises,
+    required String languageCode,
     int? bucket,
   }) async => _no();
   @override
@@ -432,5 +449,21 @@ class SupabaseCloud implements Cloud {
         if (f is Map) PhotoFood.fromJson(f.cast<String, Object?>()),
     ].where((f) => f.name.isNotEmpty).toList();
     return (foods, (data['left'] as num?)?.toInt() ?? 0);
+  });
+
+  @override
+  Future<(Map<String, Object?>, int)> planRoutines(
+    String text, {
+    required List<String> exercises,
+    required String languageCode,
+    int? bucket,
+  }) => _guard(() async {
+    _uid;
+    final r = await _sb.functions.invoke(
+      'routine-ai',
+      body: {'text': text.trim(), 'exercises': exercises, 'lang': languageCode, 'bucket': ?bucket},
+    );
+    final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
+    return (data, (data['left'] as num?)?.toInt() ?? 0);
   });
 }

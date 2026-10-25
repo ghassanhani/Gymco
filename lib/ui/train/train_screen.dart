@@ -627,6 +627,7 @@ class _FirstRoutine extends ConsumerWidget {
           ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
           context.push('/workout');
         }),
+        choice('star', l.describeIt, l.describeItSub, () => context.push('/routine/ai')),
         choice('plus', l.buildOwn, l.buildOwnSub, () => context.push('/routine/new')),
         Eyebrow(l.orTemplate, padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 4, 0)),
         TemplateList(onDone: (title) => showVToast(context, l.templateAdded(title))),

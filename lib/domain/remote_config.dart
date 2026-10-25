@@ -42,6 +42,7 @@ class RemoteConfig {
   bool get photoLog => _b('features', 'photo_log', true) && _b('ai', 'photo', true);
   bool get eatingOut => _b('features', 'eating_out', true);
   bool get eatingOutAi => eatingOut && _b('ai', 'eating_out', true);
+  bool get routineAi => _b('ai', 'routine', true);
   bool get dictate => _b('features', 'dictate', true);
   bool get barcodeContribute => _b('features', 'barcode_contribute', true);
   bool get cheatMeals => _b('features', 'cheat_meals', true);

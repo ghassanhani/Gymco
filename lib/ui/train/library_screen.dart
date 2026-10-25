@@ -104,6 +104,19 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
               child: Pad(
                 bottom: live ? 190 : 116,
                 children: [
+                  VList(
+                    children: [
+                      VItem(
+                        semantics: l.describeIt,
+                        onTap: () => context.push('/routine/ai'),
+                        children: [
+                          VIcon('star', size: 19, color: Volt.brandInk),
+                          ItemText(l.describeIt, sub: l.describeItSub, weight: FontWeight.w600),
+                          VIcon('fwd', size: 18, color: Volt.t3),
+                        ],
+                      ),
+                    ],
+                  ),
                   folder(RoutineFolder.plan, l.folderPlan),
                   folder(RoutineFolder.mine, l.folderMine),
                   VList(

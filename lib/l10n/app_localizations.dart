@@ -7839,6 +7839,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No day picked: it stays in My routines, ready any time.'**
   String get noDayNote;
+
+  /// No description provided for @aiRoutineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your routine'**
+  String get aiRoutineTitle;
+
+  /// No description provided for @aiRoutineSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco builds it from your words'**
+  String get aiRoutineSub;
+
+  /// No description provided for @aiRoutineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How many days, your goal, how long you have, what equipment. For example: 4 days a week, upper and lower, 60 minutes, full gym.'**
+  String get aiRoutineHint;
+
+  /// No description provided for @aiRoutineEx1.
+  ///
+  /// In en, this message translates to:
+  /// **'3 days, full body, 45 min'**
+  String get aiRoutineEx1;
+
+  /// No description provided for @aiRoutineEx2.
+  ///
+  /// In en, this message translates to:
+  /// **'Push, pull, legs, 6 days'**
+  String get aiRoutineEx2;
+
+  /// No description provided for @aiRoutineEx3.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbells only at home, 4 days'**
+  String get aiRoutineEx3;
+
+  /// No description provided for @aiRoutineEx4.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper and lower, 4 days, 60 min'**
+  String get aiRoutineEx4;
+
+  /// No description provided for @aiRoutineBuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Build my routine'**
+  String get aiRoutineBuild;
+
+  /// No description provided for @aiRoutineBuilding.
+  ///
+  /// In en, this message translates to:
+  /// **'Building your routine…'**
+  String get aiRoutineBuilding;
+
+  /// No description provided for @aiRoutineAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{Add 1 routine to my plan} other{Add {n} routines to my plan}}'**
+  String aiRoutineAdd(int n);
+
+  /// No description provided for @aiRoutineAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get aiRoutineAgain;
+
+  /// No description provided for @aiRoutineNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymco couldn’t build a routine from that. Say how many days and what you want to train.'**
+  String get aiRoutineNone;
+
+  /// No description provided for @aiRoutineMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Left out, not in the library: {names}'**
+  String aiRoutineMissing(String names);
+
+  /// No description provided for @aiRoutineAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{n, plural, =1{1 routine added to your plan} other{{n} routines added to your plan}}'**
+  String aiRoutineAdded(int n);
+
+  /// No description provided for @aiRoutineOff.
+  ///
+  /// In en, this message translates to:
+  /// **'The routine builder is resting. Try again later.'**
+  String get aiRoutineOff;
+
+  /// No description provided for @aiRoutineCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check it before you train: the AI can get things wrong.'**
+  String get aiRoutineCheck;
+
+  /// No description provided for @describeIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe it with AI'**
+  String get describeIt;
+
+  /// No description provided for @describeItSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Type what you want, Gymco builds it'**
+  String get describeItSub;
 }
 
 class _AppLocalizationsDelegate

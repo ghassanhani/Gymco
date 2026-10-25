@@ -3405,5 +3405,44 @@
   "headEasy": "Recover today, come back stronger",
   "headLearning": "Getting to know you",
   "whichDays": "Which days?",
-  "noDayNote": "No day picked: it stays in My routines, ready any time."
+  "noDayNote": "No day picked: it stays in My routines, ready any time.",
+  "aiRoutineTitle": "Describe your routine",
+  "aiRoutineSub": "Gymco builds it from your words",
+  "aiRoutineHint": "How many days, your goal, how long you have, what equipment. For example: 4 days a week, upper and lower, 60 minutes, full gym.",
+  "aiRoutineEx1": "3 days, full body, 45 min",
+  "aiRoutineEx2": "Push, pull, legs, 6 days",
+  "aiRoutineEx3": "Dumbbells only at home, 4 days",
+  "aiRoutineEx4": "Upper and lower, 4 days, 60 min",
+  "aiRoutineBuild": "Build my routine",
+  "aiRoutineBuilding": "Building your routine…",
+  "aiRoutineAdd": "{n, plural, =1{Add 1 routine to my plan} other{Add {n} routines to my plan}}",
+  "@aiRoutineAdd": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "aiRoutineAgain": "Try again",
+  "aiRoutineNone": "Gymco couldn’t build a routine from that. Say how many days and what you want to train.",
+  "aiRoutineMissing": "Left out, not in the library: {names}",
+  "@aiRoutineMissing": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "aiRoutineAdded": "{n, plural, =1{1 routine added to your plan} other{{n} routines added to your plan}}",
+  "@aiRoutineAdded": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "aiRoutineOff": "The routine builder is resting. Try again later.",
+  "aiRoutineCheck": "Check it before you train: the AI can get things wrong.",
+  "describeIt": "Describe it with AI",
+  "describeItSub": "Type what you want, Gymco builds it"
 }

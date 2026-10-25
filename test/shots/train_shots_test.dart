@@ -89,17 +89,73 @@ Future<int> _plan(LocalDb db) async {
   return push;
 }
 
+Map<String, Object?> _item(String name, int sets, int lo, int hi, int rest) => {
+  'exercise': name,
+  'sets': sets,
+  'rep_low': lo,
+  'rep_high': hi,
+  'rest_seconds': rest,
+};
+
+/// What the routine builder might answer for "Upper and lower, 4 days, 60 min".
+final _aiPlan = <String, Object?>{
+  'summary': 'Four days a week: upper and lower twice each, heavy early in the week and lighter later.',
+  'routines': [
+    {
+      'name': 'Upper A',
+      'days': [0],
+      'items': [
+        _item('Barbell Bench Press - Medium Grip', 4, 5, 8, 150),
+        _item('Bent Over Barbell Row', 4, 6, 8, 150),
+        _item('Barbell Shoulder Press', 3, 6, 10, 120),
+        _item('Wide-Grip Lat Pulldown', 3, 8, 12, 90),
+        _item('Barbell Curl', 2, 10, 12, 60),
+      ],
+    },
+    {
+      'name': 'Lower A',
+      'days': [1],
+      'items': [
+        _item('Barbell Full Squat', 4, 5, 8, 180),
+        _item('Romanian Deadlift', 3, 6, 10, 150),
+        _item('Leg Press', 3, 10, 12, 120),
+        _item('Standing Calf Raises', 4, 10, 15, 60),
+      ],
+    },
+    {
+      'name': 'Upper B',
+      'days': [3],
+      'items': [
+        _item('Barbell Incline Bench Press - Medium Grip', 3, 8, 10, 120),
+        _item('Seated Cable Rows', 3, 10, 12, 90),
+        _item('Side Lateral Raise', 3, 12, 15, 60),
+        _item('Triceps Pushdown', 3, 10, 12, 60),
+      ],
+    },
+    {
+      'name': 'Lower B',
+      'days': [4],
+      'items': [
+        _item('Barbell Deadlift', 3, 3, 5, 180),
+        _item('Lying Leg Curls', 3, 10, 12, 90),
+        _item('Barbell Lunge', 3, 8, 12, 90),
+      ],
+    },
+  ],
+};
+
 void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['train', 'view', 'edit']) {
+    for (final screen in ['train', 'view', 'edit', 'ai', 'ai-result']) {
       testWidgets('train $look $screen', skip: !run, (tester) async {
         late int push;
         await pumpApp(
           tester,
           prefs: {'profile': savedProfile, 'appearance': look},
           library: realLibrary(),
+          cloud: FakeCloud(signedIn: 'me@example.com', plan: _aiPlan),
           seed: (db) async => push = await _plan(db),
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
@@ -109,10 +165,19 @@ void main() {
         router.go(switch (screen) {
           'train' => '/train',
           'view' => '/routine/$push/view',
-          _ => '/routine/$push',
+          'edit' => '/routine/$push',
+          _ => '/routine/ai',
         });
         for (var i = 0; i < 20; i++) {
           await tester.pump(const Duration(milliseconds: 100));
+        }
+        if (screen == 'ai-result') {
+          await tester.tap(find.text('Upper and lower, 4 days, 60 min'));
+          await tester.pump();
+          await tester.tap(find.text('Build my routine'));
+          for (var i = 0; i < 20; i++) {
+            await tester.pump(const Duration(milliseconds: 100));
+          }
         }
         await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 400)));
         await tester.pump(const Duration(seconds: 1));

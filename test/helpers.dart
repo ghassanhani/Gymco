@@ -130,8 +130,13 @@ class FakeDictation implements Dictation {
 /// An account in memory: code 123456 signs in, one backup slot, a photo
 /// that always shows [photoFoods].
 class FakeCloud implements Cloud {
-  FakeCloud({this.signedIn, this.backup, this.photoFoods = const [], this.scansLeft = 9});
+  FakeCloud({this.signedIn, this.backup, this.photoFoods = const [], this.scansLeft = 9, this.plan = const {}});
   String? signedIn;
+
+  /// What routine-ai answers, as the function's JSON body.
+  Map<String, Object?> plan;
+  String? lastPlanText;
+  List<String> lastPlanNames = const [];
   CloudBackup? backup;
   List<PhotoFood> photoFoods;
   int scansLeft;
@@ -259,6 +264,20 @@ class FakeCloud implements Cloud {
     lastHadImage = jpeg != null;
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
     return (photoFoods, --scansLeft);
+  }
+
+  @override
+  Future<(Map<String, Object?>, int)> planRoutines(
+    String text, {
+    required List<String> exercises,
+    required String languageCode,
+    int? bucket,
+  }) async {
+    lastPlanText = text;
+    lastPlanNames = exercises;
+    if (paused) throw const CloudException(CloudFailure.paused);
+    if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
+    return (plan, --scansLeft);
   }
 }
 

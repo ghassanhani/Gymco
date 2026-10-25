@@ -4772,4 +4772,78 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noDayNote => 'لم تختر يومًا: يبقى في روتيناتي، جاهزًا في أي وقت.';
+
+  @override
+  String get aiRoutineTitle => 'صف روتينك';
+
+  @override
+  String get aiRoutineSub => 'يبنيه Gymco من كلماتك';
+
+  @override
+  String get aiRoutineHint =>
+      'كم يومًا، وهدفك، ووقتك، والأدوات المتاحة. مثلًا: ٤ أيام في الأسبوع، علوي وسفلي، ٦٠ دقيقة، صالة كاملة.';
+
+  @override
+  String get aiRoutineEx1 => '٣ أيام، الجسم كامل، ٤٥ دقيقة';
+
+  @override
+  String get aiRoutineEx2 => 'دفع، سحب، أرجل، ٦ أيام';
+
+  @override
+  String get aiRoutineEx3 => 'دمبل فقط في البيت، ٤ أيام';
+
+  @override
+  String get aiRoutineEx4 => 'علوي وسفلي، ٤ أيام، ٦٠ دقيقة';
+
+  @override
+  String get aiRoutineBuild => 'ابنِ روتيني';
+
+  @override
+  String get aiRoutineBuilding => 'نبني روتينك…';
+
+  @override
+  String aiRoutineAdd(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'أضف $n روتينات إلى خطتي',
+      one: 'أضف روتينًا واحدًا إلى خطتي',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRoutineAgain => 'أعد المحاولة';
+
+  @override
+  String get aiRoutineNone =>
+      'لم يتمكن Gymco من بناء روتين من ذلك. اذكر عدد الأيام وما تريد تمرينه.';
+
+  @override
+  String aiRoutineMissing(String names) {
+    return 'تُرك لأنه غير موجود في المكتبة: $names';
+  }
+
+  @override
+  String aiRoutineAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'أُضيفت $n روتينات إلى خطتك',
+      one: 'أُضيف روتين واحد إلى خطتك',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRoutineOff => 'منشئ الروتين متوقف مؤقتًا. حاول لاحقًا.';
+
+  @override
+  String get aiRoutineCheck => 'راجعه قبل أن تتمرن: قد يخطئ الذكاء الاصطناعي.';
+
+  @override
+  String get describeIt => 'صفه بالذكاء الاصطناعي';
+
+  @override
+  String get describeItSub => 'اكتب ما تريد، ويبنيه Gymco';
 }

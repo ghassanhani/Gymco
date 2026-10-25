@@ -64,3 +64,10 @@ Deno.test("cost is tokens × the model's price, in euros", () => {
 Deno.test("when today's spend can't be read, AI rests as if the budget were reached", () => {
   assertEquals(gate(defaults(), "photo", null), { ok: false, reason: "budget" });
 });
+
+Deno.test("the routine builder has its own switch", () => {
+  const c = defaults();
+  assertEquals(gate(c, "routine", 0), { ok: true });
+  c.ai.routine = false;
+  assertEquals(gate(c, "routine", 0), { ok: false, reason: "feature_off" });
+});

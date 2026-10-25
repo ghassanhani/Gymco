@@ -66,6 +66,7 @@ export const SCHEMA: Record<string, Record<string, KeySpec>> = {
     photo: { kind: "bool", default: true, label: "Photo scans" },
     write: { kind: "bool", default: true, label: "Write fallback estimates" },
     eating_out: { kind: "bool", default: true, label: "Eating out “Something else”" },
+    routine: { kind: "bool", default: true, label: "Routine builder from text" },
     model: { kind: "enum", default: "claude-haiku-5-5", options: ["claude-haiku-5-5"], label: "Model" },
     prompt_version: { kind: "int", default: 1, min: 1, max: 1, label: "Prompt version" },
     next_model: { kind: "enum", default: "claude-haiku-5-5", options: ["claude-haiku-5-5"], label: "Rollout model" },

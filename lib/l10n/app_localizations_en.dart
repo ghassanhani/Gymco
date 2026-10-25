@@ -4790,4 +4790,79 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noDayNote =>
       'No day picked: it stays in My routines, ready any time.';
+
+  @override
+  String get aiRoutineTitle => 'Describe your routine';
+
+  @override
+  String get aiRoutineSub => 'Gymco builds it from your words';
+
+  @override
+  String get aiRoutineHint =>
+      'How many days, your goal, how long you have, what equipment. For example: 4 days a week, upper and lower, 60 minutes, full gym.';
+
+  @override
+  String get aiRoutineEx1 => '3 days, full body, 45 min';
+
+  @override
+  String get aiRoutineEx2 => 'Push, pull, legs, 6 days';
+
+  @override
+  String get aiRoutineEx3 => 'Dumbbells only at home, 4 days';
+
+  @override
+  String get aiRoutineEx4 => 'Upper and lower, 4 days, 60 min';
+
+  @override
+  String get aiRoutineBuild => 'Build my routine';
+
+  @override
+  String get aiRoutineBuilding => 'Building your routine…';
+
+  @override
+  String aiRoutineAdd(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Add $n routines to my plan',
+      one: 'Add 1 routine to my plan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRoutineAgain => 'Try again';
+
+  @override
+  String get aiRoutineNone =>
+      'Gymco couldn’t build a routine from that. Say how many days and what you want to train.';
+
+  @override
+  String aiRoutineMissing(String names) {
+    return 'Left out, not in the library: $names';
+  }
+
+  @override
+  String aiRoutineAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n routines added to your plan',
+      one: '1 routine added to your plan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRoutineOff => 'The routine builder is resting. Try again later.';
+
+  @override
+  String get aiRoutineCheck =>
+      'Check it before you train: the AI can get things wrong.';
+
+  @override
+  String get describeIt => 'Describe it with AI';
+
+  @override
+  String get describeItSub => 'Type what you want, Gymco builds it';
 }

@@ -4808,4 +4808,80 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get noDayNote =>
       'Sin día elegido: queda en Mis rutinas, listo cuando quieras.';
+
+  @override
+  String get aiRoutineTitle => 'Describe tu rutina';
+
+  @override
+  String get aiRoutineSub => 'Gymco la crea con tus palabras';
+
+  @override
+  String get aiRoutineHint =>
+      'Cuántos días, tu objetivo, cuánto tiempo tienes y qué material. Por ejemplo: 4 días a la semana, torso y pierna, 60 minutos, gimnasio completo.';
+
+  @override
+  String get aiRoutineEx1 => '3 días, cuerpo completo, 45 min';
+
+  @override
+  String get aiRoutineEx2 => 'Empuje, tirón, pierna, 6 días';
+
+  @override
+  String get aiRoutineEx3 => 'Solo mancuernas en casa, 4 días';
+
+  @override
+  String get aiRoutineEx4 => 'Torso y pierna, 4 días, 60 min';
+
+  @override
+  String get aiRoutineBuild => 'Crear mi rutina';
+
+  @override
+  String get aiRoutineBuilding => 'Creando tu rutina…';
+
+  @override
+  String aiRoutineAdd(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'Añadir $n rutinas a mi plan',
+      one: 'Añadir 1 rutina a mi plan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRoutineAgain => 'Intentar de nuevo';
+
+  @override
+  String get aiRoutineNone =>
+      'Gymco no pudo crear una rutina con eso. Di cuántos días y qué quieres entrenar.';
+
+  @override
+  String aiRoutineMissing(String names) {
+    return 'Omitido, no está en la biblioteca: $names';
+  }
+
+  @override
+  String aiRoutineAdded(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n rutinas añadidas a tu plan',
+      one: '1 rutina añadida a tu plan',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiRoutineOff =>
+      'El creador de rutinas está en pausa. Inténtalo más tarde.';
+
+  @override
+  String get aiRoutineCheck =>
+      'Revísala antes de entrenar: la IA puede equivocarse.';
+
+  @override
+  String get describeIt => 'Descríbela con IA';
+
+  @override
+  String get describeItSub => 'Escribe lo que quieres y Gymco la crea';
 }

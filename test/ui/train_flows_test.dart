@@ -122,6 +122,65 @@ void main() {
     expect(r.folder, RoutineFolder.mine);
   });
 
+  testWidgets('a routine described in words is built by the AI and added to the plan', (tester) async {
+    final cloud = FakeCloud(
+      signedIn: 'me@example.com',
+      plan: {
+        'summary': 'Two upper days and one for legs.',
+        'routines': [
+          {
+            'name': 'Upper',
+            'days': [0, 3],
+            'items': [
+              {'exercise': 'Barbell Bench Press', 'sets': 4, 'rep_low': 6, 'rep_high': 8, 'rest_seconds': 150},
+              {'exercise': 'Side Lateral Raise', 'sets': 3, 'rep_low': 12, 'rep_high': 15, 'rest_seconds': 60},
+            ],
+          },
+          {
+            'name': 'Legs',
+            'days': [5],
+            'items': [
+              {'exercise': 'Barbell Squat', 'sets': 4, 'rep_low': 5, 'rep_high': 8, 'rest_seconds': 180},
+            ],
+          },
+        ],
+      },
+    );
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
+    await openTrain(tester);
+    await tester.tap(find.text('Describe it with AI'));
+    await settle(tester);
+    expect(find.text('Build my routine'), findsOneWidget);
+    await tester.tap(find.text('Upper and lower, 4 days, 60 min'));
+    await tester.pump();
+    await tester.tap(find.text('Build my routine'));
+    await settle(tester);
+    expect(cloud.lastPlanText, 'Upper and lower, 4 days, 60 min');
+    expect(cloud.lastPlanNames, contains('Barbell Bench Press'));
+    expect(find.text('Two upper days and one for legs.'), findsOneWidget);
+    expect(find.text('Upper'), findsOneWidget);
+    expect(find.text('4 × 6–8'), findsOneWidget);
+    await tester.tap(find.text('Add 2 routines to my plan'));
+    await settle(tester);
+    final saved = {for (final r in await db.routines()) r.name: r};
+    expect(saved['Upper']!.days, {0, 3});
+    expect(saved['Legs']!.items.single.exerciseId, 'squat');
+    // Saturday is today: Legs is today's session now.
+    expect(find.text('Start all'), findsOneWidget);
+  });
+
+  testWidgets('the AI routine builder asks a signed-out user to sign in', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: FakeCloud());
+    await openTrain(tester);
+    await tester.tap(find.text('Describe it with AI'));
+    await settle(tester);
+    await tester.enterText(find.byType(TextField), '3 days full body');
+    await tester.pump();
+    await tester.tap(find.text('Build my routine'));
+    await settle(tester);
+    expect(find.textContaining('Sign in to use the AI'), findsOneWidget);
+  });
+
   testWidgets('a duplicate routine name is refused', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, seed: (db) => db.saveRoutineFixture('Push A'));
     await openTrain(tester);
