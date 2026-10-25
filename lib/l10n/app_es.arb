@@ -1261,7 +1261,7 @@
   "readyLearning": "Aprendiendo",
   "adviceReady": "El sueño y el corazón están de tu lado. Ve a por un récord personal.",
   "adviceSteady": "Bien para entrenar. Completa cada serie y guarda el récord para un día más fresco.",
-  "adviceEasy": "Tu cuerpo aún se está recuperando. Baja el peso o sal a caminar: así se consolida el progreso.",
+  "adviceEasy": "Tu cuerpo aún se recupera. Baja el peso o sal a caminar.",
   "adviceLearning": "Usa tu reloj unas noches más y Gymco aprenderá lo que es normal para ti.",
   "activeKcalToday": "{n} kcal activas hoy",
   "watchWorkoutLine": "{kind} · {minutes} min · {source}",

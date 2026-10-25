@@ -90,26 +90,42 @@ class RecoveryCard extends ConsumerWidget {
     ];
 
     return VCard(
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+      padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Center(
-            child: _Gauge(score: r.score, tone: tone, word: word, label: l.readinessLbl),
+          Row(
+            children: [
+              _Gauge(score: r.score, tone: tone, word: word, label: l.readinessLbl),
+              const SizedBox(width: 14),
+              Expanded(
+                child: GapCol(
+                  gap: 3,
+                  children: [
+                    Text(
+                      word.toUpperCase(),
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1, color: tone),
+                    ),
+                    Text(
+                      head,
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
+                    ),
+                    Text(
+                      advice,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 12, height: 1.3, color: Volt.t2),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 14),
-          Text(
-            head,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
-          ),
-          const SizedBox(height: 6),
-          Muted(advice, align: TextAlign.center, size: 13, color: Volt.t2),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Row(
             children: [
               for (var i = 0; i < chips.length; i++) ...[
-                if (i > 0) const SizedBox(width: 8),
+                if (i > 0) const SizedBox(width: 6),
                 Expanded(child: chips[i]),
               ],
             ],
@@ -297,29 +313,20 @@ class _Gauge extends StatelessWidget {
   final String label;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: 220,
-    height: 124,
-    child: TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: (score ?? 0) / 100),
-      duration: const Duration(milliseconds: 1100),
-      curve: Curves.easeOutCubic,
-      builder: (context, f, _) => CustomPaint(
-        painter: _GaugePainter(f, Volt.tint.withValues(alpha: 0.08)),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 34),
-          child: Column(
-            children: [
-              Text(
-                label.toUpperCase(),
-                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 1.2, color: Volt.t3),
-              ),
-              Text(score == null ? '—' : '${(f * 100).round()}', style: numStyle(44, height: 1.05)),
-              Text(
-                word,
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: tone),
-              ),
-            ],
+  Widget build(BuildContext context) => Semantics(
+    label: '$label ${score ?? '—'}, $word',
+    child: SizedBox(
+      width: 96,
+      height: 58,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: (score ?? 0) / 100),
+        duration: const Duration(milliseconds: 1100),
+        curve: Curves.easeOutCubic,
+        builder: (context, f, _) => CustomPaint(
+          painter: _GaugePainter(f, Volt.tint.withValues(alpha: 0.08)),
+          child: Align(
+            alignment: const Alignment(0, 0.9),
+            child: Text(score == null ? '—' : '${(f * 100).round()}', style: numStyle(26, height: 1)),
           ),
         ),
       ),
@@ -334,9 +341,9 @@ class _GaugePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const w = 12.0;
-    final r = size.width / 2 - w;
-    final c = Offset(size.width / 2, r + w);
+    const w = 8.0;
+    final r = size.width / 2 - w / 2;
+    final c = Offset(size.width / 2, r + w / 2);
     final rect = Rect.fromCircle(center: c, radius: r);
     Paint arc(Color? color) => Paint()
       ..style = PaintingStyle.stroke
@@ -372,8 +379,8 @@ class _Chip extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     label: '$label $value',
     child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(14)),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+      decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -391,14 +398,14 @@ class _Chip extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: AlignmentDirectional.centerStart,
             child: Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: ltr(value), style: numStyle(15)),
+                  TextSpan(text: ltr(value), style: numStyle(14)),
                   if (delta case (final d, final c))
                     TextSpan(
                       text: '  ${ltr(d)}',

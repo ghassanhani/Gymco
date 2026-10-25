@@ -4690,7 +4690,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get adviceEasy =>
-      'Tu cuerpo aún se está recuperando. Baja el peso o sal a caminar: así se consolida el progreso.';
+      'Tu cuerpo aún se recupera. Baja el peso o sal a caminar.';
 
   @override
   String get adviceLearning =>

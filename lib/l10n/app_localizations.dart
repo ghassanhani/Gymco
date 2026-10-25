@@ -7627,7 +7627,7 @@ abstract class AppLocalizations {
   /// No description provided for @adviceEasy.
   ///
   /// In en, this message translates to:
-  /// **'Your body is still catching up. Go lighter or take a walk — that’s how progress sticks.'**
+  /// **'Your body is still catching up. Go lighter, or take a walk.'**
   String get adviceEasy;
 
   /// No description provided for @adviceLearning.

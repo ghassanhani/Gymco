@@ -4656,8 +4656,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'جاهز لتمرين جيد. أكمل كل المجموعات، واترك الرقم القياسي ليوم أنشط.';
 
   @override
-  String get adviceEasy =>
-      'جسمك ما زال يتعافى. خفّف الأوزان أو امشِ قليلًا، هكذا يثبت التقدّم.';
+  String get adviceEasy => 'جسمك ما زال يتعافى. خفّف الأوزان، أو امشِ قليلًا.';
 
   @override
   String get adviceLearning =>

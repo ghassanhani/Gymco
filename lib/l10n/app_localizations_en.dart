@@ -4672,7 +4672,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adviceEasy =>
-      'Your body is still catching up. Go lighter or take a walk — that’s how progress sticks.';
+      'Your body is still catching up. Go lighter, or take a walk.';
 
   @override
   String get adviceLearning =>
