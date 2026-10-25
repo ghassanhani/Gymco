@@ -536,7 +536,6 @@ class AskIron extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -557,12 +556,6 @@ class AskIron extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AiText(
-                      l.ironName,
-                      colors: ironGradient,
-                      style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800),
-                    ),
-                    const SizedBox(height: 2),
                     AnimatedSwitcher(
                       duration: const Duration(milliseconds: 200),
                       child: Text(
