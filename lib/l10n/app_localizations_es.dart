@@ -4813,7 +4813,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get aiRoutineTitle => 'Describe tu rutina';
 
   @override
-  String get aiRoutineSub => 'Gymco la crea con tus palabras';
+  String get aiRoutineSub => 'Iron la crea con tus palabras';
 
   @override
   String get aiRoutineHint =>
@@ -5044,7 +5044,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Una de tus respuestas de salud indica pedir el visto bueno de un médico antes de entrenar fuerte. Mientras tanto, la actividad suave está bien.';
 
   @override
-  String get warnCleared => 'Mi médico me dio el visto bueno';
+  String get warnCleared => 'Tengo permiso';
 
   @override
   String get warnGotIt => 'Entendido';
@@ -5201,4 +5201,47 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get reviewLoading => 'Iron está repasando tu semana…';
+
+  @override
+  String get askIronTo => 'Para Iron';
+
+  @override
+  String get askIronSend => 'Enviar';
+
+  @override
+  String get ironQProgram =>
+      '¿Qué debo saber antes de crear tu programa? O envía sin más y trabajaré con tus números.';
+
+  @override
+  String get ironQProgramBusy => 'Leyendo tus números y creando tu programa…';
+
+  @override
+  String get ironQRoutine =>
+      '¿Cómo quieres entrenar? Dime los días, el tiempo que tienes, tu equipo y tu objetivo.';
+
+  @override
+  String get ironQRoutineBusy => 'Armando tu rutina…';
+
+  @override
+  String get ironQFood =>
+      '¿Qué comiste? Escríbelo como si me mandaras un mensaje, un alimento por línea.';
+
+  @override
+  String get ironQEatOut =>
+      '¿No está en la lista? Describe el plato y lo estimaré.';
+
+  @override
+  String get ironQEatOutBusy => 'Calculando lo que hay en ese plato…';
+
+  @override
+  String get ironAskEstimate => 'Pide a Iron que lo estime';
+
+  @override
+  String get ironAskEx1 => 'Solo tengo 45 minutos';
+
+  @override
+  String get ironAskEx2 => 'Entreno en casa, solo mancuernas';
+
+  @override
+  String get ironAskEx3 => 'Rodilla mal, sin saltos';
 }

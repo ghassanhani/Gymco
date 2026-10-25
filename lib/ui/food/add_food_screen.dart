@@ -14,6 +14,7 @@ import '../../state/cloud_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
+import '../common/ask_iron.dart';
 import '../kit/kit.dart';
 import '../progress/progress_screen.dart' show showNumberSheet;
 import '../me/account_screen.dart' show cloudMessage;
@@ -592,7 +593,17 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
           );
     final List<Widget> body;
     if (_mode == 'write') {
-      body = [LogArea(controller: _log, onChanged: _onLogChanged, hint: l.writeHint), rows ?? const WriteEmpty()];
+      body = [
+        AskIron(
+          question: l.ironQFood,
+          controller: _log,
+          onChanged: _onLogChanged,
+          hint: l.writeHint,
+          minLines: 4,
+          maxLines: null,
+        ),
+        rows ?? const WriteEmpty(),
+      ];
     } else if (_mode == 'voice') {
       body = [
         VCard(

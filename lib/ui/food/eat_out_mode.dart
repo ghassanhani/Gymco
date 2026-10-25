@@ -13,6 +13,7 @@ import '../../state/pack_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
+import '../common/ask_iron.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'confirm_log.dart';
@@ -204,23 +205,17 @@ class _EatOutModeState extends ConsumerState<EatOutMode> {
 
   /// Not on the list: describe it for the AI, or just guess the total.
   List<Widget> _otherMeal(AppLocalizations l) => [
-    TextField(
+    AskIron(
+      question: l.ironQEatOut,
+      busyQuestion: l.ironQEatOutBusy,
       controller: _described,
       onChanged: (_) => setState(() => _ai = const []),
-      textCapitalization: TextCapitalization.sentences,
-      style: TextStyle(fontSize: 15, color: Volt.t1),
-      decoration: InputDecoration(
-        hintText: l.eoOtherHint,
-        hintStyle: TextStyle(color: Volt.t4),
-        filled: true,
-        fillColor: Volt.field,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
-      ),
-    ),
-    AiBtn(
-      label: _asking ? l.aiThinking : l.eoAskAi,
+      hint: l.eoOtherHint,
+      minLines: 1,
+      maxLines: 3,
       busy: _asking,
-      onTap: _described.text.trim().isEmpty ? null : _askAi,
+      sendLabel: l.ironAskEstimate,
+      onSend: _askAi,
     ),
     if (_ai.isNotEmpty)
       VList(

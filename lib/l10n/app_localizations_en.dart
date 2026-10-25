@@ -4795,7 +4795,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiRoutineTitle => 'Describe your routine';
 
   @override
-  String get aiRoutineSub => 'Gymco builds it from your words';
+  String get aiRoutineSub => 'Iron builds it from your words';
 
   @override
   String get aiRoutineHint =>
@@ -5024,7 +5024,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'One of your health answers says to get a doctor\'s OK before hard training. Light activity is fine meanwhile.';
 
   @override
-  String get warnCleared => 'My doctor cleared me';
+  String get warnCleared => 'I\'m cleared';
 
   @override
   String get warnGotIt => 'Got it';
@@ -5182,4 +5182,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewLoading => 'Iron is looking back at your week…';
+
+  @override
+  String get askIronTo => 'To Iron';
+
+  @override
+  String get askIronSend => 'Send';
+
+  @override
+  String get ironQProgram =>
+      'What should I know before I build your program? Or just send, and I\'ll work from your numbers.';
+
+  @override
+  String get ironQProgramBusy =>
+      'Reading your numbers and building your program…';
+
+  @override
+  String get ironQRoutine =>
+      'How do you want to train? Tell me the days, the time you have, your gear and your goal.';
+
+  @override
+  String get ironQRoutineBusy => 'Putting your routine together…';
+
+  @override
+  String get ironQFood =>
+      'What did you eat? Write it like you\'d text me, one food per line.';
+
+  @override
+  String get ironQEatOut =>
+      'Not on the list? Describe the dish and I\'ll estimate it.';
+
+  @override
+  String get ironQEatOutBusy => 'Working out what\'s on that plate…';
+
+  @override
+  String get ironAskEstimate => 'Ask Iron to estimate it';
+
+  @override
+  String get ironAskEx1 => 'I only have 45 minutes';
+
+  @override
+  String get ironAskEx2 => 'Home workouts, dumbbells only';
+
+  @override
+  String get ironAskEx3 => 'Bad knee, no jumping';
 }

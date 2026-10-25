@@ -49,7 +49,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['warning', 'settings', 'health', 'review']) {
+    for (final screen in ['warning', 'settings', 'health', 'review', 'ask', 'routine', 'food']) {
       testWidgets('iron2 $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -83,7 +83,19 @@ void main() {
         if (screen == 'warning') {
           await Scrollable.ensureVisible(tester.element(find.byType(IronCard)), alignment: 0.3);
         } else {
-          ProviderScope.containerOf(tester.element(find.byType(GymcoApp))).read(routerProvider).push('/iron/$screen');
+          final path = switch (screen) {
+            'ask' => '/iron',
+            'routine' => '/routine/ai',
+            'food' => '/add/lunch',
+            _ => '/iron/$screen',
+          };
+          ProviderScope.containerOf(tester.element(find.byType(GymcoApp))).read(routerProvider).push(path);
+          if (screen == 'food') {
+            for (var i = 0; i < 10; i++) {
+              await tester.pump(const Duration(milliseconds: 100));
+            }
+            await tester.tap(find.text('Write'));
+          }
         }
         for (var i = 0; i < 40; i++) {
           await tester.pump(const Duration(milliseconds: 100));

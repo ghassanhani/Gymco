@@ -10,6 +10,8 @@ import '../../state/cloud_providers.dart';
 import '../../state/config_providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
+import '../common/ask_iron.dart';
+import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'train_kit.dart';
@@ -122,43 +124,19 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
               child: Pad(
                 bottom: 130,
                 children: [
-                  TextField(
+                  AskIron(
+                    question: l.ironQRoutine,
+                    busyQuestion: l.ironQRoutineBusy,
                     controller: _text,
+                    hint: l.aiRoutineHint,
                     onChanged: (_) => setState(() {}),
                     minLines: 3,
-                    maxLines: 6,
                     maxLength: 600,
-                    textCapitalization: TextCapitalization.sentences,
-                    style: TextStyle(fontSize: 15, height: 1.4, color: Volt.t1),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      hintText: l.aiRoutineHint,
-                      hintMaxLines: 4,
-                      hintStyle: TextStyle(color: Volt.t4, height: 1.4),
-                      filled: true,
-                      fillColor: Volt.field,
-                      contentPadding: const EdgeInsets.all(14),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                    ),
-                  ),
-                  if (plan == null)
-                    VList(
-                      children: [
-                        for (final e in examples)
-                          VItem(
-                            semantics: e,
-                            onTap: () => setState(() => _text.text = e),
-                            children: [
-                              VIcon('star', size: 16, color: _text.text == e ? Volt.brandInk : Volt.t3),
-                              ItemText(e),
-                            ],
-                          ),
-                      ],
-                    ),
-                  AiBtn(
-                    label: _busy ? l.aiRoutineBuilding : (plan == null ? l.aiRoutineBuild : l.aiRoutineAgain),
                     busy: _busy,
-                    onTap: _text.text.trim().isEmpty || lib == null ? null : _build,
+                    mood: plan == null || plan.isEmpty ? null : IronMood.cheer,
+                    sendLabel: plan == null ? l.aiRoutineBuild : l.aiRoutineAgain,
+                    onSend: lib == null ? null : _build,
+                    suggestions: examples,
                   ),
                   if (plan != null && !plan.isEmpty) ...[
                     if (plan.summary.isNotEmpty)

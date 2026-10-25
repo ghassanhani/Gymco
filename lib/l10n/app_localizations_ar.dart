@@ -4777,7 +4777,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aiRoutineTitle => 'صف روتينك';
 
   @override
-  String get aiRoutineSub => 'يبنيه Gymco من كلماتك';
+  String get aiRoutineSub => 'يبنيه آيرون من كلماتك';
 
   @override
   String get aiRoutineHint =>
@@ -5005,7 +5005,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'إحدى إجاباتك الصحية تعني أن تحصل على موافقة طبيب قبل التمرين الشاق. النشاط الخفيف لا بأس به حتى ذلك الحين.';
 
   @override
-  String get warnCleared => 'وافق طبيبي';
+  String get warnCleared => 'سمح الطبيب';
 
   @override
   String get warnGotIt => 'فهمت';
@@ -5159,4 +5159,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reviewLoading => 'آيرون يراجع أسبوعك…';
+
+  @override
+  String get askIronTo => 'إلى آيرون';
+
+  @override
+  String get askIronSend => 'أرسل';
+
+  @override
+  String get ironQProgram =>
+      'ماذا يجب أن أعرف قبل أن أبني برنامجك؟ أو أرسل فقط، وسأعمل من أرقامك.';
+
+  @override
+  String get ironQProgramBusy => 'أقرأ أرقامك وأبني برنامجك…';
+
+  @override
+  String get ironQRoutine =>
+      'كيف تريد أن تتمرن؟ أخبرني بالأيام والوقت المتاح والأدوات وهدفك.';
+
+  @override
+  String get ironQRoutineBusy => 'أجهز روتينك…';
+
+  @override
+  String get ironQFood =>
+      'ماذا أكلت؟ اكتبه كأنك ترسل لي رسالة، طعام في كل سطر.';
+
+  @override
+  String get ironQEatOut => 'ليس في القائمة؟ صف الطبق وسأقدّره.';
+
+  @override
+  String get ironQEatOutBusy => 'أحسب ما في هذا الطبق…';
+
+  @override
+  String get ironAskEstimate => 'اطلب من آيرون تقديره';
+
+  @override
+  String get ironAskEx1 => 'لدي 45 دقيقة فقط';
+
+  @override
+  String get ironAskEx2 => 'تمارين في البيت، دمبلز فقط';
+
+  @override
+  String get ironAskEx3 => 'ركبتي مصابة، بلا قفز';
 }

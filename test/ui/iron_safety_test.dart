@@ -28,9 +28,9 @@ void main() {
     await toIron(tester, 'Check with your doctor first');
     expect(find.text('Iron is a coach, not a doctor.'), findsOneWidget);
     expect(find.text('Protein first today'), findsNothing);
-    await tester.ensureVisible(find.text('My doctor cleared me'));
+    await tester.ensureVisible(find.text("I'm cleared"));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('My doctor cleared me'));
+    await tester.tap(find.text("I'm cleared"));
     await tester.pumpAndSettle();
     expect(find.text('Check with your doctor first'), findsNothing);
     expect((jsonDecode(prefs.getString('ironHealth')!) as Map)['cleared'], isTrue);

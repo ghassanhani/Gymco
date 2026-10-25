@@ -13,6 +13,7 @@ import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
+import '../common/ask_iron.dart';
 import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
@@ -125,55 +126,20 @@ class _IronScreenState extends ConsumerState<IronScreen> {
               child: Pad(
                 bottom: 130,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IronAvatar(
-                        mood: _busy ? IronMood.thinking : (p == null ? IronMood.idle : IronMood.cheer),
-                        size: 60,
-                        announce: true,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: GapCol(
-                          gap: 4,
-                          children: [
-                            AiText(
-                              l.ironName,
-                              colors: ironGradient,
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-                            ),
-                            Muted(l.ironProgramIntro, size: 13, color: Volt.t2),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  TextField(
+                  AskIron(
+                    question: l.ironQProgram,
+                    busyQuestion: l.ironQProgramBusy,
                     controller: _ask,
-                    minLines: 2,
-                    maxLines: 4,
+                    hint: l.ironAskHint,
                     maxLength: 400,
-                    textCapitalization: TextCapitalization.sentences,
-                    style: TextStyle(fontSize: 15, height: 1.4, color: Volt.t1),
-                    decoration: InputDecoration(
-                      counterText: '',
-                      hintText: l.ironAskHint,
-                      hintMaxLines: 3,
-                      hintStyle: TextStyle(color: Volt.t4, height: 1.4),
-                      filled: true,
-                      fillColor: Volt.field,
-                      contentPadding: const EdgeInsets.all(14),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                    ),
-                  ),
-                  AiBtn(
-                    colors: ironGradient,
-                    foreground: Colors.white,
-                    label: _busy ? l.ironBuilding : (p == null ? l.ironBuild : l.aiRoutineAgain),
                     busy: _busy,
-                    onTap: lib == null ? null : _build,
+                    mood: p == null ? null : IronMood.cheer,
+                    sendEmpty: true,
+                    sendLabel: p == null ? l.ironBuild : l.aiRoutineAgain,
+                    onSend: lib == null ? null : _build,
+                    suggestions: [l.ironAskEx1, l.ironAskEx2, l.ironAskEx3],
                   ),
+                  Muted(l.ironProgramIntro, size: 12, align: TextAlign.center),
                   Muted('${ironReadsLine(l, ref)}. ${l.ironPhotosNever}', size: 11.5, align: TextAlign.center),
                   if (p != null && !p.isEmpty) ...[
                     if (p.summary.isNotEmpty)

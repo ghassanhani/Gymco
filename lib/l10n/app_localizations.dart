@@ -7849,7 +7849,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiRoutineSub.
   ///
   /// In en, this message translates to:
-  /// **'Gymco builds it from your words'**
+  /// **'Iron builds it from your words'**
   String get aiRoutineSub;
 
   /// No description provided for @aiRoutineHint.
@@ -8221,7 +8221,7 @@ abstract class AppLocalizations {
   /// No description provided for @warnCleared.
   ///
   /// In en, this message translates to:
-  /// **'My doctor cleared me'**
+  /// **'I\'m cleared'**
   String get warnCleared;
 
   /// No description provided for @warnGotIt.
@@ -8505,6 +8505,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Iron is looking back at your week…'**
   String get reviewLoading;
+
+  /// No description provided for @askIronTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To Iron'**
+  String get askIronTo;
+
+  /// No description provided for @askIronSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get askIronSend;
+
+  /// No description provided for @ironQProgram.
+  ///
+  /// In en, this message translates to:
+  /// **'What should I know before I build your program? Or just send, and I\'ll work from your numbers.'**
+  String get ironQProgram;
+
+  /// No description provided for @ironQProgramBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading your numbers and building your program…'**
+  String get ironQProgramBusy;
+
+  /// No description provided for @ironQRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you want to train? Tell me the days, the time you have, your gear and your goal.'**
+  String get ironQRoutine;
+
+  /// No description provided for @ironQRoutineBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Putting your routine together…'**
+  String get ironQRoutineBusy;
+
+  /// No description provided for @ironQFood.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you eat? Write it like you\'d text me, one food per line.'**
+  String get ironQFood;
+
+  /// No description provided for @ironQEatOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the list? Describe the dish and I\'ll estimate it.'**
+  String get ironQEatOut;
+
+  /// No description provided for @ironQEatOutBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Working out what\'s on that plate…'**
+  String get ironQEatOutBusy;
+
+  /// No description provided for @ironAskEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Iron to estimate it'**
+  String get ironAskEstimate;
+
+  /// No description provided for @ironAskEx1.
+  ///
+  /// In en, this message translates to:
+  /// **'I only have 45 minutes'**
+  String get ironAskEx1;
+
+  /// No description provided for @ironAskEx2.
+  ///
+  /// In en, this message translates to:
+  /// **'Home workouts, dumbbells only'**
+  String get ironAskEx2;
+
+  /// No description provided for @ironAskEx3.
+  ///
+  /// In en, this message translates to:
+  /// **'Bad knee, no jumping'**
+  String get ironAskEx3;
 }
 
 class _AppLocalizationsDelegate

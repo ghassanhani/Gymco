@@ -210,7 +210,9 @@ void main() {
     expect(find.text('≈ 700'), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'chicken biryani');
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Ask AI to estimate it'));
+    await tester.ensureVisible(find.text('Ask Iron to estimate it'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Ask Iron to estimate it'));
     await tester.pumpAndSettle();
     expect(cloud.lastNote, contains('chicken biryani'));
     expect(find.text('≈ 810'), findsOneWidget);
