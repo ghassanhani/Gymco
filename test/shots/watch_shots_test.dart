@@ -61,8 +61,8 @@ void main() {
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
         // The whole of Today in one tall frame.
         if (screen == 'full') {
-          tester.view.physicalSize = const Size(1170, 5400);
-          await tester.binding.setSurfaceSize(const Size(390, 1800));
+          tester.view.physicalSize = const Size(1170, 5700);
+          await tester.binding.setSurfaceSize(const Size(390, 1900));
         }
         await _frames(tester);
         final ctx = tester.element(find.byType(Scaffold).first);

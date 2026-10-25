@@ -91,7 +91,7 @@ class _Today extends ConsumerWidget {
               _Hero(schedule: schedule, week: week),
               _RingCard(totals: totals, targets: profile.targets, kcalTarget: profile.targetKcal),
               const RecoveryCard(),
-              if (dayOne && entries.isEmpty) const _FirstRun(),
+              _QuickLog(first: dayOne && entries.isEmpty),
               if (!dayOne) const CatchupCard(),
               if (ref.watch(liveAnnouncementProvider) != null) const AnnouncementCard(),
               _Meals(totals: totals, dayKey: key, canRepeat: true),
@@ -665,8 +665,12 @@ class _MealItem extends ConsumerWidget {
 
 // ---------------------------------------------------------------- the rest
 
-class _FirstRun extends ConsumerWidget {
-  const _FirstRun();
+/// One tap into the four main ways to log, for the meal of the hour.
+class _QuickLog extends ConsumerWidget {
+  const _QuickLog({required this.first});
+
+  /// Nothing logged yet on the first day: the card asks for the first meal.
+  final bool first;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -727,7 +731,7 @@ class _FirstRun extends ConsumerWidget {
         cross: CrossAxisAlignment.stretch,
         children: [
           Text(
-            l.logFirstMeal,
+            first ? l.logFirstMeal : l.addTo(mealName(l, meal)),
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Volt.t1),
           ),
           Row(
