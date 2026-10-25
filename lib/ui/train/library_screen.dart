@@ -111,7 +111,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                         semantics: l.describeIt,
                         onTap: () => context.push('/routine/ai'),
                         children: [
-                          const IronAvatar(mood: IronMood.happy, size: 34),
+                          const IronAvatar(mood: IronMood.happy, size: 48),
                           ItemText(l.describeIt, sub: l.describeItSub, weight: FontWeight.w600),
                           VIcon('fwd', size: 18, color: Volt.t3),
                         ],

@@ -581,7 +581,12 @@ class _FirstRoutine extends ConsumerWidget {
         child: Row(
           children: [
             if (icon == 'iron')
-              const _IronBadge(size: 44)
+              // Bigger than the other icons, but in the same slot so titles line up.
+              const SizedBox(
+                width: 44,
+                height: 44,
+                child: OverflowBox(maxWidth: 64, maxHeight: 64, child: IronAvatar(mood: IronMood.happy, size: 64)),
+              )
             else
               Container(
                 width: 44,
@@ -671,24 +676,4 @@ class TemplateList extends ConsumerWidget {
       ],
     );
   }
-}
-
-/// Iron, hopping on a soft red disc: the way in to asking Iron.
-class _IronBadge extends StatelessWidget {
-  const _IronBadge({required this.size});
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: size,
-    height: size,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      gradient: RadialGradient(
-        colors: [ironGradient[1].withValues(alpha: 0.22), ironGradient[2].withValues(alpha: 0.08)],
-      ),
-    ),
-    child: IronAvatar(mood: IronMood.happy, size: size * 0.82),
-  );
 }
