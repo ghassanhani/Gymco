@@ -546,15 +546,29 @@ class AskIron extends StatelessWidget {
           listenable: controller,
           builder: (_, _) => Row(
             children: [
-              IronAvatar(
-                mood: busy
-                    ? IronMood.thinking
-                    : controller.text.trim().isNotEmpty
-                    ? IronMood.happy
-                    : IronMood.idle,
-                size: 40,
+              // Iron hops while waiting, jumps for joy as the user types,
+              // and thinks while it works; it pops in when the mode opens.
+              Pop(
+                trigger: 'iron',
+                child: SizedBox.square(
+                  dimension: 76,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const _Halo(size: 80),
+                      IronAvatar(
+                        mood: busy
+                            ? IronMood.thinking
+                            : controller.text.trim().isNotEmpty
+                            ? IronMood.cheer
+                            : IronMood.happy,
+                        size: 60,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -564,7 +578,7 @@ class AskIron extends StatelessWidget {
                       child: Text(
                         busy && busyQuestion != null ? busyQuestion! : question,
                         key: ValueKey(busy),
-                        style: TextStyle(fontSize: 15, height: 1.35, fontWeight: FontWeight.w600, color: Volt.t1),
+                        style: TextStyle(fontSize: 16, height: 1.35, fontWeight: FontWeight.w700, color: Volt.t1),
                       ),
                     ),
                   ],
