@@ -5268,7 +5268,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironCenterQ =>
-      'Ask for a program or a routine, or tell me how today is going.';
+      'Tell me what you need, and I\'ll build your program from your numbers.';
 
   @override
   String get ironNeedsAttention => 'Needs your attention';

@@ -8659,7 +8659,7 @@ abstract class AppLocalizations {
   /// No description provided for @ironCenterQ.
   ///
   /// In en, this message translates to:
-  /// **'Ask for a program or a routine, or tell me how today is going.'**
+  /// **'Tell me what you need, and I\'ll build your program from your numbers.'**
   String get ironCenterQ;
 
   /// No description provided for @ironNeedsAttention.

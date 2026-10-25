@@ -68,7 +68,7 @@ class _IronCenterScreenState extends ConsumerState<IronCenterScreen> {
                   if (on)
                     IronComposer(
                       controller: _ask,
-                      hint: l.askIronHint,
+                      hint: l.ironHomeHint,
                       maxLength: 400,
                       maxLines: 5,
                       sendEmpty: true,

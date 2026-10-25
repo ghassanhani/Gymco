@@ -5240,8 +5240,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get ironCenterSub => 'كل ما يفعله آيرون لك';
 
   @override
-  String get ironCenterQ =>
-      'اطلب برنامجًا أو روتينًا، أو أخبرني كيف يسير يومك.';
+  String get ironCenterQ => 'أخبرني بما تحتاجه، وسأبني برنامجك من أرقامك.';
 
   @override
   String get ironNeedsAttention => 'يحتاج انتباهك';

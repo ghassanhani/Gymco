@@ -5285,7 +5285,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ironCenterQ =>
-      'Pide un programa o una rutina, o cuéntame cómo va tu día.';
+      'Dime lo que necesitas y crearé tu programa con tus números.';
 
   @override
   String get ironNeedsAttention => 'Necesita tu atención';
