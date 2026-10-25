@@ -22,7 +22,7 @@ void main() {
   testWidgets('a written meal is read into rows and logged together', (tester) async {
     final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
     await _openWrite(tester, 'Write');
-    expect(find.textContaining('Write the meal the way you would say it'), findsOneWidget);
+    expect(find.textContaining('What did you eat?'), findsOneWidget);
 
     await _type(tester, 'banana\n200g chicken breast, 150g rice and 10g olive oil\n2 eggs');
     expect(find.text('IT READ 5 ITEMS'), findsOneWidget);
@@ -210,9 +210,9 @@ void main() {
     expect(find.text('≈ 700'), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'chicken biryani');
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Ask Iron to estimate it'));
+    await tester.ensureVisible(find.byTooltip('Ask Iron to estimate it'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Ask Iron to estimate it'));
+    await tester.tap(find.byTooltip('Ask Iron to estimate it'));
     await tester.pumpAndSettle();
     expect(cloud.lastNote, contains('chicken biryani'));
     expect(find.text('≈ 810'), findsOneWidget);

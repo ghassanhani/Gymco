@@ -5208,4 +5208,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get readTerms => 'اقرأ الشروط';
+
+  @override
+  String get ironHi => 'مرحبًا، أنا آيرون';
+
+  @override
+  String get ironRoutineHi => 'لنخطط لأسبوعك';
+
+  @override
+  String get ironJustNumbers => 'ابنه من أرقامي';
+
+  @override
+  String get ironProgramReady => 'هذا برنامجك. راجعه ثم استخدمه.';
+
+  @override
+  String get ironRoutineReady => 'هذا ما أقترحه. أضفه إن بدا مناسبًا.';
+
+  @override
+  String get ironRefineHint => 'غيّر شيئًا، مثلًا يوم أقل';
+
+  @override
+  String get askIronHint => 'اكتب لآيرون…';
 }

@@ -8595,6 +8595,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read the Terms'**
   String get readTerms;
+
+  /// No description provided for @ironHi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, I\'m Iron'**
+  String get ironHi;
+
+  /// No description provided for @ironRoutineHi.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s plan your week'**
+  String get ironRoutineHi;
+
+  /// No description provided for @ironJustNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Build it from my numbers'**
+  String get ironJustNumbers;
+
+  /// No description provided for @ironProgramReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s your program. Look it over, then use it.'**
+  String get ironProgramReady;
+
+  /// No description provided for @ironRoutineReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s what I\'d do. Add it if it looks right.'**
+  String get ironRoutineReady;
+
+  /// No description provided for @ironRefineHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Change something, e.g. one day fewer'**
+  String get ironRefineHint;
+
+  /// No description provided for @askIronHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Iron…'**
+  String get askIronHint;
 }
 
 class _AppLocalizationsDelegate

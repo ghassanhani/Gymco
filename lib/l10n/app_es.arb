@@ -1422,5 +1422,12 @@
   "ironAskEx2": "Entreno en casa, solo mancuernas",
   "ironAskEx3": "Rodilla mal, sin saltos",
   "ironTermsLine": "Iron es un entrenador, no un médico. Activarlo significa aceptar los Términos, incluido entrenar bajo tu propio riesgo.",
-  "readTerms": "Leer los Términos"
+  "readTerms": "Leer los Términos",
+  "ironHi": "Hola, soy Iron",
+  "ironRoutineHi": "Planeemos tu semana",
+  "ironJustNumbers": "Créalo con mis números",
+  "ironProgramReady": "Aquí está tu programa. Revísalo y úsalo.",
+  "ironRoutineReady": "Esto es lo que haría. Añádelo si te convence.",
+  "ironRefineHint": "Cambia algo, p. ej. un día menos",
+  "askIronHint": "Escribe a Iron…"
 }

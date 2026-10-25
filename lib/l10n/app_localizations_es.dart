@@ -5251,4 +5251,26 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get readTerms => 'Leer los Términos';
+
+  @override
+  String get ironHi => 'Hola, soy Iron';
+
+  @override
+  String get ironRoutineHi => 'Planeemos tu semana';
+
+  @override
+  String get ironJustNumbers => 'Créalo con mis números';
+
+  @override
+  String get ironProgramReady => 'Aquí está tu programa. Revísalo y úsalo.';
+
+  @override
+  String get ironRoutineReady =>
+      'Esto es lo que haría. Añádelo si te convence.';
+
+  @override
+  String get ironRefineHint => 'Cambia algo, p. ej. un día menos';
+
+  @override
+  String get askIronHint => 'Escribe a Iron…';
 }

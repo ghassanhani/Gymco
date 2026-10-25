@@ -89,7 +89,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('My program'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Build my program'));
+    await tester.tap(find.byTooltip('Build my program'));
     await tester.pumpAndSettle();
     expect(find.text('Hold maintenance and build the upper body.'), findsOneWidget);
     // The screen's own list, not the note field's scroll inside it.

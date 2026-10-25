@@ -602,7 +602,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
           minLines: 4,
           maxLines: null,
         ),
-        rows ?? const WriteEmpty(),
+        ?rows,
       ];
     } else if (_mode == 'voice') {
       body = [

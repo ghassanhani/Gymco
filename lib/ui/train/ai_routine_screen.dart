@@ -31,6 +31,9 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
   var _saving = false;
   AiPlan? _plan;
 
+  /// What the user has asked so far; null until the first send.
+  List<String>? _asked;
+
   @override
   void dispose() {
     _text.dispose();
@@ -52,15 +55,19 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
       return;
     }
     FocusScope.of(context).unfocus();
+    final before = _asked;
+    final asked = [...?_asked, text];
     setState(() {
       _busy = true;
       _plan = null;
+      _asked = asked;
+      _text.clear();
     });
     try {
       final (data, _) = await ref
           .read(cloudProvider)
           .planRoutines(
-            text,
+            asked.join('\n'),
             exercises: plannableNames(lib),
             languageCode: Localizations.localeOf(context).languageCode,
             bucket: ref.read(installBucketProvider),
@@ -68,9 +75,13 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
       if (!mounted) return;
       final plan = planFrom(data, lib);
       setState(() => _plan = plan);
-      if (plan.isEmpty) showVToast(context, l.aiRoutineNone, info: true);
     } on CloudException catch (e) {
-      if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
+      if (!mounted) return;
+      setState(() {
+        _text.text = text;
+        _asked = before;
+      });
+      showVToast(context, cloudMessage(l, e.failure), info: true);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -122,36 +133,41 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
             ),
             Expanded(
               child: Pad(
-                bottom: 130,
+                bottom: 170,
                 children: [
-                  AskIron(
-                    question: l.ironQRoutine,
-                    busyQuestion: l.ironQRoutineBusy,
-                    controller: _text,
-                    hint: l.aiRoutineHint,
-                    onChanged: (_) => setState(() {}),
-                    minLines: 3,
-                    maxLength: 600,
-                    busy: _busy,
-                    mood: plan == null || plan.isEmpty ? null : IronMood.cheer,
-                    sendLabel: plan == null ? l.aiRoutineBuild : l.aiRoutineAgain,
-                    onSend: lib == null ? null : _build,
-                    suggestions: examples,
-                  ),
-                  if (plan != null && !plan.isEmpty) ...[
-                    if (plan.summary.isNotEmpty)
-                      VCard(
-                        color: Volt.brandWash,
-                        border: Border.all(color: Volt.brandEdge),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            VIcon('star', size: 18, color: Volt.brandInk),
-                            const SizedBox(width: 10),
-                            Expanded(child: Muted(plan.summary, size: 13, color: Volt.t1)),
-                          ],
-                        ),
+                  if (_asked == null) ...[
+                    IronStage(title: l.ironRoutineHi, question: l.ironQRoutine),
+                    IronSuggestions(
+                      ideas: [
+                        for (final (i, e) in examples.indexed)
+                          (icon: const ['clock', 'repeat', 'dumb', 'list'][i], text: e),
+                      ],
+                      onPick: (t) => setState(() => _text.text = t),
+                    ),
+                    IronComposer(
+                      controller: _text,
+                      hint: l.askIronHint,
+                      onChanged: (_) => setState(() {}),
+                      maxLength: 600,
+                      maxLines: 5,
+                      sendLabel: l.aiRoutineBuild,
+                      onSend: lib == null ? null : _build,
+                    ),
+                  ] else ...[
+                    for (final a in _asked!) UserBubble(a),
+                    IronSays(
+                      typing: _busy,
+                      mood: plan == null || plan.isEmpty ? IronMood.happy : IronMood.cheer,
+                      child: IronBubble(
+                        plan == null || plan.isEmpty
+                            ? l.aiRoutineNone
+                            : plan.summary.isNotEmpty
+                            ? plan.summary
+                            : l.ironRoutineReady,
                       ),
+                    ),
+                  ],
+                  if (plan != null && !plan.isEmpty) ...[
                     for (final r in plan.routines) PlannedRoutineCard(routine: r, lib: lib!),
                     if (plan.missing.isNotEmpty)
                       Padding(
@@ -160,6 +176,16 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
                       ),
                     Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.aiRoutineCheck)),
                   ],
+                  if (_asked != null && !_busy)
+                    IronComposer(
+                      controller: _text,
+                      hint: l.ironRefineHint,
+                      onChanged: (_) => setState(() {}),
+                      maxLength: 600,
+                      maxLines: 5,
+                      sendLabel: l.aiRoutineAgain,
+                      onSend: lib == null ? null : _build,
+                    ),
                 ],
               ),
             ),

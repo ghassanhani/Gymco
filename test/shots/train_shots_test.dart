@@ -174,7 +174,7 @@ void main() {
         if (screen == 'ai-result') {
           await tester.tap(find.text('Upper and lower, 4 days, 60 min'));
           await tester.pump();
-          await tester.tap(find.text('Build my routine'));
+          await tester.tap(find.byTooltip('Build my routine'));
           for (var i = 0; i < 20; i++) {
             await tester.pump(const Duration(milliseconds: 100));
           }

@@ -3611,5 +3611,12 @@
   "ironAskEx2": "Home workouts, dumbbells only",
   "ironAskEx3": "Bad knee, no jumping",
   "ironTermsLine": "Iron is a coach, not a doctor. Turning it on means you accept the Terms, including training at your own risk.",
-  "readTerms": "Read the Terms"
+  "readTerms": "Read the Terms",
+  "ironHi": "Hi, I'm Iron",
+  "ironRoutineHi": "Let's plan your week",
+  "ironJustNumbers": "Build it from my numbers",
+  "ironProgramReady": "Here's your program. Look it over, then use it.",
+  "ironRoutineReady": "Here's what I'd do. Add it if it looks right.",
+  "ironRefineHint": "Change something, e.g. one day fewer",
+  "askIronHint": "Message Iron…"
 }

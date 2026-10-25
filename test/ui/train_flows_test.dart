@@ -150,10 +150,16 @@ void main() {
     await openTrain(tester);
     await tester.tap(find.text('Describe it with AI'));
     await settle(tester);
-    expect(find.text('Build my routine'), findsOneWidget);
+    expect(find.byTooltip('Build my routine'), findsOneWidget);
+    // The ideas scroll sideways: swipe to the last one.
+    await tester.scrollUntilVisible(
+      find.text('Upper and lower, 4 days, 60 min'),
+      150,
+      scrollable: find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.right),
+    );
     await tester.tap(find.text('Upper and lower, 4 days, 60 min'));
     await tester.pump();
-    await tester.tap(find.text('Build my routine'));
+    await tester.tap(find.byTooltip('Build my routine'));
     await settle(tester);
     expect(cloud.lastPlanText, 'Upper and lower, 4 days, 60 min');
     expect(cloud.lastPlanNames, contains('Barbell Bench Press'));
@@ -176,7 +182,7 @@ void main() {
     await settle(tester);
     await tester.enterText(find.byType(TextField), '3 days full body');
     await tester.pump();
-    await tester.tap(find.text('Build my routine'));
+    await tester.tap(find.byTooltip('Build my routine'));
     await settle(tester);
     expect(find.textContaining('Sign in to use the AI'), findsOneWidget);
   });

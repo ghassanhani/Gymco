@@ -35,6 +35,10 @@ class _IronScreenState extends ConsumerState<IronScreen> {
   var _saving = false;
   IronProgram? _program;
 
+  /// What the user has asked so far, oldest first; null before the first
+  /// send, when Iron's greeting shows instead of the conversation.
+  List<String>? _asked;
+
   @override
   void dispose() {
     _ask.dispose();
@@ -55,19 +59,31 @@ class _IronScreenState extends ConsumerState<IronScreen> {
     await ref.read(ironOnProvider.notifier).set(true);
     if (!mounted) return;
     FocusScope.of(context).unfocus();
+    final before = _asked;
+    final asked = [...?_asked, _ask.text.trim()];
     setState(() {
       _busy = true;
       _program = null;
+      _asked = asked;
+      _ask.clear();
     });
     try {
       final p = await ref
           .read(ironActionsProvider)
-          .program(languageCode: Localizations.localeOf(context).languageCode, ask: _ask.text);
+          .program(
+            languageCode: Localizations.localeOf(context).languageCode,
+            ask: asked.where((a) => a.isNotEmpty).join('\n'),
+          );
       if (!mounted) return;
       setState(() => _program = p);
-      if (p.isEmpty) showVToast(context, l.aiRoutineNone, info: true);
     } on CloudException catch (e) {
-      if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
+      if (!mounted) return;
+      // Nothing came back: the message goes back in the box to try again.
+      setState(() {
+        _ask.text = asked.last;
+        _asked = before;
+      });
+      showVToast(context, cloudMessage(l, e.failure), info: true);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -124,30 +140,42 @@ class _IronScreenState extends ConsumerState<IronScreen> {
             ),
             Expanded(
               child: Pad(
-                bottom: 130,
+                bottom: 170,
                 children: [
-                  AskIron(
-                    question: l.ironQProgram,
-                    busyQuestion: l.ironQProgramBusy,
-                    controller: _ask,
-                    hint: l.ironAskHint,
-                    maxLength: 400,
-                    busy: _busy,
-                    mood: p == null ? null : IronMood.cheer,
-                    sendEmpty: true,
-                    sendLabel: p == null ? l.ironBuild : l.aiRoutineAgain,
-                    onSend: lib == null ? null : _build,
-                    suggestions: [l.ironAskEx1, l.ironAskEx2, l.ironAskEx3],
-                  ),
-                  Muted(l.ironProgramIntro, size: 12, align: TextAlign.center),
-                  Muted('${ironReadsLine(l, ref)}. ${l.ironPhotosNever}', size: 11.5, align: TextAlign.center),
-                  if (p != null && !p.isEmpty) ...[
-                    if (p.summary.isNotEmpty)
-                      VCard(
-                        color: ironGradient[1].withValues(alpha: 0.1),
-                        border: Border.all(color: ironGradient[1].withValues(alpha: 0.35)),
-                        child: Muted(p.summary, size: 13.5, color: Volt.t1),
+                  if (_asked == null) ...[
+                    IronStage(title: l.ironHi, question: l.ironQProgram),
+                    IronSuggestions(
+                      ideas: [
+                        (icon: 'clock', text: l.ironAskEx1),
+                        (icon: 'dumb', text: l.ironAskEx2),
+                        (icon: 'heart', text: l.ironAskEx3),
+                      ],
+                      onPick: (t) => setState(() => _ask.text = t),
+                    ),
+                    IronComposer(
+                      controller: _ask,
+                      hint: l.askIronHint,
+                      maxLength: 400,
+                      maxLines: 5,
+                      sendEmpty: true,
+                      sendLabel: l.ironBuild,
+                      onSend: lib == null ? null : _build,
+                    ),
+                  ] else ...[
+                    for (final a in _asked!) UserBubble(a.isEmpty ? l.ironJustNumbers : a),
+                    IronSays(
+                      typing: _busy,
+                      mood: p == null || p.isEmpty ? IronMood.happy : IronMood.cheer,
+                      child: IronBubble(
+                        p == null || p.isEmpty
+                            ? l.aiRoutineNone
+                            : p.summary.isNotEmpty
+                            ? p.summary
+                            : l.ironProgramReady,
                       ),
+                    ),
+                  ],
+                  if (p != null && !p.isEmpty) ...[
                     if (p.kcal > 0) ...[
                       head(l.ironEatHeader),
                       VCard(
@@ -221,7 +249,17 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                     ],
                     Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.aiRoutineCheck)),
                   ],
-                  if (p == null && ref.watch(ironOnProvider))
+                  if (_asked != null && !_busy)
+                    IronComposer(
+                      controller: _ask,
+                      hint: l.ironRefineHint,
+                      maxLength: 400,
+                      maxLines: 5,
+                      sendLabel: l.aiRoutineAgain,
+                      onSend: lib == null ? null : _build,
+                    ),
+                  Muted('${ironReadsLine(l, ref)}. ${l.ironPhotosNever}', size: 11.5, align: TextAlign.center),
+                  if (_asked == null && ref.watch(ironOnProvider))
                     Center(
                       child: TextButton(
                         onPressed: () async {
