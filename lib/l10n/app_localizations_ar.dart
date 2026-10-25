@@ -4649,15 +4649,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get readyLearning => 'يتعلّم';
 
   @override
-  String get adviceReady => 'نمت جيدًا وقلبك مرتاح. يوم مناسب لتضغط أكثر.';
+  String get adviceReady => 'النوم والقلب في صفّك. انطلق نحو رقم شخصي جديد.';
 
   @override
   String get adviceSteady =>
-      'مؤشر واحد ليس على ما يرام. تمرّن كما خططت، لكن لا تطارد رقمًا قياسيًا اليوم.';
+      'جاهز لتمرين جيد. أكمل كل المجموعات، واترك الرقم القياسي ليوم أنشط.';
 
   @override
   String get adviceEasy =>
-      'نوم قليل وقلب متعب. خفّف الأوزان، أو اجعله يوم راحة.';
+      'جسمك ما زال يتعافى. خفّف الأوزان أو امشِ قليلًا، هكذا يثبت التقدّم.';
 
   @override
   String get adviceLearning =>
@@ -4762,4 +4762,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get activityTitle => 'النشاط';
+
+  @override
+  String get readinessLbl => 'الجاهزية';
+
+  @override
+  String get headReady => 'اضغط بقوة اليوم';
+
+  @override
+  String get headSteady => 'تمرّن كما خططت';
+
+  @override
+  String get headEasy => 'تعافَ اليوم لتعود أقوى';
+
+  @override
+  String get headLearning => 'نتعرّف عليك';
 }

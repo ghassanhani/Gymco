@@ -1259,9 +1259,9 @@
   "readySteady": "Con calma",
   "readyEasy": "Suave hoy",
   "readyLearning": "Aprendiendo",
-  "adviceReady": "Dormiste bien y tu corazón está descansado. Buen día para apretar.",
-  "adviceSteady": "Una señal no está bien. Entrena como tenías previsto, pero hoy no busques un récord.",
-  "adviceEasy": "Poco sueño y el corazón cansado. Baja el peso o tómalo como día de descanso.",
+  "adviceReady": "El sueño y el corazón están de tu lado. Ve a por un récord personal.",
+  "adviceSteady": "Bien para entrenar. Completa cada serie y guarda el récord para un día más fresco.",
+  "adviceEasy": "Tu cuerpo aún se está recuperando. Baja el peso o sal a caminar: así se consolida el progreso.",
   "adviceLearning": "Usa tu reloj unas noches más y Gymco aprenderá lo que es normal para ti.",
   "activeKcalToday": "{n} kcal activas hoy",
   "watchWorkoutLine": "{kind} · {minutes} min · {source}",
@@ -1292,5 +1292,10 @@
   "moreLbl": "Más opciones",
   "avgShort": "media {n}",
   "stepsUnit": "pasos",
-  "activityTitle": "Actividad"
+  "activityTitle": "Actividad",
+  "readinessLbl": "Preparación",
+  "headReady": "Hoy toca darlo todo",
+  "headSteady": "Entrena según el plan",
+  "headEasy": "Recupera hoy, vuelve más fuerte",
+  "headLearning": "Conociéndote"
 }

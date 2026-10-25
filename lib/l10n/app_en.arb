@@ -3327,9 +3327,9 @@
   "readySteady": "Steady",
   "readyEasy": "Go easy",
   "readyLearning": "Learning",
-  "adviceReady": "You slept well and your heart is rested. A good day to push.",
-  "adviceSteady": "One sign is off. Train as planned, but don’t chase a record today.",
-  "adviceEasy": "Short sleep and a tired heart. Go lighter, or make it a rest day.",
+  "adviceReady": "Sleep and heart are both on your side. Go for a personal best.",
+  "adviceSteady": "Good enough to train well. Hit every set, and save the record for a fresher day.",
+  "adviceEasy": "Your body is still catching up. Go lighter or take a walk — that’s how progress sticks.",
   "adviceLearning": "Wear your watch a few more nights and Gymco will learn your normal.",
   "activeKcalToday": "{n} active kcal today",
   "@activeKcalToday": {
@@ -3401,5 +3401,10 @@
     }
   },
   "stepsUnit": "steps",
-  "activityTitle": "Activity"
+  "activityTitle": "Activity",
+  "readinessLbl": "Readiness",
+  "headReady": "Push it today",
+  "headSteady": "Train as planned",
+  "headEasy": "Recover today, come back stronger",
+  "headLearning": "Getting to know you"
 }

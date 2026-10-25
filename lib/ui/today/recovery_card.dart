@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -39,113 +40,83 @@ class RecoveryCard extends ConsumerWidget {
     if (r == null || !r.hasBody) return const SizedBox.shrink();
     final l = AppLocalizations.of(context);
 
-    final (word, tone) = switch (r.readiness) {
-      Readiness.ready => (l.readyReady, Volt.ok),
-      Readiness.steady => (l.readySteady, Volt.orange),
-      Readiness.easy => (l.readyEasy, heartRed),
-      Readiness.learning => (l.readyLearning, Volt.t3),
-    };
-    final advice = switch (r.readiness) {
-      Readiness.ready => l.adviceReady,
-      Readiness.steady => l.adviceSteady,
-      Readiness.easy => l.adviceEasy,
-      Readiness.learning => l.adviceLearning,
+    final (word, tone, head, advice) = switch (r.readiness) {
+      Readiness.ready => (l.readyReady, Volt.ok, l.headReady, l.adviceReady),
+      Readiness.steady => (l.readySteady, Volt.orange, l.headSteady, l.adviceSteady),
+      Readiness.easy => (l.readyEasy, heartRed, l.headEasy, l.adviceEasy),
+      Readiness.learning => (l.readyLearning, Volt.t3, l.headLearning, l.adviceLearning),
     };
 
     String hm(int min) => min < 60 ? l.minutesOnly(min) : l.hoursMinutes(min ~/ 60, min % 60);
     String signed(double d, String Function(double) show) => '${d > 0 ? '+' : '−'}${show(d)}';
-    final tiles = [
+    (String, Color)? short(
+      double now,
+      double? base, {
+      required double near,
+      required bool up,
+      required String Function(double) show,
+    }) {
+      if (base == null) return null;
+      final d = now - base;
+      if (d.abs() <= near) return null;
+      return (signed(d, show), (d > 0) == up ? Volt.ok : heartRed);
+    }
+
+    final chips = [
       if (r.sleepMin case final s?)
-        MetricTile(
+        _Chip(
           icon: 'moon',
           color: Volt.violet,
-          label: l.recoverySleep,
           value: hm(s),
-          sub: _delta(
-            l,
-            s.toDouble(),
-            r.sleepBase,
-            near: 15,
-            higherIsBetter: true,
-            show: (d) => signed(d, (d) => hm(d.abs().round())),
-          ),
+          delta: short(s.toDouble(), r.sleepBase, near: 15, up: true, show: (d) => hm(d.abs().round())),
+          label: l.recoverySleep,
         ),
       if (r.restingHr case final h?)
-        MetricTile(
+        _Chip(
           icon: 'pulse',
           color: heartRed,
+          value: '${h.round()} ${l.bpmUnit}',
+          delta: short(h, r.restingBase, near: 2, up: false, show: (d) => '${d.abs().round()}'),
           label: l.recoveryRestingHr,
-          value: '${h.round()}',
-          unit: l.bpmUnit,
-          sub: _delta(
-            l,
-            h,
-            r.restingBase,
-            near: 2,
-            higherIsBetter: false,
-            show: (d) => signed(d, (d) => '${d.abs().round()}'),
-          ),
         ),
       if (r.hrv case final v?)
-        MetricTile(
+        _Chip(
           icon: 'heart',
           color: _hrvTeal,
+          value: '${v.round()} ${l.msUnit}',
+          delta: short(v, r.hrvBase, near: (r.hrvBase ?? 0) * 0.05, up: true, show: (d) => '${d.abs().round()}'),
           label: l.recoveryHrv,
-          value: '${v.round()}',
-          unit: l.msUnit,
-          sub: _delta(
-            l,
-            v,
-            r.hrvBase,
-            near: (r.hrvBase ?? 0) * 0.05,
-            higherIsBetter: true,
-            show: (d) => signed(d, (d) => '${d.abs().round()}'),
-          ),
         ),
     ];
 
-    return GapCol(
-      gap: 10,
-      cross: CrossAxisAlignment.stretch,
-      children: [
-        _SectionHead(
-          title: l.recoveryTitle,
-          trailing: VTag(word, background: tone.withValues(alpha: 0.14), color: tone, bold: true),
-        ),
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+    return VCard(
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: _Gauge(score: r.score, tone: tone, word: word, label: l.readinessLbl),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            head,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
+          ),
+          const SizedBox(height: 6),
+          Muted(advice, align: TextAlign.center, size: 13, color: Volt.t2),
+          const SizedBox(height: 16),
+          Row(
             children: [
-              for (var i = 0; i < tiles.length; i++) ...[
+              for (var i = 0; i < chips.length; i++) ...[
                 if (i > 0) const SizedBox(width: 8),
-                Expanded(child: tiles[i]),
+                Expanded(child: chips[i]),
               ],
             ],
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Muted(advice, color: Volt.t2),
-        ),
-      ],
+        ],
+      ),
     );
-  }
-
-  /// How today sits against the normal, worded and coloured; null without
-  /// a normal yet.
-  static (String, Color)? _delta(
-    AppLocalizations l,
-    double now,
-    double? base, {
-    required double near,
-    required bool higherIsBetter,
-    required String Function(double) show,
-  }) {
-    if (base == null) return null;
-    final d = now - base;
-    if (d.abs() <= near) return (l.asUsual, Volt.t3);
-    final good = (d > 0) == higherIsBetter;
-    return (l.vsUsual(show(d)), good ? Volt.ok : heartRed);
   }
 }
 
@@ -227,9 +198,8 @@ class ActivityTiles extends ConsumerWidget {
 }
 
 class _SectionHead extends StatelessWidget {
-  const _SectionHead({required this.title, this.trailing});
+  const _SectionHead({required this.title});
   final String title;
-  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -242,7 +212,6 @@ class _SectionHead extends StatelessWidget {
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, color: Volt.t1),
           ),
         ),
-        ?trailing,
       ],
     ),
   );
@@ -314,6 +283,133 @@ class MetricTile extends StatelessWidget {
             child: Text(text, style: TextStyle(fontSize: 11, color: c)),
           ),
       ],
+    ),
+  );
+}
+
+/// The readiness score on a half ring that fills from violet through teal
+/// to lime, the word under it in the colour of the day.
+class _Gauge extends StatelessWidget {
+  const _Gauge({required this.score, required this.tone, required this.word, required this.label});
+  final int? score;
+  final Color tone;
+  final String word;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: 220,
+    height: 124,
+    child: TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: (score ?? 0) / 100),
+      duration: const Duration(milliseconds: 1100),
+      curve: Curves.easeOutCubic,
+      builder: (context, f, _) => CustomPaint(
+        painter: _GaugePainter(f, Volt.tint.withValues(alpha: 0.08)),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 34),
+          child: Column(
+            children: [
+              Text(
+                label.toUpperCase(),
+                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, letterSpacing: 1.2, color: Volt.t3),
+              ),
+              Text(score == null ? '—' : '${(f * 100).round()}', style: numStyle(44, height: 1.05)),
+              Text(
+                word,
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: tone),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class _GaugePainter extends CustomPainter {
+  _GaugePainter(this.fraction, this.track);
+  final double fraction;
+  final Color track;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const w = 12.0;
+    final r = size.width / 2 - w;
+    final c = Offset(size.width / 2, r + w);
+    final rect = Rect.fromCircle(center: c, radius: r);
+    Paint arc(Color? color) => Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = w
+      ..strokeCap = StrokeCap.round
+      ..color = color ?? const Color(0xFFFFFFFF);
+    canvas.drawArc(rect, math.pi, math.pi, false, arc(track));
+    if (fraction <= 0) return;
+    final fill = arc(null)
+      ..shader = const SweepGradient(
+        startAngle: math.pi,
+        endAngle: 2 * math.pi,
+        colors: [Color(0xFF8B7CF6), Color(0xFF2EC4B6), Color(0xFFC6F432)],
+      ).createShader(rect);
+    canvas.drawArc(rect, math.pi, math.pi * fraction, false, fill);
+  }
+
+  @override
+  bool shouldRepaint(_GaugePainter o) => o.fraction != fraction || o.track != track;
+}
+
+/// One of the numbers behind the score, small: icon, value, and how far it
+/// is from the usual when it is.
+class _Chip extends StatelessWidget {
+  const _Chip({required this.icon, required this.color, required this.value, required this.label, this.delta});
+  final String icon;
+  final Color color;
+  final String value;
+  final String label;
+  final (String, Color)? delta;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    label: '$label $value',
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(14)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              VIcon(icon, size: 14, color: color),
+              const SizedBox(width: 5),
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 11, color: Volt.t3),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: AlignmentDirectional.centerStart,
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: ltr(value), style: numStyle(15)),
+                  if (delta case (final d, final c))
+                    TextSpan(
+                      text: '  ${ltr(d)}',
+                      style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: c),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

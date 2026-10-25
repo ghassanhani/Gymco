@@ -4664,15 +4664,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adviceReady =>
-      'You slept well and your heart is rested. A good day to push.';
+      'Sleep and heart are both on your side. Go for a personal best.';
 
   @override
   String get adviceSteady =>
-      'One sign is off. Train as planned, but don’t chase a record today.';
+      'Good enough to train well. Hit every set, and save the record for a fresher day.';
 
   @override
   String get adviceEasy =>
-      'Short sleep and a tired heart. Go lighter, or make it a rest day.';
+      'Your body is still catching up. Go lighter or take a walk — that’s how progress sticks.';
 
   @override
   String get adviceLearning =>
@@ -4778,4 +4778,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get activityTitle => 'Activity';
+
+  @override
+  String get readinessLbl => 'Readiness';
+
+  @override
+  String get headReady => 'Push it today';
+
+  @override
+  String get headSteady => 'Train as planned';
+
+  @override
+  String get headEasy => 'Recover today, come back stronger';
+
+  @override
+  String get headLearning => 'Getting to know you';
 }

@@ -4682,15 +4682,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get adviceReady =>
-      'Dormiste bien y tu corazón está descansado. Buen día para apretar.';
+      'El sueño y el corazón están de tu lado. Ve a por un récord personal.';
 
   @override
   String get adviceSteady =>
-      'Una señal no está bien. Entrena como tenías previsto, pero hoy no busques un récord.';
+      'Bien para entrenar. Completa cada serie y guarda el récord para un día más fresco.';
 
   @override
   String get adviceEasy =>
-      'Poco sueño y el corazón cansado. Baja el peso o tómalo como día de descanso.';
+      'Tu cuerpo aún se está recuperando. Baja el peso o sal a caminar: así se consolida el progreso.';
 
   @override
   String get adviceLearning =>
@@ -4796,4 +4796,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get activityTitle => 'Actividad';
+
+  @override
+  String get readinessLbl => 'Preparación';
+
+  @override
+  String get headReady => 'Hoy toca darlo todo';
+
+  @override
+  String get headSteady => 'Entrena según el plan';
+
+  @override
+  String get headEasy => 'Recupera hoy, vuelve más fuerte';
+
+  @override
+  String get headLearning => 'Conociéndote';
 }

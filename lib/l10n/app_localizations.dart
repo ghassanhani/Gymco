@@ -7615,19 +7615,19 @@ abstract class AppLocalizations {
   /// No description provided for @adviceReady.
   ///
   /// In en, this message translates to:
-  /// **'You slept well and your heart is rested. A good day to push.'**
+  /// **'Sleep and heart are both on your side. Go for a personal best.'**
   String get adviceReady;
 
   /// No description provided for @adviceSteady.
   ///
   /// In en, this message translates to:
-  /// **'One sign is off. Train as planned, but don’t chase a record today.'**
+  /// **'Good enough to train well. Hit every set, and save the record for a fresher day.'**
   String get adviceSteady;
 
   /// No description provided for @adviceEasy.
   ///
   /// In en, this message translates to:
-  /// **'Short sleep and a tired heart. Go lighter, or make it a rest day.'**
+  /// **'Your body is still catching up. Go lighter or take a walk — that’s how progress sticks.'**
   String get adviceEasy;
 
   /// No description provided for @adviceLearning.
@@ -7815,6 +7815,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Activity'**
   String get activityTitle;
+
+  /// No description provided for @readinessLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Readiness'**
+  String get readinessLbl;
+
+  /// No description provided for @headReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Push it today'**
+  String get headReady;
+
+  /// No description provided for @headSteady.
+  ///
+  /// In en, this message translates to:
+  /// **'Train as planned'**
+  String get headSteady;
+
+  /// No description provided for @headEasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Recover today, come back stronger'**
+  String get headEasy;
+
+  /// No description provided for @headLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'Getting to know you'**
+  String get headLearning;
 }
 
 class _AppLocalizationsDelegate

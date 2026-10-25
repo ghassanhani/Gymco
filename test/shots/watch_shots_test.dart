@@ -61,7 +61,7 @@ void main() {
         final ctx = tester.element(find.byType(Scaffold).first);
         switch (screen) {
           case 'today' || 'easy' || 'ask':
-            await tester.drag(find.byType(Scrollable).last, const Offset(0, -330));
+            await tester.drag(find.byType(Scrollable).last, const Offset(0, -190));
           case 'activity':
             await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: find.byType(Scrollable).last);
             await tester.drag(find.byType(Scrollable).last, const Offset(0, -60));

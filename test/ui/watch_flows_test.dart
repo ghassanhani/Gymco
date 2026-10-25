@@ -15,11 +15,12 @@ void main() {
 
   testWidgets('Today shows last night against the usual, and the morning run', (tester) async {
     await pumpApp(tester, prefs: on, health: FakeWatch());
-    await tester.scrollUntilVisible(find.text('Recovery'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('READINESS'), 300, scrollable: find.byType(Scrollable).last);
     await tester.pumpAndSettle();
     expect(find.text('Ready'), findsOneWidget);
     expect(find.textContaining('7h 22m', findRichText: true), findsOneWidget);
-    expect(find.text('You slept well and your heart is rested. A good day to push.'), findsOneWidget);
+    expect(find.text('Push it today'), findsOneWidget);
+    expect(find.text('Sleep and heart are both on your side. Go for a personal best.'), findsOneWidget);
     await tester.scrollUntilVisible(
       find.text('Run · 34 min · Apple Watch'),
       300,
@@ -31,7 +32,7 @@ void main() {
 
   testWidgets('a short night and a tired heart say go easy', (tester) async {
     await pumpApp(tester, prefs: on, health: FakeWatch(lastNight: 300, restingToday: 63, hrvToday: 44));
-    await tester.scrollUntilVisible(find.text('Recovery'), 300, scrollable: find.byType(Scrollable).last);
+    await tester.scrollUntilVisible(find.text('READINESS'), 300, scrollable: find.byType(Scrollable).last);
     await tester.pumpAndSettle();
     expect(find.text('Go easy'), findsOneWidget);
     expect(find.textContaining('5h 0m', findRichText: true), findsOneWidget);
@@ -59,7 +60,7 @@ void main() {
     expect(watch.connects, 1);
     expect(prefs.getBool('healthWatchReads'), isTrue);
     expect(find.text('Bring in your watch'), findsNothing);
-    expect(find.text('Recovery'), findsOneWidget);
+    expect(find.text('READINESS'), findsOneWidget);
   });
 
   testWidgets('the workout summary shows heart rate from the watch', (tester) async {

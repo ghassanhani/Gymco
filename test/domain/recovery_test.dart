@@ -105,4 +105,22 @@ void main() {
     expect(h.bars.whereType<double>().length, HeartSummary.slices);
     expect(HeartSummary.of(samples.take(2), start, end), isNull);
   });
+
+  test('the score weighs sleep 40 and the heart 60, against the usual', () {
+    expect(
+      const Recovery(sleepMin: 470, sleepBase: 420, restingHr: 50, restingBase: 54, hrv: 70, hrvBase: 60).score,
+      99,
+    );
+    // A usual night and a usual heart are ready.
+    expect(
+      const Recovery(sleepMin: 420, sleepBase: 420, restingHr: 54, restingBase: 54, hrv: 60, hrvBase: 60).score,
+      85,
+    );
+    expect(
+      const Recovery(sleepMin: 300, sleepBase: 420, restingHr: 62, restingBase: 54, hrv: 60, hrvBase: 60).score,
+      46,
+    );
+    // Sleep alone gives no score yet.
+    expect(const Recovery(sleepMin: 450).score, isNull);
+  });
 }

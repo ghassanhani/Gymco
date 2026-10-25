@@ -62,29 +62,40 @@ class Recovery {
   bool get hasBody => sleepMin != null || restingHr != null || hrv != null;
   bool get isEmpty => !hasBody && activeKcal == null && workouts.isEmpty;
 
-  /// Each sign that is off counts one. Two off says go easy, one says hold
-  /// steady. Without a normal to compare with, Gymco is still learning,
-  /// except that under six hours of sleep is short for anyone.
-  Readiness get readiness {
-    var off = 0, known = 0;
+  /// Readiness from 0 to 100: sleep counts 40, resting heart rate and HRV
+  /// 30 each, every one scored against the person's own normal. 75 for a
+  /// sign means "as usual". Null until there is a heart normal to compare
+  /// with, since sleep alone says little.
+  int? get score {
+    final parts = <(double, double)>[];
     if (sleepMin case final s?) {
-      known++;
-      if (s < 360) off++;
+      // Four hours scores nothing; the usual night (seven hours at least) full.
+      final full = math.max(420.0, sleepBase ?? 420);
+      parts.add((0.4, 100 * ((s - 240) / (full - 240)).clamp(0.0, 1.0)));
     }
+    var heart = false;
     if ((restingHr, restingBase) case (final r?, final b?)) {
-      known++;
-      if (r > b + 5) off++;
+      heart = true;
+      // Each beat above the usual costs five points.
+      parts.add((0.3, (75 + (b - r) * 5).clamp(0.0, 100.0)));
     }
-    if ((hrv, hrvBase) case (final h?, final b?)) {
-      known++;
-      if (h < b * 0.85) off++;
+    if ((hrv, hrvBase) case (final h?, final b?) when b > 0) {
+      heart = true;
+      parts.add((0.3, (75 + (h / b - 1) * 150).clamp(0.0, 100.0)));
     }
-    if (off >= 2) return Readiness.easy;
-    if (off == 1) return Readiness.steady;
-    // Sleep alone says little; wait for a heart normal too.
-    if (known < 2) return Readiness.learning;
-    return Readiness.ready;
+    if (!heart) return null;
+    final weight = parts.fold<double>(0, (t, p) => t + p.$1);
+    return (parts.fold<double>(0, (t, p) => t + p.$1 * p.$2) / weight).round();
   }
+
+  /// 75 and up says push, 55 and up hold steady, under that go easy.
+  Readiness get readiness => switch (score) {
+    null => Readiness.learning,
+    >= 75 => Readiness.ready,
+    >= 55 => Readiness.steady,
+    _ => Readiness.easy,
+  };
+
 }
 
 /// The middle of the day-by-day values: one bad night does not move it.
