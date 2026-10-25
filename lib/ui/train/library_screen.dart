@@ -6,6 +6,7 @@ import '../../data/training.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
+import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import 'train_kit.dart';
 import 'train_screen.dart' show TemplateList;
@@ -110,7 +111,7 @@ class _LibraryScreenState extends ConsumerState<LibraryScreen> {
                         semantics: l.describeIt,
                         onTap: () => context.push('/routine/ai'),
                         children: [
-                          const AiMark(size: 32),
+                          const IronAvatar(mood: IronMood.happy, size: 34),
                           ItemText(l.describeIt, sub: l.describeItSub, weight: FontWeight.w600),
                           VIcon('fwd', size: 18, color: Volt.t3),
                         ],

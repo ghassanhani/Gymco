@@ -148,7 +148,7 @@ void main() {
     );
     final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: cloud);
     await openTrain(tester);
-    await tester.tap(find.text('Describe it with AI'));
+    await tester.tap(find.text('Ask Iron to build it'));
     await settle(tester);
     expect(find.byTooltip('Build my routine'), findsOneWidget);
     // The ideas scroll sideways: swipe to the last one.
@@ -178,7 +178,7 @@ void main() {
   testWidgets('the AI routine builder asks a signed-out user to sign in', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, cloud: FakeCloud());
     await openTrain(tester);
-    await tester.tap(find.text('Describe it with AI'));
+    await tester.tap(find.text('Ask Iron to build it'));
     await settle(tester);
     await tester.enterText(find.byType(TextField), '3 days full body');
     await tester.pump();

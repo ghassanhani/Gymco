@@ -16,6 +16,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/day_strip.dart';
 import '../common/format.dart';
+import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import 'train_kit.dart';
 
@@ -579,8 +580,8 @@ class _FirstRoutine extends ConsumerWidget {
         onTap: onTap,
         child: Row(
           children: [
-            if (icon == 'sparkles')
-              const AiMark(size: 44)
+            if (icon == 'iron')
+              const _IronBadge(size: 44)
             else
               Container(
                 width: 44,
@@ -630,7 +631,7 @@ class _FirstRoutine extends ConsumerWidget {
           ref.read(activeWorkoutProvider.notifier).startEmpty(l.workoutDefaultName);
           context.push('/workout');
         }),
-        choice('sparkles', l.describeIt, l.describeItSub, () => context.push('/routine/ai')),
+        choice('iron', l.describeIt, l.describeItSub, () => context.push('/routine/ai')),
         choice('plus', l.buildOwn, l.buildOwnSub, () => context.push('/routine/new')),
         Eyebrow(l.orTemplate, padding: const EdgeInsetsDirectional.fromSTEB(4, 4, 4, 0)),
         TemplateList(onDone: (title) => showVToast(context, l.templateAdded(title))),
@@ -670,4 +671,24 @@ class TemplateList extends ConsumerWidget {
       ],
     );
   }
+}
+
+/// Iron, hopping on a soft red disc: the way in to asking Iron.
+class _IronBadge extends StatelessWidget {
+  const _IronBadge({required this.size});
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: size,
+    height: size,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      gradient: RadialGradient(
+        colors: [ironGradient[1].withValues(alpha: 0.22), ironGradient[2].withValues(alpha: 0.08)],
+      ),
+    ),
+    child: IronAvatar(mood: IronMood.happy, size: size * 0.82),
+  );
 }

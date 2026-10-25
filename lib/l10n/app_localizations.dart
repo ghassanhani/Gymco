@@ -7939,13 +7939,13 @@ abstract class AppLocalizations {
   /// No description provided for @describeIt.
   ///
   /// In en, this message translates to:
-  /// **'Describe it with AI'**
+  /// **'Ask Iron to build it'**
   String get describeIt;
 
   /// No description provided for @describeItSub.
   ///
   /// In en, this message translates to:
-  /// **'Type what you want, Gymco builds it'**
+  /// **'Tell Iron how you train, it builds the routine'**
   String get describeItSub;
 
   /// No description provided for @ironName.

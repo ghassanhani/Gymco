@@ -4842,10 +4842,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aiRoutineCheck => 'راجعه قبل أن تتمرن: قد يخطئ الذكاء الاصطناعي.';
 
   @override
-  String get describeIt => 'صفه بالذكاء الاصطناعي';
+  String get describeIt => 'اطلب من آيرون بناءه';
 
   @override
-  String get describeItSub => 'اكتب ما تريد، ويبنيه Gymco';
+  String get describeItSub => 'أخبر آيرون كيف تتمرن، وسيبني الروتين';
 
   @override
   String get ironName => 'آيرون';

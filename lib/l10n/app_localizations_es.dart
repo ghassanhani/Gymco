@@ -4880,10 +4880,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Revísala antes de entrenar: la IA puede equivocarse.';
 
   @override
-  String get describeIt => 'Descríbela con IA';
+  String get describeIt => 'Pide a Iron que la cree';
 
   @override
-  String get describeItSub => 'Escribe lo que quieres y Gymco la crea';
+  String get describeItSub => 'Dile a Iron cómo entrenas y crea la rutina';
 
   @override
   String get ironName => 'Iron';

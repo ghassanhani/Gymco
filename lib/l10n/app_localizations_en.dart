@@ -4861,10 +4861,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Check it before you train: the AI can get things wrong.';
 
   @override
-  String get describeIt => 'Describe it with AI';
+  String get describeIt => 'Ask Iron to build it';
 
   @override
-  String get describeItSub => 'Type what you want, Gymco builds it';
+  String get describeItSub => 'Tell Iron how you train, it builds the routine';
 
   @override
   String get ironName => 'Iron';
