@@ -110,7 +110,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   Container(
                     width: 8,
                     height: 8,
-                    decoration: BoxDecoration(color: c, borderRadius: BorderRadius.circular(2)),
+                    decoration: smooth(BoxDecoration(color: c, borderRadius: BorderRadius.circular(2))),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -315,10 +315,12 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
               duration: const Duration(milliseconds: 200),
               constraints: const BoxConstraints(minHeight: 72),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-              decoration: BoxDecoration(
-                color: _goal == g ? Volt.brandWash : Volt.card,
-                borderRadius: BorderRadius.circular(17),
-                border: Border.all(color: _goal == g ? Volt.lime : Volt.line, width: 1.5),
+              decoration: smooth(
+                BoxDecoration(
+                  color: _goal == g ? Volt.brandWash : Volt.card,
+                  borderRadius: BorderRadius.circular(17),
+                  border: Border.all(color: _goal == g ? Volt.lime : Volt.line, width: 1.5),
+                ),
               ),
               child: Row(
                 children: [
@@ -404,12 +406,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: _activity == a ? Volt.brandWash : Volt.card,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: _activity == a ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent),
-                  width: 1.5,
+              decoration: smooth(
+                BoxDecoration(
+                  color: _activity == a ? Volt.brandWash : Volt.card,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: _activity == a ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent),
+                    width: 1.5,
+                  ),
                 ),
               ),
               child: Row(
@@ -694,9 +698,11 @@ class _Dots extends StatelessWidget {
             duration: const Duration(milliseconds: 250),
             width: 26,
             height: 4,
-            decoration: BoxDecoration(
-              color: i == step ? Volt.lime : (i < step ? Volt.line2 : Volt.line),
-              borderRadius: BorderRadius.circular(999),
+            decoration: smooth(
+              BoxDecoration(
+                color: i == step ? Volt.lime : (i < step ? Volt.line2 : Volt.line),
+                borderRadius: BorderRadius.circular(999),
+              ),
             ),
           ),
         ],
@@ -759,13 +765,15 @@ class _InputState extends State<_Input> {
       duration: const Duration(milliseconds: 150),
       constraints: const BoxConstraints(minHeight: 44),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: Volt.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: on ? Volt.lime : Volt.line2),
-        boxShadow: on
-            ? const [BoxShadow(color: Color(0x2EC6F432), spreadRadius: 4)]
-            : const [BoxShadow(color: Color(0x0D0A0D12), blurRadius: 2, offset: Offset(0, 1))],
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.card,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: on ? Volt.lime : Volt.line2),
+          boxShadow: on
+              ? const [BoxShadow(color: Color(0x2EC6F432), spreadRadius: 4)]
+              : const [BoxShadow(color: Color(0x0D0A0D12), blurRadius: 2, offset: Offset(0, 1))],
+        ),
       ),
       child: Row(
         children: [
@@ -809,7 +817,7 @@ class _Seg extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(4),
-    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(999), border: Volt.edge),
+    decoration: smooth(BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(999), border: Volt.edge)),
     child: Row(
       children: [
         for (var i = 0; i < options.length; i++) ...[
@@ -824,9 +832,8 @@ class _Seg extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   height: 40,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: i == selected ? Volt.brand : null,
-                    borderRadius: BorderRadius.circular(999),
+                  decoration: smooth(
+                    BoxDecoration(color: i == selected ? Volt.brand : null, borderRadius: BorderRadius.circular(999)),
                   ),
                   child: Text(
                     options[i],
@@ -893,7 +900,7 @@ class _RateSlider extends StatelessWidget {
                   top: 10,
                   height: 6,
                   child: DecoratedBox(
-                    decoration: BoxDecoration(color: Volt.line, borderRadius: BorderRadius.circular(999)),
+                    decoration: smooth(BoxDecoration(color: Volt.line, borderRadius: BorderRadius.circular(999))),
                   ),
                 ),
                 Positioned(
@@ -910,9 +917,11 @@ class _RateSlider extends StatelessWidget {
                     top: 10,
                     height: 6,
                     child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Volt.warnWash,
-                        borderRadius: BorderRadius.horizontal(right: Radius.circular(999)),
+                      decoration: smooth(
+                        BoxDecoration(
+                          color: Volt.warnWash,
+                          borderRadius: BorderRadius.horizontal(right: Radius.circular(999)),
+                        ),
                       ),
                     ),
                   ),
@@ -922,7 +931,7 @@ class _RateSlider extends StatelessWidget {
                   top: 10,
                   height: 6,
                   child: DecoratedBox(
-                    decoration: BoxDecoration(color: Volt.brand, borderRadius: BorderRadius.circular(999)),
+                    decoration: smooth(BoxDecoration(color: Volt.brand, borderRadius: BorderRadius.circular(999))),
                   ),
                 ),
                 Positioned(
@@ -956,10 +965,12 @@ class _Banner extends StatelessWidget {
   Widget build(BuildContext context) => AnimatedContainer(
     duration: const Duration(milliseconds: 200),
     padding: const EdgeInsets.all(12),
-    decoration: BoxDecoration(
-      color: warn ? Volt.warnWash : Volt.okWash,
-      borderRadius: BorderRadius.circular(16),
-      border: Border.all(color: warn ? Volt.warnEdge : Colors.transparent),
+    decoration: smooth(
+      BoxDecoration(
+        color: warn ? Volt.warnWash : Volt.okWash,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: warn ? Volt.warnEdge : Colors.transparent),
+      ),
     ),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -996,7 +1007,7 @@ class _Check extends StatelessWidget {
             width: 22,
             height: 22,
             margin: const EdgeInsets.only(top: 1),
-            decoration: BoxDecoration(color: on ? Volt.brand : Volt.t1, borderRadius: BorderRadius.circular(5)),
+            decoration: smooth(BoxDecoration(color: on ? Volt.brand : Volt.t1, borderRadius: BorderRadius.circular(5))),
             child: on ? const Center(child: VIcon('check', size: 14, color: Volt.ink, strokeWidth: 2.4)) : null,
           ),
           const SizedBox(width: 12),
@@ -1179,9 +1190,11 @@ class _WelcomeState extends State<_Welcome> {
                           margin: const EdgeInsetsDirectional.only(end: 6),
                           width: i == _at ? 34 : 22,
                           height: 4,
-                          decoration: BoxDecoration(
-                            color: i == _at ? Volt.lime : Volt.line2,
-                            borderRadius: BorderRadius.circular(999),
+                          decoration: smooth(
+                            BoxDecoration(
+                              color: i == _at ? Volt.lime : Volt.line2,
+                              borderRadius: BorderRadius.circular(999),
+                            ),
                           ),
                         ),
                     ],
@@ -1193,12 +1206,14 @@ class _WelcomeState extends State<_Welcome> {
                   scale: 0.98,
                   child: Container(
                     height: 64,
-                    decoration: BoxDecoration(
-                      gradient: Volt.glow,
-                      borderRadius: BorderRadius.circular(999),
-                      boxShadow: const [
-                        BoxShadow(color: Color(0xD9B6F02A), blurRadius: 34, offset: Offset(0, 18), spreadRadius: -16),
-                      ],
+                    decoration: smooth(
+                      BoxDecoration(
+                        gradient: Volt.glow,
+                        borderRadius: BorderRadius.circular(999),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0xD9B6F02A), blurRadius: 34, offset: Offset(0, 18), spreadRadius: -16),
+                        ],
+                      ),
                     ),
                     alignment: Alignment.center,
                     child: Text(

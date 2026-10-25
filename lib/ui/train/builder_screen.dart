@@ -311,11 +311,11 @@ class _BuilderScreenState extends ConsumerState<BuilderScreen> {
                             filled: true,
                             fillColor: Volt.field,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: SmoothInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(color: dupe ? Volt.warn : Volt.line),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: SmoothInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(color: dupe ? Volt.warn : Volt.lime),
                             ),

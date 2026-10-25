@@ -8,6 +8,7 @@ library;
 
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -172,7 +173,7 @@ void main() {
           await tester.pump(const Duration(milliseconds: 100));
         }
         if (screen == 'ai-result') {
-          await tester.tap(find.text('Upper and lower, 4 days, 60 min'));
+          await tester.enterText(find.byType(TextField), 'Upper and lower, 4 days, 60 min');
           await tester.pump();
           await tester.tap(find.byTooltip('Build my routine'));
           for (var i = 0; i < 20; i++) {

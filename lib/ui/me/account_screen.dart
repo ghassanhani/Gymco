@@ -315,9 +315,11 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                 child: Container(
                   height: 52,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: Volt.brandEdge, width: 1.5),
+                  decoration: smooth(
+                    BoxDecoration(
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(color: Volt.brandEdge, width: 1.5),
+                    ),
                   ),
                   child: Text(
                     l.deleteAccountConfirm,

@@ -308,10 +308,12 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Volt.bg,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Volt.line),
+                    decoration: smooth(
+                      BoxDecoration(
+                        color: Volt.bg,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Volt.line),
+                      ),
                     ),
                     child: Text.rich(
                       TextSpan(
@@ -345,10 +347,12 @@ class _CheckInScreenState extends ConsumerState<CheckInScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-        decoration: BoxDecoration(
-          color: on ? Volt.brandWash : Volt.card,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: on ? Volt.lime : Volt.line, width: 1.5),
+        decoration: smooth(
+          BoxDecoration(
+            color: on ? Volt.brandWash : Volt.card,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: on ? Volt.lime : Volt.line, width: 1.5),
+          ),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -547,7 +551,7 @@ class _DietMeetsTraining extends ConsumerWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 7),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Volt.bg, borderRadius: BorderRadius.circular(12)),
+                    decoration: smooth(BoxDecoration(color: Volt.bg, borderRadius: BorderRadius.circular(12))),
                     child: Text.rich(
                       TextSpan(
                         text: '${t.exercise.shortName.split(' ').last} ',

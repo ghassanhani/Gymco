@@ -16,7 +16,7 @@ class LogArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OutlineInputBorder edge(Color c) => OutlineInputBorder(
+    SmoothInputBorder edge(Color c) => SmoothInputBorder(
       borderRadius: BorderRadius.circular(14),
       borderSide: BorderSide(color: c),
     );
@@ -261,10 +261,12 @@ class _AiTag extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: 22,
     padding: const EdgeInsets.symmetric(horizontal: 8),
-    decoration: BoxDecoration(
-      color: Volt.brandWash,
-      borderRadius: BorderRadius.circular(999),
-      border: Border.all(color: Volt.brandEdge),
+    decoration: smooth(
+      BoxDecoration(
+        color: Volt.brandWash,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: Volt.brandEdge),
+      ),
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,
@@ -287,10 +289,12 @@ class _AssumedTag extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: 22,
     padding: const EdgeInsets.symmetric(horizontal: 9),
-    decoration: BoxDecoration(
-      color: Volt.warnWash,
-      borderRadius: BorderRadius.circular(999),
-      border: Border.all(color: Volt.warnEdge),
+    decoration: smooth(
+      BoxDecoration(
+        color: Volt.warnWash,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: Volt.warnEdge),
+      ),
     ),
     child: Center(
       widthFactor: 1,

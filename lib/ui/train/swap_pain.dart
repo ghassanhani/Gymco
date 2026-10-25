@@ -164,10 +164,12 @@ class PainReminder extends ConsumerWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 6),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
-      decoration: BoxDecoration(
-        color: Volt.warnWash,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Volt.warnEdge),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.warnWash,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Volt.warnEdge),
+        ),
       ),
       child: Row(
         children: [

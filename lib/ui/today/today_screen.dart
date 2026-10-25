@@ -335,18 +335,20 @@ class _HeroShell extends StatelessWidget {
       radius: 20,
       child: Container(
         padding: const EdgeInsetsDirectional.fromSTEB(14, 14, 12, 14),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            begin: const Alignment(-0.42, -1),
-            end: const Alignment(0.42, 1),
-            // Light: a plain light grey card, no border, tint or glow.
-            colors: Volt.isLight
-                ? [Volt.soft, Volt.soft]
-                : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
-            stops: const [0, 0.8],
+        decoration: smooth(
+          BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              begin: const Alignment(-0.42, -1),
+              end: const Alignment(0.42, 1),
+              // Light: a plain light grey card, no border, tint or glow.
+              colors: Volt.isLight
+                  ? [Volt.soft, Volt.soft]
+                  : (done ? [const Color(0xFF13261B), Volt.card] : [const Color(0xFF1C2410), Volt.card]),
+              stops: const [0, 0.8],
+            ),
+            border: Volt.isLight ? null : Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
           ),
-          border: Volt.isLight ? null : Border.all(color: done ? const Color(0x297CF0B0) : const Color(0x29C6F432)),
         ),
         child: Row(
           children: [
@@ -759,7 +761,9 @@ class _QuickLog extends ConsumerWidget {
         radius: 14,
         child: Container(
           height: 62,
-          decoration: BoxDecoration(color: light ? Volt.soft : Volt.card2, borderRadius: BorderRadius.circular(14)),
+          decoration: smooth(
+            BoxDecoration(color: light ? Volt.soft : Volt.card2, borderRadius: BorderRadius.circular(14)),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -946,7 +950,7 @@ class _Water extends ConsumerWidget {
         radius: 14,
         child: Container(
           height: 52,
-          decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(14)),
+          decoration: smooth(BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(14))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -998,7 +1002,7 @@ class _Water extends ConsumerWidget {
                   child: Container(
                     height: 28,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(color: _waterWash, borderRadius: BorderRadius.circular(999)),
+                    decoration: smooth(BoxDecoration(color: _waterWash, borderRadius: BorderRadius.circular(999))),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -1323,10 +1327,12 @@ class _AwardsButton extends ConsumerWidget {
                     height: 22,
                     padding: const EdgeInsets.symmetric(horizontal: 6),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Volt.ink,
-                      borderRadius: BorderRadius.circular(999),
-                      border: Border.all(color: Volt.lime, width: 1.5),
+                    decoration: smooth(
+                      BoxDecoration(
+                        color: Volt.ink,
+                        borderRadius: BorderRadius.circular(999),
+                        border: Border.all(color: Volt.lime, width: 1.5),
+                      ),
                     ),
                     child: Text(
                       '$earned',

@@ -273,10 +273,12 @@ class _Superset extends StatelessWidget {
     final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-      decoration: BoxDecoration(
-        color: Color.alphaBlend(Volt.violet.withValues(alpha: 0.08), Volt.bg),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Volt.line2, width: 1.5),
+      decoration: smooth(
+        BoxDecoration(
+          color: Color.alphaBlend(Volt.violet.withValues(alpha: 0.08), Volt.bg),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Volt.line2, width: 1.5),
+        ),
       ),
       child: GapCol(
         gap: 8,
@@ -290,7 +292,7 @@ class _Superset extends StatelessWidget {
                   width: 22,
                   height: 22,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Volt.violet, borderRadius: BorderRadius.circular(12)),
+                  decoration: smooth(BoxDecoration(color: Volt.violet, borderRadius: BorderRadius.circular(12))),
                   child: const Text(
                     'A',
                     style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.white),
@@ -470,7 +472,7 @@ class _ExerciseCard extends ConsumerWidget {
             child: Container(
               height: 40,
               margin: const EdgeInsets.fromLTRB(6, 2, 6, 0),
-              decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(999)),
+              decoration: smooth(BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(999))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -568,7 +570,7 @@ class _SetRow extends ConsumerWidget {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       curve: voltEase,
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14), border: border),
+      decoration: smooth(BoxDecoration(color: bg, borderRadius: BorderRadius.circular(14), border: border)),
       child: _SetGrid(
         cells: [
           Pressable(
@@ -802,10 +804,12 @@ Future<void> editSet(BuildContext context, WidgetRef ref, int ex, int i, {requir
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 150),
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Volt.card,
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: field == f ? Volt.lime : Volt.line, width: field == f ? 1.5 : 1),
+                decoration: smooth(
+                  BoxDecoration(
+                    color: Volt.card,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: field == f ? Volt.lime : Volt.line, width: field == f ? 1.5 : 1),
+                  ),
                 ),
                 child: GapCol(
                   gap: 2,
@@ -882,11 +886,11 @@ class _NoteState extends ConsumerState<_Note> {
           filled: true,
           fillColor: Volt.card2,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          enabledBorder: OutlineInputBorder(
+          enabledBorder: SmoothInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: Colors.transparent),
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: SmoothInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: Volt.line2),
           ),
@@ -913,8 +917,8 @@ class _DashedBox extends StatelessWidget {
 class _Dashes extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final path = Path()
-      ..addRRect(RRect.fromRectAndRadius((Offset.zero & size).deflate(0.5), const Radius.circular(12)));
+    final path = const SmoothBorder(borderRadius: BorderRadius.all(Radius.circular(12)))
+        .getOuterPath((Offset.zero & size).deflate(0.5));
     final p = Paint()
       ..color = Volt.line2
       ..style = PaintingStyle.stroke
@@ -957,13 +961,15 @@ class _RestBar extends StatelessWidget {
         label: l.restingFor(fmtRest(left)),
         child: Container(
           padding: const EdgeInsets.fromLTRB(18, 14, 14, 16),
-          decoration: BoxDecoration(
-            gradient: Volt.glow,
-            borderRadius: BorderRadius.circular(Volt.rCard),
-            boxShadow: const [
-              BoxShadow(color: Color(0x8CC6F432), blurRadius: 34, offset: Offset(0, 14), spreadRadius: -12),
-              BoxShadow(color: Color(0xCC000000), blurRadius: 30, offset: Offset(0, 18), spreadRadius: -16),
-            ],
+          decoration: smooth(
+            BoxDecoration(
+              gradient: Volt.glow,
+              borderRadius: BorderRadius.circular(Volt.rCard),
+              boxShadow: const [
+                BoxShadow(color: Color(0x8CC6F432), blurRadius: 34, offset: Offset(0, 14), spreadRadius: -12),
+                BoxShadow(color: Color(0xCC000000), blurRadius: 30, offset: Offset(0, 18), spreadRadius: -16),
+              ],
+            ),
           ),
           child: GapCol(
             gap: 12,
@@ -1035,10 +1041,12 @@ class _BarBtn extends StatelessWidget {
       constraints: const BoxConstraints(minWidth: 84),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: solid ? Volt.ink : const Color(0x1F0A0B09),
-        borderRadius: BorderRadius.circular(999),
-        border: solid ? null : Border.all(color: const Color(0x400A0B09)),
+      decoration: smooth(
+        BoxDecoration(
+          color: solid ? Volt.ink : const Color(0x1F0A0B09),
+          borderRadius: BorderRadius.circular(999),
+          border: solid ? null : Border.all(color: const Color(0x400A0B09)),
+        ),
       ),
       child: Text(
         label,

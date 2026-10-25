@@ -640,10 +640,12 @@ class _ViewTab extends StatelessWidget {
           duration: const Duration(milliseconds: 180),
           height: 60,
           padding: const EdgeInsets.symmetric(horizontal: 6),
-          decoration: BoxDecoration(
-            color: on ? Volt.brandWash : Volt.card,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent), width: 1.5),
+          decoration: smooth(
+            BoxDecoration(
+              color: on ? Volt.brandWash : Volt.card,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent), width: 1.5),
+            ),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

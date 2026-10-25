@@ -138,10 +138,12 @@ class IronSuggestions extends StatelessWidget {
               child: Container(
                 width: 156,
                 padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-                decoration: BoxDecoration(
-                  color: Volt.card,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Volt.line),
+                decoration: smooth(
+                  BoxDecoration(
+                    color: Volt.card,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Volt.line),
+                  ),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,25 +253,26 @@ class _IronComposerState extends State<IronComposer> {
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeOut,
       padding: const EdgeInsets.all(1.5),
-      decoration: BoxDecoration(
-        // One line is 59 tall: a radius of half that makes true round ends.
-        borderRadius: BorderRadius.circular(29.5),
-        gradient: focused ? LinearGradient(colors: ironGradient) : LinearGradient(colors: [Volt.line2, Volt.line2]),
-        boxShadow: [
-          BoxShadow(
-            color: focused
-                ? red.withValues(alpha: Volt.isLight ? 0.18 : 0.28)
-                : Colors.black.withValues(alpha: Volt.isLight ? 0.035 : 0.25),
-            blurRadius: focused ? 26 : 22,
-            spreadRadius: -6,
-            offset: const Offset(0, 6),
-          ),
-        ],
+      decoration: smooth(
+        BoxDecoration(
+          // One line is 59 tall: a radius of half that makes true round ends.
+          borderRadius: BorderRadius.circular(29.5),
+          gradient: focused ? LinearGradient(colors: ironGradient) : LinearGradient(colors: [Volt.line2, Volt.line2]),
+          boxShadow: [
+            BoxShadow(
+              color: focused
+                  ? red.withValues(alpha: Volt.isLight ? 0.18 : 0.28)
+                  : Colors.black.withValues(alpha: Volt.isLight ? 0.035 : 0.25),
+              blurRadius: focused ? 26 : 22,
+              spreadRadius: -6,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
       ),
       child: Container(
-        decoration: BoxDecoration(
-          color: Volt.isLight ? Colors.white : Volt.card,
-          borderRadius: BorderRadius.circular(28),
+        decoration: smooth(
+          BoxDecoration(color: Volt.isLight ? Colors.white : Volt.card, borderRadius: BorderRadius.circular(28)),
         ),
         padding: const EdgeInsets.all(6),
         child: Row(
@@ -367,13 +370,15 @@ class UserBubble extends StatelessWidget {
         constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.78),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: ironGradient),
-            borderRadius: const BorderRadiusDirectional.only(
-              topStart: Radius.circular(22),
-              topEnd: Radius.circular(22),
-              bottomStart: Radius.circular(22),
-              bottomEnd: Radius.circular(6),
+          decoration: smooth(
+            BoxDecoration(
+              gradient: LinearGradient(colors: ironGradient),
+              borderRadius: const BorderRadiusDirectional.only(
+                topStart: Radius.circular(22),
+                topEnd: Radius.circular(22),
+                bottomStart: Radius.circular(22),
+                bottomEnd: Radius.circular(6),
+              ),
             ),
           ),
           child: Text(
@@ -450,14 +455,16 @@ class _DotsState extends State<_Dots> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: Volt.card,
-        border: Border.all(color: Volt.line),
-        borderRadius: const BorderRadiusDirectional.only(
-          topStart: Radius.circular(6),
-          topEnd: Radius.circular(20),
-          bottomStart: Radius.circular(20),
-          bottomEnd: Radius.circular(20),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.card,
+          border: Border.all(color: Volt.line),
+          borderRadius: const BorderRadiusDirectional.only(
+            topStart: Radius.circular(6),
+            topEnd: Radius.circular(20),
+            bottomStart: Radius.circular(20),
+            bottomEnd: Radius.circular(20),
+          ),
         ),
       ),
       child: AnimatedBuilder(
@@ -492,14 +499,16 @@ class IronBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-      decoration: BoxDecoration(
-        color: Volt.card,
-        border: Border.all(color: Volt.line),
-        borderRadius: const BorderRadiusDirectional.only(
-          topStart: Radius.circular(6),
-          topEnd: Radius.circular(20),
-          bottomStart: Radius.circular(20),
-          bottomEnd: Radius.circular(20),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.card,
+          border: Border.all(color: Volt.line),
+          borderRadius: const BorderRadiusDirectional.only(
+            topStart: Radius.circular(6),
+            topEnd: Radius.circular(20),
+            bottomStart: Radius.circular(20),
+            bottomEnd: Radius.circular(20),
+          ),
         ),
       ),
       child: Text(text, style: TextStyle(fontSize: 14.5, height: 1.45, color: Volt.t1)),

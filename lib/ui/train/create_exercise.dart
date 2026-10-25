@@ -85,7 +85,7 @@ class _CreateBodyState extends ConsumerState<_CreateBody> {
             hintText: l.exerciseNameHint,
             filled: true,
             fillColor: Volt.field,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
+            border: SmoothInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
           ),
         ),
         Eyebrow(l.mainMuscle, padding: const EdgeInsetsDirectional.only(start: 4)),

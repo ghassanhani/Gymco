@@ -127,7 +127,7 @@ class _RecipeScreenState extends ConsumerState<RecipeScreen> {
                       hintText: l.recipeNameHint,
                       filled: true,
                       fillColor: Volt.field,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
+                      border: SmoothInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
                     ),
                   ),
                   VCard(

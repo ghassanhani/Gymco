@@ -208,10 +208,12 @@ class _Warning extends ConsumerWidget {
     final clearance = signal.id == 'needs_clearance';
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Volt.warn.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Volt.warn.withValues(alpha: 0.4)),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.warn.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Volt.warn.withValues(alpha: 0.4)),
+        ),
       ),
       child: GapCol(
         gap: 8,
@@ -318,13 +320,15 @@ class _Frame extends StatelessWidget {
     final l = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(1.5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(colors: [for (final c in ironGradient) c.withValues(alpha: 0.9)]),
+      decoration: smooth(
+        BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(colors: [for (final c in ironGradient) c.withValues(alpha: 0.9)]),
+        ),
       ),
       child: Container(
         padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18.5)),
+        decoration: smooth(BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18.5))),
         child: GapCol(
           gap: 10,
           cross: CrossAxisAlignment.stretch,

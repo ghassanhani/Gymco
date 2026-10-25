@@ -61,7 +61,7 @@ class _PhotosViewState extends ConsumerState<PhotosView> {
       context,
       title: '${poseName(l, p.pose)} · ${_date(context, p.day)}',
       body: (ctx) => [
-        ClipRRect(
+        ClipSmooth(
           borderRadius: BorderRadius.circular(18),
           child: AspectRatio(
             aspectRatio: 3 / 4,
@@ -205,10 +205,12 @@ class _Slot extends ConsumerWidget {
         aspectRatio: 3 / 4,
         child: Container(
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: Volt.card2,
-            borderRadius: BorderRadius.circular(16),
-            border: photo == null ? Border.all(color: Volt.line2) : null,
+          decoration: smooth(
+            BoxDecoration(
+              color: Volt.card2,
+              borderRadius: BorderRadius.circular(16),
+              border: photo == null ? Border.all(color: Volt.line2) : null,
+            ),
           ),
           child: photo == null
               ? Column(

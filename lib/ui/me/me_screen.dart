@@ -288,7 +288,7 @@ class LanguageScreen extends ConsumerWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                    decoration: BoxDecoration(color: Volt.brandWash, borderRadius: BorderRadius.circular(18)),
+                    decoration: smooth(BoxDecoration(color: Volt.brandWash, borderRadius: BorderRadius.circular(18))),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

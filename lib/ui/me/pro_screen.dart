@@ -57,17 +57,19 @@ class ProCard extends ConsumerWidget {
         radius: 28,
         child: Container(
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFFE4FF6A), Color(0xFFB6F02A), Color(0xFF5EE4A0)],
-              stops: [0, 0.48, 1],
+          decoration: smooth(
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFE4FF6A), Color(0xFFB6F02A), Color(0xFF5EE4A0)],
+                stops: [0, 0.48, 1],
+              ),
+              boxShadow: const [
+                BoxShadow(color: Color(0xE6B6F02A), blurRadius: 44, offset: Offset(0, 26), spreadRadius: -26),
+              ],
             ),
-            boxShadow: const [
-              BoxShadow(color: Color(0xE6B6F02A), blurRadius: 44, offset: Offset(0, 26), spreadRadius: -26),
-            ],
           ),
           child: Stack(
             children: [
@@ -158,7 +160,7 @@ class ProCard extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 4),
                       constraints: const BoxConstraints(minHeight: 56),
                       padding: const EdgeInsetsDirectional.fromSTEB(20, 6, 6, 6),
-                      decoration: BoxDecoration(color: ink, borderRadius: BorderRadius.circular(999)),
+                      decoration: smooth(BoxDecoration(color: ink, borderRadius: BorderRadius.circular(999))),
                       child: Row(
                         children: [
                           Expanded(
@@ -218,7 +220,7 @@ class _ProBadge extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: 26,
     padding: const EdgeInsets.symmetric(horizontal: 10),
-    decoration: BoxDecoration(color: Volt.ink, borderRadius: BorderRadius.circular(999)),
+    decoration: smooth(BoxDecoration(color: Volt.ink, borderRadius: BorderRadius.circular(999))),
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -334,10 +336,12 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                                     width: 48,
                                     height: 48,
                                     alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Volt.card,
-                                      borderRadius: BorderRadius.circular(14),
-                                      border: Border.all(color: Volt.line2),
+                                    decoration: smooth(
+                                      BoxDecoration(
+                                        color: Volt.card,
+                                        borderRadius: BorderRadius.circular(14),
+                                        border: Border.all(color: Volt.line2),
+                                      ),
                                     ),
                                     child: VIcon(icon, size: 22, color: Volt.brandInk),
                                   ),
@@ -405,9 +409,11 @@ class _ProScreenState extends ConsumerState<ProScreen> {
                           margin: const EdgeInsets.symmetric(horizontal: 3),
                           width: i == _page ? 22 : 7,
                           height: 7,
-                          decoration: BoxDecoration(
-                            color: i == _page ? Volt.lime : Volt.line2,
-                            borderRadius: BorderRadius.circular(9),
+                          decoration: smooth(
+                            BoxDecoration(
+                              color: i == _page ? Volt.lime : Volt.line2,
+                              borderRadius: BorderRadius.circular(9),
+                            ),
                           ),
                         ),
                     ],
@@ -448,10 +454,12 @@ class _Pill extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-    decoration: BoxDecoration(
-      color: Volt.card,
-      borderRadius: BorderRadius.circular(999),
-      border: Border.all(color: Volt.line2),
+    decoration: smooth(
+      BoxDecoration(
+        color: Volt.card,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: Volt.line2),
+      ),
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,
@@ -482,9 +490,8 @@ class _Period extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
-        decoration: BoxDecoration(
-          color: yearly == v ? Volt.brand : Colors.transparent,
-          borderRadius: BorderRadius.circular(999),
+        decoration: smooth(
+          BoxDecoration(color: yearly == v ? Volt.brand : Colors.transparent, borderRadius: BorderRadius.circular(999)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -510,10 +517,12 @@ class _Period extends StatelessWidget {
     );
     return Container(
       padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Volt.card,
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: Volt.line2),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.card,
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: Volt.line2),
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -550,10 +559,12 @@ class _PlanCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 6),
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: Volt.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: popular ? Volt.brandEdge : Volt.line2),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.card,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: popular ? Volt.brandEdge : Volt.line2),
+        ),
       ),
       child: Stack(
         children: [

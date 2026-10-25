@@ -323,7 +323,7 @@ class StreakCard extends ConsumerWidget {
       label: l.awardsTitle,
       child: Container(
         padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(18)),
+        decoration: smooth(BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(18))),
         child: Row(
           children: [
             StreakRings(info: s, size: 60, onLime: true),
@@ -554,7 +554,7 @@ class AwardsScreen extends ConsumerWidget {
                       label: awardName(l, month, now, loc),
                       child: Container(
                         padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(18)),
+                        decoration: smooth(BoxDecoration(gradient: Volt.glow, borderRadius: BorderRadius.circular(18))),
                         child: Row(
                           children: [
                             // The challenge under way shows in colour, done or not.
@@ -634,10 +634,12 @@ class _Nudge extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-    decoration: BoxDecoration(
-      color: Volt.bg,
-      borderRadius: BorderRadius.circular(18),
-      border: Border.all(color: Volt.line),
+    decoration: smooth(
+      BoxDecoration(
+        color: Volt.bg,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Volt.line),
+      ),
     ),
     child: Row(
       children: [
@@ -668,7 +670,7 @@ class _Stat extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-    decoration: BoxDecoration(color: Volt.bg, borderRadius: BorderRadius.circular(18)),
+    decoration: smooth(BoxDecoration(color: Volt.bg, borderRadius: BorderRadius.circular(18))),
     child: GapCol(
       gap: 2,
       children: [
@@ -1075,10 +1077,12 @@ class _GoalSetScreenState extends ConsumerState<GoalSetScreen> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          decoration: BoxDecoration(
-            color: on ? Volt.brandWash : Volt.card,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: on ? Volt.lime : Volt.line, width: on ? 1.5 : 1),
+          decoration: smooth(
+            BoxDecoration(
+              color: on ? Volt.brandWash : Volt.card,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(color: on ? Volt.lime : Volt.line, width: on ? 1.5 : 1),
+            ),
           ),
           child: GapCol(
             gap: 2,
@@ -1470,9 +1474,11 @@ class _PauseRow extends ConsumerWidget {
       label: active ? l.pausedUntil(until) : l.pauseStreak,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: active ? const Color(0x1A4CC9F0) : Volt.tint.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(14),
+        decoration: smooth(
+          BoxDecoration(
+            color: active ? const Color(0x1A4CC9F0) : Volt.tint.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(14),
+          ),
         ),
         child: Row(
           children: [

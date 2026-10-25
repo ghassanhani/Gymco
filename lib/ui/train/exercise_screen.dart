@@ -186,7 +186,7 @@ class ExerciseScreen extends ConsumerWidget {
                     child: Muted(insight, color: Volt.t2),
                   ),
                   if (e.images.isNotEmpty && ref.watch(showExercisePhotosProvider))
-                    ClipRRect(
+                    ClipSmooth(
                       borderRadius: BorderRadius.circular(18),
                       child: AspectRatio(
                         aspectRatio: 4 / 3,

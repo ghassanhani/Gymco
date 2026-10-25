@@ -45,7 +45,7 @@ class ExThumb extends ConsumerWidget {
         onTap: () => showExercisePhotos(context, e),
         child: Hero(
           tag: 'exphoto:${e.id}:0',
-          child: ClipRRect(
+          child: ClipSmooth(
             borderRadius: radius,
             child: SizedBox.square(
               dimension: size,
@@ -134,7 +134,7 @@ class _PhotoViewerState extends ConsumerState<_PhotoViewer> {
                       maxScale: 4,
                       child: Hero(
                         tag: 'exphoto:${e.id}:$i',
-                        child: ClipRRect(
+                        child: ClipSmooth(
                           borderRadius: BorderRadius.circular(18),
                           child: Image(
                             image: ref.watch(exerciseImageProvider)(e.imageUrl(i)),
@@ -166,9 +166,11 @@ class _PhotoViewerState extends ConsumerState<_PhotoViewer> {
                         margin: const EdgeInsets.symmetric(horizontal: 3),
                         width: i == _at ? 22 : 7,
                         height: 7,
-                        decoration: BoxDecoration(
-                          color: i == _at ? Volt.lime : Volt.line2,
-                          borderRadius: BorderRadius.circular(999),
+                        decoration: smooth(
+                          BoxDecoration(
+                            color: i == _at ? Volt.lime : Volt.line2,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                         ),
                       ),
                   ],

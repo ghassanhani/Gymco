@@ -251,7 +251,7 @@ class VolumeBar extends StatelessWidget {
     builder: (_, c) {
       final w = c.maxWidth;
       final pct = (total / scale).clamp(0.04, 1.0);
-      return ClipRRect(
+      return ClipSmooth(
         borderRadius: BorderRadius.circular(999),
         child: SizedBox(
           height: height,
@@ -271,7 +271,7 @@ class VolumeBar extends StatelessWidget {
                 top: 0,
                 bottom: 0,
                 child: Container(
-                  decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(999)),
+                  decoration: smooth(BoxDecoration(color: color, borderRadius: BorderRadius.circular(999))),
                 ),
               ),
             ],

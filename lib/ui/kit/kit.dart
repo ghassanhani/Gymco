@@ -14,9 +14,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/volt.dart';
 import 'icon_paths.dart';
 import 'motion.dart';
+import 'smooth.dart';
 
 export 'ai.dart';
 export 'motion.dart';
+export 'smooth.dart';
 
 const _tab = [FontFeature.tabularFigures()];
 
@@ -400,10 +402,12 @@ class VCard extends StatelessWidget {
     final p = padding ?? (tight ? const EdgeInsets.symmetric(horizontal: 16, vertical: 14) : const EdgeInsets.all(16));
     final body = Container(
       padding: p,
-      decoration: BoxDecoration(
-        color: color ?? Volt.card,
-        borderRadius: BorderRadius.circular(radius),
-        border: border ?? Volt.edge,
+      decoration: smooth(
+        BoxDecoration(
+          color: color ?? Volt.card,
+          borderRadius: BorderRadius.circular(radius),
+          border: border ?? Volt.edge,
+        ),
       ),
       child: child,
     );
@@ -420,7 +424,7 @@ class VList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     clipBehavior: Clip.antiAlias,
-    decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18), border: Volt.edge),
+    decoration: smooth(BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18), border: Volt.edge)),
     child: Material(
       type: MaterialType.transparency,
       child: Column(
@@ -665,13 +669,15 @@ class VBtn extends StatelessWidget {
         constraints: BoxConstraints(minHeight: h),
         padding: padding ?? EdgeInsets.symmetric(horizontal: kind == BtnKind.start ? 16 : (small ? 18 : 20)),
         alignment: expand ? Alignment.center : null,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(999),
-          gradient: primary ? Volt.glow : null,
-          color: primary ? null : (kind == BtnKind.ghost ? Volt.card2 : Volt.brandWash),
-          boxShadow: primary && enabled
-              ? const [BoxShadow(color: Color(0xBFB6F02A), blurRadius: 26, offset: Offset(0, 12), spreadRadius: -12)]
-              : null,
+        decoration: smooth(
+          BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            gradient: primary ? Volt.glow : null,
+            color: primary ? null : (kind == BtnKind.ghost ? Volt.card2 : Volt.brandWash),
+            boxShadow: primary && enabled
+                ? const [BoxShadow(color: Color(0xBFB6F02A), blurRadius: 26, offset: Offset(0, 12), spreadRadius: -12)]
+                : null,
+          ),
         ),
         child: DefaultTextStyle.merge(
           style: style,
@@ -716,12 +722,14 @@ class VChip extends StatelessWidget {
     final chip = Container(
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: color ?? (on ? Colors.transparent : Volt.card),
-        borderRadius: BorderRadius.circular(999),
-        // Flat surfaces: an unselected chip has no visible edge.
-        border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent), width: 1.5),
-        boxShadow: on ? const [BoxShadow(color: Color(0x1AC6F432), spreadRadius: 3)] : null,
+      decoration: smooth(
+        BoxDecoration(
+          color: color ?? (on ? Colors.transparent : Volt.card),
+          borderRadius: BorderRadius.circular(999),
+          // Flat surfaces: an unselected chip has no visible edge.
+          border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent), width: 1.5),
+          boxShadow: on ? const [BoxShadow(color: Color(0x1AC6F432), spreadRadius: 3)] : null,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -796,7 +804,7 @@ class VTag extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: 28,
     padding: const EdgeInsets.symmetric(horizontal: 11),
-    decoration: BoxDecoration(color: background ?? Volt.card2, borderRadius: BorderRadius.circular(999)),
+    decoration: smooth(BoxDecoration(color: background ?? Volt.card2, borderRadius: BorderRadius.circular(999))),
     child: Center(
       widthFactor: 1,
       child: Text(
@@ -816,7 +824,7 @@ class VBar extends StatelessWidget {
   final Color? track;
 
   @override
-  Widget build(BuildContext context) => ClipRRect(
+  Widget build(BuildContext context) => ClipSmooth(
     borderRadius: BorderRadius.circular(999),
     child: SizedBox(
       height: height,
@@ -832,7 +840,7 @@ class VBar extends StatelessWidget {
               heightFactor: 1,
               alignment: AlignmentDirectional.centerStart,
               child: DecoratedBox(
-                decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(999)),
+                decoration: smooth(BoxDecoration(color: color, borderRadius: BorderRadius.circular(999))),
               ),
             ),
           ),
@@ -903,7 +911,7 @@ class ExAv extends StatelessWidget {
     width: small ? 26 : 34,
     height: small ? 26 : 34,
     alignment: Alignment.center,
-    decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(small ? 9 : 12)),
+    decoration: smooth(BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(small ? 9 : 12))),
     // No equipment to name: a dumbbell says "exercise" better than a dot.
     child: badge == '•' || badge == '··'
         ? VIcon('dumb', size: small ? 14 : 18, color: Volt.t3)
@@ -951,7 +959,7 @@ class VStepper extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     height: 32,
     padding: const EdgeInsets.all(2),
-    decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(999)),
+    decoration: smooth(BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(999))),
     child: Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -985,10 +993,12 @@ class SRow extends StatelessWidget {
     child: Container(
       constraints: const BoxConstraints(minHeight: 54),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: on ? Volt.brandWash : Volt.card,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent)),
+      decoration: smooth(
+        BoxDecoration(
+          color: on ? Volt.brandWash : Volt.card,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: on ? Volt.lime : (Volt.isLight ? Volt.line : Colors.transparent)),
+        ),
       ),
       child: Row(
         children: [
@@ -1026,10 +1036,12 @@ class RChip extends StatelessWidget {
     child: Container(
       height: 46,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: on ? Volt.brand : Volt.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: on ? Volt.lime : Volt.line),
+      decoration: smooth(
+        BoxDecoration(
+          color: on ? Volt.brand : Volt.card,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: on ? Volt.lime : Volt.line),
+        ),
       ),
       child: Text(
         label,
@@ -1074,7 +1086,7 @@ Future<T?> showVSheet<T>(
     backgroundColor: Volt.sheet,
     barrierColor: const Color(0x73000000),
     constraints: BoxConstraints(maxHeight: MediaQuery.sizeOf(context).height * 0.86),
-    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+    shape: const SmoothBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
     builder: (ctx) => SafeArea(
       top: false,
       child: Padding(
@@ -1089,7 +1101,7 @@ Future<T?> showVSheet<T>(
                   width: 38,
                   height: 4,
                   margin: const EdgeInsets.only(bottom: 4),
-                  decoration: BoxDecoration(color: Volt.line2, borderRadius: BorderRadius.circular(999)),
+                  decoration: smooth(BoxDecoration(color: Volt.line2, borderRadius: BorderRadius.circular(999))),
                 ),
               ),
               Padding(
@@ -1161,28 +1173,32 @@ class _Glass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(radius),
-      boxShadow:
-          shadow ??
-          [
-            BoxShadow(
-              color: Volt.isLight ? const Color(0x2E343A2C) : const Color(0x73000000),
-              blurRadius: 30,
-              offset: const Offset(0, 12),
-              spreadRadius: -12,
-            ),
-          ],
+    decoration: smooth(
+      BoxDecoration(
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow:
+            shadow ??
+            [
+              BoxShadow(
+                color: Volt.isLight ? const Color(0x2E343A2C) : const Color(0x73000000),
+                blurRadius: 30,
+                offset: const Offset(0, 12),
+                spreadRadius: -12,
+              ),
+            ],
+      ),
     ),
-    child: ClipRRect(
+    child: ClipSmooth(
       borderRadius: BorderRadius.circular(radius),
       child: BackdropFilter(
         filter: ui.ImageFilter.blur(sigmaX: blur / 2, sigmaY: blur / 2),
         child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(radius),
-            border: Border.all(color: Volt.tint.withValues(alpha: Volt.isLight ? 0.06 : 0.06)),
+          decoration: smooth(
+            BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(radius),
+              border: Border.all(color: Volt.tint.withValues(alpha: Volt.isLight ? 0.06 : 0.06)),
+            ),
           ),
           child: child,
         ),
@@ -1284,10 +1300,12 @@ class _Tab extends StatelessWidget {
                   curve: voltEase,
                   width: on ? 18 : 0,
                   height: 3,
-                  decoration: BoxDecoration(
-                    color: Volt.lime,
-                    borderRadius: BorderRadius.circular(3),
-                    boxShadow: on ? [BoxShadow(color: Volt.lime, blurRadius: 12)] : null,
+                  decoration: smooth(
+                    BoxDecoration(
+                      color: Volt.lime,
+                      borderRadius: BorderRadius.circular(3),
+                      boxShadow: on ? [BoxShadow(color: Volt.lime, blurRadius: 12)] : null,
+                    ),
                   ),
                 ),
               ),
@@ -1395,13 +1413,15 @@ void showVToast(BuildContext context, String message, {bool info = false}) {
               type: MaterialType.transparency,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
-                decoration: BoxDecoration(
-                  color: Volt.card,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: Volt.line2),
-                  boxShadow: const [
-                    BoxShadow(color: Color(0x80000000), blurRadius: 30, offset: Offset(0, 12), spreadRadius: -10),
-                  ],
+                decoration: smooth(
+                  BoxDecoration(
+                    color: Volt.card,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: Volt.line2),
+                    boxShadow: const [
+                      BoxShadow(color: Color(0x80000000), blurRadius: 30, offset: Offset(0, 12), spreadRadius: -10),
+                    ],
+                  ),
                 ),
                 child: Row(
                   children: [
@@ -1439,10 +1459,12 @@ class Keypad extends StatelessWidget {
     final keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', decimal, '0', 'del'];
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Volt.card,
-        border: Border(top: BorderSide(color: Volt.line)),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.card,
+          border: Border(top: BorderSide(color: Volt.line)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+        ),
       ),
       child: LayoutBuilder(
         builder: (_, c) {
@@ -1463,7 +1485,7 @@ class Keypad extends StatelessWidget {
                     child: Container(
                       height: 52,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(16)),
+                      decoration: smooth(BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(16))),
                       child: k == 'del'
                           ? VIcon('del', size: 22, color: Volt.t2)
                           : Text(
@@ -1678,10 +1700,12 @@ class MethodRow extends StatelessWidget {
                 duration: const Duration(milliseconds: 200),
                 width: 66,
                 padding: const EdgeInsets.fromLTRB(4, 10, 4, 8),
-                decoration: BoxDecoration(
-                  color: m.id == current ? Volt.brandWash : Volt.card,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: m.id == current ? Volt.lime : Volt.line),
+                decoration: smooth(
+                  BoxDecoration(
+                    color: m.id == current ? Volt.brandWash : Volt.card,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: m.id == current ? Volt.lime : Volt.line),
+                  ),
                 ),
                 child: Column(
                   children: [
@@ -1725,7 +1749,7 @@ class VToggle extends StatelessWidget {
     duration: const Duration(milliseconds: 200),
     width: 44,
     height: 26,
-    decoration: BoxDecoration(color: on ? Volt.brand : Volt.line2, borderRadius: BorderRadius.circular(999)),
+    decoration: smooth(BoxDecoration(color: on ? Volt.brand : Volt.line2, borderRadius: BorderRadius.circular(999))),
     child: AnimatedAlign(
       duration: const Duration(milliseconds: 200),
       alignment: on ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
@@ -1773,7 +1797,7 @@ class MacroTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     padding: compact ? const EdgeInsets.fromLTRB(12, 11, 10, 11) : const EdgeInsets.fromLTRB(14, 12, 12, 12),
-    decoration: BoxDecoration(color: Volt.bg, borderRadius: BorderRadius.circular(14)),
+    decoration: smooth(BoxDecoration(color: Volt.bg, borderRadius: BorderRadius.circular(14))),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1782,7 +1806,7 @@ class MacroTile extends StatelessWidget {
             Container(
               width: 8,
               height: 8,
-              decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2)),
+              decoration: smooth(BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
             ),
             const SizedBox(width: 8),
             Flexible(

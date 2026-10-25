@@ -66,26 +66,28 @@ class _AiBtnState extends State<AiBtn> with SingleTickerProviderStateMixin {
         child: Container(
           height: h,
           padding: EdgeInsets.symmetric(horizontal: widget.compact ? 12 : (widget.small ? 18 : 22)),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(999),
-            gradient: LinearGradient(colors: widget.colors),
-            boxShadow: enabled
-                ? [
-                    BoxShadow(
-                      color: widget.colors.first.withValues(alpha: 0.4),
-                      blurRadius: 24,
-                      offset: const Offset(0, 10),
-                      spreadRadius: -10,
-                    ),
-                  ]
-                : null,
+          decoration: smooth(
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(999),
+              gradient: LinearGradient(colors: widget.colors),
+              boxShadow: enabled
+                  ? [
+                      BoxShadow(
+                        color: widget.colors.first.withValues(alpha: 0.4),
+                        blurRadius: 24,
+                        offset: const Offset(0, 10),
+                        spreadRadius: -10,
+                      ),
+                    ]
+                  : null,
+            ),
           ),
           child: Stack(
             alignment: Alignment.center,
             children: [
               // The light that sweeps across while it waits to be tapped.
               Positioned.fill(
-                child: ClipRRect(
+                child: ClipSmooth(
                   borderRadius: BorderRadius.circular(999),
                   child: AnimatedBuilder(
                     animation: _sweep,

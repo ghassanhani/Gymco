@@ -206,8 +206,8 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
             filled: true,
             fillColor: Volt.field,
             contentPadding: const EdgeInsetsDirectional.fromSTEB(14, 13, 52, 13),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
-            focusedBorder: OutlineInputBorder(
+            border: SmoothInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
+            focusedBorder: SmoothInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(color: Volt.lime),
             ),
@@ -240,7 +240,7 @@ class _PhotoModeState extends ConsumerState<PhotoMode> {
           if (_note.text.trim().isNotEmpty) AiBtn(label: l.estimateFromNote, onTap: () => _scan(null)),
         ] else ...[
           if (_shot != null)
-            ClipRRect(
+            ClipSmooth(
               borderRadius: BorderRadius.circular(18),
               child: Stack(
                 alignment: Alignment.center,
@@ -358,7 +358,9 @@ class _Capture extends StatelessWidget {
               foregroundPainter: _Dashed(),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 34),
-                decoration: BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18), border: Volt.edge),
+                decoration: smooth(
+                  BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18), border: Volt.edge),
+                ),
                 child: GapCol(
                   gap: 12,
                   cross: CrossAxisAlignment.center,
@@ -394,8 +396,8 @@ class _Capture extends StatelessWidget {
 class _Dashed extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(18)).deflate(0.5);
-    final path = Path()..addRRect(rect);
+    final path = const SmoothBorder(borderRadius: BorderRadius.all(Radius.circular(18)))
+        .getOuterPath((Offset.zero & size).deflate(0.5));
     final paint = Paint()
       ..color = Volt.line2
       ..style = PaintingStyle.stroke

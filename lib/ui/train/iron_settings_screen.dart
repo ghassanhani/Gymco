@@ -299,7 +299,7 @@ class _HealthProfileScreenState extends ConsumerState<HealthProfileScreen> {
                       filled: true,
                       fillColor: Volt.field,
                       contentPadding: const EdgeInsets.all(14),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                      border: SmoothInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
                     ),
                   ),
                   Padding(

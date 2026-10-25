@@ -109,10 +109,12 @@ class DataScreen extends ConsumerWidget {
 
     Widget consentRow(String text, bool on, DateTime? at) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: Volt.bg,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Volt.line),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.bg,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Volt.line),
+        ),
       ),
       child: Row(
         children: [
@@ -183,9 +185,11 @@ class DataScreen extends ConsumerWidget {
                           child: Container(
                             height: 52,
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(999),
-                              border: Border.all(color: Volt.brandEdge, width: 1.5),
+                            decoration: smooth(
+                              BoxDecoration(
+                                borderRadius: BorderRadius.circular(999),
+                                border: Border.all(color: Volt.brandEdge, width: 1.5),
+                              ),
                             ),
                             child: Text(
                               l.deleteAllData,

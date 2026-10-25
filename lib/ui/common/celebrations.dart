@@ -325,10 +325,12 @@ class DaySheet extends ConsumerWidget {
             builder: (context, t, child) => FractionalTranslation(translation: Offset(0, t), child: child),
             child: Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                color: Volt.sheet,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(Volt.rSheet)),
-                border: Volt.isLight ? Border(top: BorderSide(color: Volt.line)) : null,
+              decoration: smooth(
+                BoxDecoration(
+                  color: Volt.sheet,
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(Volt.rSheet)),
+                  border: Volt.isLight ? Border(top: BorderSide(color: Volt.line)) : null,
+                ),
               ),
               padding: EdgeInsets.fromLTRB(24, 10, 24, 20 + MediaQuery.paddingOf(context).bottom),
               child: Column(
@@ -337,7 +339,7 @@ class DaySheet extends ConsumerWidget {
                   Container(
                     width: 40,
                     height: 4,
-                    decoration: BoxDecoration(color: Volt.line2, borderRadius: BorderRadius.circular(2)),
+                    decoration: smooth(BoxDecoration(color: Volt.line2, borderRadius: BorderRadius.circular(2))),
                   ),
                   const SizedBox(height: 18),
                   TweenAnimationBuilder<double>(
@@ -418,10 +420,12 @@ class _Tasks extends StatelessWidget {
           Expanded(
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-              decoration: BoxDecoration(
-                color: done ? Volt.brandWash : Volt.card2,
-                borderRadius: BorderRadius.circular(14),
-                border: done ? Border.all(color: Volt.lime.withValues(alpha: 0.6)) : null,
+              decoration: smooth(
+                BoxDecoration(
+                  color: done ? Volt.brandWash : Volt.card2,
+                  borderRadius: BorderRadius.circular(14),
+                  border: done ? Border.all(color: Volt.lime.withValues(alpha: 0.6)) : null,
+                ),
               ),
               child: Column(
                 children: [

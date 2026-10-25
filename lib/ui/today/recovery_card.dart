@@ -380,7 +380,7 @@ class _Chip extends StatelessWidget {
     label: '$label $value',
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
-      decoration: BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(12)),
+      decoration: smooth(BoxDecoration(color: Volt.card2, borderRadius: BorderRadius.circular(12))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

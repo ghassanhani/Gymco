@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'transitions.dart';
+import '../ui/kit/smooth.dart';
 
 /// One set of Gymco colours. [VoltPalette.dark] is the original Volt look;
 /// [VoltPalette.light] is the same system on an off-white page.
@@ -289,15 +290,15 @@ abstract final class Volt {
         color: card,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(rCard)),
+        shape: SmoothBorder(borderRadius: BorderRadius.circular(rCard)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: card2,
         hintStyle: TextStyle(color: t3),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-        focusedBorder: OutlineInputBorder(
+        border: SmoothInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+        focusedBorder: SmoothInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: brand, width: 1.5),
         ),
@@ -322,7 +323,7 @@ abstract final class Volt {
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: sheet,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(rSheet))),
+        shape: SmoothBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(rSheet))),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: card2,
