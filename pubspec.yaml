@@ -60,6 +60,7 @@ dependencies:
   firebase_crashlytics: ^6.0.0
   package_info_plus: ^10.2.2
   crypto: ^3.0.7
+  audioplayers: ^6.8.1
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,7 @@ flutter:
     - assets/brand/
     - assets/onboarding/
     - assets/awards/
+    - assets/sounds/
     - assets/exercises/exercises.json
 
   fonts:

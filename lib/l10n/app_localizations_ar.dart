@@ -4579,4 +4579,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appearanceSystem => 'مثل الهاتف';
+
+  @override
+  String get streakDaysLabel => 'أيام متتالية';
+
+  @override
+  String dayKeptCheer(int n) {
+    return 'اليوم $n محفوظ!';
+  }
+
+  @override
+  String doneOfToday(int done, int total) {
+    return '$done من $total اليوم';
+  }
+
+  @override
+  String get keepBurning => 'نراك غدًا لتبقى الشعلة مشتعلة.';
+
+  @override
+  String get workoutTask => 'التمرين';
+
+  @override
+  String get awardUnlockedEyebrow => 'وسام جديد';
+
+  @override
+  String get seeYourAwards => 'شاهد أوسمتك';
 }

@@ -1238,5 +1238,12 @@
   "appearance": "المظهر",
   "appearanceDark": "داكن",
   "appearanceLight": "فاتح",
-  "appearanceSystem": "مثل الهاتف"
+  "appearanceSystem": "مثل الهاتف",
+  "streakDaysLabel": "أيام متتالية",
+  "dayKeptCheer": "اليوم {n} محفوظ!",
+  "doneOfToday": "{done} من {total} اليوم",
+  "keepBurning": "نراك غدًا لتبقى الشعلة مشتعلة.",
+  "workoutTask": "التمرين",
+  "awardUnlockedEyebrow": "وسام جديد",
+  "seeYourAwards": "شاهد أوسمتك"
 }

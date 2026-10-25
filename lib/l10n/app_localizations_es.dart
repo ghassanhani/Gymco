@@ -4611,4 +4611,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get appearanceSystem => 'Como el teléfono';
+
+  @override
+  String get streakDaysLabel => 'días de racha';
+
+  @override
+  String dayKeptCheer(int n) {
+    return '¡Día $n cumplido!';
+  }
+
+  @override
+  String doneOfToday(int done, int total) {
+    return '$done de $total hechos hoy';
+  }
+
+  @override
+  String get keepBurning => 'Hasta mañana para mantener la llama.';
+
+  @override
+  String get workoutTask => 'Entreno';
+
+  @override
+  String get awardUnlockedEyebrow => 'Logro desbloqueado';
+
+  @override
+  String get seeYourAwards => 'Ver tus logros';
 }

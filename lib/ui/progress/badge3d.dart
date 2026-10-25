@@ -197,6 +197,7 @@ class Badge3D extends StatefulWidget {
     this.month,
     this.backLabel,
     this.angle,
+    this.spinIn = false,
   });
   final Award award;
   final double size;
@@ -204,6 +205,9 @@ class Badge3D extends StatefulWidget {
   final String date;
   final String? month;
   final String? backLabel;
+
+  /// Arrives spinning, a few turns that slow to face front: for an award just earned.
+  final bool spinIn;
 
   /// Holds it at one angle, for previews and tests.
   @visibleForTesting
@@ -222,8 +226,13 @@ class _Badge3DState extends State<Badge3D> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // A small turn on arrival says it can be picked up.
-    _turn.animateWith(SpringSimulation(_spring, 0.55, 0, 0));
+    if (widget.spinIn) {
+      _turn.value = -4 * math.pi;
+      _turn.animateTo(0, duration: const Duration(milliseconds: 2600), curve: Curves.easeOutCubic);
+    } else {
+      // A small turn on arrival says it can be picked up.
+      _turn.animateWith(SpringSimulation(_spring, 0.55, 0, 0));
+    }
   }
 
   @override

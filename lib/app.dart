@@ -11,6 +11,7 @@ import 'state/health_providers.dart';
 import 'state/reminder_providers.dart';
 import 'theme/volt.dart';
 import 'ui/common/app_gate.dart';
+import 'ui/common/celebrations.dart';
 import 'ui/common/splash.dart';
 import 'ui/common/copy.dart';
 import 'ui/food/add_food_screen.dart';
@@ -257,6 +258,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
                 fit: StackFit.expand,
                 children: [
                   AppGateView(child: child!),
+                  const CelebrationHost(),
                   const SplashCover(),
                 ],
               ),

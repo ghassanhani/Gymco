@@ -7491,6 +7491,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Same as phone'**
   String get appearanceSystem;
+
+  /// No description provided for @streakDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'day streak'**
+  String get streakDaysLabel;
+
+  /// No description provided for @dayKeptCheer.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {n} kept!'**
+  String dayKeptCheer(int n);
+
+  /// No description provided for @doneOfToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done today'**
+  String doneOfToday(int done, int total);
+
+  /// No description provided for @keepBurning.
+  ///
+  /// In en, this message translates to:
+  /// **'See you tomorrow to keep the flame going.'**
+  String get keepBurning;
+
+  /// No description provided for @workoutTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get workoutTask;
+
+  /// No description provided for @awardUnlockedEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Award unlocked'**
+  String get awardUnlockedEyebrow;
+
+  /// No description provided for @seeYourAwards.
+  ///
+  /// In en, this message translates to:
+  /// **'See your awards'**
+  String get seeYourAwards;
 }
 
 class _AppLocalizationsDelegate

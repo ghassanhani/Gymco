@@ -1238,5 +1238,12 @@
   "appearance": "Apariencia",
   "appearanceDark": "Oscuro",
   "appearanceLight": "Claro",
-  "appearanceSystem": "Como el teléfono"
+  "appearanceSystem": "Como el teléfono",
+  "streakDaysLabel": "días de racha",
+  "dayKeptCheer": "¡Día {n} cumplido!",
+  "doneOfToday": "{done} de {total} hechos hoy",
+  "keepBurning": "Hasta mañana para mantener la llama.",
+  "workoutTask": "Entreno",
+  "awardUnlockedEyebrow": "Logro desbloqueado",
+  "seeYourAwards": "Ver tus logros"
 }

@@ -3266,5 +3266,14 @@
   "appearance": "Appearance",
   "appearanceDark": "Dark",
   "appearanceLight": "Light",
-  "appearanceSystem": "Same as phone"
+  "appearanceSystem": "Same as phone",
+  "streakDaysLabel": "day streak",
+  "dayKeptCheer": "Day {n} kept!",
+  "@dayKeptCheer": {"placeholders": {"n": {"type": "int"}}},
+  "doneOfToday": "{done} of {total} done today",
+  "@doneOfToday": {"placeholders": {"done": {"type": "int"}, "total": {"type": "int"}}},
+  "keepBurning": "See you tomorrow to keep the flame going.",
+  "workoutTask": "Workout",
+  "awardUnlockedEyebrow": "Award unlocked",
+  "seeYourAwards": "See your awards"
 }
