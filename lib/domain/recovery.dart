@@ -41,9 +41,6 @@ class Recovery {
     this.hrvBase,
     this.activeKcal,
     this.workouts = const [],
-    this.sleepWeek = const [],
-    this.restingWeek = const [],
-    this.hrvWeek = const [],
     this.kcalWeek = const [],
   });
 
@@ -58,11 +55,8 @@ class Recovery {
   /// Today's, from a watch or another app; Gymco's own are left out.
   final List<WatchWorkout> workouts;
 
-  /// The last seven days for each, oldest first and today last; null where
-  /// nothing was read. Sleep in minutes.
-  final List<double?> sleepWeek;
-  final List<double?> restingWeek;
-  final List<double?> hrvWeek;
+  /// Active energy for the last seven days, oldest first and today last;
+  /// null where nothing was read.
   final List<double?> kcalWeek;
 
   bool get hasBody => sleepMin != null || restingHr != null || hrv != null;
@@ -160,9 +154,6 @@ Recovery recoveryFrom({
   final kcalByDay = perDay(activeKcal, sum: true);
   final kcal = kcalByDay[dayKey(now)];
   return Recovery(
-    sleepWeek: lastWeek(perDay(sleep, sum: true), now),
-    restingWeek: lastWeek(perDay(restingHr, sum: false), now),
-    hrvWeek: lastWeek(perDay(hrv, sum: false), now),
     kcalWeek: lastWeek(kcalByDay, now),
     sleepMin: s?.round(),
     sleepBase: sb,

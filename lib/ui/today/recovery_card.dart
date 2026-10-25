@@ -10,7 +10,6 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
-import 'week_bars.dart';
 
 String workoutKindName(AppLocalizations l, WorkoutKind k) => switch (k) {
   WorkoutKind.run => l.kindRun,
@@ -28,7 +27,7 @@ const heartRed = Color(0xFFFF5C7A);
 const _hrvTeal = Color(0xFF2EC4B6);
 
 /// Last night's sleep, resting heart rate and HRV against the person's own
-/// normal, as three tiles with the week behind each, and one line on how
+/// normal, as three tiles, and one line on how
 /// hard to go today. Until the watch reads are allowed it asks once instead.
 class RecoveryCard extends ConsumerWidget {
   const RecoveryCard({super.key});
@@ -39,7 +38,6 @@ class RecoveryCard extends ConsumerWidget {
     final r = ref.watch(recoveryProvider).value;
     if (r == null || !r.hasBody) return const SizedBox.shrink();
     final l = AppLocalizations.of(context);
-    final now = ref.watch(clockProvider)();
 
     final (word, tone) = switch (r.readiness) {
       Readiness.ready => (l.readyReady, Volt.ok),
@@ -71,9 +69,6 @@ class RecoveryCard extends ConsumerWidget {
             higherIsBetter: true,
             show: (d) => signed(d, (d) => hm(d.abs().round())),
           ),
-          week: r.sleepWeek,
-          relative: true,
-          today: now,
         ),
       if (r.restingHr case final h?)
         MetricTile(
@@ -90,9 +85,6 @@ class RecoveryCard extends ConsumerWidget {
             higherIsBetter: false,
             show: (d) => signed(d, (d) => '${d.abs().round()}'),
           ),
-          week: r.restingWeek,
-          relative: true,
-          today: now,
         ),
       if (r.hrv case final v?)
         MetricTile(
@@ -109,9 +101,6 @@ class RecoveryCard extends ConsumerWidget {
             higherIsBetter: true,
             show: (d) => signed(d, (d) => '${d.abs().round()}'),
           ),
-          week: r.hrvWeek,
-          relative: true,
-          today: now,
         ),
     ];
 
@@ -160,7 +149,7 @@ class RecoveryCard extends ConsumerWidget {
   }
 }
 
-/// Steps and active energy side by side, each with its week, and any
+/// Steps and active energy side by side, each against its average, and any
 /// workout a watch recorded today. Only there once health is connected.
 class ActivityTiles extends ConsumerWidget {
   const ActivityTiles({super.key});
@@ -169,7 +158,6 @@ class ActivityTiles extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final steps = ref.watch(stepsWeekProvider).value;
     final r = ref.watch(recoveryProvider).value;
-    final now = ref.watch(clockProvider)();
     final l = AppLocalizations.of(context);
     String? avg(List<double?> week) {
       final past = week.take(week.length - 1).whereType<double>();
@@ -188,8 +176,6 @@ class ActivityTiles extends ConsumerWidget {
             final a? => (a, Volt.t3),
             null => null,
           },
-          week: steps,
-          today: now,
           big: true,
         ),
       if (r?.activeKcal case final k?)
@@ -203,8 +189,6 @@ class ActivityTiles extends ConsumerWidget {
             final a? => (a, Volt.t3),
             null => null,
           },
-          week: r.kcalWeek,
-          today: now,
           big: true,
         ),
     ];
@@ -264,7 +248,7 @@ class _SectionHead extends StatelessWidget {
   );
 }
 
-/// One number with its icon, how it compares, and the last seven days.
+/// One number with its icon and how it compares.
 class MetricTile extends StatelessWidget {
   const MetricTile({
     super.key,
@@ -272,12 +256,9 @@ class MetricTile extends StatelessWidget {
     required this.color,
     required this.label,
     required this.value,
-    required this.week,
-    required this.today,
     this.unit,
     this.sub,
     this.big = false,
-    this.relative = false,
   });
   final String icon;
   final Color color;
@@ -285,12 +266,9 @@ class MetricTile extends StatelessWidget {
   final String value;
   final String? unit;
   final (String, Color)? sub;
-  final List<double?> week;
-  final DateTime today;
 
   /// Two to a row rather than three: a larger number and wider bars.
   final bool big;
-  final bool relative;
 
   @override
   Widget build(BuildContext context) => VCard(
@@ -335,16 +313,6 @@ class MetricTile extends StatelessWidget {
             alignment: AlignmentDirectional.centerStart,
             child: Text(text, style: TextStyle(fontSize: 11, color: c)),
           ),
-        const Spacer(),
-        SizedBox(height: big ? 12 : 10),
-        WeekBars(
-          values: week,
-          color: color,
-          today: today,
-          height: big ? 34 : 26,
-          barWidth: big ? 8 : 6,
-          relative: relative,
-        ),
       ],
     ),
   );
