@@ -1429,5 +1429,6 @@
   "ironProgramReady": "Aquí está tu programa. Revísalo y úsalo.",
   "ironRoutineReady": "Esto es lo que haría. Añádelo si te convence.",
   "ironRefineHint": "Cambia algo, p. ej. un día menos",
-  "askIronHint": "Escribe a Iron…"
+  "askIronHint": "Escribe a Iron…",
+  "ironHomeHint": "Pide a Iron un programa…"
 }

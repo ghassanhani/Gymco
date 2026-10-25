@@ -14,6 +14,7 @@ import '../../state/coach_providers.dart';
 import '../../state/health_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
+import '../common/ask_iron.dart';
 import '../common/iron_avatar.dart';
 import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
@@ -136,32 +137,16 @@ class IronCard extends ConsumerWidget {
           Muted(t.tip, size: 13.5, color: Volt.t2),
         ] else
           Muted(l.ironNoTip, size: 13),
-        Row(
-          children: [
-            if (tip.value case final t? when _act(context, ref, t.action) != null) ...[
-              Expanded(
-                child: VBtn(
-                  label: _label(l, t.action),
-                  kind: BtnKind.ghost,
-                  small: true,
-                  minHeight: 40,
-                  expand: true,
-                  onTap: _act(context, ref, t.action),
-                ),
-              ),
-              const SizedBox(width: 8),
-            ],
-            Expanded(
-              child: AiBtn(
-                label: l.ironGetProgram,
-                small: true,
-                colors: ironGradient,
-                foreground: Colors.white,
-                onTap: () => context.push('/iron'),
-              ),
-            ),
-          ],
-        ),
+        if (tip.value case final t? when _act(context, ref, t.action) != null)
+          VBtn(
+            label: _label(l, t.action),
+            kind: BtnKind.ghost,
+            small: true,
+            minHeight: 40,
+            expand: true,
+            onTap: _act(context, ref, t.action),
+          ),
+        const _HomeAsk(),
         if (weekday == DateTime.sunday || weekday == DateTime.monday)
           VItem(
             onTap: () => context.push('/iron/review'),
@@ -278,6 +263,44 @@ class _Warning extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Message Iron from Today: sending opens Iron's screen with the message
+/// already on its way; sending nothing opens it to start fresh.
+class _HomeAsk extends StatefulWidget {
+  const _HomeAsk();
+
+  @override
+  State<_HomeAsk> createState() => _HomeAskState();
+}
+
+class _HomeAskState extends State<_HomeAsk> {
+  final _text = TextEditingController();
+
+  @override
+  void dispose() {
+    _text.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return IronComposer(
+      controller: _text,
+      hint: l.ironHomeHint,
+      maxLines: 4,
+      maxLength: 400,
+      sendEmpty: true,
+      sendLabel: l.ironGetProgram,
+      onSend: () {
+        final m = _text.text.trim();
+        _text.clear();
+        FocusScope.of(context).unfocus();
+        context.push('/iron', extra: m.isEmpty ? null : m);
+      },
     );
   }
 }

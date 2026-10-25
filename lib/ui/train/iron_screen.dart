@@ -23,7 +23,10 @@ import 'iron_settings_screen.dart' show ironReadsLine;
 /// Iron builds a whole program from the user's numbers, like a personal
 /// trainer: daily eating targets, a week of training and three habits.
 class IronScreen extends ConsumerStatefulWidget {
-  const IronScreen({super.key});
+  const IronScreen({super.key, this.message});
+
+  /// A message sent from Iron's card on Today: sent on arrival.
+  final String? message;
 
   @override
   ConsumerState<IronScreen> createState() => _IronScreenState();
@@ -38,6 +41,17 @@ class _IronScreenState extends ConsumerState<IronScreen> {
   /// What the user has asked so far, oldest first; null before the first
   /// send, when Iron's greeting shows instead of the conversation.
   List<String>? _asked;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.message case final m? when m.trim().isNotEmpty) {
+      _ask.text = m;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _build();
+      });
+    }
+  }
 
   @override
   void dispose() {

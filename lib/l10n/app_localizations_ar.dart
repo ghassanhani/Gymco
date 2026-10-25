@@ -5229,4 +5229,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get askIronHint => 'اكتب لآيرون…';
+
+  @override
+  String get ironHomeHint => 'اطلب من آيرون برنامجًا…';
 }

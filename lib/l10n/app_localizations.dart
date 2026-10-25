@@ -8637,6 +8637,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message Iron…'**
   String get askIronHint;
+
+  /// No description provided for @ironHomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Iron for a program…'**
+  String get ironHomeHint;
 }
 
 class _AppLocalizationsDelegate

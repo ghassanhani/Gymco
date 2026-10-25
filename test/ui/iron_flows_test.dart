@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/models.dart';
 import 'package:gymco/ui/train/iron_screen.dart';
@@ -83,11 +83,11 @@ void main() {
       seed: (db) => db.saveRoutineFixture('Old day', weekday: 2),
     );
     final before = (jsonDecode(prefs.getString('profile')!) as Map)['kcal'] as num;
-    await tester.scrollUntilVisible(find.text('My program'), 300, scrollable: pageScroll);
+    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
     // To the middle of the screen, clear of the tab bar floating over the bottom.
-    await Scrollable.ensureVisible(tester.element(find.text('My program')), alignment: 0.5);
+    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('My program'));
+    await tester.tap(find.byTooltip('My program'));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Build my program'));
     await tester.pumpAndSettle();
@@ -108,5 +108,40 @@ void main() {
     final routines = {for (final r in await db.routines()) r.name: r};
     expect(routines['Upper']!.days, {0, 3});
     expect(routines['Old day']!.days, isEmpty);
+  });
+
+  testWidgets('a message to Iron on Today opens Iron with it already sent', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')
+      ..ironTip = tip
+      ..ironProgram = {
+        'summary': 'Three short sessions a week.',
+        'kcal': 2200,
+        'protein': 170,
+        'carbs': 220,
+        'fat': 70,
+        'why': '',
+        'routines': [],
+        'habits': ['Walk after dinner'],
+      };
+    await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'ironOn': true,
+        'ironTip': jsonEncode({...tip, 'day': dayKey(testNow)}),
+      },
+      cloud: cloud,
+    );
+    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
+    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.widgetWithText(TextField, 'Ask Iron for a program…'), 'Only 30 minutes a day');
+    await tester.pump();
+    await tester.tap(find.byTooltip('My program'));
+    await tester.pumpAndSettle();
+    expect(find.byType(IronScreen), findsOneWidget);
+    expect(find.text('Only 30 minutes a day'), findsOneWidget);
+    expect(find.text('Three short sessions a week.'), findsOneWidget);
+    expect(cloud.ironCalls, 1);
   });
 }

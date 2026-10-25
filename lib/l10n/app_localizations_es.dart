@@ -5273,4 +5273,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get askIronHint => 'Escribe a Iron…';
+
+  @override
+  String get ironHomeHint => 'Pide a Iron un programa…';
 }

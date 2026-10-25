@@ -76,7 +76,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, s) => SummaryScreen(done: s.extra! as FinishedWorkout),
       ),
       GoRoute(path: '/routine/ai', builder: (_, _) => const AiRoutineScreen()),
-      GoRoute(path: '/iron', builder: (_, _) => const IronScreen()),
+      GoRoute(
+        path: '/iron',
+        builder: (_, s) => IronScreen(message: s.extra is String ? s.extra! as String : null),
+      ),
       GoRoute(path: '/iron/settings', builder: (_, _) => const IronSettingsScreen()),
       GoRoute(path: '/iron/health', builder: (_, _) => const HealthProfileScreen()),
       GoRoute(path: '/iron/review', builder: (_, _) => const IronReviewScreen()),

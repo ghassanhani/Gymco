@@ -3618,5 +3618,6 @@
   "ironProgramReady": "Here's your program. Look it over, then use it.",
   "ironRoutineReady": "Here's what I'd do. Add it if it looks right.",
   "ironRefineHint": "Change something, e.g. one day fewer",
-  "askIronHint": "Message Iron…"
+  "askIronHint": "Message Iron…",
+  "ironHomeHint": "Ask Iron for a program…"
 }

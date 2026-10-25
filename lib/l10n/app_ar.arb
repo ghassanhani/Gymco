@@ -1429,5 +1429,6 @@
   "ironProgramReady": "هذا برنامجك. راجعه ثم استخدمه.",
   "ironRoutineReady": "هذا ما أقترحه. أضفه إن بدا مناسبًا.",
   "ironRefineHint": "غيّر شيئًا، مثلًا يوم أقل",
-  "askIronHint": "اكتب لآيرون…"
+  "askIronHint": "اكتب لآيرون…",
+  "ironHomeHint": "اطلب من آيرون برنامجًا…"
 }
