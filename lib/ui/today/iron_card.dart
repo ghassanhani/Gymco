@@ -9,6 +9,7 @@ import '../../state/cloud_providers.dart';
 import '../../state/coach_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
+import '../common/iron_avatar.dart';
 import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
 
@@ -58,6 +59,7 @@ class IronCard extends ConsumerWidget {
 
     final tip = ref.watch(ironTipProvider);
     return _Frame(
+      mood: tip.value != null ? IronMood.happy : IronMood.idle,
       children: [
         if (tip.isLoading)
           Row(
@@ -131,9 +133,10 @@ class IronCard extends ConsumerWidget {
 
 /// The card itself: a thin AI-gradient edge, Iron's mark and name on top.
 class _Frame extends StatelessWidget {
-  const _Frame({required this.children, this.trailing});
+  const _Frame({required this.children, this.trailing, this.mood = IronMood.idle});
   final List<Widget> children;
   final Widget? trailing;
+  final IronMood mood;
 
   @override
   Widget build(BuildContext context) {
@@ -153,16 +156,7 @@ class _Frame extends StatelessWidget {
           children: [
             Row(
               children: [
-                Container(
-                  width: 38,
-                  height: 38,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(colors: ironGradient),
-                  ),
-                  child: const VIcon('dumb', size: 20, color: Colors.white, strokeWidth: 1.8),
-                ),
+                IronAvatar(mood: mood, size: 44),
                 const SizedBox(width: 10),
                 Expanded(
                   child: GapCol(

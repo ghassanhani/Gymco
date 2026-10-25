@@ -13,6 +13,7 @@ import '../../state/providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
+import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'ai_routine_screen.dart' show PlannedRoutineCard;
@@ -126,16 +127,7 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 44,
-                        height: 44,
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(colors: ironGradient),
-                        ),
-                        child: const VIcon('dumb', size: 22, color: Colors.white, strokeWidth: 1.8),
-                      ),
+                      IronAvatar(mood: p == null ? IronMood.idle : IronMood.cheer, size: 60),
                       const SizedBox(width: 12),
                       Expanded(
                         child: GapCol(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/models.dart';
+import 'package:gymco/ui/train/iron_screen.dart';
 
 import '../helpers.dart';
 
@@ -91,7 +92,14 @@ void main() {
     await tester.tap(find.text('Build my program'));
     await tester.pumpAndSettle();
     expect(find.text('Hold maintenance and build the upper body.'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('Protein at every meal'), 300, scrollable: pageScroll);
+    // The screen's own list, not the note field's scroll inside it.
+    final ironList = find
+        .descendant(
+          of: find.byType(IronScreen),
+          matching: find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down),
+        )
+        .first;
+    await tester.scrollUntilVisible(find.text('Protein at every meal'), 300, scrollable: ironList);
     await tester.tap(find.text('Use this program'));
     await tester.pumpAndSettle();
     final after = (jsonDecode(prefs.getString('profile')!) as Map)['kcal'] as num;
