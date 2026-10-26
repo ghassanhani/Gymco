@@ -5337,4 +5337,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String agoHours(int n) {
     return 'قبل $n ساعة';
   }
+
+  @override
+  String ironTipOf(int n, int total) {
+    return 'نصيحة $n من $total';
+  }
 }

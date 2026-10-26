@@ -47,6 +47,14 @@ const _tip = {
   'action': 'log_food',
 };
 
+const _tips = {
+  'tips': [
+    _tip,
+    {'title': 'Water before noon', 'tip': 'You are at 0 of 3,500 ml. Start with a glass now.', 'action': 'drink_water'},
+    {'title': 'Lights out by eleven', 'tip': 'You slept 6 h 10 m. Seven hours helps you recover.', 'action': 'none'},
+  ],
+};
+
 final _program = <String, Object?>{
   'summary': 'Your weight is down 0.6% a week, right on target. Keep the cut, and train four days so you hold muscle while it comes off.',
   'kcal': 2250,
@@ -92,12 +100,12 @@ void main() {
             'healthOn': true,
             'healthWatchReads': true,
             if (screen != 'meet') 'ironOn': true,
-            if (screen != 'meet') 'ironTip': jsonEncode({..._tip, 'day': dayKey(testNow)}),
+            if (screen != 'meet') 'ironTips': jsonEncode({..._tips, 'day': dayKey(testNow)}),
           },
           library: realLibrary(),
           health: FakeWatch(),
           cloud: FakeCloud(signedIn: 'me@example.com')
-            ..ironTip = _tip
+            ..ironTip = _tips
             ..ironProgram = _program,
           seed: (db) async {
             final oats = (await db.searchFoods('oats')).first;

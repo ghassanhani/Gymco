@@ -55,6 +55,35 @@ void main() {
     expect(cloud.ironCalls, 0);
   });
 
+  testWidgets('today brings a few tips to swipe through, kept for the day', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')
+      ..ironTip = {
+        'tips': [
+          tip,
+          {'title': 'Water before noon', 'tip': 'You are at 0 of 3,500 ml. Start with a glass.', 'action': 'drink_water'},
+          {'title': 'Sleep by eleven', 'tip': 'You slept 6 h. Aim for 7.', 'action': 'none'},
+        ],
+      };
+    final (_, prefs) = await pumpApp(tester, prefs: {'profile': savedProfile, 'ironOn': true}, cloud: cloud);
+    await tester.scrollUntilVisible(find.text('Protein first today'), 300, scrollable: pageScroll);
+    await Scrollable.ensureVisible(tester.element(find.text('Protein first today')), alignment: 0.3);
+    await tester.pumpAndSettle();
+    expect(cloud.ironCalls, 1);
+    expect(find.text('Log food'), findsOneWidget);
+    await tester.fling(find.text('Protein first today'), const Offset(-300, 0), 1000);
+    await tester.pumpAndSettle();
+    expect(find.text('Protein first today'), findsNothing);
+    expect(find.text('Water before noon'), findsOneWidget);
+    expect(find.text('Add water'), findsOneWidget);
+    await tester.tap(find.byTooltip('Tip 3 of 3'));
+    await tester.pumpAndSettle();
+    expect(find.text('Sleep by eleven'), findsOneWidget);
+    // Nothing to tap for this one.
+    expect(find.text('Add water'), findsNothing);
+    final kept = jsonDecode(prefs.getString('ironTips')!) as Map<String, Object?>;
+    expect((kept['tips']! as List).length, 3);
+  });
+
   testWidgets('a program from Iron sets targets safely and becomes the weekly plan', (tester) async {
     final cloud = FakeCloud(signedIn: 'me@example.com')
       ..ironTip = tip

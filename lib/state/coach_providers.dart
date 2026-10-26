@@ -285,21 +285,25 @@ bool _ready(Ref ref) =>
     ref.read(remoteConfigProvider).coachAi &&
     (ref.read(accountProvider).value ?? ref.read(cloudProvider).email) != null;
 
-/// Today's tip from Iron: asked once a day and kept, so it costs one AI call
-/// a day. Null while Iron is off, signed out or switched off, or on failure.
-final ironTipProvider = FutureProvider<IronTip?>((ref) async {
+/// Today's tips from Iron, a few to swipe through: asked once a day and
+/// kept, so they cost one AI call a day. Empty while Iron is off, signed out
+/// or switched off, or on failure.
+final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
   ref.watch(ironOnProvider);
   ref.watch(accountProvider);
   final day = ref.watch(todayKeyProvider);
   final prefs = ref.read(prefsProvider);
-  final kept = prefs.getString('ironTip');
+  final kept = prefs.getString('ironTips') ?? prefs.getString('ironTip');
   if (kept != null) {
-    final t = IronTip.stored(jsonDecode(kept) as Map<String, Object?>);
-    if (t != null && t.day == day) return t;
+    final j = jsonDecode(kept) as Map<String, Object?>;
+    if (j['day'] == day) {
+      final tips = IronTip.allFromJson(j, day);
+      if (tips.isNotEmpty) return tips;
+    }
   }
-  if (!_ready(ref)) return null;
+  if (!_ready(ref)) return const [];
   final numbers = await _numbers(ref);
-  if (numbers == null) return null;
+  if (numbers == null) return const [];
   try {
     final (data, _) = await ref
         .read(cloudProvider)
@@ -309,11 +313,19 @@ final ironTipProvider = FutureProvider<IronTip?>((ref) async {
           languageCode: prefs.getString('lang') ?? 'en',
           bucket: ref.read(installBucketProvider),
         );
-    final tip = IronTip.fromJson(data, day);
-    if (tip != null) await prefs.setString('ironTip', jsonEncode(tip.toJson()));
-    return tip;
+    final tips = IronTip.allFromJson(data, day);
+    if (tips.isNotEmpty) {
+      await prefs.setString(
+        'ironTips',
+        jsonEncode({
+          'day': day,
+          'tips': [for (final t in tips) t.toJson()],
+        }),
+      );
+    }
+    return tips;
   } catch (_) {
-    return null;
+    return const [];
   }
 });
 

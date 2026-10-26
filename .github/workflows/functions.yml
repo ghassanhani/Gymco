@@ -1,0 +1,38 @@
+name: Deploy a server function
+# Puts one Supabase Edge Function from supabase/functions live, straight from
+# the repo. Run it from Actions → Deploy a server function → Run workflow.
+# Needs the repository secret SUPABASE_ACCESS_TOKEN.
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: Function folder under supabase/functions (e.g. iron)
+        required: true
+      public:
+        description: "Called without a signed-in user (admin, app-config, waitlist, push-register, support-ticket, admin-stats)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  deploy:
+    if: github.repository == 'ghassanhani/Gymco'
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      NAME: ${{ inputs.name }}
+      PUBLIC: ${{ inputs.public }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the name
+        run: |
+          case "$NAME" in _shared|*/*|*..*|'') echo "::error::Not a function: $NAME"; exit 1;; esac
+          test -f "supabase/functions/$NAME/index.ts" || { echo "::error::No supabase/functions/$NAME/index.ts"; exit 1; }
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Deploy
+        run: |
+          flags=()
+          if [ "$PUBLIC" = "true" ]; then flags+=(--no-verify-jwt); fi
+          supabase functions deploy "$NAME" --project-ref vncadogzpeoawikgafaj --use-api "${flags[@]}"

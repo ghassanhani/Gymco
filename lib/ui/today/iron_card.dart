@@ -111,20 +111,21 @@ class IronCard extends ConsumerWidget {
       );
     }
 
-    final tip = ref.watch(ironTipProvider);
+    final tips = ref.watch(ironTipProvider);
+    final first = tips.value?.firstOrNull;
     final weekday = ref.watch(clockProvider)().weekday;
     return _Frame(
       trailing: gear,
       onOpen: () => context.push('/iron/home'),
-      mood: tip.isLoading
+      mood: tips.isLoading
           ? IronMood.thinking
-          : tip.value == null
+          : first == null
           ? IronMood.idle
-          : tip.value!.action == IronAction.rest || ref.watch(recoveryProvider).value?.readiness == Readiness.easy
+          : first.action == IronAction.rest || ref.watch(recoveryProvider).value?.readiness == Readiness.easy
           ? IronMood.sleepy
           : IronMood.happy,
       children: [
-        if (tip.isLoading)
+        if (tips.isLoading)
           Row(
             children: [
               SizedBox.square(dimension: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Volt.t3)),
@@ -132,23 +133,10 @@ class IronCard extends ConsumerWidget {
               Expanded(child: Muted(l.ironThinking, size: 13)),
             ],
           )
-        else if (tip.value case final t?) ...[
-          Text(
-            t.title,
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
-          ),
-          Muted(t.tip, size: 13.5, color: Volt.t2),
-        ] else
+        else if (tips.value case final t? when t.isNotEmpty)
+          _TipDeck(t)
+        else
           Muted(l.ironNoTip, size: 13),
-        if (tip.value case final t? when _act(context, ref, t.action) != null)
-          VBtn(
-            label: _label(l, t.action),
-            kind: BtnKind.ghost,
-            small: true,
-            minHeight: 40,
-            expand: true,
-            onTap: _act(context, ref, t.action),
-          ),
         const _HomeAsk(),
         if (weekday == DateTime.sunday || weekday == DateTime.monday)
           VItem(
@@ -187,6 +175,150 @@ class IronCard extends ConsumerWidget {
     },
     IronAction.walk || IronAction.none => null,
   };
+}
+
+/// Today's tips, one at a time: swipe sideways or tap a dot for the next,
+/// each with the button that acts on it.
+class _TipDeck extends ConsumerStatefulWidget {
+  const _TipDeck(this.tips);
+  final List<IronTip> tips;
+
+  @override
+  ConsumerState<_TipDeck> createState() => _TipDeckState();
+}
+
+class _TipDeckState extends ConsumerState<_TipDeck> {
+  var _at = 0;
+  var _forward = true;
+
+  void _go(int i) {
+    final n = widget.tips.length;
+    if (i < 0 || i >= n || i == _at) return;
+    HapticFeedback.selectionClick();
+    setState(() {
+      _forward = i > _at;
+      _at = i;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final tips = widget.tips;
+    final at = _at.clamp(0, tips.length - 1);
+    final t = tips[at];
+    final act = IronCard._act(context, ref, t.action);
+    final rtl = Directionality.of(context) == TextDirection.rtl;
+    final page = GapCol(
+      key: ValueKey(at),
+      gap: 10,
+      cross: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          t.title,
+          style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
+        ),
+        Muted(t.tip, size: 13.5, color: Volt.t2),
+        if (act != null)
+          VBtn(
+            label: IronCard._label(l, t.action),
+            kind: BtnKind.ghost,
+            small: true,
+            minHeight: 40,
+            expand: true,
+            onTap: act,
+          ),
+      ],
+    );
+    if (tips.length == 1) return page;
+    return Semantics(
+      label: l.ironTipOf(at + 1, tips.length),
+      onIncrease: at + 1 < tips.length ? () => _go(at + 1) : null,
+      onDecrease: at > 0 ? () => _go(at - 1) : null,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onHorizontalDragEnd: (d) {
+          final v = d.primaryVelocity ?? 0;
+          if (v.abs() < 150) return;
+          // Swiping towards the start shows the next one, either way round.
+          final next = (v < 0) != rtl;
+          _go(at + (next ? 1 : -1));
+        },
+        child: GapCol(
+          gap: 10,
+          cross: CrossAxisAlignment.stretch,
+          children: [
+            AnimatedSize(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topCenter,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 260),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                layoutBuilder: (current, previous) =>
+                    Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+                transitionBuilder: (child, anim) {
+                  final incoming = child.key == ValueKey(at);
+                  final from = (incoming == _forward ? 0.18 : -0.18) * (rtl ? -1 : 1);
+                  return FadeTransition(
+                    opacity: anim,
+                    child: SlideTransition(
+                      position: Tween(begin: Offset(from, 0), end: Offset.zero).animate(anim),
+                      child: child,
+                    ),
+                  );
+                },
+                child: page,
+              ),
+            ),
+            _Dots(count: tips.length, at: at, onTap: _go),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Which tip is showing; each dot opens its tip.
+class _Dots extends StatelessWidget {
+  const _Dots({required this.count, required this.at, required this.onTap});
+  final int count;
+  final int at;
+  final ValueChanged<int> onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        for (var i = 0; i < count; i++)
+          Tooltip(
+            message: l.ironTipOf(i + 1, count),
+            excludeFromSemantics: true,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => onTap(i),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOutCubic,
+                  width: i == at ? 20 : 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    gradient: i == at ? LinearGradient(colors: ironGradient) : null,
+                    color: i == at ? null : Volt.t4.withValues(alpha: 0.5),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 /// One warning sign: what the rule saw, what to do, and a doctor when it

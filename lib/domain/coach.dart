@@ -35,6 +35,16 @@ class IronTip {
 
   static IronTip? stored(Map<String, Object?> j) => j['day'] is String ? fromJson(j, j['day']! as String) : null;
 
+  /// Today's tips from Iron's reply: a list under `tips`, or one tip on its
+  /// own as older servers send it.
+  static List<IronTip> allFromJson(Map<String, Object?> j, String day) {
+    final list = j['tips'];
+    return [
+      for (final t in list is List ? list : [j])
+        if (t is Map) ?fromJson(t.cast<String, Object?>(), day),
+    ].take(5).toList();
+  }
+
   static const _names = {
     IronAction.logFood: 'log_food',
     IronAction.startWorkout: 'start_workout',

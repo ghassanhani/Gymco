@@ -5382,4 +5382,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String agoHours(int n) {
     return 'hace $n h';
   }
+
+  @override
+  String ironTipOf(int n, int total) {
+    return 'Consejo $n de $total';
+  }
 }

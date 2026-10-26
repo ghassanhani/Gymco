@@ -1457,5 +1457,6 @@
   "syncOpen": "Abrir {app}",
   "syncCantOpen": "Abre {app} en tu teléfono y vuelve a Gymco.",
   "agoMinutes": "hace {n} min",
-  "agoHours": "hace {n} h"
+  "agoHours": "hace {n} h",
+  "ironTipOf": "Consejo {n} de {total}"
 }

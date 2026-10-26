@@ -7,7 +7,7 @@
 // POST { mode: "tip" | "program" | "review", numbers: {...case file...}, lang: "en" | "ar" | "es",
 //        exercises?: [names] (program only), ask?: "what the user wants" (program only), bucket?: 0-99 }
 // with the signed-in user's Authorization header.
-// -> 200 tip:     { title, tip, action, left }
+// -> 200 tip:     { tips: [{ title, tip, action }], title, tip, action (the first), left }
 //        program: { summary, kcal, protein, carbs, fat, why, routines, habits, left }
 //                 or { off_topic: true, left } when the note isn't about their program (credit refunded)
 //        review:  { headline, wins, slips, next, left }
@@ -40,21 +40,34 @@ const PERSONA =
   "one: work around injured areas, keep intensity moderate with heart or blood-pressure conditions, avoid " +
   "dieting and heavy loading in pregnancy, and remind them to follow their doctor's advice.\n\n";
 
+const tipItem = {
+  type: "object",
+  properties: {
+    title: { type: "string", description: "Two to six words, the headline." },
+    tip: {
+      type: "string",
+      description: "One or two sentences: one concrete thing to do today, tied to a number from the summary, and why it helps.",
+    },
+    action: { type: "string", enum: [...ACTIONS], description: "The app screen that helps them do it." },
+  },
+  required: ["title", "tip", "action"],
+  additionalProperties: false,
+};
+
 const reportTip: Anthropic.Tool = {
   name: "report_tip",
-  description: "Today's one tip for the user.",
+  description: "Today's tips for the user, most helpful first.",
   strict: true,
   input_schema: {
     type: "object",
     properties: {
-      title: { type: "string", description: "Two to six words, the headline." },
-      tip: {
-        type: "string",
-        description: "One or two sentences: one concrete thing to do today, tied to a number from the summary, and why it helps.",
+      tips: {
+        type: "array",
+        items: tipItem,
+        description: "Three tips, each about a different thing (eating, training, water, sleep, weight), most helpful first.",
       },
-      action: { type: "string", enum: [...ACTIONS], description: "The app screen that helps them do it." },
     },
-    required: ["title", "tip", "action"],
+    required: ["tips"],
     additionalProperties: false,
   },
 };
@@ -158,9 +171,10 @@ Deno.serve(async (req) => {
   const facts = `The user reads ${language}. Their case file from the app: <case>${numbers}</case>\n`;
   const prompt = mode === "tip"
     ? facts +
-      "Give today's brief: the one thing that would help most today, judging by the signals, what they have and " +
-      "haven't done yet, and how the last two weeks went. If they shared their meals, suggest food from what they " +
-      "already eat. Praise a real win when there is one. Write it in the user's language."
+      "Give today's brief as three tips, the one that would help most first, judging by the signals, what they " +
+      "have and haven't done yet, and how the last two weeks went. Each tip is about a different thing and has its " +
+      "own number. If they shared their meals, suggest food from what they already eat. Praise a real win when " +
+      "there is one. While a red signal stands, every tip is about easing off. Write them in the user's language."
     : mode === "review"
     ? facts +
       "Review their last week as their coach: real wins, what slipped, and three concrete changes for next week, " +
@@ -202,6 +216,11 @@ Deno.serve(async (req) => {
     if (mode === "program" && out.off_topic === true) {
       await admin.rpc("refund_ai_credit", { uid });
       return json(200, { off_topic: true, left: left + 1 });
+    }
+    // Older apps read one tip at the top level, so the first one is there too.
+    if (mode === "tip") {
+      const tips = (Array.isArray(out.tips) ? out.tips : []).slice(0, 3);
+      return json(200, { ...(tips[0] ?? {}), tips, left });
     }
     return json(200, { ...out, left });
   } catch (e) {

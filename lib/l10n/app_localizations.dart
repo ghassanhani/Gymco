@@ -8805,6 +8805,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{n} h ago'**
   String agoHours(int n);
+
+  /// No description provided for @ironTipOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip {n} of {total}'**
+  String ironTipOf(int n, int total);
 }
 
 class _AppLocalizationsDelegate

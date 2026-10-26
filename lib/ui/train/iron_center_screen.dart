@@ -42,7 +42,7 @@ class _IronCenterScreenState extends ConsumerState<IronCenterScreen> {
     final l = AppLocalizations.of(context);
     final on = ref.watch(ironOnProvider);
     final warnings = ref.watch(ironWarningsProvider);
-    final tip = ref.watch(ironTipProvider).value;
+    final tips = ref.watch(ironTipProvider).value ?? const [];
     final history = ref.watch(ironHistoryProvider);
 
     Widget head(String text) =>
@@ -82,7 +82,10 @@ class _IronCenterScreenState extends ConsumerState<IronCenterScreen> {
                       label: l.ironTurnOn,
                       onTap: () => ref.read(ironOnProvider.notifier).set(true),
                     ),
-                  if (tip != null) ...[head(l.ironTodayTip), IronSays(child: IronBubble('${tip.title}. ${tip.tip}'))],
+                  if (tips.isNotEmpty) ...[
+                    head(l.ironTodayTip),
+                    for (final t in tips) IronSays(child: IronBubble('${t.title}. ${t.tip}')),
+                  ],
                   head(l.ironCanDo),
                   _Grid(
                     children: [

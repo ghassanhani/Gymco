@@ -3729,5 +3729,16 @@
         "type": "int"
       }
     }
+  },
+  "ironTipOf": "Tip {n} of {total}",
+  "@ironTipOf": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }
