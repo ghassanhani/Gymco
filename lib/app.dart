@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import 'data/models.dart';
 import 'l10n/app_localizations.dart';
+import 'state/siri.dart';
 import 'state/cloud_providers.dart';
 import 'state/providers.dart';
 import 'state/health_providers.dart';
@@ -109,6 +112,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, s) => AddFoodScreen(
           meal: Meal.values.byName(s.pathParameters['meal']!),
           mode: s.uri.queryParameters['mode'] ?? 'search',
+          text: s.uri.queryParameters['text'],
         ),
       ),
       GoRoute(
@@ -210,6 +214,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
     onResume: () {
       ref.invalidate(reminderSyncProvider);
       refreshHealth(ref);
+      _siri();
     },
   );
 
@@ -217,7 +222,21 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
   void initState() {
     super.initState();
     _lifecycle;
+    // Something asked of Siri while Gymco was closed.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _siri());
     WidgetsBinding.instance.addObserver(this);
+  }
+
+  /// Siri's requests, now and once more a moment later: when Siri opens the
+  /// app, its request can land just after the app came to the front.
+  void _siri() {
+    if (!mounted) return;
+    runSiriQueue(ref, ref.read(routerProvider));
+    // Widget tests have no Siri, and a timer left running would fail them.
+    if (Platform.environment.containsKey('FLUTTER_TEST')) return;
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) runSiriQueue(ref, ref.read(routerProvider));
+    });
   }
 
   @override
@@ -245,6 +264,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
     Volt.use(brightness);
     ref.watch(reminderSyncProvider);
     ref.watch(healthImportProvider);
+    ref.watch(siriTodayProvider);
     return MaterialApp.router(
       key: ValueKey(brightness),
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appName,

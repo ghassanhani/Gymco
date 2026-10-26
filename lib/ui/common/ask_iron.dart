@@ -1,8 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../data/dictation.dart';
+import '../../state/providers.dart' show dictationProvider;
 import '../../theme/volt.dart';
 import '../kit/kit.dart';
 import 'iron_avatar.dart';
@@ -175,7 +178,7 @@ class IronSuggestions extends StatelessWidget {
 
 /// The message box: a rounded field that lifts off the page, with a round
 /// send button inside. The edge glows Iron's red while typing.
-class IronComposer extends StatefulWidget {
+class IronComposer extends ConsumerStatefulWidget {
   const IronComposer({
     super.key,
     required this.controller,
@@ -188,11 +191,15 @@ class IronComposer extends StatefulWidget {
     this.minLines = 1,
     this.maxLines = 6,
     this.maxLength,
+    this.voice = true,
   });
 
   final TextEditingController controller;
   final String? hint;
   final ValueChanged<String>? onChanged;
+
+  /// A mic to say it instead of typing it.
+  final bool voice;
 
   /// Null for a field read as it is typed, with nothing to send.
   final VoidCallback? onSend;
@@ -208,11 +215,15 @@ class IronComposer extends StatefulWidget {
   final int? maxLength;
 
   @override
-  State<IronComposer> createState() => _IronComposerState();
+  ConsumerState<IronComposer> createState() => _IronComposerState();
 }
 
-class _IronComposerState extends State<IronComposer> {
+class _IronComposerState extends ConsumerState<IronComposer> {
   final _focus = FocusNode();
+  var _listening = false;
+
+  /// The recogniser while it listens, kept so closing the box can stop it.
+  Dictation? _dictation;
 
   @override
   void initState() {
@@ -232,6 +243,7 @@ class _IronComposerState extends State<IronComposer> {
 
   @override
   void dispose() {
+    if (_listening) _dictation?.stop();
     widget.controller.removeListener(_redraw);
     _focus.dispose();
     super.dispose();
@@ -239,6 +251,45 @@ class _IronComposerState extends State<IronComposer> {
 
   void _redraw() {
     if (mounted) setState(() {});
+  }
+
+  /// Speaks into the box: what is said is added after what is there.
+  Future<void> _mic() async {
+    final Dictation d = _dictation ?? ref.read(dictationProvider);
+    _dictation = d;
+    if (_listening) {
+      await d.stop();
+      if (mounted) setState(() => _listening = false);
+      return;
+    }
+    final l = AppLocalizations.of(context);
+    final before = widget.controller.text.trimRight();
+    setState(() => _listening = true);
+    final ok = await d.start(
+      languageCode: Localizations.localeOf(context).languageCode,
+      onWords: (w) {
+        if (!mounted) return;
+        final text = before.isEmpty ? w : '$before $w';
+        widget.controller.value = TextEditingValue(
+          text: text,
+          selection: TextSelection.collapsed(offset: text.length),
+        );
+        widget.onChanged?.call(text);
+      },
+    );
+    if (!mounted) return;
+    if (!ok) {
+      setState(() => _listening = false);
+      showVToast(context, l.voiceUnavailable, info: true);
+    }
+  }
+
+  Future<void> _send() async {
+    if (_listening) {
+      await _dictation?.stop();
+      if (mounted) setState(() => _listening = false);
+    }
+    widget.onSend?.call();
   }
 
   @override
@@ -305,9 +356,49 @@ class _IronComposerState extends State<IronComposer> {
                 ),
               ),
             ),
+            if (widget.voice && !widget.busy) _Mic(listening: _listening, label: l.askIronSpeak, onTap: _mic),
             if (widget.onSend != null)
-              _Send(label: widget.sendLabel ?? l.askIronSend, busy: widget.busy, onTap: canSend ? widget.onSend : null),
+              _Send(label: widget.sendLabel ?? l.askIronSend, busy: widget.busy, onTap: canSend ? _send : null),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The mic: quiet until tapped, then Iron's red with a soft pulse while it
+/// listens. Tapping again stops.
+class _Mic extends StatelessWidget {
+  const _Mic({required this.listening, required this.label, required this.onTap});
+  final bool listening;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final red = ironGradient[1];
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        button: true,
+        toggled: listening,
+        label: label,
+        excludeSemantics: true,
+        child: Pressable(
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            width: 44,
+            height: 44,
+            margin: const EdgeInsetsDirectional.only(end: 6),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: listening ? red.withValues(alpha: 0.14) : Colors.transparent,
+              border: listening ? Border.all(color: red.withValues(alpha: 0.6), width: 1.5) : null,
+            ),
+            child: VIcon('mic', size: 20, color: listening ? red : Volt.t3),
+          ),
         ),
       ),
     );

@@ -31,6 +31,8 @@ void main() {
     expect(find.text('200 g · 240 kcal · 45.0 g protein'), findsOneWidget);
 
     // Drop the banana, then add the rest.
+    await tester.ensureVisible(find.bySemanticsLabel('Remove Banana'));
+    await tester.pumpAndSettle();
     await tester.tap(find.bySemanticsLabel('Remove Banana'));
     await tester.pumpAndSettle();
     expect(find.text('IT READ 4 ITEMS'), findsOneWidget);

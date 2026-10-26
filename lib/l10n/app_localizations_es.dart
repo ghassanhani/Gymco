@@ -5344,4 +5344,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get watchSilentBody =>
       'Esta semana no llegaron lecturas de sueño ni de pulso. Toca para ver qué falta y cómo activarlo.';
+
+  @override
+  String get askIronSpeak => 'Dilo';
 }

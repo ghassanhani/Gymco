@@ -36,8 +36,11 @@ Meal mealForHour(int h) => h < 11
 /// Write it, don't search for it: five ways in, as peers, and a search that
 /// collects several foods before logging them together.
 class AddFoodScreen extends ConsumerStatefulWidget {
-  const AddFoodScreen({super.key, required this.meal, this.asTab = false, this.mode = 'search'});
+  const AddFoodScreen({super.key, required this.meal, this.asTab = false, this.mode = 'search', this.text});
   final Meal meal;
+
+  /// Words to start Write mode with, e.g. from Siri: read as if typed.
+  final String? text;
 
   /// Shown as the Food tab rather than pushed over Today.
   final bool asTab;
@@ -78,6 +81,11 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   void initState() {
     super.initState();
     _run('');
+    if (widget.text case final t? when t.trim().isNotEmpty) {
+      _mode = 'write';
+      _log.text = t;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _onLogChanged(t));
+    }
     if (_mode == 'barcode') WidgetsBinding.instance.addPostFrameCallback((_) => _scan());
   }
 

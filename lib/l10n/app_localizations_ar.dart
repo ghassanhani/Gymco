@@ -5299,4 +5299,7 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get watchSilentBody =>
       'لم تصل قراءات نوم أو قلب هذا الأسبوع. اضغط لترى ما الناقص وكيف تفعّله.';
+
+  @override
+  String get askIronSpeak => 'قلها';
 }

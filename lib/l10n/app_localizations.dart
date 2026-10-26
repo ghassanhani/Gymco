@@ -8757,6 +8757,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No sleep or heart readings came in this week. Tap to see what\'s missing and how to turn it on.'**
   String get watchSilentBody;
+
+  /// No description provided for @askIronSpeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Say it'**
+  String get askIronSpeak;
 }
 
 class _AppLocalizationsDelegate

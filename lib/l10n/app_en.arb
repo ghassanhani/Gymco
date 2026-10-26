@@ -3669,5 +3669,6 @@
   },
   "healthSeenAgain": "Check again",
   "watchSilentTitle": "Your watch isn't sharing sleep or heart rate",
-  "watchSilentBody": "No sleep or heart readings came in this week. Tap to see what's missing and how to turn it on."
+  "watchSilentBody": "No sleep or heart readings came in this week. Tap to see what's missing and how to turn it on.",
+  "askIronSpeak": "Say it"
 }
