@@ -1440,5 +1440,12 @@
   "ironShortRoutine": "Crear una rutina",
   "ironHistory": "Lo que Iron hizo para ti",
   "histWeekOf": "Semana del {date}",
-  "ironOffTopic": "Solo creo programas: cuéntame sobre tu entrenamiento, tu alimentación o tu salud y planificaré a partir de ahí. Esa petición no se ha contado."
+  "ironOffTopic": "Solo creo programas: cuéntame sobre tu entrenamiento, tu alimentación o tu salud y planificaré a partir de ahí. Esa petición no se ha contado.",
+  "healthSeenTitle": "Lo que ve Gymco, últimos 7 días",
+  "healthSeenLooking": "Buscando…",
+  "healthSeenNone": "Nada todavía",
+  "healthSeenCount": "{count} lecturas",
+  "healthSeenFrom": "{count} lecturas de {sources}",
+  "healthSeenHelp": "¿Nada de tu reloj? Abre su app (Zepp, Whoop, Fitbit…) y activa compartir con {store}, luego vuelve a comprobar.",
+  "healthSeenAgain": "Comprobar de nuevo"
 }

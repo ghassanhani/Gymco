@@ -123,4 +123,24 @@ void main() {
     // Sleep alone gives no score yet.
     expect(const Recovery(sleepMin: 450).score, isNull);
   });
+
+  test('a band with no resting heart rate gets one from the quietest tenth of the day', () {
+    final day = DateTime(2026, 9, 26);
+    final heart = [
+      for (var i = 0; i < 100; i++)
+        Sample(
+          day.add(Duration(minutes: i * 10)),
+          day.add(Duration(minutes: i * 10)),
+          50.0 + i,
+          source: 'Zepp',
+        ),
+    ];
+    final r = restingFromHeart(heart);
+    expect(r, hasLength(1));
+    // The lowest ten readings are 50 to 59.
+    expect(r.single.value, 54.5);
+    expect(r.single.source, 'Zepp');
+    // Too few readings to say.
+    expect(restingFromHeart(heart.take(10).toList()), isEmpty);
+  });
 }

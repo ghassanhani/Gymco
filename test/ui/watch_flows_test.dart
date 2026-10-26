@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:gymco/app.dart';
+import 'package:gymco/domain/recovery.dart';
 import 'package:gymco/domain/session.dart';
 import 'package:gymco/state/awards_providers.dart';
 import 'package:gymco/state/training_providers.dart';
@@ -22,11 +23,7 @@ void main() {
     expect(find.textContaining('7h 22m', findRichText: true), findsOneWidget);
     expect(find.text('Push it today'), findsOneWidget);
     expect(find.text('Sleep and heart are both on your side. Go for a personal best.'), findsOneWidget);
-    await tester.scrollUntilVisible(
-      find.text('Run · 34 min · Apple Watch'),
-      300,
-      scrollable: pageScroll,
-    );
+    await tester.scrollUntilVisible(find.text('Run · 34 min · Apple Watch'), 300, scrollable: pageScroll);
     expect(find.text('Active energy'), findsOneWidget);
     expect(find.textContaining('486', findRichText: true), findsOneWidget);
   });
@@ -83,4 +80,26 @@ void main() {
     expect(find.text('AVERAGE'), findsOneWidget);
     expect(find.text('PEAK'), findsOneWidget);
   });
+
+  testWidgets('the Health screen shows what each kind of data brought in, and what is missing', (tester) async {
+    await pumpApp(tester, prefs: on, health: _SleepOnlyBand());
+    ProviderScope.containerOf(tester.element(find.byType(GymcoApp))).read(routerProvider).push('/health');
+    await tester.pumpAndSettle();
+    final list = find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down).last;
+    await tester.scrollUntilVisible(find.textContaining('readings from Zepp'), 200, scrollable: list);
+    expect(find.textContaining('readings from Zepp'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Check again'), 200, scrollable: list);
+    expect(find.text('Nothing yet'), findsWidgets);
+  });
+}
+
+/// A band whose app only shares sleep.
+class _SleepOnlyBand extends FakeWatch {
+  @override
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async => metric == Metric.sleep
+      ? [for (final s in await super.samples(metric, from, to)) Sample(s.from, s.to, s.value, source: 'Zepp')]
+      : const [];
+
+  @override
+  Future<List<WatchWorkout>> workouts(DateTime from, DateTime to) async => const [];
 }

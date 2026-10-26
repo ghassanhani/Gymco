@@ -79,6 +79,10 @@ class DeviceHealth implements HealthSync {
           HealthDataType.SLEEP_REM,
         ]
       : const [HealthDataType.SLEEP_SESSION];
+
+  /// Some bands (Zepp's among them) only record time in bed: used when a
+  /// night has nothing more exact.
+  static final _inBed = Platform.isIOS ? const [HealthDataType.SLEEP_IN_BED] : const <HealthDataType>[];
   static final _hrv = Platform.isIOS
       ? HealthDataType.HEART_RATE_VARIABILITY_SDNN
       : HealthDataType.HEART_RATE_VARIABILITY_RMSSD;
@@ -88,6 +92,7 @@ class DeviceHealth implements HealthSync {
     _hrv,
     HealthDataType.ACTIVE_ENERGY_BURNED,
     ..._sleep,
+    ..._inBed,
   ];
   static final _types = [
     HealthDataType.WEIGHT,
@@ -172,12 +177,20 @@ class DeviceHealth implements HealthSync {
       Metric.restingHr => const [HealthDataType.RESTING_HEART_RATE],
       Metric.hrv => [_hrv],
       Metric.activeKcal => const [HealthDataType.ACTIVE_ENERGY_BURNED],
-      Metric.sleep => _sleep,
+      Metric.sleep => [..._sleep, ..._inBed],
       Metric.steps => const [HealthDataType.STEPS],
     };
     await _init();
     try {
-      final points = await _h.getHealthDataFromTypes(types: types, startTime: from, endTime: to);
+      var points = await _h.getHealthDataFromTypes(types: types, startTime: from, endTime: to);
+      if (metric == Metric.sleep) {
+        // Asleep where the band says so; time in bed only when it says nothing more.
+        final asleep = [
+          for (final p in points)
+            if (!_inBed.contains(p.type)) p,
+        ];
+        if (asleep.isNotEmpty) points = asleep;
+      }
       return [
         for (final p in points)
           if (p.value case NumericHealthValue(:final numericValue))
@@ -186,7 +199,7 @@ class DeviceHealth implements HealthSync {
               p.dateTo,
               // A sleep stage's length is what counts, whatever its value says.
               metric == Metric.sleep ? p.dateTo.difference(p.dateFrom).inSeconds / 60 : numericValue.toDouble(),
-              source: p.sourceId,
+              source: p.sourceName,
             ),
       ];
     } catch (_) {

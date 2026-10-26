@@ -165,6 +165,10 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
                           line('scale', l.healthWeighIns, l.healthWeighInsSub),
                         ],
                       ),
+                      if (on) ...[
+                        Eyebrow(l.healthSeenTitle, padding: const EdgeInsetsDirectional.only(start: 4)),
+                        _HealthSeen(store: store),
+                      ],
                       Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.healthNote)),
                     ],
                   );
@@ -174,6 +178,66 @@ class _HealthScreenState extends ConsumerState<HealthScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// What the health store actually shared this week, kind by kind, so a band
+/// whose app isn't sending anything shows up as "nothing yet" right here.
+class _HealthSeen extends ConsumerWidget {
+  const _HealthSeen({required this.store});
+  final String store;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context);
+    final seen = ref.watch(healthCheckProvider);
+    final rows = [
+      ('moon', l.recoverySleep, 'sleep'),
+      ('pulse', l.heartRateTitle, 'heartRate'),
+      ('heart', l.recoveryRestingHr, 'restingHr'),
+      ('heart', l.recoveryHrv, 'hrv'),
+      ('shoe', l.healthSteps, 'steps'),
+      ('bolt', l.healthActive, 'activeKcal'),
+      ('watch', l.healthWatchWorkouts, 'workouts'),
+    ];
+    final data = seen.value;
+    return GapCol(
+      gap: 8,
+      cross: CrossAxisAlignment.stretch,
+      children: [
+        VList(
+          children: [
+            for (final (icon, name, key) in rows)
+              VItem(
+                children: [
+                  VIcon(icon, size: 18, color: Volt.t3),
+                  ItemText(
+                    name,
+                    sub: data == null
+                        ? l.healthSeenLooking
+                        : switch (data[key]) {
+                            final s? when s.count > 0 =>
+                              s.sources.isEmpty
+                                  ? l.healthSeenCount(s.count)
+                                  : l.healthSeenFrom(s.count, s.sources.take(2).join(', ')),
+                            _ => l.healthSeenNone,
+                          },
+                    subColor: data != null && (data[key]?.count ?? 0) == 0 ? Volt.warn : null,
+                  ),
+                  if (data != null && (data[key]?.count ?? 0) > 0) VIcon('check', size: 16, color: Volt.ok),
+                ],
+              ),
+          ],
+        ),
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.healthSeenHelp(store), size: 12.5)),
+        Center(
+          child: TextButton(
+            onPressed: () => ref.invalidate(healthCheckProvider),
+            child: Text(l.healthSeenAgain, style: TextStyle(fontSize: 13, color: Volt.brandInk)),
+          ),
+        ),
+      ],
     );
   }
 }

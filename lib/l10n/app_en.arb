@@ -3636,5 +3636,36 @@
       }
     }
   },
-  "ironOffTopic": "I only build programs: tell me about your training, your eating or your health, and I'll plan around it. That one didn't use up a request."
+  "ironOffTopic": "I only build programs: tell me about your training, your eating or your health, and I'll plan around it. That one didn't use up a request.",
+  "healthSeenTitle": "What Gymco sees, last 7 days",
+  "healthSeenLooking": "Looking…",
+  "healthSeenNone": "Nothing yet",
+  "healthSeenCount": "{count} readings",
+  "@healthSeenCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "healthSeenFrom": "{count} readings from {sources}",
+  "@healthSeenFrom": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "sources": {
+        "type": "String"
+      }
+    }
+  },
+  "healthSeenHelp": "Nothing from your watch? Open its app (Zepp, Whoop, Fitbit…) and turn on sharing with {store}, then check again.",
+  "@healthSeenHelp": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "healthSeenAgain": "Check again"
 }

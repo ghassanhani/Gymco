@@ -5293,4 +5293,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ironOffTopic =>
       'I only build programs: tell me about your training, your eating or your health, and I\'ll plan around it. That one didn\'t use up a request.';
+
+  @override
+  String get healthSeenTitle => 'What Gymco sees, last 7 days';
+
+  @override
+  String get healthSeenLooking => 'Looking…';
+
+  @override
+  String get healthSeenNone => 'Nothing yet';
+
+  @override
+  String healthSeenCount(int count) {
+    return '$count readings';
+  }
+
+  @override
+  String healthSeenFrom(int count, String sources) {
+    return '$count readings from $sources';
+  }
+
+  @override
+  String healthSeenHelp(String store) {
+    return 'Nothing from your watch? Open its app (Zepp, Whoop, Fitbit…) and turn on sharing with $store, then check again.';
+  }
+
+  @override
+  String get healthSeenAgain => 'Check again';
 }

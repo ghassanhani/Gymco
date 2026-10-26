@@ -5265,4 +5265,31 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get ironOffTopic =>
       'أنا أبني البرامج فقط: أخبرني عن تمارينك أو أكلك أو صحتك وسأخطط حولها. هذا الطلب لم يُحتسب.';
+
+  @override
+  String get healthSeenTitle => 'ما يراه Gymco، آخر 7 أيام';
+
+  @override
+  String get healthSeenLooking => 'جارٍ البحث…';
+
+  @override
+  String get healthSeenNone => 'لا شيء بعد';
+
+  @override
+  String healthSeenCount(int count) {
+    return '$count قراءة';
+  }
+
+  @override
+  String healthSeenFrom(int count, String sources) {
+    return '$count قراءة من $sources';
+  }
+
+  @override
+  String healthSeenHelp(String store) {
+    return 'لا شيء من ساعتك؟ افتح تطبيقها (Zepp أو Whoop أو Fitbit…) وفعّل المشاركة مع $store، ثم تحقق مجددًا.';
+  }
+
+  @override
+  String get healthSeenAgain => 'تحقق مجددًا';
 }

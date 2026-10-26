@@ -8703,6 +8703,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'I only build programs: tell me about your training, your eating or your health, and I\'ll plan around it. That one didn\'t use up a request.'**
   String get ironOffTopic;
+
+  /// No description provided for @healthSeenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What Gymco sees, last 7 days'**
+  String get healthSeenTitle;
+
+  /// No description provided for @healthSeenLooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking…'**
+  String get healthSeenLooking;
+
+  /// No description provided for @healthSeenNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get healthSeenNone;
+
+  /// No description provided for @healthSeenCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} readings'**
+  String healthSeenCount(int count);
+
+  /// No description provided for @healthSeenFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} readings from {sources}'**
+  String healthSeenFrom(int count, String sources);
+
+  /// No description provided for @healthSeenHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing from your watch? Open its app (Zepp, Whoop, Fitbit…) and turn on sharing with {store}, then check again.'**
+  String healthSeenHelp(String store);
+
+  /// No description provided for @healthSeenAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get healthSeenAgain;
 }
 
 class _AppLocalizationsDelegate

@@ -69,6 +69,7 @@ Future<void> askWatchReads(WidgetRef ref) async {
 /// and after the phone's permission screen.
 void refreshHealth(WidgetRef ref) {
   ref.invalidate(healthImportProvider);
+  ref.invalidate(healthCheckProvider);
   ref.invalidate(stepsTodayProvider);
   ref.invalidate(stepsWeekProvider);
   ref.invalidate(recoveryProvider);
@@ -91,10 +92,12 @@ final recoveryProvider = FutureProvider<Recovery?>((ref) async {
     h.samples(Metric.hrv, from, now),
     h.samples(Metric.activeKcal, today.subtract(const Duration(days: 6)), now),
   ]);
+  // No resting heart rate from the band: work one out from its heart rate.
+  final resting = reads[1].isNotEmpty ? reads[1] : restingFromHeart(await h.samples(Metric.heartRate, from, now));
   return recoveryFrom(
     now: now,
     sleep: reads[0],
-    restingHr: reads[1],
+    restingHr: resting,
     hrv: reads[2],
     activeKcal: reads[3],
     workouts: await h.workouts(today, now),
@@ -138,4 +141,34 @@ final stepsWeekProvider = FutureProvider<List<double?>?>((ref) async {
   );
   final steps = await ref.watch(stepsTodayProvider.future);
   return [...week.take(6), steps?.toDouble() ?? week.last];
+});
+
+/// What the phone's health store has shared with Gymco over the last week,
+/// kind by kind: how many readings, from which apps, and the latest. For
+/// the Health screen, so a band that sends nothing is easy to spot.
+typedef HealthSeen = ({int count, Set<String> sources, DateTime? last});
+
+final healthCheckProvider = FutureProvider<Map<String, HealthSeen>?>((ref) async {
+  if (!ref.watch(healthOnProvider)) return null;
+  final h = ref.read(healthSyncProvider);
+  final now = ref.read(clockProvider)();
+  final from = now.subtract(const Duration(days: 7));
+  HealthSeen seen(Iterable<(DateTime, String)> rows) {
+    DateTime? last;
+    final sources = <String>{};
+    var n = 0;
+    for (final (at, src) in rows) {
+      n++;
+      if (src.isNotEmpty) sources.add(src);
+      if (last == null || at.isAfter(last)) last = at;
+    }
+    return (count: n, sources: sources, last: last);
+  }
+
+  final out = <String, HealthSeen>{};
+  for (final m in [Metric.sleep, Metric.heartRate, Metric.restingHr, Metric.hrv, Metric.steps, Metric.activeKcal]) {
+    out[m.name] = seen([for (final s in await h.samples(m, from, now)) (s.to, s.source)]);
+  }
+  out['workouts'] = seen([for (final w in await h.workouts(from, now)) (w.end, w.source)]);
+  return out;
 });

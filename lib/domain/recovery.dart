@@ -95,7 +95,6 @@ class Recovery {
     >= 55 => Readiness.steady,
     _ => Readiness.easy,
   };
-
 }
 
 /// The middle of the day-by-day values: one bad night does not move it.
@@ -211,4 +210,24 @@ class HeartSummary {
       bars: [for (var i = 0; i < slices; i++) counts[i] == 0 ? null : sums[i] / counts[i]],
     );
   }
+}
+
+/// A resting heart rate for each day from plain heart-rate readings, for
+/// bands that don't record one: the quietest tenth of the day's readings.
+/// Days with fewer than 20 readings are left out, too few to say.
+List<Sample> restingFromHeart(List<Sample> heart) {
+  final byDay = <String, List<Sample>>{};
+  for (final s in heart) {
+    (byDay[dayKey(s.to)] ??= []).add(s);
+  }
+  return [
+    for (final day in byDay.values)
+      if (day.length >= 20)
+        () {
+          final v = [for (final s in day) s.value]..sort();
+          final low = v.take((v.length / 10).ceil()).toList();
+          final last = day.reduce((a, b) => a.to.isAfter(b.to) ? a : b);
+          return Sample(last.to, last.to, low.reduce((a, b) => a + b) / low.length, source: last.source);
+        }(),
+  ];
 }
