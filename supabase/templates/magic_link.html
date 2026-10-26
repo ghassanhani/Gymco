@@ -3,83 +3,122 @@
 {{ $admin := false }}{{ with .RedirectTo }}{{ if eq (printf "%v" .) "https://gymcoapp.com/admin/" }}{{ $admin = true }}{{ end }}{{ end }}
 <!doctype html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light"></head>
-<body style="margin:0;padding:0;background:#f4f5ef;">
+<body style="margin:0;padding:0;background:#eef0e8;">
 {{ if eq $lang "ar" }}
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" dir="rtl" style="background:#f4f5ef;">
-  <tr><td align="center" style="padding:32px 16px;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#ffffff;border-radius:24px;">
-      <tr><td style="padding:32px 28px 8px;text-align:right;">
-        <img src="https://gymcoapp.com/icon.png" width="48" height="48" alt="Gymco" style="display:block;border:0;border-radius:12px;margin-left:auto;">
-      </td></tr>
-      <tr><td style="padding:16px 28px 0;text-align:right;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
-        <h1 style="margin:0;font-size:26px;line-height:1.2;font-weight:800;color:#10120e;letter-spacing:-0.4px;">{{ if $admin }}سجّل الدخول إلى مركز التحكم{{ else }}سجّل الدخول إلى Gymco{{ end }}</h1>
-        <p style="margin:12px 0 0;font-size:16px;line-height:1.55;color:#3b4038;">{{ if $admin }}اضغط الزر لفتح مركز التحكم، أو اكتب هذا الرمز في صفحة الدخول.{{ else }}اضغط الزر على هاتفك لتسجيل الدخول، أو اكتب هذا الرمز في التطبيق.{{ end }}</p>
-      </td></tr>
-      <tr><td style="padding:24px 28px 0;text-align:right;">
-        <a href="{{ .ConfirmationURL }}" style="display:inline-block;background:#c6f432;color:#0a0b09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;text-decoration:none;padding:15px 28px;border-radius:999px;">{{ if $admin }}فتح مركز التحكم{{ else }}تسجيل الدخول إلى Gymco{{ end }}</a>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" dir="rtl" style="background:#eef0e8;">
+  <tr><td align="center" style="padding:28px 14px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#ffffff;border-radius:28px;overflow:hidden;box-shadow:0 12px 40px rgba(16,18,14,0.08);">
+      <tr><td style="background:#0b0d09;background-image:radial-gradient(circle at 0% 0%,rgba(198,244,50,0.35) 0%,rgba(198,244,50,0) 55%),linear-gradient(160deg,#141a0e 0%,#0b0d09 70%);padding:28px 28px 30px;text-align:right;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+          <td style="text-align:right;"><img src="https://gymcoapp.com/icon.png" width="40" height="40" alt="Gymco" style="display:inline-block;vertical-align:middle;border:0;border-radius:12px;"><span style="display:inline-block;vertical-align:middle;margin-right:10px;font-size:19px;font-weight:800;color:#ffffff;letter-spacing:-0.3px;">Gymco</span></td>
+          <td style="text-align:left;"><span style="display:inline-block;background:rgba(198,244,50,0.14);color:#c6f432;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid rgba(198,244,50,0.35);">رمز الدخول</span></td>
+        </tr></table>
+        <h1 style="margin:26px 0 0;font-size:28px;line-height:1.18;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">{{ if $admin }}سجّل الدخول إلى مركز التحكم{{ else }}سجّل الدخول إلى Gymco{{ end }}</h1>
+        <p style="margin:10px 0 0;font-size:15.5px;line-height:1.55;color:#b9c1b1;">{{ if $admin }}اضغط الزر لفتح مركز التحكم، أو اكتب هذا الرمز في صفحة الدخول.{{ else }}اضغط الزر على هاتفك لتسجيل الدخول، أو اكتب هذا الرمز في التطبيق.{{ end }}</p>
       </td></tr>
       <tr><td style="padding:28px 28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:right;">
-        <div style="font-size:13px;font-weight:700;color:#6a7066;text-transform:uppercase;letter-spacing:1px;">رمزك</div>
-        <div dir="ltr" style="margin-top:8px;background:#f4f5ef;border-radius:16px;padding:16px 20px;text-align:center;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:8px;color:#10120e;">{{ .Token }}</div>
-        <p style="margin:10px 0 0;font-size:14px;color:#6a7066;">يعمل مرة واحدة خلال الساعة القادمة.</p>
+        <div style="font-size:12px;font-weight:700;color:#6a7066;text-transform:uppercase;letter-spacing:1.2px;">رمزك</div>
+        <div dir="ltr" style="margin-top:10px;background:#f6f8f0;border:1.5px solid #dfe8c4;border-radius:20px;padding:20px 12px;text-align:center;">
+          <span style="font-family:'SF Mono','SFMono-Regular',Menlo,Consolas,monospace;font-size:40px;line-height:1;font-weight:800;letter-spacing:12px;color:#10120e;padding-left:12px;">{{ .Token }}</span>
+          <div style="width:44px;height:4px;background:#c6f432;border-radius:4px;margin:14px auto 0;"></div>
+        </div>
+        <p style="margin:10px 0 0;font-size:13.5px;color:#6a7066;">يعمل مرة واحدة خلال الساعة القادمة.</p>
       </td></tr>
-      <tr><td style="padding:28px 28px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:right;">
-        <p style="margin:0;padding-top:20px;border-top:1px solid #e2e5dc;font-size:13px;line-height:1.5;color:#6a7066;">لم تطلب هذا؟ يمكنك تجاهل هذه الرسالة. لا يمكن لأحد الدخول دون الرابط أو الرمز.</p>
+      <tr><td style="padding:24px 28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:right;">
+        <p style="margin:0 0 10px;font-size:14px;color:#3b4038;">{{ if not $admin }}على هاتفك؟ ضغطة واحدة تكفي.{{ end }}</p>
+        <a href="{{ .ConfirmationURL }}" style="display:block;text-align:center;background:#c6f432;background-image:linear-gradient(90deg,#e4ff6e 0%,#c6f432 50%,#7fe08a 100%);color:#0a0b09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:800;text-decoration:none;padding:16px 24px;border-radius:999px;">{{ if $admin }}فتح مركز التحكم{{ else }}تسجيل الدخول إلى Gymco{{ end }}</a>
+      </td></tr>
+      <tr><td style="padding:26px 28px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:right;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e6e9df;"><tr>
+          <td width="28" valign="top" style="padding-top:18px;font-size:16px;line-height:1;color:#8a9085;">&#128274;</td>
+          <td style="padding-top:18px;font-size:13px;line-height:1.55;color:#6a7066;">لم تطلب هذا؟ يمكنك تجاهل هذه الرسالة. لا يمكن لأحد الدخول دون الرابط أو الرمز.</td>
+        </tr></table>
       </td></tr>
     </table>
-    <p style="margin:18px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#8a9085;">Gymco · التغذية والتمرين لرافعي الأثقال · <a href="https://gymcoapp.com" style="color:#5f8a00;text-decoration:none;">gymcoapp.com</a></p>
+    <p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12.5px;color:#8a9085;">
+      <a href="https://gymcoapp.com/privacy/" style="color:#5f8a00;text-decoration:none;">الخصوصية</a> &nbsp;·&nbsp;
+      <a href="https://gymcoapp.com/terms/" style="color:#5f8a00;text-decoration:none;">الشروط</a> &nbsp;·&nbsp;
+      <a href="https://gymcoapp.com/support/" style="color:#5f8a00;text-decoration:none;">المساعدة</a>
+    </p>
+    <p style="margin:8px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#a0a69a;">Gymco · التغذية والتمرين لرافعي الأثقال</p>
   </td></tr>
 </table>
 {{ else if eq $lang "es" }}
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="background:#f4f5ef;">
-  <tr><td align="center" style="padding:32px 16px;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#ffffff;border-radius:24px;">
-      <tr><td style="padding:32px 28px 8px;text-align:left;">
-        <img src="https://gymcoapp.com/icon.png" width="48" height="48" alt="Gymco" style="display:block;border:0;border-radius:12px;">
-      </td></tr>
-      <tr><td style="padding:16px 28px 0;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
-        <h1 style="margin:0;font-size:26px;line-height:1.2;font-weight:800;color:#10120e;letter-spacing:-0.4px;">{{ if $admin }}Entra en el Control Center{{ else }}Entra en Gymco{{ end }}</h1>
-        <p style="margin:12px 0 0;font-size:16px;line-height:1.55;color:#3b4038;">{{ if $admin }}Toca el botón para abrir el Control Center, o escribe este código en la página de acceso.{{ else }}Toca el botón en tu teléfono para entrar, o escribe este código en la app.{{ end }}</p>
-      </td></tr>
-      <tr><td style="padding:24px 28px 0;text-align:left;">
-        <a href="{{ .ConfirmationURL }}" style="display:inline-block;background:#c6f432;color:#0a0b09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;text-decoration:none;padding:15px 28px;border-radius:999px;">{{ if $admin }}Abrir el Control Center{{ else }}Entrar en Gymco{{ end }}</a>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="background:#eef0e8;">
+  <tr><td align="center" style="padding:28px 14px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#ffffff;border-radius:28px;overflow:hidden;box-shadow:0 12px 40px rgba(16,18,14,0.08);">
+      <tr><td style="background:#0b0d09;background-image:radial-gradient(circle at 100% 0%,rgba(198,244,50,0.35) 0%,rgba(198,244,50,0) 55%),linear-gradient(160deg,#141a0e 0%,#0b0d09 70%);padding:28px 28px 30px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+          <td style="text-align:left;"><img src="https://gymcoapp.com/icon.png" width="40" height="40" alt="Gymco" style="display:inline-block;vertical-align:middle;border:0;border-radius:12px;"><span style="display:inline-block;vertical-align:middle;margin-left:10px;font-size:19px;font-weight:800;color:#ffffff;letter-spacing:-0.3px;">Gymco</span></td>
+          <td style="text-align:right;"><span style="display:inline-block;background:rgba(198,244,50,0.14);color:#c6f432;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid rgba(198,244,50,0.35);">Código de acceso</span></td>
+        </tr></table>
+        <h1 style="margin:26px 0 0;font-size:28px;line-height:1.18;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">{{ if $admin }}Entra en el Control Center{{ else }}Entra en Gymco{{ end }}</h1>
+        <p style="margin:10px 0 0;font-size:15.5px;line-height:1.55;color:#b9c1b1;">{{ if $admin }}Toca el botón para abrir el Control Center, o escribe este código en la página de acceso.{{ else }}Toca el botón en tu teléfono para entrar, o escribe este código en la app.{{ end }}</p>
       </td></tr>
       <tr><td style="padding:28px 28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
-        <div style="font-size:13px;font-weight:700;color:#6a7066;text-transform:uppercase;letter-spacing:1px;">Tu código</div>
-        <div dir="ltr" style="margin-top:8px;background:#f4f5ef;border-radius:16px;padding:16px 20px;text-align:center;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:8px;color:#10120e;">{{ .Token }}</div>
-        <p style="margin:10px 0 0;font-size:14px;color:#6a7066;">Sirve una vez, durante la próxima hora.</p>
+        <div style="font-size:12px;font-weight:700;color:#6a7066;text-transform:uppercase;letter-spacing:1.2px;">Tu código</div>
+        <div dir="ltr" style="margin-top:10px;background:#f6f8f0;border:1.5px solid #dfe8c4;border-radius:20px;padding:20px 12px;text-align:center;">
+          <span style="font-family:'SF Mono','SFMono-Regular',Menlo,Consolas,monospace;font-size:40px;line-height:1;font-weight:800;letter-spacing:12px;color:#10120e;padding-left:12px;">{{ .Token }}</span>
+          <div style="width:44px;height:4px;background:#c6f432;border-radius:4px;margin:14px auto 0;"></div>
+        </div>
+        <p style="margin:10px 0 0;font-size:13.5px;color:#6a7066;">Sirve una vez, durante la próxima hora.</p>
       </td></tr>
-      <tr><td style="padding:28px 28px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
-        <p style="margin:0;padding-top:20px;border-top:1px solid #e2e5dc;font-size:13px;line-height:1.5;color:#6a7066;">¿No lo pediste? Puedes ignorar este email. Nadie puede entrar sin el enlace o el código.</p>
+      <tr><td style="padding:24px 28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
+        <p style="margin:0 0 10px;font-size:14px;color:#3b4038;">{{ if not $admin }}¿En tu teléfono? Basta un toque.{{ end }}</p>
+        <a href="{{ .ConfirmationURL }}" style="display:block;text-align:center;background:#c6f432;background-image:linear-gradient(90deg,#e4ff6e 0%,#c6f432 50%,#7fe08a 100%);color:#0a0b09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:800;text-decoration:none;padding:16px 24px;border-radius:999px;">{{ if $admin }}Abrir el Control Center{{ else }}Entrar en Gymco{{ end }}</a>
+      </td></tr>
+      <tr><td style="padding:26px 28px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e6e9df;"><tr>
+          <td width="28" valign="top" style="padding-top:18px;font-size:16px;line-height:1;color:#8a9085;">&#128274;</td>
+          <td style="padding-top:18px;font-size:13px;line-height:1.55;color:#6a7066;">¿No lo pediste? Puedes ignorar este email. Nadie puede entrar sin el enlace o el código.</td>
+        </tr></table>
       </td></tr>
     </table>
-    <p style="margin:18px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#8a9085;">Gymco · Dieta y entrenamiento para levantadores · <a href="https://gymcoapp.com" style="color:#5f8a00;text-decoration:none;">gymcoapp.com</a></p>
+    <p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12.5px;color:#8a9085;">
+      <a href="https://gymcoapp.com/privacy/" style="color:#5f8a00;text-decoration:none;">Privacidad</a> &nbsp;·&nbsp;
+      <a href="https://gymcoapp.com/terms/" style="color:#5f8a00;text-decoration:none;">Términos</a> &nbsp;·&nbsp;
+      <a href="https://gymcoapp.com/support/" style="color:#5f8a00;text-decoration:none;">Ayuda</a>
+    </p>
+    <p style="margin:8px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#a0a69a;">Gymco · Dieta y entrenamiento para levantadores</p>
   </td></tr>
 </table>
 {{ else }}
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="background:#f4f5ef;">
-  <tr><td align="center" style="padding:32px 16px;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#ffffff;border-radius:24px;">
-      <tr><td style="padding:32px 28px 8px;text-align:left;">
-        <img src="https://gymcoapp.com/icon.png" width="48" height="48" alt="Gymco" style="display:block;border:0;border-radius:12px;">
-      </td></tr>
-      <tr><td style="padding:16px 28px 0;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
-        <h1 style="margin:0;font-size:26px;line-height:1.2;font-weight:800;color:#10120e;letter-spacing:-0.4px;">{{ if $admin }}Sign in to the Control Center{{ else }}Sign in to Gymco{{ end }}</h1>
-        <p style="margin:12px 0 0;font-size:16px;line-height:1.55;color:#3b4038;">{{ if $admin }}Tap the button to open the Control Center, or type this code on the sign-in page.{{ else }}Tap the button on your phone to sign in, or type this code in the app.{{ end }}</p>
-      </td></tr>
-      <tr><td style="padding:24px 28px 0;text-align:left;">
-        <a href="{{ .ConfirmationURL }}" style="display:inline-block;background:#c6f432;color:#0a0b09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:700;text-decoration:none;padding:15px 28px;border-radius:999px;">{{ if $admin }}Open the Control Center{{ else }}Sign in to Gymco{{ end }}</a>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" dir="ltr" style="background:#eef0e8;">
+  <tr><td align="center" style="padding:28px 14px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#ffffff;border-radius:28px;overflow:hidden;box-shadow:0 12px 40px rgba(16,18,14,0.08);">
+      <tr><td style="background:#0b0d09;background-image:radial-gradient(circle at 100% 0%,rgba(198,244,50,0.35) 0%,rgba(198,244,50,0) 55%),linear-gradient(160deg,#141a0e 0%,#0b0d09 70%);padding:28px 28px 30px;text-align:left;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+          <td style="text-align:left;"><img src="https://gymcoapp.com/icon.png" width="40" height="40" alt="Gymco" style="display:inline-block;vertical-align:middle;border:0;border-radius:12px;"><span style="display:inline-block;vertical-align:middle;margin-left:10px;font-size:19px;font-weight:800;color:#ffffff;letter-spacing:-0.3px;">Gymco</span></td>
+          <td style="text-align:right;"><span style="display:inline-block;background:rgba(198,244,50,0.14);color:#c6f432;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid rgba(198,244,50,0.35);">Sign-in code</span></td>
+        </tr></table>
+        <h1 style="margin:26px 0 0;font-size:28px;line-height:1.18;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">{{ if $admin }}Sign in to the Control Center{{ else }}Sign in to Gymco{{ end }}</h1>
+        <p style="margin:10px 0 0;font-size:15.5px;line-height:1.55;color:#b9c1b1;">{{ if $admin }}Tap the button to open the Control Center, or type this code on the sign-in page.{{ else }}Tap the button on your phone to sign in, or type this code in the app.{{ end }}</p>
       </td></tr>
       <tr><td style="padding:28px 28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
-        <div style="font-size:13px;font-weight:700;color:#6a7066;text-transform:uppercase;letter-spacing:1px;">Your code</div>
-        <div dir="ltr" style="margin-top:8px;background:#f4f5ef;border-radius:16px;padding:16px 20px;text-align:center;font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:34px;font-weight:700;letter-spacing:8px;color:#10120e;">{{ .Token }}</div>
-        <p style="margin:10px 0 0;font-size:14px;color:#6a7066;">It works once, for the next hour.</p>
+        <div style="font-size:12px;font-weight:700;color:#6a7066;text-transform:uppercase;letter-spacing:1.2px;">Your code</div>
+        <div dir="ltr" style="margin-top:10px;background:#f6f8f0;border:1.5px solid #dfe8c4;border-radius:20px;padding:20px 12px;text-align:center;">
+          <span style="font-family:'SF Mono','SFMono-Regular',Menlo,Consolas,monospace;font-size:40px;line-height:1;font-weight:800;letter-spacing:12px;color:#10120e;padding-left:12px;">{{ .Token }}</span>
+          <div style="width:44px;height:4px;background:#c6f432;border-radius:4px;margin:14px auto 0;"></div>
+        </div>
+        <p style="margin:10px 0 0;font-size:13.5px;color:#6a7066;">It works once, for the next hour.</p>
       </td></tr>
-      <tr><td style="padding:28px 28px 32px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
-        <p style="margin:0;padding-top:20px;border-top:1px solid #e2e5dc;font-size:13px;line-height:1.5;color:#6a7066;">Didn't ask for this? You can ignore this email. Nobody can sign in without the link or the code.</p>
+      <tr><td style="padding:24px 28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
+        <p style="margin:0 0 10px;font-size:14px;color:#3b4038;">{{ if not $admin }}On your phone? One tap does it.{{ end }}</p>
+        <a href="{{ .ConfirmationURL }}" style="display:block;text-align:center;background:#c6f432;background-image:linear-gradient(90deg,#e4ff6e 0%,#c6f432 50%,#7fe08a 100%);color:#0a0b09;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:16px;font-weight:800;text-decoration:none;padding:16px 24px;border-radius:999px;">{{ if $admin }}Open the Control Center{{ else }}Sign in to Gymco{{ end }}</a>
+      </td></tr>
+      <tr><td style="padding:26px 28px 28px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;text-align:left;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e6e9df;"><tr>
+          <td width="28" valign="top" style="padding-top:18px;font-size:16px;line-height:1;color:#8a9085;">&#128274;</td>
+          <td style="padding-top:18px;font-size:13px;line-height:1.55;color:#6a7066;">Didn't ask for this? You can ignore this email. Nobody can sign in without the link or the code.</td>
+        </tr></table>
       </td></tr>
     </table>
-    <p style="margin:18px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#8a9085;">Gymco · Diet and training for lifters · <a href="https://gymcoapp.com" style="color:#5f8a00;text-decoration:none;">gymcoapp.com</a></p>
+    <p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12.5px;color:#8a9085;">
+      <a href="https://gymcoapp.com/privacy/" style="color:#5f8a00;text-decoration:none;">Privacy</a> &nbsp;·&nbsp;
+      <a href="https://gymcoapp.com/terms/" style="color:#5f8a00;text-decoration:none;">Terms</a> &nbsp;·&nbsp;
+      <a href="https://gymcoapp.com/support/" style="color:#5f8a00;text-decoration:none;">Help</a>
+    </p>
+    <p style="margin:8px 0 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#a0a69a;">Gymco · Diet and training for lifters</p>
   </td></tr>
 </table>
 {{ end }}
