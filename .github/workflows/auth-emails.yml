@@ -1,0 +1,63 @@
+name: Sign-in emails
+# Puts Gymco's own sign-in emails (supabase/templates) into Supabase Auth, so
+# people get the Gymco design with the 6-digit code, not Supabase's default.
+# Run it from Actions → Sign-in emails → Run workflow.
+#
+# Needs the repository secret SUPABASE_ACCESS_TOKEN: a personal access token
+# from supabase.com → Account → Access tokens. With RESEND_API_KEY set too, it
+# also sends them from hello@gymcoapp.com through Resend instead of
+# "Supabase Auth", which lifts Supabase's few-an-hour limit.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  emails:
+    if: github.repository == 'ghassanhani/Gymco'
+    runs-on: ubuntu-latest
+    env:
+      PROJECT: vncadogzpeoawikgafaj
+      TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      RESEND: ${{ secrets.RESEND_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Needs the Supabase access token
+        if: env.TOKEN == ''
+        run: |
+          echo "::error::Add the secret SUPABASE_ACCESS_TOKEN (supabase.com → Account → Access tokens), then run this again."
+          exit 1
+      - name: Build the emails
+        run: python3 supabase/templates/build.py
+      - name: Send them to Supabase Auth
+        run: |
+          python3 - <<'PY' > auth.json
+          import json, os
+          t = lambda f: open(f"supabase/templates/{f}", encoding="utf-8").read()
+          body = {
+              "mailer_subjects_confirmation": "{{ .Token }} · Gymco",
+              "mailer_templates_confirmation_content": t("confirmation.html"),
+              "mailer_subjects_magic_link": "{{ .Token }} · Gymco",
+              "mailer_templates_magic_link_content": t("magic_link.html"),
+          }
+          if os.environ.get("RESEND"):
+              body.update({
+                  "smtp_admin_email": "hello@gymcoapp.com",
+                  "smtp_sender_name": "Gymco",
+                  "smtp_host": "smtp.resend.com",
+                  "smtp_port": "465",
+                  "smtp_user": "resend",
+                  "smtp_pass": os.environ["RESEND"],
+              })
+          print(json.dumps(body))
+          PY
+          code=$(curl -sS -o reply.json -w '%{http_code}' -X PATCH \
+            "https://api.supabase.com/v1/projects/$PROJECT/config/auth" \
+            -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+            --data @auth.json)
+          rm -f auth.json
+          if [ "$code" != "200" ]; then
+            echo "::error::Supabase said $code: $(head -c 300 reply.json)"
+            exit 1
+          fi
+          echo "Sign-in emails are live."
+          [ -n "$RESEND" ] && echo "Sending through Resend from hello@gymcoapp.com." || echo "Still sending as Supabase Auth: add RESEND_API_KEY to send from Gymco."

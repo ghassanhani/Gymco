@@ -9,7 +9,14 @@ wording when the sign-in comes from gymcoapp.com/admin.
 Edit `build.py`, then run `python3 supabase/templates/build.py`. Never edit the
 `.html` files by hand.
 
-## Putting them live (Supabase dashboard)
+## Putting them live
+
+The quick way: add the repository secret `SUPABASE_ACCESS_TOKEN` (supabase.com →
+Account → Access tokens), and `RESEND_API_KEY` to send from Gymco, then run
+Actions → **Sign-in emails**. It builds both emails and sets the subjects,
+templates and SMTP below in one go.
+
+### By hand (Supabase dashboard)
 
 Authentication → Emails → Templates:
 
