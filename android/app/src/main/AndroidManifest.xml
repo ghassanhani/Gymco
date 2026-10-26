@@ -53,6 +53,13 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="app.gymco.gymco" android:host="login-callback"/>
             </intent-filter>
+            <!-- Google Assistant and the app's shortcuts (res/xml/shortcuts.xml). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="app.gymco.gymco" android:host="assistant"/>
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
             <!-- Health Connect opens this to explain why Gymco asks. -->
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>

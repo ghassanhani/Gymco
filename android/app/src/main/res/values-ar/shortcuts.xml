@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App shortcuts and Google Assistant (res/xml/shortcuts.xml). -->
+<resources>
+    <string name="shortcut_water">سجّل الماء</string>
+    <string name="shortcut_food">سجّل الطعام</string>
+    <string name="shortcut_workout">ابدأ التمرين</string>
+    <string name="shortcut_today">السعرات المتبقية</string>
+    <string-array name="shortcut_water_words">
+        <item>ماء</item>
+        <item>سجّل الماء</item>
+    </string-array>
+    <string-array name="shortcut_food_words">
+        <item>طعام</item>
+        <item>سجّل وجبة</item>
+    </string-array>
+    <string-array name="shortcut_today_words">
+        <item>السعرات المتبقية</item>
+        <item>اليوم</item>
+    </string-array>
+</resources>

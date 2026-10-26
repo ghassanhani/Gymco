@@ -1,12 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../data/models.dart';
+import '../l10n/app_localizations.dart';
+import '../ui/kit/kit.dart' show showVToast;
 import '../domain/hydration.dart';
 import 'providers.dart';
 import 'training_providers.dart';
@@ -64,6 +66,8 @@ Future<String?> _takeQueue(WidgetRef ref) async {
 /// Carries out what Siri was asked while the app was closed or in the
 /// background: water, a weigh-in, a meal to write down, today's workout.
 Future<void> runSiriQueue(WidgetRef ref, GoRouter router) async {
+  // Let the router settle on its first page, or that page would replace ours.
+  await WidgetsBinding.instance.endOfFrame;
   final raw = await _takeQueue(ref);
   if (raw == null || raw.isEmpty) return;
   List<Object?> actions;
@@ -90,6 +94,8 @@ Future<void> _run(WidgetRef ref, GoRouter router, Map<String, Object?> a, String
         final ml = (a['ml'] as num?)?.toInt();
         if (ml == null || ml <= 0 || ml > 2000) return;
         await ref.read(waterProvider(today).notifier).add(ml);
+        final context = router.routerDelegate.navigatorKey.currentContext;
+        if (context != null && context.mounted) showVToast(context, AppLocalizations.of(context).waterAddedMl(ml));
       case 'weight':
         final kg = (a['kg'] as num?)?.toDouble();
         if (kg == null || kg < 25 || kg > 350) return;
@@ -101,6 +107,10 @@ Future<void> _run(WidgetRef ref, GoRouter router, Map<String, Object?> a, String
         router.push(Uri(path: '/add/${meal.name}', queryParameters: {if (text.isNotEmpty) 'text': text}).toString());
       case 'workout':
         await _startToday(ref, router);
+      case 'open':
+        // Only the app's own top-level places.
+        final to = a['to'];
+        if (to is String && const ['/today', '/progress', '/train', '/iron/home'].contains(to)) router.go(to);
     }
   }
 }

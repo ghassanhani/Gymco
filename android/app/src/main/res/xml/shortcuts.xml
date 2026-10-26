@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Long-press the app icon, or "Hey Google, log water on Gymco": each opens
+     app.gymco.gymco://assistant/... and MainActivity hands it to the app. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- "Hey Google, start my workout on Gymco" -->
+    <capability android:name="actions.intent.START_EXERCISE">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="app.gymco.gymco"
+            android:targetClass="app.gymco.gymco.MainActivity">
+            <url-template android:value="app.gymco.gymco://assistant/workout{?name}" />
+            <parameter android:name="exercise.name" android:key="name" />
+        </intent>
+    </capability>
+
+    <!-- "Hey Google, log water / log food / calories left on Gymco" -->
+    <capability android:name="actions.intent.OPEN_APP_FEATURE">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="app.gymco.gymco"
+            android:targetClass="app.gymco.gymco.MainActivity">
+            <url-template android:value="app.gymco.gymco://assistant/open{?feature}" />
+            <parameter android:name="feature" android:key="feature" />
+        </intent>
+    </capability>
+
+    <shortcut
+        android:shortcutId="water"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_water">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="app.gymco.gymco"
+            android:targetClass="app.gymco.gymco.MainActivity"
+            android:data="app.gymco.gymco://assistant/water?ml=250" />
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding android:key="feature" android:value="@array/shortcut_water_words" />
+        </capability-binding>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="food"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_food">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="app.gymco.gymco"
+            android:targetClass="app.gymco.gymco.MainActivity"
+            android:data="app.gymco.gymco://assistant/food" />
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding android:key="feature" android:value="@array/shortcut_food_words" />
+        </capability-binding>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="workout"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_workout">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="app.gymco.gymco"
+            android:targetClass="app.gymco.gymco.MainActivity"
+            android:data="app.gymco.gymco://assistant/workout" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="today"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_today">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="app.gymco.gymco"
+            android:targetClass="app.gymco.gymco.MainActivity"
+            android:data="app.gymco.gymco://assistant/today" />
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding android:key="feature" android:value="@array/shortcut_today_words" />
+        </capability-binding>
+    </shortcut>
+</shortcuts>

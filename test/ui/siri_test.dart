@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
 import 'package:gymco/data/models.dart';
 import 'package:gymco/ui/food/add_food_screen.dart';
+import 'package:gymco/ui/progress/progress_screen.dart';
 import 'package:gymco/ui/train/iron_screen.dart';
 
 import '../helpers.dart';
@@ -71,5 +72,23 @@ void main() {
     await tester.tap(find.byTooltip('Say it'));
     await tester.pumpAndSettle();
     expect(find.descendant(of: find.byType(IronScreen), matching: find.text('only three days a week')), findsOneWidget);
+  });
+
+  testWidgets('a shortcut that opens a place in the app goes there, and only to known places', (tester) async {
+    await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'siriQueue': jsonEncode([
+          {'a': 'open', 'to': '/account/delete'},
+          {'a': 'open', 'to': '/progress'},
+        ]),
+      },
+    );
+    for (var i = 0; i < 3; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+      await tester.pumpAndSettle();
+    }
+    expect(find.byType(ProgressScreen), findsOneWidget);
   });
 }

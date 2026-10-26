@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App shortcuts and Google Assistant (res/xml/shortcuts.xml). -->
+<resources>
+    <string name="shortcut_water">Log water</string>
+    <string name="shortcut_food">Log food</string>
+    <string name="shortcut_workout">Start workout</string>
+    <string name="shortcut_today">Calories left</string>
+    <string-array name="shortcut_water_words">
+        <item>water</item>
+        <item>log water</item>
+        <item>drink water</item>
+    </string-array>
+    <string-array name="shortcut_food_words">
+        <item>food</item>
+        <item>log food</item>
+        <item>log a meal</item>
+    </string-array>
+    <string-array name="shortcut_today_words">
+        <item>calories left</item>
+        <item>today</item>
+        <item>what is left today</item>
+    </string-array>
+</resources>

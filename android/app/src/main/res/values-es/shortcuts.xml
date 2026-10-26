@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App shortcuts and Google Assistant (res/xml/shortcuts.xml). -->
+<resources>
+    <string name="shortcut_water">Registrar agua</string>
+    <string name="shortcut_food">Registrar comida</string>
+    <string name="shortcut_workout">Empezar entreno</string>
+    <string name="shortcut_today">Calorías restantes</string>
+    <string-array name="shortcut_water_words">
+        <item>agua</item>
+        <item>registrar agua</item>
+    </string-array>
+    <string-array name="shortcut_food_words">
+        <item>comida</item>
+        <item>registrar comida</item>
+    </string-array>
+    <string-array name="shortcut_today_words">
+        <item>calorías restantes</item>
+        <item>hoy</item>
+    </string-array>
+</resources>
