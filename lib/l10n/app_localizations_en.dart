@@ -5391,4 +5391,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironTodayTips => 'Today\'s tips';
+
+  @override
+  String get faqTitle => 'Questions & answers';
+
+  @override
+  String get faqSub => 'Siri, watches, Iron, your data and more';
+
+  @override
+  String get faqSearch => 'Search questions';
+
+  @override
+  String get faqClear => 'Clear search';
+
+  @override
+  String get faqNone => 'Nothing matches that. Try other words, or message us.';
+
+  @override
+  String get faqStuck => 'Still stuck?';
+
+  @override
+  String get faqStuckSub => 'A real person replies, usually within two days';
+
+  @override
+  String get faqMessageUs => 'Message us';
 }

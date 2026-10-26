@@ -8847,6 +8847,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today\'s tips'**
   String get ironTodayTips;
+
+  /// No description provided for @faqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions & answers'**
+  String get faqTitle;
+
+  /// No description provided for @faqSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Siri, watches, Iron, your data and more'**
+  String get faqSub;
+
+  /// No description provided for @faqSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search questions'**
+  String get faqSearch;
+
+  /// No description provided for @faqClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get faqClear;
+
+  /// No description provided for @faqNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches that. Try other words, or message us.'**
+  String get faqNone;
+
+  /// No description provided for @faqStuck.
+  ///
+  /// In en, this message translates to:
+  /// **'Still stuck?'**
+  String get faqStuck;
+
+  /// No description provided for @faqStuckSub.
+  ///
+  /// In en, this message translates to:
+  /// **'A real person replies, usually within two days'**
+  String get faqStuckSub;
+
+  /// No description provided for @faqMessageUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Message us'**
+  String get faqMessageUs;
 }
 
 class _AppLocalizationsDelegate

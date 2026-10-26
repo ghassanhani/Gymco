@@ -5362,4 +5362,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironTodayTips => 'نصائح اليوم';
+
+  @override
+  String get faqTitle => 'أسئلة وأجوبة';
+
+  @override
+  String get faqSub => 'Siri والساعات وIron وبياناتك والمزيد';
+
+  @override
+  String get faqSearch => 'ابحث في الأسئلة';
+
+  @override
+  String get faqClear => 'امسح البحث';
+
+  @override
+  String get faqNone => 'لا شيء يطابق ذلك. جرّب كلمات أخرى، أو راسلنا.';
+
+  @override
+  String get faqStuck => 'ما زلت عالقاً؟';
+
+  @override
+  String get faqStuckSub => 'يرد عليك شخص حقيقي، عادةً خلال يومين';
+
+  @override
+  String get faqMessageUs => 'راسلنا';
 }

@@ -4,12 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support · Gymco</title>
-<meta name="description" content="Get help with Gymco.">
+<meta name="description" content="Answers about Gymco: logging food, Iron, Siri and Google Assistant, watches and Apple Health, your account and data.">
 <link rel="icon" href="/favicon.png?v=2">
 <link rel="apple-touch-icon" href="/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Urbanist:wght@400;600;700&display=swap">
 <link rel="stylesheet" href="/style.css">
+<style>
+.faq-q{border-bottom:1px solid var(--line,rgba(127,127,127,.25));padding:14px 0}
+.faq-q summary{cursor:pointer;font-weight:700;color:var(--t1);list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq-q summary::-webkit-details-marker{display:none}
+.faq-q summary::after{content:"+";font-weight:400;opacity:.6}
+.faq-q[open] summary::after{content:"\2212"}
+.faq-q p,.faq-q ul{margin:10px 0 0}
+.faq-q ul{padding-inline-start:20px}
+</style>
 </head>
 <body>
 <header><div class="wrap"><a class="brand" href="/"><img src="/icon.png" alt="">Gymco</a>
@@ -19,13 +28,57 @@
 <p>Something not working, or an idea? Email us and a real person will reply, usually within two days.</p>
 <div class="card"><b style="color:var(--t1)">Email</b><br><a href="mailto:support@gymcoapp.com">support@gymcoapp.com</a><br><span class="muted">Include your phone model and what you were doing. A screenshot helps.</span></div>
 
-<h2>Common questions</h2>
-<p><b>Do I need an account?</b><br>No. Everything works on your phone without one. An account adds a backup and AI photo logging.</p>
-<p><b>How do I move to a new phone?</b><br>On the old phone, sign in under Me → Account so your diary is backed up. On the new phone, install Gymco and sign in with the same email.</p>
-<p><b>Apple Health or Health Connect isn't syncing.</b><br>Open Me → Health and follow the steps shown. On iPhone, check Settings → Health → Data Access &amp; Devices → Gymco. On Android, check the Health Connect app permissions.</p>
-<p><b>The photo estimate is off.</b><br>Estimates are a starting point. Tap the item to correct the amount; writing the weight in grams always wins.</p>
-<p><b>How do I cancel Gymco Pro?</b><br>iPhone: Settings → your name → Subscriptions. Android: Google Play → Profile → Payments &amp; subscriptions. Deleting the app doesn't cancel it.</p>
-<p><b>How do I get a refund?</b><br>Purchases go through Apple or Google: request one at <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a> or in Google Play's order history.</p>
+<p class="muted">Search with your browser (Ctrl+F or Find on page). The same answers are in the app under Me → Questions &amp; answers.</p>
+<!-- faq:start -->
+<h2>Getting started</h2>
+<details class="faq-q"><summary>Do I need an account?</summary><p>No. Your diary, workouts and progress all work on your phone without one. An account adds a backup you can restore on a new phone, photo logging and Iron, your coach.</p></details>
+<details class="faq-q"><summary>What does Gymco cost?</summary><p>Gymco is in testing, so nothing is for sale yet and every Pro feature is on. Barcode scanning, custom foods and unlimited routines stay free for good, not for a trial.</p></details>
+<details class="faq-q"><summary>How do I change the language or units?</summary><p>Me → Units &amp; language. Gymco speaks English, Arabic and Spanish.</p></details>
+<details class="faq-q"><summary>Does Gymco work offline?</summary><p>Yes. Logging, search over foods saved on your phone, workouts and progress all work offline. Photo logging, Iron and the backup need the internet.</p></details>
+<h2>Logging food</h2>
+<details class="faq-q"><summary>What is the fastest way to log?</summary><p>Pick whatever fits the moment:</p><ul><li>Search: type a food.</li><li>Barcode: scan the pack for its own numbers.</li><li>Write: type a whole meal, like “2 eggs, toast and a coffee”.</li><li>Voice: hold the mic and say it.</li><li>Photo: photograph the plate and say how much.</li><li>Eat out: an honest guess for a restaurant meal.</li><li>Recipes: build a dish once, log a serving any day.</li></ul></details>
+<details class="faq-q"><summary>A food or barcode isn&#x27;t found.</summary><p>Try the name in another language: Gymco keeps every name it learns on the same food. For a pack, you can add it to Open Food Facts in about 30 seconds, or make it a custom food.</p></details>
+<details class="faq-q"><summary>The photo estimate is off.</summary><p>Estimates are a starting point. Tap the food to correct the amount; writing the weight in grams always wins. A short note with the photo (“4 mini pizzas with beef”) helps a lot.</p></details>
+<details class="faq-q"><summary>How many photos can I log a day?</summary><p>10 AI requests a day, free. Photos, Iron and the routine builder share them, and they come back the next day. Writing, search and barcode never count.</p></details>
+<details class="faq-q"><summary>I forgot to log yesterday.</summary><p>Tap the day in the strip at the top of Today and log it there, or use the Catch up card to fill missed days in a few taps.</p></details>
+<h2>Targets, progress and streaks</h2>
+<details class="faq-q"><summary>Why did my calorie target change?</summary><p>The weekly check-in compares what you ate with how your weight trend moved, and adjusts your target to match what you really burn. For safety it moves in small steps.</p></details>
+<details class="faq-q"><summary>My weight jumps around every day.</summary><p>That&#x27;s normal: water, salt and food in your stomach move the scale. Gymco follows the trend line, not the single day. Weigh in at the same time, ideally in the morning.</p></details>
+<details class="faq-q"><summary>How do streak freezes work?</summary><p>You earn a freeze every 7 days you keep the streak, and hold up to 3. A missed day uses one instead of breaking the streak. Ill or travelling? Pause the streak: paused days neither count nor break it.</p></details>
+<h2>Training</h2>
+<details class="faq-q"><summary>How do I get a routine?</summary><p>Train → pick a ready routine, build your own, or tap “Ask Iron to build it” and describe how you train.</p></details>
+<details class="faq-q"><summary>Something hurts during an exercise.</summary><p>Stop that exercise. In the workout, tap Swap exercise for a pain-free one, or Flag pain so Gymco keeps track. Sharp or repeated pain shows a warning: see a doctor or physio before you load it again.</p></details>
+<details class="faq-q"><summary>The app closed in the middle of a workout.</summary><p>Open Gymco again: it offers to resume the workout with every set you logged.</p></details>
+<h2>Iron, your coach</h2>
+<details class="faq-q"><summary>What is Iron?</summary><p>Iron is Gymco&#x27;s AI coach. It reads your numbers each day and gives you a few tips, builds a full program, and reviews your week. Iron is a coach, not a doctor: it never diagnoses or changes medication.</p></details>
+<details class="faq-q"><summary>What does Iron see?</summary><p>Only numbers: targets, what you ate in totals, training, weight and sleep. Your meals and your health profile are sent only if you turn them on in Iron settings. Photos, notes and progress photos are never sent.</p></details>
+<details class="faq-q"><summary>How do today&#x27;s tips work?</summary><p>Iron gives three tips a day. Swipe the card to move between them. Tap a tip&#x27;s button (like Add water) or its tick to mark it done; the bar on top shows how many are done today.</p></details>
+<details class="faq-q"><summary>Why does Iron tell me to see a doctor?</summary><p>Warning signs, like a resting heart rate well above your normal, losing weight too fast or repeated pain, are spotted by fixed rules on your phone, not by the AI. While one shows, Iron stops pushing training or a deficit.</p></details>
+<details class="faq-q"><summary>What if I ask Iron something else?</summary><p>Iron only plans eating and training. Anything else, Iron says it only builds programs, and that question doesn&#x27;t use up an AI request.</p></details>
+<details class="faq-q"><summary>How do I turn Iron off?</summary><p>Open the Iron Center (the arrow on Iron&#x27;s card) → Iron settings. You can also choose there what Iron may read.</p></details>
+<h2>Watch and health apps</h2>
+<details class="faq-q"><summary>How do I connect Apple Health or Health Connect?</summary><p>Me → Health data → connect, then allow each item on your phone&#x27;s permission screen. Steps, sleep, heart and your scale come in; workouts, water and weigh-ins go out.</p></details>
+<details class="faq-q"><summary>I use Zepp (Amazfit, Helio), WHOOP, Fitbit, Garmin or Oura.</summary><p>Gymco reads them through Apple Health or Health Connect. In your watch&#x27;s app, turn on sharing with Apple Health (iPhone) or Health Connect (Android) for sleep and heart rate, then connect Gymco to the same place.</p></details>
+<details class="faq-q"><summary>My recovery numbers are old.</summary><p>Watch apps only pass new readings on when they sync. If the numbers are over 2 hours old, the recovery card says “Last synced” with a button to open your watch&#x27;s app. Open it, let it sync, and come back.</p></details>
+<details class="faq-q"><summary>The recovery card is empty.</summary><p>It needs a night of sleep and heart readings from your watch. Me → Health data → “What Gymco sees, last 7 days” shows which readings came in and from which app.</p></details>
+<h2>Siri and Google Assistant</h2>
+<details class="faq-q"><summary>What can I ask Siri?</summary><p>Say “Hey Siri” and then:</p><ul><li>“Log water in Gymco”: adds a glass (250 ml) and tells you today&#x27;s total.</li><li>“How many calories do I have left in Gymco”: calories and protein left today.</li><li>“Weigh in in Gymco”: Siri asks your weight in kilos and saves it.</li><li>“Log food in Gymco”: Siri asks what you ate and opens it in Write mode to check.</li><li>“Start my workout in Gymco”: opens today&#x27;s session.</li></ul><p>The first three work without opening the app. Siri phrases are in English for now.</p></details>
+<details class="faq-q"><summary>Siri says to open Gymco first.</summary><p>Siri answers from the numbers the app keeps for today. Open Gymco once each day, and after installing an update so your iPhone learns the phrases.</p></details>
+<details class="faq-q"><summary>Can I put them on a button?</summary><p>Yes. They are in the Shortcuts app under Gymco: add one to your Home Screen, the Action button, Back Tap, or an automation like “log water every day at 10:00”.</p></details>
+<details class="faq-q"><summary>Does it work on Android?</summary><p>Long-press the Gymco icon for log water, log food, start my workout and calories left. “Hey Google, log water on Gymco” works once Gymco is installed from Google Play.</p></details>
+<details class="faq-q"><summary>Can I talk to Iron?</summary><p>Yes. Tap the mic in Iron&#x27;s message box, say what you want, and tap it again to stop. It listens in the app&#x27;s language.</p></details>
+<h2>Account, data and privacy</h2>
+<details class="faq-q"><summary>The sign-in code didn&#x27;t arrive.</summary><p>It comes from hello@gymcoapp.com with the 6-digit code in the subject. Check spam and promotions, wait a minute, and check the email address for typos. Still nothing? Message us from Help &amp; support.</p></details>
+<details class="faq-q"><summary>How do I move to a new phone?</summary><p>On the old phone, sign in under Me → Account so your diary is backed up. On the new phone, install Gymco and sign in with the same email: it offers to restore the backup.</p></details>
+<details class="faq-q"><summary>How often does it back up?</summary><p>By itself when you leave the app, at most every six hours, once you&#x27;re signed in.</p></details>
+<details class="faq-q"><summary>Can I export my data?</summary><p>Me → Your data → Export now: everything as a JSON file plus a spreadsheet (CSV) for each part, shared wherever you choose.</p></details>
+<details class="faq-q"><summary>Are my progress photos uploaded?</summary><p>Never. Progress photos stay on your phone: no upload, no backup, never sent to the AI.</p></details>
+<details class="faq-q"><summary>How do I delete my account or data?</summary><p>Me → Account → Delete account removes the account and its backup. Me → Your data → Delete everything clears what&#x27;s on the phone. Neither can be undone, so export first if you want your history.</p></details>
+<h2>Reminders and Pro</h2>
+<details class="faq-q"><summary>Reminders don&#x27;t show up.</summary><p>Check that notifications are on for Gymco in your phone&#x27;s settings, then turn each one on and set its time in Reminders on the Me tab.</p></details>
+<details class="faq-q"><summary>How do I cancel Gymco Pro?</summary><p>iPhone: Settings → your name → Subscriptions. Android: Google Play → Profile → Payments &amp; subscriptions. Deleting the app doesn&#x27;t cancel it. If Pro ever lapses you keep every free feature and all your data.</p></details>
+<details class="faq-q"><summary>How do I get a refund?</summary><p>Purchases go through Apple or Google: request one at reportaproblem.apple.com, or in your Google Play order history.</p></details>
+<!-- faq:end -->
 <p><b>How do I delete my data?</b><br>See <a href="/delete-account/">Delete your account</a>.</p>
 </div></main>
 <footer><div class="wrap"><span>© 2026 Gymco</span><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/support/">Support</a><a href="/delete-account/">Delete account</a></div></footer>

@@ -94,6 +94,7 @@ flutter:
     - assets/sounds/
     - assets/animations/
     - assets/exercises/exercises.json
+    - assets/faq/faq.json
 
   fonts:
     - family: Urbanist

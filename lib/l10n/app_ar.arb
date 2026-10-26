@@ -1464,5 +1464,13 @@
   "ironTipUndo": "لم يتم بعد",
   "ironTipsAllDone": "أنجزت كل شيء اليوم. عمل رائع.",
   "ironTipsDone": "{n} من {total} تم",
-  "ironTodayTips": "نصائح اليوم"
+  "ironTodayTips": "نصائح اليوم",
+  "faqTitle": "أسئلة وأجوبة",
+  "faqSub": "Siri والساعات وIron وبياناتك والمزيد",
+  "faqSearch": "ابحث في الأسئلة",
+  "faqClear": "امسح البحث",
+  "faqNone": "لا شيء يطابق ذلك. جرّب كلمات أخرى، أو راسلنا.",
+  "faqStuck": "ما زلت عالقاً؟",
+  "faqStuckSub": "يرد عليك شخص حقيقي، عادةً خلال يومين",
+  "faqMessageUs": "راسلنا"
 }

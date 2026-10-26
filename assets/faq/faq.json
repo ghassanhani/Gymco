@@ -1,0 +1,611 @@
+{
+ "en": [
+  {
+   "title": "Getting started",
+   "items": [
+    {
+     "q": "Do I need an account?",
+     "a": "No. Your diary, workouts and progress all work on your phone without one. An account adds a backup you can restore on a new phone, photo logging and Iron, your coach."
+    },
+    {
+     "q": "What does Gymco cost?",
+     "a": "Gymco is in testing, so nothing is for sale yet and every Pro feature is on. Barcode scanning, custom foods and unlimited routines stay free for good, not for a trial."
+    },
+    {
+     "q": "How do I change the language or units?",
+     "a": "Me → Units & language. Gymco speaks English, Arabic and Spanish."
+    },
+    {
+     "q": "Does Gymco work offline?",
+     "a": "Yes. Logging, search over foods saved on your phone, workouts and progress all work offline. Photo logging, Iron and the backup need the internet."
+    }
+   ]
+  },
+  {
+   "title": "Logging food",
+   "items": [
+    {
+     "q": "What is the fastest way to log?",
+     "a": "Pick whatever fits the moment:\n• Search: type a food.\n• Barcode: scan the pack for its own numbers.\n• Write: type a whole meal, like “2 eggs, toast and a coffee”.\n• Voice: hold the mic and say it.\n• Photo: photograph the plate and say how much.\n• Eat out: an honest guess for a restaurant meal.\n• Recipes: build a dish once, log a serving any day."
+    },
+    {
+     "q": "A food or barcode isn't found.",
+     "a": "Try the name in another language: Gymco keeps every name it learns on the same food. For a pack, you can add it to Open Food Facts in about 30 seconds, or make it a custom food."
+    },
+    {
+     "q": "The photo estimate is off.",
+     "a": "Estimates are a starting point. Tap the food to correct the amount; writing the weight in grams always wins. A short note with the photo (“4 mini pizzas with beef”) helps a lot."
+    },
+    {
+     "q": "How many photos can I log a day?",
+     "a": "10 AI requests a day, free. Photos, Iron and the routine builder share them, and they come back the next day. Writing, search and barcode never count."
+    },
+    {
+     "q": "I forgot to log yesterday.",
+     "a": "Tap the day in the strip at the top of Today and log it there, or use the Catch up card to fill missed days in a few taps."
+    }
+   ]
+  },
+  {
+   "title": "Targets, progress and streaks",
+   "items": [
+    {
+     "q": "Why did my calorie target change?",
+     "a": "The weekly check-in compares what you ate with how your weight trend moved, and adjusts your target to match what you really burn. For safety it moves in small steps."
+    },
+    {
+     "q": "My weight jumps around every day.",
+     "a": "That's normal: water, salt and food in your stomach move the scale. Gymco follows the trend line, not the single day. Weigh in at the same time, ideally in the morning."
+    },
+    {
+     "q": "How do streak freezes work?",
+     "a": "You earn a freeze every 7 days you keep the streak, and hold up to 3. A missed day uses one instead of breaking the streak. Ill or travelling? Pause the streak: paused days neither count nor break it."
+    }
+   ]
+  },
+  {
+   "title": "Training",
+   "items": [
+    {
+     "q": "How do I get a routine?",
+     "a": "Train → pick a ready routine, build your own, or tap “Ask Iron to build it” and describe how you train."
+    },
+    {
+     "q": "Something hurts during an exercise.",
+     "a": "Stop that exercise. In the workout, tap Swap exercise for a pain-free one, or Flag pain so Gymco keeps track. Sharp or repeated pain shows a warning: see a doctor or physio before you load it again."
+    },
+    {
+     "q": "The app closed in the middle of a workout.",
+     "a": "Open Gymco again: it offers to resume the workout with every set you logged."
+    }
+   ]
+  },
+  {
+   "title": "Iron, your coach",
+   "items": [
+    {
+     "q": "What is Iron?",
+     "a": "Iron is Gymco's AI coach. It reads your numbers each day and gives you a few tips, builds a full program, and reviews your week. Iron is a coach, not a doctor: it never diagnoses or changes medication."
+    },
+    {
+     "q": "What does Iron see?",
+     "a": "Only numbers: targets, what you ate in totals, training, weight and sleep. Your meals and your health profile are sent only if you turn them on in Iron settings. Photos, notes and progress photos are never sent."
+    },
+    {
+     "q": "How do today's tips work?",
+     "a": "Iron gives three tips a day. Swipe the card to move between them. Tap a tip's button (like Add water) or its tick to mark it done; the bar on top shows how many are done today."
+    },
+    {
+     "q": "Why does Iron tell me to see a doctor?",
+     "a": "Warning signs, like a resting heart rate well above your normal, losing weight too fast or repeated pain, are spotted by fixed rules on your phone, not by the AI. While one shows, Iron stops pushing training or a deficit."
+    },
+    {
+     "q": "What if I ask Iron something else?",
+     "a": "Iron only plans eating and training. Anything else, Iron says it only builds programs, and that question doesn't use up an AI request."
+    },
+    {
+     "q": "How do I turn Iron off?",
+     "a": "Open the Iron Center (the arrow on Iron's card) → Iron settings. You can also choose there what Iron may read."
+    }
+   ]
+  },
+  {
+   "title": "Watch and health apps",
+   "items": [
+    {
+     "q": "How do I connect Apple Health or Health Connect?",
+     "a": "Me → Health data → connect, then allow each item on your phone's permission screen. Steps, sleep, heart and your scale come in; workouts, water and weigh-ins go out."
+    },
+    {
+     "q": "I use Zepp (Amazfit, Helio), WHOOP, Fitbit, Garmin or Oura.",
+     "a": "Gymco reads them through Apple Health or Health Connect. In your watch's app, turn on sharing with Apple Health (iPhone) or Health Connect (Android) for sleep and heart rate, then connect Gymco to the same place."
+    },
+    {
+     "q": "My recovery numbers are old.",
+     "a": "Watch apps only pass new readings on when they sync. If the numbers are over 2 hours old, the recovery card says “Last synced” with a button to open your watch's app. Open it, let it sync, and come back."
+    },
+    {
+     "q": "The recovery card is empty.",
+     "a": "It needs a night of sleep and heart readings from your watch. Me → Health data → “What Gymco sees, last 7 days” shows which readings came in and from which app."
+    }
+   ]
+  },
+  {
+   "title": "Siri and Google Assistant",
+   "items": [
+    {
+     "q": "What can I ask Siri?",
+     "a": "Say “Hey Siri” and then:\n• “Log water in Gymco”: adds a glass (250 ml) and tells you today's total.\n• “How many calories do I have left in Gymco”: calories and protein left today.\n• “Weigh in in Gymco”: Siri asks your weight in kilos and saves it.\n• “Log food in Gymco”: Siri asks what you ate and opens it in Write mode to check.\n• “Start my workout in Gymco”: opens today's session.\nThe first three work without opening the app. Siri phrases are in English for now."
+    },
+    {
+     "q": "Siri says to open Gymco first.",
+     "a": "Siri answers from the numbers the app keeps for today. Open Gymco once each day, and after installing an update so your iPhone learns the phrases."
+    },
+    {
+     "q": "Can I put them on a button?",
+     "a": "Yes. They are in the Shortcuts app under Gymco: add one to your Home Screen, the Action button, Back Tap, or an automation like “log water every day at 10:00”."
+    },
+    {
+     "q": "Does it work on Android?",
+     "a": "Long-press the Gymco icon for log water, log food, start my workout and calories left. “Hey Google, log water on Gymco” works once Gymco is installed from Google Play."
+    },
+    {
+     "q": "Can I talk to Iron?",
+     "a": "Yes. Tap the mic in Iron's message box, say what you want, and tap it again to stop. It listens in the app's language."
+    }
+   ]
+  },
+  {
+   "title": "Account, data and privacy",
+   "items": [
+    {
+     "q": "The sign-in code didn't arrive.",
+     "a": "It comes from hello@gymcoapp.com with the 6-digit code in the subject. Check spam and promotions, wait a minute, and check the email address for typos. Still nothing? Message us from Help & support."
+    },
+    {
+     "q": "How do I move to a new phone?",
+     "a": "On the old phone, sign in under Me → Account so your diary is backed up. On the new phone, install Gymco and sign in with the same email: it offers to restore the backup."
+    },
+    {
+     "q": "How often does it back up?",
+     "a": "By itself when you leave the app, at most every six hours, once you're signed in."
+    },
+    {
+     "q": "Can I export my data?",
+     "a": "Me → Your data → Export now: everything as a JSON file plus a spreadsheet (CSV) for each part, shared wherever you choose."
+    },
+    {
+     "q": "Are my progress photos uploaded?",
+     "a": "Never. Progress photos stay on your phone: no upload, no backup, never sent to the AI."
+    },
+    {
+     "q": "How do I delete my account or data?",
+     "a": "Me → Account → Delete account removes the account and its backup. Me → Your data → Delete everything clears what's on the phone. Neither can be undone, so export first if you want your history."
+    }
+   ]
+  },
+  {
+   "title": "Reminders and Pro",
+   "items": [
+    {
+     "q": "Reminders don't show up.",
+     "a": "Check that notifications are on for Gymco in your phone's settings, then turn each one on and set its time in Reminders on the Me tab."
+    },
+    {
+     "q": "How do I cancel Gymco Pro?",
+     "a": "iPhone: Settings → your name → Subscriptions. Android: Google Play → Profile → Payments & subscriptions. Deleting the app doesn't cancel it. If Pro ever lapses you keep every free feature and all your data."
+    },
+    {
+     "q": "How do I get a refund?",
+     "a": "Purchases go through Apple or Google: request one at reportaproblem.apple.com, or in your Google Play order history."
+    }
+   ]
+  }
+ ],
+ "ar": [
+  {
+   "title": "البداية",
+   "items": [
+    {
+     "q": "هل أحتاج إلى حساب؟",
+     "a": "لا. يومياتك وتمارينك وتقدّمك كلها تعمل على هاتفك من دون حساب. الحساب يضيف نسخة احتياطية تستعيدها على هاتف جديد، وتسجيل الوجبات بالصور، وآيرون، مدربك."
+    },
+    {
+     "q": "كم يكلّف Gymco؟",
+     "a": "Gymco في مرحلة التجربة، لذلك لا شيء معروض للبيع بعد، وكل ميزات Pro مفعّلة. مسح الباركود والأطعمة المخصّصة والبرامج غير المحدودة تبقى مجانية للأبد، وليست مجرد فترة تجريبية."
+    },
+    {
+     "q": "كيف أغيّر اللغة أو الوحدات؟",
+     "a": "أنا → الوحدات واللغة. يتحدث Gymco الإنجليزية والعربية والإسبانية."
+    },
+    {
+     "q": "هل يعمل Gymco من دون إنترنت؟",
+     "a": "نعم. التسجيل، والبحث في الأطعمة المحفوظة على هاتفك، والتمارين، والتقدّم كلها تعمل من دون إنترنت. أما تسجيل الوجبات بالصور وآيرون والنسخة الاحتياطية فتحتاج إلى الإنترنت."
+    }
+   ]
+  },
+  {
+   "title": "تسجيل الطعام",
+   "items": [
+    {
+     "q": "ما أسرع طريقة للتسجيل؟",
+     "a": "اختر ما يناسب اللحظة:\n• بحث: اكتب اسم الطعام.\n• باركود: امسح العبوة لتحصل على أرقامها الفعلية.\n• كتابة: اكتب وجبة كاملة، مثل «بيضتان وخبز محمّص وقهوة».\n• صوت: اضغط مطولًا على الميكروفون وقلها.\n• صورة: صوّر الطبق وقل الكمية.\n• مطعم: تقدير صادق لوجبة من مطعم.\n• وصفات: أنشئ الطبق مرة واحدة، وسجّل حصة منه في أي يوم."
+    },
+    {
+     "q": "لا أجد طعامًا أو باركودًا.",
+     "a": "جرّب الاسم بلغة أخرى: يحفظ Gymco كل اسم يتعلّمه على الطعام نفسه. وإن كانت عبوة، يمكنك إضافتها إلى Open Food Facts في نحو 30 ثانية، أو حفظها كطعام مخصّص."
+    },
+    {
+     "q": "تقدير الصورة غير دقيق.",
+     "a": "التقديرات نقطة بداية. اضغط على الطعام لتصحيح الكمية؛ وكتابة الوزن بالغرامات هي الأدق دائمًا. ملاحظة قصيرة مع الصورة («4 بيتزا صغيرة باللحم») تساعد كثيرًا."
+    },
+    {
+     "q": "كم صورة يمكنني تسجيلها في اليوم؟",
+     "a": "10 طلبات ذكاء اصطناعي في اليوم، مجانًا. تتشاركها الصور وآيرون ومُنشئ البرامج، وتتجدّد في اليوم التالي. الكتابة والبحث والباركود لا تُحتسب أبدًا."
+    },
+    {
+     "q": "نسيت التسجيل أمس.",
+     "a": "اضغط على اليوم في الشريط أعلى شاشة اليوم وسجّل فيه، أو استخدم بطاقة استدراك لتملأ الأيام الفائتة ببضع لمسات."
+    }
+   ]
+  },
+  {
+   "title": "الأهداف والتقدّم والسلاسل",
+   "items": [
+    {
+     "q": "لماذا تغيّر هدف السعرات لديّ؟",
+     "a": "المراجعة الأسبوعية تقارن ما أكلته باتجاه وزنك، ثم تعدّل هدفك ليطابق ما تحرقه فعلًا. وحرصًا على سلامتك، يتغيّر بخطوات صغيرة."
+    },
+    {
+     "q": "وزني يتقلّب كل يوم.",
+     "a": "هذا طبيعي: الماء والملح والطعام في معدتك تحرّك الميزان. يتبع Gymco خط الاتجاه، لا اليوم الواحد. زن نفسك في الوقت نفسه، ويُفضّل في الصباح."
+    },
+    {
+     "q": "كيف يعمل تجميد السلسلة؟",
+     "a": "تكسب تجميدًا كل 7 أيام تحافظ فيها على السلسلة، ويمكنك الاحتفاظ بـ3 كحد أقصى. اليوم الفائت يستهلك واحدًا بدل أن يكسر السلسلة. مريض أو مسافر؟ أوقف السلسلة مؤقتًا: الأيام الموقوفة لا تُحتسب ولا تكسرها."
+    }
+   ]
+  },
+  {
+   "title": "التمرين",
+   "items": [
+    {
+     "q": "كيف أحصل على برنامج تمرين؟",
+     "a": "التمرين → اختر برنامجًا جاهزًا، أو أنشئ برنامجك، أو اضغط «اطلب من آيرون بناءه» وصِف طريقة تمرينك."
+    },
+    {
+     "q": "أشعر بألم أثناء أحد التمارين.",
+     "a": "توقّف عن هذا التمرين. أثناء التمرين، اضغط استبدال التمرين لتختار تمرينًا بلا ألم، أو الإبلاغ عن ألم ليتابعه Gymco. الألم الحاد أو المتكرر يُظهر تحذيرًا: راجع طبيبًا أو أخصائي علاج طبيعي قبل أن تحمّل عليه مجددًا."
+    },
+    {
+     "q": "أُغلق التطبيق في منتصف التمرين.",
+     "a": "افتح Gymco مجددًا: سيعرض عليك استئناف التمرين مع كل مجموعة سجّلتها."
+    }
+   ]
+  },
+  {
+   "title": "آيرون، مدربك",
+   "items": [
+    {
+     "q": "من هو آيرون؟",
+     "a": "آيرون هو مدرب Gymco بالذكاء الاصطناعي. يقرأ أرقامك كل يوم ويقدّم لك بعض النصائح، ويبني برنامجًا كاملًا، ويراجع أسبوعك. آيرون مدرب وليس طبيبًا: لا يشخّص أبدًا ولا يغيّر الأدوية."
+    },
+    {
+     "q": "ماذا يرى آيرون؟",
+     "a": "الأرقام فقط: الأهداف، ومجاميع ما أكلته، والتمرين، والوزن، والنوم. لا تُرسل وجباتك وملفك الصحي إلا إذا فعّلتها في إعدادات آيرون. الصور والملاحظات وصور التقدّم لا تُرسل أبدًا."
+    },
+    {
+     "q": "كيف تعمل نصائح اليوم؟",
+     "a": "يقدّم آيرون ثلاث نصائح في اليوم. اسحب البطاقة للتنقّل بينها. اضغط زر النصيحة (مثل أضف ماء) أو علامة الصح لتحديدها كمنجزة؛ ويُظهر الشريط في الأعلى عدد ما أنجزته اليوم."
+    },
+    {
+     "q": "لماذا ينصحني آيرون بمراجعة طبيب؟",
+     "a": "علامات التحذير، مثل نبض راحة أعلى بكثير من معدّلك المعتاد، أو فقدان الوزن بسرعة كبيرة، أو ألم متكرر، تكتشفها قواعد ثابتة على هاتفك، لا الذكاء الاصطناعي. وما دامت إحداها ظاهرة، يتوقف آيرون عن دفعك نحو التمرين أو العجز في السعرات."
+    },
+    {
+     "q": "ماذا لو سألت آيرون عن شيء آخر؟",
+     "a": "آيرون يخطّط للأكل والتمرين فقط. في أي موضوع آخر، سيخبرك آيرون أنه يبني البرامج فقط، ولن يستهلك هذا السؤال أي طلب ذكاء اصطناعي."
+    },
+    {
+     "q": "كيف أوقف آيرون؟",
+     "a": "افتح مركز آيرون (السهم على بطاقة آيرون) → إعدادات آيرون. ويمكنك هناك أيضًا اختيار ما يُسمح لآيرون بقراءته."
+    }
+   ]
+  },
+  {
+   "title": "الساعات وتطبيقات الصحة",
+   "items": [
+    {
+     "q": "كيف أربط Apple Health أو Health Connect؟",
+     "a": "أنا → بيانات الصحة → اربط، ثم اسمح بكل عنصر في شاشة الأذونات على هاتفك. تصل الخطوات والنوم والقلب وميزانك؛ وتُرسل التمارين والماء وقياسات الوزن."
+    },
+    {
+     "q": "أستخدم Zepp (Amazfit، Helio) أو WHOOP أو Fitbit أو Garmin أو Oura.",
+     "a": "يقرأها Gymco عبر Apple Health أو Health Connect. في تطبيق ساعتك، فعّل المشاركة مع Apple Health (iPhone) أو Health Connect (Android) للنوم ونبض القلب، ثم اربط Gymco بالمكان نفسه."
+    },
+    {
+     "q": "أرقام التعافي لديّ قديمة.",
+     "a": "تطبيقات الساعات لا تمرّر القراءات الجديدة إلا عند المزامنة. إذا مرّ على الأرقام أكثر من ساعتين، تعرض بطاقة التعافي «آخر مزامنة» مع زر لفتح تطبيق ساعتك. افتحه، ودعه يُزامن، ثم عُد."
+    },
+    {
+     "q": "بطاقة التعافي فارغة.",
+     "a": "تحتاج إلى ليلة من قراءات النوم والقلب من ساعتك. أنا → بيانات الصحة → «ما يراه Gymco، آخر 7 أيام» يُظهر القراءات التي وصلت ومن أي تطبيق."
+    }
+   ]
+  },
+  {
+   "title": "Siri ومساعد Google",
+   "items": [
+    {
+     "q": "ماذا يمكنني أن أطلب من Siri؟",
+     "a": "قل «Hey Siri» ثم:\n• «Log water in Gymco»: يضيف كوبًا (250 ml) ويخبرك بمجموع اليوم.\n• «How many calories do I have left in Gymco»: السعرات والبروتين المتبقيان اليوم.\n• «Weigh in in Gymco»: يسألك Siri عن وزنك بالكيلوغرام ويحفظه.\n• «Log food in Gymco»: يسألك Siri عمّا أكلته ويفتحه في وضع كتابة لتتحقق منه.\n• «Start my workout in Gymco»: يفتح جلسة اليوم.\nالثلاث الأولى تعمل من دون فتح التطبيق. عبارات Siri بالإنجليزية حاليًا."
+    },
+    {
+     "q": "يطلب مني Siri فتح Gymco أولًا.",
+     "a": "يجيب Siri من الأرقام التي يحفظها التطبيق لليوم. افتح Gymco مرة كل يوم، وبعد تثبيت أي تحديث، ليتعلّم iPhone العبارات."
+    },
+    {
+     "q": "هل يمكنني وضعها على زر؟",
+     "a": "نعم. تجدها في تطبيق الاختصارات تحت Gymco: أضف واحدة إلى الشاشة الرئيسية، أو زر الإجراء، أو النقر على الخلف، أو أتمتة مثل «سجّل الماء كل يوم الساعة 10:00»."
+    },
+    {
+     "q": "هل يعمل على Android؟",
+     "a": "اضغط مطولًا على أيقونة Gymco لتسجيل الماء، وتسجيل الطعام، وبدء تمريني، والسعرات المتبقية. وعبارة «Hey Google, log water on Gymco» تعمل بعد تثبيت Gymco من Google Play."
+    },
+    {
+     "q": "هل يمكنني التحدث إلى آيرون؟",
+     "a": "نعم. اضغط على الميكروفون في مربع رسائل آيرون، وقل ما تريد، ثم اضغطه مجددًا للإيقاف. يستمع بلغة التطبيق."
+    }
+   ]
+  },
+  {
+   "title": "الحساب والبيانات والخصوصية",
+   "items": [
+    {
+     "q": "لم يصلني رمز تسجيل الدخول.",
+     "a": "يصل من hello@gymcoapp.com والرمز المكوّن من 6 أرقام في عنوان الرسالة. تحقّق من مجلدي البريد المزعج والعروض، وانتظر دقيقة، وتأكد من كتابة بريدك الإلكتروني بشكل صحيح. ما زال لا شيء؟ راسلنا من المساعدة والدعم."
+    },
+    {
+     "q": "كيف أنتقل إلى هاتف جديد؟",
+     "a": "على الهاتف القديم، سجّل الدخول من أنا → الحساب لتُحفظ يومياتك احتياطيًا. على الهاتف الجديد، ثبّت Gymco وسجّل الدخول بالبريد نفسه: سيعرض عليك استعادة النسخة الاحتياطية."
+    },
+    {
+     "q": "كم مرة يُنشئ نسخة احتياطية؟",
+     "a": "تلقائيًا عند خروجك من التطبيق، مرة كل ست ساعات على الأكثر، بعد تسجيل الدخول."
+    },
+    {
+     "q": "هل يمكنني تصدير بياناتي؟",
+     "a": "أنا → بياناتك → صدّر الآن: كل شيء في ملف JSON مع جدول بيانات (CSV) لكل قسم، وتشاركه أينما شئت."
+    },
+    {
+     "q": "هل تُرفع صور تقدّمي؟",
+     "a": "أبدًا. صور التقدّم تبقى على هاتفك: لا رفع، ولا نسخ احتياطي، ولا تُرسل إلى الذكاء الاصطناعي أبدًا."
+    },
+    {
+     "q": "كيف أحذف حسابي أو بياناتي؟",
+     "a": "أنا → الحساب → حذف الحساب يزيل الحساب ونسخته الاحتياطية. أنا → بياناتك → احذف كل شيء يمسح ما على الهاتف. لا يمكن التراجع عن أي منهما، لذا صدّر بياناتك أولًا إن أردت الاحتفاظ بسجلّك."
+    }
+   ]
+  },
+  {
+   "title": "التذكيرات وPro",
+   "items": [
+    {
+     "q": "التذكيرات لا تظهر.",
+     "a": "تأكد من تفعيل الإشعارات لـGymco في إعدادات هاتفك، ثم فعّل كل تذكير وحدّد وقته في التذكيرات ضمن تبويب أنا."
+    },
+    {
+     "q": "كيف ألغي Gymco Pro؟",
+     "a": "iPhone: الإعدادات → اسمك → الاشتراكات. Android: Google Play → الملف الشخصي → الدفعات والاشتراكات. حذف التطبيق لا يلغي الاشتراك. وإذا انتهى Pro يومًا، تحتفظ بكل الميزات المجانية وكل بياناتك."
+    },
+    {
+     "q": "كيف أسترد أموالي؟",
+     "a": "تتم المشتريات عبر Apple أو Google: اطلب الاسترداد من reportaproblem.apple.com، أو من سجل طلباتك في Google Play."
+    }
+   ]
+  }
+ ],
+ "es": [
+  {
+   "title": "Primeros pasos",
+   "items": [
+    {
+     "q": "¿Necesito una cuenta?",
+     "a": "No. Tu diario, tus entrenamientos y tu progreso funcionan en tu teléfono sin cuenta. Con una cuenta tienes una copia de seguridad que puedes restaurar en un teléfono nuevo, el registro con fotos e Iron, tu entrenador."
+    },
+    {
+     "q": "¿Cuánto cuesta Gymco?",
+     "a": "Gymco está en pruebas, así que todavía no se vende nada y todas las funciones Pro están activadas. El escaneo de códigos de barras, los alimentos personalizados y las rutinas ilimitadas seguirán siendo gratis para siempre, no solo durante una prueba."
+    },
+    {
+     "q": "¿Cómo cambio el idioma o las unidades?",
+     "a": "Yo → Unidades e idioma. Gymco habla inglés, árabe y español."
+    },
+    {
+     "q": "¿Gymco funciona sin conexión?",
+     "a": "Sí. El registro, la búsqueda de alimentos guardados en tu teléfono, los entrenamientos y el progreso funcionan sin conexión. El registro con fotos, Iron y la copia de seguridad necesitan internet."
+    }
+   ]
+  },
+  {
+   "title": "Registrar comida",
+   "items": [
+    {
+     "q": "¿Cuál es la forma más rápida de registrar?",
+     "a": "Elige lo que mejor te venga en cada momento:\n• Buscar: escribe un alimento.\n• Código: escanea el envase para obtener sus propios valores.\n• Escribir: escribe una comida completa, como “2 huevos, tostada y un café”.\n• Voz: mantén pulsado el micrófono y dilo.\n• Foto: fotografía el plato y di cuánto es.\n• Fuera: una estimación honesta para una comida de restaurante.\n• Recetas: crea un plato una vez y registra una ración cualquier día."
+    },
+    {
+     "q": "No encuentro un alimento o un código de barras.",
+     "a": "Prueba con el nombre en otro idioma: Gymco guarda todos los nombres que aprende en el mismo alimento. Si es un producto envasado, puedes añadirlo a Open Food Facts en unos 30 segundos, o crearlo como alimento personalizado."
+    },
+    {
+     "q": "La estimación de la foto no es correcta.",
+     "a": "Las estimaciones son un punto de partida. Toca el alimento para corregir la cantidad; escribir el peso en gramos siempre tiene prioridad. Una nota breve con la foto (“4 minipizzas con carne”) ayuda mucho."
+    },
+    {
+     "q": "¿Cuántas fotos puedo registrar al día?",
+     "a": "10 solicitudes de IA al día, gratis. Las fotos, Iron y el creador de rutinas las comparten, y se renuevan al día siguiente. Escribir, buscar y escanear códigos nunca cuentan."
+    },
+    {
+     "q": "Ayer olvidé registrar.",
+     "a": "Toca el día en la barra de arriba de Hoy y regístralo ahí, o usa la tarjeta Ponerte al día para completar los días que te faltan en unos pocos toques."
+    }
+   ]
+  },
+  {
+   "title": "Objetivos, progreso y rachas",
+   "items": [
+    {
+     "q": "¿Por qué cambió mi objetivo de calorías?",
+     "a": "La revisión semanal compara lo que comiste con cómo evolucionó la tendencia de tu peso, y ajusta tu objetivo a lo que realmente quemas. Por seguridad, cambia en pasos pequeños."
+    },
+    {
+     "q": "Mi peso sube y baja cada día.",
+     "a": "Es normal: el agua, la sal y la comida en el estómago mueven la báscula. Gymco sigue la línea de tendencia, no el día suelto. Pésate a la misma hora, idealmente por la mañana."
+    },
+    {
+     "q": "¿Cómo funcionan las congelaciones de racha?",
+     "a": "Ganas una congelación cada 7 días que mantienes la racha, y puedes guardar hasta 3. Un día perdido usa una en lugar de romper la racha. ¿Enfermo o de viaje? Pausar la racha: los días en pausa ni cuentan ni la rompen."
+    }
+   ]
+  },
+  {
+   "title": "Entrenamiento",
+   "items": [
+    {
+     "q": "¿Cómo consigo una rutina?",
+     "a": "Entrenar → elige una rutina lista, crea la tuya o toca “Pide a Iron que la cree” y describe cómo entrenas."
+    },
+    {
+     "q": "Me duele algo durante un ejercicio.",
+     "a": "Deja ese ejercicio. En el entrenamiento, toca Cambiar ejercicio para elegir uno sin dolor, o Marcar dolor para que Gymco lo tenga en cuenta. Un dolor agudo o repetido muestra un aviso: consulta a un médico o fisioterapeuta antes de volver a cargarlo."
+    },
+    {
+     "q": "La app se cerró en mitad de un entrenamiento.",
+     "a": "Vuelve a abrir Gymco: te ofrecerá retomar el entrenamiento con todas las series que registraste."
+    }
+   ]
+  },
+  {
+   "title": "Iron, tu entrenador",
+   "items": [
+    {
+     "q": "¿Qué es Iron?",
+     "a": "Iron es el entrenador con IA de Gymco. Lee tus números cada día y te da algunos consejos, crea un programa completo y repasa tu semana. Iron es un entrenador, no un médico: nunca diagnostica ni cambia medicación."
+    },
+    {
+     "q": "¿Qué ve Iron?",
+     "a": "Solo números: objetivos, los totales de lo que comiste, entrenamiento, peso y sueño. Tus comidas y tu perfil de salud solo se envían si los activas en Ajustes de Iron. Las fotos, las notas y las fotos de progreso nunca se envían."
+    },
+    {
+     "q": "¿Cómo funcionan los consejos de hoy?",
+     "a": "Iron te da tres consejos al día. Desliza la tarjeta para pasar de uno a otro. Toca el botón del consejo (como Añadir agua) o su marca para darlo por hecho; la barra de arriba muestra cuántos llevas hoy."
+    },
+    {
+     "q": "¿Por qué Iron me dice que vaya al médico?",
+     "a": "Las señales de alerta, como un pulso en reposo muy por encima de lo normal para ti, perder peso demasiado rápido o un dolor repetido, las detectan reglas fijas en tu teléfono, no la IA. Mientras haya una visible, Iron deja de empujarte a entrenar o a mantener un déficit."
+    },
+    {
+     "q": "¿Y si le pregunto a Iron otra cosa?",
+     "a": "Iron solo planifica alimentación y entrenamiento. Para cualquier otra cosa, Iron te dirá que solo crea programas, y esa pregunta no gasta ninguna solicitud de IA."
+    },
+    {
+     "q": "¿Cómo desactivo Iron?",
+     "a": "Abre el Centro Iron (la flecha de la tarjeta de Iron) → Ajustes de Iron. Ahí también puedes elegir qué puede leer Iron."
+    }
+   ]
+  },
+  {
+   "title": "Relojes y apps de salud",
+   "items": [
+    {
+     "q": "¿Cómo conecto Apple Health o Health Connect?",
+     "a": "Yo → Datos de salud → conectar, y luego permite cada elemento en la pantalla de permisos de tu teléfono. Entran los pasos, el sueño, el corazón y tu báscula; salen los entrenamientos, el agua y los pesajes."
+    },
+    {
+     "q": "Uso Zepp (Amazfit, Helio), WHOOP, Fitbit, Garmin u Oura.",
+     "a": "Gymco los lee a través de Apple Health o Health Connect. En la app de tu reloj, activa compartir con Apple Health (iPhone) o Health Connect (Android) para el sueño y la frecuencia cardíaca, y luego conecta Gymco al mismo sitio."
+    },
+    {
+     "q": "Mis datos de recuperación son antiguos.",
+     "a": "Las apps de los relojes solo envían lecturas nuevas cuando se sincronizan. Si los datos tienen más de 2 horas, la tarjeta de recuperación muestra “Última sincronización” con un botón para abrir la app de tu reloj. Ábrela, deja que se sincronice y vuelve."
+    },
+    {
+     "q": "La tarjeta de recuperación está vacía.",
+     "a": "Necesita una noche de lecturas de sueño y corazón de tu reloj. Yo → Datos de salud → “Lo que ve Gymco, últimos 7 días” muestra qué lecturas llegaron y de qué app."
+    }
+   ]
+  },
+  {
+   "title": "Siri y Asistente de Google",
+   "items": [
+    {
+     "q": "¿Qué le puedo pedir a Siri?",
+     "a": "Di “Hey Siri” y luego:\n• “Log water in Gymco”: añade un vaso (250 ml) y te dice el total de hoy.\n• “How many calories do I have left in Gymco”: las calorías y proteínas que te quedan hoy.\n• “Weigh in in Gymco”: Siri te pregunta tu peso en kilos y lo guarda.\n• “Log food in Gymco”: Siri te pregunta qué comiste y lo abre en el modo Escribir para que lo revises.\n• “Start my workout in Gymco”: abre la sesión de hoy.\nLas tres primeras funcionan sin abrir la app. Por ahora, las frases de Siri están en inglés."
+    },
+    {
+     "q": "Siri me dice que abra Gymco primero.",
+     "a": "Siri responde con los números que la app guarda para hoy. Abre Gymco una vez al día, y también después de instalar una actualización, para que tu iPhone aprenda las frases."
+    },
+    {
+     "q": "¿Puedo ponerlas en un botón?",
+     "a": "Sí. Están en la app Atajos, dentro de Gymco: añade una a tu pantalla de inicio, al botón de Acción, a Toque posterior o a una automatización como “registrar agua cada día a las 10:00”."
+    },
+    {
+     "q": "¿Funciona en Android?",
+     "a": "Mantén pulsado el icono de Gymco para registrar agua, registrar comida, empezar mi entrenamiento y calorías restantes. “Hey Google, log water on Gymco” funciona una vez que Gymco está instalado desde Google Play."
+    },
+    {
+     "q": "¿Puedo hablar con Iron?",
+     "a": "Sí. Toca el micrófono en el cuadro de mensajes de Iron, di lo que quieras y vuelve a tocarlo para parar. Escucha en el idioma de la app."
+    }
+   ]
+  },
+  {
+   "title": "Cuenta, datos y privacidad",
+   "items": [
+    {
+     "q": "No me llegó el código de inicio de sesión.",
+     "a": "Llega desde hello@gymcoapp.com con el código de 6 dígitos en el asunto. Revisa las carpetas de spam y promociones, espera un minuto y comprueba que tu correo esté bien escrito. ¿Sigue sin llegar? Escríbenos desde Ayuda y soporte."
+    },
+    {
+     "q": "¿Cómo me paso a un teléfono nuevo?",
+     "a": "En el teléfono antiguo, inicia sesión en Yo → Cuenta para que tu diario tenga copia de seguridad. En el teléfono nuevo, instala Gymco e inicia sesión con el mismo correo: te ofrecerá restaurar la copia."
+    },
+    {
+     "q": "¿Cada cuánto hace la copia de seguridad?",
+     "a": "Sola, cuando sales de la app, como mucho cada seis horas, una vez que has iniciado sesión."
+    },
+    {
+     "q": "¿Puedo exportar mis datos?",
+     "a": "Yo → Tus datos → Exportar ahora: todo en un archivo JSON más una hoja de cálculo (CSV) por cada parte, para compartirlo donde quieras."
+    },
+    {
+     "q": "¿Se suben mis fotos de progreso?",
+     "a": "Nunca. Las fotos de progreso se quedan en tu teléfono: sin subida, sin copia de seguridad y nunca se envían a la IA."
+    },
+    {
+     "q": "¿Cómo elimino mi cuenta o mis datos?",
+     "a": "Yo → Cuenta → Eliminar cuenta elimina la cuenta y su copia de seguridad. Yo → Tus datos → Borrarlo todo borra lo que hay en el teléfono. Ninguna de las dos acciones se puede deshacer, así que exporta antes si quieres conservar tu historial."
+    }
+   ]
+  },
+  {
+   "title": "Recordatorios y Pro",
+   "items": [
+    {
+     "q": "Los recordatorios no aparecen.",
+     "a": "Comprueba que las notificaciones de Gymco estén activadas en los ajustes de tu teléfono y luego activa cada una y elige su hora en Recordatorios, en la pestaña Yo."
+    },
+    {
+     "q": "¿Cómo cancelo Gymco Pro?",
+     "a": "iPhone: Ajustes → tu nombre → Suscripciones. Android: Google Play → Perfil → Pagos y suscripciones. Borrar la app no la cancela. Si Pro caduca algún día, conservas todas las funciones gratuitas y todos tus datos."
+    },
+    {
+     "q": "¿Cómo pido un reembolso?",
+     "a": "Las compras se hacen a través de Apple o Google: solicítalo en reportaproblem.apple.com o en tu historial de pedidos de Google Play."
+    }
+   ]
+  }
+ ]
+}

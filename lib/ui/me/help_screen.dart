@@ -89,6 +89,18 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
             Expanded(
               child: Pad(
                 children: [
+                  VList(
+                    children: [
+                      VItem(
+                        onTap: () => context.push('/faq'),
+                        children: [
+                          VIcon('list', size: 19, color: Volt.t3),
+                          ItemText(l.faqTitle, sub: l.faqSub),
+                          VIcon('fwd', size: 14, color: Volt.t4),
+                        ],
+                      ),
+                    ],
+                  ),
                   Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.helpIntro)),
                   VCard(
                     child: GapCol(

@@ -1464,5 +1464,13 @@
   "ironTipUndo": "Aún no",
   "ironTipsAllDone": "Todo hecho hoy. Buen trabajo.",
   "ironTipsDone": "{n} de {total} hechos",
-  "ironTodayTips": "Consejos de hoy"
+  "ironTodayTips": "Consejos de hoy",
+  "faqTitle": "Preguntas y respuestas",
+  "faqSub": "Siri, relojes, Iron, tus datos y más",
+  "faqSearch": "Buscar preguntas",
+  "faqClear": "Borrar búsqueda",
+  "faqNone": "Nada coincide. Prueba otras palabras o escríbenos.",
+  "faqStuck": "¿Sigues atascado?",
+  "faqStuckSub": "Responde una persona real, normalmente en dos días",
+  "faqMessageUs": "Escríbenos"
 }

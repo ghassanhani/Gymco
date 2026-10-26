@@ -3756,5 +3756,13 @@
       }
     }
   },
-  "ironTodayTips": "Today's tips"
+  "ironTodayTips": "Today's tips",
+  "faqTitle": "Questions & answers",
+  "faqSub": "Siri, watches, Iron, your data and more",
+  "faqSearch": "Search questions",
+  "faqClear": "Clear search",
+  "faqNone": "Nothing matches that. Try other words, or message us.",
+  "faqStuck": "Still stuck?",
+  "faqStuckSub": "A real person replies, usually within two days",
+  "faqMessageUs": "Message us"
 }
