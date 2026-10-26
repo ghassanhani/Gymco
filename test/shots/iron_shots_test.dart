@@ -101,6 +101,7 @@ void main() {
             'healthWatchReads': true,
             if (screen != 'meet') 'ironOn': true,
             if (screen != 'meet') 'ironTips': jsonEncode({..._tips, 'day': dayKey(testNow)}),
+            if (screen != 'meet') 'ironTipsDone': jsonEncode({'day': dayKey(testNow), 'done': [1]}),
           },
           library: realLibrary(),
           health: FakeWatch(),

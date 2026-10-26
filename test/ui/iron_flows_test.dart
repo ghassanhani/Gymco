@@ -74,12 +74,25 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Protein first today'), findsNothing);
     expect(find.text('Water before noon'), findsOneWidget);
-    expect(find.text('Add water'), findsOneWidget);
-    await tester.tap(find.byTooltip('Tip 3 of 3'));
+    expect(find.text('0 of 3 done'), findsOneWidget);
+    // Doing what a tip says ticks it off.
+    await tester.tap(find.text('Add water'));
+    await tester.pumpAndSettle();
+    expect(find.text('1 of 3 done'), findsOneWidget);
+    expect(find.text('Add water'), findsNothing);
+    expect(prefs.getString('waterlog_${dayKey(testNow)}'), endsWith(':250'));
+    await tester.tap(find.byTooltip('3 of 4'));
     await tester.pumpAndSettle();
     expect(find.text('Sleep by eleven'), findsOneWidget);
-    // Nothing to tap for this one.
-    expect(find.text('Add water'), findsNothing);
+    // Nothing to tap for this one, so it is ticked by hand.
+    await tester.tap(find.byTooltip('Mark done'));
+    await tester.pumpAndSettle();
+    expect(find.text('2 of 3 done'), findsOneWidget);
+    // After the tips, Iron's program is one swipe away.
+    await tester.fling(find.text('Sleep by eleven'), const Offset(-300, 0), 1000);
+    await tester.pumpAndSettle();
+    expect(find.text('Your program from Iron'), findsOneWidget);
+    expect(jsonDecode(prefs.getString('ironTipsDone')!), {'day': dayKey(testNow), 'done': [1, 2]});
     final kept = jsonDecode(prefs.getString('ironTips')!) as Map<String, Object?>;
     expect((kept['tips']! as List).length, 3);
   });

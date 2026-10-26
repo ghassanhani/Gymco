@@ -471,6 +471,36 @@ class IronDismissed extends Notifier<Map<String, String>> {
   }
 }
 
+/// Which of today's tips are done, by their place in the list. Kept for the
+/// day only.
+final ironTipsDoneProvider = NotifierProvider<IronTipsDone, Set<int>>(IronTipsDone.new);
+
+class IronTipsDone extends Notifier<Set<int>> {
+  static const _k = 'ironTipsDone';
+
+  @override
+  Set<int> build() {
+    final day = ref.watch(todayKeyProvider);
+    try {
+      final j = jsonDecode(ref.watch(prefsProvider).getString(_k) ?? '{}') as Map<String, Object?>;
+      if (j['day'] != day) return {};
+      return {for (final i in j['done']! as List) i as int};
+    } on Object {
+      return {};
+    }
+  }
+
+  Future<void> set(int i, bool done) async {
+    final next = {...state};
+    done ? next.add(i) : next.remove(i);
+    if (next.length == state.length) return;
+    state = next;
+    await ref
+        .read(prefsProvider)
+        .setString(_k, jsonEncode({'day': ref.read(todayKeyProvider), 'done': next.toList()..sort()}));
+  }
+}
+
 /// The warning signs to show now: red, and not put away in the last three days.
 final ironWarningsProvider = Provider<List<IronSignal>>((ref) {
   final now = ref.watch(clockProvider)();

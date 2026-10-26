@@ -1458,5 +1458,11 @@
   "syncCantOpen": "Abre {app} en tu teléfono y vuelve a Gymco.",
   "agoMinutes": "hace {n} min",
   "agoHours": "hace {n} h",
-  "ironTipOf": "Consejo {n} de {total}"
+  "ironTipOf": "{n} de {total}",
+  "ironOpen": "Abrir",
+  "ironTipMarkDone": "Marcar como hecho",
+  "ironTipUndo": "Aún no",
+  "ironTipsAllDone": "Todo hecho hoy. Buen trabajo.",
+  "ironTipsDone": "{n} de {total} hechos",
+  "ironTodayTips": "Consejos de hoy"
 }

@@ -5369,6 +5369,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String ironTipOf(int n, int total) {
-    return 'Tip $n of $total';
+    return '$n of $total';
   }
+
+  @override
+  String get ironOpen => 'Open';
+
+  @override
+  String get ironTipMarkDone => 'Mark done';
+
+  @override
+  String get ironTipUndo => 'Not done yet';
+
+  @override
+  String get ironTipsAllDone => 'All done today. Nice work.';
+
+  @override
+  String ironTipsDone(int n, int total) {
+    return '$n of $total done';
+  }
+
+  @override
+  String get ironTodayTips => 'Today\'s tips';
 }

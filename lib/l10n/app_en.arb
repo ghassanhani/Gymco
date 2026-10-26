@@ -3730,7 +3730,7 @@
       }
     }
   },
-  "ironTipOf": "Tip {n} of {total}",
+  "ironTipOf": "{n} of {total}",
   "@ironTipOf": {
     "placeholders": {
       "n": {
@@ -3740,5 +3740,21 @@
         "type": "int"
       }
     }
-  }
+  },
+  "ironOpen": "Open",
+  "ironTipMarkDone": "Mark done",
+  "ironTipUndo": "Not done yet",
+  "ironTipsAllDone": "All done today. Nice work.",
+  "ironTipsDone": "{n} of {total} done",
+  "@ironTipsDone": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "ironTodayTips": "Today's tips"
 }

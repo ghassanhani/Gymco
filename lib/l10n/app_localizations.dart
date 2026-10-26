@@ -8809,8 +8809,44 @@ abstract class AppLocalizations {
   /// No description provided for @ironTipOf.
   ///
   /// In en, this message translates to:
-  /// **'Tip {n} of {total}'**
+  /// **'{n} of {total}'**
   String ironTipOf(int n, int total);
+
+  /// No description provided for @ironOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get ironOpen;
+
+  /// No description provided for @ironTipMarkDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark done'**
+  String get ironTipMarkDone;
+
+  /// No description provided for @ironTipUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Not done yet'**
+  String get ironTipUndo;
+
+  /// No description provided for @ironTipsAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All done today. Nice work.'**
+  String get ironTipsAllDone;
+
+  /// No description provided for @ironTipsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} of {total} done'**
+  String ironTipsDone(int n, int total);
+
+  /// No description provided for @ironTodayTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s tips'**
+  String get ironTodayTips;
 }
 
 class _AppLocalizationsDelegate

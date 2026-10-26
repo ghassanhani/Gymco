@@ -1458,5 +1458,11 @@
   "syncCantOpen": "افتح {app} على هاتفك، ثم عد إلى Gymco.",
   "agoMinutes": "قبل {n} دقيقة",
   "agoHours": "قبل {n} ساعة",
-  "ironTipOf": "نصيحة {n} من {total}"
+  "ironTipOf": "{n} من {total}",
+  "ironOpen": "افتح",
+  "ironTipMarkDone": "تم",
+  "ironTipUndo": "لم يتم بعد",
+  "ironTipsAllDone": "أنجزت كل شيء اليوم. عمل رائع.",
+  "ironTipsDone": "{n} من {total} تم",
+  "ironTodayTips": "نصائح اليوم"
 }
