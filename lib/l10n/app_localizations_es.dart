@@ -5337,4 +5337,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get healthSeenAgain => 'Comprobar de nuevo';
+
+  @override
+  String get watchSilentTitle => 'Tu reloj no comparte sueño ni pulso';
+
+  @override
+  String get watchSilentBody =>
+      'Esta semana no llegaron lecturas de sueño ni de pulso. Toca para ver qué falta y cómo activarlo.';
 }

@@ -7,6 +7,7 @@ import 'package:gymco/domain/recovery.dart';
 import 'package:gymco/domain/session.dart';
 import 'package:gymco/state/awards_providers.dart';
 import 'package:gymco/state/training_providers.dart';
+import 'package:gymco/ui/me/health_screen.dart';
 import 'package:gymco/ui/today/recovery_card.dart';
 
 import '../fake_watch.dart';
@@ -91,6 +92,23 @@ void main() {
     await tester.scrollUntilVisible(find.text('Check again'), 200, scrollable: list);
     expect(find.text('Nothing yet'), findsWidgets);
   });
+
+  testWidgets('a watch that shares only steps gets a card saying so, which opens the check', (tester) async {
+    await pumpApp(tester, prefs: on, health: _StepsOnlyBand());
+    await tester.scrollUntilVisible(
+      find.text("Your watch isn't sharing sleep or heart rate"),
+      300,
+      scrollable: pageScroll,
+    );
+    await Scrollable.ensureVisible(
+      tester.element(find.text("Your watch isn't sharing sleep or heart rate")),
+      alignment: 0.5,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text("Your watch isn't sharing sleep or heart rate"));
+    await tester.pumpAndSettle();
+    expect(find.byType(HealthScreen), findsOneWidget);
+  });
 }
 
 /// A band whose app only shares sleep.
@@ -99,6 +117,16 @@ class _SleepOnlyBand extends FakeWatch {
   Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async => metric == Metric.sleep
       ? [for (final s in await super.samples(metric, from, to)) Sample(s.from, s.to, s.value, source: 'Zepp')]
       : const [];
+
+  @override
+  Future<List<WatchWorkout>> workouts(DateTime from, DateTime to) async => const [];
+}
+
+/// A band whose app only shares steps.
+class _StepsOnlyBand extends FakeWatch {
+  @override
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async =>
+      metric == Metric.steps ? super.samples(metric, from, to) : const [];
 
   @override
   Future<List<WatchWorkout>> workouts(DateTime from, DateTime to) async => const [];

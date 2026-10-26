@@ -8745,6 +8745,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check again'**
   String get healthSeenAgain;
+
+  /// No description provided for @watchSilentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your watch isn\'t sharing sleep or heart rate'**
+  String get watchSilentTitle;
+
+  /// No description provided for @watchSilentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No sleep or heart readings came in this week. Tap to see what\'s missing and how to turn it on.'**
+  String get watchSilentBody;
 }
 
 class _AppLocalizationsDelegate

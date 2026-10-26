@@ -60,6 +60,10 @@ class Recovery {
   final List<double?> kcalWeek;
 
   bool get hasBody => sleepMin != null || restingHr != null || hrv != null;
+
+  /// Nothing about sleep or the heart all fortnight: the watch's app is
+  /// likely not sharing those kinds.
+  bool get nothingShared => !hasBody && sleepBase == null && restingBase == null && hrvBase == null;
   bool get isEmpty => !hasBody && activeKcal == null && workouts.isEmpty;
 
   /// Readiness from 0 to 100: sleep counts 40, resting heart rate and HRV
@@ -140,7 +144,9 @@ Map<String, double> perDay(Iterable<Sample> samples, {required bool sum}) {
 /// Today's value and the normal from the days before it.
 (double?, double?) todayAndBase(Iterable<Sample> samples, DateTime now, {bool sum = false}) {
   final byDay = perDay(samples, sum: sum);
-  final today = byDay.remove(dayKey(now));
+  // Until today's reading comes in (after midnight, before waking), the
+  // latest is yesterday's: show that rather than nothing.
+  final today = byDay.remove(dayKey(now)) ?? byDay.remove(dayKey(DateTime(now.year, now.month, now.day - 1)));
   return (today, baseline(byDay.values));
 }
 

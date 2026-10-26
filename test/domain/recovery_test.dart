@@ -143,4 +143,13 @@ void main() {
     // Too few readings to say.
     expect(restingFromHeart(heart.take(10).toList()), isEmpty);
   });
+
+  test('after midnight, before the night is over, last night still shows', () {
+    final now = DateTime(2026, 10, 26, 1, 32);
+    Sample night(int day, double min) =>
+        Sample(DateTime(2026, 10, day, 7).subtract(Duration(minutes: min.round())), DateTime(2026, 10, day, 7), min);
+    final (s, base) = todayAndBase([for (var d = 18; d <= 25; d++) night(d, d == 25 ? 400 : 450)], now, sum: true);
+    expect(s, 400);
+    expect(base, 450);
+  });
 }

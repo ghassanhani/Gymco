@@ -5292,4 +5292,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get healthSeenAgain => 'تحقق مجددًا';
+
+  @override
+  String get watchSilentTitle => 'ساعتك لا تشارك النوم أو نبض القلب';
+
+  @override
+  String get watchSilentBody =>
+      'لم تصل قراءات نوم أو قلب هذا الأسبوع. اضغط لترى ما الناقص وكيف تفعّله.';
 }

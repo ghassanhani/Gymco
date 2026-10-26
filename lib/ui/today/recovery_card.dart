@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../domain/recovery.dart';
 import '../../l10n/app_localizations.dart';
@@ -37,6 +38,7 @@ class RecoveryCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(watchReadsAskedProvider)) return const _Ask();
     final r = ref.watch(recoveryProvider).value;
+    if (r != null && r.nothingShared) return const _NothingShared();
     if (r == null || !r.hasBody) return const SizedBox.shrink();
     final l = AppLocalizations.of(context);
 
@@ -525,6 +527,46 @@ class _AskState extends ConsumerState<_Ask> {
             ],
           ),
           VBtn(label: l.allowBtn, small: true, expand: true, onTap: _busy ? null : _allow),
+        ],
+      ),
+    );
+  }
+}
+
+/// Connected, but no sleep or heart readings have come in: say so, and show
+/// where to look, rather than leaving the card out without a word.
+class _NothingShared extends StatelessWidget {
+  const _NothingShared();
+
+  @override
+  Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    return VCard(
+      onTap: () => context.push('/health'),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(color: heartRed.withValues(alpha: 0.12), shape: BoxShape.circle),
+            child: const VIcon('watch', size: 20, color: heartRed),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: GapCol(
+              gap: 2,
+              children: [
+                Text(
+                  l.watchSilentTitle,
+                  style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.w700, color: Volt.t1),
+                ),
+                Muted(l.watchSilentBody, size: 12.5),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          VIcon('fwd', size: 16, color: Volt.t3),
         ],
       ),
     );

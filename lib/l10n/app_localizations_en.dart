@@ -5320,4 +5320,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get healthSeenAgain => 'Check again';
+
+  @override
+  String get watchSilentTitle =>
+      'Your watch isn\'t sharing sleep or heart rate';
+
+  @override
+  String get watchSilentBody =>
+      'No sleep or heart readings came in this week. Tap to see what\'s missing and how to turn it on.';
 }

@@ -1447,5 +1447,7 @@
   "healthSeenCount": "{count} lecturas",
   "healthSeenFrom": "{count} lecturas de {sources}",
   "healthSeenHelp": "¿Nada de tu reloj? Abre su app (Zepp, Whoop, Fitbit…) y activa compartir con {store}, luego vuelve a comprobar.",
-  "healthSeenAgain": "Comprobar de nuevo"
+  "healthSeenAgain": "Comprobar de nuevo",
+  "watchSilentTitle": "Tu reloj no comparte sueño ni pulso",
+  "watchSilentBody": "Esta semana no llegaron lecturas de sueño ni de pulso. Toca para ver qué falta y cómo activarlo."
 }
