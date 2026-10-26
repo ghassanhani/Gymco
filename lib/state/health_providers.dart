@@ -70,6 +70,7 @@ Future<void> askWatchReads(WidgetRef ref) async {
 void refreshHealth(WidgetRef ref) {
   ref.invalidate(healthImportProvider);
   ref.invalidate(healthCheckProvider);
+  ref.invalidate(watchSyncProvider);
   ref.invalidate(stepsTodayProvider);
   ref.invalidate(stepsWeekProvider);
   ref.invalidate(recoveryProvider);
@@ -171,4 +172,23 @@ final healthCheckProvider = FutureProvider<Map<String, HealthSeen>?>((ref) async
   }
   out['workouts'] = seen([for (final w in await h.workouts(from, now)) (w.end, w.source)]);
   return out;
+});
+
+/// The latest sleep or heart reading the health store has, and which app
+/// sent it: Today shows how fresh the numbers are and offers to open that
+/// app so it syncs. Null when not connected or nothing has come in.
+final watchSyncProvider = FutureProvider<({String source, DateTime at})?>((ref) async {
+  if (!ref.watch(healthOnProvider)) return null;
+  final h = ref.read(healthSyncProvider);
+  final now = ref.read(clockProvider)();
+  final reads = [
+    ...await h.samples(Metric.heartRate, now.subtract(const Duration(hours: 24)), now),
+    ...await h.samples(Metric.sleep, now.subtract(const Duration(hours: 36)), now),
+  ];
+  Sample? latest;
+  for (final s in reads) {
+    if (s.source.toLowerCase().contains('gymco')) continue;
+    if (latest == null || s.to.isAfter(latest.to)) latest = s;
+  }
+  return latest == null ? null : (source: latest.source, at: latest.to);
 });

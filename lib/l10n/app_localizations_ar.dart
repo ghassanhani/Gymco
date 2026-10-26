@@ -5302,4 +5302,39 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get askIronSpeak => 'قلها';
+
+  @override
+  String syncFrom(String app, String ago) {
+    return 'من $app · $ago';
+  }
+
+  @override
+  String syncStaleTitle(String ago) {
+    return 'آخر مزامنة $ago';
+  }
+
+  @override
+  String syncStaleBody(String app) {
+    return 'افتح $app ليزامن، ثم عد.';
+  }
+
+  @override
+  String syncOpen(String app) {
+    return 'افتح $app';
+  }
+
+  @override
+  String syncCantOpen(String app) {
+    return 'افتح $app على هاتفك، ثم عد إلى Gymco.';
+  }
+
+  @override
+  String agoMinutes(int n) {
+    return 'قبل $n دقيقة';
+  }
+
+  @override
+  String agoHours(int n) {
+    return 'قبل $n ساعة';
+  }
 }

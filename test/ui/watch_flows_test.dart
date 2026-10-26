@@ -109,6 +109,35 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(HealthScreen), findsOneWidget);
   });
+
+  testWidgets('fresh numbers say where they came from', (tester) async {
+    await pumpApp(tester, prefs: on, health: FakeWatch());
+    await tester.scrollUntilVisible(find.byType(RecoveryCard), 300, scrollable: pageScroll);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('From Apple Watch'), findsOneWidget);
+    expect(find.textContaining('Last synced'), findsNothing);
+  });
+
+  testWidgets('old numbers ask for a sync, with a button into the watch\'s app', (tester) async {
+    await pumpApp(tester, prefs: on, health: _QuietZepp());
+    await tester.scrollUntilVisible(find.textContaining('Last synced'), 300, scrollable: pageScroll);
+    await tester.pumpAndSettle();
+    expect(find.text('Last synced 5 h ago'), findsOneWidget);
+    expect(find.text('Open Zepp so it syncs, then come back.'), findsOneWidget);
+    expect(find.text('Open Zepp'), findsOneWidget);
+  });
+}
+
+/// Zepp, last synced five hours ago.
+class _QuietZepp extends FakeWatch {
+  @override
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async {
+    final cut = testNow.subtract(const Duration(hours: 5));
+    return [
+      for (final s in await super.samples(metric, from, to))
+        if (!s.to.isAfter(cut)) Sample(s.from, s.to, s.value, source: 'Zepp'),
+    ];
+  }
 }
 
 /// A band whose app only shares sleep.

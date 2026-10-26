@@ -1450,5 +1450,12 @@
   "healthSeenAgain": "Comprobar de nuevo",
   "watchSilentTitle": "Tu reloj no comparte sueño ni pulso",
   "watchSilentBody": "Esta semana no llegaron lecturas de sueño ni de pulso. Toca para ver qué falta y cómo activarlo.",
-  "askIronSpeak": "Dilo"
+  "askIronSpeak": "Dilo",
+  "syncFrom": "De {app} · {ago}",
+  "syncStaleTitle": "Última sincronización {ago}",
+  "syncStaleBody": "Abre {app} para que sincronice y vuelve.",
+  "syncOpen": "Abrir {app}",
+  "syncCantOpen": "Abre {app} en tu teléfono y vuelve a Gymco.",
+  "agoMinutes": "hace {n} min",
+  "agoHours": "hace {n} h"
 }

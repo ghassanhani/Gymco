@@ -5331,4 +5331,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askIronSpeak => 'Say it';
+
+  @override
+  String syncFrom(String app, String ago) {
+    return 'From $app · $ago';
+  }
+
+  @override
+  String syncStaleTitle(String ago) {
+    return 'Last synced $ago';
+  }
+
+  @override
+  String syncStaleBody(String app) {
+    return 'Open $app so it syncs, then come back.';
+  }
+
+  @override
+  String syncOpen(String app) {
+    return 'Open $app';
+  }
+
+  @override
+  String syncCantOpen(String app) {
+    return 'Open $app on your phone, then come back to Gymco.';
+  }
+
+  @override
+  String agoMinutes(int n) {
+    return '$n min ago';
+  }
+
+  @override
+  String agoHours(int n) {
+    return '$n h ago';
+  }
 }

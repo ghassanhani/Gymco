@@ -3670,5 +3670,64 @@
   "healthSeenAgain": "Check again",
   "watchSilentTitle": "Your watch isn't sharing sleep or heart rate",
   "watchSilentBody": "No sleep or heart readings came in this week. Tap to see what's missing and how to turn it on.",
-  "askIronSpeak": "Say it"
+  "askIronSpeak": "Say it",
+  "syncFrom": "From {app} · {ago}",
+  "@syncFrom": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      },
+      "ago": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStaleTitle": "Last synced {ago}",
+  "@syncStaleTitle": {
+    "placeholders": {
+      "ago": {
+        "type": "String"
+      }
+    }
+  },
+  "syncStaleBody": "Open {app} so it syncs, then come back.",
+  "@syncStaleBody": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "syncOpen": "Open {app}",
+  "@syncOpen": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "syncCantOpen": "Open {app} on your phone, then come back to Gymco.",
+  "@syncCantOpen": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "agoMinutes": "{n} min ago",
+  "@agoMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "agoHours": "{n} h ago",
+  "@agoHours": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

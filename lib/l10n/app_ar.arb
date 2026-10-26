@@ -1450,5 +1450,12 @@
   "healthSeenAgain": "تحقق مجددًا",
   "watchSilentTitle": "ساعتك لا تشارك النوم أو نبض القلب",
   "watchSilentBody": "لم تصل قراءات نوم أو قلب هذا الأسبوع. اضغط لترى ما الناقص وكيف تفعّله.",
-  "askIronSpeak": "قلها"
+  "askIronSpeak": "قلها",
+  "syncFrom": "من {app} · {ago}",
+  "syncStaleTitle": "آخر مزامنة {ago}",
+  "syncStaleBody": "افتح {app} ليزامن، ثم عد.",
+  "syncOpen": "افتح {app}",
+  "syncCantOpen": "افتح {app} على هاتفك، ثم عد إلى Gymco.",
+  "agoMinutes": "قبل {n} دقيقة",
+  "agoHours": "قبل {n} ساعة"
 }

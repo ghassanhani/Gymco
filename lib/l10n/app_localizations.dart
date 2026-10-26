@@ -8763,6 +8763,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Say it'**
   String get askIronSpeak;
+
+  /// No description provided for @syncFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From {app} · {ago}'**
+  String syncFrom(String app, String ago);
+
+  /// No description provided for @syncStaleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last synced {ago}'**
+  String syncStaleTitle(String ago);
+
+  /// No description provided for @syncStaleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {app} so it syncs, then come back.'**
+  String syncStaleBody(String app);
+
+  /// No description provided for @syncOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {app}'**
+  String syncOpen(String app);
+
+  /// No description provided for @syncCantOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {app} on your phone, then come back to Gymco.'**
+  String syncCantOpen(String app);
+
+  /// No description provided for @agoMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} min ago'**
+  String agoMinutes(int n);
+
+  /// No description provided for @agoHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} h ago'**
+  String agoHours(int n);
 }
 
 class _AppLocalizationsDelegate

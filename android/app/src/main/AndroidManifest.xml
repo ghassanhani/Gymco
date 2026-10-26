@@ -16,6 +16,15 @@
     <uses-permission android:name="android.permission.health.READ_SLEEP"/>
     <uses-permission android:name="android.permission.health.READ_ACTIVE_CALORIES_BURNED"/>
     <queries>
+        <!-- Wearables' own apps, so Today can open them to sync (lib/data/watch_apps.dart). -->
+        <package android:name="com.huami.watch.hmwatchmanager"/>
+        <package android:name="com.whoop.android"/>
+        <package android:name="com.fitbit.FitbitMobile"/>
+        <package android:name="com.ouraring.oura"/>
+        <package android:name="com.garmin.android.apps.connectmobile"/>
+        <package android:name="com.sec.android.app.shealth"/>
+        <package android:name="com.google.android.apps.fitness"/>
+        <package android:name="fi.polar.polarflow"/>
         <package android:name="com.google.android.apps.healthdata"/>
         <intent>
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>

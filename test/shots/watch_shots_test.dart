@@ -18,6 +18,8 @@ import 'package:gymco/domain/session.dart';
 import 'package:gymco/state/training_providers.dart';
 import 'package:gymco/ui/today/recovery_card.dart';
 
+import 'package:gymco/domain/recovery.dart';
+
 import '../fake_watch.dart';
 import '../helpers.dart';
 
@@ -44,7 +46,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['dark', 'light']) {
-    for (final screen in ['full', 'top', 'today', 'easy', 'ask', 'activity', 'summary', 'health']) {
+    for (final screen in ['full', 'top', 'today', 'easy', 'ask', 'activity', 'summary', 'health', 'stale']) {
       testWidgets('watch $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -63,7 +65,11 @@ void main() {
             'top' || 'today' => (db) => db.saveRoutineFixture('Push A', weekday: 5),
             _ => null,
           },
-          health: screen == 'easy' ? FakeWatch(lastNight: 318, restingToday: 63, hrvToday: 47) : FakeWatch(),
+          health: switch (screen) {
+            'easy' => FakeWatch(lastNight: 318, restingToday: 63, hrvToday: 47),
+            'stale' => _QuietZepp(),
+            _ => FakeWatch(),
+          },
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
         // The whole of Today in one tall frame.
@@ -74,7 +80,7 @@ void main() {
         await _frames(tester);
         final ctx = tester.element(find.byType(Scaffold).first);
         switch (screen) {
-          case 'today' || 'easy' || 'ask':
+          case 'today' || 'easy' || 'ask' || 'stale':
             await tester.drag(pageScroll, const Offset(0, -190));
           case 'activity':
             await tester.scrollUntilVisible(find.byType(ActivityTiles), 200, scrollable: pageScroll);
@@ -99,5 +105,17 @@ void main() {
         await expectLater(find.byType(GymcoApp), matchesGoldenFile('out/watch-$look-$screen.png'));
       });
     }
+  }
+}
+
+/// Zepp, last synced five hours ago.
+class _QuietZepp extends FakeWatch {
+  @override
+  Future<List<Sample>> samples(Metric metric, DateTime from, DateTime to) async {
+    final cut = testNow.subtract(const Duration(hours: 5));
+    return [
+      for (final s in await super.samples(metric, from, to))
+        if (!s.to.isAfter(cut)) Sample(s.from, s.to, s.value, source: 'Zepp'),
+    ];
   }
 }

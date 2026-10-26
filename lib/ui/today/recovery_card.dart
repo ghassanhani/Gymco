@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../domain/recovery.dart';
+import '../../data/watch_apps.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/health_providers.dart';
 import '../../state/providers.dart';
@@ -132,6 +133,81 @@ class RecoveryCard extends ConsumerWidget {
               ],
             ],
           ),
+          const _SyncLine(),
+        ],
+      ),
+    );
+  }
+}
+
+/// Where the numbers came from and how fresh they are. Older than two hours,
+/// it asks for a sync, with a button straight into the watch's app; coming
+/// back to Gymco reads the store again.
+class _SyncLine extends ConsumerWidget {
+  const _SyncLine();
+
+  static const stale = Duration(hours: 2);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sync = ref.watch(watchSyncProvider).value;
+    if (sync == null) return const SizedBox.shrink();
+    final l = AppLocalizations.of(context);
+    final age = ref.watch(clockProvider)().difference(sync.at);
+    final app = watchAppName(sync.source);
+    final ago = age.inMinutes < 60 ? l.agoMinutes(math.max(1, age.inMinutes)) : l.agoHours(age.inHours);
+    if (age < stale) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 10, left: 2),
+        child: Row(
+          children: [
+            VIcon('repeat', size: 13, color: Volt.t4),
+            const SizedBox(width: 6),
+            Expanded(child: Muted(l.syncFrom(app, ago), size: 11.5)),
+          ],
+        ),
+      );
+    }
+    final canOpen = canOpenWatchApp(sync.source);
+    return Container(
+      margin: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.fromLTRB(12, 10, 8, 10),
+      decoration: smooth(
+        BoxDecoration(
+          color: Volt.warn.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Volt.warn.withValues(alpha: 0.35)),
+        ),
+      ),
+      child: Row(
+        children: [
+          VIcon('repeat', size: 16, color: Volt.warn),
+          const SizedBox(width: 10),
+          Expanded(
+            child: GapCol(
+              gap: 1,
+              children: [
+                Text(
+                  l.syncStaleTitle(ago),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Volt.t1),
+                ),
+                Muted(l.syncStaleBody(app), size: 11.5),
+              ],
+            ),
+          ),
+          if (canOpen) ...[
+            const SizedBox(width: 8),
+            VBtn(
+              label: l.syncOpen(app),
+              small: true,
+              minHeight: 34,
+              onTap: () async {
+                if (!await openWatchApp(sync.source) && context.mounted) {
+                  showVToast(context, l.syncCantOpen(app), info: true);
+                }
+              },
+            ),
+          ],
         ],
       ),
     );

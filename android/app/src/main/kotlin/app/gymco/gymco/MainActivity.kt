@@ -21,10 +21,24 @@ class MainActivity : FlutterFragmentActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "gymco/siri").setMethodCallHandler { call, result ->
-            if (call.method != "take") return@setMethodCallHandler result.notImplemented()
-            val raw = inbox.getString("queue", null)
-            inbox.edit().remove("queue").apply()
-            result.success(raw)
+            when (call.method) {
+                "take" -> {
+                    val raw = inbox.getString("queue", null)
+                    inbox.edit().remove("queue").apply()
+                    result.success(raw)
+                }
+                // Opens a wearable's own app so it syncs (lib/data/watch_apps.dart).
+                "openApp" -> {
+                    val launch = call.argument<String>("package")?.let { packageManager.getLaunchIntentForPackage(it) }
+                    if (launch == null) {
+                        result.success(false)
+                    } else {
+                        startActivity(launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        result.success(true)
+                    }
+                }
+                else -> result.notImplemented()
+            }
         }
     }
 
