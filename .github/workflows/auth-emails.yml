@@ -59,6 +59,8 @@ jobs:
               "smtp_port": "465",
               "smtp_user": "resend",
               "smtp_pass": os.environ["RESEND"],
+              # With our own SMTP the cap is ours to set: 30 sign-in emails an hour.
+              "rate_limit_email_sent": 30,
           }, open("smtp.json", "w"))
           t = lambda f: open(f"supabase/templates/{f}", encoding="utf-8").read()
           json.dump({
