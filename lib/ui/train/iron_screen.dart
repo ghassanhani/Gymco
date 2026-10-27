@@ -99,8 +99,9 @@ class _IronScreenState extends ConsumerState<IronScreen> {
       _ask.clear();
     });
     // The answer comes at the top: go there, not stay at the button.
-    if (_scroll.hasClients)
+    if (_scroll.hasClients) {
       _scroll.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
+    }
     try {
       final p = await ref
           .read(ironActionsProvider)
