@@ -188,6 +188,7 @@ class IronCard extends ConsumerWidget {
               child: extra(icon: 'dumb', title: l.ironProgramTitle, sub: l.ironProgramSub),
             ),
           ],
+          footer: (action) => _HomeAsk(lead: action),
           actions: [
             if (tips.isLoading || list.isEmpty) null,
             for (final (i, t) in list.indexed) _TipAction(t, index: i, done: done.contains(i), key: ValueKey('act$i')),
@@ -195,7 +196,6 @@ class IronCard extends ConsumerWidget {
             open('/iron'),
           ],
         ),
-        const _HomeAsk(),
         if (list.any((t) => t.offline)) Muted(l.ironTipOffline, size: 10.5),
       ],
     );
@@ -230,8 +230,11 @@ class IronCard extends ConsumerWidget {
 /// Today's tips with Iron's other cards after them, one at a time: swipe
 /// sideways or tap a dot for the next.
 class _Deck extends StatefulWidget {
-  const _Deck({required this.pages, this.actions = const []});
+  const _Deck({required this.pages, this.actions = const [], this.footer});
   final List<Widget> pages;
+
+  /// The row under the page, given that page's button to lead it.
+  final Widget Function(Widget? action)? footer;
 
   /// Each page's button, shown on the dots' row; null for none.
   final List<Widget?> actions;
@@ -260,8 +263,9 @@ class _DeckState extends State<_Deck> {
     final at = _at.clamp(0, pages.length - 1);
     final page = pages[at];
     final action = at < widget.actions.length ? widget.actions[at] : null;
+    final foot = widget.footer?.call(action) ?? action;
     if (pages.length == 1) {
-      return GapCol(gap: 8, cross: CrossAxisAlignment.stretch, children: [page, ?action]);
+      return GapCol(gap: 8, cross: CrossAxisAlignment.stretch, children: [page, ?foot]);
     }
     final rtl = Directionality.of(context) == TextDirection.rtl;
     return Semantics(
@@ -305,20 +309,8 @@ class _DeckState extends State<_Deck> {
                 child: page,
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: action ?? const SizedBox(height: 34),
-                    ),
-                  ),
-                ),
-                _Dots(count: pages.length, at: at, onTap: _go),
-              ],
-            ),
+            ?foot,
+            _Dots(count: pages.length, at: at, onTap: _go),
           ],
         ),
       ),
@@ -391,7 +383,7 @@ class _TipAction extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final act = IronCard._act(context, ref, tip.action);
-    if (act == null || done) return const SizedBox(height: 34);
+    if (act == null || done) return const SizedBox.shrink();
     return VBtn(
       label: IronCard._label(AppLocalizations.of(context), tip.action),
       kind: BtnKind.ghost,
@@ -613,18 +605,22 @@ class IronWarningCard extends ConsumerWidget {
 /// What Iron can do from Today, as choices rather than a message box: each
 /// opens the one task.
 class _HomeAsk extends StatelessWidget {
-  const _HomeAsk();
+  const _HomeAsk({this.lead});
+
+  /// The showing tip's button, first in the row.
+  final Widget? lead;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     Widget chip(String icon, String label, VoidCallback onTap) =>
-        VChip(label: label, icon: icon, iconSize: 14, height: 38, onTap: onTap);
+        VChip(label: label, icon: icon, iconSize: 13, height: 34, onTap: onTap);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 8,
         children: [
+          ?lead,
           chip('dumb', l.ironGetProgram, () => context.push('/iron')),
           chip('repeat', l.ironShortRoutine, () => context.push('/routine/ai')),
           chip('chart', l.ironWeekReview, () => context.push('/iron/review')),
