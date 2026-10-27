@@ -26,7 +26,8 @@ abstract class Voice {
 }
 
 /// Records the note on the phone and has it written down on our server
-/// (OpenAI's transcription, which follows Arabic and English, even mixed).
+/// (OpenAI's transcription, which hears some fifty languages, and Arabic and
+/// English even mixed).
 /// The recording is deleted once it is sent.
 class CloudVoice implements Voice {
   CloudVoice(this._cloud, {this.bucket});
@@ -49,7 +50,15 @@ class CloudVoice implements Voice {
     final dir = await getTemporaryDirectory();
     _path = p.join(dir.path, 'voice-${DateTime.now().millisecondsSinceEpoch}.m4a');
     await _rec.start(
-      const RecordConfig(encoder: AudioEncoder.aacLc, sampleRate: 16000, numChannels: 1, bitRate: 32000),
+      // Clear speech for the transcriber: 24 kHz at 64 kbps, with the
+      // phone evening out the volume (a minute is about half a megabyte).
+      const RecordConfig(
+        encoder: AudioEncoder.aacLc,
+        sampleRate: 24000,
+        numChannels: 1,
+        bitRate: 64000,
+        autoGain: true,
+      ),
       path: _path!,
     );
     _started = DateTime.now();

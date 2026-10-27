@@ -18,20 +18,26 @@ import { gate } from "../_shared/ai_gate.ts";
 import { spokenLanguage } from "../_shared/spoken_language.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
 
-const MODEL = "gpt-4o-mini-transcribe";
-/** About a minute and a half of 32 kbps audio. */
-const MAX_AUDIO_BYTES = 400_000;
+/** The full model: the mini one misheard Arabic dialect too often. */
+const MODEL = Deno.env.get("TRANSCRIBE_MODEL") ?? "gpt-4o-transcribe";
+/** A minute and a bit of 64 kbps audio. */
+const MAX_AUDIO_BYTES = 1_000_000;
 const MAX_SECONDS = 75;
-/** $0.003 a minute, in euros. */
-const EUR_PER_SECOND = (0.003 * 0.92) / 60;
+/** $0.006 a minute, in euros. */
+const EUR_PER_SECOND = (0.006 * 0.92) / 60;
 
-// Words in the user's own language steer the transcriber towards it, and
-// name the kind of thing people say here.
-const HINTS: Record<string, string> = {
-  en: "A note in a diet and training app: foods, portions, meals, workouts. Arabic words may be mixed in.",
-  ar: "ملاحظة في تطبيق للحمية والتمارين: أطعمة وكميات ووجبات وتمارين، مثل كبسة، شاورما، دجاج، رز. قد تختلط كلمات إنجليزية مثل protein shake.",
-  es: "Una nota en una app de dieta y entrenamiento: comidas, raciones, entrenos. Puede haber palabras en inglés.",
-};
+// What the transcriber expects to hear steers it: the same hint whatever
+// the app's language, since people speak Arabic to an English app and the
+// other way round. Written mostly in Arabic so Arabic stays in Arabic
+// letters (not translated, not spelled out in Latin), with the English
+// words people mix in left in English, and Gulf, Levantine and Egyptian
+// food words named so they're spelled right.
+const HINT =
+  "ملاحظة صوتية في تطبيق حمية وتمارين، باللهجة الخليجية أو الشامية أو المصرية أو بالفصحى، وقد تختلط بالإنجليزية. " +
+  "اكتب الكلام كما قيل بحروفه، العربية بالعربية والإنجليزية بالإنجليزية، ولا تترجم. " +
+  "أمثلة: أكلت كبسة دجاج، مندي لحم، شاورما، فلافل، فول، حمص، كشري، ملوخية، مجبوس، هريس، لبنة، خبز، رز، " +
+  "سلطة، تمر، قهوة، شاي، كوب، صحن، ملعقة، حبة، نص، ربع، غرام، تمرين، صدر، ظهر، رجل. " +
+  "English words like chicken burger, protein shake, oats, whey, bench press. Spanish is fine too.";
 
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -59,7 +65,6 @@ Deno.serve(async (req) => {
   const audio = typeof body.audio === "string" ? body.audio : "";
   if (!audio) return json(400, { error: "empty" });
   if (audio.length * 0.75 > MAX_AUDIO_BYTES) return json(400, { error: "audio" });
-  const lang = typeof body.lang === "string" && body.lang in HINTS ? body.lang : "en";
   const seconds = Math.min(Math.max(Number(body.seconds) || 0, 0), MAX_SECONDS);
 
   const config = await liveConfig();
@@ -85,7 +90,8 @@ Deno.serve(async (req) => {
     form.append("file", new Blob([bytes], { type: "audio/mp4" }), "note.m4a");
     form.append("model", MODEL);
     form.append("response_format", "json");
-    form.append("prompt", HINTS[lang]);
+    form.append("prompt", HINT);
+    form.append("temperature", "0");
     const r = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}` },
