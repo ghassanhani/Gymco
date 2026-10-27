@@ -78,11 +78,11 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Protein first today'), findsNothing);
     expect(find.text('Water before noon'), findsOneWidget);
-    expect(find.text('0 of 3 done'), findsOneWidget);
+    expect(find.text('0/3'), findsOneWidget);
     // Doing what a tip says ticks it off.
     await tester.tap(find.text('Add water'));
     await tester.pumpAndSettle();
-    expect(find.text('1 of 3 done'), findsOneWidget);
+    expect(find.text('1/3'), findsOneWidget);
     expect(find.text('Add water'), findsNothing);
     expect(prefs.getString('waterlog_${dayKey(testNow)}'), endsWith(':250'));
     await tester.tap(find.byTooltip('3 of 4'));
@@ -91,7 +91,7 @@ void main() {
     // Nothing to tap for this one, so it is ticked by hand.
     await tester.tap(find.byTooltip('Mark done'));
     await tester.pumpAndSettle();
-    expect(find.text('2 of 3 done'), findsOneWidget);
+    expect(find.text('2/3'), findsOneWidget);
     // After the tips, Iron's program is one swipe away.
     await tester.fling(find.text('Sleep by eleven'), const Offset(-300, 0), 1000);
     await tester.pumpAndSettle();

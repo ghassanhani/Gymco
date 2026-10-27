@@ -17,7 +17,6 @@ import '../../theme/volt.dart';
 import '../common/iron_avatar.dart';
 import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
-import '../train/iron_settings_screen.dart' show ironReadsLine;
 import '../train/swap_pain.dart' show painAreaName;
 
 /// Iron, the coach, on Today: once turned on, today's tip with the one
@@ -89,8 +88,8 @@ class IronCard extends ConsumerWidget {
     final gear = IconBtn(
       'fwd',
       label: l.ironCenter,
-      size: 30,
-      iconSize: 15,
+      size: 28,
+      iconSize: 14,
       color: Volt.t3,
       onTap: () => context.push('/iron/home'),
     );
@@ -117,7 +116,7 @@ class IronCard extends ConsumerWidget {
     final weekday = ref.watch(clockProvider)().weekday;
     final first = list.firstOrNull;
 
-    Widget extra({required String icon, required String title, required String sub, required String go}) => GapCol(
+    Widget extra({required String icon, required String title, required String sub}) => GapCol(
       gap: 8,
       cross: CrossAxisAlignment.stretch,
       children: [
@@ -139,14 +138,22 @@ class IronCard extends ConsumerWidget {
             ),
           ],
         ),
-        Muted(sub, size: 13, color: Volt.t2),
-        VBtn(label: l.ironOpen, kind: BtnKind.ghost, small: true, minHeight: 34, onTap: () => context.push(go)),
+        Text(
+          sub,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 13, height: 1.45, color: Volt.t2),
+        ),
       ],
     );
+    Widget open(String go) =>
+        VBtn(label: l.ironOpen, kind: BtnKind.ghost, small: true, minHeight: 34, onTap: () => context.push(go));
+    final review = weekday == DateTime.sunday || weekday == DateTime.monday;
 
     return _Frame(
       trailing: gear,
       onOpen: () => context.push('/iron/home'),
+      progress: list.isEmpty ? null : _Progress(done: done, total: list.length),
       mood: tips.isLoading
           ? IronMood.thinking
           : first == null
@@ -157,7 +164,6 @@ class IronCard extends ConsumerWidget {
           ? IronMood.sleepy
           : IronMood.happy,
       children: [
-        if (list.isNotEmpty) _Progress(done: done, total: list.length),
         _Deck(
           pages: [
             if (tips.isLoading)
@@ -172,19 +178,25 @@ class IronCard extends ConsumerWidget {
             else if (list.isEmpty)
               Muted(l.ironNoTip, key: const ValueKey('none'), size: 13),
             for (final (i, t) in list.indexed) _TipPage(t, index: i, done: done.contains(i), key: ValueKey('tip$i')),
-            if (weekday == DateTime.sunday || weekday == DateTime.monday)
+            if (review)
               KeyedSubtree(
                 key: const ValueKey('review'),
-                child: extra(icon: 'chart', title: l.ironWeekReview, sub: l.ironWeekReviewSub, go: '/iron/review'),
+                child: extra(icon: 'chart', title: l.ironWeekReview, sub: l.ironWeekReviewSub),
               ),
             KeyedSubtree(
               key: const ValueKey('program'),
-              child: extra(icon: 'dumb', title: l.ironProgramTitle, sub: l.ironProgramSub, go: '/iron'),
+              child: extra(icon: 'dumb', title: l.ironProgramTitle, sub: l.ironProgramSub),
             ),
+          ],
+          actions: [
+            if (tips.isLoading || list.isEmpty) null,
+            for (final (i, t) in list.indexed) _TipAction(t, index: i, done: done.contains(i), key: ValueKey('act$i')),
+            if (review) open('/iron/review'),
+            open('/iron'),
           ],
         ),
         const _HomeAsk(),
-        Muted(list.any((t) => t.offline) ? l.ironTipOffline : ironReadsLine(l, ref), size: 10.5),
+        if (list.any((t) => t.offline)) Muted(l.ironTipOffline, size: 10.5),
       ],
     );
   }
@@ -218,8 +230,11 @@ class IronCard extends ConsumerWidget {
 /// Today's tips with Iron's other cards after them, one at a time: swipe
 /// sideways or tap a dot for the next.
 class _Deck extends StatefulWidget {
-  const _Deck({required this.pages});
+  const _Deck({required this.pages, this.actions = const []});
   final List<Widget> pages;
+
+  /// Each page's button, shown on the dots' row; null for none.
+  final List<Widget?> actions;
 
   @override
   State<_Deck> createState() => _DeckState();
@@ -244,7 +259,10 @@ class _DeckState extends State<_Deck> {
     final pages = widget.pages;
     final at = _at.clamp(0, pages.length - 1);
     final page = pages[at];
-    if (pages.length == 1) return page;
+    final action = at < widget.actions.length ? widget.actions[at] : null;
+    if (pages.length == 1) {
+      return GapCol(gap: 8, cross: CrossAxisAlignment.stretch, children: [page, ?action]);
+    }
     final rtl = Directionality.of(context) == TextDirection.rtl;
     return Semantics(
       label: l.ironTipOf(at + 1, pages.length),
@@ -287,7 +305,20 @@ class _DeckState extends State<_Deck> {
                 child: page,
               ),
             ),
-            _Dots(count: pages.length, at: at, onTap: _go),
+            Row(
+              children: [
+                Expanded(
+                  child: Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: action ?? const SizedBox(height: 34),
+                    ),
+                  ),
+                ),
+                _Dots(count: pages.length, at: at, onTap: _go),
+              ],
+            ),
           ],
         ),
       ),
@@ -306,10 +337,9 @@ class _TipPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context);
-    final act = IronCard._act(context, ref, tip.action);
     final mark = ref.read(ironTipsDoneProvider.notifier);
     return GapCol(
-      gap: 8,
+      gap: 6,
       cross: CrossAxisAlignment.stretch,
       children: [
         Row(
@@ -339,22 +369,38 @@ class _TipPage extends ConsumerWidget {
             ),
           ],
         ),
-        Muted(tip.tip, size: 13, color: done ? Volt.t3 : Volt.t2),
-        if (act != null && !done)
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: VBtn(
-              label: IronCard._label(l, tip.action),
-              kind: BtnKind.ghost,
-              small: true,
-              minHeight: 34,
-              onTap: () {
-                mark.set(index, true);
-                act();
-              },
-            ),
-          ),
+        Text(
+          tip.tip,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(fontSize: 13, height: 1.45, color: done ? Volt.t3 : Volt.t2),
+        ),
       ],
+    );
+  }
+}
+
+/// A tip's button, the one thing that does it: it ticks the tip too.
+/// Nothing once it's done, or when the tip has nothing to tap.
+class _TipAction extends ConsumerWidget {
+  const _TipAction(this.tip, {required this.index, required this.done, super.key});
+  final IronTip tip;
+  final int index;
+  final bool done;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final act = IronCard._act(context, ref, tip.action);
+    if (act == null || done) return const SizedBox(height: 34);
+    return VBtn(
+      label: IronCard._label(AppLocalizations.of(context), tip.action),
+      kind: BtnKind.ghost,
+      small: true,
+      minHeight: 34,
+      onTap: () {
+        ref.read(ironTipsDoneProvider.notifier).set(index, true);
+        act();
+      },
     );
   }
 }
@@ -411,7 +457,6 @@ class _Progress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context);
     final count = done.where((i) => i < total).length;
     final all = count == total;
     return Row(
@@ -433,7 +478,7 @@ class _Progress extends StatelessWidget {
         ],
         const SizedBox(width: 10),
         Text(
-          all ? l.ironTipsAllDone : l.ironTipsDone(count, total),
+          '$count/$total',
           style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: all ? ironGradient[1] : Volt.t3),
         ),
       ],
@@ -462,7 +507,7 @@ class _Dots extends StatelessWidget {
               behavior: HitTestBehavior.opaque,
               onTap: () => onTap(i),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 220),
                   curve: Curves.easeOutCubic,
@@ -592,8 +637,18 @@ class _HomeAsk extends StatelessWidget {
 
 /// The card itself: a thin AI-gradient edge, Iron's mark and name on top.
 class _Frame extends StatelessWidget {
-  const _Frame({required this.children, this.trailing, this.mood = IronMood.idle, this.announce = false, this.onOpen});
+  const _Frame({
+    required this.children,
+    this.trailing,
+    this.mood = IronMood.idle,
+    this.announce = false,
+    this.onOpen,
+    this.progress,
+  });
   final List<Widget> children;
+
+  /// Today's tips done, shown in the header beside Iron's name.
+  final Widget? progress;
 
   /// Tapping Iron's face or name opens the Iron Center, once Iron is on.
   final VoidCallback? onOpen;
@@ -613,7 +668,7 @@ class _Frame extends StatelessWidget {
         ),
       ),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+        padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
         decoration: smooth(BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18.5))),
         child: GapCol(
           gap: 8,
@@ -627,21 +682,16 @@ class _Frame extends StatelessWidget {
                     onTap: onOpen,
                     child: Row(
                       children: [
-                        IronAvatar(mood: mood, size: 34, announce: announce),
+                        IronAvatar(mood: mood, size: 28, announce: announce),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: GapCol(
-                            gap: 0,
-                            children: [
-                              AiText(
-                                l.ironName,
-                                colors: ironGradient,
-                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
-                              ),
-                              Muted(l.ironRole, size: 11),
-                            ],
-                          ),
+                        AiText(
+                          l.ironName,
+                          colors: ironGradient,
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
                         ),
+                        const SizedBox(width: 12),
+                        Expanded(child: progress ?? Muted(l.ironRole, size: 11)),
+                        const SizedBox(width: 8),
                       ],
                     ),
                   ),
