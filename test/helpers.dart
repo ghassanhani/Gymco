@@ -181,6 +181,7 @@ class FakeCloud implements Cloud {
   Map<String, Object?> ironProgram = const {};
   Map<String, Object?> ironReview = const {};
   Map<String, Object?>? lastIronNumbers;
+  String? lastIronLanguage;
   int ironCalls = 0;
   List<String> lastPlanNames = const [];
   CloudBackup? backup;
@@ -351,6 +352,7 @@ class FakeCloud implements Cloud {
   }) async {
     ironCalls++;
     lastIronNumbers = numbers;
+    lastIronLanguage = languageCode;
     if (paused) throw const CloudException(CloudFailure.paused);
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
     return (

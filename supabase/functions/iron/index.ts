@@ -48,7 +48,9 @@ const tipItem = {
     title: { type: "string", description: "Two to six words, the headline." },
     tip: {
       type: "string",
-      description: "One or two sentences: one concrete thing to do today, tied to a number from the summary, and why it helps.",
+      description:
+        "One concrete thing to do today, tied to a number from the summary, and why it helps: at most 25 words, " +
+        "short enough for three lines on a phone. Say sleep in hours (\"4.8 hours\"), never minutes.",
     },
     action: { type: "string", enum: [...ACTIONS], description: "The app screen that helps them do it." },
   },

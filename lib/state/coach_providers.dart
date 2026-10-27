@@ -294,11 +294,15 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
   ref.watch(ironOnProvider);
   ref.watch(accountProvider);
   final day = ref.watch(todayKeyProvider);
+  // The app's language, or the phone's when it follows the phone; tips kept
+  // in another language are asked again.
+  ref.watch(settingsProvider.select((s) => s.languageCode));
+  final lang = deviceMeta(ref).locale;
   final prefs = ref.read(prefsProvider);
   final kept = prefs.getString('ironTips') ?? prefs.getString('ironTip');
   if (kept != null) {
     final j = jsonDecode(kept) as Map<String, Object?>;
-    if (j['day'] == day) {
+    if (j['day'] == day && (j['lang'] ?? 'en') == lang) {
       final tips = IronTip.allFromJson(j, day);
       if (tips.isNotEmpty) return tips;
     }
@@ -307,18 +311,12 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
   if (!ref.read(ironOnProvider) || !signedIn) return const [];
   final numbers = await _numbers(ref);
   if (numbers == null) return const [];
-  final lang = prefs.getString('lang') ?? 'en';
   List<IronTip> offline() => offlineTips(numbers, languageCode: lang, day: day);
   if (!_ready(ref)) return offline();
   try {
     final (data, _) = await ref
         .read(cloudProvider)
-        .askIron(
-          mode: 'tip',
-          numbers: numbers,
-          languageCode: lang,
-          bucket: ref.read(installBucketProvider),
-        );
+        .askIron(mode: 'tip', numbers: numbers, languageCode: lang, bucket: ref.read(installBucketProvider));
     final tips = IronTip.allFromJson(data, day);
     if (tips.isEmpty) return offline();
     if (tips.isNotEmpty) {
@@ -326,6 +324,7 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
         'ironTips',
         jsonEncode({
           'day': day,
+          'lang': lang,
           'tips': [for (final t in tips) t.toJson()],
         }),
       );
@@ -439,7 +438,7 @@ final ironReviewProvider = FutureProvider<IronReview?>((ref) async {
       .askIron(
         mode: 'review',
         numbers: numbers,
-        languageCode: prefs.getString('lang') ?? 'en',
+        languageCode: deviceMeta(ref).locale,
         bucket: ref.read(installBucketProvider),
       );
   final review = IronReview.fromJson(data, week);

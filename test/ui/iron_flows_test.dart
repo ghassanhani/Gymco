@@ -55,6 +55,26 @@ void main() {
     expect(cloud.ironCalls, 0);
   });
 
+  testWidgets('tips kept in another language are asked again in the app\'s', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')..ironTip = tip;
+    await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'ironOn': true,
+        'lang': 'ar',
+        'ironTips': jsonEncode({
+          'day': dayKey(testNow),
+          'tips': [tip],
+        }),
+      },
+      cloud: cloud,
+    );
+    await tester.pumpAndSettle();
+    expect(cloud.ironCalls, 1);
+    expect(cloud.lastIronLanguage, 'ar');
+  });
+
   testWidgets('today brings a few tips to swipe through, kept for the day', (tester) async {
     final cloud = FakeCloud(signedIn: 'me@example.com')
       ..ironTip = {
@@ -255,11 +275,7 @@ void main() {
   testWidgets('with Iron out of reach, the card still has tips from the phone', (tester) async {
     final cloud = FakeCloud(signedIn: 'me@example.com')..paused = true;
     await pumpApp(tester, prefs: {'profile': savedProfile, 'ironOn': true}, cloud: cloud);
-    await tester.scrollUntilVisible(
-      find.textContaining('from your numbers on the phone'),
-      300,
-      scrollable: pageScroll,
-    );
+    await tester.scrollUntilVisible(find.textContaining('from your numbers on the phone'), 300, scrollable: pageScroll);
     await tester.pumpAndSettle();
     // Nothing logged yet today, so that comes first, with its button.
     expect(find.text('Log your first meal'), findsOneWidget);
