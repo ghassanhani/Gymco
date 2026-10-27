@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../data/cloud.dart' show CloudException;
 import '../../data/food_source.dart';
 import '../../data/meal_reader.dart';
+import '../../domain/meal_text.dart' show MealPhrase;
 import '../../data/models.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
@@ -271,14 +272,62 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
 
   void _listen() => setState(() => _listening = true);
 
-  /// What the voice note said goes straight to the reader, as if written.
-  void _heard(String words) {
+  /// What the voice note said goes straight to the reader, as if written. A
+  /// meal said in a language the phone's reader doesn't know, and that it
+  /// can't fully read, goes to the AI whole.
+  Future<void> _heard(String words, String? language) async {
     setState(() {
       _listening = false;
       _textFrom = 'voice';
     });
     _log.text = words;
-    _onLogChanged(words);
+    _readDebounce?.cancel();
+    await _read();
+    if (!mounted || language == null || _readerLanguages.contains(language)) return;
+    if (_written.isNotEmpty && _written.every((it) => it.food != null)) return;
+    if (!_signedIn) return;
+    await _readByAi(words);
+  }
+
+  static const _readerLanguages = {'en', 'ar', 'es'};
+
+  /// The whole meal read by the model, each food it names as a line.
+  Future<void> _readByAi(String words) async {
+    final l = AppLocalizations.of(context);
+    final seq = ++_readSeq;
+    setState(() => _asking = true);
+    try {
+      final (foods, _) = await ref
+          .read(cloudProvider)
+          .scanPhoto(
+            null,
+            languageCode: Localizations.localeOf(context).languageCode,
+            note: words,
+            bucket: ref.read(installBucketProvider),
+          );
+      final db = ref.read(dbProvider);
+      final items = <WrittenItem>[];
+      for (final f in foods) {
+        final food = await resolveEstimate(db, f);
+        final name = f.local.trim().isEmpty ? f.name : f.local;
+        items.add(
+          WrittenItem(
+            phrase: MealPhrase(text: name, food: name.toLowerCase(), grams: f.grams),
+            food: food,
+            grams: f.grams ?? food?.servingGrams ?? 100,
+          ),
+        );
+      }
+      if (!mounted || seq != _readSeq) return;
+      setState(() {
+        _written = items;
+        _dropped.clear();
+      });
+    } on CloudException catch (e) {
+      if (mounted) showVToast(context, cloudMessage(l, e.failure), info: true);
+    } finally {
+      if (mounted) setState(() => _asking = false);
+    }
   }
 
   void _onChanged(String v) {

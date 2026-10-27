@@ -257,7 +257,7 @@ class _IronComposerState extends ConsumerState<IronComposer> {
 
   /// What the voice note said goes to Iron as the message, as if sent, and
   /// never sits in the box. A box with nothing to send keeps the words.
-  void _heard(String words) {
+  void _heard(String words, String? _) {
     setState(() => _recording = false);
     final c = widget.controller;
     final before = c.text.trimRight();

@@ -137,10 +137,11 @@ class FakeDictation implements Dictation {
   Stream<double> get level => Stream.fromIterable(const [0.2, 0.7, 0.4]);
 }
 
-/// A voice note that says [words], or fails with [failure].
+/// A voice note that says [words] in [language], or fails with [failure].
 class FakeVoice implements Voice {
-  FakeVoice({this.words = '', this.available = true, this.failure});
+  FakeVoice({this.words = '', this.language, this.available = true, this.failure});
   final String words;
+  final String? language;
   final bool available;
   final CloudFailure? failure;
   var started = 0, finished = 0, cancelled = 0;
@@ -155,10 +156,10 @@ class FakeVoice implements Voice {
   }
 
   @override
-  Future<String> finish() async {
+  Future<VoiceNote> finish() async {
     finished++;
     if (failure != null) throw CloudException(failure!);
-    return words;
+    return (text: words, language: language);
   }
 
   @override
@@ -299,7 +300,7 @@ class FakeCloud implements Cloud {
   String heard = '';
 
   @override
-  Future<String> transcribe(
+  Future<VoiceNote> transcribe(
     Uint8List audio, {
     required String languageCode,
     required double seconds,
@@ -307,7 +308,7 @@ class FakeCloud implements Cloud {
   }) async {
     if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
     scansLeft--;
-    return heard;
+    return (text: heard, language: null);
   }
 
   @override

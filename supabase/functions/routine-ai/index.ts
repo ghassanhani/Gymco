@@ -32,7 +32,7 @@ const reportRoutines: Anthropic.Tool = {
     type: "object",
     properties: {
       routines: routinesSchema,
-      summary: { type: "string", description: "One or two sentences in the user's language on how the plan works." },
+      summary: { type: "string", description: "One or two sentences, in the language of the request, on how the plan works." },
     },
     required: ["routines", "summary"],
     additionalProperties: false,
@@ -102,7 +102,8 @@ Deno.serve(async (req) => {
             "Build the plan they describe. Follow what they say about days, goal, time, equipment and level; " +
             "where they say nothing, plan for muscle growth for a lifter with some experience. " +
             PLAN_RULES + " " +
-            "Name the routines and write the summary in the user's language. " +
+            "Name the routines and write the summary in the language the request is written in, whatever it " +
+            `is (${language} if you can't tell). ` +
             "If the request is not about training, report no routines.",
         },
       ],

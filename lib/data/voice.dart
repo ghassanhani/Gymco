@@ -17,9 +17,9 @@ abstract class Voice {
   /// False when the microphone is refused or there is nothing to hear with.
   Future<bool> start({required String languageCode});
 
-  /// Stops and gives what was said; empty when nothing was heard. Throws a
-  /// [CloudException] when the words could not be fetched.
-  Future<String> finish();
+  /// Stops and gives what was said; its text is empty when nothing was
+  /// heard. Throws a [CloudException] when the words could not be fetched.
+  Future<VoiceNote> finish();
 
   /// Stops and throws the recording away.
   Future<void> cancel();
@@ -61,16 +61,16 @@ class CloudVoice implements Voice {
   }
 
   @override
-  Future<String> finish() async {
+  Future<VoiceNote> finish() async {
     await _amp?.cancel();
     final path = await _rec.stop() ?? _path;
     final seconds = _started == null ? 0.0 : DateTime.now().difference(_started!).inMilliseconds / 1000;
-    if (path == null) return '';
+    if (path == null) return (text: '', language: null);
     final file = File(path);
     try {
       final Uint8List audio = await file.readAsBytes();
       // Too short to hold a word: nothing to send.
-      if (seconds < 0.6 || audio.length < 2000) return '';
+      if (seconds < 0.6 || audio.length < 2000) return (text: '', language: null);
       return await _cloud.transcribe(audio, languageCode: _lang, seconds: seconds, bucket: bucket);
     } finally {
       if (await file.exists()) await file.delete();
@@ -91,21 +91,25 @@ class DeviceVoice implements Voice {
   final Dictation _dictation;
   var _words = '';
 
+  /// The phone listens in the app's language only.
+  String? _lang;
+
   @override
   Stream<double> get level => _dictation.level;
 
   @override
   Future<bool> start({required String languageCode}) {
     _words = '';
+    _lang = languageCode;
     return _dictation.start(languageCode: languageCode, onWords: (w) => _words = w);
   }
 
   @override
-  Future<String> finish() async {
+  Future<VoiceNote> finish() async {
     await _dictation.stop();
     // The last words can land just after stopping.
     await Future<void>.delayed(const Duration(milliseconds: 250));
-    return _words.trim();
+    return (text: _words.trim(), language: _lang);
   }
 
   @override

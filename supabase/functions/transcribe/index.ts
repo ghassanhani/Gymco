@@ -1,10 +1,11 @@
 // Writes down a short voice note: what someone ate, or what they want from
-// Iron. OpenAI's transcription follows Arabic, English and Spanish, even
-// mixed in one sentence. The audio is passed through and never stored.
+// Iron. OpenAI's transcription hears some fifty languages, and Arabic and
+// English even mixed in one sentence. The audio is passed through and never stored.
 //
 // POST { audio: <base64 m4a>, lang: "en" | "ar" | "es", seconds: 4.2, bucket?: 0-99 }
 // with the signed-in user's Authorization header.
-// -> 200 { text, left }   text is "" when nothing was said (that costs nothing).
+// -> 200 { text, lang, left }   text is "" when nothing was said (that costs
+//    nothing); lang is the two-letter language it was spoken in, "" when unsure.
 // -> 429 { error: "daily_cap", left: 0 }
 // -> 503 { error: "paused", reason } when the Control Center has switched voice
 //    off or today's AI budget is spent.
@@ -14,6 +15,7 @@
 
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
 import { gate } from "../_shared/ai_gate.ts";
+import { spokenLanguage } from "../_shared/spoken_language.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
 
 const MODEL = "gpt-4o-mini-transcribe";
@@ -100,9 +102,9 @@ Deno.serve(async (req) => {
     // Nothing said: it costs the user nothing.
     if (!text) {
       await admin.rpc("refund_ai_credit", { uid });
-      return json(200, { text: "", left: left + 1 });
+      return json(200, { text: "", lang: "", left: left + 1 });
     }
-    return json(200, { text, left });
+    return json(200, { text, lang: spokenLanguage(text), left });
   } catch (e) {
     console.error("transcribe:", e);
     await usage(false, started);

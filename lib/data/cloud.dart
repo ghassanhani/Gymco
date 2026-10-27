@@ -18,6 +18,10 @@ const supabasePublishableKey = String.fromEnvironment(
 /// A food the model saw or read about, named in English for the database and
 /// in the user's language for the screen, with its estimated portion and
 /// typical nutrition per 100 g. All of it is an estimate.
+/// What a voice note said, and the language it was said in (null when it
+/// couldn't tell).
+typedef VoiceNote = ({String text, String? language});
+
 class PhotoFood {
   const PhotoFood({
     required this.name,
@@ -164,8 +168,9 @@ abstract class Cloud {
   });
 
   /// What a voice note says, written down in the language it was spoken in
-  /// (Arabic and English may mix). Takes one of the day's AI requests.
-  Future<String> transcribe(Uint8List audio, {required String languageCode, required double seconds, int? bucket});
+  /// (Arabic and English may mix), with that language's two-letter code, or
+  /// null when it couldn't tell. Takes one of the day's AI requests.
+  Future<VoiceNote> transcribe(Uint8List audio, {required String languageCode, required double seconds, int? bucket});
 
   /// Training routines built from the user's own words, picked from
   /// [exercises] (the names the phone's library has). Returns the raw answer
@@ -246,7 +251,7 @@ class NoCloud implements Cloud {
     int? bucket,
   }) async => _no();
   @override
-  Future<String> transcribe(
+  Future<VoiceNote> transcribe(
     Uint8List audio, {
     required String languageCode,
     required double seconds,
@@ -484,7 +489,7 @@ class SupabaseCloud implements Cloud {
   });
 
   @override
-  Future<String> transcribe(Uint8List audio, {required String languageCode, required double seconds, int? bucket}) =>
+  Future<VoiceNote> transcribe(Uint8List audio, {required String languageCode, required double seconds, int? bucket}) =>
       _guard(() async {
         _uid;
         final r = await _sb.functions.invoke(
@@ -497,7 +502,8 @@ class SupabaseCloud implements Cloud {
           },
         );
         final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
-        return '${data['text'] ?? ''}'.trim();
+        final lang = '${data['lang'] ?? ''}';
+        return (text: '${data['text'] ?? ''}'.trim(), language: lang.isEmpty ? null : lang);
       });
 
   @override

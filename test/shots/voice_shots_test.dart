@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
+import 'package:gymco/data/cloud.dart';
 import 'package:gymco/data/voice.dart';
 
 import '../helpers.dart';
@@ -39,7 +40,7 @@ class _Talking implements Voice {
   @override
   Future<bool> start({required String languageCode}) async => true;
   @override
-  Future<String> finish() async => '';
+  Future<VoiceNote> finish() async => (text: '', language: null);
   @override
   Future<void> cancel() async {}
 }

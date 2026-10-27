@@ -257,6 +257,26 @@ void main() {
     expect([for (final e in entries) e.grams], [100, 30]);
   });
 
+  testWidgets('a meal said in a language the reader does not know is read by the AI whole', (tester) async {
+    PhotoFood f(String name, double g) =>
+        PhotoFood(name: name, local: name, sure: true, grams: g, kcal: 150, protein: 12, carbs: 1, fat: 10);
+    final cloud = FakeCloud(signedIn: 'sam@example.com', photoFoods: [f('Boiled egg', 100), f('Baguette', 60)]);
+    await pumpApp(
+      tester,
+      prefs: {'profile': savedProfile},
+      cloud: cloud,
+      voice: FakeVoice(words: 'deux oeufs et un morceau de baguette', language: 'fr'),
+    );
+    await _openWrite(tester, 'Voice');
+    await tester.tap(find.bySemanticsLabel('Dictate the meal'));
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.byTooltip('Done'));
+    await tester.pumpAndSettle();
+    expect(cloud.lastNote, 'deux oeufs et un morceau de baguette');
+    expect(find.text('IT READ 2 ITEMS'), findsOneWidget);
+    expect(find.text('Add 2'), findsOneWidget);
+  });
+
   testWidgets('a voice note can be thrown away', (tester) async {
     final voice = FakeVoice(words: 'two eggs');
     await pumpApp(tester, prefs: {'profile': savedProfile}, voice: voice);

@@ -189,7 +189,10 @@ Deno.serve(async (req) => {
       "for their goal and current trend (protein about 1.6 to 2.2 g per kg of body weight), never below their " +
       "calorie floor. Plan a training week around the days and time they already train, or 3 to 4 days if they " +
       "have no pattern yet, and lift the muscles their weekly sets show are behind. " + PLAN_RULES + " " +
-      "Write the summary, the routine names and the habits in the user's language.";
+      (ask
+        ? "Write the summary, the routine names and the habits in the language their note is written in, " +
+          `whatever it is; ${language} if you can't tell.`
+        : "Write the summary, the routine names and the habits in the user's language.");
 
   const started = Date.now();
   try {

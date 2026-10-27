@@ -31,7 +31,8 @@ class VoiceCapture extends ConsumerStatefulWidget {
     this.height = 44,
   });
 
-  final ValueChanged<String> onText;
+  /// The words, and the language they were spoken in when it could tell.
+  final void Function(String text, String? language) onText;
   final VoidCallback onClose;
 
   /// What finishing does, for its tooltip.
@@ -108,13 +109,13 @@ class _VoiceCaptureState extends ConsumerState<VoiceCapture> with SingleTickerPr
     setState(() => _phase = _Phase.writing);
     _done = true;
     try {
-      final text = await _voice.finish();
+      final note = await _voice.finish();
       if (!mounted) return;
-      if (text.isEmpty) {
+      if (note.text.isEmpty) {
         showVToast(context, l.voiceNothing, info: true);
         widget.onClose();
       } else {
-        widget.onText(text);
+        widget.onText(note.text, note.language);
       }
     } on CloudException catch (e) {
       if (!mounted) return;
