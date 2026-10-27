@@ -229,6 +229,7 @@ class MeScreen extends ConsumerWidget {
                   children: [
                     row('list', l.faqTitle, l.faqSub, () => context.push('/faq')),
                     row('info', l.helpSupport, l.helpSupportSub, () => context.push('/help')),
+                    row('sparkles', l.requestFeature, l.requestFeatureSub, () => context.push('/feature')),
                     row('wifi', l.helpOnSite, l.helpOnSiteSub, () => openSite('support')),
                     row('shield', l.privacyPolicy, l.privacyPolicySub, () => openSite('privacy')),
                     row('list', l.termsOfUse, l.termsOfUseSub, () => openSite('terms')),

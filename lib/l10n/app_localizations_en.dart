@@ -5192,15 +5192,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironQProgram =>
-      'What should I know before I build your program? Or just send, and I\'ll work from your numbers.';
+      'Pick what fits and I\'ll build your program. Skip anything, and I\'ll go by your numbers.';
 
   @override
   String get ironQProgramBusy =>
       'Reading your numbers and building your program…';
 
   @override
-  String get ironQRoutine =>
-      'How do you want to train? Tell me the days, the time you have, your gear and your goal.';
+  String get ironQRoutine => 'Pick what fits and I\'ll build the routine.';
 
   @override
   String get ironQRoutineBusy => 'Putting your routine together…';
@@ -5446,4 +5445,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironLogIt => 'Log it';
+
+  @override
+  String get optDaysTitle => 'Days a week';
+
+  @override
+  String get optTimeTitle => 'Time per session';
+
+  @override
+  String get optPlaceTitle => 'Where you train';
+
+  @override
+  String get optFocusTitle => 'What matters most';
+
+  @override
+  String optMinutes(int n) {
+    return '$n min';
+  }
+
+  @override
+  String get optGym => 'Gym';
+
+  @override
+  String get optHome => 'Home, dumbbells';
+
+  @override
+  String get optNoKit => 'No equipment';
+
+  @override
+  String get optBalanced => 'Balanced';
+
+  @override
+  String get optMuscle => 'Build muscle';
+
+  @override
+  String get optFatLoss => 'Lose fat';
+
+  @override
+  String get optStrength => 'Get stronger';
+
+  @override
+  String get optLegs => 'Legs and glutes';
+
+  @override
+  String get optUpper => 'Upper body';
+
+  @override
+  String get optHint =>
+      'Pick what fits. Anything you skip, Iron takes from your numbers.';
+
+  @override
+  String get requestFeature => 'Request a feature';
+
+  @override
+  String get requestFeatureSub => 'Tell us what to build next';
+
+  @override
+  String get requestFeatureHint => 'What would make Gymco better for you?';
+
+  @override
+  String get requestFeatureEmail => 'Your email, so we can reply';
+
+  @override
+  String get requestFeatureSend => 'Send request';
+
+  @override
+  String get requestFeatureSent => 'Thanks! Your idea is with the team.';
+
+  @override
+  String get ironRoutineDefault => 'A balanced routine for the gym.';
+
+  @override
+  String get ironCenterPick => 'Pick what you want and I will do it.';
+
+  @override
+  String get ironLogMeal => 'Log a meal';
+
+  @override
+  String get ironLogMealSub => 'Say it, write it or snap it';
 }

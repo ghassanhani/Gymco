@@ -150,18 +150,14 @@ void main() {
     await openTrain(tester);
     await tester.tap(find.text('Ask Iron to build it'));
     await settle(tester);
-    expect(find.byTooltip('Build my routine'), findsOneWidget);
-    // The ideas scroll sideways: swipe to the last one.
-    await tester.scrollUntilVisible(
-      find.text('Upper and lower, 4 days, 60 min'),
-      150,
-      scrollable: find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.right),
-    );
-    await tester.tap(find.text('Upper and lower, 4 days, 60 min'));
+    // Picked, not typed.
+    expect(find.byType(TextField), findsNothing);
+    await tester.tap(find.text('4'));
+    await tester.tap(find.text('60 min'));
     await tester.pump();
-    await tester.tap(find.byTooltip('Build my routine'));
+    await _tapBuild(tester);
     await settle(tester);
-    expect(cloud.lastPlanText, 'Upper and lower, 4 days, 60 min');
+    expect(cloud.lastPlanText, 'Days a week: 4. Time per session: 60 min.');
     expect(cloud.lastPlanNames, contains('Barbell Bench Press'));
     expect(find.text('Two upper days and one for legs.'), findsOneWidget);
     expect(find.text('Upper'), findsOneWidget);
@@ -180,9 +176,7 @@ void main() {
     await openTrain(tester);
     await tester.tap(find.text('Ask Iron to build it'));
     await settle(tester);
-    await tester.enterText(find.byType(TextField), '3 days full body');
-    await tester.pump();
-    await tester.tap(find.byTooltip('Build my routine'));
+    await _tapBuild(tester);
     await settle(tester);
     expect(find.textContaining('Sign in to use the AI'), findsOneWidget);
   });
@@ -355,4 +349,12 @@ void main() {
     expect(find.text('لا برامج بعد'), findsOneWidget);
     expect(Directionality.of(tester.element(find.text('لا برامج بعد'))), TextDirection.rtl);
   });
+}
+
+/// The routine builder's button, under its choices.
+Future<void> _tapBuild(WidgetTester tester) async {
+  final list = find.descendant(of: find.byType(Scaffold).last, matching: find.byType(Scrollable)).first;
+  await tester.scrollUntilVisible(find.text('Build my routine').last, 200, scrollable: list);
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Build my routine').last);
 }

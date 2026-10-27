@@ -47,7 +47,7 @@ Deno.test("tickets.list never includes the body and says who has an account", as
   assertEquals(items.length, 2);
   for (const t of items) assert(!("body" in t), "body leaked");
   assertEquals(items.map((t: any) => [t.email, t.has_account]), [["nobody@example.com", false], ["ana@example.com", true]]);
-  assertEquals((r.body as any).counts, { new: 2, waiting: 0, solved: 0, deletion_open: 0, overdue: 0 });
+  assertEquals((r.body as any).counts, { new: 2, waiting: 0, solved: 0, deletion_open: 0, overdue: 0, feature_open: 0 });
   assertEquals((await run({ action: "tickets.list", tab: "new", q: "other" })).body, { ...(r.body as any), items: [items[0]] });
   assertEquals((await run({ action: "tickets.list", tab: "spam" })).status, 400);
 });
@@ -60,7 +60,7 @@ Deno.test("the deletion tab lists every status, overdue first, and days_left goe
   store.ticketRows[1].status = "waiting";
   const r = await run({ action: "tickets.list", tab: "deletion" });
   assertEquals((r.body as any).items.map((t: any) => t.id), [2, 1]);
-  assertEquals((r.body as any).counts, { new: 1, waiting: 1, solved: 0, deletion_open: 2, overdue: 1 });
+  assertEquals((r.body as any).counts, { new: 1, waiting: 1, solved: 0, deletion_open: 2, overdue: 1, feature_open: 0 });
   assertEquals(((await run({ action: "tickets.get", id: 2 })).body as any).days_left, -2);
   const fresh = (await run({ action: "tickets.get", id: 1 })).body as any;
   assertEquals(fresh.days_left, 30);
@@ -68,6 +68,25 @@ Deno.test("the deletion tab lists every status, overdue first, and days_left goe
   assertEquals(fresh.ticket.has_account, true);
   assertEquals(fresh.messages, []);
   assertEquals((await run({ action: "tickets.get", id: 99 })).status, 404);
+});
+
+Deno.test("the feature tab lists feature requests newest first, and only there", async () => {
+  const { run, store } = setup("support");
+  await run(add);
+  await run({ ...add, kind: "feature", subject: "Dark mode" });
+  await run({ ...add, kind: "feature", subject: "Apple Watch" });
+  assertEquals([store.ticketRows[1].tags, store.ticketRows[1].deadline_at], [["feature"], null]);
+  store.ticketRows[1].created_at = "2026-10-19T12:00:00.000Z";
+  store.ticketRows[2].status = "solved";
+  const r = await run({ action: "tickets.list", tab: "feature" });
+  assertEquals(r.status, 200);
+  assertEquals((r.body as any).items.map((t: any) => t.subject), ["Apple Watch", "Dark mode"]);
+  assertEquals((r.body as any).counts, { new: 1, waiting: 0, solved: 0, deletion_open: 0, overdue: 0, feature_open: 1 });
+  for (const tab of ["new", "waiting", "solved", "deletion"]) {
+    const items = ((await run({ action: "tickets.list", tab })).body as any).items;
+    assert(items.every((t: any) => t.kind !== "feature"), tab);
+  }
+  assertEquals(((await run({ action: "tickets.list", tab: "feature", q: "dark" })).body as any).items.length, 1);
 });
 
 Deno.test("tickets.reply without RESEND stores the message and hands back a mailto", async () => {

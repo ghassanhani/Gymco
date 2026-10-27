@@ -8,6 +8,7 @@ import '../../state/coach_providers.dart';
 import '../../theme/volt.dart';
 import '../common/ask_iron.dart';
 import '../common/format.dart';
+import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
 import '../today/iron_card.dart' show IronWarningCard;
 import 'iron_settings_screen.dart' show ironReadsLine;
@@ -22,21 +23,6 @@ class IronCenterScreen extends ConsumerStatefulWidget {
 }
 
 class _IronCenterScreenState extends ConsumerState<IronCenterScreen> {
-  final _ask = TextEditingController();
-
-  @override
-  void dispose() {
-    _ask.dispose();
-    super.dispose();
-  }
-
-  void _send() {
-    final m = _ask.text.trim();
-    _ask.clear();
-    FocusScope.of(context).unfocus();
-    context.push('/iron', extra: m.isEmpty ? null : m);
-  }
-
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
@@ -64,18 +50,8 @@ class _IronCenterScreenState extends ConsumerState<IronCenterScreen> {
                     head(l.ironNeedsAttention),
                     for (final w in warnings) IronWarningCard(w),
                   ],
-                  IronStage(title: l.ironHi, question: on ? l.ironCenterQ : l.ironMeetBody),
-                  if (on)
-                    IronComposer(
-                      controller: _ask,
-                      hint: l.ironHomeHint,
-                      maxLength: 400,
-                      maxLines: 5,
-                      sendEmpty: true,
-                      sendLabel: l.ironGetProgram,
-                      onSend: _send,
-                    )
-                  else
+                  IronStage(title: l.ironHi, question: on ? l.ironCenterPick : l.ironMeetBody),
+                  if (!on)
                     AiBtn(
                       colors: ironGradient,
                       foreground: Colors.white,
@@ -112,6 +88,18 @@ class _IronCenterScreenState extends ConsumerState<IronCenterScreen> {
                         title: l.healthProfileTitle,
                         sub: l.ironEditHealthSub,
                         onTap: () => context.push('/iron/health'),
+                      ),
+                      _Shortcut(
+                        icon: 'food',
+                        title: l.ironLogMeal,
+                        sub: l.ironLogMealSub,
+                        onTap: () => context.push('/add/${mealForHour(DateTime.now().hour).name}'),
+                      ),
+                      _Shortcut(
+                        icon: 'sparkles',
+                        title: l.requestFeature,
+                        sub: l.requestFeatureSub,
+                        onTap: () => context.push('/feature'),
                       ),
                     ],
                   ),

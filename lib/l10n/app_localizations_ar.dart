@@ -5168,14 +5168,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironQProgram =>
-      'ماذا يجب أن أعرف قبل أن أبني برنامجك؟ أو أرسل فقط، وسأعمل من أرقامك.';
+      'اختر ما يناسبك وسأبني برنامجك. ما تتركه، أعتمد فيه على أرقامك.';
 
   @override
   String get ironQProgramBusy => 'أقرأ أرقامك وأبني برنامجك…';
 
   @override
-  String get ironQRoutine =>
-      'كيف تريد أن تتمرن؟ أخبرني بالأيام والوقت المتاح والأدوات وهدفك.';
+  String get ironQRoutine => 'اختر ما يناسبك وسأبني البرنامج.';
 
   @override
   String get ironQRoutineBusy => 'أجهز روتينك…';
@@ -5415,4 +5414,81 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironLogIt => 'سجّلها';
+
+  @override
+  String get optDaysTitle => 'أيام في الأسبوع';
+
+  @override
+  String get optTimeTitle => 'مدة التمرين';
+
+  @override
+  String get optPlaceTitle => 'أين تتمرّن';
+
+  @override
+  String get optFocusTitle => 'ما الأهم لك';
+
+  @override
+  String optMinutes(int n) {
+    return '$n دقيقة';
+  }
+
+  @override
+  String get optGym => 'النادي';
+
+  @override
+  String get optHome => 'البيت، دمبلز';
+
+  @override
+  String get optNoKit => 'بدون أدوات';
+
+  @override
+  String get optBalanced => 'متوازن';
+
+  @override
+  String get optMuscle => 'بناء العضلات';
+
+  @override
+  String get optFatLoss => 'خسارة الدهون';
+
+  @override
+  String get optStrength => 'زيادة القوة';
+
+  @override
+  String get optLegs => 'الأرجل والمؤخرة';
+
+  @override
+  String get optUpper => 'الجزء العلوي';
+
+  @override
+  String get optHint => 'اختر ما يناسبك. ما تتركه، يأخذه آيرون من أرقامك.';
+
+  @override
+  String get requestFeature => 'اطلب ميزة';
+
+  @override
+  String get requestFeatureSub => 'قل لنا ماذا نبني بعد ذلك';
+
+  @override
+  String get requestFeatureHint => 'ما الذي يجعل Gymco أفضل لك؟';
+
+  @override
+  String get requestFeatureEmail => 'بريدك الإلكتروني لنرد عليك';
+
+  @override
+  String get requestFeatureSend => 'أرسل الطلب';
+
+  @override
+  String get requestFeatureSent => 'شكرًا! وصلت فكرتك إلى الفريق.';
+
+  @override
+  String get ironRoutineDefault => 'برنامج متوازن للنادي.';
+
+  @override
+  String get ironCenterPick => 'اختر ما تريد وسأقوم به.';
+
+  @override
+  String get ironLogMeal => 'سجّل وجبة';
+
+  @override
+  String get ironLogMealSub => 'قلها أو اكتبها أو صوّرها';
 }

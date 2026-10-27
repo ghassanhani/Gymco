@@ -97,7 +97,7 @@ export interface TicketRow {
   locale: string | null;
   app_version: string | null;
   platform: string | null;
-  kind: "general" | "deletion";
+  kind: "general" | "deletion" | "feature";
   status: "new" | "waiting" | "solved";
   tags: string[];
   source: "app" | "email" | "admin";
@@ -131,9 +131,12 @@ export interface TicketCounts {
   solved: number;
   deletion_open: number;
   overdue: number;
+  /** Feature requests not marked solved. */
+  feature_open: number;
 }
 
-export type TicketTab = "new" | "waiting" | "solved" | "deletion";
+/** New / Waiting / Solved hold every kind but feature requests, which have their own tab. */
+export type TicketTab = "new" | "waiting" | "solved" | "deletion" | "feature";
 
 /** One "Notify me" sign-up from the landing page. */
 export interface WaitlistRow {
@@ -351,7 +354,8 @@ export class SupabaseStore implements Store {
     let query = this.db.from("support_tickets").select(SupabaseStore.TICKET_COLS).limit(200);
     query = tab === "deletion"
       ? query.eq("kind", "deletion").order("deadline_at", { ascending: true, nullsFirst: false })
-      : query.eq("status", tab).order("created_at", { ascending: false }).order("id", { ascending: false });
+      : (tab === "feature" ? query.eq("kind", "feature") : query.eq("status", tab).neq("kind", "feature"))
+        .order("created_at", { ascending: false }).order("id", { ascending: false });
     if (q) {
       const safe = q.replace(/[%,()]/g, "");
       query = query.or(`email.ilike.%${safe}%,subject.ilike.%${safe}%`);

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/models.dart';
-import 'package:gymco/ui/food/add_food_screen.dart';
 import 'package:gymco/ui/train/iron_screen.dart';
 
 import '../helpers.dart';
@@ -133,13 +132,13 @@ void main() {
       seed: (db) => db.saveRoutineFixture('Old day', weekday: 2),
     );
     final before = (jsonDecode(prefs.getString('profile')!) as Map)['kcal'] as num;
-    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
+    await tester.scrollUntilVisible(find.text('My program'), 300, scrollable: pageScroll);
     // To the middle of the screen, clear of the tab bar floating over the bottom.
-    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
+    await Scrollable.ensureVisible(tester.element(find.text('My program')), alignment: 0.5);
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('My program'));
+    await tester.tap(find.text('My program'));
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Build my program'));
+    await _build(tester, 'Build my program');
     await tester.pumpAndSettle();
     expect(find.text('Hold maintenance and build the upper body.'), findsOneWidget);
     // The screen's own list, not the note field's scroll inside it.
@@ -160,7 +159,7 @@ void main() {
     expect(routines['Old day']!.days, isEmpty);
   });
 
-  testWidgets('a message to Iron on Today opens Iron with it already sent', (tester) async {
+  testWidgets('Iron is asked by picking, not typing: the picks go as the note', (tester) async {
     final cloud = FakeCloud(signedIn: 'me@example.com')
       ..ironTip = tip
       ..ironProgram = {
@@ -182,15 +181,20 @@ void main() {
       },
       cloud: cloud,
     );
-    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
-    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
+    await tester.scrollUntilVisible(find.text('My program'), 300, scrollable: pageScroll);
+    await Scrollable.ensureVisible(tester.element(find.text('My program')), alignment: 0.5);
     await tester.pumpAndSettle();
-    await tester.enterText(find.widgetWithText(TextField, 'Ask Iron for a program…'), 'Only 30 minutes a day');
-    await tester.pump();
-    await tester.tap(find.byTooltip('My program'));
+    expect(find.widgetWithText(TextField, 'Ask Iron for a program…'), findsNothing);
+    await tester.tap(find.text('My program'));
     await tester.pumpAndSettle();
     expect(find.byType(IronScreen), findsOneWidget);
-    expect(find.text('Only 30 minutes a day'), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
+    await tester.tap(find.text('3'));
+    await tester.tap(find.text('30 min'));
+    await tester.pump();
+    await _build(tester, 'Build my program');
+    await tester.pumpAndSettle();
+    expect(find.text('Days a week: 3. Time per session: 30 min.'), findsOneWidget);
     expect(find.text('Three short sessions a week.'), findsOneWidget);
     expect(cloud.ironCalls, 1);
   });
@@ -225,9 +229,9 @@ void main() {
     expect(find.text('Iron Center'), findsOneWidget);
     expect(find.text('Build a routine'), findsOneWidget);
     // Ask from the Center: Iron's screen opens with the program.
-    await tester.tap(find.byTooltip('My program').last);
+    await tester.tap(find.text('My program').last);
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Build my program'));
+    await _build(tester, 'Build my program');
     await tester.pumpAndSettle();
     expect(find.text('Three short sessions a week.'), findsOneWidget);
     expect(cloud.ironCalls, 1);
@@ -248,57 +252,13 @@ void main() {
     expect(cloud.ironCalls, 1);
   });
 
-  testWidgets('a message that is not about the program gets a kind no, and nothing is kept', (tester) async {
-    final cloud = FakeCloud(signedIn: 'me@example.com')
-      ..ironTip = tip
-      ..ironProgram = {'off_topic': true};
-    final (_, prefs) = await pumpApp(
-      tester,
-      prefs: {
-        'profile': savedProfile,
-        'ironOn': true,
-        'ironTip': jsonEncode({...tip, 'day': dayKey(testNow)}),
-      },
-      cloud: cloud,
-    );
-    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
-    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
-    await tester.pumpAndSettle();
-    await tester.enterText(find.widgetWithText(TextField, 'Ask Iron for a program…'), 'Write me a poem about cats');
-    await tester.pump();
-    await tester.tap(find.byTooltip('My program'));
-    await tester.pumpAndSettle();
-    expect(find.textContaining('I only build programs'), findsOneWidget);
-    expect(find.text('Use this program'), findsNothing);
-    expect(prefs.getString('ironHistory'), isNull);
-  });
 
-  testWidgets('a meal told to Iron is offered to the log, not made into a program', (tester) async {
-    final cloud = FakeCloud(signedIn: 'me@example.com')
-      ..ironTip = tip
-      ..ironProgram = {'meal': true, 'off_topic': true};
-    final (_, prefs) = await pumpApp(
-      tester,
-      prefs: {
-        'profile': savedProfile,
-        'ironOn': true,
-        'ironTip': jsonEncode({...tip, 'day': dayKey(testNow)}),
-      },
-      cloud: cloud,
-    );
-    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
-    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
-    await tester.pumpAndSettle();
-    await tester.enterText(find.widgetWithText(TextField, 'Ask Iron for a program…'), '2 eggs and toast');
-    await tester.pump();
-    await tester.tap(find.byTooltip('My program'));
-    await tester.pumpAndSettle();
-    expect(find.textContaining('That sounds like a meal'), findsOneWidget);
-    expect(find.text('Use this program'), findsNothing);
-    expect(prefs.getString('ironHistory'), isNull);
-    await tester.tap(find.text('Log it'));
-    await tester.pumpAndSettle();
-    expect(find.byType(AddFoodScreen), findsOneWidget);
-    expect(find.text('2 eggs and toast'), findsOneWidget);
-  });
+}
+
+/// Picks Iron's options and builds: the button sits under the choices.
+Future<void> _build(WidgetTester tester, String label) async {
+  final list = find.descendant(of: find.byType(Scaffold).last, matching: find.byType(Scrollable)).first;
+  await tester.scrollUntilVisible(find.text(label).last, 200, scrollable: list);
+  await tester.pumpAndSettle();
+  await tester.tap(find.text(label).last);
 }

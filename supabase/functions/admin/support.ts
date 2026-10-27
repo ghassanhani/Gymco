@@ -8,7 +8,7 @@ import type { Services } from "./services.ts";
 import type { TicketRow, TicketTab } from "./store.ts";
 
 const SECTION = "support";
-const TABS: TicketTab[] = ["new", "waiting", "solved", "deletion"];
+const TABS: TicketTab[] = ["new", "waiting", "solved", "deletion", "feature"];
 const STATUSES = ["new", "waiting", "solved"] as const;
 const idOf = (v: unknown) => (Number.isInteger(Number(v)) && Number(v) > 0 ? Number(v) : null);
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
@@ -52,7 +52,7 @@ export function supportRoutes(s: Services): Record<string, Route> {
         const check = parseTicket(body);
         if (!check.ok) return fail(400, "invalid", { errors: check.errors });
         const row: TicketRow = {
-          ...check.row, status: "new", tags: [], source: "admin",
+          ...check.row, status: "new", tags: check.row.kind === "feature" ? ["feature"] : [], source: "admin",
           deadline_at: check.row.kind === "deletion" ? deletionDeadline(s.now()) : null,
         };
         const id = await ctx.store.insertTicket(row);

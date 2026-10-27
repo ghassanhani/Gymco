@@ -3599,9 +3599,9 @@
   "reviewLoading": "Iron is looking back at your week…",
   "askIronTo": "To Iron",
   "askIronSend": "Send",
-  "ironQProgram": "What should I know before I build your program? Or just send, and I'll work from your numbers.",
+  "ironQProgram": "Pick what fits and I'll build your program. Skip anything, and I'll go by your numbers.",
   "ironQProgramBusy": "Reading your numbers and building your program…",
-  "ironQRoutine": "How do you want to train? Tell me the days, the time you have, your gear and your goal.",
+  "ironQRoutine": "Pick what fits and I'll build the routine.",
   "ironQRoutineBusy": "Putting your routine together…",
   "ironQFood": "What did you eat? Write it like you'd text me, one food per line.",
   "ironQEatOut": "Not on the list? Describe the dish and I'll estimate it.",
@@ -3786,5 +3786,37 @@
     }
   },
   "ironMealHeard": "That sounds like a meal. Want me to log it? I only build a program when you ask for one, so this didn't use a request.",
-  "ironLogIt": "Log it"
+  "ironLogIt": "Log it",
+  "optDaysTitle": "Days a week",
+  "optTimeTitle": "Time per session",
+  "optPlaceTitle": "Where you train",
+  "optFocusTitle": "What matters most",
+  "optMinutes": "{n} min",
+  "optGym": "Gym",
+  "optHome": "Home, dumbbells",
+  "optNoKit": "No equipment",
+  "optBalanced": "Balanced",
+  "optMuscle": "Build muscle",
+  "optFatLoss": "Lose fat",
+  "optStrength": "Get stronger",
+  "optLegs": "Legs and glutes",
+  "optUpper": "Upper body",
+  "optHint": "Pick what fits. Anything you skip, Iron takes from your numbers.",
+  "requestFeature": "Request a feature",
+  "requestFeatureSub": "Tell us what to build next",
+  "requestFeatureHint": "What would make Gymco better for you?",
+  "requestFeatureEmail": "Your email, so we can reply",
+  "requestFeatureSend": "Send request",
+  "requestFeatureSent": "Thanks! Your idea is with the team.",
+  "ironRoutineDefault": "A balanced routine for the gym.",
+  "@optMinutes": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "ironCenterPick": "Pick what you want and I will do it.",
+  "ironLogMeal": "Log a meal",
+  "ironLogMealSub": "Say it, write it or snap it"
 }

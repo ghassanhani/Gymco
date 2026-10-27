@@ -52,3 +52,11 @@ Deno.test("a ticket from the app: deletions get the deadline and are marked unve
   const general = appTicket({ ...p.row, kind: "general" }, now);
   assertEquals([general.deadline_at, general.tags], [null, []]);
 });
+
+Deno.test("a feature request from the app is kept as kind feature, tagged, with no deadline", () => {
+  const p = parseTicket({ email: "a@b.co", subject: "Dark mode", body: "Please add a dark theme", kind: "feature", platform: "android" });
+  assert(p.ok);
+  assertEquals(p.row.kind, "feature");
+  const t = appTicket(p.row, now);
+  assertEquals([t.kind, t.source, t.deadline_at, t.tags], ["feature", "app", null, ["feature"]]);
+});

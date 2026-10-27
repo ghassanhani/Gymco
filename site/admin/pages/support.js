@@ -1,6 +1,6 @@
 // 02 Support inbox: tickets from support@gymcoapp.com and the in-app form.
 // New / Waiting / Solved tabs plus deletion requests with their 30-day
-// countdown; replies use saved templates in EN / AR / ES and go out by
+// countdown and feature requests from the app (kept out of the other tabs); replies use saved templates in EN / AR / ES and go out by
 // email when the server can send, or through the admin's mail client.
 
 import { ApiError } from "../lib/api.js";
@@ -16,6 +16,7 @@ const EMPTY = {
   waiting: ["Nothing waiting", "No ticket is waiting on a customer right now."],
   solved: ["Nothing solved yet", "Solved tickets stay here for reference."],
   deletion: ["No deletion requests", "Deletion tickets land here with their 30-day countdown, overdue first."],
+  feature: ["No feature requests yet", "Ideas people send from the app land here, newest first."],
 };
 
 export async function render(el, { call, toast, me, params, isCurrent }) {
@@ -63,7 +64,7 @@ export async function render(el, { call, toast, me, params, isCurrent }) {
     const now = new Date();
     const [title, sub] = EMPTY[tab];
     put(listCard,
-      h("div", { class: "card-head" }, h("h2", {}, tabLabel(tab, counts)), h("span", { class: "small muted" }, tab === "deletion" ? "Overdue first · 30 days from the request" : tab === "new" ? "Oldest first · red after 24 h" : null)),
+      h("div", { class: "card-head" }, h("h2", {}, tabLabel(tab, counts)), h("span", { class: "small muted" }, tab === "deletion" ? "Overdue first · 30 days from the request" : tab === "new" ? "Oldest first · red after 24 h" : tab === "feature" ? "Newest first" : null)),
       table([
         { label: "Subject", class: "strong", cell: (t) => h("div", { class: "stack", style: { gap: "2px", minWidth: "0" } }, h("span", {}, t.subject),
           h("span", { class: "small muted" }, [t.email, ...(t.tags ?? [])].join(" · "))) },

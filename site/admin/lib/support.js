@@ -5,15 +5,15 @@ import { dayLabel } from "./format.js";
 
 export const DAY = 86400000;
 
-export const TABS = [["new", "New"], ["waiting", "Waiting"], ["solved", "Solved"], ["deletion", "Deletion requests"]];
+export const TABS = [["new", "New"], ["waiting", "Waiting"], ["solved", "Solved"], ["deletion", "Deletion requests"], ["feature", "Feature requests"]];
 
 export const LANG_NAME = { en: "English", ar: "Arabic", es: "Spanish" };
 
 export const TEMPLATE_LABEL = { deletion_confirmed: "Deletion confirmed", restore_help: "Restore help", cap_reset: "Scan cap reset", nothing_stored: "Nothing stored" };
 
-/** "New · 4", "Solved" (no count), "Deletion requests · 2". */
+/** "New · 4", "Solved" (no count), "Deletion requests · 2", "Feature requests · 3" (open ones). */
 export function tabLabel(id, counts = {}) {
-  const n = { new: counts.new, waiting: counts.waiting, deletion: counts.deletion_open }[id];
+  const n = { new: counts.new, waiting: counts.waiting, deletion: counts.deletion_open, feature: counts.feature_open }[id];
   const name = TABS.find(([k]) => k === id)?.[1] ?? id;
   return n ? `${name} · ${n}` : name;
 }

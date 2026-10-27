@@ -13,7 +13,7 @@ export interface TicketRow {
   locale: "en" | "ar" | "es" | null;
   app_version: string | null;
   platform: "ios" | "android" | null;
-  kind: "general" | "deletion";
+  kind: "general" | "deletion" | "feature";
 }
 
 export interface FieldError {
@@ -21,6 +21,7 @@ export interface FieldError {
   message: string;
 }
 
+const KINDS: TicketRow["kind"][] = ["general", "deletion", "feature"];
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 
@@ -37,7 +38,7 @@ export function parseTicket(input: unknown): { ok: true; row: TicketRow; errors:
   const locale = ["en", "ar", "es"].includes(str(b.locale)) ? (str(b.locale) as TicketRow["locale"]) : null;
   const platform = ["ios", "android"].includes(str(b.platform)) ? (str(b.platform) as TicketRow["platform"]) : null;
   const app_version = str(b.app_version).slice(0, 32) || null;
-  return { ok: true, row: { email, subject, body, locale, app_version, platform, kind: b.kind === "deletion" ? "deletion" : "general" }, errors: [] };
+  return { ok: true, row: { email, subject, body, locale, app_version, platform, kind: KINDS.includes(b.kind as TicketRow["kind"]) ? (b.kind as TicketRow["kind"]) : "general" }, errors: [] };
 }
 
 /** True once an email has sent today's allowance. */
@@ -47,12 +48,13 @@ export const overDailyLimit = (sentToday: number) => sentToday >= DAILY_LIMIT;
 export const overGlobalLimit = (allToday: number) => allToday >= GLOBAL_DAILY_LIMIT;
 
 /** The row stored for a ticket from the app. Anyone can type any email into the
- *  form, so a deletion request is tagged until support confirms it's the owner. */
+ *  form, so a deletion request is tagged until support confirms it's the owner.
+ *  A feature request is tagged "feature" and has no deadline. */
 export const appTicket = (row: TicketRow, now = new Date()) => ({
   ...row,
   source: "app" as const,
   deadline_at: row.kind === "deletion" ? deletionDeadline(now) : null,
-  tags: row.kind === "deletion" ? ["unverified"] : [],
+  tags: row.kind === "deletion" ? ["unverified"] : row.kind === "feature" ? ["feature"] : [],
 });
 
 /** A deletion request must be answered within 30 days. */

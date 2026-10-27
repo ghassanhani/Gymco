@@ -24,7 +24,7 @@ Deno.test("health: a viewer reads it; without GitHub or FCM the services say so"
   const b = r.body as any;
   assertEquals(b.functions, [{ fn: "admin", calls: 40, errors: 1, rate: 0.025 }, { fn: "food-photo", calls: 0, errors: 0, rate: 0 }]);
   assertEquals([b.db_bytes, b.backups, b.tokens, b.crashlytics, b.ci], [12345, { count: 2, bytes: 999 }, 7, false, null]);
-  assertEquals(b.tickets, { new: 0, waiting: 0, solved: 0, deletion_open: 0, overdue: 0 });
+  assertEquals(b.tickets, { new: 0, waiting: 0, solved: 0, deletion_open: 0, overdue: 0, feature_open: 0 });
   assertEquals(b.services.map((s: any) => [s.name, s.state]), [
     ["Auth email delivery", "unknown"], ["ImprovMX forwarding", "ok"], ["GitHub Pages", "unknown"], ["Push (FCM)", "warn"],
   ]);

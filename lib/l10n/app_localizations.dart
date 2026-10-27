@@ -8521,7 +8521,7 @@ abstract class AppLocalizations {
   /// No description provided for @ironQProgram.
   ///
   /// In en, this message translates to:
-  /// **'What should I know before I build your program? Or just send, and I\'ll work from your numbers.'**
+  /// **'Pick what fits and I\'ll build your program. Skip anything, and I\'ll go by your numbers.'**
   String get ironQProgram;
 
   /// No description provided for @ironQProgramBusy.
@@ -8533,7 +8533,7 @@ abstract class AppLocalizations {
   /// No description provided for @ironQRoutine.
   ///
   /// In en, this message translates to:
-  /// **'How do you want to train? Tell me the days, the time you have, your gear and your goal.'**
+  /// **'Pick what fits and I\'ll build the routine.'**
   String get ironQRoutine;
 
   /// No description provided for @ironQRoutineBusy.
@@ -8943,6 +8943,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log it'**
   String get ironLogIt;
+
+  /// No description provided for @optDaysTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Days a week'**
+  String get optDaysTitle;
+
+  /// No description provided for @optTimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time per session'**
+  String get optTimeTitle;
+
+  /// No description provided for @optPlaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you train'**
+  String get optPlaceTitle;
+
+  /// No description provided for @optFocusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What matters most'**
+  String get optFocusTitle;
+
+  /// No description provided for @optMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} min'**
+  String optMinutes(int n);
+
+  /// No description provided for @optGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym'**
+  String get optGym;
+
+  /// No description provided for @optHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home, dumbbells'**
+  String get optHome;
+
+  /// No description provided for @optNoKit.
+  ///
+  /// In en, this message translates to:
+  /// **'No equipment'**
+  String get optNoKit;
+
+  /// No description provided for @optBalanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Balanced'**
+  String get optBalanced;
+
+  /// No description provided for @optMuscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build muscle'**
+  String get optMuscle;
+
+  /// No description provided for @optFatLoss.
+  ///
+  /// In en, this message translates to:
+  /// **'Lose fat'**
+  String get optFatLoss;
+
+  /// No description provided for @optStrength.
+  ///
+  /// In en, this message translates to:
+  /// **'Get stronger'**
+  String get optStrength;
+
+  /// No description provided for @optLegs.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs and glutes'**
+  String get optLegs;
+
+  /// No description provided for @optUpper.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper body'**
+  String get optUpper;
+
+  /// No description provided for @optHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what fits. Anything you skip, Iron takes from your numbers.'**
+  String get optHint;
+
+  /// No description provided for @requestFeature.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a feature'**
+  String get requestFeature;
+
+  /// No description provided for @requestFeatureSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what to build next'**
+  String get requestFeatureSub;
+
+  /// No description provided for @requestFeatureHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What would make Gymco better for you?'**
+  String get requestFeatureHint;
+
+  /// No description provided for @requestFeatureEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email, so we can reply'**
+  String get requestFeatureEmail;
+
+  /// No description provided for @requestFeatureSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get requestFeatureSend;
+
+  /// No description provided for @requestFeatureSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks! Your idea is with the team.'**
+  String get requestFeatureSent;
+
+  /// No description provided for @ironRoutineDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'A balanced routine for the gym.'**
+  String get ironRoutineDefault;
+
+  /// No description provided for @ironCenterPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what you want and I will do it.'**
+  String get ironCenterPick;
+
+  /// No description provided for @ironLogMeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a meal'**
+  String get ironLogMeal;
+
+  /// No description provided for @ironLogMealSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Say it, write it or snap it'**
+  String get ironLogMealSub;
 }
 
 class _AppLocalizationsDelegate

@@ -4,6 +4,7 @@
 // Deploy with verify_jwt off.
 //
 // POST { email, subject, body, locale?, app_version?, platform?, kind? }
+// kind: "general" (default) | "deletion" | "feature"
 // -> 201 { id } | 400 { error: "invalid", errors } | 429 { error: "too_many" }
 
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";

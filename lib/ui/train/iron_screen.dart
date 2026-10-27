@@ -14,6 +14,7 @@ import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../common/ask_iron.dart';
+import '../common/iron_options.dart';
 import '../common/iron_avatar.dart';
 import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
@@ -38,6 +39,7 @@ class IronScreen extends ConsumerStatefulWidget {
 
 class _IronScreenState extends ConsumerState<IronScreen> {
   final _ask = TextEditingController();
+  final _scroll = ScrollController();
   var _busy = false;
   var _saving = false;
   IronProgram? _program;
@@ -67,6 +69,7 @@ class _IronScreenState extends ConsumerState<IronScreen> {
   @override
   void dispose() {
     _ask.dispose();
+    _scroll.dispose();
     super.dispose();
   }
 
@@ -95,6 +98,9 @@ class _IronScreenState extends ConsumerState<IronScreen> {
       _asked = asked;
       _ask.clear();
     });
+    // The answer comes at the top: go there, not stay at the button.
+    if (_scroll.hasClients)
+      _scroll.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
     try {
       final p = await ref
           .read(ironActionsProvider)
@@ -168,26 +174,18 @@ class _IronScreenState extends ConsumerState<IronScreen> {
             ),
             Expanded(
               child: Pad(
+                controller: _scroll,
                 bottom: 170,
                 children: [
                   if (_asked == null) ...[
                     IronStage(title: l.ironHi, question: l.ironQProgram),
-                    IronSuggestions(
-                      ideas: [
-                        (icon: 'clock', text: l.ironAskEx1),
-                        (icon: 'dumb', text: l.ironAskEx2),
-                        (icon: 'heart', text: l.ironAskEx3),
-                      ],
-                      onPick: (t) => setState(() => _ask.text = t),
-                    ),
-                    IronComposer(
-                      controller: _ask,
-                      hint: l.askIronHint,
-                      maxLength: 400,
-                      maxLines: 5,
-                      sendEmpty: true,
-                      sendLabel: l.ironBuild,
-                      onSend: lib == null ? null : _build,
+                    IronOptions(
+                      buildLabel: l.ironBuild,
+                      busy: lib == null,
+                      onBuild: (note) {
+                        _ask.text = note;
+                        _build();
+                      },
                     ),
                   ] else ...[
                     for (final a in _asked!) UserBubble(a.isEmpty ? l.ironJustNumbers : a),
@@ -294,14 +292,13 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                     ],
                     Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.aiRoutineCheck)),
                   ],
-                  if (_asked != null && !_busy)
-                    IronComposer(
-                      controller: _ask,
-                      hint: l.ironRefineHint,
-                      maxLength: 400,
-                      maxLines: 5,
-                      sendLabel: l.aiRoutineAgain,
-                      onSend: lib == null ? null : _build,
+                  if (_asked != null && !_busy && lib != null)
+                    IronOptions(
+                      buildLabel: l.aiRoutineAgain,
+                      onBuild: (note) {
+                        _ask.text = note;
+                        _build();
+                      },
                     ),
                   Muted('${ironReadsLine(l, ref)}. ${l.ironPhotosNever}', size: 11.5, align: TextAlign.center),
                   if (_asked == null && ref.watch(ironOnProvider))

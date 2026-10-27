@@ -11,6 +11,7 @@ import '../../state/config_providers.dart';
 import '../../state/training_providers.dart';
 import '../../theme/volt.dart';
 import '../common/ask_iron.dart';
+import '../common/iron_options.dart';
 import '../common/iron_avatar.dart';
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
@@ -27,6 +28,7 @@ class AiRoutineScreen extends ConsumerStatefulWidget {
 
 class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
   final _text = TextEditingController();
+  final _scroll = ScrollController();
   var _busy = false;
   var _saving = false;
   AiPlan? _plan;
@@ -37,6 +39,7 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
   @override
   void dispose() {
     _text.dispose();
+    _scroll.dispose();
     super.dispose();
   }
 
@@ -63,6 +66,9 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
       _asked = asked;
       _text.clear();
     });
+    // The answer comes at the top: go there, not stay at the button.
+    if (_scroll.hasClients)
+      _scroll.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOutCubic);
     try {
       final (data, _) = await ref
           .read(cloudProvider)
@@ -104,7 +110,6 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
     final l = AppLocalizations.of(context);
     final lib = ref.watch(exerciseLibraryProvider).value;
     final plan = _plan;
-    final examples = [l.aiRoutineEx1, l.aiRoutineEx2, l.aiRoutineEx3, l.aiRoutineEx4];
 
     return Scaffold(
       body: VScreen(
@@ -133,25 +138,19 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
             ),
             Expanded(
               child: Pad(
+                controller: _scroll,
                 bottom: 170,
                 children: [
                   if (_asked == null) ...[
                     IronStage(title: l.ironRoutineHi, question: l.ironQRoutine),
-                    IronSuggestions(
-                      ideas: [
-                        for (final (i, e) in examples.indexed)
-                          (icon: const ['clock', 'repeat', 'dumb', 'list'][i], text: e),
-                      ],
-                      onPick: (t) => setState(() => _text.text = t),
-                    ),
-                    IronComposer(
-                      controller: _text,
-                      hint: l.askIronHint,
-                      onChanged: (_) => setState(() {}),
-                      maxLength: 600,
-                      maxLines: 5,
-                      sendLabel: l.aiRoutineBuild,
-                      onSend: lib == null ? null : _build,
+                    IronOptions(
+                      buildLabel: l.aiRoutineBuild,
+                      busy: lib == null,
+                      fallback: l.ironRoutineDefault,
+                      onBuild: (note) {
+                        _text.text = note;
+                        _build();
+                      },
                     ),
                   ] else ...[
                     for (final a in _asked!) UserBubble(a),
@@ -176,15 +175,14 @@ class _AiRoutineScreenState extends ConsumerState<AiRoutineScreen> {
                       ),
                     Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: Muted(l.aiRoutineCheck)),
                   ],
-                  if (_asked != null && !_busy)
-                    IronComposer(
-                      controller: _text,
-                      hint: l.ironRefineHint,
-                      onChanged: (_) => setState(() {}),
-                      maxLength: 600,
-                      maxLines: 5,
-                      sendLabel: l.aiRoutineAgain,
-                      onSend: lib == null ? null : _build,
+                  if (_asked != null && !_busy && lib != null)
+                    IronOptions(
+                      buildLabel: l.aiRoutineAgain,
+                      fallback: l.ironRoutineDefault,
+                      onBuild: (note) {
+                        _text.text = note;
+                        _build();
+                      },
                     ),
                 ],
               ),

@@ -14,7 +14,6 @@ import '../../state/coach_providers.dart';
 import '../../state/health_providers.dart';
 import '../../state/providers.dart';
 import '../../theme/volt.dart';
-import '../common/ask_iron.dart';
 import '../common/iron_avatar.dart';
 import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
@@ -586,40 +585,25 @@ class IronWarningCard extends ConsumerWidget {
   }
 }
 
-/// Message Iron from Today: sending opens Iron's screen with the message
-/// already on its way; sending nothing opens it to start fresh.
-class _HomeAsk extends StatefulWidget {
+/// What Iron can do from Today, as choices rather than a message box: each
+/// opens the one task.
+class _HomeAsk extends StatelessWidget {
   const _HomeAsk();
-
-  @override
-  State<_HomeAsk> createState() => _HomeAskState();
-}
-
-class _HomeAskState extends State<_HomeAsk> {
-  final _text = TextEditingController();
-
-  @override
-  void dispose() {
-    _text.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return IronComposer(
-      controller: _text,
-      hint: l.ironHomeHint,
-      maxLines: 4,
-      maxLength: 400,
-      sendEmpty: true,
-      sendLabel: l.ironGetProgram,
-      onSend: () {
-        final m = _text.text.trim();
-        _text.clear();
-        FocusScope.of(context).unfocus();
-        context.push('/iron', extra: m.isEmpty ? null : m);
-      },
+    Widget chip(String icon, String label, VoidCallback onTap) =>
+        VChip(label: label, icon: icon, iconSize: 14, height: 38, onTap: onTap);
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        chip('dumb', l.ironGetProgram, () => context.push('/iron')),
+        chip('repeat', l.ironShortRoutine, () => context.push('/routine/ai')),
+        chip('chart', l.ironWeekReview, () => context.push('/iron/review')),
+        chip('sparkles', l.requestFeature, () => context.push('/feature')),
+      ],
     );
   }
 }

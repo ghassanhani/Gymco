@@ -194,7 +194,8 @@ export class FakeStore implements Store {
   tickets(tab: TicketTab, q?: string) {
     const needle = (q ?? "").toLowerCase();
     const hit = (t: TicketRow) => !needle || t.email.toLowerCase().includes(needle) || t.subject.toLowerCase().includes(needle);
-    const rows = this.ticketRows.filter((t) => (tab === "deletion" ? t.kind === "deletion" : t.status === tab) && hit(t));
+    const inTab = (t: TicketRow) => tab === "deletion" || tab === "feature" ? t.kind === tab : t.status === tab && t.kind !== "feature";
+    const rows = this.ticketRows.filter((t) => inTab(t) && hit(t));
     const sorted = tab === "deletion"
       ? rows.sort((a, b) => (a.deadline_at ?? "9").localeCompare(b.deadline_at ?? "9"))
       : rows.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? "") || (b.id ?? 0) - (a.id ?? 0));
@@ -226,13 +227,15 @@ export class FakeStore implements Store {
   ticketCounts() {
     const t = this.ticketRows;
     const now = this.now().toISOString();
+    const inbox = t.filter((x) => x.kind !== "feature");
     const open = t.filter((x) => x.kind === "deletion" && x.status !== "solved");
     const counts: TicketCounts = {
-      new: t.filter((x) => x.status === "new").length,
-      waiting: t.filter((x) => x.status === "waiting").length,
-      solved: t.filter((x) => x.status === "solved").length,
+      new: inbox.filter((x) => x.status === "new").length,
+      waiting: inbox.filter((x) => x.status === "waiting").length,
+      solved: inbox.filter((x) => x.status === "solved").length,
       deletion_open: open.length,
       overdue: open.filter((x) => x.deadline_at && x.deadline_at < now).length,
+      feature_open: t.filter((x) => x.kind === "feature" && x.status !== "solved").length,
     };
     return Promise.resolve(counts);
   }
