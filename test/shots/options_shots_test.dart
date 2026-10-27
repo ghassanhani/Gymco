@@ -44,7 +44,7 @@ void main() {
   final run = Platform.environment['SHOTS'] == '1';
   setUpAll(_fonts);
   for (final look in ['light', 'dark']) {
-    for (final screen in ['iron', 'home', 'feature']) {
+    for (final screen in ['iron', 'home', 'feature', 'offline']) {
       testWidgets('options $look $screen', skip: !run, (tester) async {
         await pumpApp(
           tester,
@@ -52,9 +52,9 @@ void main() {
             'profile': savedProfile,
             'appearance': look,
             'ironOn': true,
-            'ironTips': jsonEncode({..._tips, 'day': dayKey(testNow)}),
+            if (screen != 'offline') 'ironTips': jsonEncode({..._tips, 'day': dayKey(testNow)}),
           },
-          cloud: FakeCloud(signedIn: 'me@example.com'),
+          cloud: FakeCloud(signedIn: 'me@example.com')..paused = screen == 'offline',
         );
         tester.view.padding = const FakeViewPadding(top: 141, bottom: 102);
         await tester.pumpAndSettle();
@@ -68,6 +68,10 @@ void main() {
         } else if (screen == 'feature') {
           router.push('/feature');
         } else {
+          for (var i = 0; i < 5; i++) {
+            await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+            await tester.pump();
+          }
           await tester.scrollUntilVisible(find.byType(IronCard), 300, scrollable: pageScroll);
           await tester.pumpAndSettle();
           await Scrollable.ensureVisible(tester.element(find.byType(IronCard)), alignment: 0.3);

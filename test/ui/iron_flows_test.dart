@@ -252,7 +252,19 @@ void main() {
     expect(cloud.ironCalls, 1);
   });
 
-
+  testWidgets('with Iron out of reach, the card still has tips from the phone', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')..paused = true;
+    await pumpApp(tester, prefs: {'profile': savedProfile, 'ironOn': true}, cloud: cloud);
+    await tester.scrollUntilVisible(
+      find.textContaining('from your numbers on the phone'),
+      300,
+      scrollable: pageScroll,
+    );
+    await tester.pumpAndSettle();
+    // Nothing logged yet today, so that comes first, with its button.
+    expect(find.text('Log your first meal'), findsOneWidget);
+    expect(find.text('Log food'), findsOneWidget);
+  });
 }
 
 /// Picks Iron's options and builds: the button sits under the choices.

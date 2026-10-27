@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/models.dart';
 import '../data/training.dart';
 import '../domain/coach.dart';
+import 'offline_tips.dart';
 import '../domain/energy.dart';
 import '../domain/hydration.dart';
 import '../domain/iron_rules.dart';
@@ -286,8 +287,9 @@ bool _ready(Ref ref) =>
     (ref.read(accountProvider).value ?? ref.read(cloudProvider).email) != null;
 
 /// Today's tips from Iron, a few to swipe through: asked once a day and
-/// kept, so they cost one AI call a day. Empty while Iron is off, signed out
-/// or switched off, or on failure.
+/// kept, so they cost one AI call a day. Empty while Iron is off or signed
+/// out. When Iron can't be reached (no connection, switched off, out of
+/// requests) the phone makes its own from the numbers, kept for no time.
 final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
   ref.watch(ironOnProvider);
   ref.watch(accountProvider);
@@ -301,19 +303,24 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
       if (tips.isNotEmpty) return tips;
     }
   }
-  if (!_ready(ref)) return const [];
+  final signedIn = (ref.read(accountProvider).value ?? ref.read(cloudProvider).email) != null;
+  if (!ref.read(ironOnProvider) || !signedIn) return const [];
   final numbers = await _numbers(ref);
   if (numbers == null) return const [];
+  final lang = prefs.getString('lang') ?? 'en';
+  List<IronTip> offline() => offlineTips(numbers, languageCode: lang, day: day);
+  if (!_ready(ref)) return offline();
   try {
     final (data, _) = await ref
         .read(cloudProvider)
         .askIron(
           mode: 'tip',
           numbers: numbers,
-          languageCode: prefs.getString('lang') ?? 'en',
+          languageCode: lang,
           bucket: ref.read(installBucketProvider),
         );
     final tips = IronTip.allFromJson(data, day);
+    if (tips.isEmpty) return offline();
     if (tips.isNotEmpty) {
       await prefs.setString(
         'ironTips',
@@ -325,7 +332,7 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
     }
     return tips;
   } catch (_) {
-    return const [];
+    return offline();
   }
 });
 

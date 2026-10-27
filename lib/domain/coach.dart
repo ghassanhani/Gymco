@@ -20,11 +20,21 @@ IronAction _action(Object? v) => switch (v) {
 
 /// Today's tip from Iron, kept for the day it was given.
 class IronTip {
-  const IronTip({required this.day, required this.title, required this.tip, required this.action});
+  const IronTip({
+    required this.day,
+    required this.title,
+    required this.tip,
+    required this.action,
+    this.offline = false,
+  });
   final String day;
   final String title;
   final String tip;
   final IronAction action;
+
+  /// Made on the phone from its own numbers, because Iron couldn't be
+  /// reached. Never kept: the real tips are asked for again next time.
+  final bool offline;
 
   static IronTip? fromJson(Map<String, Object?> j, String day) {
     final title = cleanText(j['title']), tip = cleanText(j['tip']);

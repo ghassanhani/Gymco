@@ -9093,6 +9093,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Say it, write it or snap it'**
   String get ironLogMealSub;
+
+  /// No description provided for @offProteinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} g of protein to go'**
+  String offProteinTitle(int n);
+
+  /// No description provided for @offProteinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Make your next meal about {per} g of protein: chicken, eggs, yogurt or a shake.'**
+  String offProteinBody(int per);
+
+  /// No description provided for @offWaterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{ml} ml of water to go'**
+  String offWaterTitle(int ml);
+
+  /// No description provided for @offWaterBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Have a glass now and keep a bottle within reach.'**
+  String get offWaterBody;
+
+  /// No description provided for @offWorkoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is on today'**
+  String offWorkoutTitle(String name);
+
+  /// No description provided for @offWorkoutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Even a short session keeps your week on track.'**
+  String get offWorkoutBody;
+
+  /// No description provided for @offFirstMealTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your first meal'**
+  String get offFirstMealTitle;
+
+  /// No description provided for @offFirstMealBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing is logged yet today. Start with what you had this morning.'**
+  String get offFirstMealBody;
+
+  /// No description provided for @offOverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} kcal over today'**
+  String offOverTitle(int n);
+
+  /// No description provided for @offOverBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No stress. Keep the rest of today light, a walk helps, and tomorrow starts fresh.'**
+  String get offOverBody;
+
+  /// No description provided for @offRecoveryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take it easy today'**
+  String get offRecoveryTitle;
+
+  /// No description provided for @offRecoveryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery is at {score}. A lighter session or a walk is the better call.'**
+  String offRecoveryBody(int score);
+
+  /// No description provided for @offSleepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Aim for 7 hours tonight'**
+  String get offSleepTitle;
+
+  /// No description provided for @offSleepBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You slept {h} h {m} m. More sleep makes training and hunger easier.'**
+  String offSleepBody(int h, int m);
+
+  /// No description provided for @offStreakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {n} of your streak'**
+  String offStreakTitle(int n);
+
+  /// No description provided for @offStreakBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Log one meal today to keep it going.'**
+  String get offStreakBody;
+
+  /// No description provided for @offGeneralTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein at every meal'**
+  String get offGeneralTitle;
+
+  /// No description provided for @offGeneralBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Building each meal around protein keeps you full and protects your muscle.'**
+  String get offGeneralBody;
+
+  /// No description provided for @ironTipOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron can\'t be reached right now, so these come from your numbers on the phone.'**
+  String get ironTipOffline;
 }
 
 class _AppLocalizationsDelegate

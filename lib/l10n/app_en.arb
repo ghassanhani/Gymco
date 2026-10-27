@@ -3818,5 +3818,83 @@
   },
   "ironCenterPick": "Pick what you want and I will do it.",
   "ironLogMeal": "Log a meal",
-  "ironLogMealSub": "Say it, write it or snap it"
+  "ironLogMealSub": "Say it, write it or snap it",
+  "offProteinTitle": "{n} g of protein to go",
+  "offProteinBody": "Make your next meal about {per} g of protein: chicken, eggs, yogurt or a shake.",
+  "offWaterTitle": "{ml} ml of water to go",
+  "offWaterBody": "Have a glass now and keep a bottle within reach.",
+  "offWorkoutTitle": "{name} is on today",
+  "offWorkoutBody": "Even a short session keeps your week on track.",
+  "offFirstMealTitle": "Log your first meal",
+  "offFirstMealBody": "Nothing is logged yet today. Start with what you had this morning.",
+  "offOverTitle": "{n} kcal over today",
+  "offOverBody": "No stress. Keep the rest of today light, a walk helps, and tomorrow starts fresh.",
+  "offRecoveryTitle": "Take it easy today",
+  "offRecoveryBody": "Recovery is at {score}. A lighter session or a walk is the better call.",
+  "offSleepTitle": "Aim for 7 hours tonight",
+  "offSleepBody": "You slept {h} h {m} m. More sleep makes training and hunger easier.",
+  "offStreakTitle": "Day {n} of your streak",
+  "offStreakBody": "Log one meal today to keep it going.",
+  "offGeneralTitle": "Protein at every meal",
+  "offGeneralBody": "Building each meal around protein keeps you full and protects your muscle.",
+  "ironTipOffline": "Iron can't be reached right now, so these come from your numbers on the phone.",
+  "@offProteinTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@offProteinBody": {
+    "placeholders": {
+      "per": {
+        "type": "int"
+      }
+    }
+  },
+  "@offWaterTitle": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "@offWorkoutTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@offOverTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "@offRecoveryBody": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "@offSleepBody": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "@offStreakTitle": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  }
 }

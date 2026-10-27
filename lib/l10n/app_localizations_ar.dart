@@ -5491,4 +5491,81 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ironLogMealSub => 'قلها أو اكتبها أو صوّرها';
+
+  @override
+  String offProteinTitle(int n) {
+    return 'باقي $n غرام بروتين';
+  }
+
+  @override
+  String offProteinBody(int per) {
+    return 'اجعل وجبتك القادمة نحو $per غرام بروتين: دجاج أو بيض أو زبادي أو شيك بروتين.';
+  }
+
+  @override
+  String offWaterTitle(int ml) {
+    return 'باقي $ml مل ماء';
+  }
+
+  @override
+  String get offWaterBody => 'اشرب كوبًا الآن وأبقِ قارورة ماء قريبة منك.';
+
+  @override
+  String offWorkoutTitle(String name) {
+    return 'تمرين $name اليوم';
+  }
+
+  @override
+  String get offWorkoutBody => 'حتى جلسة قصيرة تبقي أسبوعك على المسار.';
+
+  @override
+  String get offFirstMealTitle => 'سجّل وجبتك الأولى';
+
+  @override
+  String get offFirstMealBody =>
+      'لم تسجّل شيئًا بعد اليوم. ابدأ بما أكلته صباحًا.';
+
+  @override
+  String offOverTitle(int n) {
+    return 'زيادة $n سعرة اليوم';
+  }
+
+  @override
+  String get offOverBody =>
+      'لا بأس. اجعل بقية اليوم خفيفًا، والمشي يساعد، وغدًا بداية جديدة.';
+
+  @override
+  String get offRecoveryTitle => 'خفّف اليوم';
+
+  @override
+  String offRecoveryBody(int score) {
+    return 'التعافي عند $score. جلسة أخف أو مشي هو الخيار الأفضل.';
+  }
+
+  @override
+  String get offSleepTitle => 'استهدف 7 ساعات نوم الليلة';
+
+  @override
+  String offSleepBody(int h, int m) {
+    return 'نمت $h س $m د. النوم الأكثر يسهّل التمرين ويخفف الجوع.';
+  }
+
+  @override
+  String offStreakTitle(int n) {
+    return 'اليوم $n من سلسلتك';
+  }
+
+  @override
+  String get offStreakBody => 'سجّل وجبة واحدة اليوم لتستمر السلسلة.';
+
+  @override
+  String get offGeneralTitle => 'بروتين في كل وجبة';
+
+  @override
+  String get offGeneralBody =>
+      'بناء كل وجبة حول البروتين يشعرك بالشبع ويحمي عضلاتك.';
+
+  @override
+  String get ironTipOffline =>
+      'لا يمكن الوصول إلى آيرون الآن، لذلك هذه النصائح من أرقامك على الهاتف.';
 }

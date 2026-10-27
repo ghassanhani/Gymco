@@ -5539,4 +5539,82 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ironLogMealSub => 'Dila, escríbela o hazle una foto';
+
+  @override
+  String offProteinTitle(int n) {
+    return 'Faltan $n g de proteína';
+  }
+
+  @override
+  String offProteinBody(int per) {
+    return 'Que tu próxima comida tenga unos $per g de proteína: pollo, huevos, yogur o un batido.';
+  }
+
+  @override
+  String offWaterTitle(int ml) {
+    return 'Faltan $ml ml de agua';
+  }
+
+  @override
+  String get offWaterBody => 'Toma un vaso ahora y ten una botella a mano.';
+
+  @override
+  String offWorkoutTitle(String name) {
+    return 'Hoy toca $name';
+  }
+
+  @override
+  String get offWorkoutBody =>
+      'Aunque sea una sesión corta, mantiene tu semana en marcha.';
+
+  @override
+  String get offFirstMealTitle => 'Registra tu primera comida';
+
+  @override
+  String get offFirstMealBody =>
+      'Aún no has registrado nada hoy. Empieza por lo que tomaste esta mañana.';
+
+  @override
+  String offOverTitle(int n) {
+    return '$n kcal de más hoy';
+  }
+
+  @override
+  String get offOverBody =>
+      'Tranquilo. Lo que queda del día, ligero; caminar ayuda, y mañana empiezas de nuevo.';
+
+  @override
+  String get offRecoveryTitle => 'Hoy, con calma';
+
+  @override
+  String offRecoveryBody(int score) {
+    return 'La recuperación está en $score. Mejor una sesión suave o caminar.';
+  }
+
+  @override
+  String get offSleepTitle => 'Intenta dormir 7 horas hoy';
+
+  @override
+  String offSleepBody(int h, int m) {
+    return 'Dormiste $h h $m min. Dormir más facilita el entreno y el hambre.';
+  }
+
+  @override
+  String offStreakTitle(int n) {
+    return 'Día $n de tu racha';
+  }
+
+  @override
+  String get offStreakBody => 'Registra una comida hoy para mantenerla.';
+
+  @override
+  String get offGeneralTitle => 'Proteína en cada comida';
+
+  @override
+  String get offGeneralBody =>
+      'Centrar cada comida en la proteína te sacia y protege tu músculo.';
+
+  @override
+  String get ironTipOffline =>
+      'Ahora no se puede contactar a Iron, así que vienen de tus números en el teléfono.';
 }

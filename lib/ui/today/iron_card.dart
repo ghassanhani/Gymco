@@ -184,7 +184,7 @@ class IronCard extends ConsumerWidget {
           ],
         ),
         const _HomeAsk(),
-        Muted(ironReadsLine(l, ref), size: 10.5),
+        Muted(list.any((t) => t.offline) ? l.ironTipOffline : ironReadsLine(l, ref), size: 10.5),
       ],
     );
   }

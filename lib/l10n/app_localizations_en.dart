@@ -5523,4 +5523,81 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ironLogMealSub => 'Say it, write it or snap it';
+
+  @override
+  String offProteinTitle(int n) {
+    return '$n g of protein to go';
+  }
+
+  @override
+  String offProteinBody(int per) {
+    return 'Make your next meal about $per g of protein: chicken, eggs, yogurt or a shake.';
+  }
+
+  @override
+  String offWaterTitle(int ml) {
+    return '$ml ml of water to go';
+  }
+
+  @override
+  String get offWaterBody => 'Have a glass now and keep a bottle within reach.';
+
+  @override
+  String offWorkoutTitle(String name) {
+    return '$name is on today';
+  }
+
+  @override
+  String get offWorkoutBody => 'Even a short session keeps your week on track.';
+
+  @override
+  String get offFirstMealTitle => 'Log your first meal';
+
+  @override
+  String get offFirstMealBody =>
+      'Nothing is logged yet today. Start with what you had this morning.';
+
+  @override
+  String offOverTitle(int n) {
+    return '$n kcal over today';
+  }
+
+  @override
+  String get offOverBody =>
+      'No stress. Keep the rest of today light, a walk helps, and tomorrow starts fresh.';
+
+  @override
+  String get offRecoveryTitle => 'Take it easy today';
+
+  @override
+  String offRecoveryBody(int score) {
+    return 'Recovery is at $score. A lighter session or a walk is the better call.';
+  }
+
+  @override
+  String get offSleepTitle => 'Aim for 7 hours tonight';
+
+  @override
+  String offSleepBody(int h, int m) {
+    return 'You slept $h h $m m. More sleep makes training and hunger easier.';
+  }
+
+  @override
+  String offStreakTitle(int n) {
+    return 'Day $n of your streak';
+  }
+
+  @override
+  String get offStreakBody => 'Log one meal today to keep it going.';
+
+  @override
+  String get offGeneralTitle => 'Protein at every meal';
+
+  @override
+  String get offGeneralBody =>
+      'Building each meal around protein keeps you full and protects your muscle.';
+
+  @override
+  String get ironTipOffline =>
+      'Iron can\'t be reached right now, so these come from your numbers on the phone.';
 }
