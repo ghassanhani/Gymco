@@ -163,6 +163,10 @@ abstract class Cloud {
     int? bucket,
   });
 
+  /// What a voice note says, written down in the language it was spoken in
+  /// (Arabic and English may mix). Takes one of the day's AI requests.
+  Future<String> transcribe(Uint8List audio, {required String languageCode, required double seconds, int? bucket});
+
   /// Training routines built from the user's own words, picked from
   /// [exercises] (the names the phone's library has). Returns the raw answer
   /// for [planFrom] with the AI credits left today.
@@ -239,6 +243,13 @@ class NoCloud implements Cloud {
     required String languageCode,
     String note = '',
     String? feature,
+    int? bucket,
+  }) async => _no();
+  @override
+  Future<String> transcribe(
+    Uint8List audio, {
+    required String languageCode,
+    required double seconds,
     int? bucket,
   }) async => _no();
   @override
@@ -471,6 +482,23 @@ class SupabaseCloud implements Cloud {
     ].where((f) => f.name.isNotEmpty).toList();
     return (foods, (data['left'] as num?)?.toInt() ?? 0);
   });
+
+  @override
+  Future<String> transcribe(Uint8List audio, {required String languageCode, required double seconds, int? bucket}) =>
+      _guard(() async {
+        _uid;
+        final r = await _sb.functions.invoke(
+          'transcribe',
+          body: {
+            'audio': base64Encode(audio),
+            'lang': languageCode,
+            'seconds': double.parse(seconds.toStringAsFixed(1)),
+            'bucket': ?bucket,
+          },
+        );
+        final data = (r.data is String ? jsonDecode(r.data as String) : r.data) as Map<String, Object?>;
+        return '${data['text'] ?? ''}'.trim();
+      });
 
   @override
   Future<(Map<String, Object?>, int)> planRoutines(

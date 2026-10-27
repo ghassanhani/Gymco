@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
 import 'package:gymco/data/cloud.dart';
 import 'package:gymco/data/dictation.dart';
+import 'package:gymco/data/voice.dart';
 import 'package:gymco/data/food_source.dart';
 import 'package:gymco/data/health_sync.dart';
 import 'package:gymco/data/local_db.dart';
@@ -62,6 +63,7 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
   DateTime Function()? clock,
   ExerciseLibrary? library,
   Dictation? dictation,
+  Voice? voice,
   Cloud? cloud,
   PhotoPicker? picker,
   ImageProvider Function(String url)? exerciseImages,
@@ -93,6 +95,11 @@ Future<(LocalDb, SharedPreferences)> pumpApp(
         showExercisePhotosProvider.overrideWithValue(exerciseImages != null),
         if (exerciseImages != null) exerciseImageProvider.overrideWithValue(exerciseImages),
         dictationProvider.overrideWithValue(dictation ?? FakeDictation()),
+        // Never the real recorder: a fake note, or the fake dictation's words.
+        voiceProvider.overrideWith(
+          (_) =>
+              () => voice ?? DeviceVoice(dictation ?? FakeDictation()),
+        ),
         cloudProvider.overrideWithValue(cloud ?? const NoCloud()),
         photoPickerProvider.overrideWithValue(picker ?? FakePicker()),
         reminderSchedulerProvider.overrideWithValue(reminders ?? FakeReminders()),
@@ -125,6 +132,37 @@ class FakeDictation implements Dictation {
 
   @override
   Future<void> stop() async => listening = false;
+
+  @override
+  Stream<double> get level => Stream.fromIterable(const [0.2, 0.7, 0.4]);
+}
+
+/// A voice note that says [words], or fails with [failure].
+class FakeVoice implements Voice {
+  FakeVoice({this.words = '', this.available = true, this.failure});
+  final String words;
+  final bool available;
+  final CloudFailure? failure;
+  var started = 0, finished = 0, cancelled = 0;
+
+  @override
+  Stream<double> get level => Stream.fromIterable(const [0.3, 0.8, 0.5, 0.9]);
+
+  @override
+  Future<bool> start({required String languageCode}) async {
+    started++;
+    return available;
+  }
+
+  @override
+  Future<String> finish() async {
+    finished++;
+    if (failure != null) throw CloudException(failure!);
+    return words;
+  }
+
+  @override
+  Future<void> cancel() async => cancelled++;
 }
 
 /// An account in memory: code 123456 signs in, one backup slot, a photo
@@ -255,6 +293,21 @@ class FakeCloud implements Cloud {
       'platform': ?platform,
       'kind': kind,
     });
+  }
+
+  /// What a voice note sent to [transcribe] says.
+  String heard = '';
+
+  @override
+  Future<String> transcribe(
+    Uint8List audio, {
+    required String languageCode,
+    required double seconds,
+    int? bucket,
+  }) async {
+    if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
+    scansLeft--;
+    return heard;
   }
 
   @override

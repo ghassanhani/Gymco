@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/app.dart';
 import 'package:gymco/data/models.dart';
 import 'package:gymco/ui/food/add_food_screen.dart';
 import 'package:gymco/ui/progress/progress_screen.dart';
-import 'package:gymco/ui/train/iron_screen.dart';
+import 'package:gymco/ui/common/ask_iron.dart';
 
 import '../helpers.dart';
 
@@ -59,7 +60,7 @@ void main() {
     expect(today['water_ml'], 0);
   });
 
-  testWidgets('the mic on Iron\'s box writes what is said', (tester) async {
+  testWidgets('a voice note to Iron is sent as the message, not left in the box', (tester) async {
     await pumpApp(
       tester,
       prefs: {'profile': savedProfile, 'ironOn': true},
@@ -70,8 +71,13 @@ void main() {
     ProviderScope.containerOf(tester.element(find.byType(GymcoApp))).read(routerProvider).push('/iron');
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Say it'));
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.byTooltip('Cancel recording'), findsOneWidget);
+    await tester.tap(find.byTooltip('Build my program'));
+    await tester.pump(const Duration(milliseconds: 400));
     await tester.pumpAndSettle();
-    expect(find.descendant(of: find.byType(IronScreen), matching: find.text('only three days a week')), findsOneWidget);
+    expect(find.descendant(of: find.byType(UserBubble), matching: find.text('only three days a week')), findsOneWidget);
+    expect(find.descendant(of: find.byType(TextField), matching: find.text('only three days a week')), findsNothing);
   });
 
   testWidgets('a shortcut that opens a place in the app goes there, and only to known places', (tester) async {

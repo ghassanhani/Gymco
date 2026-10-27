@@ -785,9 +785,9 @@
   "removeNamed": "Quitar {name}",
   "howMuchOf": "¿Cuánto {name}?",
   "gramsNote": "En gramos, tal como se comió.",
-  "voiceHold": "Mantén pulsado y di lo que comiste. Pasa por el mismo lector que la escritura.",
-  "voiceListening": "Escuchando… suelta cuando acabes.",
-  "voiceHeard": "Entendido. Revisa la transcripción antes de añadirla.",
+  "voiceHold": "Toca el micrófono y di lo que comiste; luego toca la flecha. Funciona en español, inglés y árabe.",
+  "voiceListening": "Escuchando… toca la flecha cuando termines.",
+  "voiceHeard": "Esto es lo que encontró Iron. Revisa las cantidades y añade.",
   "transcriptLbl": "Transcripción · edítala si oyó mal",
   "voiceUnavailable": "El dictado no está disponible en este móvil o el micrófono está desactivado para Gymco. Escríbelo.",
   "dictateMeal": "Dicta la comida",
@@ -1472,5 +1472,11 @@
   "faqNone": "Nada coincide. Prueba otras palabras o escríbenos.",
   "faqStuck": "¿Sigues atascado?",
   "faqStuckSub": "Responde una persona real, normalmente en dos días",
-  "faqMessageUs": "Escríbenos"
+  "faqMessageUs": "Escríbenos",
+  "voiceNothing": "No se oyó nada. Prueba otra vez un poco más cerca.",
+  "voiceWriting": "Escribiéndolo…",
+  "voiceRecording": "Grabando, {time}",
+  "voiceCancel": "Cancelar grabación",
+  "voiceDone": "Listo",
+  "voiceYouSaid": "Dijiste: «{words}»"
 }

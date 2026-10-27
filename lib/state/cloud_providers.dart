@@ -6,9 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/cloud.dart';
+import '../data/voice.dart';
 import '../data/local_db.dart';
 import '../data/photo_picker.dart';
 import '../domain/remote_config.dart';
+import 'config_providers.dart';
 import 'providers.dart';
 import 'training_providers.dart';
 
@@ -141,3 +143,14 @@ BackupMeta deviceMeta(Ref ref) {
     appVersion: ref.read(appVersionProvider),
   );
 }
+
+/// A fresh voice note: written down on our server when signed in, by the
+/// phone's own recogniser otherwise. Tests swap in a fake.
+final voiceProvider = Provider.autoDispose<Voice Function()>((ref) {
+  final cloud = ref.watch(cloudProvider);
+  final signedIn = (ref.watch(accountProvider).value ?? cloud.email) != null;
+  final on = ref.watch(remoteConfigProvider).voiceAi;
+  final bucket = ref.watch(installBucketProvider);
+  final dictation = ref.watch(dictationProvider);
+  return () => signedIn && on && cloud.available ? CloudVoice(cloud, bucket: bucket) : DeviceVoice(dictation);
+});

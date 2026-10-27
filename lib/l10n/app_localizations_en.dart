@@ -2944,13 +2944,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get voiceHold =>
-      'Hold and say what you ate. It goes through the same reader as writing.';
+      'Tap the mic and say what you ate, then tap the arrow. Arabic and English both work.';
 
   @override
-  String get voiceListening => 'Listening… let go when you are done.';
+  String get voiceListening => 'Listening… tap the arrow when you are done.';
 
   @override
-  String get voiceHeard => 'Heard it. Check the transcript before it goes in.';
+  String get voiceHeard =>
+      'Here is what Iron found. Check the amounts, then add.';
 
   @override
   String get transcriptLbl => 'Transcript · edit if it misheard';
@@ -5415,4 +5416,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get faqMessageUs => 'Message us';
+
+  @override
+  String get voiceNothing =>
+      'Didn\'t catch anything. Try again a little closer.';
+
+  @override
+  String get voiceWriting => 'Writing it down…';
+
+  @override
+  String voiceRecording(String time) {
+    return 'Recording, $time';
+  }
+
+  @override
+  String get voiceCancel => 'Cancel recording';
+
+  @override
+  String get voiceDone => 'Done';
+
+  @override
+  String voiceYouSaid(String words) {
+    return 'You said: “$words”';
+  }
 }

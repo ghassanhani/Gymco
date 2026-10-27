@@ -2909,13 +2909,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get voiceHold =>
-      'اضغط مطولًا وقل ما أكلت. يمر عبر نفس القارئ المستخدم في الكتابة.';
+      'اضغط على الميكروفون وقل ما أكلته، ثم اضغط على السهم. العربية والإنجليزية تعملان كلتاهما.';
 
   @override
-  String get voiceListening => 'أستمع… اترك الزر عند الانتهاء.';
+  String get voiceListening => 'أستمع… اضغط على السهم عندما تنتهي.';
 
   @override
-  String get voiceHeard => 'سمعتها. راجع النص قبل الإضافة.';
+  String get voiceHeard => 'هذا ما وجده آيرون. راجع الكميات ثم أضِف.';
 
   @override
   String get transcriptLbl => 'النص · عدّله إن أخطأ السمع';
@@ -5386,4 +5386,26 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get faqMessageUs => 'راسلنا';
+
+  @override
+  String get voiceNothing => 'لم ألتقط شيئًا. جرّب مرة أخرى وأنت أقرب قليلًا.';
+
+  @override
+  String get voiceWriting => 'جارٍ كتابة ما قلته…';
+
+  @override
+  String voiceRecording(String time) {
+    return 'جارٍ التسجيل، $time';
+  }
+
+  @override
+  String get voiceCancel => 'إلغاء التسجيل';
+
+  @override
+  String get voiceDone => 'تم';
+
+  @override
+  String voiceYouSaid(String words) {
+    return 'قلت: «$words»';
+  }
 }

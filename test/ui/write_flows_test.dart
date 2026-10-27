@@ -228,7 +228,7 @@ void main() {
     expect([for (final e in entries) (e.foodName, e.grams.round())], [('Chicken biryani', 450)]);
   });
 
-  testWidgets('voice goes through the same reader, with an editable transcript', (tester) async {
+  testWidgets('voice goes straight to the reader, with no transcript box', (tester) async {
     final (db, _) = await pumpApp(
       tester,
       prefs: {'profile': savedProfile},
@@ -236,13 +236,19 @@ void main() {
     );
     await _openWrite(tester, 'Voice');
     await tester.tap(find.bySemanticsLabel('Dictate the meal'));
-    await tester.pump(const Duration(milliseconds: 300));
+    // Recording: the red dot, the time and the wave show the mic is open.
+    for (var i = 0; i < 3; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(find.text('0:00'), findsOneWidget);
+    expect(find.byTooltip('Cancel recording'), findsOneWidget);
+    await tester.tap(find.byTooltip('Done'));
     await tester.pumpAndSettle();
-    expect(find.text('TRANSCRIPT · EDIT IF IT MISHEARD'), findsOneWidget);
+    expect(find.text('TRANSCRIPT · EDIT IF IT MISHEARD'), findsNothing);
+    expect(find.byType(TextField), findsNothing);
+    expect(find.text('You said: “two eggs and a scoop of whey”'), findsOneWidget);
     expect(find.text('IT READ 2 ITEMS'), findsOneWidget);
 
-    await tester.tap(find.bySemanticsLabel('Dictate the meal'));
-    await tester.pumpAndSettle();
     await tester.tap(find.text('Add 2'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Confirm and add'));
@@ -251,11 +257,41 @@ void main() {
     expect([for (final e in entries) e.grams], [100, 30]);
   });
 
+  testWidgets('a voice note can be thrown away', (tester) async {
+    final voice = FakeVoice(words: 'two eggs');
+    await pumpApp(tester, prefs: {'profile': savedProfile}, voice: voice);
+    await _openWrite(tester, 'Voice');
+    await tester.tap(find.bySemanticsLabel('Dictate the meal'));
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.byTooltip('Cancel recording'));
+    await tester.pumpAndSettle();
+    expect(voice.cancelled, 1);
+    expect(voice.finished, 0);
+    expect(find.textContaining('You said'), findsNothing);
+  });
+
+  testWidgets('a note that is out of AI requests says so', (tester) async {
+    await pumpApp(
+      tester,
+      prefs: {'profile': savedProfile},
+      voice: FakeVoice(failure: CloudFailure.dailyCap),
+    );
+    await _openWrite(tester, 'Voice');
+    await tester.tap(find.bySemanticsLabel('Dictate the meal'));
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.byTooltip('Done'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(find.bySemanticsLabel('Dictate the meal'), findsOneWidget);
+    expect(find.textContaining('You said'), findsNothing);
+  });
+
   testWidgets('no recogniser says so', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, dictation: FakeDictation(available: false));
     await _openWrite(tester, 'Voice');
     await tester.tap(find.bySemanticsLabel('Dictate the meal'));
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
     expect(find.textContaining('Dictation is not available'), findsOneWidget);
   });
 

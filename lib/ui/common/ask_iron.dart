@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../data/dictation.dart';
-import '../../state/providers.dart' show dictationProvider;
 import '../../theme/volt.dart';
 import '../kit/kit.dart';
+import 'voice_capture.dart';
 import 'iron_avatar.dart';
 
 /// The pieces of talking to Iron, modelled on a chat with an assistant:
@@ -220,10 +219,9 @@ class IronComposer extends ConsumerStatefulWidget {
 
 class _IronComposerState extends ConsumerState<IronComposer> {
   final _focus = FocusNode();
-  var _listening = false;
 
-  /// The recogniser while it listens, kept so closing the box can stop it.
-  Dictation? _dictation;
+  /// A voice note is being taken in place of typing.
+  var _recording = false;
 
   @override
   void initState() {
@@ -243,7 +241,6 @@ class _IronComposerState extends ConsumerState<IronComposer> {
 
   @override
   void dispose() {
-    if (_listening) _dictation?.stop();
     widget.controller.removeListener(_redraw);
     _focus.dispose();
     super.dispose();
@@ -253,44 +250,32 @@ class _IronComposerState extends ConsumerState<IronComposer> {
     if (mounted) setState(() {});
   }
 
-  /// Speaks into the box: what is said is added after what is there.
-  Future<void> _mic() async {
-    final Dictation d = _dictation ?? ref.read(dictationProvider);
-    _dictation = d;
-    if (_listening) {
-      await d.stop();
-      if (mounted) setState(() => _listening = false);
-      return;
-    }
-    final l = AppLocalizations.of(context);
-    final before = widget.controller.text.trimRight();
-    setState(() => _listening = true);
-    final ok = await d.start(
-      languageCode: Localizations.localeOf(context).languageCode,
-      onWords: (w) {
-        if (!mounted) return;
-        final text = before.isEmpty ? w : '$before $w';
-        widget.controller.value = TextEditingValue(
-          text: text,
-          selection: TextSelection.collapsed(offset: text.length),
-        );
-        widget.onChanged?.call(text);
-      },
-    );
-    if (!mounted) return;
-    if (!ok) {
-      setState(() => _listening = false);
-      showVToast(context, l.voiceUnavailable, info: true);
-    }
+  void _mic() {
+    FocusScope.of(context).unfocus();
+    setState(() => _recording = true);
   }
 
-  Future<void> _send() async {
-    if (_listening) {
-      await _dictation?.stop();
-      if (mounted) setState(() => _listening = false);
+  /// What the voice note said goes to Iron as the message, as if sent, and
+  /// never sits in the box. A box with nothing to send keeps the words.
+  void _heard(String words) {
+    setState(() => _recording = false);
+    final c = widget.controller;
+    final before = c.text.trimRight();
+    final text = before.isEmpty ? words : '$before $words';
+    if (widget.onSend == null) {
+      c.value = TextEditingValue(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+      widget.onChanged?.call(text);
+      return;
     }
-    widget.onSend?.call();
+    c.text = text;
+    widget.onSend!();
+    c.clear();
   }
+
+  void _send() => widget.onSend?.call();
 
   @override
   Widget build(BuildContext context) {
@@ -326,83 +311,78 @@ class _IronComposerState extends ConsumerState<IronComposer> {
           BoxDecoration(color: Volt.isLight ? Colors.white : Volt.card, borderRadius: BorderRadius.circular(28)),
         ),
         padding: const EdgeInsets.all(6),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: TextField(
-                controller: widget.controller,
-                focusNode: _focus,
-                onChanged: widget.onChanged,
-                minLines: widget.minLines,
-                maxLines: widget.maxLines,
-                maxLength: widget.maxLength,
-                keyboardType: TextInputType.multiline,
-                textCapitalization: TextCapitalization.sentences,
-                cursorColor: red,
-                style: TextStyle(fontSize: 15.5, height: 1.45, color: Volt.t1),
-                decoration: InputDecoration(
-                  counterText: '',
-                  hintText: widget.hint,
-                  hintMaxLines: 4,
-                  hintStyle: TextStyle(fontSize: 15.5, height: 1.45, color: Volt.t4),
-                  filled: false,
-                  isDense: true,
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  // 22.5 of text plus this is 44, the send button's height.
-                  contentPadding: const EdgeInsetsDirectional.fromSTEB(14, 10.75, 8, 10.75),
-                ),
+        child: _recording
+            ? VoiceCapture(
+                colors: ironGradient,
+                doneLabel: widget.onSend == null ? null : (widget.sendLabel ?? l.askIronSend),
+                onText: _heard,
+                onClose: () => setState(() => _recording = false),
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: widget.controller,
+                      focusNode: _focus,
+                      onChanged: widget.onChanged,
+                      minLines: widget.minLines,
+                      maxLines: widget.maxLines,
+                      maxLength: widget.maxLength,
+                      keyboardType: TextInputType.multiline,
+                      textCapitalization: TextCapitalization.sentences,
+                      cursorColor: red,
+                      style: TextStyle(fontSize: 15.5, height: 1.45, color: Volt.t1),
+                      decoration: InputDecoration(
+                        counterText: '',
+                        hintText: widget.hint,
+                        hintMaxLines: 4,
+                        hintStyle: TextStyle(fontSize: 15.5, height: 1.45, color: Volt.t4),
+                        filled: false,
+                        isDense: true,
+                        border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        // 22.5 of text plus this is 44, the send button's height.
+                        contentPadding: const EdgeInsetsDirectional.fromSTEB(14, 10.75, 8, 10.75),
+                      ),
+                    ),
+                  ),
+                  if (widget.voice && !widget.busy) _Mic(label: l.askIronSpeak, onTap: _mic),
+                  if (widget.onSend != null)
+                    _Send(label: widget.sendLabel ?? l.askIronSend, busy: widget.busy, onTap: canSend ? _send : null),
+                ],
               ),
-            ),
-            if (widget.voice && !widget.busy) _Mic(listening: _listening, label: l.askIronSpeak, onTap: _mic),
-            if (widget.onSend != null)
-              _Send(label: widget.sendLabel ?? l.askIronSend, busy: widget.busy, onTap: canSend ? _send : null),
-          ],
-        ),
       ),
     );
   }
 }
 
-/// The mic: quiet until tapped, then Iron's red with a soft pulse while it
-/// listens. Tapping again stops.
+/// The mic: tapping it opens a voice note in place of the box.
 class _Mic extends StatelessWidget {
-  const _Mic({required this.listening, required this.label, required this.onTap});
-  final bool listening;
+  const _Mic({required this.label, required this.onTap});
   final String label;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final red = ironGradient[1];
-    return Tooltip(
-      message: label,
-      child: Semantics(
-        button: true,
-        toggled: listening,
-        label: label,
-        excludeSemantics: true,
-        child: Pressable(
-          onTap: onTap,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            width: 44,
-            height: 44,
-            margin: const EdgeInsetsDirectional.only(end: 6),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: listening ? red.withValues(alpha: 0.14) : Colors.transparent,
-              border: listening ? Border.all(color: red.withValues(alpha: 0.6), width: 1.5) : null,
-            ),
-            child: VIcon('mic', size: 20, color: listening ? red : Volt.t3),
-          ),
+  Widget build(BuildContext context) => Tooltip(
+    message: label,
+    child: Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
+      child: Pressable(
+        onTap: onTap,
+        child: Container(
+          width: 44,
+          height: 44,
+          margin: const EdgeInsetsDirectional.only(end: 6),
+          alignment: Alignment.center,
+          child: VIcon('mic', size: 20, color: Volt.t3),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 /// The round send button: Iron's gradient with an arrow when it can send,

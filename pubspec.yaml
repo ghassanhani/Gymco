@@ -63,6 +63,7 @@ dependencies:
   audioplayers: ^6.8.1
   lottie: ^3.6.1
   figma_squircle: ^0.6.3
+  record: ^7.1.2
 
 dev_dependencies:
   flutter_test:

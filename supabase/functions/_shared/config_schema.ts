@@ -68,6 +68,7 @@ export const SCHEMA: Record<string, Record<string, KeySpec>> = {
     eating_out: { kind: "bool", default: true, label: "Eating out “Something else”" },
     routine: { kind: "bool", default: true, label: "Routine builder from text" },
     coach: { kind: "bool", default: true, label: "Iron, the coach: daily tips and programs" },
+    voice: { kind: "bool", default: true, label: "Voice notes written down (speech to text)" },
     model: { kind: "enum", default: "claude-haiku-5-5", options: ["claude-haiku-5-5"], label: "Model" },
     prompt_version: { kind: "int", default: 1, min: 1, max: 1, label: "Prompt version" },
     next_model: { kind: "enum", default: "claude-haiku-5-5", options: ["claude-haiku-5-5"], label: "Rollout model" },

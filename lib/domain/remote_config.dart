@@ -44,6 +44,7 @@ class RemoteConfig {
   bool get eatingOutAi => eatingOut && _b('ai', 'eating_out', true);
   bool get routineAi => _b('ai', 'routine', true);
   bool get coachAi => _b('ai', 'coach', true);
+  bool get voiceAi => _b('ai', 'voice', true);
   bool get dictate => _b('features', 'dictate', true);
   bool get barcodeContribute => _b('features', 'barcode_contribute', true);
   bool get cheatMeals => _b('features', 'cheat_meals', true);

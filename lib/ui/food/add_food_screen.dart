@@ -15,6 +15,7 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../common/ask_iron.dart';
+import '../common/voice_capture.dart';
 import '../kit/kit.dart';
 import '../progress/progress_screen.dart' show showNumberSheet;
 import '../me/account_screen.dart' show cloudMessage;
@@ -74,8 +75,9 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
 
   /// 'write' or 'voice': which mode the text came from.
   String _textFrom = 'write';
+
+  /// A voice note is being taken on the Voice tab.
   bool _listening = false;
-  bool? _micOk;
 
   @override
   void initState() {
@@ -93,7 +95,6 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   void dispose() {
     _debounce?.cancel();
     _readDebounce?.cancel();
-    if (_listening) ref.read(dictationProvider).stop();
     _q.dispose();
     _log.dispose();
     super.dispose();
@@ -268,31 +269,16 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
     );
   }
 
-  Future<void> _listen() async {
-    if (_listening) return;
+  void _listen() => setState(() => _listening = true);
+
+  /// What the voice note said goes straight to the reader, as if written.
+  void _heard(String words) {
     setState(() {
-      _listening = true;
+      _listening = false;
       _textFrom = 'voice';
     });
-    final ok = await ref
-        .read(dictationProvider)
-        .start(
-          languageCode: Localizations.localeOf(context).languageCode,
-          onWords: (w) {
-            if (!mounted) return;
-            _log.text = w;
-            _onLogChanged(w);
-          },
-        );
-    if (!mounted) return;
-    if (!ok) setState(() => _listening = false);
-    setState(() => _micOk = ok);
-  }
-
-  Future<void> _stopListening() async {
-    if (!_listening) return;
-    await ref.read(dictationProvider).stop();
-    if (mounted) setState(() => _listening = false);
+    _log.text = words;
+    _onLogChanged(words);
   }
 
   void _onChanged(String v) {
@@ -440,7 +426,7 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       _scan();
       return;
     }
-    if (_mode == 'voice') _stopListening();
+    if (_mode == 'voice') setState(() => _listening = false);
     setState(() {
       _mode = m;
       if (m == 'write') _textFrom = 'write';
@@ -622,32 +608,29 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
             gap: 14,
             cross: CrossAxisAlignment.center,
             children: [
-              MicButton(listening: _listening, onStart: _listen, onStop: _stopListening),
+              if (_listening)
+                VoiceCapture(
+                  height: 52,
+                  doneLabel: l.voiceDone,
+                  onText: _heard,
+                  onClose: () => setState(() => _listening = false),
+                )
+              else
+                MicButton(listening: false, onStart: _listen, onStop: () {}),
               ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 250),
+                constraints: const BoxConstraints(maxWidth: 260),
                 child: Muted(
-                  _micOk == false
-                      ? l.voiceUnavailable
-                      : _listening
-                      ? l.voiceListening
-                      : heard
-                      ? l.voiceHeard
-                      : l.voiceHold,
+                  _listening ? l.voiceListening : (heard ? l.voiceHeard : l.voiceHold),
                   align: TextAlign.center,
-                  color: _micOk == false ? Volt.warn : null,
                 ),
               ),
             ],
           ),
         ),
         if (heard) ...[
-          GapCol(
-            gap: 8,
-            cross: CrossAxisAlignment.stretch,
-            children: [
-              Eyebrow(l.transcriptLbl, padding: const EdgeInsetsDirectional.only(start: 4)),
-              LogArea(controller: _log, onChanged: _onLogChanged, rows: 3),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Muted(l.voiceYouSaid(_log.text.trim()), size: 13),
           ),
           ?rows,
         ],

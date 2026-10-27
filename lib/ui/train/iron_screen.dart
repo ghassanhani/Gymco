@@ -71,6 +71,8 @@ class _IronScreenState extends ConsumerState<IronScreen> {
 
   Future<void> _build() async {
     final l = AppLocalizations.of(context);
+    // Read now: a voice note's words are only in the box for this moment.
+    final message = _ask.text.trim();
     if (!ref.read(remoteConfigProvider).coachAi) {
       showVToast(context, l.ironOff, info: true);
       return;
@@ -84,7 +86,7 @@ class _IronScreenState extends ConsumerState<IronScreen> {
     if (!mounted) return;
     FocusScope.of(context).unfocus();
     final before = _asked;
-    final asked = [...?_asked, _ask.text.trim()];
+    final asked = [...?_asked, message];
     setState(() {
       _busy = true;
       _program = null;

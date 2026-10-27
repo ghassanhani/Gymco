@@ -1,7 +1,7 @@
 // Whether an AI request may run, which model it gets, and what it cost.
-// food-photo, routine-ai and iron ask here before spending anything.
+// food-photo, routine-ai, iron and transcribe ask here before spending anything.
 
-export type Feature = "photo" | "write" | "eating_out" | "routine" | "coach";
+export type Feature = "photo" | "write" | "eating_out" | "routine" | "coach" | "voice";
 export type GateResult = { ok: true } | { ok: false; reason: "feature_off" | "budget" | "maintenance" };
 
 /** Per million tokens, in US dollars. */

@@ -2953,14 +2953,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get voiceHold =>
-      'Mantén pulsado y di lo que comiste. Pasa por el mismo lector que la escritura.';
+      'Toca el micrófono y di lo que comiste; luego toca la flecha. Funciona en español e inglés.';
 
   @override
-  String get voiceListening => 'Escuchando… suelta cuando acabes.';
+  String get voiceListening => 'Escuchando… toca la flecha cuando termines.';
 
   @override
   String get voiceHeard =>
-      'Entendido. Revisa la transcripción antes de añadirla.';
+      'Esto es lo que encontró Iron. Revisa las cantidades y añade.';
 
   @override
   String get transcriptLbl => 'Transcripción · edítala si oyó mal';
@@ -5432,4 +5432,27 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get faqMessageUs => 'Escríbenos';
+
+  @override
+  String get voiceNothing =>
+      'No se oyó nada. Prueba otra vez un poco más cerca.';
+
+  @override
+  String get voiceWriting => 'Escribiéndolo…';
+
+  @override
+  String voiceRecording(String time) {
+    return 'Grabando, $time';
+  }
+
+  @override
+  String get voiceCancel => 'Cancelar grabación';
+
+  @override
+  String get voiceDone => 'Listo';
+
+  @override
+  String voiceYouSaid(String words) {
+    return 'Dijiste: «$words»';
+  }
 }

@@ -2278,9 +2278,9 @@
     }
   },
   "gramsNote": "In grams, as eaten.",
-  "voiceHold": "Hold and say what you ate. It goes through the same reader as writing.",
-  "voiceListening": "Listening… let go when you are done.",
-  "voiceHeard": "Heard it. Check the transcript before it goes in.",
+  "voiceHold": "Tap the mic and say what you ate, then tap the arrow. Arabic and English both work.",
+  "voiceListening": "Listening… tap the arrow when you are done.",
+  "voiceHeard": "Here is what Iron found. Check the amounts, then add.",
   "transcriptLbl": "Transcript · edit if it misheard",
   "voiceUnavailable": "Dictation is not available on this phone, or the microphone is off for Gymco. Write it instead.",
   "dictateMeal": "Dictate the meal",
@@ -3764,5 +3764,25 @@
   "faqNone": "Nothing matches that. Try other words, or message us.",
   "faqStuck": "Still stuck?",
   "faqStuckSub": "A real person replies, usually within two days",
-  "faqMessageUs": "Message us"
+  "faqMessageUs": "Message us",
+  "voiceNothing": "Didn't catch anything. Try again a little closer.",
+  "voiceWriting": "Writing it down…",
+  "voiceRecording": "Recording, {time}",
+  "voiceCancel": "Cancel recording",
+  "voiceDone": "Done",
+  "voiceYouSaid": "You said: “{words}”",
+  "@voiceRecording": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@voiceYouSaid": {
+    "placeholders": {
+      "words": {
+        "type": "String"
+      }
+    }
+  }
 }

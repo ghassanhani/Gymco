@@ -4813,19 +4813,19 @@ abstract class AppLocalizations {
   /// No description provided for @voiceHold.
   ///
   /// In en, this message translates to:
-  /// **'Hold and say what you ate. It goes through the same reader as writing.'**
+  /// **'Tap the mic and say what you ate, then tap the arrow. Arabic and English both work.'**
   String get voiceHold;
 
   /// No description provided for @voiceListening.
   ///
   /// In en, this message translates to:
-  /// **'Listening… let go when you are done.'**
+  /// **'Listening… tap the arrow when you are done.'**
   String get voiceListening;
 
   /// No description provided for @voiceHeard.
   ///
   /// In en, this message translates to:
-  /// **'Heard it. Check the transcript before it goes in.'**
+  /// **'Here is what Iron found. Check the amounts, then add.'**
   String get voiceHeard;
 
   /// No description provided for @transcriptLbl.
@@ -8895,6 +8895,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message us'**
   String get faqMessageUs;
+
+  /// No description provided for @voiceNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t catch anything. Try again a little closer.'**
+  String get voiceNothing;
+
+  /// No description provided for @voiceWriting.
+  ///
+  /// In en, this message translates to:
+  /// **'Writing it down…'**
+  String get voiceWriting;
+
+  /// No description provided for @voiceRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording, {time}'**
+  String voiceRecording(String time);
+
+  /// No description provided for @voiceCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel recording'**
+  String get voiceCancel;
+
+  /// No description provided for @voiceDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get voiceDone;
+
+  /// No description provided for @voiceYouSaid.
+  ///
+  /// In en, this message translates to:
+  /// **'You said: “{words}”'**
+  String voiceYouSaid(String words);
 }
 
 class _AppLocalizationsDelegate
