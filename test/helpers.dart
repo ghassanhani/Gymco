@@ -306,8 +306,7 @@ class FakeCloud implements Cloud {
     required double seconds,
     int? bucket,
   }) async {
-    if (scansLeft <= 0) throw const CloudException(CloudFailure.dailyCap);
-    scansLeft--;
+    // Voice notes don't take one of the day's AI requests.
     return (text: heard, language: null);
   }
 

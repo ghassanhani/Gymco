@@ -37,7 +37,7 @@ ES = [
             },
             {
                 "q": "¿Cuántas fotos puedo registrar al día?",
-                "a": "10 solicitudes de IA al día, gratis. Las fotos, Iron y el creador de rutinas las comparten, y se renuevan al día siguiente. Escribir, buscar y escanear códigos nunca cuentan.",
+                "a": "10 solicitudes de IA al día, gratis. Las fotos, Iron y el creador de rutinas las comparten, y se renuevan al día siguiente. Buscar, escanear códigos, las notas de voz y los alimentos que el teléfono ya conoce nunca cuentan; preguntar a la IA por un alimento que no conoce, sí.",
             },
             {
                 "q": "Ayer olvidé registrar.",

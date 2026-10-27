@@ -38,7 +38,7 @@
     },
     {
      "q": "How many photos can I log a day?",
-     "a": "10 AI requests a day, free. Photos, Iron and the routine builder share them, and they come back the next day. Writing, search and barcode never count."
+     "a": "10 AI requests a day, free. Photos, Iron and the routine builder share them, and they come back the next day. Search, barcode, voice notes and foods the phone already knows never count; asking the AI about a food it doesn't know does."
     },
     {
      "q": "I forgot to log yesterday.",
@@ -241,7 +241,7 @@
     },
     {
      "q": "كم صورة يمكنني تسجيلها في اليوم؟",
-     "a": "10 طلبات ذكاء اصطناعي في اليوم، مجانًا. تتشاركها الصور وآيرون ومُنشئ البرامج، وتتجدّد في اليوم التالي. الكتابة والبحث والباركود لا تُحتسب أبدًا."
+     "a": "10 طلبات ذكاء اصطناعي في اليوم، مجانًا. تتشاركها الصور وآيرون ومُنشئ البرامج، وتتجدّد في اليوم التالي. البحث والباركود والملاحظات الصوتية والأطعمة التي يعرفها الهاتف لا تُحتسب أبدًا؛ أما سؤال الذكاء الاصطناعي عن طعام لا يعرفه فيُحتسب."
     },
     {
      "q": "نسيت التسجيل أمس.",
@@ -444,7 +444,7 @@
     },
     {
      "q": "¿Cuántas fotos puedo registrar al día?",
-     "a": "10 solicitudes de IA al día, gratis. Las fotos, Iron y el creador de rutinas las comparten, y se renuevan al día siguiente. Escribir, buscar y escanear códigos nunca cuentan."
+     "a": "10 solicitudes de IA al día, gratis. Las fotos, Iron y el creador de rutinas las comparten, y se renuevan al día siguiente. Buscar, escanear códigos, las notas de voz y los alimentos que el teléfono ya conoce nunca cuentan; preguntar a la IA por un alimento que no conoce, sí."
     },
     {
      "q": "Ayer olvidé registrar.",

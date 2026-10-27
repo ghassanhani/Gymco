@@ -37,7 +37,7 @@ EN = [
             },
             {
                 "q": "How many photos can I log a day?",
-                "a": "10 AI requests a day, free. Photos, Iron and the routine builder share them, and they come back the next day. Writing, search and barcode never count.",
+                "a": "10 AI requests a day, free. Photos, Iron and the routine builder share them, and they come back the next day. Search, barcode, voice notes and foods the phone already knows never count; asking the AI about a food it doesn't know does.",
             },
             {
                 "q": "I forgot to log yesterday.",

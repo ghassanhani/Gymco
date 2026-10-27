@@ -5,8 +5,10 @@
 //
 // POST { audio: <base64 m4a>, lang: "en" | "ar" | "es", seconds: 4.2, bucket?: 0-99 }
 // with the signed-in user's Authorization header.
-// -> 200 { text, lang, left }   text is "" when nothing was said (that costs
-//    nothing); lang is the two-letter language it was spoken in, "" when unsure.
+// -> 200 { text, lang, left }   text is "" when nothing was said (that isn't
+//    counted); lang is the two-letter language it was spoken in, "" when
+//    unsure; left is voice notes left today. Notes don't take one of the day's
+//    AI requests; they have their own cap (limits.voice_notes_per_day).
 // -> 429 { error: "daily_cap", left: 0 }
 // -> 503 { error: "paused", reason } when the Control Center has switched voice
 //    off or today's AI budget is spent.
@@ -89,8 +91,10 @@ Deno.serve(async (req) => {
   const open = gate(config, "voice", spendError ? null : Number(spent ?? 0));
   if (!open.ok) return json(503, { error: "paused", reason: open.reason });
 
-  const { data: left, error: creditError } = await admin.rpc("take_ai_credit", { uid });
-  if (creditError) return json(500, { error: "credit" });
+  // Not one of the day's AI requests: notes have a cap of their own.
+  const cap = Number(config.limits?.voice_notes_per_day ?? 60);
+  const { data: left, error: capError } = await admin.rpc("take_voice_note", { uid, cap });
+  if (capError) return json(500, { error: "credit" });
   if (left < 0) return json(429, { error: "daily_cap", left: 0 });
 
   const started = Date.now();
@@ -101,7 +105,7 @@ Deno.serve(async (req) => {
     });
   const refund = async (status: number, error: string) => {
     await usage(false);
-    await admin.rpc("refund_ai_credit", { uid });
+    await admin.rpc("give_back_voice_note", { uid });
     return json(status, { error, left: left + 1 });
   };
 
@@ -138,7 +142,7 @@ Deno.serve(async (req) => {
     await usage(true);
     // Nothing said: it costs the user nothing.
     if (!heard.text) {
-      await admin.rpc("refund_ai_credit", { uid });
+      await admin.rpc("give_back_voice_note", { uid });
       return json(200, { text: "", lang: "", left: left + 1 });
     }
     return json(200, { text: heard.text, lang: spokenLanguage(heard.text), left });
