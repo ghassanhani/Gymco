@@ -1,6 +1,7 @@
 // Writes down a short voice note: what someone ate, or what they want from
 // Iron. OpenAI's transcription hears some fifty languages, and Arabic and
-// English even mixed in one sentence. The audio is passed through and never stored.
+// English even mixed in one sentence. Arabic goes to the full model, English
+// and Spanish to the mini one. The audio is passed through and never stored.
 //
 // POST { audio: <base64 m4a>, lang: "en" | "ar" | "es", seconds: 4.2, bucket?: 0-99 }
 // with the signed-in user's Authorization header.
@@ -18,13 +19,21 @@ import { gate } from "../_shared/ai_gate.ts";
 import { spokenLanguage } from "../_shared/spoken_language.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
 
-/** The full model: the mini one misheard Arabic dialect too often. */
-const MODEL = Deno.env.get("TRANSCRIBE_MODEL") ?? "gpt-4o-transcribe";
+// Arabic goes to the full model, which follows dialect far better; the
+// mini one is good enough for English and Spanish at half the price. The
+// app's language decides first; a note that turns out to be Arabic in an
+// English or Spanish app is heard again by the full model.
+const STRONG = Deno.env.get("TRANSCRIBE_MODEL_STRONG") ?? "gpt-4o-transcribe";
+const NORMAL = Deno.env.get("TRANSCRIBE_MODEL") ?? "gpt-4o-mini-transcribe";
+/** Dollars a minute, as euros a second. */
+const EUR_PER_SECOND: Record<string, number> = {
+  "gpt-4o-transcribe": (0.006 * 0.92) / 60,
+  "gpt-4o-mini-transcribe": (0.003 * 0.92) / 60,
+};
 /** A minute and a bit of 64 kbps audio. */
 const MAX_AUDIO_BYTES = 1_000_000;
 const MAX_SECONDS = 75;
-/** $0.006 a minute, in euros. */
-const EUR_PER_SECOND = (0.006 * 0.92) / 60;
+const ARABIC_LETTERS = /[\u0600-\u06FF]/;
 
 // What the transcriber expects to hear steers it: the same hint whatever
 // the app's language, since people speak Arabic to an English app and the
@@ -38,6 +47,12 @@ const HINT =
   "أمثلة: أكلت كبسة دجاج، مندي لحم، شاورما، فلافل، فول، حمص، كشري، ملوخية، مجبوس، هريس، لبنة، خبز، رز، " +
   "سلطة، تمر، قهوة، شاي، كوب، صحن، ملعقة، حبة، نص، ربع، غرام، تمرين، صدر، ظهر، رجل. " +
   "English words like chicken burger, protein shake, oats, whey, bench press. Spanish is fine too.";
+
+/** For the mini model: as much English as Arabic, so neither pulls the other. */
+const HINT_MIXED =
+  "A voice note in a diet and training app, in English, Spanish or Arabic, sometimes mixed. Write each word " +
+  "as it was said, in its own letters; never translate. Foods like oats, whey, chicken breast, rice, kabsa. " +
+  "ملاحظة في تطبيق حمية وتمارين، العربية تُكتب بالعربية مثل كبسة، شاورما، رز، دجاج.";
 
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -66,6 +81,7 @@ Deno.serve(async (req) => {
   if (!audio) return json(400, { error: "empty" });
   if (audio.length * 0.75 > MAX_AUDIO_BYTES) return json(400, { error: "audio" });
   const seconds = Math.min(Math.max(Number(body.seconds) || 0, 0), MAX_SECONDS);
+  const appLang = typeof body.lang === "string" ? body.lang : "en";
 
   const config = await liveConfig();
   const { data: spent, error: spendError } = await admin.rpc("ai_spend_today");
@@ -77,44 +93,57 @@ Deno.serve(async (req) => {
   if (creditError) return json(500, { error: "credit" });
   if (left < 0) return json(429, { error: "daily_cap", left: 0 });
 
-  const usage = (ok: boolean, started: number) =>
-    admin.rpc("note_ai_usage", {
-      feature: "voice", tokens_in: 0, tokens_out: 0,
-      cost_eur: ok ? seconds * EUR_PER_SECOND : 0, ok, latency_ms: Date.now() - started,
-    });
-
   const started = Date.now();
+  let cost = 0;
+  const usage = (ok: boolean) =>
+    admin.rpc("note_ai_usage", {
+      feature: "voice", tokens_in: 0, tokens_out: 0, cost_eur: cost, ok, latency_ms: Date.now() - started,
+    });
+  const refund = async (status: number, error: string) => {
+    await usage(false);
+    await admin.rpc("refund_ai_credit", { uid });
+    return json(status, { error, left: left + 1 });
+  };
+
   try {
     const bytes = Uint8Array.from(atob(audio), (c) => c.charCodeAt(0));
-    const form = new FormData();
-    form.append("file", new Blob([bytes], { type: "audio/mp4" }), "note.m4a");
-    form.append("model", MODEL);
-    form.append("response_format", "json");
-    form.append("prompt", HINT);
-    form.append("temperature", "0");
-    const r = await fetch("https://api.openai.com/v1/audio/transcriptions", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${key}` },
-      body: form,
-    });
-    if (!r.ok) {
-      console.error("transcribe: openai", r.status, (await r.text()).slice(0, 300));
-      await usage(false, started);
-      await admin.rpc("refund_ai_credit", { uid });
-      return json(r.status === 429 ? 503 : 502, { error: r.status === 429 ? "busy" : "model", left: left + 1 });
+    const hear = async (model: string, prompt: string) => {
+      const form = new FormData();
+      form.append("file", new Blob([bytes], { type: "audio/mp4" }), "note.m4a");
+      form.append("model", model);
+      form.append("response_format", "json");
+      form.append("prompt", prompt);
+      form.append("temperature", "0");
+      const r = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}` },
+        body: form,
+      });
+      if (!r.ok) {
+        console.error("transcribe: openai", model, r.status, (await r.text()).slice(0, 300));
+        return { status: r.status, text: "" };
+      }
+      cost += seconds * (EUR_PER_SECOND[model] ?? EUR_PER_SECOND["gpt-4o-transcribe"]);
+      return { status: 200, text: String(((await r.json()) as { text?: unknown }).text ?? "").trim().slice(0, 1000) };
+    };
+
+    let heard = appLang === "ar" ? await hear(STRONG, HINT) : await hear(NORMAL, HINT_MIXED);
+    // Arabic after all: the full model hears it again. Should that fail, the
+    // first try still stands.
+    if (heard.status === 200 && appLang !== "ar" && ARABIC_LETTERS.test(heard.text)) {
+      const again = await hear(STRONG, HINT);
+      if (again.status === 200 && again.text) heard = again;
     }
-    const text = String(((await r.json()) as { text?: unknown }).text ?? "").trim().slice(0, 1000);
-    await usage(true, started);
+    if (heard.status !== 200) return await refund(heard.status === 429 ? 503 : 502, heard.status === 429 ? "busy" : "model");
+    await usage(true);
     // Nothing said: it costs the user nothing.
-    if (!text) {
+    if (!heard.text) {
       await admin.rpc("refund_ai_credit", { uid });
       return json(200, { text: "", lang: "", left: left + 1 });
     }
-    return json(200, { text, lang: spokenLanguage(text), left });
+    return json(200, { text: heard.text, lang: spokenLanguage(heard.text), left });
   } catch (e) {
     console.error("transcribe:", e);
-    await usage(false, started);
-    await admin.rpc("refund_ai_credit", { uid });
-    return json(502, { error: "model", left: left + 1 });
+    return await refund(502, "model");
   }
 });
