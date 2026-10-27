@@ -20,6 +20,7 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.131.0";
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
 import { costEur, gate, pickModel } from "../_shared/ai_gate.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
+import { leaked, repaired } from "../_shared/tool_leak.ts";
 import { exerciseNames, exerciseSystem, PLAN_RULES, routinesSchema } from "../_shared/routine_schema.ts";
 
 const MAX_NUMBERS_CHARS = 14000;
@@ -196,25 +197,41 @@ Deno.serve(async (req) => {
 
   const started = Date.now();
   try {
-    const response = await anthropic.messages.create({
-      model,
-      max_tokens: mode === "program" ? 4096 : 1024,
-      output_config: { effort: "low" },
-      tools: [mode === "tip" ? reportTip : mode === "review" ? reportReview : reportProgram],
-      tool_choice: { type: "tool", name: mode === "tip" ? "report_tip" : mode === "review" ? "report_review" : "report_program" },
-      system: mode === "program"
-        ? [{ type: "text", text: PERSONA }, exerciseSystem("When you plan training:", names)]
-        : PERSONA,
-      messages: [{ role: "user", content: prompt }],
-    });
+    const ask = () =>
+      anthropic.messages.create({
+        model,
+        max_tokens: mode === "program" ? 4096 : 1024,
+        output_config: { effort: "low" },
+        tools: [mode === "tip" ? reportTip : mode === "review" ? reportReview : reportProgram],
+        tool_choice: { type: "tool", name: mode === "tip" ? "report_tip" : mode === "review" ? "report_review" : "report_program" },
+        system: mode === "program"
+          ? [{ type: "text", text: PERSONA }, exerciseSystem("When you plan training:", names)]
+          : PERSONA,
+        messages: [{ role: "user", content: prompt }],
+      });
+    let response = await ask();
+    const answer = (r: typeof response) => {
+      const call = r.content.find((b) => b.type === "tool_use");
+      const raw = (call?.type === "tool_use" ? call.input : {}) as Record<string, unknown>;
+      // Text with the rest of the answer written inside it is taken apart.
+      return leaked(raw) ? repaired(raw) : raw;
+    };
+    let out = response.stop_reason === "refusal" ? {} : answer(response);
+    // A program that still came back without its training week is asked for once more.
+    if (
+      mode === "program" && response.stop_reason !== "refusal" && out.off_topic !== true &&
+      !(Array.isArray(out.routines) && out.routines.length)
+    ) {
+      await usage(true, started, response.usage);
+      response = await ask();
+      if (response.stop_reason !== "refusal") out = answer(response);
+    }
 
     await usage(response.stop_reason !== "refusal", started, response.usage);
     if (response.stop_reason === "refusal") {
       await admin.rpc("refund_ai_credit", { uid });
       return json(422, { error: "refused", left: left + 1 });
     }
-    const call = response.content.find((b) => b.type === "tool_use");
-    const out = (call?.type === "tool_use" ? call.input : {}) as Record<string, unknown>;
     // Not a program question: nothing was built, so it costs the user nothing.
     if (mode === "program" && out.off_topic === true) {
       await admin.rpc("refund_ai_credit", { uid });

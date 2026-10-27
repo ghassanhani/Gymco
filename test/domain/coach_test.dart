@@ -58,6 +58,27 @@ void main() {
     expect(p.habits, hasLength(3));
   });
 
+  test('a program whose training week leaked into its "why" is put back together', () {
+    final p = programFrom({
+      'summary': 'Hold the cut.',
+      'kcal': 2095,
+      'protein': 186,
+      'carbs': 207,
+      'fat': 58,
+      'why':
+          'السعرات من هدفك الحالي.</why>\n<parameter name="routines">[{"name":"الجزء العلوي A","days":[0],'
+          '"items":[{"exercise":"Barbell Bench Press","sets":4,"rep_low":6,"rep_high":8,"rest_seconds":150}]}]'
+          '</parameter>',
+      'routines': <Object?>[],
+      'habits': ['Walk 8k steps'],
+    }, testLibrary);
+    expect(p.why, 'السعرات من هدفك الحالي.');
+    expect(p.plan.routines.single.name, 'الجزء العلوي A');
+    expect(p.plan.routines.single.items.single.exerciseId, 'bench');
+    expect(cleanText('Fine sentence.'), 'Fine sentence.');
+    expect(cleanText('Cut here {"exercise":"x"}'), 'Cut here');
+  });
+
   test("a tip keeps for its day, with the action it asks for", () {
     final t = IronTip.fromJson({
       'title': 'Protein first',

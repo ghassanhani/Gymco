@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math' as math;
 
 import '../data/training.dart';
@@ -26,7 +27,7 @@ class IronTip {
   final IronAction action;
 
   static IronTip? fromJson(Map<String, Object?> j, String day) {
-    final title = '${j['title'] ?? ''}'.trim(), tip = '${j['tip'] ?? ''}'.trim();
+    final title = cleanText(j['title']), tip = cleanText(j['tip']);
     if (title.isEmpty || tip.isEmpty) return null;
     return IronTip(day: day, title: title, tip: tip, action: _action(j['action']));
   }
@@ -82,20 +83,56 @@ class IronProgram {
 
 double _num(Object? v) => v is num && v.isFinite ? v.toDouble() : 0;
 
+final _leak = RegExp(r'</?[a-z_]+(?:\s[^>]*)?>|"\s*:\s*[\[{"\d]|\{"[a-z_]+"\s*:');
+final _param = RegExp(r'<parameter name="([a-z_]+)">([\s\S]*?)(?:</parameter>|$)');
+
+/// A sentence from the model, cut where it starts writing out raw markup or
+/// JSON: now and then it ends a field early and writes the rest of its
+/// answer inside it.
+String cleanText(Object? v) {
+  final t = '${v ?? ''}';
+  final m = _leak.firstMatch(t);
+  return (m == null ? t : t.substring(0, m.start)).trim();
+}
+
+/// An answer whose fields leaked into one another, put back together: each
+/// leaked field fills its own place when that came back empty.
+Map<String, Object?> repairedAnswer(Map<String, Object?> data) {
+  final out = {...data};
+  for (final v in data.values) {
+    if (v is! String) continue;
+    for (final m in _param.allMatches(v)) {
+      final key = m.group(1)!;
+      final have = out[key];
+      if (have != null && have != '' && !(have is List && have.isEmpty)) continue;
+      final raw = m.group(2)!.trim();
+      try {
+        out[key] = jsonDecode(raw);
+      } on FormatException {
+        out[key] = raw;
+      }
+    }
+  }
+  return out;
+}
+
 /// Reads Iron's program answer; the routines are matched to [lib] as the
 /// routine builder's are.
-IronProgram programFrom(Map<String, Object?> data, ExerciseLibrary lib) => IronProgram(
-  summary: '${data['summary'] ?? ''}'.trim(),
-  kcal: _num(data['kcal']),
-  macros: Macros(protein: _num(data['protein']), carbs: _num(data['carbs']), fat: _num(data['fat'])),
-  why: '${data['why'] ?? ''}'.trim(),
-  plan: planFrom({'routines': data['routines'], 'summary': ''}, lib),
-  habits: [
-    for (final h in (data['habits'] as List? ?? const []))
-      if ('$h'.trim().isNotEmpty) '$h'.trim(),
-  ].take(3).toList(),
-  offTopic: data['off_topic'] == true,
-);
+IronProgram programFrom(Map<String, Object?> answer, ExerciseLibrary lib) {
+  final data = repairedAnswer(answer);
+  return IronProgram(
+    summary: cleanText(data['summary']),
+    kcal: _num(data['kcal']),
+    macros: Macros(protein: _num(data['protein']), carbs: _num(data['carbs']), fat: _num(data['fat'])),
+    why: cleanText(data['why']),
+    plan: planFrom({'routines': data['routines'], 'summary': ''}, lib),
+    habits: [
+      for (final h in (data['habits'] as List? ?? const []))
+        if (cleanText(h).isNotEmpty) cleanText(h),
+    ].take(3).toList(),
+    offTopic: data['off_topic'] == true,
+  );
+}
 
 /// Iron's targets held to the same rules as the weekly check-in: never under
 /// the calorie floor, and no more than [maxChange] kcal away from today's
@@ -133,11 +170,11 @@ class IronReview {
 
   static List<String> _list(Object? v) => [
     for (final x in (v as List? ?? const []))
-      if ('$x'.trim().isNotEmpty) '$x'.trim(),
+      if (cleanText(x).isNotEmpty) cleanText(x),
   ];
 
   static IronReview? fromJson(Map<String, Object?> j, String week) {
-    final headline = '${j['headline'] ?? ''}'.trim();
+    final headline = cleanText(j['headline']);
     if (headline.isEmpty) return null;
     return IronReview(
       week: week,

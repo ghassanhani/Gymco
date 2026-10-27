@@ -16,6 +16,7 @@ import Anthropic from "npm:@anthropic-ai/sdk@0.131.0";
 import { createClient } from "npm:@supabase/supabase-js@2.117.2";
 import { costEur, gate, pickModel } from "../_shared/ai_gate.ts";
 import { cachedConfig, publishedBody } from "../_shared/live_config.ts";
+import { leaked, repaired } from "../_shared/tool_leak.ts";
 import { exerciseNames, exerciseSystem, PLAN_RULES, routinesSchema } from "../_shared/routine_schema.ts";
 
 const MAX_TEXT_CHARS = 600;
@@ -115,7 +116,9 @@ Deno.serve(async (req) => {
       return json(422, { error: "refused", left: left + 1 });
     }
     const call = response.content.find((b) => b.type === "tool_use");
-    const out = (call?.type === "tool_use" ? call.input : null) as { routines?: unknown; summary?: unknown } | null;
+    const raw = (call?.type === "tool_use" ? call.input : {}) as Record<string, unknown>;
+    // Text with the rest of the answer written inside it is taken apart.
+    const out = (leaked(raw) ? repaired(raw) : raw) as { routines?: unknown; summary?: unknown };
     return json(200, { routines: out?.routines ?? [], summary: out?.summary ?? "", left });
   } catch (e) {
     await usage(false, started);
