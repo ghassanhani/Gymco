@@ -119,6 +119,10 @@ jobs:
           echo "${{ secrets.ASC_KEY_P8 }}" > "$KEY"
           AUTH=(-allowProvisioningUpdates -authenticationKeyPath "$KEY" -authenticationKeyID "$KEY_ID" -authenticationKeyIssuerID "$ISSUER")
           sed -i '' "s/TEAM_ID/$TEAM/" ios/ExportOptions.plist
+          # Every run makes a new development certificate; clear the old ones
+          # before Apple's limit is reached.
+          python3 -m pip install --quiet --break-system-packages pyjwt cryptography
+          KEY_PATH="$KEY" KEY_ID="$KEY_ID" ISSUER="$ISSUER" python3 tool/asc_prune_dev_certs.py
           # Automatic signing makes the certificate and profile, HealthKit included.
           xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release \
             -archivePath build/Runner.xcarchive -destination 'generic/platform=iOS' \
