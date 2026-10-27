@@ -118,7 +118,7 @@ class IronCard extends ConsumerWidget {
     final first = list.firstOrNull;
 
     Widget extra({required String icon, required String title, required String sub, required String go}) => GapCol(
-      gap: 10,
+      gap: 8,
       cross: CrossAxisAlignment.stretch,
       children: [
         Row(
@@ -134,20 +134,13 @@ class IronCard extends ConsumerWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
+                style: TextStyle(fontSize: 15.5, fontWeight: FontWeight.w700, height: 1.2, color: Volt.t1),
               ),
             ),
           ],
         ),
-        Muted(sub, size: 13.5, color: Volt.t2),
-        VBtn(
-          label: l.ironOpen,
-          kind: BtnKind.ghost,
-          small: true,
-          minHeight: 40,
-          expand: true,
-          onTap: () => context.push(go),
-        ),
+        Muted(sub, size: 13, color: Volt.t2),
+        VBtn(label: l.ironOpen, kind: BtnKind.ghost, small: true, minHeight: 34, onTap: () => context.push(go)),
       ],
     );
 
@@ -191,7 +184,7 @@ class IronCard extends ConsumerWidget {
           ],
         ),
         const _HomeAsk(),
-        Muted(ironReadsLine(l, ref), size: 11),
+        Muted(ironReadsLine(l, ref), size: 10.5),
       ],
     );
   }
@@ -267,7 +260,7 @@ class _DeckState extends State<_Deck> {
           _go(at + (next ? 1 : -1));
         },
         child: GapCol(
-          gap: 10,
+          gap: 8,
           cross: CrossAxisAlignment.stretch,
           children: [
             AnimatedSize(
@@ -316,7 +309,7 @@ class _TipPage extends ConsumerWidget {
     final act = IronCard._act(context, ref, tip.action);
     final mark = ref.read(ironTipsDoneProvider.notifier);
     return GapCol(
-      gap: 10,
+      gap: 8,
       cross: CrossAxisAlignment.stretch,
       children: [
         Row(
@@ -326,7 +319,7 @@ class _TipPage extends ConsumerWidget {
               child: Text(
                 tip.title,
                 style: TextStyle(
-                  fontSize: 17,
+                  fontSize: 15.5,
                   fontWeight: FontWeight.w700,
                   height: 1.2,
                   color: done ? Volt.t3 : Volt.t1,
@@ -346,18 +339,20 @@ class _TipPage extends ConsumerWidget {
             ),
           ],
         ),
-        Muted(tip.tip, size: 13.5, color: done ? Volt.t3 : Volt.t2),
+        Muted(tip.tip, size: 13, color: done ? Volt.t3 : Volt.t2),
         if (act != null && !done)
-          VBtn(
-            label: IronCard._label(l, tip.action),
-            kind: BtnKind.ghost,
-            small: true,
-            minHeight: 40,
-            expand: true,
-            onTap: () {
-              mark.set(index, true);
-              act();
-            },
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: VBtn(
+              label: IronCard._label(l, tip.action),
+              kind: BtnKind.ghost,
+              small: true,
+              minHeight: 34,
+              onTap: () {
+                mark.set(index, true);
+                act();
+              },
+            ),
           ),
       ],
     );
@@ -419,42 +414,27 @@ class _Progress extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final count = done.where((i) => i < total).length;
     final all = count == total;
-    return GapCol(
-      gap: 6,
-      cross: CrossAxisAlignment.stretch,
+    return Row(
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                all ? l.ironTipsAllDone : l.ironTodayTips,
-                style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600, color: all ? ironGradient[1] : Volt.t3),
+        for (var i = 0; i < total; i++) ...[
+          if (i > 0) const SizedBox(width: 4),
+          Expanded(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              height: 4,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                gradient: done.contains(i) ? LinearGradient(colors: ironGradient) : null,
+                color: done.contains(i) ? null : Volt.t4.withValues(alpha: 0.35),
               ),
             ),
-            Text(
-              l.ironTipsDone(count, total),
-              style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700, color: Volt.t2),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            for (var i = 0; i < total; i++) ...[
-              if (i > 0) const SizedBox(width: 4),
-              Expanded(
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutCubic,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    gradient: done.contains(i) ? LinearGradient(colors: ironGradient) : null,
-                    color: done.contains(i) ? null : Volt.t4.withValues(alpha: 0.35),
-                  ),
-                ),
-              ),
-            ],
-          ],
+          ),
+        ],
+        const SizedBox(width: 10),
+        Text(
+          all ? l.ironTipsAllDone : l.ironTipsDone(count, total),
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: all ? ironGradient[1] : Volt.t3),
         ),
       ],
     );
@@ -595,15 +575,17 @@ class _HomeAsk extends StatelessWidget {
     final l = AppLocalizations.of(context);
     Widget chip(String icon, String label, VoidCallback onTap) =>
         VChip(label: label, icon: icon, iconSize: 14, height: 38, onTap: onTap);
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        chip('dumb', l.ironGetProgram, () => context.push('/iron')),
-        chip('repeat', l.ironShortRoutine, () => context.push('/routine/ai')),
-        chip('chart', l.ironWeekReview, () => context.push('/iron/review')),
-        chip('sparkles', l.requestFeature, () => context.push('/feature')),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        spacing: 8,
+        children: [
+          chip('dumb', l.ironGetProgram, () => context.push('/iron')),
+          chip('repeat', l.ironShortRoutine, () => context.push('/routine/ai')),
+          chip('chart', l.ironWeekReview, () => context.push('/iron/review')),
+          chip('sparkles', l.requestFeature, () => context.push('/feature')),
+        ],
+      ),
     );
   }
 }
@@ -631,10 +613,10 @@ class _Frame extends StatelessWidget {
         ),
       ),
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
         decoration: smooth(BoxDecoration(color: Volt.card, borderRadius: BorderRadius.circular(18.5))),
         child: GapCol(
-          gap: 10,
+          gap: 8,
           cross: CrossAxisAlignment.stretch,
           children: [
             Row(
@@ -645,8 +627,8 @@ class _Frame extends StatelessWidget {
                     onTap: onOpen,
                     child: Row(
                       children: [
-                        IronAvatar(mood: mood, size: 44, announce: announce),
-                        const SizedBox(width: 10),
+                        IronAvatar(mood: mood, size: 34, announce: announce),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: GapCol(
                             gap: 0,
@@ -654,9 +636,9 @@ class _Frame extends StatelessWidget {
                               AiText(
                                 l.ironName,
                                 colors: ironGradient,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
                               ),
-                              Muted(l.ironRole, size: 11.5),
+                              Muted(l.ironRole, size: 11),
                             ],
                           ),
                         ),
