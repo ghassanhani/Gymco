@@ -2953,7 +2953,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get voiceHold =>
-      'Toca el micrófono y di lo que comiste; luego toca la flecha. Funciona en español e inglés.';
+      'Toca el micrófono y di lo que comiste; luego toca la flecha. Funciona en español, inglés y árabe.';
 
   @override
   String get voiceListening => 'Escuchando… toca la flecha cuando termines.';
@@ -5455,4 +5455,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String voiceYouSaid(String words) {
     return 'Dijiste: «$words»';
   }
+
+  @override
+  String get ironMealHeard =>
+      'Eso suena a una comida. ¿La registro? Solo armo un programa cuando lo pides, así que esto no gastó una solicitud.';
+
+  @override
+  String get ironLogIt => 'Regístrala';
 }

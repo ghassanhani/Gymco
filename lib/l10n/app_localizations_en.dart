@@ -5439,4 +5439,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String voiceYouSaid(String words) {
     return 'You said: “$words”';
   }
+
+  @override
+  String get ironMealHeard =>
+      'That sounds like a meal. Want me to log it? I only build a program when you ask for one, so this didn\'t use a request.';
+
+  @override
+  String get ironLogIt => 'Log it';
 }

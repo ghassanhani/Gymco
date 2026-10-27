@@ -1478,5 +1478,7 @@
   "voiceRecording": "Grabando, {time}",
   "voiceCancel": "Cancelar grabación",
   "voiceDone": "Listo",
-  "voiceYouSaid": "Dijiste: «{words}»"
+  "voiceYouSaid": "Dijiste: «{words}»",
+  "ironMealHeard": "Eso suena a una comida. ¿La registro? Solo armo un programa cuando lo pides, así que esto no gastó una solicitud.",
+  "ironLogIt": "Regístrala"
 }

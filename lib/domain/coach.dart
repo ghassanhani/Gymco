@@ -67,6 +67,7 @@ class IronProgram {
     required this.plan,
     required this.habits,
     this.offTopic = false,
+    this.meal = false,
   });
   final String summary;
   final double kcal;
@@ -78,7 +79,10 @@ class IronProgram {
   /// The user's note wasn't about their program, so Iron built nothing.
   final bool offTopic;
 
-  bool get isEmpty => offTopic || (kcal <= 0 && plan.isEmpty);
+  /// The note told a meal to log rather than asking for a program.
+  final bool meal;
+
+  bool get isEmpty => offTopic || meal || (kcal <= 0 && plan.isEmpty);
 }
 
 double _num(Object? v) => v is num && v.isFinite ? v.toDouble() : 0;
@@ -131,6 +135,7 @@ IronProgram programFrom(Map<String, Object?> answer, ExerciseLibrary lib) {
         if (cleanText(h).isNotEmpty) cleanText(h),
     ].take(3).toList(),
     offTopic: data['off_topic'] == true,
+    meal: data['meal'] == true,
   );
 }
 

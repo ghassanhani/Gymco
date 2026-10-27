@@ -1478,5 +1478,7 @@
   "voiceRecording": "جارٍ التسجيل، {time}",
   "voiceCancel": "إلغاء التسجيل",
   "voiceDone": "تم",
-  "voiceYouSaid": "قلت: «{words}»"
+  "voiceYouSaid": "قلت: «{words}»",
+  "ironMealHeard": "يبدو أن هذه وجبة. أسجّلها لك؟ لا أبني برنامجًا إلا إذا طلبته، لذلك لم يُحتسب هذا من طلباتك.",
+  "ironLogIt": "سجّلها"
 }

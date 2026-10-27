@@ -8931,6 +8931,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You said: “{words}”'**
   String voiceYouSaid(String words);
+
+  /// No description provided for @ironMealHeard.
+  ///
+  /// In en, this message translates to:
+  /// **'That sounds like a meal. Want me to log it? I only build a program when you ask for one, so this didn\'t use a request.'**
+  String get ironMealHeard;
+
+  /// No description provided for @ironLogIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Log it'**
+  String get ironLogIt;
 }
 
 class _AppLocalizationsDelegate

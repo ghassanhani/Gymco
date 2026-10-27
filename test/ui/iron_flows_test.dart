@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gymco/data/models.dart';
+import 'package:gymco/ui/food/add_food_screen.dart';
 import 'package:gymco/ui/train/iron_screen.dart';
 
 import '../helpers.dart';
@@ -60,7 +61,11 @@ void main() {
       ..ironTip = {
         'tips': [
           tip,
-          {'title': 'Water before noon', 'tip': 'You are at 0 of 3,500 ml. Start with a glass.', 'action': 'drink_water'},
+          {
+            'title': 'Water before noon',
+            'tip': 'You are at 0 of 3,500 ml. Start with a glass.',
+            'action': 'drink_water',
+          },
           {'title': 'Sleep by eleven', 'tip': 'You slept 6 h. Aim for 7.', 'action': 'none'},
         ],
       };
@@ -92,7 +97,10 @@ void main() {
     await tester.fling(find.text('Sleep by eleven'), const Offset(-300, 0), 1000);
     await tester.pumpAndSettle();
     expect(find.text('Your program from Iron'), findsOneWidget);
-    expect(jsonDecode(prefs.getString('ironTipsDone')!), {'day': dayKey(testNow), 'done': [1, 2]});
+    expect(jsonDecode(prefs.getString('ironTipsDone')!), {
+      'day': dayKey(testNow),
+      'done': [1, 2],
+    });
     final kept = jsonDecode(prefs.getString('ironTips')!) as Map<String, Object?>;
     expect((kept['tips']! as List).length, 3);
   });
@@ -263,5 +271,34 @@ void main() {
     expect(find.textContaining('I only build programs'), findsOneWidget);
     expect(find.text('Use this program'), findsNothing);
     expect(prefs.getString('ironHistory'), isNull);
+  });
+
+  testWidgets('a meal told to Iron is offered to the log, not made into a program', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')
+      ..ironTip = tip
+      ..ironProgram = {'meal': true, 'off_topic': true};
+    final (_, prefs) = await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'ironOn': true,
+        'ironTip': jsonEncode({...tip, 'day': dayKey(testNow)}),
+      },
+      cloud: cloud,
+    );
+    await tester.scrollUntilVisible(find.byTooltip('My program'), 300, scrollable: pageScroll);
+    await Scrollable.ensureVisible(tester.element(find.byTooltip('My program')), alignment: 0.5);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.widgetWithText(TextField, 'Ask Iron for a program…'), '2 eggs and toast');
+    await tester.pump();
+    await tester.tap(find.byTooltip('My program'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('That sounds like a meal'), findsOneWidget);
+    expect(find.text('Use this program'), findsNothing);
+    expect(prefs.getString('ironHistory'), isNull);
+    await tester.tap(find.text('Log it'));
+    await tester.pumpAndSettle();
+    expect(find.byType(AddFoodScreen), findsOneWidget);
+    expect(find.text('2 eggs and toast'), findsOneWidget);
   });
 }

@@ -15,6 +15,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../common/ask_iron.dart';
 import '../common/iron_avatar.dart';
+import '../food/add_food_screen.dart' show mealForHour;
 import '../kit/kit.dart';
 import '../me/account_screen.dart' show cloudMessage;
 import 'ai_routine_screen.dart' show PlannedRoutineCard;
@@ -194,7 +195,9 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                       typing: _busy,
                       mood: p == null || p.isEmpty ? IronMood.happy : IronMood.cheer,
                       child: IronBubble(
-                        p != null && p.offTopic
+                        p != null && p.meal
+                            ? l.ironMealHeard
+                            : p != null && p.offTopic
                             ? l.ironOffTopic
                             : p == null || p.isEmpty
                             ? l.aiRoutineNone
@@ -203,6 +206,19 @@ class _IronScreenState extends ConsumerState<IronScreen> {
                             : l.ironProgramReady,
                       ),
                     ),
+                    if (p != null && p.meal && _asked!.last.isNotEmpty)
+                      Align(
+                        alignment: AlignmentDirectional.centerStart,
+                        child: VBtn(
+                          label: l.ironLogIt,
+                          icon: 'food',
+                          small: true,
+                          onTap: () {
+                            final meal = mealForHour(ref.read(clockProvider)().hour).name;
+                            context.push('/add/$meal?text=${Uri.encodeQueryComponent(_asked!.last)}');
+                          },
+                        ),
+                      ),
                   ],
                   if (p != null && !p.isEmpty) ...[
                     if (p.kcal > 0) ...[

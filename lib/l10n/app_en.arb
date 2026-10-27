@@ -3784,5 +3784,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "ironMealHeard": "That sounds like a meal. Want me to log it? I only build a program when you ask for one, so this didn't use a request.",
+  "ironLogIt": "Log it"
 }
