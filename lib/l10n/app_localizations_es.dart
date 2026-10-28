@@ -5675,4 +5675,13 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get bodyFatNote =>
       'Con la fórmula de la Marina de EE. UU. y tu estatura. Se acerca a un escáner en unos 3–4 puntos: lo que cuenta es la tendencia.';
+
+  @override
+  String get musclesWorked => 'Músculos trabajados';
+
+  @override
+  String get musclesMain => 'Principales';
+
+  @override
+  String get musclesHelp => 'Secundarios';
 }

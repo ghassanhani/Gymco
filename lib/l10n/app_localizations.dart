@@ -9303,6 +9303,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From the US Navy tape formula, with your height. Within about 3–4 points of a scan: the trend is what counts.'**
   String get bodyFatNote;
+
+  /// No description provided for @musclesWorked.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscles worked'**
+  String get musclesWorked;
+
+  /// No description provided for @musclesMain.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get musclesMain;
+
+  /// No description provided for @musclesHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Helping'**
+  String get musclesHelp;
 }
 
 class _AppLocalizationsDelegate

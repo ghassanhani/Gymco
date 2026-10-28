@@ -5623,4 +5623,13 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get bodyFatNote =>
       'بمعادلة البحرية الأمريكية بالشريط، مع طولك. تقترب من نتيجة الفحص بنحو ٣–٤ نقاط: الاتجاه هو المهم.';
+
+  @override
+  String get musclesWorked => 'العضلات العاملة';
+
+  @override
+  String get musclesMain => 'أساسية';
+
+  @override
+  String get musclesHelp => 'مساعدة';
 }

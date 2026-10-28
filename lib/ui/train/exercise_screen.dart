@@ -12,6 +12,7 @@ import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
 import 'exercise_photo.dart';
+import 'muscle_map.dart';
 import 'train_kit.dart';
 
 /// One exercise: its estimated 1RM over time, its bests, how to do it, and
@@ -185,6 +186,7 @@ class ExerciseScreen extends ConsumerWidget {
                     border: Border.all(color: Volt.brandEdge),
                     child: Muted(insight, color: Volt.t2),
                   ),
+                  MuscleMap(primary: e.primary, secondary: e.secondary),
                   if (e.images.isNotEmpty && ref.watch(showExercisePhotosProvider))
                     ClipSmooth(
                       borderRadius: BorderRadius.circular(18),

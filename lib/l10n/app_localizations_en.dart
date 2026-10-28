@@ -5657,4 +5657,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bodyFatNote =>
       'From the US Navy tape formula, with your height. Within about 3–4 points of a scan: the trend is what counts.';
+
+  @override
+  String get musclesWorked => 'Muscles worked';
+
+  @override
+  String get musclesMain => 'Main';
+
+  @override
+  String get musclesHelp => 'Helping';
 }

@@ -3919,5 +3919,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "musclesWorked": "Muscles worked",
+  "musclesMain": "Main",
+  "musclesHelp": "Helping"
 }

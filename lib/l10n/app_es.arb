@@ -1540,5 +1540,8 @@
   "bodyFatLbl": "Grasa corporal estimada",
   "bodyFatNeedsMale": "Mide tu cintura y tu cuello para ver tu grasa corporal.",
   "bodyFatNeedsFemale": "Mide tu cintura, cuello y cadera para ver tu grasa corporal.",
-  "bodyFatNote": "Con la fórmula de la Marina de EE. UU. y tu estatura. Se acerca a un escáner en unos 3–4 puntos: lo que cuenta es la tendencia."
+  "bodyFatNote": "Con la fórmula de la Marina de EE. UU. y tu estatura. Se acerca a un escáner en unos 3–4 puntos: lo que cuenta es la tendencia.",
+  "musclesWorked": "Músculos trabajados",
+  "musclesMain": "Principales",
+  "musclesHelp": "Secundarios"
 }
