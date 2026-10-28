@@ -196,7 +196,13 @@ class NoteSwitches {
     this.weighDays = const {0, 3},
     this.quietFrom = (23, 0),
     this.quietTo = (7, 0),
+    this.off = const {},
+    this.dailyCap = 3,
   });
+
+  /// Switched off for everyone from the Control Center.
+  final Set<NoteKind> off;
+  final int dailyCap;
 
   final bool meals, protein, water, workout, weighIn, streak, checkIn, iron, timer, account;
   final Map<ReminderKind, ClockTime> mealAt;
@@ -318,7 +324,7 @@ List<Note> applyNoteRules(List<Note> notes, NoteFacts f, NoteSwitches s, {requir
 
   final kept = <Note>[];
   for (var n in notes) {
-    if (!n.at.isAfter(f.now)) continue;
+    if (!n.at.isAfter(f.now) || s.off.contains(n.kind)) continue;
     final timer = n.kind == NoteKind.restOver;
     // Friday prayer in the Gulf, about 11:30 to 13:30: held until after.
     if (!timer && f.region == Region.gulf && n.at.weekday == DateTime.friday) {
@@ -333,7 +339,8 @@ List<Note> applyNoteRules(List<Note> notes, NoteFacts f, NoteSwitches s, {requir
     kept.add(n);
   }
 
-  // At most 3 a day, keeping the most valuable.
+  // At most [NoteSwitches.dailyCap] a day (3 unless the Control Center
+  // says otherwise), keeping the most valuable.
   final byDay = <int, List<Note>>{};
   for (final n in kept) {
     if (_uncapped.contains(n.kind)) continue;
@@ -342,7 +349,7 @@ List<Note> applyNoteRules(List<Note> notes, NoteFacts f, NoteSwitches s, {requir
   final dropped = <Note>{};
   for (final list in byDay.values) {
     list.sort((a, b) => a.kind.index.compareTo(b.kind.index));
-    dropped.addAll(list.skip(3));
+    dropped.addAll(list.skip(s.dailyCap));
   }
   final out = [
     for (final n in kept)

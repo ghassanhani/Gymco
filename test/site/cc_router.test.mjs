@@ -20,14 +20,14 @@ test("a viewer opens only the monitoring pages", () => {
   assert.deepEqual(PAGES.filter((p) => can("viewer", p.cap)).map((p) => p.id).sort(), ["health", "overview", "releases"]);
 });
 
-test("the owner opens all eleven sections", () => {
-  assert.equal(PAGES.filter((p) => can("owner", p.cap)).length, 11);
+test("the owner opens all twelve sections", () => {
+  assert.equal(PAGES.filter((p) => can("owner", p.cap)).length, 12);
 });
 
 test("the sidebar has the spec's five groups in order", () => {
   assert.deepEqual(NAV.map((g) => g.name), ["Monitor", "People", "App", "Ship", "Admin"]);
   assert.deepEqual(NAV.flatMap((g) => g.items.map((i) => i.id)), [
-    "overview", "health", "accounts", "support", "config", "content", "plans", "messaging", "releases", "website", "team",
+    "overview", "health", "accounts", "support", "config", "content", "plans", "messaging", "notifications", "releases", "website", "team",
   ]);
 });
 

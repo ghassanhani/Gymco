@@ -1,4 +1,4 @@
-// The eleven sections, their sidebar groups and the role each needs to open.
+// The twelve sections, their sidebar groups and the role each needs to open.
 
 export const NAV = [
   { name: "Monitor", items: [{ id: "overview", label: "Overview", cap: "read", skel: "kpis" }, { id: "health", label: "System health", cap: "read", skel: "kpis" }] },
@@ -10,6 +10,7 @@ export const NAV = [
       { id: "content", label: "Content", cap: "draft", skel: "form" },
       { id: "plans", label: "Plans & pricing", cap: "draft", skel: "form" },
       { id: "messaging", label: "Messaging", cap: "draft", skel: "table" },
+      { id: "notifications", label: "Notifications", cap: "draft", skel: "form" },
     ],
   },
   { name: "Ship", items: [{ id: "releases", label: "Releases", cap: "read", skel: "table" }, { id: "website", label: "Website", cap: "draft", skel: "form" }] },

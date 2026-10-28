@@ -3,7 +3,7 @@
 // it. Shared by the admin function (validation), app-config (resolution) and
 // food-photo (limits). The app carries the same defaults, so it works offline.
 
-export type Kind = "bool" | "int" | "num" | "text3" | "enum";
+export type Kind = "bool" | "int" | "num" | "text3" | "enum" | "notes";
 
 export interface KeySpec {
   kind: Kind;
@@ -17,6 +17,31 @@ export interface KeySpec {
 }
 
 const t3 = (en: string, ar: string, es: string) => ({ en, ar, es });
+
+/** Every notification the app schedules, as the app names them, with the
+ *  placeholders its text can use. */
+export const NOTE_KINDS: Record<string, { label: string; vars: string[] }> = {
+  breakfast: { label: "Breakfast", vars: [] },
+  lunch: { label: "Lunch", vars: [] },
+  dinner: { label: "Dinner", vars: [] },
+  protein: { label: "Protein short", vars: ["g"] },
+  water: { label: "Water", vars: ["l"] },
+  workout: { label: "Workout today", vars: ["routine", "n", "m"] },
+  sessionMoved: { label: "Session moved", vars: ["routine", "day"] },
+  weighIn: { label: "Weigh-in", vars: [] },
+  restOver: { label: "Rest over", vars: ["n", "exercise"] },
+  workoutOpen: { label: "Workout left open", vars: [] },
+  streakRisk: { label: "Streak at risk", vars: ["days"] },
+  freezeUsed: { label: "Freeze used", vars: ["n"] },
+  streakRepair: { label: "Repair available", vars: [] },
+  challengeNew: { label: "New monthly challenge", vars: ["month", "n"] },
+  challengeNear: { label: "Challenge almost done", vars: [] },
+  checkIn: { label: "Weekly check-in", vars: ["kcal", "w"] },
+  ironTip: { label: "Iron's tip", vars: ["tip"] },
+  welcomeBack: { label: "Welcome back", vars: [] },
+  backup: { label: "Backup failed", vars: [] },
+};
+const NOTE_LANGS = ["en", "ar", "ar_f", "es"];
 
 export const SCHEMA: Record<string, Record<string, KeySpec>> = {
   features: {
@@ -57,6 +82,13 @@ export const SCHEMA: Record<string, Record<string, KeySpec>> = {
     recommended_build: { kind: "int", default: 0, min: 0, max: 100000, owner: true, label: "Recommended build", help: "Older builds see a gentle update prompt" },
     maintenance_mode: { kind: "bool", default: false, owner: true, label: "Maintenance mode", help: "Sync, backup, AI and sign-in pause; the diary keeps working" },
     maintenance_message: { kind: "text3", default: t3("Back shortly. Your diary is safe on your phone.", "سنعود قريبًا. مذكراتك آمنة على هاتفك.", "Volvemos pronto. Tu diario está a salvo en tu teléfono."), owner: true, label: "Maintenance message" },
+  },
+  notifications: {
+    daily_cap: { kind: "int", default: 3, min: 1, max: 5, label: "Most in a day", help: "The workout timer isn't counted" },
+    quiet_from: { kind: "int", default: 23, min: 0, max: 23, label: "Quiet hours start (hour)", help: "Until someone sets their own" },
+    quiet_to: { kind: "int", default: 7, min: 0, max: 23, label: "Quiet hours end (hour)" },
+    ...Object.fromEntries(Object.entries(NOTE_KINDS).map(([k, v]) => [k, { kind: "bool" as Kind, default: true, label: v.label }])),
+    text: { kind: "notes", default: {}, label: "Notification text", help: "Empty uses the app's own words" },
   },
   plans: {
     paywall_enabled: { kind: "bool", default: false, owner: true, label: "Paywall on" },
@@ -122,6 +154,35 @@ function check(spec: KeySpec, v: unknown, key: string, errors: ConfigError[]) {
     case "enum":
       if (!spec.options!.includes(v as string)) bad(`Must be one of ${spec.options!.join(", ")}`);
       break;
+    case "notes": {
+      if (!v || typeof v !== "object" || Array.isArray(v)) {
+        bad("Must be a set of texts");
+        break;
+      }
+      for (const [kind, parts] of Object.entries(v as Record<string, unknown>)) {
+        if (!(kind in NOTE_KINDS)) {
+          errors.push({ key: `${key}.${kind}`, message: "Not a notification the app sends" });
+          continue;
+        }
+        for (const [part, langs] of Object.entries((parts ?? {}) as Record<string, unknown>)) {
+          if (part !== "title" && part !== "body") {
+            errors.push({ key: `${key}.${kind}.${part}`, message: "Only a title and a body" });
+            continue;
+          }
+          for (const [l, s] of Object.entries((langs ?? {}) as Record<string, unknown>)) {
+            const at = `${key}.${kind}.${part}.${l}`;
+            if (!NOTE_LANGS.includes(l)) errors.push({ key: at, message: "Not a language the app speaks" });
+            else if (typeof s !== "string") errors.push({ key: at, message: "Must be text" });
+            else if (s.length > (part === "title" ? 60 : 160)) errors.push({ key: at, message: `Keep it under ${part === "title" ? 60 : 160} characters` });
+            else {
+              const unknown = [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]).filter((x) => !NOTE_KINDS[kind].vars.includes(x));
+              if (unknown.length) errors.push({ key: at, message: `Unknown placeholder {${unknown[0]}}` });
+            }
+          }
+        }
+      }
+      break;
+    }
     case "text3":
       for (const l of ["en", "ar", "es"]) {
         const s = (v as Record<string, unknown>)?.[l];
@@ -151,7 +212,7 @@ export function validate(input: unknown): { ok: boolean; body: any; errors: Conf
       errors.push({ key: `rules.${i}.key`, message: "The daily scan cap applies to everyone; it can't be targeted" });
       return null;
     }
-    if (!spec || spec.kind === "text3") {
+    if (!spec || spec.kind === "text3" || spec.kind === "notes") {
       errors.push({ key: `rules.${i}.key`, message: "Unknown or untargetable key" });
       return null;
     }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -268,6 +270,35 @@ void main() {
     final lunch = reminders.scheduled.first;
     expect(lunch.title, '🥗 الغدا');
     expect(lunch.body, 'وقت الغدا. صوّريه أو اكتبيه، والحسبة علينا.');
+  });
+
+  testWidgets('the Control Center can switch a notification off and change its words', (tester) async {
+    final reminders = FakeReminders();
+    await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'remindMeals': true,
+        'remindMealAt': ['8:00', '13:00', '21:00'],
+        'rc.config': jsonEncode({
+          'notifications': {
+            'lunch': false,
+            'text': {
+              'dinner': {
+                'title': {'en': '🌙 Dinner time'},
+                'body': {'en': 'Close the day — {nope} stays as it is.'},
+              },
+            },
+          },
+        }),
+      },
+      reminders: reminders,
+    );
+    await tester.pumpAndSettle();
+    final titles = reminders.scheduled.map((n) => n.title).toList();
+    expect(titles, isNot(contains('🥗 Lunch')));
+    final dinner = reminders.scheduled.firstWhere((n) => n.title == '🌙 Dinner time');
+    expect(dinner.body, 'Close the day — {nope} stays as it is.');
   });
 
   testWidgets('a phone that refuses notifications keeps reminders off', (tester) async {

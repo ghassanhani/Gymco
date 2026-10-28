@@ -11,12 +11,14 @@ import '../domain/checkin.dart';
 import '../domain/energy.dart';
 import '../domain/hydration.dart';
 import '../domain/notifications.dart';
+import '../domain/remote_config.dart';
 import '../domain/reminders.dart';
 import '../domain/streak.dart';
 import '../domain/volume.dart';
 import '../l10n/app_localizations.dart';
 import 'awards_providers.dart';
 import 'cloud_providers.dart';
+import 'config_providers.dart';
 import 'pack_providers.dart';
 import 'progress_providers.dart';
 import 'providers.dart';
@@ -73,8 +75,9 @@ class ReminderSettingsNotifier extends Notifier<ReminderSettings> {
       weighDays: {
         for (final d in p.getStringList(_kWeighDays) ?? const ['0', '3']) ?int.tryParse(d),
       },
-      quietFrom: decodeClock(p.getString(_kQuietFrom)) ?? (23, 0),
-      quietTo: decodeClock(p.getString(_kQuietTo)) ?? (7, 0),
+      // Until set here, the Control Center's quiet hours.
+      quietFrom: decodeClock(p.getString(_kQuietFrom)) ?? (RemoteConfig.current.quietFromHour, 0),
+      quietTo: decodeClock(p.getString(_kQuietTo)) ?? (RemoteConfig.current.quietToHour, 0),
     );
   }
 
@@ -188,11 +191,17 @@ NoteSwitches _switches(ReminderSettings s, Map<ReminderKind, ClockTime> meals) =
   weighDays: s.weighDays,
   quietFrom: s.quietFrom,
   quietTo: s.quietTo,
+  off: {
+    for (final k in NoteKind.values)
+      if (!RemoteConfig.current.noteOn(k.name)) k,
+  },
+  dailyCap: RemoteConfig.current.noteDailyCap,
 );
 
 /// Keeps what is scheduled in step with the day: rebuilt whenever food,
 /// water, workouts or the settings change, and when the app comes back.
 final reminderSyncProvider = FutureProvider<void>((ref) async {
+  ref.watch(remoteConfigProvider);
   final settings = ref.watch(reminderSettingsProvider);
   final scheduler = ref.watch(reminderSchedulerProvider);
   final profile = ref.watch(profileProvider);
@@ -317,6 +326,7 @@ final reminderSyncProvider = FutureProvider<void>((ref) async {
 /// The workout timer's two notes, kept apart from the day's plan so a
 /// ticked set does not reschedule the week.
 final workoutTimerSyncProvider = FutureProvider<void>((ref) async {
+  ref.watch(remoteConfigProvider);
   final settings = ref.watch(reminderSettingsProvider);
   final scheduler = ref.watch(reminderSchedulerProvider);
   final session = ref.watch(activeWorkoutProvider);
@@ -348,7 +358,15 @@ final workoutTimerSyncProvider = FutureProvider<void>((ref) async {
       restSet: set,
       workoutActiveAt: session.lastActive,
     ),
-    NoteSwitches(timer: true, quietFrom: settings.quietFrom, quietTo: settings.quietTo),
+    NoteSwitches(
+      timer: true,
+      quietFrom: settings.quietFrom,
+      quietTo: settings.quietTo,
+      off: {
+        for (final k in NoteKind.values)
+          if (!RemoteConfig.current.noteOn(k.name)) k,
+      },
+    ),
   );
   final l = _l(ref);
   await scheduler.replaceTimer([for (final n in notes) _words(n, l, sex: profile.sex, month: now)]);
@@ -446,7 +464,34 @@ ReminderNote _words(Note n, AppLocalizations l, {required Sex sex, required Date
     NoteKind.welcomeBack => (l.nBackT, l.nBackB(x)),
     NoteKind.backup => (l.nBackupT, l.nBackupB(x)),
   };
-  return (id: n.id, at: n.at, title: title, body: body, urgent: n.kind == NoteKind.restOver);
+  // Words from the Control Center win, with their placeholders filled in.
+  final vars = <String, String>{
+    'g': '${d['grams'] ?? ''}',
+    'l': d['ml'] is int ? NumberFormat('0.0', lang == 'ar' ? 'en' : lang).format((d['ml'] as int) / 1000) : '',
+    'routine': '${d['routine'] ?? ''}',
+    'n': '${d['exercises'] ?? d['set'] ?? d['left'] ?? d['target'] ?? ''}',
+    'm': '${d['minutes'] ?? ''}',
+    'day': d['to'] is int ? weekday(d['to'] as int) : '',
+    'exercise': '${d['exercise'] ?? ''}',
+    'days': '${d['days'] ?? ''}',
+    'month': DateFormat.MMMM(lang).format(n.at),
+    'kcal': d['target'] is int ? count.format(d['target']) : '',
+    'w': '${d['stall'] ?? ''}',
+    'tip': '${d['tip'] ?? ''}',
+  };
+  String fill(String s) => s.replaceAllMapped(RegExp(r'\{(\w+)\}'), (m) => vars[m[1]] ?? m[0]!);
+  String pick(String part, String builtIn) {
+    final t = RemoteConfig.current.noteText(n.kind.name, part, lang, female: sex == Sex.female);
+    return t == null ? builtIn : fill(t);
+  }
+
+  return (
+    id: n.id,
+    at: n.at,
+    title: pick('title', title),
+    body: pick('body', body),
+    urgent: n.kind == NoteKind.restOver,
+  );
 }
 
 String _clip(String s, int max) => s.length <= max ? s : '${s.substring(0, max - 1).trimRight()}…';

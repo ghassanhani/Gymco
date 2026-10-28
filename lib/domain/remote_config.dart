@@ -51,6 +51,27 @@ class RemoteConfig {
   bool get catchUp => _b('features', 'catch_up', true);
   bool get monthlyChallenge => _b('features', 'monthly_challenge', true);
 
+  // Notifications
+  /// A notification the Control Center has not switched off, by the
+  /// app's name for it.
+  bool noteOn(String kind) => _b('notifications', kind, true);
+  int get noteDailyCap => _i('notifications', 'daily_cap', 3, 1, 5);
+  int get quietFromHour => _i('notifications', 'quiet_from', 23, 0, 23);
+  int get quietToHour => _i('notifications', 'quiet_to', 7, 0, 23);
+
+  /// Words set in the Control Center for a notification's [part] (title or
+  /// body) in [lang], the feminine Arabic first for a woman; null keeps the
+  /// app's own.
+  String? noteText(String kind, String part, String lang, {bool female = false}) {
+    final text = _v('notifications', 'text');
+    if (text is! Map || text[kind] is! Map || (text[kind] as Map)[part] is! Map) return null;
+    final by = (text[kind] as Map)[part] as Map;
+    for (final l in [if (female && lang == 'ar') 'ar_f', lang]) {
+      if (by[l] case final String s when s.trim().isNotEmpty) return s.trim();
+    }
+    return null;
+  }
+
   // Limits
   int get aiScansPerDay => _i('limits', 'ai_scans_per_day', 10, 1, 100);
   int get photoNoteMaxChars => _i('limits', 'photo_note_max_chars', 500, 20, 500);
