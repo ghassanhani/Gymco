@@ -75,6 +75,28 @@ void main() {
     expect(cloud.lastIronLanguage, 'ar');
   });
 
+  testWidgets('tips kept in English for an Arabic reader are asked again', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')..ironTip = tip;
+    final (_, prefs) = await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile,
+        'ironOn': true,
+        'lang': 'ar',
+        'ironTips': jsonEncode({
+          'day': dayKey(testNow),
+          'lang': 'ar',
+          'tips': [tip],
+        }),
+      },
+      cloud: cloud,
+    );
+    await tester.pumpAndSettle();
+    expect(cloud.ironCalls, 1);
+    // Still English: kept for the day rather than asked again and again.
+    expect(jsonDecode(prefs.getString('ironTips')!)['again'], isTrue);
+  });
+
   testWidgets('today brings a few tips to swipe through, kept for the day', (tester) async {
     final cloud = FakeCloud(signedIn: 'me@example.com')
       ..ironTip = {

@@ -286,6 +286,8 @@ bool _ready(Ref ref) =>
     ref.read(remoteConfigProvider).coachAi &&
     (ref.read(accountProvider).value ?? ref.read(cloudProvider).email) != null;
 
+final _arabic = RegExp(r'[\u0600-\u06FF]');
+
 /// Today's tips from Iron, a few to swipe through: asked once a day and
 /// kept, so they cost one AI call a day. Empty while Iron is off or signed
 /// out. When Iron can't be reached (no connection, switched off, out of
@@ -300,11 +302,16 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
   final lang = deviceMeta(ref).locale;
   final prefs = ref.read(prefsProvider);
   final kept = prefs.getString('ironTips') ?? prefs.getString('ironTip');
+  var again = false;
   if (kept != null) {
     final j = jsonDecode(kept) as Map<String, Object?>;
     if (j['day'] == day && (j['lang'] ?? 'en') == lang) {
       final tips = IronTip.allFromJson(j, day);
-      if (tips.isNotEmpty) return tips;
+      // Tips that came back in English for an Arabic reader are asked again,
+      // once a day.
+      final misread = lang == 'ar' && j['again'] != true && !tips.any((t) => _arabic.hasMatch('${t.title}${t.tip}'));
+      if (tips.isNotEmpty && !misread) return tips;
+      again = misread;
     }
   }
   final signedIn = (ref.read(accountProvider).value ?? ref.read(cloudProvider).email) != null;
@@ -325,6 +332,7 @@ final ironTipProvider = FutureProvider<List<IronTip>>((ref) async {
         jsonEncode({
           'day': day,
           'lang': lang,
+          if (again) 'again': true,
           'tips': [for (final t in tips) t.toJson()],
         }),
       );
