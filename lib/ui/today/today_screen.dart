@@ -461,7 +461,12 @@ class _RingCard extends StatelessWidget {
                       empty ? kcalTarget : (closed ? totals.kcal : left),
                       from: empty || closed ? 0 : kcalTarget,
                       format: fmtInt,
-                      style: numStyle(closed ? 24 : 26, height: 1.15, color: empty ? Volt.t2 : Volt.t1),
+                      style: numStyle(
+                        closed ? 21 : 22,
+                        weight: FontWeight.w800,
+                        height: 1.15,
+                        color: empty ? Volt.t2 : Volt.t1,
+                      ),
                     ),
                     Text(
                       empty
