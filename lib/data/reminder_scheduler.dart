@@ -6,15 +6,22 @@ import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
 /// A reminder ready for the phone: when, and what it says.
-typedef ReminderNote = ({int id, DateTime at, String title, String body});
+/// [urgent] is the rest timer: it rings through Focus and sounds.
+typedef ReminderNote = ({int id, DateTime at, String title, String body, bool urgent});
+
+/// The workout timer's own ids, kept out of the day's plan.
+const timerNoteIds = {4002, 4003};
 
 /// Puts reminders on the phone. Everything is local; nothing leaves it.
 abstract class ReminderScheduler {
   /// Asks to show notifications; false when the person says no.
   Future<bool> requestPermission();
 
-  /// Replaces whatever was scheduled with [notes].
+  /// Replaces the day's plan with [notes], leaving the workout timer.
   Future<void> replaceAll(List<ReminderNote> notes);
+
+  /// Replaces the workout timer's notes.
+  Future<void> replaceTimer(List<ReminderNote> notes);
 }
 
 /// For tests and platforms without notifications.
@@ -24,6 +31,8 @@ class NoReminders implements ReminderScheduler {
   Future<bool> requestPermission() async => true;
   @override
   Future<void> replaceAll(List<ReminderNote> notes) async {}
+  @override
+  Future<void> replaceTimer(List<ReminderNote> notes) async {}
 }
 
 class DeviceReminders implements ReminderScheduler {
@@ -76,19 +85,46 @@ class DeviceReminders implements ReminderScheduler {
     iOS: DarwinNotificationDetails(),
   );
 
-  @override
-  Future<void> replaceAll(List<ReminderNote> notes) async {
-    await _init();
-    await _plugin.cancelAllPendingNotifications();
+  static const _timer = NotificationDetails(
+    android: AndroidNotificationDetails(
+      'workout_timer',
+      'Workout timer',
+      channelDescription: 'When rest is over',
+      importance: Importance.high,
+      priority: Priority.high,
+      color: Color(0xFFC6F432),
+    ),
+    iOS: DarwinNotificationDetails(presentSound: true, interruptionLevel: InterruptionLevel.timeSensitive),
+  );
+
+  Future<void> _schedule(List<ReminderNote> notes) async {
     for (final n in notes) {
       await _plugin.zonedSchedule(
         id: n.id,
         scheduledDate: tz.TZDateTime.from(n.at, tz.local),
-        notificationDetails: _details,
+        notificationDetails: n.urgent ? _timer : _details,
         androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
         title: n.title,
         body: n.body,
       );
     }
+  }
+
+  @override
+  Future<void> replaceAll(List<ReminderNote> notes) async {
+    await _init();
+    for (final p in await _plugin.pendingNotificationRequests()) {
+      if (!timerNoteIds.contains(p.id)) await _plugin.cancel(id: p.id);
+    }
+    await _schedule(notes);
+  }
+
+  @override
+  Future<void> replaceTimer(List<ReminderNote> notes) async {
+    await _init();
+    for (final id in timerNoteIds) {
+      await _plugin.cancel(id: id);
+    }
+    await _schedule(notes);
   }
 }

@@ -2595,11 +2595,11 @@
   "remindWorkoutBody": "Your plan has a session today. Ready when you are.",
   "reminders": "Reminders",
   "remindMeals": "Meals",
-  "remindMealsSub": "If a meal isn’t logged by {b}, {l} or {d}",
+  "remindMealsSub": "45 min after {b}, {l} and {d} if empty",
   "remindWater": "Water",
   "remindWaterSub": "At {a}, {b} and {c} when you’re behind",
   "remindWorkout": "Workouts",
-  "remindWorkoutSub": "At {t} on days your plan has a session",
+  "remindWorkoutSub": "1 h before you usually train ({t})",
   "remindersOff": "Notifications are off for Gymco. Turn them on in your phone’s settings.",
   "newRecipe": "New recipe",
   "editRecipe": "Edit recipe",
@@ -3132,10 +3132,10 @@
       }
     }
   },
-  "remindWorkoutAt": "Time",
-  "remindMealsNote": "Each one only goes off if that meal is still empty.",
+  "remindWorkoutAt": "Usual training time",
+  "remindMealsNote": "Set the times you usually eat. Each reminder goes 45 minutes later, only if that meal is still empty.",
   "remindWaterNote": "Each nudge only goes off if you are behind your water for that time.",
-  "remindWorkoutNote": "Only on days your plan has a session, and not once it is done.",
+  "remindWorkoutNote": "Learned from your workouts until you set it. Also says at 21:00 where a missed session moves to.",
   "toggleReminder": "Turn {name} reminders on or off",
   "@toggleReminder": {
     "placeholders": {
@@ -3922,5 +3922,290 @@
   },
   "musclesWorked": "Muscles worked",
   "musclesMain": "Main",
-  "musclesHelp": "Helping"
+  "musclesHelp": "Helping",
+  "nBreakfastT": "🍳 Breakfast",
+  "nBreakfastB": "{sex, select, female{Breakfast logged? Type it like you'd say it — takes seconds.} other{Breakfast logged? Type it like you'd say it — takes seconds.}}",
+  "@nBreakfastB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nLunchT": "🥗 Lunch",
+  "nLunchB": "{sex, select, female{Lunch time. Snap it or type it — Gymco does the math.} other{Lunch time. Snap it or type it — Gymco does the math.}}",
+  "@nLunchB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nDinnerT": "🍽️ Dinner",
+  "nDinnerB": "{sex, select, female{Log dinner and close out your day.} other{Log dinner and close out your day.}}",
+  "@nDinnerB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nProteinT": "🥛 Protein",
+  "nProteinB": "You're {g} g short on protein. A shake or Greek yogurt closes it.",
+  "@nProteinB": {
+    "placeholders": {
+      "g": {
+        "type": "String"
+      }
+    }
+  },
+  "nWaterT": "💧 Water",
+  "nWaterB": "{l} L to go today. One glass now keeps you on pace.",
+  "@nWaterB": {
+    "placeholders": {
+      "l": {
+        "type": "String"
+      }
+    }
+  },
+  "nWorkoutT": "🏋️ {routine} today",
+  "@nWorkoutT": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
+  "nWorkoutB": "{n} exercises, about {m} min.",
+  "@nWorkoutB": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "m": {
+        "type": "String"
+      }
+    }
+  },
+  "nMovedT": "📅 {routine}",
+  "@nMovedT": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
+  "nMovedB": "{sex, select, female{No session today? {routine} moves to {day} — the order holds.} other{No session today? {routine} moves to {day} — the order holds.}}",
+  "@nMovedB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "routine": {
+        "type": "String"
+      },
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "nWeighT": "⚖️ Weigh-in",
+  "nWeighB": "Morning weigh-in: after the bathroom, before food.",
+  "nRestT": "⏱️ Rest's up",
+  "nRestB": "Set {n} of {exercise}.",
+  "@nRestB": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "exercise": {
+        "type": "String"
+      }
+    }
+  },
+  "nRestPlainB": "{sex, select, female{Next set when you're ready.} other{Next set when you're ready.}}",
+  "@nRestPlainB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nOpenT": "🏋️ Workout still open",
+  "nOpenB": "{sex, select, female{Finish it or pick up where you left off.} other{Finish it or pick up where you left off.}}",
+  "@nOpenB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nStreakT": "🔥 {days}-day streak",
+  "@nStreakT": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nStreakPlainT": "🔥 Your streak",
+  "nStreakB": "{sex, select, female{Your {days}-day streak needs today's meals. Two minutes keeps it.} other{Your {days}-day streak needs today's meals. Two minutes keeps it.}}",
+  "@nStreakB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "nStreakPlainB": "{sex, select, female{Your streak needs today's meals. Two minutes keeps it.} other{Your streak needs today's meals. Two minutes keeps it.}}",
+  "@nStreakPlainB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nFreezeT": "🧊 Streak saved",
+  "nFreezeB": "A freeze saved your streak yesterday. {n, plural, =0{No freezes left.} =1{1 freeze left.} other{{n} freezes left.}}",
+  "@nFreezeB": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "nRepairT": "🔧 Repair your streak",
+  "nRepairB": "{sex, select, female{Yesterday slipped. Fill it in before midnight to repair your streak.} other{Yesterday slipped. Fill it in before midnight to repair your streak.}}",
+  "@nRepairB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nChallengeT": "🏆 {month} challenge",
+  "@nChallengeT": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "nChallengeB": "{sex, select, female{Train {n} times this month.} other{Train {n} times this month.}}",
+  "@nChallengeB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "nNearT": "{sex, select, female{🏆 Almost there} other{🏆 Almost there}}",
+  "@nNearT": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nNearB": "{sex, select, female{2 sessions left to finish this month's challenge.} other{2 sessions left to finish this month's challenge.}}",
+  "@nNearB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nCheckInT": "📊 Weekly check-in",
+  "nCheckInB": "Your weekly check-in is ready: new target {kcal} kcal.",
+  "@nCheckInB": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nCheckInPlainB": "Your weekly check-in is ready.",
+  "nStallB": "{sex, select, female{Weight's held steady for {w} weeks. Here are your options.} other{Weight's held steady for {w} weeks. Here are your options.}}",
+  "@nStallB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      },
+      "w": {
+        "type": "String"
+      }
+    }
+  },
+  "nFastB": "{sex, select, female{You're losing faster than planned. Let's protect your muscle.} other{You're losing faster than planned. Let's protect your muscle.}}",
+  "@nFastB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nIronT": "💡 Iron",
+  "nBackT": "👋 Welcome back",
+  "nBackB": "{sex, select, female{Missed a few days? Fill them in fast with Catch up — no judgment.} other{Missed a few days? Fill them in fast with Catch up — no judgment.}}",
+  "@nBackB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "nBackupT": "☁️ Backup",
+  "nBackupB": "{sex, select, female{Your backup hasn't run in 3 days. Open Gymco to back up now.} other{Your backup hasn't run in 3 days. Open Gymco to back up now.}}",
+  "@nBackupB": {
+    "placeholders": {
+      "sex": {
+        "type": "String"
+      }
+    }
+  },
+  "remindProtein": "Protein",
+  "remindProteinSub": "2 h before dinner if you're under 70%",
+  "remindWeighIn": "Weigh-in",
+  "remindWeighSub": "{days} at {t}",
+  "@remindWeighSub": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "remindWeighDays": "Mornings",
+  "remindStreak": "Streak & challenges",
+  "remindStreakSub": "At 20:30 if today isn't kept yet",
+  "remindCheckIn": "Weekly check-in",
+  "remindCheckInSub": "{day} at {t}",
+  "@remindCheckInSub": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      },
+      "t": {
+        "type": "String"
+      }
+    }
+  },
+  "remindIron": "Tips from Iron",
+  "remindIronSub": "Up to 2 a week, on rest days at noon",
+  "remindTimer": "Workout timer",
+  "remindTimerSub": "When rest is over, or a workout is left open",
+  "remindAccount": "Welcome back & backup",
+  "remindAccountSub": "After 3 quiet days, or 3 days without a backup",
+  "quietHours": "Quiet hours",
+  "quietFrom": "From",
+  "quietTo": "To",
+  "remindRulesNote": "At most 3 a day, none in quiet hours, and none for something already done."
 }

@@ -267,6 +267,7 @@ class _GymcoAppState extends ConsumerState<GymcoApp> with WidgetsBindingObserver
     // are const, so a change of palette rebuilds the whole app from here.
     Volt.use(brightness);
     ref.watch(reminderSyncProvider);
+    ref.watch(workoutTimerSyncProvider);
     ref.watch(healthImportProvider);
     ref.watch(siriTodayProvider);
     return MaterialApp.router(

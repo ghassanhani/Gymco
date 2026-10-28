@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../domain/cheat_meal.dart';
 import '../../domain/energy.dart';
-import '../../domain/reminders.dart';
 import '../../data/site.dart';
 import '../../l10n/app_localizations.dart';
 import '../../state/cloud_providers.dart';
@@ -156,54 +155,32 @@ class MeScreen extends ConsumerWidget {
                 Eyebrow(l.reminders, padding: const EdgeInsetsDirectional.only(start: 4)),
                 VList(
                   children: [
-                    for (final (kind, icon, title, sub, on) in [
-                      (
-                        ReminderKind.lunch,
-                        'food',
-                        l.remindMeals,
-                        l.remindMealsSub(
-                          fmtClockTime(context, reminders.mealAt[ReminderKind.breakfast]!),
-                          fmtClockTime(context, reminders.mealAt[ReminderKind.lunch]!),
-                          fmtClockTime(context, reminders.mealAt[ReminderKind.dinner]!),
-                        ),
-                        reminders.meals,
-                      ),
-                      (
-                        ReminderKind.water,
-                        'drop',
-                        l.remindWater,
-                        l.remindWaterSub(
-                          fmtClockTime(context, reminders.waterAt[0]),
-                          fmtClockTime(context, reminders.waterAt[1]),
-                          fmtClockTime(context, reminders.waterAt[2]),
-                        ),
-                        reminders.water,
-                      ),
-                      (
-                        ReminderKind.workout,
-                        'dumb',
-                        l.remindWorkout,
-                        l.remindWorkoutSub(fmtClockTime(context, reminders.workoutAt)),
-                        reminders.workout,
-                      ),
-                    ])
+                    for (final (group, icon, title, sub) in reminderRows(context, ref))
                       row(
                         icon,
                         title,
                         sub,
-                        () => showReminderSheet(context, kind),
+                        () => showReminderSheet(context, group),
                         right: Pressable(
                           label: l.toggleReminder(title),
                           onTap: () async {
-                            final ok = await ref.read(reminderSettingsProvider.notifier).set(kind, !on);
+                            final ok = await ref
+                                .read(reminderSettingsProvider.notifier)
+                                .set(group, !reminders.isOn(group));
                             if (!ok && context.mounted) showVToast(context, l.remindersOff, info: true);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(6),
-                            child: VToggle(on: on),
+                            child: VToggle(on: reminders.allowed && reminders.isOn(group)),
                           ),
                         ),
                       ),
+                    row(
+                      'eyeoff',
+                      l.quietHours,
+                      '${fmtClockTime(context, reminders.quietFrom)}–${fmtClockTime(context, reminders.quietTo)}',
+                      () => showQuietHoursSheet(context),
+                    ),
                   ],
                 ),
                 VCard(

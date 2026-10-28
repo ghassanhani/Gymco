@@ -3489,7 +3489,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String remindMealsSub(String b, String l, String d) {
-    return 'إذا لم تُسجَّل وجبة بحلول $b أو $l أو $d';
+    return 'بعد $b و$l و$d بـ45 دقيقة إذا ما سجّلت';
   }
 
   @override
@@ -3505,7 +3505,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String remindWorkoutSub(String t) {
-    return 'في $t في أيام التمرين في خطتك';
+    return 'قبل تمرينك المعتاد بساعة ($t)';
   }
 
   @override
@@ -4251,11 +4251,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get remindWorkoutAt => 'الوقت';
+  String get remindWorkoutAt => 'وقت تمرينك المعتاد';
 
   @override
   String get remindMealsNote =>
-      'لا يصل التذكير إلا إذا كانت الوجبة ما زالت فارغة.';
+      'حدّد أوقات أكلك المعتادة. كل تذكير يجي بعدها بـ45 دقيقة، وبس إذا الوجبة فاضية.';
 
   @override
   String get remindWaterNote =>
@@ -4263,7 +4263,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get remindWorkoutNote =>
-      'فقط في أيام التمرين في خطتك، ولا يصل بعد إنهائه.';
+      'يتعلّمه التطبيق من تمارينك لين تحدده. ويقول لك الساعة 21:00 وين ينتقل التمرين اللي فاتك.';
 
   @override
   String toggleReminder(String name) {
@@ -5632,4 +5632,320 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get musclesHelp => 'مساعدة';
+
+  @override
+  String get nBreakfastT => '🍳 الفطور';
+
+  @override
+  String nBreakfastB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'سجّلتي فطورك؟ اكتبيه مثل ما تقولينه، ما ياخذ ثواني.',
+      'other': 'سجّلت فطورك؟ اكتبه مثل ما تقوله، ما ياخذ ثواني.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nLunchT => '🥗 الغدا';
+
+  @override
+  String nLunchB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'وقت الغدا. صوّريه أو اكتبيه، والحسبة علينا.',
+      'other': 'وقت الغدا. صوّره أو اكتبه، والحسبة علينا.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nDinnerT => '🍽️ العشا';
+
+  @override
+  String nDinnerB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'سجّلي عشاك وقفّلي يومك.',
+      'other': 'سجّل عشاك وقفّل يومك.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nProteinT => '🥛 البروتين';
+
+  @override
+  String nProteinB(String g) {
+    return 'باقي لك $g غ بروتين. شيك بروتين أو زبادي يوناني يكمّلها.';
+  }
+
+  @override
+  String get nWaterT => '💧 الموية';
+
+  @override
+  String nWaterB(String l) {
+    return 'باقي لك $l لتر اليوم. كاسة موية الحين تخليك على المسار.';
+  }
+
+  @override
+  String nWorkoutT(String routine) {
+    return '🏋️ اليوم $routine';
+  }
+
+  @override
+  String nWorkoutB(String n, String m) {
+    return '$n تمارين، تقريبًا $m دقيقة.';
+  }
+
+  @override
+  String nMovedT(String routine) {
+    return '📅 $routine';
+  }
+
+  @override
+  String nMovedB(String sex, String routine, String day) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'ما تمرّنتي اليوم؟ $routine ينتقل لـ$day، والترتيب ثابت.',
+      'other': 'ما تمرّنت اليوم؟ $routine ينتقل لـ$day، والترتيب ثابت.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nWeighT => '⚖️ الوزن';
+
+  @override
+  String get nWeighB => 'وزنك الصباحي: بعد الحمام وقبل الأكل.';
+
+  @override
+  String get nRestT => '⏱️ خلصت الراحة';
+
+  @override
+  String nRestB(String n, String exercise) {
+    return 'الجولة $n من $exercise.';
+  }
+
+  @override
+  String nRestPlainB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'الجولة الجاية لا صرتي جاهزة.',
+      'other': 'الجولة الجاية لا صرت جاهز.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nOpenT => '🏋️ تمرينك لسا مفتوح';
+
+  @override
+  String nOpenB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'خلّصيه أو كمّلي من وين وقفتي.',
+      'other': 'خلّصه أو كمّل من وين وقفت.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nStreakT(String days) {
+    return '🔥 سلسلة $days يوم';
+  }
+
+  @override
+  String get nStreakPlainT => '🔥 سلسلتك';
+
+  @override
+  String nStreakB(String sex, String days) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'سلسلتك $days يوم تبغى وجبات اليوم. دقيقتين وتحافظين عليها.',
+      'other': 'سلسلتك $days يوم تبغى وجبات اليوم. دقيقتين وتحافظ عليها.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nStreakPlainB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'سلسلتك تبغى وجبات اليوم. دقيقتين وتحافظين عليها.',
+      'other': 'سلسلتك تبغى وجبات اليوم. دقيقتين وتحافظ عليها.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nFreezeT => '🧊 سلسلتك محفوظة';
+
+  @override
+  String nFreezeB(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: 'باقي لك $n تجميدات.',
+      two: 'باقي لك تجميدين.',
+      one: 'باقي لك تجميد واحد.',
+      zero: 'ما بقى لك تجميد.',
+    );
+    return 'التجميد حفظ سلسلتك أمس. $_temp0';
+  }
+
+  @override
+  String get nRepairT => '🔧 رجّع سلسلتك';
+
+  @override
+  String nRepairB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'أمس فاتك. كمّليه قبل نص الليل وترجع سلسلتك.',
+      'other': 'أمس فاتك. كمّله قبل نص الليل وترجع سلسلتك.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nChallengeT(String month) {
+    return '🏆 تحدي $month';
+  }
+
+  @override
+  String nChallengeB(String sex, String n) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'تمرّني $n مرة هالشهر.',
+      'other': 'تمرّن $n مرة هالشهر.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nNearT(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': '🏆 قربتي',
+      'other': '🏆 قربت',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nNearB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'باقي لك تمرينين وتخلّصين تحدي الشهر.',
+      'other': 'باقي لك تمرينين وتخلّص تحدي الشهر.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nCheckInT => '📊 مراجعتك الأسبوعية';
+
+  @override
+  String nCheckInB(String kcal) {
+    return 'مراجعتك الأسبوعية جاهزة: هدفك الجديد $kcal سعرة.';
+  }
+
+  @override
+  String get nCheckInPlainB => 'مراجعتك الأسبوعية جاهزة.';
+
+  @override
+  String nStallB(String sex, String w) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'وزنك ثابت له $w أسابيع. شوفي خياراتك.',
+      'other': 'وزنك ثابت له $w أسابيع. شوف خياراتك.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nFastB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'تنزلين أسرع من المخطط. خلنا نحمي عضلك.',
+      'other': 'تنزل أسرع من المخطط. خلنا نحمي عضلك.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nIronT => '💡 آيرون';
+
+  @override
+  String get nBackT => '👋 هلا فيك من جديد';
+
+  @override
+  String nBackB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'غبتي كم يوم؟ عبّيهم بسرعة من «استدراك»، ولا عليك.',
+      'other': 'غبت كم يوم؟ عبّيهم بسرعة من «استدراك»، ولا عليك.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nBackupT => '☁️ النسخ الاحتياطي';
+
+  @override
+  String nBackupB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female':
+          'النسخ الاحتياطي ما اشتغل من 3 أيام. افتحي جيمكو واحفظي بياناتك.',
+      'other': 'النسخ الاحتياطي ما اشتغل من 3 أيام. افتح جيمكو واحفظ بياناتك.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get remindProtein => 'البروتين';
+
+  @override
+  String get remindProteinSub => 'قبل العشا بساعتين إذا أقل من 70%';
+
+  @override
+  String get remindWeighIn => 'الوزن';
+
+  @override
+  String remindWeighSub(String days, String t) {
+    return '$days الساعة $t';
+  }
+
+  @override
+  String get remindWeighDays => 'الأيام';
+
+  @override
+  String get remindStreak => 'السلسلة والتحديات';
+
+  @override
+  String get remindStreakSub => 'الساعة 20:30 إذا ما اكتمل يومك';
+
+  @override
+  String get remindCheckIn => 'المراجعة الأسبوعية';
+
+  @override
+  String remindCheckInSub(String day, String t) {
+    return '$day الساعة $t';
+  }
+
+  @override
+  String get remindIron => 'نصايح آيرون';
+
+  @override
+  String get remindIronSub => 'لين مرتين بالأسبوع، أيام الراحة الظهر';
+
+  @override
+  String get remindTimer => 'مؤقت التمرين';
+
+  @override
+  String get remindTimerSub => 'لا خلصت الراحة، أو بقى التمرين مفتوح';
+
+  @override
+  String get remindAccount => 'الرجعة والنسخ الاحتياطي';
+
+  @override
+  String get remindAccountSub => 'بعد 3 أيام بدون تسجيل، أو بدون نسخ احتياطي';
+
+  @override
+  String get quietHours => 'أوقات الهدوء';
+
+  @override
+  String get quietFrom => 'من';
+
+  @override
+  String get quietTo => 'إلى';
+
+  @override
+  String get remindRulesNote =>
+      '3 بالكثير باليوم، ولا شي في أوقات الهدوء، ولا شي عن شي سوّيته.';
 }

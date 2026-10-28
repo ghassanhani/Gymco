@@ -430,6 +430,10 @@ class FakeReminders implements ReminderScheduler {
 
   @override
   Future<void> replaceAll(List<ReminderNote> notes) async => scheduled = notes;
+
+  List<ReminderNote> timer = const [];
+  @override
+  Future<void> replaceTimer(List<ReminderNote> notes) async => timer = notes;
 }
 
 Object? _sorted(Object? v) => switch (v) {

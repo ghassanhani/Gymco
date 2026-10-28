@@ -217,10 +217,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(prefs.getBool('remindMeals'), isTrue);
     expect(reminders.scheduled, isNotEmpty);
-    expect(reminders.scheduled.first.title, 'Lunch logged?');
+    expect(reminders.scheduled.first.title, '🥗 Lunch');
+    expect(reminders.scheduled.first.body, 'Lunch time. Snap it or type it — Gymco does the math.');
+    // The streak and check-in come on with the first reminder.
+    expect(reminders.scheduled.map((n) => n.title), contains('🔥 Your streak'));
     await tester.tap(find.bySemanticsLabel('Turn Meals reminders on or off'));
     await tester.pumpAndSettle();
-    expect(reminders.scheduled, isEmpty);
+    expect(reminders.scheduled.map((n) => n.title), isNot(contains('🥗 Lunch')));
   });
 
   testWidgets('a reminder opens to its times, and a moved time is what gets scheduled', (tester) async {
@@ -237,8 +240,8 @@ void main() {
     await tester.tap(find.bySemanticsLabel('Me').first);
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text('Meals'), 300, scrollable: pageScroll);
-    expect(find.text('If a meal isn’t logged by 08:00, 14:15 or 21:00'), findsOneWidget);
-    expect(reminders.scheduled.first.at, DateTime(2026, 9, 26, 14, 15));
+    expect(find.text('45 min after 08:00, 14:15 and 21:00 if empty'), findsOneWidget);
+    expect(reminders.scheduled.first.at, DateTime(2026, 9, 26, 15, 0));
     await tester.ensureVisible(find.text('Meals'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Meals'));
@@ -247,6 +250,24 @@ void main() {
     await tester.tap(find.text('Lunch'));
     await tester.pumpAndSettle();
     expect(find.byType(CupertinoDatePicker), findsOneWidget);
+  });
+
+  testWidgets('reminders speak Gulf Arabic, to a woman in the feminine', (tester) async {
+    final reminders = FakeReminders();
+    await pumpApp(
+      tester,
+      prefs: {
+        'profile': savedProfile.replaceFirst('"male"', '"female"'),
+        'lang': 'ar',
+        'remindMeals': true,
+        'remindMealAt': ['8:00', '13:00', '21:00'],
+      },
+      reminders: reminders,
+    );
+    await tester.pumpAndSettle();
+    final lunch = reminders.scheduled.first;
+    expect(lunch.title, '🥗 الغدا');
+    expect(lunch.body, 'وقت الغدا. صوّريه أو اكتبيه، والحسبة علينا.');
   });
 
   testWidgets('a phone that refuses notifications keeps reminders off', (tester) async {

@@ -3519,7 +3519,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String remindMealsSub(String b, String l, String d) {
-    return 'If a meal isn’t logged by $b, $l or $d';
+    return '45 min after $b, $l and $d if empty';
   }
 
   @override
@@ -3535,7 +3535,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String remindWorkoutSub(String t) {
-    return 'At $t on days your plan has a session';
+    return '1 h before you usually train ($t)';
   }
 
   @override
@@ -4267,11 +4267,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get remindWorkoutAt => 'Time';
+  String get remindWorkoutAt => 'Usual training time';
 
   @override
   String get remindMealsNote =>
-      'Each one only goes off if that meal is still empty.';
+      'Set the times you usually eat. Each reminder goes 45 minutes later, only if that meal is still empty.';
 
   @override
   String get remindWaterNote =>
@@ -4279,7 +4279,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remindWorkoutNote =>
-      'Only on days your plan has a session, and not once it is done.';
+      'Learned from your workouts until you set it. Also says at 21:00 where a missed session moves to.';
 
   @override
   String toggleReminder(String name) {
@@ -5666,4 +5666,325 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get musclesHelp => 'Helping';
+
+  @override
+  String get nBreakfastT => '🍳 Breakfast';
+
+  @override
+  String nBreakfastB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Breakfast logged? Type it like you\'d say it — takes seconds.',
+      'other': 'Breakfast logged? Type it like you\'d say it — takes seconds.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nLunchT => '🥗 Lunch';
+
+  @override
+  String nLunchB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Lunch time. Snap it or type it — Gymco does the math.',
+      'other': 'Lunch time. Snap it or type it — Gymco does the math.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nDinnerT => '🍽️ Dinner';
+
+  @override
+  String nDinnerB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Log dinner and close out your day.',
+      'other': 'Log dinner and close out your day.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nProteinT => '🥛 Protein';
+
+  @override
+  String nProteinB(String g) {
+    return 'You\'re $g g short on protein. A shake or Greek yogurt closes it.';
+  }
+
+  @override
+  String get nWaterT => '💧 Water';
+
+  @override
+  String nWaterB(String l) {
+    return '$l L to go today. One glass now keeps you on pace.';
+  }
+
+  @override
+  String nWorkoutT(String routine) {
+    return '🏋️ $routine today';
+  }
+
+  @override
+  String nWorkoutB(String n, String m) {
+    return '$n exercises, about $m min.';
+  }
+
+  @override
+  String nMovedT(String routine) {
+    return '📅 $routine';
+  }
+
+  @override
+  String nMovedB(String sex, String routine, String day) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'No session today? $routine moves to $day — the order holds.',
+      'other': 'No session today? $routine moves to $day — the order holds.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nWeighT => '⚖️ Weigh-in';
+
+  @override
+  String get nWeighB => 'Morning weigh-in: after the bathroom, before food.';
+
+  @override
+  String get nRestT => '⏱️ Rest\'s up';
+
+  @override
+  String nRestB(String n, String exercise) {
+    return 'Set $n of $exercise.';
+  }
+
+  @override
+  String nRestPlainB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Next set when you\'re ready.',
+      'other': 'Next set when you\'re ready.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nOpenT => '🏋️ Workout still open';
+
+  @override
+  String nOpenB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Finish it or pick up where you left off.',
+      'other': 'Finish it or pick up where you left off.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nStreakT(String days) {
+    return '🔥 $days-day streak';
+  }
+
+  @override
+  String get nStreakPlainT => '🔥 Your streak';
+
+  @override
+  String nStreakB(String sex, String days) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female':
+          'Your $days-day streak needs today\'s meals. Two minutes keeps it.',
+      'other':
+          'Your $days-day streak needs today\'s meals. Two minutes keeps it.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nStreakPlainB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Your streak needs today\'s meals. Two minutes keeps it.',
+      'other': 'Your streak needs today\'s meals. Two minutes keeps it.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nFreezeT => '🧊 Streak saved';
+
+  @override
+  String nFreezeB(int n) {
+    String _temp0 = intl.Intl.pluralLogic(
+      n,
+      locale: localeName,
+      other: '$n freezes left.',
+      one: '1 freeze left.',
+      zero: 'No freezes left.',
+    );
+    return 'A freeze saved your streak yesterday. $_temp0';
+  }
+
+  @override
+  String get nRepairT => '🔧 Repair your streak';
+
+  @override
+  String nRepairB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Yesterday slipped. Fill it in before midnight to repair your streak.',
+      'other': 'Yesterday slipped. Fill it in before midnight to repair your streak.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nChallengeT(String month) {
+    return '🏆 $month challenge';
+  }
+
+  @override
+  String nChallengeB(String sex, String n) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Train $n times this month.',
+      'other': 'Train $n times this month.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nNearT(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': '🏆 Almost there',
+      'other': '🏆 Almost there',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nNearB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': '2 sessions left to finish this month\'s challenge.',
+      'other': '2 sessions left to finish this month\'s challenge.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nCheckInT => '📊 Weekly check-in';
+
+  @override
+  String nCheckInB(String kcal) {
+    return 'Your weekly check-in is ready: new target $kcal kcal.';
+  }
+
+  @override
+  String get nCheckInPlainB => 'Your weekly check-in is ready.';
+
+  @override
+  String nStallB(String sex, String w) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Weight\'s held steady for $w weeks. Here are your options.',
+      'other': 'Weight\'s held steady for $w weeks. Here are your options.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String nFastB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female':
+          'You\'re losing faster than planned. Let\'s protect your muscle.',
+      'other':
+          'You\'re losing faster than planned. Let\'s protect your muscle.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nIronT => '💡 Iron';
+
+  @override
+  String get nBackT => '👋 Welcome back';
+
+  @override
+  String nBackB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female':
+          'Missed a few days? Fill them in fast with Catch up — no judgment.',
+      'other':
+          'Missed a few days? Fill them in fast with Catch up — no judgment.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get nBackupT => '☁️ Backup';
+
+  @override
+  String nBackupB(String sex) {
+    String _temp0 = intl.Intl.selectLogic(sex, {
+      'female': 'Your backup hasn\'t run in 3 days. Open Gymco to back up now.',
+      'other': 'Your backup hasn\'t run in 3 days. Open Gymco to back up now.',
+    });
+    return '$_temp0';
+  }
+
+  @override
+  String get remindProtein => 'Protein';
+
+  @override
+  String get remindProteinSub => '2 h before dinner if you\'re under 70%';
+
+  @override
+  String get remindWeighIn => 'Weigh-in';
+
+  @override
+  String remindWeighSub(String days, String t) {
+    return '$days at $t';
+  }
+
+  @override
+  String get remindWeighDays => 'Mornings';
+
+  @override
+  String get remindStreak => 'Streak & challenges';
+
+  @override
+  String get remindStreakSub => 'At 20:30 if today isn\'t kept yet';
+
+  @override
+  String get remindCheckIn => 'Weekly check-in';
+
+  @override
+  String remindCheckInSub(String day, String t) {
+    return '$day at $t';
+  }
+
+  @override
+  String get remindIron => 'Tips from Iron';
+
+  @override
+  String get remindIronSub => 'Up to 2 a week, on rest days at noon';
+
+  @override
+  String get remindTimer => 'Workout timer';
+
+  @override
+  String get remindTimerSub => 'When rest is over, or a workout is left open';
+
+  @override
+  String get remindAccount => 'Welcome back & backup';
+
+  @override
+  String get remindAccountSub =>
+      'After 3 quiet days, or 3 days without a backup';
+
+  @override
+  String get quietHours => 'Quiet hours';
+
+  @override
+  String get quietFrom => 'From';
+
+  @override
+  String get quietTo => 'To';
+
+  @override
+  String get remindRulesNote =>
+      'At most 3 a day, none in quiet hours, and none for something already done.';
 }

@@ -5779,7 +5779,7 @@ abstract class AppLocalizations {
   /// No description provided for @remindMealsSub.
   ///
   /// In en, this message translates to:
-  /// **'If a meal isn’t logged by {b}, {l} or {d}'**
+  /// **'45 min after {b}, {l} and {d} if empty'**
   String remindMealsSub(String b, String l, String d);
 
   /// No description provided for @remindWater.
@@ -5803,7 +5803,7 @@ abstract class AppLocalizations {
   /// No description provided for @remindWorkoutSub.
   ///
   /// In en, this message translates to:
-  /// **'At {t} on days your plan has a session'**
+  /// **'1 h before you usually train ({t})'**
   String remindWorkoutSub(String t);
 
   /// No description provided for @remindersOff.
@@ -6901,13 +6901,13 @@ abstract class AppLocalizations {
   /// No description provided for @remindWorkoutAt.
   ///
   /// In en, this message translates to:
-  /// **'Time'**
+  /// **'Usual training time'**
   String get remindWorkoutAt;
 
   /// No description provided for @remindMealsNote.
   ///
   /// In en, this message translates to:
-  /// **'Each one only goes off if that meal is still empty.'**
+  /// **'Set the times you usually eat. Each reminder goes 45 minutes later, only if that meal is still empty.'**
   String get remindMealsNote;
 
   /// No description provided for @remindWaterNote.
@@ -6919,7 +6919,7 @@ abstract class AppLocalizations {
   /// No description provided for @remindWorkoutNote.
   ///
   /// In en, this message translates to:
-  /// **'Only on days your plan has a session, and not once it is done.'**
+  /// **'Learned from your workouts until you set it. Also says at 21:00 where a missed session moves to.'**
   String get remindWorkoutNote;
 
   /// No description provided for @toggleReminder.
@@ -9321,6 +9321,378 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Helping'**
   String get musclesHelp;
+
+  /// No description provided for @nBreakfastT.
+  ///
+  /// In en, this message translates to:
+  /// **'🍳 Breakfast'**
+  String get nBreakfastT;
+
+  /// No description provided for @nBreakfastB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Breakfast logged? Type it like you\'d say it — takes seconds.} other{Breakfast logged? Type it like you\'d say it — takes seconds.}}'**
+  String nBreakfastB(String sex);
+
+  /// No description provided for @nLunchT.
+  ///
+  /// In en, this message translates to:
+  /// **'🥗 Lunch'**
+  String get nLunchT;
+
+  /// No description provided for @nLunchB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Lunch time. Snap it or type it — Gymco does the math.} other{Lunch time. Snap it or type it — Gymco does the math.}}'**
+  String nLunchB(String sex);
+
+  /// No description provided for @nDinnerT.
+  ///
+  /// In en, this message translates to:
+  /// **'🍽️ Dinner'**
+  String get nDinnerT;
+
+  /// No description provided for @nDinnerB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Log dinner and close out your day.} other{Log dinner and close out your day.}}'**
+  String nDinnerB(String sex);
+
+  /// No description provided for @nProteinT.
+  ///
+  /// In en, this message translates to:
+  /// **'🥛 Protein'**
+  String get nProteinT;
+
+  /// No description provided for @nProteinB.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re {g} g short on protein. A shake or Greek yogurt closes it.'**
+  String nProteinB(String g);
+
+  /// No description provided for @nWaterT.
+  ///
+  /// In en, this message translates to:
+  /// **'💧 Water'**
+  String get nWaterT;
+
+  /// No description provided for @nWaterB.
+  ///
+  /// In en, this message translates to:
+  /// **'{l} L to go today. One glass now keeps you on pace.'**
+  String nWaterB(String l);
+
+  /// No description provided for @nWorkoutT.
+  ///
+  /// In en, this message translates to:
+  /// **'🏋️ {routine} today'**
+  String nWorkoutT(String routine);
+
+  /// No description provided for @nWorkoutB.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} exercises, about {m} min.'**
+  String nWorkoutB(String n, String m);
+
+  /// No description provided for @nMovedT.
+  ///
+  /// In en, this message translates to:
+  /// **'📅 {routine}'**
+  String nMovedT(String routine);
+
+  /// No description provided for @nMovedB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{No session today? {routine} moves to {day} — the order holds.} other{No session today? {routine} moves to {day} — the order holds.}}'**
+  String nMovedB(String sex, String routine, String day);
+
+  /// No description provided for @nWeighT.
+  ///
+  /// In en, this message translates to:
+  /// **'⚖️ Weigh-in'**
+  String get nWeighT;
+
+  /// No description provided for @nWeighB.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning weigh-in: after the bathroom, before food.'**
+  String get nWeighB;
+
+  /// No description provided for @nRestT.
+  ///
+  /// In en, this message translates to:
+  /// **'⏱️ Rest\'s up'**
+  String get nRestT;
+
+  /// No description provided for @nRestB.
+  ///
+  /// In en, this message translates to:
+  /// **'Set {n} of {exercise}.'**
+  String nRestB(String n, String exercise);
+
+  /// No description provided for @nRestPlainB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Next set when you\'re ready.} other{Next set when you\'re ready.}}'**
+  String nRestPlainB(String sex);
+
+  /// No description provided for @nOpenT.
+  ///
+  /// In en, this message translates to:
+  /// **'🏋️ Workout still open'**
+  String get nOpenT;
+
+  /// No description provided for @nOpenB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Finish it or pick up where you left off.} other{Finish it or pick up where you left off.}}'**
+  String nOpenB(String sex);
+
+  /// No description provided for @nStreakT.
+  ///
+  /// In en, this message translates to:
+  /// **'🔥 {days}-day streak'**
+  String nStreakT(String days);
+
+  /// No description provided for @nStreakPlainT.
+  ///
+  /// In en, this message translates to:
+  /// **'🔥 Your streak'**
+  String get nStreakPlainT;
+
+  /// No description provided for @nStreakB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Your {days}-day streak needs today\'s meals. Two minutes keeps it.} other{Your {days}-day streak needs today\'s meals. Two minutes keeps it.}}'**
+  String nStreakB(String sex, String days);
+
+  /// No description provided for @nStreakPlainB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Your streak needs today\'s meals. Two minutes keeps it.} other{Your streak needs today\'s meals. Two minutes keeps it.}}'**
+  String nStreakPlainB(String sex);
+
+  /// No description provided for @nFreezeT.
+  ///
+  /// In en, this message translates to:
+  /// **'🧊 Streak saved'**
+  String get nFreezeT;
+
+  /// No description provided for @nFreezeB.
+  ///
+  /// In en, this message translates to:
+  /// **'A freeze saved your streak yesterday. {n, plural, =0{No freezes left.} =1{1 freeze left.} other{{n} freezes left.}}'**
+  String nFreezeB(int n);
+
+  /// No description provided for @nRepairT.
+  ///
+  /// In en, this message translates to:
+  /// **'🔧 Repair your streak'**
+  String get nRepairT;
+
+  /// No description provided for @nRepairB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Yesterday slipped. Fill it in before midnight to repair your streak.} other{Yesterday slipped. Fill it in before midnight to repair your streak.}}'**
+  String nRepairB(String sex);
+
+  /// No description provided for @nChallengeT.
+  ///
+  /// In en, this message translates to:
+  /// **'🏆 {month} challenge'**
+  String nChallengeT(String month);
+
+  /// No description provided for @nChallengeB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Train {n} times this month.} other{Train {n} times this month.}}'**
+  String nChallengeB(String sex, String n);
+
+  /// No description provided for @nNearT.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{🏆 Almost there} other{🏆 Almost there}}'**
+  String nNearT(String sex);
+
+  /// No description provided for @nNearB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{2 sessions left to finish this month\'s challenge.} other{2 sessions left to finish this month\'s challenge.}}'**
+  String nNearB(String sex);
+
+  /// No description provided for @nCheckInT.
+  ///
+  /// In en, this message translates to:
+  /// **'📊 Weekly check-in'**
+  String get nCheckInT;
+
+  /// No description provided for @nCheckInB.
+  ///
+  /// In en, this message translates to:
+  /// **'Your weekly check-in is ready: new target {kcal} kcal.'**
+  String nCheckInB(String kcal);
+
+  /// No description provided for @nCheckInPlainB.
+  ///
+  /// In en, this message translates to:
+  /// **'Your weekly check-in is ready.'**
+  String get nCheckInPlainB;
+
+  /// No description provided for @nStallB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Weight\'s held steady for {w} weeks. Here are your options.} other{Weight\'s held steady for {w} weeks. Here are your options.}}'**
+  String nStallB(String sex, String w);
+
+  /// No description provided for @nFastB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{You\'re losing faster than planned. Let\'s protect your muscle.} other{You\'re losing faster than planned. Let\'s protect your muscle.}}'**
+  String nFastB(String sex);
+
+  /// No description provided for @nIronT.
+  ///
+  /// In en, this message translates to:
+  /// **'💡 Iron'**
+  String get nIronT;
+
+  /// No description provided for @nBackT.
+  ///
+  /// In en, this message translates to:
+  /// **'👋 Welcome back'**
+  String get nBackT;
+
+  /// No description provided for @nBackB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Missed a few days? Fill them in fast with Catch up — no judgment.} other{Missed a few days? Fill them in fast with Catch up — no judgment.}}'**
+  String nBackB(String sex);
+
+  /// No description provided for @nBackupT.
+  ///
+  /// In en, this message translates to:
+  /// **'☁️ Backup'**
+  String get nBackupT;
+
+  /// No description provided for @nBackupB.
+  ///
+  /// In en, this message translates to:
+  /// **'{sex, select, female{Your backup hasn\'t run in 3 days. Open Gymco to back up now.} other{Your backup hasn\'t run in 3 days. Open Gymco to back up now.}}'**
+  String nBackupB(String sex);
+
+  /// No description provided for @remindProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein'**
+  String get remindProtein;
+
+  /// No description provided for @remindProteinSub.
+  ///
+  /// In en, this message translates to:
+  /// **'2 h before dinner if you\'re under 70%'**
+  String get remindProteinSub;
+
+  /// No description provided for @remindWeighIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-in'**
+  String get remindWeighIn;
+
+  /// No description provided for @remindWeighSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} at {t}'**
+  String remindWeighSub(String days, String t);
+
+  /// No description provided for @remindWeighDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Mornings'**
+  String get remindWeighDays;
+
+  /// No description provided for @remindStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak & challenges'**
+  String get remindStreak;
+
+  /// No description provided for @remindStreakSub.
+  ///
+  /// In en, this message translates to:
+  /// **'At 20:30 if today isn\'t kept yet'**
+  String get remindStreakSub;
+
+  /// No description provided for @remindCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly check-in'**
+  String get remindCheckIn;
+
+  /// No description provided for @remindCheckInSub.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} at {t}'**
+  String remindCheckInSub(String day, String t);
+
+  /// No description provided for @remindIron.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips from Iron'**
+  String get remindIron;
+
+  /// No description provided for @remindIronSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 2 a week, on rest days at noon'**
+  String get remindIronSub;
+
+  /// No description provided for @remindTimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout timer'**
+  String get remindTimer;
+
+  /// No description provided for @remindTimerSub.
+  ///
+  /// In en, this message translates to:
+  /// **'When rest is over, or a workout is left open'**
+  String get remindTimerSub;
+
+  /// No description provided for @remindAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back & backup'**
+  String get remindAccount;
+
+  /// No description provided for @remindAccountSub.
+  ///
+  /// In en, this message translates to:
+  /// **'After 3 quiet days, or 3 days without a backup'**
+  String get remindAccountSub;
+
+  /// No description provided for @quietHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet hours'**
+  String get quietHours;
+
+  /// No description provided for @quietFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get quietFrom;
+
+  /// No description provided for @quietTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get quietTo;
+
+  /// No description provided for @remindRulesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'At most 3 a day, none in quiet hours, and none for something already done.'**
+  String get remindRulesNote;
 }
 
 class _AppLocalizationsDelegate

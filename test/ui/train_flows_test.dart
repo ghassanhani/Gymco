@@ -258,6 +258,38 @@ void main() {
     expect(find.text('CLOSED'), findsOneWidget);
   });
 
+  testWidgets('a ticked set puts the end of rest on the phone, and finishing takes it off', (tester) async {
+    final reminders = FakeReminders();
+    await pumpApp(
+      tester,
+      prefs: {'profile': savedProfile, 'notifyAllowed': true},
+      reminders: reminders,
+      seed: (db) => db.saveRoutineFixture('Push A', weekday: 5),
+    );
+    await openTrain(tester);
+    await tester.tap(find.text('Start all'));
+    await settle(tester);
+    await tester.tap(find.bySemanticsLabel('Complete set 1'));
+    await settle(tester);
+    for (final k in ['1', '0', '0']) {
+      await key(tester, k);
+    }
+    await tester.tap(find.text('Done'));
+    await settle(tester);
+    await tester.tap(find.bySemanticsLabel('Complete set 1'));
+    await tester.pump();
+    await tester.pump();
+    final rest = reminders.timer.firstWhere((n) => n.urgent);
+    expect(rest.title, '⏱️ Rest\'s up');
+    expect(rest.body, 'Set 2 of Barbell Bench Press.');
+    expect(reminders.timer.map((n) => n.title), contains('🏋️ Workout still open'));
+    await tester.tap(find.text('Finish'));
+    await settle(tester);
+    await tester.tap(find.text('Done'));
+    await settle(tester);
+    expect(reminders.timer, isEmpty);
+  });
+
   testWidgets('one exercise of the day starts on its own', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile}, seed: (db) => db.saveRoutineFixture('Push A', weekday: 5));
     await openTrain(tester);
