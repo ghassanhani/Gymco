@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 
 import '../../domain/body_fat.dart';
@@ -11,6 +12,7 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'body_svg.dart';
 import 'progress_screen.dart' show showNumberSheet;
 
 String measureName(AppLocalizations l, BodyMeasure m) => switch (m) {
@@ -194,26 +196,38 @@ class _BodyFat extends ConsumerWidget {
   }
 }
 
-/// Where each part sits on the figure, on a 100 × 200 grid, and which side
+/// Where each part sits on the body artwork (998 × 3142), and which side
 /// its label goes.
 const _spots = <BodyMeasure, (double, double, bool)>{
-  BodyMeasure.neck: (50, 30, true),
-  BodyMeasure.chest: (50, 50, true),
-  BodyMeasure.arm: (21, 62, false),
-  BodyMeasure.waist: (50, 80, true),
-  BodyMeasure.hips: (50, 98, true),
-  BodyMeasure.thigh: (40, 124, false),
+  BodyMeasure.neck: (490, 420, true),
+  BodyMeasure.chest: (495, 790, true),
+  BodyMeasure.arm: (132, 950, false),
+  BodyMeasure.waist: (495, 1180, true),
+  BodyMeasure.hips: (500, 1560, true),
+  BodyMeasure.thigh: (350, 1800, false),
 };
 
-/// How far across the figure each tape runs, on the same grid.
+/// How far across the body each tape runs, on the same grid.
 const _tapes = <BodyMeasure, (double, double)>{
-  BodyMeasure.neck: (45, 55),
-  BodyMeasure.chest: (30, 70),
-  BodyMeasure.arm: (16, 27),
-  BodyMeasure.waist: (36, 64),
-  BodyMeasure.hips: (33, 67),
-  BodyMeasure.thigh: (33, 47),
+  BodyMeasure.neck: (385, 595),
+  BodyMeasure.chest: (200, 790),
+  BodyMeasure.arm: (55, 215),
+  BodyMeasure.waist: (255, 735),
+  BodyMeasure.hips: (210, 790),
+  BodyMeasure.thigh: (215, 485),
 };
+
+/// The artwork's greys, as the dark theme draws them.
+class _DarkBody extends ColorMapper {
+  const _DarkBody();
+
+  @override
+  Color substitute(String? id, String elementName, String attributeName, Color color) => switch (color.toARGB32()) {
+    0xFFF9F9F9 => const Color(0xFF3A3E45),
+    0xFFC5C5C5 || 0xFFC8C4C5 => const Color(0xFF2A2D33),
+    _ => const Color(0xFF4C5058),
+  };
+}
 
 /// A front view of a body with a tape at each part: tap a part, or its
 /// label, to measure it.
@@ -224,33 +238,42 @@ class BodyMap extends StatelessWidget {
   final BodyMeasure picked;
   final ValueChanged<BodyMeasure> onTap;
 
-  static const _height = 340.0;
+  static const _height = 430.0;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return LayoutBuilder(
       builder: (context, box) {
-        const scale = _height / 200;
-        const figW = 100 * scale;
+        const scale = _height / 3142;
+        const figW = 998 * scale;
         final left = (box.maxWidth - figW) / 2;
         Offset at(double x, double y) => Offset(left + x * scale, y * scale);
         return SizedBox(
-          height: 182 * scale,
+          height: _height,
           child: Stack(
             clipBehavior: Clip.none,
             children: [
+              Positioned(
+                left: left,
+                top: 0,
+                width: figW,
+                height: _height,
+                child: SvgPicture.string(
+                  bodySvg,
+                  colorMapper: Volt.isLight ? null : const _DarkBody(),
+                  excludeFromSemantics: true,
+                ),
+              ),
               Positioned.fill(
                 child: CustomPaint(
-                  painter: _BodyPainter(
+                  painter: _TapePainter(
                     left: left,
+                    figW: figW,
                     scale: scale,
                     picked: picked,
-                    figure: Volt.card2,
-                    edge: Volt.line2,
-                    tape: Volt.t4,
+                    tape: Volt.isLight ? const Color(0xFF888888) : Volt.t3,
                     accent: Volt.lime,
-                    width: box.maxWidth,
                   ),
                 ),
               ),
@@ -350,99 +373,46 @@ class _Label extends StatelessWidget {
   }
 }
 
-class _BodyPainter extends CustomPainter {
-  _BodyPainter({
+class _TapePainter extends CustomPainter {
+  _TapePainter({
     required this.left,
+    required this.figW,
     required this.scale,
     required this.picked,
-    required this.figure,
-    required this.edge,
     required this.tape,
     required this.accent,
-    required this.width,
   });
 
-  final double left, scale, width;
+  final double left, figW, scale;
   final BodyMeasure picked;
-  final Color figure, edge, tape, accent;
+  final Color tape, accent;
 
   @override
   void paint(Canvas canvas, Size size) {
     Offset p(double x, double y) => Offset(left + x * scale, y * scale);
-    final fill = Paint()..color = figure;
-    final outline = Paint()
-      ..color = edge
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2;
-
-    // Arms and legs as thick rounded strokes, drawn under the torso.
-    void limb(List<Offset> pts, double w) {
-      final path = Path()..moveTo(pts.first.dx, pts.first.dy);
-      for (final o in pts.skip(1)) {
-        path.lineTo(o.dx, o.dy);
-      }
-      final stroke = Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeCap = StrokeCap.round
-        ..strokeJoin = StrokeJoin.round;
-      canvas.drawPath(
-        path,
-        stroke
-          ..color = edge
-          ..strokeWidth = w * scale + 2.4,
-      );
-      canvas.drawPath(
-        path,
-        stroke
-          ..color = figure
-          ..strokeWidth = w * scale,
-      );
-    }
-
-    limb([p(27, 41), p(21, 70), p(18, 101)], 9);
-    limb([p(73, 41), p(79, 70), p(82, 101)], 9);
-    limb([p(41, 100), p(40, 142), p(41, 174)], 13);
-    limb([p(59, 100), p(60, 142), p(59, 174)], 13);
-
-    final torso = Path()
-      ..moveTo(p(30, 37).dx, p(30, 37).dy)
-      ..quadraticBezierTo(p(50, 33).dx, p(50, 33).dy, p(70, 37).dx, p(70, 37).dy)
-      ..quadraticBezierTo(p(74, 40).dx, p(74, 40).dy, p(72, 46).dx, p(72, 46).dy)
-      ..quadraticBezierTo(p(66, 64).dx, p(66, 64).dy, p(64, 82).dx, p(64, 82).dy)
-      ..quadraticBezierTo(p(68, 92).dx, p(68, 92).dy, p(67, 104).dx, p(67, 104).dy)
-      ..lineTo(p(33, 104).dx, p(33, 104).dy)
-      ..quadraticBezierTo(p(32, 92).dx, p(32, 92).dy, p(36, 82).dx, p(36, 82).dy)
-      ..quadraticBezierTo(p(34, 64).dx, p(34, 64).dy, p(28, 46).dx, p(28, 46).dy)
-      ..quadraticBezierTo(p(26, 40).dx, p(26, 40).dy, p(30, 37).dx, p(30, 37).dy)
-      ..close();
-    canvas.drawPath(torso, fill);
-    canvas.drawPath(torso, outline);
-
-    final neck = RRect.fromRectAndRadius(Rect.fromPoints(p(45, 25), p(55, 36)), Radius.circular(2 * scale));
-    canvas.drawRRect(neck, fill);
-    canvas.drawRRect(neck, outline);
-    canvas.drawCircle(p(50, 15), 10.5 * scale, fill);
-    canvas.drawCircle(p(50, 15), 10.5 * scale, outline);
-
-    // A tape at each part, and a leader to its label.
+    // A tape around each part, and a leader out to its label.
     for (final MapEntry(key: m, value: (x1, x2)) in _tapes.entries) {
       final (_, y, right) = _spots[m]!;
       final on = m == picked;
-      final line = Paint()
-        ..color = on ? accent : tape.withValues(alpha: 0.7)
-        ..strokeWidth = on ? 2.4 : 1.2
-        ..strokeCap = StrokeCap.round;
-      canvas.drawLine(p(x1, y), p(x2, y), line);
-      final from = right ? p(x2, y) : p(x1, y);
-      final to = right ? Offset(left + 100 * scale + 6, y * scale) : Offset(left - 6, y * scale);
-      final leader = Paint()
-        ..color = on ? accent : tape.withValues(alpha: 0.45)
-        ..strokeWidth = 1;
-      canvas.drawLine(from, to, leader);
+      canvas.drawLine(
+        p(x1, y),
+        p(x2, y),
+        Paint()
+          ..color = on ? accent : tape.withValues(alpha: 0.8)
+          ..strokeWidth = on ? 3 : 1.4
+          ..strokeCap = StrokeCap.round,
+      );
+      canvas.drawLine(
+        right ? p(x2, y) : p(x1, y),
+        right ? Offset(left + figW + 6, y * scale) : Offset(left - 6, y * scale),
+        Paint()
+          ..color = on ? accent : tape.withValues(alpha: 0.5)
+          ..strokeWidth = 1,
+      );
     }
   }
 
   @override
-  bool shouldRepaint(_BodyPainter old) =>
-      old.picked != picked || old.left != left || old.figure != figure || old.accent != accent;
+  bool shouldRepaint(_TapePainter old) =>
+      old.picked != picked || old.left != left || old.tape != tape || old.accent != accent;
 }
