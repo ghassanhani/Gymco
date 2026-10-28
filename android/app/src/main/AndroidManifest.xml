@@ -25,6 +25,12 @@
         <package android:name="com.sec.android.app.shealth"/>
         <package android:name="com.google.android.apps.fitness"/>
         <package android:name="fi.polar.polarflow"/>
+        <package android:name="com.ultrahuman.android"/>
+        <package android:name="com.coros.coros"/>
+        <package android:name="com.xiaomi.wearable"/>
+        <package android:name="com.huawei.health"/>
+        <package android:name="com.withings.wiscale2"/>
+        <package android:name="com.stt.android.suunto"/>
         <package android:name="com.google.android.apps.healthdata"/>
         <intent>
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>

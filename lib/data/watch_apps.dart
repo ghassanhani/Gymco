@@ -21,6 +21,12 @@ const _apps = <({List<String> match, String name, String? scheme, String package
   (match: ['samsung', 'shealth'], name: 'Samsung Health', scheme: null, package: 'com.sec.android.app.shealth'),
   (match: ['google fit', 'apps.fitness'], name: 'Google Fit', scheme: null, package: 'com.google.android.apps.fitness'),
   (match: ['polar'], name: 'Polar Flow', scheme: null, package: 'fi.polar.polarflow'),
+  (match: ['ultrahuman'], name: 'Ultrahuman', scheme: null, package: 'com.ultrahuman.android'),
+  (match: ['coros'], name: 'COROS', scheme: null, package: 'com.coros.coros'),
+  (match: ['xiaomi', 'mi fitness', 'wearable'], name: 'Mi Fitness', scheme: null, package: 'com.xiaomi.wearable'),
+  (match: ['huawei'], name: 'Huawei Health', scheme: null, package: 'com.huawei.health'),
+  (match: ['withings'], name: 'Withings', scheme: null, package: 'com.withings.wiscale2'),
+  (match: ['suunto', 'com.stt.'], name: 'Suunto', scheme: null, package: 'com.stt.android.suunto'),
 ];
 
 /// A friendly name for a reading's source: "Zepp" for com.huami…, else as given.
