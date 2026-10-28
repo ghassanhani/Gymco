@@ -9207,6 +9207,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Iron can\'t be reached right now, so these come from your numbers on the phone.'**
   String get ironTipOffline;
+
+  /// No description provided for @hipsLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Hips'**
+  String get hipsLbl;
+
+  /// No description provided for @neckLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Neck'**
+  String get neckLbl;
+
+  /// No description provided for @chestLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get chestLbl;
+
+  /// No description provided for @armLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Arm'**
+  String get armLbl;
+
+  /// No description provided for @thighLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Thigh'**
+  String get thighLbl;
+
+  /// No description provided for @measureToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s {part}'**
+  String measureToday(String part);
+
+  /// No description provided for @hipsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Around the widest part of the buttocks, feet together.'**
+  String get hipsNote;
+
+  /// No description provided for @neckNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Just below the Adam\'s apple, tape level, looking ahead.'**
+  String get neckNote;
+
+  /// No description provided for @chestNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Across the nipples, arms down, after a normal breath out.'**
+  String get chestNote;
+
+  /// No description provided for @armNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Around the thickest part of the upper arm, flexed.'**
+  String get armNote;
+
+  /// No description provided for @thighNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Around the thickest part of one thigh, standing relaxed, the same leg each time.'**
+  String get thighNote;
+
+  /// No description provided for @tapBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a part of the body to measure it.'**
+  String get tapBodyHint;
+
+  /// No description provided for @bodyFatLbl.
+  ///
+  /// In en, this message translates to:
+  /// **'Body fat, estimated'**
+  String get bodyFatLbl;
+
+  /// No description provided for @bodyFatNeedsMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Measure your waist and neck to see your body fat.'**
+  String get bodyFatNeedsMale;
+
+  /// No description provided for @bodyFatNeedsFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Measure your waist, neck and hips to see your body fat.'**
+  String get bodyFatNeedsFemale;
+
+  /// No description provided for @bodyFatNote.
+  ///
+  /// In en, this message translates to:
+  /// **'From the US Navy tape formula, with your height. Within about 3–4 points of a scan: the trend is what counts.'**
+  String get bodyFatNote;
 }
 
 class _AppLocalizationsDelegate

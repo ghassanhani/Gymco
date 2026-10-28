@@ -13,13 +13,14 @@ import '../../state/providers.dart';
 import '../../theme/volt.dart';
 import '../common/format.dart';
 import '../kit/kit.dart';
+import 'measure_view.dart';
 import 'photos_view.dart';
 import '../train/train_kit.dart';
 import 'awards_screen.dart' show StreakCard;
 
 enum _View { weight, measure, strength, photos }
 
-/// Progress: weight and its trend, waist, strength, and the week's sets.
+/// Progress: weight and its trend, body measurements, strength, and the week's sets.
 class ProgressScreen extends ConsumerStatefulWidget {
   const ProgressScreen({super.key});
 
@@ -44,7 +45,9 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
               label: l.addWeighIn,
               background: Volt.brand,
               color: Volt.ink,
-              onTap: () => _view == _View.measure ? addWaist(context, ref) : addWeighIn(context, ref),
+              onTap: () => _view == _View.measure
+                  ? addMeasure(context, ref, ref.read(measurePickProvider))
+                  : addWeighIn(context, ref),
             ),
           ),
           // Four equal tiles, icon over word, so every view is in sight.
@@ -76,7 +79,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                   const _WeekSets(),
                   VBtn(label: l.openCheckIn, expand: true, onTap: () => context.push('/checkin')),
                 ],
-                _View.measure => [const _Waist()],
+                _View.measure => [const MeasureView()],
                 _View.strength => [const _Strength()],
                 _View.photos => [const PhotosView()],
               },
@@ -183,24 +186,6 @@ Future<void> addWeighIn(BuildContext context, WidgetRef ref) async {
     onSave: (kg) {
       ref.read(progressActionsProvider).weigh(ref.read(clockProvider)(), kg);
       showVToast(context, l.weighInSaved);
-    },
-  );
-}
-
-Future<void> addWaist(BuildContext context, WidgetRef ref) async {
-  final l = AppLocalizations.of(context);
-  final all = await ref.read(measurementsProvider('waist').future);
-  if (!context.mounted) return;
-  return showNumberSheet(
-    context,
-    title: l.waistToday,
-    unit: l.cm,
-    initial: all.isEmpty ? null : all.last.$2,
-    note: l.waistNote,
-    max: 250,
-    onSave: (cm) {
-      ref.read(progressActionsProvider).measure(ref.read(clockProvider)(), 'waist', cm);
-      showVToast(context, l.measurementSaved);
     },
   );
 }
@@ -482,71 +467,6 @@ class _WeekSets extends ConsumerWidget {
           if (top.isNotEmpty) Muted(low == null ? l.allInRange : l.underTen(groupName(l, low))),
         ],
       ),
-    );
-  }
-}
-
-class _Waist extends ConsumerWidget {
-  const _Waist();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l = AppLocalizations.of(context);
-    final all = ref.watch(measurementsProvider('waist')).value ?? const [];
-    final loc = Localizations.localeOf(context).toString();
-    return GapCol(
-      gap: 12,
-      cross: CrossAxisAlignment.stretch,
-      children: [
-        VCard(
-          child: GapCol(
-            gap: 10,
-            cross: CrossAxisAlignment.stretch,
-            children: [
-              Muted(l.waistLbl),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  Text(all.isEmpty ? '—' : fmtDec(context, all.last.$2), style: numStyle(30)),
-                  const SizedBox(width: 8),
-                  Text(l.cm, style: TextStyle(fontSize: 14, color: Volt.t2)),
-                  const Spacer(),
-                  if (all.length >= 2)
-                    Text(
-                      '${_signed(context, all.last.$2 - all.first.$2)} ${l.cm}',
-                      textDirection: TextDirection.ltr,
-                      style: numStyle(15, color: Volt.ok),
-                    ),
-                ],
-              ),
-              Muted(l.waistWhy),
-              VBtn(
-                label: l.addMeasurement,
-                kind: BtnKind.ghost,
-                icon: 'plus',
-                expand: true,
-                onTap: () => addWaist(context, ref),
-              ),
-            ],
-          ),
-        ),
-        if (all.isNotEmpty)
-          VList(
-            children: [
-              for (final (d, v) in all.reversed.take(20))
-                VItem(
-                  children: [
-                    ItemText(DateFormat.MMMEd(loc).format(parseDay(d))),
-                    Text(
-                      '${fmtDec(context, v)} ${l.cm}',
-                      style: numStyle(14, weight: FontWeight.w500, color: Volt.t2),
-                    ),
-                  ],
-                ),
-            ],
-          ),
-      ],
     );
   }
 }

@@ -3896,5 +3896,28 @@
         "type": "int"
       }
     }
+  },
+  "hipsLbl": "Hips",
+  "neckLbl": "Neck",
+  "chestLbl": "Chest",
+  "armLbl": "Arm",
+  "thighLbl": "Thigh",
+  "measureToday": "Today's {part}",
+  "hipsNote": "Around the widest part of the buttocks, feet together.",
+  "neckNote": "Just below the Adam's apple, tape level, looking ahead.",
+  "chestNote": "Across the nipples, arms down, after a normal breath out.",
+  "armNote": "Around the thickest part of the upper arm, flexed.",
+  "thighNote": "Around the thickest part of one thigh, standing relaxed, the same leg each time.",
+  "tapBodyHint": "Tap a part of the body to measure it.",
+  "bodyFatLbl": "Body fat, estimated",
+  "bodyFatNeedsMale": "Measure your waist and neck to see your body fat.",
+  "bodyFatNeedsFemale": "Measure your waist, neck and hips to see your body fat.",
+  "bodyFatNote": "From the US Navy tape formula, with your height. Within about 3–4 points of a scan: the trend is what counts.",
+  "@measureToday": {
+    "placeholders": {
+      "part": {
+        "type": "String"
+      }
+    }
   }
 }

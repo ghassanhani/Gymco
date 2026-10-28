@@ -5600,4 +5600,61 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get ironTipOffline =>
       'Iron can\'t be reached right now, so these come from your numbers on the phone.';
+
+  @override
+  String get hipsLbl => 'Hips';
+
+  @override
+  String get neckLbl => 'Neck';
+
+  @override
+  String get chestLbl => 'Chest';
+
+  @override
+  String get armLbl => 'Arm';
+
+  @override
+  String get thighLbl => 'Thigh';
+
+  @override
+  String measureToday(String part) {
+    return 'Today\'s $part';
+  }
+
+  @override
+  String get hipsNote =>
+      'Around the widest part of the buttocks, feet together.';
+
+  @override
+  String get neckNote =>
+      'Just below the Adam\'s apple, tape level, looking ahead.';
+
+  @override
+  String get chestNote =>
+      'Across the nipples, arms down, after a normal breath out.';
+
+  @override
+  String get armNote => 'Around the thickest part of the upper arm, flexed.';
+
+  @override
+  String get thighNote =>
+      'Around the thickest part of one thigh, standing relaxed, the same leg each time.';
+
+  @override
+  String get tapBodyHint => 'Tap a part of the body to measure it.';
+
+  @override
+  String get bodyFatLbl => 'Body fat, estimated';
+
+  @override
+  String get bodyFatNeedsMale =>
+      'Measure your waist and neck to see your body fat.';
+
+  @override
+  String get bodyFatNeedsFemale =>
+      'Measure your waist, neck and hips to see your body fat.';
+
+  @override
+  String get bodyFatNote =>
+      'From the US Navy tape formula, with your height. Within about 3–4 points of a scan: the trend is what counts.';
 }

@@ -5617,4 +5617,62 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get ironTipOffline =>
       'Ahora no se puede contactar a Iron, así que vienen de tus números en el teléfono.';
+
+  @override
+  String get hipsLbl => 'Cadera';
+
+  @override
+  String get neckLbl => 'Cuello';
+
+  @override
+  String get chestLbl => 'Pecho';
+
+  @override
+  String get armLbl => 'Brazo';
+
+  @override
+  String get thighLbl => 'Muslo';
+
+  @override
+  String measureToday(String part) {
+    return '$part de hoy';
+  }
+
+  @override
+  String get hipsNote =>
+      'Alrededor de la parte más ancha de los glúteos, con los pies juntos.';
+
+  @override
+  String get neckNote =>
+      'Justo debajo de la nuez, con la cinta recta y la vista al frente.';
+
+  @override
+  String get chestNote =>
+      'A la altura de los pezones, brazos abajo, tras espirar con normalidad.';
+
+  @override
+  String get armNote =>
+      'Alrededor de la parte más gruesa del brazo, en tensión.';
+
+  @override
+  String get thighNote =>
+      'Alrededor de la parte más gruesa de un muslo, de pie y relajado, siempre la misma pierna.';
+
+  @override
+  String get tapBodyHint => 'Toca una parte del cuerpo para medirla.';
+
+  @override
+  String get bodyFatLbl => 'Grasa corporal estimada';
+
+  @override
+  String get bodyFatNeedsMale =>
+      'Mide tu cintura y tu cuello para ver tu grasa corporal.';
+
+  @override
+  String get bodyFatNeedsFemale =>
+      'Mide tu cintura, cuello y cadera para ver tu grasa corporal.';
+
+  @override
+  String get bodyFatNote =>
+      'Con la fórmula de la Marina de EE. UU. y tu estatura. Se acerca a un escáner en unos 3–4 puntos: lo que cuenta es la tendencia.';
 }

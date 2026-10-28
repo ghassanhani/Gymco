@@ -49,6 +49,32 @@ void main() {
     expect((await db.weighIns()).last, (dayKey(testNow), 79.6));
   });
 
+  testWidgets('tapping the body measures that part, and waist and neck give body fat', (tester) async {
+    final (db, _) = await pumpApp(tester, prefs: {'profile': savedProfile});
+    await tester.tap(find.bySemanticsLabel('Progress').first);
+    await settle(tester);
+    await tester.tap(find.text('Measure'));
+    await settle(tester);
+    expect(find.text('Measure your waist and neck to see your body fat.'), findsOneWidget);
+    Future<void> measure(String part, List<String> keys) async {
+      await tester.tap(find.byKey(Key('body-$part')));
+      await settle(tester);
+      for (final k in keys) {
+        await key(tester, k);
+      }
+      await tester.pump();
+      await tester.tap(find.text('Save'));
+      await settle(tester);
+    }
+
+    await measure('neck', ['3', '8']);
+    await measure('waist', ['8', '5']);
+    expect(await db.measurements('neck'), [(dayKey(testNow), 38.0)]);
+    expect(await db.measurements('waist'), [(dayKey(testNow), 85.0)]);
+    expect(find.text('Body fat, estimated'), findsOneWidget);
+    expect(find.text('%'), findsOneWidget);
+  });
+
   testWidgets('without two weeks of logging the check-in keeps the targets', (tester) async {
     await pumpApp(tester, prefs: {'profile': savedProfile});
     await tester.tap(find.bySemanticsLabel('Progress').first);

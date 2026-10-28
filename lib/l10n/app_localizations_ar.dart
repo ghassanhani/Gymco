@@ -5568,4 +5568,59 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get ironTipOffline =>
       'لا يمكن الوصول إلى آيرون الآن، لذلك هذه النصائح من أرقامك على الهاتف.';
+
+  @override
+  String get hipsLbl => 'الورك';
+
+  @override
+  String get neckLbl => 'الرقبة';
+
+  @override
+  String get chestLbl => 'الصدر';
+
+  @override
+  String get armLbl => 'الذراع';
+
+  @override
+  String get thighLbl => 'الفخذ';
+
+  @override
+  String measureToday(String part) {
+    return 'قياس $part اليوم';
+  }
+
+  @override
+  String get hipsNote => 'حول أعرض جزء من الأرداف، والقدمان متلاصقتان.';
+
+  @override
+  String get neckNote =>
+      'أسفل تفاحة آدم مباشرة، والشريط مستوٍ، والنظر إلى الأمام.';
+
+  @override
+  String get chestNote =>
+      'عند مستوى الحلمتين، والذراعان إلى الأسفل، بعد زفير عادي.';
+
+  @override
+  String get armNote => 'حول أعرض جزء من العضد، مع شدّ العضلة.';
+
+  @override
+  String get thighNote =>
+      'حول أعرض جزء من الفخذ، واقفًا مسترخيًا، الفخذ نفسه في كل مرة.';
+
+  @override
+  String get tapBodyHint => 'اضغط على جزء من الجسم لتقيسه.';
+
+  @override
+  String get bodyFatLbl => 'نسبة الدهون التقديرية';
+
+  @override
+  String get bodyFatNeedsMale => 'قِس خصرك ورقبتك لترى نسبة الدهون.';
+
+  @override
+  String get bodyFatNeedsFemale =>
+      'قيسي الخصر والرقبة والورك لتري نسبة الدهون.';
+
+  @override
+  String get bodyFatNote =>
+      'بمعادلة البحرية الأمريكية بالشريط، مع طولك. تقترب من نتيجة الفحص بنحو ٣–٤ نقاط: الاتجاه هو المهم.';
 }

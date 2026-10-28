@@ -40,6 +40,27 @@ void main() {
     expect(prefs.getBool('ironOn'), isTrue);
   });
 
+  testWidgets('Iron reads body measurements and the body fat they give', (tester) async {
+    final cloud = FakeCloud(signedIn: 'me@example.com')..ironTip = tip;
+    await pumpApp(
+      tester,
+      prefs: {'profile': savedProfile, 'ironOn': true},
+      cloud: cloud,
+      seed: (db) async {
+        await db.setMeasurement(dayKey(testNow.subtract(const Duration(days: 14))), 'waist', 88);
+        await db.setMeasurement(dayKey(testNow), 'waist', 86);
+        await db.setMeasurement(dayKey(testNow), 'neck', 38);
+      },
+    );
+    await tester.pumpAndSettle();
+    final body = cloud.lastIronNumbers!['body']! as Map<String, Object?>;
+    expect(body['waist_cm'], 86.0);
+    expect(body['waist_change_8w_cm'], -2.0);
+    expect(body['neck_cm'], 38.0);
+    expect(body['body_fat_pct_tape'], isA<double>());
+    expect(body.containsKey('hips_cm'), isFalse);
+  });
+
   testWidgets('the tip is asked once a day', (tester) async {
     final cloud = FakeCloud(signedIn: 'me@example.com')..ironTip = tip;
     await pumpApp(

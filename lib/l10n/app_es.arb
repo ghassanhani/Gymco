@@ -1524,5 +1524,21 @@
   "offStreakBody": "Registra una comida hoy para mantenerla.",
   "offGeneralTitle": "Proteína en cada comida",
   "offGeneralBody": "Centrar cada comida en la proteína te sacia y protege tu músculo.",
-  "ironTipOffline": "Ahora no se puede contactar a Iron, así que vienen de tus números en el teléfono."
+  "ironTipOffline": "Ahora no se puede contactar a Iron, así que vienen de tus números en el teléfono.",
+  "hipsLbl": "Cadera",
+  "neckLbl": "Cuello",
+  "chestLbl": "Pecho",
+  "armLbl": "Brazo",
+  "thighLbl": "Muslo",
+  "measureToday": "{part} de hoy",
+  "hipsNote": "Alrededor de la parte más ancha de los glúteos, con los pies juntos.",
+  "neckNote": "Justo debajo de la nuez, con la cinta recta y la vista al frente.",
+  "chestNote": "A la altura de los pezones, brazos abajo, tras espirar con normalidad.",
+  "armNote": "Alrededor de la parte más gruesa del brazo, en tensión.",
+  "thighNote": "Alrededor de la parte más gruesa de un muslo, de pie y relajado, siempre la misma pierna.",
+  "tapBodyHint": "Toca una parte del cuerpo para medirla.",
+  "bodyFatLbl": "Grasa corporal estimada",
+  "bodyFatNeedsMale": "Mide tu cintura y tu cuello para ver tu grasa corporal.",
+  "bodyFatNeedsFemale": "Mide tu cintura, cuello y cadera para ver tu grasa corporal.",
+  "bodyFatNote": "Con la fórmula de la Marina de EE. UU. y tu estatura. Se acerca a un escáner en unos 3–4 puntos: lo que cuenta es la tendencia."
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/models.dart';
 import '../data/training.dart';
+import '../domain/body_fat.dart';
 import '../domain/coach.dart';
 import 'offline_tips.dart';
 import '../domain/energy.dart';
@@ -19,6 +20,7 @@ import 'awards_providers.dart';
 import 'cloud_providers.dart';
 import 'config_providers.dart';
 import 'health_providers.dart';
+import 'progress_providers.dart';
 import 'providers.dart';
 import 'training_providers.dart';
 
@@ -162,6 +164,26 @@ final coachNumbersProvider = FutureProvider<Map<String, Object?>?>((ref) async {
     final g = groupOf(lib[s.exerciseId]?.primary.firstOrNull ?? '');
     if (g != null) hard[g.name] = (hard[g.name] ?? 0) + s.type.hardSetWeight;
   }
+  // Each body measurement: the latest, and how it moved over eight weeks.
+  final body = <String, Object?>{};
+  final latestCm = <BodyMeasure, double>{};
+  for (final m in BodyMeasure.values) {
+    final all = await ref.watch(measurementsProvider(m.name).future);
+    if (all.isEmpty) continue;
+    latestCm[m] = all.last.$2;
+    final since = today.subtract(const Duration(days: 56));
+    final base = all.firstWhere((e) => !DateTime.parse(e.$1).isBefore(since), orElse: () => all.last);
+    body['${m.name}_cm'] = double.parse(all.last.$2.toStringAsFixed(1));
+    if (base != all.last) body['${m.name}_change_8w_cm'] = double.parse((all.last.$2 - base.$2).toStringAsFixed(1));
+  }
+  final fat = navyBodyFatPct(
+    sex: p.sex,
+    heightCm: p.heightCm,
+    waistCm: latestCm[BodyMeasure.waist],
+    neckCm: latestCm[BodyMeasure.neck],
+    hipsCm: latestCm[BodyMeasure.hips],
+  );
+  if (fat != null) body['body_fat_pct_tape'] = double.parse(fat.toStringAsFixed(1));
   final streak = await ref.watch(streakProvider.future);
   final recovery = ref.watch(recoveryProvider).value;
   final steps = ref.watch(stepsWeekProvider).value;
@@ -196,6 +218,7 @@ final coachNumbersProvider = FutureProvider<Map<String, Object?>?>((ref) async {
         ),
         'weigh_ins_14d': weighIns.where((w) => !DateTime.parse(w.$1).isBefore(from)).length,
       },
+    if (body.isNotEmpty) 'body': body,
     'eating_14d': {
       'days_logged': past.length,
       'avg_kcal': avg(past.values.map((t) => t.kcal)).round(),
