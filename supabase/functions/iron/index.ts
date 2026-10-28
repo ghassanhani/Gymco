@@ -27,6 +27,7 @@ import { exerciseNames, exerciseSystem, PLAN_RULES, routinesSchema } from "../_s
 const MAX_NUMBERS_CHARS = 14000;
 const MAX_ASK_CHARS = 400;
 const LANGS: Record<string, string> = { en: "English", ar: "Arabic", es: "Spanish" };
+const ARABIC = /[\u0600-\u06FF]/;
 const ACTIONS = ["log_food", "start_workout", "drink_water", "weigh_in", "rest", "walk", "none"] as const;
 
 const json = (status: number, body: unknown) =>
@@ -157,6 +158,7 @@ Deno.serve(async (req) => {
   if (mode === "program" && names.length === 0) return json(400, { error: "exercises" });
   const ask = typeof body.ask === "string" ? body.ask.trim().slice(0, MAX_ASK_CHARS) : "";
   const language = LANGS[typeof body.lang === "string" ? body.lang : "en"] ?? "English";
+  console.log("iron:", mode, "lang", body.lang);
 
   const config = await liveConfig();
   const { data: spent, error: spendError } = await admin.rpc("ai_spend_today");
@@ -178,6 +180,9 @@ Deno.serve(async (req) => {
   if (creditError) return json(500, { error: "credit" });
   if (left < 0) return json(429, { error: "daily_cap", left: 0 });
 
+  // The case file and these instructions are in English; the answer is not.
+  const languageRule = `Write every word the user will read (titles, tips, summaries, changes) in ${language}` +
+    (language === "English" ? "." : `, never in English, even though the case file and these instructions are in English. Keep numbers as digits.`);
   const facts = `The user reads ${language}. Their case file from the app: <case>${numbers}</case>\n`;
   const prompt = mode === "tip"
     ? facts +
@@ -216,7 +221,7 @@ Deno.serve(async (req) => {
         tool_choice: { type: "tool", name: mode === "tip" ? "report_tip" : mode === "review" ? "report_review" : "report_program" },
         system: mode === "program"
           ? [{ type: "text", text: PERSONA }, exerciseSystem("When you plan training:", names)]
-          : PERSONA,
+          : [{ type: "text", text: PERSONA }, { type: "text", text: languageRule }],
         messages: [{ role: "user", content: prompt }],
       });
     let response = await ask();
@@ -227,6 +232,12 @@ Deno.serve(async (req) => {
       return leaked(raw) ? repaired(raw) : raw;
     };
     let out = response.stop_reason === "refusal" ? {} : answer(response);
+    // Tips and reviews in English for someone who reads Arabic are asked for once more.
+    if (mode !== "program" && response.stop_reason !== "refusal" && body.lang === "ar" && !ARABIC.test(JSON.stringify(out))) {
+      await usage(true, started, response.usage);
+      response = await ask();
+      if (response.stop_reason !== "refusal") out = answer(response);
+    }
     // A program that still came back without its training week is asked for once more.
     if (
       mode === "program" && response.stop_reason !== "refusal" && out.off_topic !== true && out.meal !== true &&
