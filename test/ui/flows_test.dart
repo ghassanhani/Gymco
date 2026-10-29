@@ -138,9 +138,23 @@ void main() {
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField), 'oats');
     await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.pumpAndSettle();
     expect(find.text('Oats, rolled'), findsOneWidget);
     expect(find.textContaining('Offline'), findsOneWidget);
+  });
+
+  testWidgets('a failing search service is not called offline', (tester) async {
+    await pumpApp(tester, prefs: {'profile': savedProfile}, source: FakeFoodSource(busy: true));
+    await tester.tap(find.bySemanticsLabel('Food').first);
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), 'oats');
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump(const Duration(milliseconds: 600));
+    await tester.pumpAndSettle();
+    expect(find.text('Oats, rolled'), findsOneWidget);
+    expect(find.textContaining('Offline'), findsNothing);
+    expect(find.textContaining('isn’t answering right now'), findsOneWidget);
   });
 
   testWidgets('a search with no match gets a way forward', (tester) async {

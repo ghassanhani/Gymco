@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show SocketException;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,6 +60,9 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
   List<Food> _online = [];
   bool _searching = false;
   bool _offline = false;
+
+  /// Online, but the food search failed or took too long.
+  bool _busy = false;
   int _seq = 0;
   late String _mode = widget.mode;
   late Meal _meal = widget.meal;
@@ -348,18 +352,28 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       _local = local;
       _online = [];
       _offline = false;
+      _busy = false;
       _searching = q.trim().length >= 3;
     });
     if (q.trim().length < 3) return;
+    // The online search allows only a few searches a minute: wait until the
+    // typing settles, so "pasta" asks once and not for "pas" and "past".
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    if (!mounted || seq != _seq) return;
     try {
       final lang = Localizations.localeOf(context).languageCode;
-      final found = await ref.read(foodSourceProvider).search(q, languageCode: lang);
+      final found = await ref
+          .read(foodSourceProvider)
+          .search(q, languageCode: lang)
+          .timeout(const Duration(seconds: 12));
       await db.upsertFoods(found);
       if (!mounted || seq != _seq) return;
       final known = local.map((f) => f.id).toSet();
       setState(() => _online = found.where((f) => !known.contains(f.id)).toList());
-    } catch (_) {
-      if (mounted && seq == _seq) setState(() => _offline = true);
+    } catch (e) {
+      // No connection at all says so; anything else is the search service.
+      final noNetwork = e is SocketException || '$e'.contains('SocketException') || '$e'.contains('Failed host lookup');
+      if (mounted && seq == _seq) setState(() => noNetwork ? _offline = true : _busy = true);
     } finally {
       if (mounted && seq == _seq) setState(() => _searching = false);
     }
@@ -725,12 +739,12 @@ class _AddFoodScreenState extends ConsumerState<AddFoodScreen> {
       body = [_NoMatch(onScan: _scan)];
     } else {
       body = [
-        if (_offline)
+        if (_offline || _busy)
           Row(
             children: [
-              VIcon('wifioff', size: 16, color: Volt.warn),
+              VIcon(_offline ? 'wifioff' : 'info', size: 16, color: Volt.warn),
               const SizedBox(width: 8),
-              Expanded(child: Muted(l.offlineSearch, color: Volt.warn)),
+              Expanded(child: Muted(_offline ? l.offlineSearch : l.searchBusy, color: Volt.warn)),
             ],
           ),
         if (results.isNotEmpty)

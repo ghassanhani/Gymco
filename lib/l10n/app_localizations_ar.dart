@@ -5948,4 +5948,8 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get remindRulesNote =>
       '3 بالكثير باليوم، ولا شي في أوقات الهدوء، ولا شي عن شي سوّيته.';
+
+  @override
+  String get searchBusy =>
+      'البحث عبر الإنترنت لا يستجيب الآن — تظهر الأطعمة المحفوظة على هذا الهاتف';
 }

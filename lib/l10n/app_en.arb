@@ -4207,5 +4207,6 @@
   "quietHours": "Quiet hours",
   "quietFrom": "From",
   "quietTo": "To",
-  "remindRulesNote": "At most 3 a day, none in quiet hours, and none for something already done."
+  "remindRulesNote": "At most 3 a day, none in quiet hours, and none for something already done.",
+  "searchBusy": "Online food search isn’t answering right now — showing foods saved on this phone"
 }

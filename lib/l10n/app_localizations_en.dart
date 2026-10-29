@@ -5987,4 +5987,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get remindRulesNote =>
       'At most 3 a day, none in quiet hours, and none for something already done.';
+
+  @override
+  String get searchBusy =>
+      'Online food search isn’t answering right now — showing foods saved on this phone';
 }

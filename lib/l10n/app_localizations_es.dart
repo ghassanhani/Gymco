@@ -6011,4 +6011,8 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get remindRulesNote =>
       'Como mucho 3 al día, ninguno en horas de silencio y ninguno de algo ya hecho.';
+
+  @override
+  String get searchBusy =>
+      'La búsqueda en línea no responde ahora — alimentos guardados en este teléfono';
 }

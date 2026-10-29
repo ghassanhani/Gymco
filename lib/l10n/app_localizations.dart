@@ -9693,6 +9693,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'At most 3 a day, none in quiet hours, and none for something already done.'**
   String get remindRulesNote;
+
+  /// No description provided for @searchBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'Online food search isn’t answering right now — showing foods saved on this phone'**
+  String get searchBusy;
 }
 
 class _AppLocalizationsDelegate

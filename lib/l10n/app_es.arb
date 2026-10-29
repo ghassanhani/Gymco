@@ -1605,5 +1605,6 @@
   "quietHours": "Horas de silencio",
   "quietFrom": "Desde",
   "quietTo": "Hasta",
-  "remindRulesNote": "Como mucho 3 al día, ninguno en horas de silencio y ninguno de algo ya hecho."
+  "remindRulesNote": "Como mucho 3 al día, ninguno en horas de silencio y ninguno de algo ya hecho.",
+  "searchBusy": "La búsqueda en línea no responde ahora — alimentos guardados en este teléfono"
 }

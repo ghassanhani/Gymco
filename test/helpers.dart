@@ -34,20 +34,24 @@ Future<LocalDb> openTestDb() =>
     LocalDb.open(factory: databaseFactoryFfiNoIsolate, path: inMemoryDatabasePath, singleInstance: false);
 
 class FakeFoodSource implements FoodSource {
-  FakeFoodSource({this.byCode = const {}, this.online = const [], this.offline = false});
+  FakeFoodSource({this.byCode = const {}, this.online = const [], this.offline = false, this.busy = false});
   final Map<String, Food> byCode;
   final List<Food> online;
   final bool offline;
 
+  /// Online, but the search service fails (a 503 page instead of JSON).
+  final bool busy;
+
   @override
   Future<Food?> byBarcode(String barcode, {required String languageCode}) async {
-    if (offline) throw Exception('offline');
+    if (offline) throw const SocketException('Failed host lookup');
     return byCode[barcode];
   }
 
   @override
   Future<List<Food>> search(String query, {required String languageCode}) async {
-    if (offline) throw Exception('offline');
+    if (offline) throw const SocketException('Failed host lookup');
+    if (busy) throw const FormatException('Unexpected character');
     return online.where((f) => f.name.toLowerCase().contains(query.toLowerCase())).toList();
   }
 }
